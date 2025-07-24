@@ -1,0 +1,339 @@
+---
+title: Setup Guide
+description: Complete setup guide for Role Reactor Bot - from installation to creating your first role messages
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Steps, Step } from 'fumadocs-ui/components/steps';
+import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
+import { Cards, Card } from 'fumadocs-ui/components/card';
+
+# Setup Guide
+
+Get Role Reactor Bot up and running in your Discord server with this complete setup guide.
+
+## Quick Start
+
+<Steps>
+  <Step>
+    **Invite the Bot**
+    
+    [Add Role Reactor Bot to your server](https://discord.com/oauth2/authorize?client_id=YOUR_BOT_ID&permissions=268435456&scope=bot%20applications.commands)
+    
+    Make sure to grant these permissions:
+    - Manage Roles
+    - Send Messages
+    - Use Slash Commands
+    - Add Reactions
+  </Step>
+
+  <Step>
+    **Create Your First Role Message**
+    
+    ```
+    /setup-roles title:"Server Roles" 
+    description:"Choose your roles below!" 
+    roles:"🎮:Gaming,📚:Books,🎵:Music"
+    ```
+  </Step>
+
+  <Step>
+    **Test It Works**
+    
+    Click the reactions on your new role message to make sure roles are assigned correctly.
+  </Step>
+</Steps>
+
+<Callout type="success">
+That's it! You now have a working role system. Continue reading for advanced configuration options.
+</Callout>
+
+## Bot Permissions
+
+### Required Permissions
+
+The bot needs these permissions to function:
+
+<Cards>
+  <Card title="Manage Roles" description="Assign and remove roles from members" />
+  <Card title="Send Messages" description="Create role selection messages" />
+  <Card title="Use Slash Commands" description="Access to /role commands" />
+  <Card title="Add Reactions" description="Add emoji reactions to messages" />
+</Cards>
+
+### Permission Setup
+
+1. **During Invite**: Select all required permissions when inviting the bot
+2. **After Invite**: Check bot permissions in Server Settings > Roles
+3. **Role Position**: Make sure the bot's role is above any roles it manages
+
+<Callout type="warn">
+**Important**: The bot can only manage roles that are positioned below its own role in the server hierarchy.
+</Callout>
+
+## Creating Role Messages
+
+### Basic Role Message
+
+<Tabs items={['Simple Format', 'With Categories', 'Advanced Options']}>
+  <Tab value="Simple Format">
+    **Basic role list:**
+    ```
+    /setup-roles 
+    title:"Choose Your Roles" 
+    description:"React to get roles!"
+    roles:"🎮:Gaming,📚:Reading,🎵:Music,🎨:Art"
+    ```
+    
+    **Results in:**
+    ```
+    Choose Your Roles
+    React to get roles!
+    
+    🎮 📚 🎵 🎨
+    ```
+  </Tab>
+  
+  <Tab value="With Categories">
+    **Organized with categories:**
+    ```
+    2. Create role categories:
+   ```
+   /setup-roles 
+   title:"Game Roles" 
+   description:"Choose your favorite games!" 
+   roles:"🔴:Valorant,⚡:Apex Legends,⚔️:League of Legends"
+   ```
+    ```
+    
+    **Results in:**
+    ```
+    Server Roles
+    Pick your interests!
+    
+    ─────── Hobbies ───────
+    🎮 📚
+    
+    ─────── Notifications ───────
+    📢 🎉
+    ```
+  </Tab>
+  
+  <Tab value="Advanced Options">
+    **Full customization:**
+    ```
+    /setup-roles 
+    title:"🌟 Community Roles" 
+    description:"**Welcome!** Choose your roles below.\n\n*You can select multiple roles.*"
+    roles:"#Gaming 🎮\n🖥️:PC Gaming,🎮:Console,📱:Mobile\n#Creative 🎨\n🎨:Art,📸:Photo,🎵:Music"
+    color:"#7289DA"
+    ```
+  </Tab>
+</Tabs>
+
+### Role Categories
+
+Organize roles with categories for better user experience:
+
+<Steps>
+  <Step>
+    **Category Header**
+    
+    Start with `#Category Name` to create a section header
+  </Step>
+  
+  <Step>
+    **Add Roles**
+    
+    List roles under each category: `emoji role1,emoji role2`
+  </Step>
+  
+  <Step>
+    **Multiple Categories**
+    
+    Separate categories with `\n` for new lines
+  </Step>
+</Steps>
+
+**Example Structure:**
+```
+#Gaming Platforms
+🖥️:PC Gaming,🎮:Console Gaming,📱:Mobile Gaming
+#Notifications  
+📢:Announcements,🎉:Events,📰:News
+#Interests
+🎨:Art,📚:Books,🎵:Music
+```
+
+## Role Management
+
+### Managing Existing Messages
+
+<Cards>
+  <Card title="Edit Message" description="/update-roles - Update title, description, or roles" />
+  <Card title="Delete Message" description="/delete-roles - Remove a role message" />
+  <Card title="List Messages" description="/list-roles - See all your role messages" />
+  <Card title="Refresh Reactions" description="Contact support - Fix broken reactions" />
+</Cards>
+
+### Role Colors and Customization
+
+**Setting Role Colors:**
+```
+/role create name:"Gaming" color:"#FF0000" emoji:"🎮"
+/role create name:"Music" color:"#00FF00" emoji:"🎵"
+```
+
+**Color Guidelines:**
+- Use hex colors (#FF0000) for precise control
+- Keep related roles in similar color families
+- Avoid colors that are hard to read
+- Consider colorblind accessibility
+
+## Server Organization
+
+### Channel Setup
+
+**Recommended Channel Structure:**
+```
+📋 INFORMATION
+├── 📖 rules
+├── 📢 announcements  
+└── 🎭 get-roles
+
+💬 GENERAL
+├── 💬 general-chat
+├── 🎮 gaming
+└── 🎵 music
+```
+
+### Role Channel Best Practices
+
+<Callout type="info">
+**Create a dedicated #get-roles channel** for the best user experience
+</Callout>
+
+**Channel Setup:**
+1. Create a channel named `#get-roles` or `#roles`
+2. Set proper permissions (everyone can see, limited sending)
+3. Pin important role messages
+4. Add channel description explaining how to use reactions
+
+**Channel Description Example:**
+```
+🎭 Role Selection
+
+React to the messages below to get roles!
+• Click an emoji to get that role
+• Click again to remove the role  
+• You can have multiple roles
+• Ask in #general if you need help
+```
+
+## Advanced Configuration
+
+### Role Hierarchy
+
+**Important Rules:**
+- Bot's role must be above managed roles
+- Higher roles in the list have more permissions
+- Be careful with administrative roles
+
+**Setting Up Hierarchy:**
+1. Go to Server Settings > Roles
+2. Drag the bot's role above any roles it should manage
+3. Arrange other roles by importance
+4. Test role assignment to verify it works
+
+### Multiple Role Messages
+
+For larger servers, create multiple focused role messages:
+
+<Tabs items={['Basic Setup', 'Gaming Server', 'Study Server']}>
+  <Tab value="Basic Setup">
+    **Message 1: Essential Roles**
+    ```
+    /setup-roles title:"Essential Roles"
+    roles:"📢:Announcements,🎉:Events,💬:General Chat"
+    ```
+    
+    **Message 2: Interests**
+    ```
+    /setup-roles title:"Your Interests"  
+    roles:"#Hobbies\n🎮:Gaming,📚:Reading,🎵:Music,🎨:Art"
+    ```
+  </Tab>
+  
+  <Tab value="Gaming Server">
+    **Message 1: Gaming Platforms**
+    ```
+    roles:"🖥️:PC,🎮:PlayStation,🎮:Xbox,📱:Mobile,🕹️:Nintendo"
+    ```
+    
+    **Message 2: Game Types**
+    ```
+    roles:"#Genres\n🔫:FPS,⚔️:RPG,🏎️:Racing,🎲:Strategy,👥:MMO"
+    ```
+    
+    **Message 3: Activity**
+    ```
+    roles:"#Playstyle\n🏆:Competitive,🎯:Casual,👥:Looking for Group"
+    ```
+  </Tab>
+  
+  <Tab value="Study Server">
+    **Message 1: Subjects**
+    ```
+    roles:"#Subjects\n📊:Math,🔬:Science,📚:English,🏛️:History"
+    ```
+    
+    **Message 2: Study Groups**
+    ```
+    roles:"#Study Style\n👥:Group Study,🤫:Solo Study,📅:Study Schedule"
+    ```
+  </Tab>
+</Tabs>
+
+## Troubleshooting Setup
+
+### Common Issues
+
+<Steps>
+  <Step>
+    **Bot Not Responding**
+    
+    - Check bot permissions
+    - Verify bot role position
+    - Make sure bot is online
+  </Step>
+  
+  <Step>
+    **Roles Not Being Given**
+    
+    - Check role hierarchy (bot role above target roles)
+    - Verify role names match exactly
+    - Test with a simple role first
+  </Step>
+  
+  <Step>
+    **Reactions Not Working**
+    
+    - Contact support to fix reactions
+    - Check if emojis are from the server or Unicode
+    - Verify bot can add reactions in the channel
+  </Step>
+</Steps>
+
+### Getting Help
+
+If you're still having issues:
+
+1. **Check the Troubleshooting section** for detailed solutions
+2. **Join our support server** for community help
+3. **Report bugs** through our GitHub issues page
+
+---
+
+<Callout type="success">
+**Setup Complete!** Your Role Reactor Bot is now ready to use. Check out the Examples section for inspiration on creating engaging role systems for your community.
+</Callout>

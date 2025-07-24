@@ -1,0 +1,265 @@
+---
+title: Troubleshooting
+description: Solutions for common Role Reactor Bot issues and helpful troubleshooting guide
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Steps, Step } from 'fumadocs-ui/components/steps';
+import { Cards, Card } from 'fumadocs-ui/components/card';
+import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
+
+# Troubleshooting Guide
+
+Having issues with Role Reactor Bot? This guide covers the most common problems and their solutions.
+
+## Quick Problem Solver
+
+<Cards>
+  <Card title="🤖 Bot Not Responding" description="Bot doesn't react to commands or emoji clicks" />
+  <Card title="🚫 Roles Not Being Given" description="Reactions work but roles aren't assigned" />
+  <Card title="❌ Command Errors" description="Slash commands return error messages" />
+  <Card title="🔄 Reactions Missing" description="Emoji reactions disappear or don't appear" />
+</Cards>
+
+## Most Common Issues
+
+### Bot Not Responding
+
+**Symptoms:** Bot doesn't respond to commands or emoji reactions
+
+<Steps>
+  <Step>
+    **Check Bot Status**
+    - Is the bot online? (Green status in member list)
+    - Try `/ping` to test if bot responds
+  </Step>
+  
+  <Step>
+    **Verify Permissions**
+    - Bot needs "Send Messages" permission
+    - Bot needs "Use Slash Commands" permission
+    - Check channel-specific permissions
+  </Step>
+  
+  <Step>
+    **Check Role Position**
+    - Bot's role must be above roles it manages
+    - Go to Server Settings > Roles to check hierarchy
+  </Step>
+</Steps>
+
+### Roles Not Being Assigned
+
+**Symptoms:** Reactions work but members don't get roles
+
+<Callout type="warn">
+**Most Common Cause:** Bot's role is positioned below the roles it's trying to assign
+</Callout>
+
+<Steps>
+  <Step>
+    **Fix Role Hierarchy**
+    1. Go to Server Settings > Roles
+    2. Drag the bot's role above all roles you want it to manage
+    3. Test role assignment again
+  </Step>
+  
+  <Step>
+    **Check Role Names**
+    - Make sure role names in the command match exactly
+    - Check for typos or extra spaces
+    - Role names are case-sensitive
+  </Step>
+  
+  <Step>
+    **Verify Bot Permissions**
+    - Bot needs "Manage Roles" permission
+    - Check in Server Settings > Roles > Bot Role > Permissions
+  </Step>
+</Steps>
+
+### Command Errors
+
+**Common Error Messages:**
+
+<Tabs items={['Permission Errors', 'Role Errors', 'Format Errors']}>
+  <Tab value="Permission Errors">
+    **"Missing Permissions" or "Access Denied"**
+    
+    **Solutions:**
+    - Make sure you have "Manage Roles" permission
+    - Check if bot has necessary permissions
+    - Verify you're using commands in the right channel
+    
+    **Who Can Use Commands:**
+    - Server owners (all commands)
+    - Members with "Manage Roles" (most commands)
+    - Everyone (`/help`, `/ping`, reactions)
+  </Tab>
+  
+  <Tab value="Role Errors">
+    **"Role not found" or "Cannot assign role"**
+    
+    **Solutions:**
+    - Check role name spelling exactly
+    - Make sure roles exist in the server
+    - Verify bot role is above target roles
+    - Don't include @ symbol in role names
+    
+    **Example:**
+    ```
+    ✅ Correct: /setup-roles roles:"🎮:Gaming"
+    ❌ Wrong: /setup-roles roles:"🎮:@Gaming"
+    ```
+  </Tab>
+  
+  <Tab value="Format Errors">
+    **"Invalid format" or "Parse error"**
+    
+    **Common Issues:**
+    - Missing commas between roles
+    - Wrong category format
+    - Invalid emoji or role format
+    
+    **Correct Format:**
+    ```
+    ✅ Basic: "🎮:Gaming,📚:Books,🎵:Music"
+    ✅ Categories: "#Gaming\n🎮:PC,🎮:Console\n#Other\n📚:Books"
+    ```
+  </Tab>
+</Tabs>
+
+### Reactions Missing
+
+**Symptoms:** Emoji reactions don't appear or disappear
+
+<Steps>
+  <Step>
+    **Use Unicode Emojis**
+    - Custom server emojis might not work in all situations
+    - Stick to standard Unicode emojis (🎮📚🎵) for best results
+  </Step>
+  
+  <Step>
+    **Refresh Reactions**
+    ```
+    Contact support to refresh reactions for a specific message
+    ```
+    This fixes most reaction-related issues
+  </Step>
+  
+  <Step>
+    **Check Bot Permissions**
+    - Bot needs "Add Reactions" permission
+    - Bot needs "Manage Messages" permission
+    - Check channel-specific permissions
+  </Step>
+</Steps>
+
+## Permission Troubleshooting
+
+### Required Bot Permissions
+
+<Cards>
+  <Card title="Manage Roles" description="Core permission - required for all role assignment" />
+  <Card title="Send Messages" description="Required to create role messages" />
+  <Card title="Use Slash Commands" description="Required for all commands" />
+  <Card title="Add Reactions" description="Required to add emoji reactions" />
+</Cards>
+
+### Setting Up Permissions
+
+<Steps>
+  <Step>
+    **During Bot Invite**
+    - Use the official invite link
+    - Make sure all required permissions are selected
+    - Don't modify permissions during invite
+  </Step>
+  
+  <Step>
+    **After Bot Invite**
+    1. Go to Server Settings > Roles
+    2. Find the bot's role
+    3. Click "Permissions" tab
+    4. Enable required permissions
+  </Step>
+  
+  <Step>
+    **Channel-Specific Permissions**
+    - Right-click channel > Edit Channel > Permissions
+    - Add bot role if needed
+    - Grant necessary permissions for that channel
+  </Step>
+</Steps>
+
+## Getting Help
+
+### Before Asking for Help
+
+<Callout type="info">
+**Please try these steps first:**
+1. Check this troubleshooting guide
+2. Review the [FAQ](/troubleshooting/faq)
+3. Look at [Common Issues](/troubleshooting/common-issues)
+4. Test with a simple role message first
+</Callout>
+
+### How to Get Support
+
+<Cards>
+  <Card title="📖 Documentation" description="Check our comprehensive guides and examples" />
+  <Card title="❓ FAQ Section" description="Quick answers to frequently asked questions" />
+  <Card title="💬 Support Server" description="Join our Discord server for live help" />
+  <Card title="🐛 Bug Reports" description="Report bugs through GitHub issues" />
+</Cards>
+
+### Information to Include
+
+When asking for help, please provide:
+
+- **What you're trying to do**
+- **What command you used** (exact command)
+- **What error you got** (exact error message)
+- **Your server setup** (role hierarchy, permissions)
+- **Steps you've already tried**
+
+## Prevention Tips
+
+### Setup Best Practices
+
+<Steps>
+  <Step>
+    **Start Simple**
+    - Test with 2-3 basic roles first
+    - Use simple role names without special characters
+    - Use common emojis (🎮📚🎵)
+  </Step>
+  
+  <Step>
+    **Check Before Adding More**
+    - Verify basic setup works
+    - Test role assignment with reactions
+    - Confirm bot permissions are correct
+  </Step>
+  
+  <Step>
+    **Plan Role Hierarchy**
+    - Put bot role near the top of role list
+    - Group managed roles below bot role
+    - Keep admin/mod roles above bot role
+  </Step>
+</Steps>
+
+### Maintenance
+
+- **Regular Permission Checks:** Verify bot permissions haven't changed
+- **Test After Changes:** Test role assignment when adding new roles
+- **Monitor for Issues:** Check for broken reactions or assignment problems
+- **Keep Documentation Handy:** Bookmark this troubleshooting guide
+
+---
+
+<Callout type="success">
+**Still need help?** Check out the [FAQ](/troubleshooting/faq) for more specific questions, or join our support server for community assistance!
+</Callout>

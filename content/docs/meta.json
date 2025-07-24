@@ -1,0 +1,11 @@
+{
+  "title": "Role Reactor Bot",
+  "pages": [
+    "index",
+    "getting-started",
+    "setup",
+    "commands",
+    "examples",
+    "troubleshooting"
+  ]
+}
