@@ -27,10 +27,6 @@ export const baseOptions: BaseLayoutProps = {
   // see https://fumadocs.dev/docs/ui/navigation/links
   links: [
     {
-      text: "Documentation",
-      url: "/docs",
-    },
-    {
       text: "GitHub",
       url: "https://github.com/tyecode-bots/role-reactor-bot",
       external: true,
