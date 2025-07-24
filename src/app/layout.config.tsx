@@ -25,5 +25,20 @@ export const baseOptions: BaseLayoutProps = {
     ),
   },
   // see https://fumadocs.dev/docs/ui/navigation/links
-  links: [],
+  links: [
+    {
+      text: "Documentation",
+      url: "/docs",
+    },
+    {
+      text: "GitHub",
+      url: "https://github.com/tyecode-bots/role-reactor-bot",
+      external: true,
+    },
+    {
+      text: "Add to Server",
+      url: "https://discord.com/oauth2/authorize?client_id=YOUR_BOT_ID&permissions=268435456&scope=bot%20applications.commands",
+      external: true,
+    },
+  ],
 };
