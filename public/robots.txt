@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://rolereactor.xyz/sitemap.xml
+
+# Disallow admin or private areas if any exist
+# Disallow: /admin/
+# Disallow: /private/

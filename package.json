@@ -1,0 +1,46 @@
+{
+  "name": "role-reactor-website",
+  "version": "1.0.0",
+  "description": "Official website and documentation for Role Reactor Discord bot",
+  "private": true,
+  "keywords": [
+    "discord",
+    "bot",
+    "roles",
+    "documentation",
+    "next.js"
+  ],
+  "author": "tyecode",
+  "license": "MIT",
+  "homepage": "https://rolereactor.xyz",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tyecode-bots/role-reactor-website"
+  },
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev --turbo",
+    "start": "next start",
+    "postinstall": "fumadocs-mdx"
+  },
+  "dependencies": {
+    "next": "15.4.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "fumadocs-ui": "15.6.5",
+    "fumadocs-core": "15.6.5",
+    "fumadocs-mdx": "11.7.0"
+  },
+  "devDependencies": {
+    "@types/node": "24.0.15",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "typescript": "^5.8.3",
+    "@types/mdx": "^2.0.13",
+    "@tailwindcss/postcss": "^4.1.11",
+    "tailwindcss": "^4.1.11",
+    "postcss": "^8.5.6",
+    "eslint": "^8",
+    "eslint-config-next": "15.4.2"
+  }
+}
