@@ -34,6 +34,49 @@ A `source.config.ts` config file has been included, you can customise different 
 
 Read the [Introduction](https://fumadocs.dev/docs/mdx) for further details.
 
+## Development Guidelines
+
+### Commit Convention
+
+This project enforces [Conventional Commits](https://www.conventionalcommits.org/) using Husky and Commitlint. All commit messages must follow this format:
+
+```
+<type>[optional scope]: <description>
+
+[optional body]
+
+[optional footer(s)]
+```
+
+#### Allowed Types:
+- `feat`: A new feature
+- `fix`: A bug fix
+- `docs`: Documentation only changes
+- `style`: Changes that do not affect the meaning of the code
+- `refactor`: A code change that neither fixes a bug nor adds a feature
+- `perf`: A code change that improves performance
+- `test`: Adding missing tests or correcting existing tests
+- `build`: Changes that affect the build system or external dependencies
+- `ci`: Changes to our CI configuration files and scripts
+- `chore`: Other changes that don't modify src or test files
+- `revert`: Reverts a previous commit
+
+#### Examples:
+```bash
+feat: add privacy policy page
+fix: resolve mobile navigation bug
+docs: update installation instructions
+style: improve button hover animations
+refactor: extract common utility functions
+```
+
+#### Pre-commit Hooks:
+- ESLint checks for code quality
+- TypeScript type checking
+- Commit message validation
+
+If your commit fails, fix the issues and try again.
+
 ## Learn More
 
 To learn more about Next.js and Fumadocs, take a look at the following
