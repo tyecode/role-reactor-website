@@ -21,11 +21,11 @@ export default function TermsPage() {
         <div className="text-center mb-12">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors mb-6"
+            className="inline-flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400 transition-colors mb-6"
           >
             ← Back to Home
           </Link>
-          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-[var(--color-fd-primary)] mb-4">
             Terms of Service
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-400">
@@ -253,7 +253,6 @@ export default function TermsPage() {
                   <strong>Discord:</strong>{" "}
                   <Link
                     href="https://discord.gg/your-support-server"
-                    className="text-blue-600 dark:text-blue-400 hover:underline"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -264,7 +263,6 @@ export default function TermsPage() {
                   <strong>GitHub:</strong>{" "}
                   <Link
                     href="https://github.com/tyecode-bots/role-reactor-bot/issues"
-                    className="text-blue-600 dark:text-blue-400 hover:underline"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -275,7 +273,6 @@ export default function TermsPage() {
                   <strong>Developer:</strong>{" "}
                   <Link
                     href="https://github.com/tyecode"
-                    className="text-blue-600 dark:text-blue-400 hover:underline"
                     target="_blank"
                     rel="noopener noreferrer"
                   >

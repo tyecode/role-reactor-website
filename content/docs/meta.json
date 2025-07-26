@@ -1,10 +1,15 @@
 {
-  "title": "Role Reactor Bot",
+  "title": "Documentation",
   "pages": [
     "index",
-    "getting-started",
-    "setup",
-    "commands",
+    "---Getting Started---",
+    "./getting-started/introduction.mdx",
+    "./getting-started/setup.mdx",
+    "./getting-started/adding-bot.mdx",
+    "./getting-started/first-steps.mdx",
+    "---Commands Guide---",
+    "./commands/index.mdx",
+
     "examples",
     "troubleshooting"
   ]

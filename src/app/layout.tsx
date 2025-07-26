@@ -3,7 +3,6 @@ import { RootProvider } from "fumadocs-ui/provider";
 import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
-import { StructuredData } from "@/components/structured-data";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -11,11 +10,11 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Role Reactor - Discord Bot for Role Management",
+    default: "Role Reactor - Discord Bot for Automated Role Management",
     template: "%s | Role Reactor",
   },
   description:
-    "Powerful Discord bot for automated role management with reaction-based systems. Enhance your Discord server with seamless role assignment and management.",
+    "Role Reactor - The most powerful Discord bot for automated role management. Set up reaction roles, manage permissions, and enhance your Discord server experience.",
   keywords: [
     "discord bot",
     "role management",
@@ -49,7 +48,7 @@ export const metadata: Metadata = {
     url: "/",
     title: "Role Reactor - Discord Bot for Role Management",
     description:
-      "Powerful Discord bot for automated role management with reaction-based systems.",
+      "The most powerful Discord bot for automated role management. Set up reaction roles, manage permissions, and enhance your Discord server experience.",
     siteName: "Role Reactor",
     images: [
       {
@@ -64,7 +63,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Role Reactor - Discord Bot for Role Management",
     description:
-      "Powerful Discord bot for automated role management with reaction-based systems.",
+      "The most powerful Discord bot for automated role management. Set up reaction roles, manage permissions, and enhance your Discord server experience.",
     images: ["/logo.png"],
   },
   robots: {
@@ -86,7 +85,6 @@ export default function Layout({ children }: { children: ReactNode }) {
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
-        <StructuredData />
       </head>
       <body className="flex flex-col min-h-screen">
         <RootProvider>{children}</RootProvider>

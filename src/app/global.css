@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "fumadocs-ui/css/neutral.css";
+@import "fumadocs-ui/css/catppuccin.css";
 @import "fumadocs-ui/css/preset.css";
 
 @layer utilities {
@@ -7,5 +7,62 @@
   body {
     scroll-behavior: smooth;
     overscroll-behavior: none;
+  }
+  ::selection {
+    background: #b4c5f6;
+    color: #22223b;
+  }
+  html.dark ::selection, body.dark ::selection {
+    background: #5865F2;
+    color: #f8f8ff;
+  }
+
+  /* HomePage custom styles */
+  @keyframes bgMove1 {
+    0% { top: -80px; left: -80px; transform: scale(1); }
+    25% { top: 40px; left: 40px; transform: scale(1.1); }
+    50% { top: 120px; left: 120px; transform: scale(0.95); }
+    75% { top: 40px; left: 40px; transform: scale(1.05); }
+    100% { top: -80px; left: -80px; transform: scale(1); }
+  }
+  @keyframes bgMove2 {
+    0% { bottom: -100px; right: -100px; transform: scale(1); }
+    25% { bottom: 40px; right: 40px; transform: scale(1.1); }
+    50% { bottom: 120px; right: 120px; transform: scale(0.95); }
+    75% { bottom: 40px; right: 40px; transform: scale(1.05); }
+    100% { bottom: -100px; right: -100px; transform: scale(1); }
+  }
+  @keyframes bgMove3 {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    25% { transform: translate(-40%, -40%) scale(1.1); }
+    50% { transform: translate(-30%, -30%) scale(0.95); }
+    75% { transform: translate(-40%, -40%) scale(1.05); }
+    100% { transform: translate(-50%, -50%) scale(1); }
+  }
+  .animate-bg-move-1 {
+    animation: bgMove1 12s ease-in-out infinite;
+    top: -80px; left: -80px;
+    background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+  }
+  .animate-bg-move-2 {
+    animation: bgMove2 14s ease-in-out infinite;
+    bottom: -100px; right: -100px;
+    background: linear-gradient(135deg, #818cf8 0%, #38bdf8 100%);
+  }
+  .animate-bg-move-3 {
+    animation: bgMove3 16s ease-in-out infinite;
+    background: linear-gradient(135deg, #a78bfa 0%, #818cf8 100%);
+  }
+  .typewriter-cursor {
+    display: inline-block;
+    width: 0.7ch;
+    background: none;
+    color: #6366f1;
+    font-weight: bold;
+    animation: blink 1s steps(1) infinite;
+  }
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
   }
 }
