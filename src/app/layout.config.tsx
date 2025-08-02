@@ -1,10 +1,11 @@
-import { links } from "@/constants/links";
 import { type LinkItemType } from "fumadocs-ui/layouts/docs";
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
 import { Heart } from "lucide-react";
 import Image from "next/image";
 import { BsGithub } from "react-icons/bs";
 import { FaDiscord } from "react-icons/fa";
+
+import { links } from "@/constants/links";
 
 export const linkItems: LinkItemType[] = [
   {

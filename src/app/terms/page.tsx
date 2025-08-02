@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+
 import { links } from "@/constants/links";
 
 export const metadata: Metadata = {
