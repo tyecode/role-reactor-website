@@ -3,6 +3,7 @@ import { RootProvider } from "fumadocs-ui/provider";
 import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
+import { links } from "@/constants/links";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -36,9 +37,7 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_BASE_URL || "https://rolereactor.xyz"
-  ),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || links.home),
   alternates: {
     canonical: "/",
   },

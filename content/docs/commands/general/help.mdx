@@ -1,0 +1,42 @@
+---
+title: Help
+description: Use this command to get a list of all available bot commands or detailed help for a specific command.
+keywords: role management, discord bot, self-assign roles, role messages, easy setup
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Cards, Card } from 'fumadocs-ui/components/card';
+
+## Parameters
+<Cards>
+  <Card title="command (optional)" description="Get detailed help for a specific command" />
+</Cards>
+
+## Step-by-Step Example
+1. Run the command:
+    ```bash
+    /help
+    ```
+2. The bot will reply with a list of commands and brief descriptions.<br />
+3. For detailed help on a command:
+    ```bash
+    /help command:setup-roles
+    ```
+
+## Troubleshooting
+<Callout type="warning">
+- **No response:** Make sure the bot is online and has permission to send messages.<br />
+- **Command not found:** Double-check the command name.
+</Callout>
+
+## Related Commands
+<Cards>
+  <Card title="/support" description="Get the support server link" href="./support" />
+  <Card title="/invite" description="Get the bot invite link" href="./invite" />
+</Cards>
+
+## Best Practices
+<Callout type="success">
+- Encourage users to use `/help` before asking for support.<br />
+- Keep command descriptions up to date.
+</Callout>

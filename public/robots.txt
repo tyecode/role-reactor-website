@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://rolereactor.xyz/sitemap.xml
+Sitemap: https://rolereactor.app/sitemap.xml
 
 # Disallow admin or private areas if any exist
 # Disallow: /admin/

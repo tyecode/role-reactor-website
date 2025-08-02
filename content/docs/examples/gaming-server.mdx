@@ -1,196 +1,65 @@
 ---
-title: Gaming Server Setup
-description: Perfect role setups for gaming communities - copy these examples and customize them for your server
+title: Gaming Server
+description: A recommended role message for a gaming-focused Discord server. Separate roles by platform and game genre for quick recognition and easy access.
+keywords: role management, discord bot, self-assign roles, role messages, easy setup
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
-import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 
-# Gaming Server Setup
+## Step-by-Step Setup
+1. List the main platforms and game genres in your community.
+2. Assign clear emoji to each platform and genre.
+3. Use the `/setup-roles` command with the following roles string:
 
-Perfect role setups for gaming communities! Copy these examples and customize them for your server.
+    ```markdown
+    #Platforms
+    🖥️:PC Gaming
+    🎮:PlayStation
+    🎮:Xbox
+    📱:Mobile
+    #Games
+    🔫:FPS
+    ⚔️:RPG
+    🏎️:Racing
+    🎲:Strategy
+    ```
+4. Encourage members to react to get access to game-specific channels or notifications.
 
-## 🎮 Complete Gaming Server Example
-
-### Main Gaming Roles
-
-Create a comprehensive gaming role menu that covers platforms, genres, and preferences:
-
-<Tabs items={['Command', 'Result']}>
-<Tab value="Command">
-
-```
-/setup-roles title:"🎮 Gaming Community Roles" description:"**Welcome, gamers!**\n\nReact below to get roles based on your gaming preferences. This helps you find teammates and get notified about relevant events!\n\n*Click multiple emojis to get multiple roles.*" roles:"#Platforms\n🖥️:PC Gamer,🎮:Console Gamer,📱:Mobile Gamer,🕹️:Retro Gamer\n#Game Types\n🔫:FPS Games,⚔️:RPG Games,🏎️:Racing Games,⚽:Sports Games,🧩:Puzzle Games,🏗️:Strategy Games\n#Communication\n🎤:Voice Chat,💬:Text Only,🔇:Quiet Gaming\n#Activity Level\n🔥:Hardcore Gamer,😎:Casual Player,🌙:Night Owl,☀️:Day Player" color:"#7289DA"
-```
-
-</Tab>
-<Tab value="Result">
-
-```
-🎮 Gaming Community Roles
-
-Welcome, gamers!
-
-React below to get roles based on your gaming preferences. This helps you find teammates and get notified about relevant events!
-
-Click multiple emojis to get multiple roles.
-
-─────── Platforms ───────
-🖥️ PC Gamer • 🎮 Console Gamer • 📱 Mobile Gamer • 🕹️ Retro Gamer
-
-─────── Game Types ───────
-🔫 FPS Games • ⚔️ RPG Games • 🏎️ Racing Games • ⚽ Sports Games
-🧩 Puzzle Games • 🏗️ Strategy Games
-
-─────── Communication ───────
-🎤 Voice Chat • 💬 Text Only • 🔇 Quiet Gaming
-
-─────── Activity Level ───────
-🔥 Hardcore Gamer • 😎 Casual Player • 🌙 Night Owl • ☀️ Day Player
-
-🖥️ 🎮 📱 🕹️ 🔫 ⚔️ 🏎️ ⚽ 🧩 🏗️ 🎤 💬 🔇 🔥 😎 🌙 ☀️
+## Example Role Message
+```markdown
+#Platforms
+🖥️:PC Gaming
+🎮:PlayStation
+🎮:Xbox
+📱:Mobile
+#Games
+🔫:FPS
+⚔️:RPG
+🏎️:Racing
+🎲:Strategy
 ```
 
-</Tab>
-</Tabs>
+## Advanced Customization
+- Add more games or genres as your server grows.
+- Use custom emoji for popular games or server branding.
+- Create separate role messages for tournaments or special events.
 
-## 🎯 Specific Game Communities
-
-### Popular Games Setup
-
-For servers focused on specific games:
-
-<Tabs items={['Command', 'Result']}>
-<Tab value="Command">
-
-```
-/setup-roles title:"🕹️ Game Specific Roles" description:"**Choose your main games!**\n\nGet pinged for game nights, tournaments, and updates for games you play." roles:"#Battle Royale\n🪂:Fortnite,🎯:Apex Legends,⚡:PUBG,💀:Call of Duty\n#MOBA & Strategy\n⚔️:League of Legends,🛡️:Dota 2,🏰:Age of Empires\n#MMORPGs\n🗡️:World of Warcraft,⭐:Final Fantasy XIV,🌌:Guild Wars 2\n#Sandbox & Creative\n⛏️:Minecraft,🚀:Roblox,🎨:Fortnite Creative\n#Competitive FPS\n🎯:Valorant,💥:Counter-Strike,🔫:Overwatch" color:"#FF6B35"
-```
-
-</Tab>
-<Tab value="Result">
-
-```
-🕹️ Game Specific Roles
-
-Choose your main games!
-
-Get pinged for game nights, tournaments, and updates for games you play.
-
-─────── Battle Royale ───────
-🪂 Fortnite • 🎯 Apex Legends • ⚡ PUBG • 💀 Call of Duty
-
-─────── MOBA & Strategy ───────
-⚔️ League of Legends • 🛡️ Dota 2 • 🏰 Age of Empires
-
-─────── MMORPGs ───────
-🗡️ World of Warcraft • ⭐ Final Fantasy XIV • 🌌 Guild Wars 2
-
-─────── Sandbox & Creative ───────
-⛏️ Minecraft • 🚀 Roblox • 🎨 Fortnite Creative
-
-─────── Competitive FPS ───────
-🎯 Valorant • 💥 Counter-Strike • 🔫 Overwatch
-
-🪂 🎯 ⚡ 💀 ⚔️ 🛡️ 🏰 🗡️ ⭐ 🌌 ⛏️ 🚀 🎨 🎯 💥 🔫
-```
-
-</Tab>
-</Tabs>
-
-### Minecraft Server Roles
-
-Perfect for Minecraft-focused communities:
-
-```
-/setup-roles title:"⛏️ Minecraft Roles" description:"**Minecraft players, assemble!**\n\nChoose your playstyle and interests!" roles:"#Game Mode\n🏠:Survival,🎨:Creative,⚔️:PvP,🏛️:Skyblock,📦:Modded\n#Interests\n🏗️:Builder,🔍:Explorer,⚡:Redstone Engineer,🌾:Farmer,⛏️:Miner\n#Version\n🚀:Latest Version,🎯:1.19.x,📜:Legacy Versions\n#Server Type\n🌍:Java Edition,📱:Bedrock Edition,🎮:Console Edition" color:"#00AA00"
-```
-
-## 🏆 Competitive Gaming Setup
-
-### Esports & Competitive Roles
-
-For competitive gaming communities:
-
-```
-/setup-roles title:"🏆 Competitive Gaming" description:"**Ready to compete?**\n\nJoin teams, find scrimmage partners, and stay updated on tournaments!" roles:"#Skill Level\n🥇:Professional,💎:Diamond+,⭐:Platinum,🥈:Gold,🥉:Silver,📚:Learning\n#Role Preferences\n🎯:DPS/Fragger,🛡️:Tank/Support,🧠:IGL/Strategist,🎮:Flex Player\n#Availability\n⏰:Weekday Evenings,🌅:Weekend Mornings,🌙:Late Night,📅:Tournament Ready\n#Looking For\n👥:Team,🤝:Duo Partner,🎯:Aim Training,📊:VOD Review" color:"#FFD700"
-```
-
-### Rank Tracking Roles
-
-Track player ranks across different games:
-
-```
-/setup-roles title:"📊 Rank Tracker" description:"**Show off your ranks!**\n\nDisplay your current competitive ranks to find similarly skilled players." roles:"#Valorant Ranks\n💎:Radiant,🟣:Immortal,💜:Ascendant,🔵:Diamond,🟢:Platinum\n#League of Legends\n🏆:Challenger,💎:Master,🟢:Diamond,🥈:Platinum,🥉:Gold\n#Rocket League\n🚀:Grand Champion,💎:Champion,🟣:Diamond,🟢:Platinum,🥈:Gold\n#CS2 Ranks\n🌟:Global Elite,🔴:Supreme,🟠:Legendary Eagle,🟡:Distinguished" color:"#9B59B6"
-```
-
-## 🎪 Fun Gaming Roles
-
-### Gaming Personality Types
-
-Add some fun personality-based roles:
-
-```
-/setup-roles title:"🎭 Gaming Personality" description:"**What type of gamer are you?**\n\nJust for fun - choose personalities that match your gaming style!" roles:"#Playstyle\n🐍:Sneaky Player,💥:Aggressive Player,🧠:Strategic Thinker,🎲:Risk Taker,🛡️:Team Player,🏃:Speed Runner\n#Gaming Habits\n📚:Achievement Hunter,💰:Loot Goblin,🎨:Fashion/Cosmetics,🔧:Min-Maxer,📖:Lore Enthusiast,🎵:Gaming Soundtrack Lover\n#Reaction Types\n😤:Rage Quitter,😂:Laughs at Everything,🤐:Silent but Deadly,📢:Constantly Talking,🎉:Celebration Master" color:"#E74C3C"
-```
-
-### Gaming Memes & Culture
-
-For communities that love gaming culture:
-
-```
-/setup-roles title:"🎮 Gaming Culture" description:"**Embrace the gaming culture!**\n\nMemes, references, and gaming lifestyle roles." roles:"#Meme Status\n🐸:Poggers,📈:Stonks,🚀:To the Moon,🔥:This is Fine,😎:No Cap,🧠:Big Brain\n#Gaming Era\n👴:Retro Gamer,🕹️:90s Kid,📀:Early 2000s,🎮:Modern Gamer,🚀:VR Pioneer\n#Platform Wars\n🖥️:PC Master Race,🎮:Console Warrior,📱:Mobile Gang,🕹️:Handheld Hero\n#Gaming Lifestyle\n☕:Caffeine Powered,🍕:Pizza Fuel,🌙:Nocturnal Gamer,💪:Gamer Fitness" color:"#F39C12"
-```
-
-## 🎯 Specialized Gaming Setups
-
-### Streaming & Content Creation
-
-For communities with content creators:
-
-```
-/setup-roles title:"🎬 Content Creation" description:"**Creators and supporters!**\n\nRoles for streamers, viewers, and content creators." roles:"#Creator Type\n📺:Twitch Streamer,📹:YouTube Creator,📸:TikTok Creator,📝:Blog Writer,🎙️:Podcast Host\n#Support Level\n💜:Subscriber,⭐:Follower,💎:VIP Supporter,🎉:Moderator,💰:Sponsor\n#Content Focus\n🎮:Gaming Content,🎨:Art Streams,💬:Just Chatting,🎵:Music,📚:Educational\n#Availability\n🔴:Currently Live,⏰:Regular Schedule,🎲:Random Streams,📅:Event Streams" color:"#9146FF"
-```
-
-### Tournament & Events
-
-Perfect for organizing gaming events:
-
-```
-/setup-roles title:"🏆 Tournament Roles" description:"**Join the competition!**\n\nParticipate in tournaments and special events." roles:"#Tournament Type\n⚔️:Battle Royale Tourney,🎯:FPS Tournament,🧠:Strategy Competition,🎮:Retro Gaming Contest\n#Participation\n🏆:Competitor,👀:Spectator,🎙️:Commentator,📊:Bracket Manager\n#Skill Division\n🥇:Pro Division,🥈:Amateur Division,🥉:Casual Division,📚:Learning Division\n#Event Interest\n🎉:Weekly Events,🌟:Monthly Tournaments,🎊:Special Events,🔔:All Notifications" color:"#FFD700"
-```
-
-## 💡 Pro Tips for Gaming Servers
-
-<Callout type="info">
-**Popular Gaming Role Ideas:**
-- Platform preferences (PC, Console, Mobile)
-- Game genres (FPS, RPG, Strategy, etc.)
-- Skill levels (Beginner, Intermediate, Pro)
-- Time availability (Weekday, Weekend, Night Owl)
-- Communication preferences (Voice, Text)
-- Looking for teammates vs solo players
+## Troubleshooting
+<Callout type="warning">
+- **Roles not assigned:** Check bot permissions and role order.
+- **Emoji not working:** Use emoji the bot can access.
+- **Members confused:** Pin a message explaining each role.
 </Callout>
 
-### Customization Tips
+## Best Practices
+<Callout type="success">
+- Separate roles by platform and game genre.<br />
+- Use clear emoji for quick recognition.<br />
+- Regularly update the list to match your community's favorite games.<br />
+- Use categories to keep the role list organized.
+</Callout>
 
-1. **Match Your Community** - Adapt role names to your specific games
-2. **Use Game-Specific Emojis** - Create custom emojis for your favorite games
-3. **Consider Time Zones** - Add regional roles for international servers
-4. **Update Regularly** - Add roles for new popular games
-5. **Seasonal Events** - Create temporary roles for special gaming events
-
-### Role Organization Best Practices
-
-- **Group by Category** - Platforms, Games, Skill Levels, etc.
-- **Limit Choices** - Don't overwhelm with too many options
-- **Clear Descriptions** - Explain what each role does
-- **Visual Appeal** - Use consistent emoji themes
-- **Member Benefits** - Mention perks of having roles (access to channels, notifications)
-
----
-
-**More Examples:**
-- [Community Server Setup](/examples/community-server) - For general communities
-- [Educational Server Setup](/examples/educational-server) - For study groups
-- [Business Server Setup](/examples/business-server) - For professional teams
+## Related Docs
+- [How to Use /setup-roles](/docs/commands/role-management/setup-roles)
+- [Community Server Example](/docs/examples/community-server)
+- [Educational Server Example](/docs/examples/educational-server)

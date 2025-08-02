@@ -1,16 +1,13 @@
 ---
-title: Troubleshooting
-description: Solutions for common Role Reactor Bot issues and helpful troubleshooting guide
+title: Troubleshooting Guide
+description: Having issues with Role Reactor Bot? This guide covers the most common problems and their solutions.
+keywords: role management, discord bot, self-assign roles, role messages, easy setup
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 import { Steps, Step } from 'fumadocs-ui/components/steps';
 import { Cards, Card } from 'fumadocs-ui/components/card';
 import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
-
-# Troubleshooting Guide
-
-Having issues with Role Reactor Bot? This guide covers the most common problems and their solutions.
 
 ## Quick Problem Solver
 
@@ -23,6 +20,15 @@ Having issues with Role Reactor Bot? This guide covers the most common problems 
 
 ## Most Common Issues
 
+<Callout type="warning">
+<strong>Common Pitfalls:</strong>
+<ul>
+  <li>Bot role below managed roles in hierarchy</li>
+  <li>Missing "Manage Roles" or "Add Reactions" permissions</li>
+  <li>Typos or case mismatches in role names</li>
+  <li>Using custom emojis the bot can't access</li>
+</ul>
+</Callout>
 ### Bot Not Responding
 
 **Symptoms:** Bot doesn't respond to commands or emoji reactions
@@ -156,15 +162,24 @@ Having issues with Role Reactor Bot? This guide covers the most common problems 
   </Step>
 </Steps>
 
+<Callout type="success">
+<strong>Best Practices:</strong>
+<ul>
+  <li>Keep your bot's role high in the role list for fewer issues</li>
+  <li>Review permissions after adding new bots or roles</li>
+  <li>Test changes in a private channel before rolling out</li>
+  <li>Bookmark the <a href="/docs/troubleshooting/faq">FAQ</a> and <a href="/docs/troubleshooting/common-issues">Common Issues</a> pages</li>
+</ul>
+</Callout>
 ## Permission Troubleshooting
 
 ### Required Bot Permissions
-
 <Cards>
-  <Card title="Manage Roles" description="Core permission - required for all role assignment" />
-  <Card title="Send Messages" description="Required to create role messages" />
   <Card title="Use Slash Commands" description="Required for all commands" />
-  <Card title="Add Reactions" description="Required to add emoji reactions" />
+  <Card title="Manage Roles" description="Needed to assign and remove roles" />
+  <Card title="Add Reactions" description="Needed to add emoji reactions to messages" />
+  <Card title="Send Messages" description="Needed to reply to commands and errors" />
+  <Card title="Manage Messages" description="Needed to remove reactions if required" />
 </Cards>
 
 ### Setting Up Permissions
@@ -200,8 +215,8 @@ Having issues with Role Reactor Bot? This guide covers the most common problems 
 <Callout type="info">
 **Please try these steps first:**
 1. Check this troubleshooting guide
-2. Review the [FAQ](/troubleshooting/faq)
-3. Look at [Common Issues](/troubleshooting/common-issues)
+2. Review the [FAQ](/docs/troubleshooting/faq)
+3. Look at [Common Issues](/docs/troubleshooting/common-issues)
 4. Test with a simple role message first
 </Callout>
 
@@ -261,5 +276,5 @@ When asking for help, please provide:
 ---
 
 <Callout type="success">
-**Still need help?** Check out the [FAQ](/troubleshooting/faq) for more specific questions, or join our support server for community assistance!
+**Still need help?** Check out the [FAQ](/docs/troubleshooting/faq) for more specific questions, or join our support server for community assistance!
 </Callout>

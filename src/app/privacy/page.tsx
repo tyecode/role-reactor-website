@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { links } from "@/constants/links";
 
 export const metadata: Metadata = {
   title: "Privacy Policy - Role Reactor",
@@ -207,7 +208,7 @@ export default function PrivacyPage() {
                 <p className="text-gray-700 dark:text-gray-300">
                   <strong>Discord:</strong>{" "}
                   <Link
-                    href="https://discord.gg/your-support-server"
+                    href={links.support}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -217,7 +218,7 @@ export default function PrivacyPage() {
                 <p className="text-gray-700 dark:text-gray-300">
                   <strong>GitHub:</strong>{" "}
                   <Link
-                    href="https://github.com/tyecode-bots/role-reactor-bot/issues"
+                    href={`${links.github}/issues`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >

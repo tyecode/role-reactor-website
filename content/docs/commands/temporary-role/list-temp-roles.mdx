@@ -1,0 +1,38 @@
+---
+title: List Temporary Roles
+description: Use this command to see which users currently have temporary roles and when they expire.
+keywords: role management, discord bot, self-assign roles, role messages, easy setup
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Cards, Card } from 'fumadocs-ui/components/card';
+
+## Parameters
+<Cards>
+  <Card title="user (optional)" description="Show temporary roles for a specific user only" />
+</Cards>
+
+## Step-by-Step Example
+1. Run the command:
+    ```bash
+    /list-temp-roles
+    ```
+2. The bot will reply with a list of users, roles, and expiration times.
+
+## Troubleshooting
+<Callout type="warning">
+- **No temporary roles found:** Make sure roles were assigned with `/assign-temp-role`.<br />
+- **User not found:** Double-check the username or mention.
+</Callout>
+
+## Related Commands
+<Cards>
+  <Card title="/assign-temp-role" description="Assign a temporary role" href="./assign-temp-role" />
+  <Card title="/remove-temp-role" description="Remove a temporary role" href="./remove-temp-role" />
+</Cards>
+
+## Best Practices
+<Callout type="success">
+- Use to monitor moderation actions or event access.<br />
+- Regularly review temporary roles for accuracy.
+</Callout>

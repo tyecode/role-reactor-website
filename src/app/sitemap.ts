@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next";
 import { source } from "@/lib/source";
+import { links } from "@/constants/links";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://rolereactor.xyz";
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || links.home;
 
   const staticRoutes = [
     {

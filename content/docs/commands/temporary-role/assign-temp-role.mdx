@@ -1,0 +1,63 @@
+---
+title: Assign Temporary Role
+description: Use this command to give users a role for a limited time (e.g., event winners, timeouts, temporary access).
+keywords: role management, discord bot, self-assign roles, role messages, easy setup
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Cards, Card } from 'fumadocs-ui/components/card';
+
+## Parameters
+<Cards>
+  <Card title="users (required)" description="Comma-separated user IDs or mentions" />
+  <Card title="role (required)" description="The role to assign temporarily" />
+  <Card title="duration (required)" description="How long the role lasts (e.g., 1h, 2d, 1w, 30m)" />
+  <Card title="reason (optional)" description="Reason for assignment" />
+</Cards>
+
+## Step-by-Step Example
+1. Decide which users and role you want to assign.<br />
+2. Choose the duration (e.g., 7d for 7 days).<br />
+3. Run the command:
+    ```bash
+    /assign-temp-role 
+    users:@User1,@User2 
+    role:@VIP 
+    duration:7d 
+    reason:"Event winners"
+    ```
+4. The bot will assign the role and automatically remove it after the duration.
+
+## Troubleshooting
+<Callout type="warning">
+- **Role not removed after duration:** Ensure the bot is online and has Manage Roles permission.<br />
+- **User not found:** Double-check user IDs or mentions.<br />
+- **Invalid duration:** Use supported formats (e.g., 1h, 2d, 1w).
+</Callout>
+
+## Related Commands
+<Cards>
+  <Card title="/remove-temp-role" description="Remove a temporary role early" href="./remove-temp-role" />
+  <Card title="/list-temp-roles" description="List all active temporary roles" href="./list-temp-roles" />
+</Cards>
+
+## Best Practices
+<Callout type="success">
+- Use for time-limited access or moderation actions.<br />
+- Communicate to users when roles will expire.
+</Callout>
+
+**Examples:**
+```
+/assign-temp-role 
+users:@User1,@User2 
+role:@VIP 
+duration:7d 
+reason:"Event winners"
+
+/assign-temp-role 
+users:123456789012345678 
+role:@Muted 
+duration:30m 
+reason:"Timeout for spam"
+```

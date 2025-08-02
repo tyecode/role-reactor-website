@@ -8,15 +8,16 @@ import { Audiowide } from "next/font/google";
 
 import { Typewriter } from "@/components/Typewriter";
 import { cn } from "fumadocs-ui/utils/cn";
+import { links } from "@/constants/links";
 
 const audiowide = Audiowide({
   subsets: ["latin"],
   weight: "400",
 });
 
-
 export default function HomePage() {
-  const tagline = "Discord role management, simplified. Set up reaction roles in minutes.";
+  const tagline =
+    "Discord role management, simplified. Set up reaction roles in minutes.";
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-100 via-white to-blue-100 dark:from-gray-900 dark:via-gray-950 dark:to-blue-900">
@@ -51,7 +52,13 @@ export default function HomePage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-200 to-purple-200 rounded-full blur-lg opacity-15 scale-110"></div>
               </div>
-              <h1 className={cn("text-4xl md:text-5xl font-medium animate-slide-up", audiowide.className)} aria-label="Role Reactor homepage title">
+              <h1
+                className={cn(
+                  "text-4xl md:text-5xl font-medium animate-slide-up",
+                  audiowide.className
+                )}
+                aria-label="Role Reactor homepage title"
+              >
                 Role Reactor
               </h1>
             </div>
@@ -66,7 +73,7 @@ export default function HomePage() {
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center items-center pt-4">
             <Link
-              href="https://discord.com/oauth2/authorize?client_id=YOUR_BOT_ID&permissions=268435456&scope=bot%20applications.commands"
+              href={links.inviteBot}
               className="flex items-center justify-center gap-2 bg-[#5865F2] hover:bg-[#4752C4] text-white px-6 py-2.5 rounded-md font-semibold text-sm transition-all duration-200 shadow-lg hover:shadow-xl transform animate-bounce-slow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#5865F2]"
               target="_blank"
               rel="noopener noreferrer"

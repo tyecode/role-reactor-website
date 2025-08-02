@@ -1,0 +1,4 @@
+{
+  "title": "Role Management",
+  "pages": ["setup-roles", "update-roles", "list-roles", "delete-roles"]
+}

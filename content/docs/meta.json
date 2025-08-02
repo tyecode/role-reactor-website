@@ -2,15 +2,23 @@
   "title": "Documentation",
   "pages": [
     "index",
-    "---Getting Started---",
+    "--- GETTING STARTED ---",
     "./getting-started/introduction.mdx",
-    "./getting-started/setup.mdx",
-    "./getting-started/adding-bot.mdx",
     "./getting-started/first-steps.mdx",
-    "---Commands Guide---",
-    "./commands/index.mdx",
-
-    "examples",
-    "troubleshooting"
+    "./getting-started/adding-bot.mdx",
+    "./getting-started/setup.mdx",
+    "--- COMMANDS ---",
+    "./commands/role-management",
+    "./commands/temporary-role",
+    "./commands/general",
+    "--- EXAMPLES ---",
+    "./examples/index.mdx",
+    "./examples/gaming-server.mdx",
+    "./examples/community-server.mdx",
+    "./examples/educational-server.mdx",
+    "--- TROUBLESHOOTING ---",
+    "./troubleshooting/index.mdx",
+    "./troubleshooting/common-issues.mdx",
+    "./troubleshooting/faq.mdx"
   ]
 }

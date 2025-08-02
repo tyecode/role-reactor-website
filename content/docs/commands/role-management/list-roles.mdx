@@ -1,0 +1,34 @@
+---
+title: List Roles
+description: Use this command to see all active role selection messages and get their message IDs for updating or deleting.
+keywords: role management, discord bot, self-assign roles, role messages, easy setup
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Cards, Card } from 'fumadocs-ui/components/card';
+
+## Step-by-Step Example
+1. Run the command:
+    ```bash
+    /list-roles
+    ```
+2. The bot will reply with a list of all role messages and their IDs.
+
+## Troubleshooting
+<Callout type="warning">
+- **No messages found:** Make sure you have created role messages with `/setup-roles`.<br />
+- **Permission errors:** Ensure the bot can read messages in the relevant channels.
+</Callout>
+
+## Related Commands
+<Cards>
+  <Card title="/setup-roles" description="Create a new role message" href="./setup-roles" />
+  <Card title="/update-roles" description="Edit a role message" href="./update-roles" />
+  <Card title="/delete-roles" description="Remove a role message" href="./delete-roles" />
+</Cards>
+
+## Best Practices
+<Callout type="success">
+- Use this command before updating or deleting role messages.<br />
+- Keep a record of message IDs for quick management.
+</Callout>

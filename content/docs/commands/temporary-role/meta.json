@@ -1,0 +1,4 @@
+{
+  "title": "Temporary Role",
+  "pages": ["assign-temp-role", "remove-temp-role", "list-temp-roles"]
+}

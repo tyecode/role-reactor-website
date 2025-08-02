@@ -1,558 +1,63 @@
 ---
-title: Community Server Setup
-description: Perfect role configurations for general community servers, hobby groups, and social Discord servers with engaging member experiences
+title: Community Server
+description: A recommended role message for a community-focused Discord server. Use categories to organize interests and activity levels.
+keywords: role management, discord bot, self-assign roles, role messages, easy setup
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
-import { Steps, Step } from 'fumadocs-ui/components/steps';
-import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
-import { Card, Cards } from 'fumadocs-ui/components/card';
 
-# Community Server Setup
+## Step-by-Step Setup
+1. Decide which interests and activity levels are most relevant for your community.
+2. Choose clear emoji for each role.
+3. Use the `/setup-roles` command with the following roles string:
 
-Perfect role configurations for general community servers, hobby groups, and social Discord servers with engaging member experiences.
+    ```markdown
+    #Interests
+    🎨:Art
+    📸:Photography
+    🎵:Music
+    📚:Books
+    #Activity Level
+    🔥:Very Active
+    😎:Casual
+    👀:Lurker
+    ```
+4. Encourage members to react to the message to assign themselves roles.
 
-<Callout type="info">
-**Community servers thrive on diverse interests** - Create welcoming role systems that help members find their tribes and engage with shared passions.
+## Example Role Message
+```markdown
+#Interests
+🎨:Art
+📸:Photography
+🎵:Music
+📚:Books
+#Activity Level
+🔥:Very Active
+😎:Casual
+👀:Lurker
+```
+
+## Advanced Customization
+- Add more categories (e.g., #Notifications, #Events) as your community grows.
+- Use custom emoji for unique server branding.
+- Combine with other templates for multi-purpose servers.
+
+## Troubleshooting
+<Callout type="warning">
+- **Roles not assigned:** Make sure the bot has Manage Roles permission and its role is above the target roles.
+- **Emoji not working:** Use standard emoji or custom emoji the bot can access.
+- **Members confused:** Pin a message explaining what each role means.
 </Callout>
 
-## Complete Community Server Example
-
-### Main Community Roles
-
-Create a welcoming role system for diverse community interests that encourages participation and helps members connect:
-
-```
-/setup-roles title:"🌟 Community Roles" description:"**Welcome to our community!**\n\nChoose roles that match your interests and get access to special channels and notifications.\n\n*You can select multiple roles - mix and match as you like!*" roles:"#🎯 Interests\n🎮:Gaming,🎨:Art & Design,🎵:Music,📚:Books,🎬:Movies & TV,🍳:Cooking,🏋️:Fitness,📸:Photography\n#🔔 Notifications\n📢:Server News,🎉:Events,📝:Weekly Updates,🚨:Important Only\n#💬 Activity Level\n🔥:Very Active,😎:Casual Member,👀:Mostly Lurking,🌙:Night Owl,☀️:Day Person\n#🎪 Fun Stuff\n🐱:Cat Person,🐶:Dog Person,☕:Coffee Lover,🍕:Pizza Fan,🎲:Board Games,🧩:Puzzle Lover" color:"#43AA8B"
-```
-
-**What this creates:**
-
-<Tabs items={['Visual Result', 'Member Benefits', 'Channel Integration']}>
-  <Tab value="Visual Result">
-    ```
-    🌟 Community Roles
-
-    Welcome to our community!
-
-    Choose roles that match your interests and get access to special channels 
-    and notifications.
-
-    You can select multiple roles - mix and match as you like!
-
-    ─────── 🎯 Interests ───────
-    🎮 🎨 🎵 📚 🎬 🍳 🏋️ 📸
-
-    ─────── 🔔 Notifications ───────
-    📢 🎉 📝 🚨
-
-    ─────── 💬 Activity Level ───────
-    🔥 😎 👀 🌙 ☀️
-
-    ─────── 🎪 Fun Stuff ───────
-    🐱 🐶 ☕ 🍕 🎲 🧩
-    ```
-  </Tab>
-  
-  <Tab value="Member Benefits">
-    **Interest roles unlock:**
-    - Dedicated channels for each hobby
-    - Specialized discussion topics
-    - Event notifications for interests
-    - Connection with like-minded members
-    
-    **Activity level roles provide:**
-    - Appropriate mention frequency
-    - Channel access matching engagement style
-    - Recognition of different participation styles
-    - Better community matching
-    
-    **Fun roles create:**
-    - Personality-based connections
-    - Light-hearted discussions
-    - Community bonding opportunities
-    - Conversation starters
-  </Tab>
-  
-  <Tab value="Channel Integration">
-    **Channel structure example:**
-    ```
-    🎯 INTERESTS
-    ├── 🎮 gaming
-    ├── 🎨 art-showcase
-    ├── 🎵 music-sharing
-    ├── 📚 book-club
-    ├── 🎬 movie-discussion
-    ├── 🍳 cooking-recipes
-    ├── 🏋️ fitness-motivation
-    └── 📸 photography
-    
-    🔔 NOTIFICATIONS
-    ├── 📢 announcements (@Server News)
-    ├── 🎉 events (@Events)
-    └── 📝 weekly-digest (@Weekly Updates)
-    
-    💬 SOCIAL
-    ├── 🔥 active-chat (@Very Active)
-    ├── 😎 casual-lounge (@Casual Member)
-    └── 🌙 night-crew (@Night Owl)
-    ```
-  </Tab>
-</Tabs>
-
-## Creative Community Setups
-
-### Art & Creative Server
-
-For communities focused on creative pursuits and artistic expression:
-
-```
-/setup-roles title:"🎨 Creative Hub Roles" description:"**Express your creativity!**\n\nJoin channels for your artistic interests and connect with fellow creators.\n\n🌟 *Share your work and get inspiration from others!*" roles:"#🎨 Visual Arts\n🖼️:Traditional Art,💻:Digital Art,📸:Photography,🎭:3D Modeling,✏️:Sketching,🖌️:Painting\n#📝 Writing\n✍️:Creative Writing,📖:Fiction,📜:Poetry,📝:Blogging,📚:Fanfiction,🗞️:Journalism\n#🎵 Music & Audio\n🎼:Music Composition,🎸:Instruments,🎤:Vocals,🎧:Audio Production,🎹:Piano,🥁:Drums\n#🎬 Media Creation\n🎥:Video Editing,🎞️:Filmmaking,🎮:Game Design,📻:Podcasting,📺:Streaming\n#🔔 Participation\n📢:Art Challenges,🎉:Community Events,💬:Feedback Exchange,🏆:Contests" color:"#E74C3C"
-```
-
-**Features for creative communities:**
-
-<Cards>
-  <Card
-    title="🎨 Portfolio Sharing"
-    description="Dedicated channels for each art form, critique sessions, work-in-progress updates, and skill development tracking"
-  />
-  <Card
-    title="🏆 Challenge Participation"
-    description="Weekly art challenges, themed contests, collaborative projects, and skill-building exercises"
-  />
-  <Card
-    title="💬 Constructive Feedback"
-    description="Structured critique systems, peer review processes, mentorship programs, and improvement tracking"
-  />
-  <Card
-    title="🎓 Learning Together"
-    description="Tutorial sharing, technique discussions, resource libraries, and educational workshops"
-  />
-</Cards>
-
-### Maker & DIY Community
-
-For hands-on creative communities focused on building and crafting:
-
-```
-/setup-roles title:"🔨 Maker Community" description:"**Build, create, and share!**\n\nConnect with fellow makers and showcase your projects." roles:"#🛠️ Crafting\n🧵:Sewing & Textiles,🪵:Woodworking,🔨:Metalworking,🧶:Knitting & Crochet,📿:Jewelry Making,🎯:3D Printing\n#🏠 Home & Garden\n🌱:Gardening,🏠:Home Improvement,🍳:Cooking & Baking,🧽:Organization,🎨:Interior Design\n#⚡ Tech Making\n🔌:Electronics,🤖:Robotics,💻:Programming,📱:App Development,🎮:Game Development\n#📚 Learning\n📖:Tutorials,❓:Questions,💡:Project Ideas,🎓:Teaching Others" color:"#F39C12"
-```
-
-## Learning & Educational Communities
-
-### Study & Learning Server
-
-Perfect for educational communities and study groups that want to foster collaborative learning:
-
-```
-/setup-roles title:"📚 Study Community" description:"**Learn together, grow together!**\n\nJoin study groups and connect with learners in your field.\n\n🎓 *Knowledge shared is knowledge multiplied!*" roles:"#📖 Academic Subjects\n🔬:Science,📐:Mathematics,💻:Computer Science,📜:History,🌍:Geography,🗣️:Languages,📊:Statistics\n#💼 Professional Skills\n📈:Business,💰:Finance,📊:Marketing,🎨:Design,📝:Writing,🗣️:Public Speaking,👥:Leadership\n#🎯 Learning Style\n👥:Group Study,📖:Solo Study,🎧:Audio Learning,📹:Video Learning,📝:Note Taking,🔄:Teaching Others\n#⏰ Study Time\n🌅:Morning Study,🌆:Evening Study,🌙:Night Owl,📅:Weekend Warrior,⚡:Quick Sessions\n#🎓 Level\n🌱:Beginner,📈:Intermediate,🎯:Advanced,👨‍🏫:Mentor,🏆:Expert" color:"#3498DB"
-```
-
-**Study community features:**
-
-<Tabs items={['Study Groups', 'Resource Sharing', 'Mentorship', 'Progress Tracking']}>
-  <Tab value="Study Groups">
-    **Collaborative learning environment:**
-    - Subject-specific study rooms
-    - Scheduled group study sessions
-    - Peer accountability partnerships
-    - Study technique sharing
-    - Group project coordination
-    
-    **Voice channel setup:**
-    ```
-    📚 STUDY HALLS
-    ├── 🔬 Science Study Room
-    ├── 📐 Math Problem Solving
-    ├── 💻 Coding Together
-    ├── 🗣️ Language Practice
-    └── 👥 General Study Hall
-    ```
-  </Tab>
-  
-  <Tab value="Resource Sharing">
-    **Knowledge repository:**
-    - Curated resource libraries
-    - Study material exchanges
-    - Tool and app recommendations
-    - Academic calendar coordination
-    - Research collaboration
-    
-    **Resource channels:**
-    ```
-    📖 RESOURCES
-    ├── 📚 study-materials
-    ├── 🔗 helpful-links
-    ├── 🛠️ study-tools
-    ├── 📅 academic-calendar
-    └── 💡 study-tips
-    ```
-  </Tab>
-  
-  <Tab value="Mentorship">
-    **Peer learning system:**
-    - Expert-to-beginner mentoring
-    - Study buddy matching
-    - Teaching opportunities
-    - Knowledge verification
-    - Academic support network
-    
-    **Support structure:**
-    ```
-    🎓 MENTORSHIP
-    ├── 👨‍🏫 ask-a-mentor
-    ├── 🤝 find-study-buddy
-    ├── 💡 explain-like-im-5
-    ├── 🆘 homework-help
-    └── 🏆 celebrate-progress
-    ```
-  </Tab>
-  
-  <Tab value="Progress Tracking">
-    **Achievement system:**
-    - Learning milestone celebrations
-    - Study streak tracking
-    - Goal setting and accountability
-    - Progress sharing and motivation
-    - Academic achievement recognition
-  </Tab>
-</Tabs>
-
-### Language Learning Community
-
-For multilingual and language learning servers focused on cultural exchange:
-
-```
-/setup-roles title:"🌍 Language Exchange" description:"**Connect across languages and cultures!**\n\nFind language partners and practice with native speakers." roles:"#🗣️ Native Languages\n🇺🇸:English Native,🇪🇸:Spanish Native,🇫🇷:French Native,🇩🇪:German Native,🇮🇹:Italian Native,🇯🇵:Japanese Native,🇰🇷:Korean Native,🇨🇳:Chinese Native\n#📚 Learning Languages\n📖:Learning English,📕:Learning Spanish,📘:Learning French,📗:Learning German,📙:Learning Italian,📓:Learning Japanese,📔:Learning Korean,📒:Learning Chinese\n#🎯 Learning Goals\n💬:Conversation Practice,📝:Writing Practice,👂:Listening Skills,📖:Reading Comprehension,🎓:Academic Study,💼:Business Language\n#⭐ Level\n🌱:Beginner,📈:Intermediate,🎯:Advanced,💫:Fluent,👨‍🏫:Can Help Others" color:"#9B59B6"
-```
-
-## Lifestyle & Hobby Communities
-
-### General Hobby Server
-
-For communities with diverse hobby interests and recreational activities:
-
-```
-/setup-roles title:"🎯 Hobby Central" description:"**Discover and share your passions!**\n\nJoin hobby groups and find people who share your interests." roles:"#🎮 Gaming & Tech\n🎮:Video Games,🎲:Board Games,🃏:Card Games,💻:PC Building,📱:Mobile Tech,🤖:Gadgets\n#🏃 Active Hobbies\n🏃:Running,🚴:Cycling,🏋️:Fitness,⛰️:Hiking,🏊:Swimming,🧗:Climbing,⚽:Sports\n#🎨 Creative Hobbies\n🎨:Art,📸:Photography,🎵:Music,✍️:Writing,🧵:Crafting,🌱:Gardening,🍳:Cooking\n#📚 Mind & Learning\n📚:Reading,🧩:Puzzles,🔬:Science,📈:Investing,🌍:Travel,🎭:Theater,🎬:Movies\n#🐾 Pets & Animals\n🐶:Dogs,🐱:Cats,🐠:Fish,🐦:Birds,🐹:Small Pets,🦎:Reptiles,🕷️:Exotic Pets" color:"#2ECC71"
-```
-
-### Health & Wellness Community
-
-For fitness, mental health, and wellness communities focused on holistic well-being:
-
-```
-/setup-roles title:"💚 Wellness Community" description:"**Your journey to better health starts here!**\n\nConnect with others on similar wellness paths and share support." roles:"#🏋️ Fitness Goals\n💪:Strength Training,🏃:Cardio,🧘:Yoga,🤸:Flexibility,⚖️:Weight Loss,📈:Weight Gain,🎯:Maintenance\n#🍎 Nutrition\n🥗:Healthy Eating,🌱:Vegetarian,🌿:Vegan,🥩:Keto,🍞:Low Carb,💧:Hydration,🍎:Meal Prep\n#🧠 Mental Health\n🧘:Meditation,📝:Journaling,😌:Stress Relief,😴:Sleep Health,💭:Mindfulness,🗣️:Therapy Support\n#⏰ Activity Time\n🌅:Morning Workouts,🌆:Evening Exercise,📅:Weekend Warrior,🎯:Daily Movement\n#🎯 Experience Level\n🌱:Just Starting,📈:Building Habits,💪:Experienced,🏆:Fitness Enthusiast,👨‍🏫:Can Help Others" color:"#27AE60"
-```
-
-## Entertainment & Media Communities
-
-### Entertainment Server
-
-For communities focused on movies, TV, books, and media consumption and discussion:
-
-```
-/setup-roles title:"🎬 Entertainment Hub" description:"**Movies, shows, books, and more!**\n\nDiscuss your favorite entertainment and discover new recommendations." roles:"#🎬 Movies & TV\n🎥:Movie Buff,📺:TV Shows,🎭:Drama,😂:Comedy,😱:Horror,🚀:Sci-Fi,💕:Romance,🎬:Action\n#📚 Books & Reading\n📖:Fiction,📚:Non-Fiction,🧙:Fantasy,🔍:Mystery,💕:Romance Books,📜:Classics,📰:Manga,🎧:Audiobooks\n#🎵 Music\n🎵:Pop,🎸:Rock,🎤:Hip Hop,🎼:Classical,🎹:Electronic,🥁:Metal,🎺:Jazz,🎻:Indie\n#🎮 Gaming Entertainment\n🎮:Gaming,📺:Twitch,📹:YouTube,🎙️:Podcasts,📻:Streaming,🎯:Esports\n#🔔 Notifications\n⭐:New Releases,🎉:Community Events,📢:Announcements,💬:Discussion Alerts" color:"#8E44AD"
-```
-
-### Book Club Community
-
-Specialized for reading communities and literary discussions:
-
-```
-/setup-roles title:"📚 Book Club Roles" description:"**Welcome, fellow book lovers!**\n\nJoin reading groups and discover your next great read.\n\n📖 *So many books, so little time!*" roles:"#📖 Reading Preferences\n📚:Fiction,📊:Non-Fiction,🧙:Fantasy,🔍:Mystery,💕:Romance,👑:Historical,🚀:Sci-Fi,😱:Horror\n#📚 Book Formats\n📖:Physical Books,📱:E-books,🎧:Audiobooks,📰:Magazines,📜:Comics/Manga,📋:Short Stories\n#⏰ Reading Pace\n🐌:Slow Reader,📈:Moderate Pace,⚡:Speed Reader,📅:Weekend Reader,🌙:Night Reader\n#💬 Participation\n💬:Discussion Lover,⭐:Review Writer,📝:Note Taker,🎯:Challenge Participant,📚:Book Recommender\n#🎯 Current Goals\n📖:Currently Reading,🎯:Want to Read More,📚:Exploring New Genres,🏆:Reading Challenge" color:"#D35400"
-```
-
-**Book club engagement features:**
-
-<Steps>
-  <Step>
-    **Monthly Book Selection**
-    - Community voting on next reads
-    - Genre rotation schedule
-    - Difficulty level consideration
-    - Multiple format availability
-  </Step>
-  
-  <Step>
-    **Reading Progress Tracking**
-    - Chapter discussion threads
-    - Spoiler-free zones
-    - Reading pace accommodations
-    - Catch-up sessions for late readers
-  </Step>
-  
-  <Step>
-    **Discussion Enhancement**
-    - Author background research
-    - Discussion question preparation
-    - Character analysis sessions
-    - Theme exploration workshops
-  </Step>
-  
-  <Step>
-    **Community Building**
-    - Reading challenge participation
-    - Personal recommendation sharing
-    - Literary event coordination
-    - Author appreciation celebrations
-  </Step>
-</Steps>
-
-## Social & Chat Communities
-
-### Social Hangout Server
-
-For general social communities and friend groups focused on casual interaction:
-
-```
-/setup-roles title:"👋 Social Roles" description:"**Welcome to our social space!**\n\nChoose roles to customize your experience and find your crowd.\n\n💫 *Everyone belongs here!*" roles:"#💬 Chat Preferences\n📢:Active Chatter,😎:Casual Talker,👀:Mostly Lurking,🎤:Voice Chat,💬:Text Only,🎵:Music Sharing\n#🎉 Event Participation\n🎉:Event Enthusiast,🎮:Game Nights,🎬:Movie Nights,🎵:Music Sessions,🍕:Food Discussions,🎨:Creative Hours\n#🌍 Location & Time\n🇺🇸:North America,🇪🇺:Europe,🇦🇺:Australia/Oceania,🇦🇸:Asia,🌅:Morning Person,🌙:Night Owl\n#😄 Personality\n😂:Meme Lover,🤔:Deep Thinker,🎭:Storyteller,🎯:Helper,🎪:Entertainer,🧘:Chill Vibes\n#🎁 Special Interests\n🐾:Pet Parent,🌱:Plant Parent,☕:Caffeine Addict,🍕:Foodie,✈️:Travel Lover,🎨:Creative Soul" color:"#FF6B6B"
-```
-
-## Setting Up Your Community Server
-
-### Pre-Setup Planning
-
-**Essential planning steps before creating role messages:**
-
-<Steps>
-  <Step>
-    **Community Research**
-    - Survey member interests and preferences
-    - Analyze existing community discussions
-    - Identify most popular topics and activities
-    - Review competitor servers for inspiration
-  </Step>
-  
-  <Step>
-    **Channel Structure Planning**
-    - Map roles to specific channels
-    - Plan permission hierarchies
-    - Design channel categories and organization
-    - Consider voice channel needs
-  </Step>
-  
-  <Step>
-    **Role Creation**
-    - Create all roles in Server Settings first
-    - Set appropriate colors for visual organization
-    - Plan role hierarchy positioning
-    - Configure basic permissions for each role
-  </Step>
-  
-  <Step>
-    **Testing and Refinement**
-    - Test role assignment functionality
-    - Verify channel access permissions
-    - Check mobile display and usability
-    - Gather feedback from trusted members
-  </Step>
-</Steps>
-
-### Role Creation Best Practices
-
-<Tabs items={['Naming Conventions', 'Visual Organization', 'Permission Setup', 'Member Education']}>
-  <Tab value="Naming Conventions">
-    **Clear and consistent naming:**
-    
-    **Good examples:**
-    ```
-    ✅ Gaming Discussions
-    ✅ Art & Design  
-    ✅ Book Club Member
-    ✅ Event Notifications
-    ✅ Night Owl
-    ```
-    
-    **Avoid these patterns:**
-    ```
-    ❌ Gaming (too vague)
-    ❌ Art/Design (inconsistent punctuation)
-    ❌ Books (doesn't indicate participation)
-    ❌ Events (unclear purpose)
-    ❌ Late Night (less fun than Night Owl)
-    ```
-    
-    **Naming guidelines:**
-    - Use descriptive, clear language
-    - Maintain consistent formatting
-    - Consider emoji additions for visual appeal
-    - Avoid abbreviations that might confuse
-    - Test names with new members for clarity
-  </Tab>
-  
-  <Tab value="Visual Organization">
-    **Color coding strategy:**
-    
-    ```
-    🔴 Administration & Moderation
-    🟠 Special Access & VIP
-    🟡 Notifications & Announcements  
-    🟢 Interest & Hobby Roles
-    🔵 Activity & Participation Levels
-    🟣 Fun & Personality Roles
-    ⚫ Temporary & Event Roles
-    ```
-    
-    **Hierarchy positioning:**
-    - Staff roles at the top
-    - Bot roles below staff but above members
-    - Special access roles in upper middle
-    - General member roles in lower middle
-    - Fun/personality roles near bottom
-    - @everyone role at the bottom
-  </Tab>
-  
-  <Tab value="Permission Setup">
-    **Safe permissions for self-assigned roles:**
-    
-    **✅ Recommended permissions:**
-    - View channels (specific channels only)
-    - Send messages (in designated channels)
-    - Add reactions
-    - Use external emojis
-    - Connect to voice channels
-    - Speak in voice channels
-    
-    **⚠️ Use with caution:**
-    - Mention @everyone (for announcement roles only)
-    - Manage messages (moderator roles only)
-    - Create instant invites (trusted members only)
-    
-    **❌ Never for self-assigned roles:**
-    - Administrator
-    - Manage roles
-    - Kick/ban members
-    - Manage channels
-    - Manage server
-  </Tab>
-  
-  <Tab value="Member Education">
-    **Help members understand the system:**
-    
-    **Welcome message template:**
-    ```
-    📌 **Welcome to our role system!**
-    
-    🎯 **Getting roles**: React to emojis in #roles
-    🔄 **Changing roles**: Remove reactions to remove roles
-    💬 **New channels**: Roles unlock special channels
-    🔔 **Notifications**: Control what pings you get
-    ❓ **Questions**: Ask in #help!
-    
-    🌟 **Recommended starter roles:**
-    • 📢 Server News - Important updates
-    • 💬 General Chat - Main discussions
-    • [Your main interest] - Join your hobby group
-    ```
-    
-    **FAQ integration:**
-    - Common questions about role functionality
-    - Troubleshooting for role assignment issues
-    - Explanation of role benefits and channel access
-    - Contact information for additional help
-  </Tab>
-</Tabs>
-
-### Channel Integration Examples
-
-**Connect roles to meaningful channel experiences:**
-
-<Tabs items={['Interest Channels', 'Notification System', 'Social Spaces', 'Activity Zones']}>
-  <Tab value="Interest Channels">
-    ```
-    🎯 INTERESTS & HOBBIES
-    ├── 🎮 gaming (@Gaming)
-    │   ├── 🎯 lfg-looking-for-group
-    │   ├── 🏆 achievements-screenshots
-    │   └── 📢 game-announcements
-    ├── 🎨 art-showcase (@Art & Design)
-    │   ├── 🖼️ share-your-art
-    │   ├── 💬 art-feedback
-    │   └── 🎯 art-challenges
-    ├── 📚 book-club (@Books)
-    │   ├── 📖 currently-reading
-    │   ├── 💭 book-discussions
-    │   └── 📝 book-recommendations
-    └── 🎵 music-corner (@Music)
-        ├── 🎶 share-music
-        ├── 🎸 music-creation
-        └── 🎤 sing-along
-    ```
-  </Tab>
-  
-  <Tab value="Notification System">
-    ```
-    🔔 NOTIFICATIONS & UPDATES
-    ├── 📢 announcements (@Server News)
-    │   └── Important server updates only
-    ├── 🎉 events (@Events)
-    │   └── Community event notifications
-    ├── 📝 weekly-digest (@Weekly Updates)
-    │   └── Weekly community highlights
-    └── 🚨 emergency (@Important Only)
-        └── Critical server information
-    ```
-  </Tab>
-  
-  <Tab value="Social Spaces">
-    ```
-    💬 SOCIAL & CHAT
-    ├── 🔥 active-chat (@Very Active)
-    │   └── Fast-paced discussions
-    ├── 😎 casual-lounge (@Casual Member)
-    │   └── Relaxed conversations
-    ├── 👀 lurker-friendly (@Mostly Lurking)
-    │   └── Low-pressure participation
-    ├── 🌙 night-crew (@Night Owl)
-    │   └── Late night discussions
-    └── ☀️ morning-coffee (@Day Person)
-        └── Early bird conversations
-    ```
-  </Tab>
-  
-  <Tab value="Activity Zones">
-    ```
-    🎪 ACTIVITIES & EVENTS
-    ├── 🎮 game-night (@Game Nights)
-    ├── 🎬 movie-night (@Movie Nights)
-    ├── 🎵 music-sessions (@Music Sessions)
-    ├── 🎨 creative-hours (@Creative Hours)
-    └── 🍕 food-talk (@Food Discussions)
-    
-    🔊 VOICE CHANNELS
-    ├── 💬 General Hangout
-    ├── 🎮 Gaming Together (@Gaming)
-    ├── 📚 Study Hall (@Study Group)
-    ├── 🎵 Music Listening (@Music)
-    └── 🌙 Night Owl Lounge (@Night Owl)
-    ```
-  </Tab>
-</Tabs>
-
-### Encouraging Community Engagement
-
-**Strategies to increase role adoption and community participation:**
-
-<Cards>
-  <Card
-    title="🎉 Welcome Integration"
-    description="Include role selection in welcome flow, highlight benefits in welcome messages, provide guided tour of role system"
-  />
-  <Card
-    title="📢 Regular Promotion"
-    description="Feature role benefits in announcements, showcase special channel content, highlight community connections made through roles"
-  />
-  <Card
-    title="🏆 Recognition System"
-    description="Celebrate active role users, feature member spotlights, create achievement systems tied to role participation"
-  />
-  <Card
-    title="🔄 Continuous Improvement"
-    description="Regular member feedback collection, seasonal role updates, community-driven role suggestions, usage analytics review"
-  />
-</Cards>
-
----
-
-**Next steps:** Once your community roles are set up, consider exploring our other specialized examples for [Gaming Servers](gaming-server), [Educational Servers](educational-server), or [Business Servers](business-server) to add more targeted functionality.
+## Best Practices
+<Callout type="success">
+- Use categories to organize interests and activity levels.<br />
+- Keep the list concise for easy selection.<br />
+- Encourage members to pick roles that match their engagement.<br />
+- Regularly review and update roles to match community interests.
+</Callout>
+
+## Related Docs
+- [How to Use /setup-roles](/docs/commands/role-management/setup-roles)
+- [Gaming Server Example](/docs/examples/gaming-server)
+- [Educational Server Example](/docs/examples/educational-server)

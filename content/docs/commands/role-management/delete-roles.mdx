@@ -1,0 +1,40 @@
+---
+title: Delete Roles
+description: Use this command to remove a role selection message that is no longer needed or to clean up outdated role menus.
+keywords: role management, discord bot, self-assign roles, role messages, easy setup
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Cards, Card } from 'fumadocs-ui/components/card';
+
+## Parameters
+<Cards>
+  <Card title="message_id (required)" description="ID of the message to delete" />
+</Cards>
+
+## Step-by-Step Example
+1. Use `/list-roles` to find the message ID you want to delete.<br />
+2. Run the command:
+    ```bash
+    /delete-roles message_id:123456789012345678
+    ```
+3. The bot will remove the message and all role reactions.
+
+## Troubleshooting
+<Callout type="warning">
+- **Message not found:** Double-check the message ID from `/list-roles`.<br />
+- **Permission errors:** Ensure the bot can delete messages and manage roles.
+</Callout>
+
+## Related Commands
+<Cards>
+  <Card title="/setup-roles" description="Create a new role message" href="./setup-roles" />
+  <Card title="/update-roles" description="Edit a role message" href="./update-roles" />
+  <Card title="/list-roles" description="List all role messages" href="./list-roles" />
+</Cards>
+
+## Best Practices
+<Callout type="success">
+- Inform your community before removing widely used role menus.<br />
+- Clean up unused role messages to keep your server organized.
+</Callout>

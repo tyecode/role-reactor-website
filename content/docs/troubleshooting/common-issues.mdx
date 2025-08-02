@@ -1,292 +1,67 @@
 ---
 title: Common Issues
-description: Comprehensive guide to identifying, understanding, and resolving the most frequently encountered problems with Role Reactor Bot
+description: These are the most frequent problems users encounter with Role Reactor Bot and how to solve them.
+keywords: role management, discord bot, self-assign roles, role messages, easy setup
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
-import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+import { Steps, Step } from 'fumadocs-ui/components/steps';
 
-# Common Issues
+## Bot Not Responding
+<Steps>
+  <Step>
+    **Check Bot Status**
+    - Is the bot online?
+    - Try `/ping` to test if bot responds
+  </Step>
+  <Step>
+    **Verify Permissions**
+    - Bot needs "Send Messages" and "Use Slash Commands"
+    - Check channel-specific permissions
+  </Step>
+  <Step>
+    **Check Role Position**
+    - Bot's role must be above roles it manages
+    - Go to Server Settings > Roles to check hierarchy
+  </Step>
+</Steps>
 
-Comprehensive guide to identifying, understanding, and resolving the most frequently encountered problems with Role Reactor Bot.
-
-## 🚨 Most Common Issues
-
-### 1. Role Reactions Not Working
-
-**Symptoms:**
-- Clicking emoji reactions does nothing
-- No bot response or confirmation
-- Reactions appear but don't function
-
-**Diagnostic Questions:**
-```
-✅ Are you clicking the bot's reactions below the message?
-✅ Is the bot online and responsive?
-✅ Do you have permission to add reactions?
-✅ Is your Discord app/browser up to date?
-```
-
-<Tabs items={['User Error', 'Permission Issues', 'Technical Issues']}>
-<Tab value="User Error">
-
-**Most Common:**
-```
-Problem: Clicking emojis in message text instead of reactions
-Solution: Click the bot's emoji reactions below the message
-
-Problem: Multiple rapid clicks confusing the system
-Solution: Wait 2-3 seconds between clicks, avoid spam clicking
-```
-
-</Tab>
-<Tab value="Permission Issues">
-
-```
-Problem: Missing "Add Reactions" permission
-Solution: Contact server admin to check your permissions
-
-Problem: Bot missing "Manage Roles" permission
-Solution: Server admin needs to fix bot permissions
-```
-
-</Tab>
-<Tab value="Technical Issues">
-
-```
-Problem: Discord client sync issues
-Solution: 
-1. Restart Discord app
-2. Clear Discord cache
-3. Try different device/browser
-4. Wait 5-10 minutes for sync
-```
-
-</Tab>
-</Tabs>
-
-### 2. "Permission Denied" Errors
-
-**Common Error Messages:**
-```
-❌ "I don't have permission to give you this role"
-❌ "You don't have permission to get this role"
-❌ "Role assignment failed - permission error"
-```
-
-<Tabs items={['Bot Permissions', 'User Permissions', 'Role Config']}>
-<Tab value="Bot Permissions">
-
-```
-Cause: Bot role positioned below target role in hierarchy
-Solution: Server admin moves bot role above all managed roles
-
-Cause: Bot missing "Manage Roles" permission
-Solution: Server admin grants proper permissions to bot
-```
-
-</Tab>
-<Tab value="User Permissions">
-
-```
-Cause: Server verification requirements not met
-Solution: Complete phone/email verification as required
-
-Cause: User lacks required prerequisite roles
-Solution: Get prerequisite roles first, then try again
-```
-
-</Tab>
-<Tab value="Role Config">
-
-```
-Cause: Role set to admin-only assignment
-Solution: Contact server staff to adjust role settings
-
-Cause: Role deleted but still in message
-Solution: Server admin updates role message
-```
-
-</Tab>
-</Tabs>
-
-### 3. Bot Appears Offline or Unresponsive
-
-**Identifying Bot Status Issues:**
-
-<Tabs items={['Complete Offline', 'Partial Issues', 'Slow Response']}>
-<Tab value="Complete Offline">
-
-**Signs:**
-- Bot shows as offline in member list
-- No reactions on any role messages
-- All bot commands fail
-
-**Solutions:**
-1. Wait 5-10 minutes for Discord sync
-2. Check [Discord Status](https://discordstatus.com)
-3. Contact server admin to check bot status
-4. Report to bot support if issue persists
-
-</Tab>
-<Tab value="Partial Issues">
-
-**Signs:**
-- Bot appears online but some features don't work
-- Some role messages work, others don't
-- Commands work but reactions don't
-
-**Solutions:**
-1. Check specific channel permissions
-2. Verify role message configuration
-3. Test in different channels
-4. Contact server admin for permission review
-
-</Tab>
-<Tab value="Slow Response">
-
-**Signs:**
-- Delayed role assignments (5+ seconds)
-- Bot responds but slowly
-- Intermittent functionality
-
-**Solutions:**
-1. Check your internet connection
-2. Wait during high Discord traffic times
-3. Avoid rapid clicking
-4. Try again in a few minutes
-
-</Tab>
-</Tabs>
-
-## 🔧 Quick Diagnostics
-
-### Role Assignment Issues
-
-**Step-by-Step Diagnosis:**
-
-1. **Check Bot Status**
-   ```
-   ✅ Is the bot online?
-   ✅ Can others get roles from the same message?
-   ✅ Do other bot commands work?
-   ```
-
-2. **Verify Message Configuration**
-   ```
-   ✅ Are you clicking reactions below the message?
-   ✅ Do the role names match exactly?
-   ✅ Has the message been updated recently?
-   ```
-
-3. **Check Your Permissions**
-   ```
-   ✅ Can you add reactions to other messages?
-   ✅ Do you meet server verification requirements?
-   ✅ Are there any role restrictions in place?
-   ```
-
-4. **Test Alternative Methods**
-   ```
-   ✅ Try a different device/browser
-   ✅ Test in private/incognito mode
-   ✅ Ask a friend to test the same message
-   ```
-
-### Command Failures
-
-**When `/setup-roles` or other commands don't work:**
-
-<Callout type="warn">
-**Permission Check:** You need "Manage Roles" permission to use admin commands.
+## Roles Not Being Assigned
+<Callout type="warning">
+**Most Common Cause:** Bot's role is positioned below the roles it's trying to assign
 </Callout>
+<Steps>
+  <Step>
+    **Fix Role Hierarchy**
+    1. Go to Server Settings > Roles
+    2. Drag the bot's role above all roles you want it to manage
+    3. Test role assignment again
+  </Step>
+  <Step>
+    **Check Role Names**
+    - Make sure role names in the command match exactly
+    - Role names are case-sensitive
+  </Step>
+  <Step>
+    **Verify Bot Permissions**
+    - Bot needs "Manage Roles" permission
+  </Step>
+</Steps>
 
-**Common Causes:**
-- Missing permissions
-- Incorrect command syntax
-- Bot lacking required permissions
-- Role names don't match Discord roles
-
-**Quick Fixes:**
-1. Verify you have "Manage Roles" permission
-2. Check command syntax carefully
-3. Ensure role names match exactly (case-sensitive)
-4. Try the command in a different channel
-
-## 🏥 Emergency Fixes
-
-### When Nothing Works
-
-**Complete Reset Procedure:**
-
-1. **User-Level Reset**
-   ```
-   1. Log out of Discord completely
-   2. Clear browser cache/restart app
-   3. Log back in and wait 2-3 minutes
-   4. Test role assignment again
-   ```
-
-2. **Channel-Level Reset** (Admins)
-   ```
-   1. Check bot permissions in channel
-   2. Remove and re-add bot to channel
-   3. Update role message if necessary
-   4. Test with a simple role message
-   ```
-
-3. **Server-Level Reset** (Admins)
-   ```
-   1. Check bot's server permissions
-   2. Verify role hierarchy
-   3. Remove and re-invite bot if necessary
-   4. Recreate problematic role messages
-   ```
-
-### When Roles Disappear
-
-**If members lose roles unexpectedly:**
-
+## Command Errors
 <Callout type="info">
-**Don't Panic:** Role loss is usually temporary and can be restored.
+See the Troubleshooting Guide for a full list of error messages and solutions.
 </Callout>
 
-**Immediate Actions:**
-1. Check if roles were manually removed by staff
-2. Verify role messages are still active
-3. Look for server boost level changes
-4. Check Discord audit log for role changes
-
-**Recovery Steps:**
-1. Ask affected members to re-react to role messages
-2. Use `/assign-temp-role` for urgent cases
-3. Check for recent bot updates or server changes
-4. Contact support if mass role loss occurred
-
-## 🆘 When to Contact Support
-
-### Contact Server Admins When:
-- You can't access bot commands you should have
-- Role messages aren't working for anyone
-- You need specific roles that aren't self-assignable
-- There are server-specific issues
-
-### Contact Bot Support When:
-- Bot is completely offline for extended periods
-- Commands return error messages consistently
-- Role assignments work inconsistently across servers
-- You suspect a bot bug or malfunction
-
-### Information to Include:
-- Exact error messages (screenshots help)
-- Steps you took before the issue occurred
-- What you expected to happen vs. what actually happened
-- Your Discord username and server name
-- Approximate time when the issue started
-
----
-
-**Quick Reference:**
-- [Permission Problems](/troubleshooting/permissions) - Detailed permission troubleshooting
-- [Role Hierarchy Issues](/troubleshooting/role-hierarchy) - Understanding Discord's role system
-- [FAQ](/troubleshooting/faq) - Frequently asked questions and quick answers
+## Reactions Missing
+<Steps>
+  <Step>
+    **Use Unicode Emojis**
+    - Custom server emojis might not work in all situations
+    - Stick to standard Unicode emojis for best results
+  </Step>
+  <Step>
+    **Check Bot Permissions**
+    - Bot needs "Add Reactions" and "Manage Messages"
+  </Step>
+</Steps>

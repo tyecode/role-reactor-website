@@ -1,0 +1,44 @@
+---
+title: Remove Temporary Role
+description: Use this command to revoke a temporary role early (e.g., if a timeout is lifted or access is no longer needed).
+keywords: role management, discord bot, self-assign roles, role messages, easy setup
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Cards, Card } from 'fumadocs-ui/components/card';
+
+## Parameters
+<Cards>
+  <Card title="user (required)" description="User to remove the role from" />
+  <Card title="role (required)" description="The temporary role to remove" />
+  <Card title="reason (optional)" description="Reason for removal" />
+</Cards>
+
+## Step-by-Step Example
+1. Identify the user and role to remove.<br />
+2. Run the command:
+    ```bash
+    /remove-temp-role 
+    user:@Username 
+    role:@VIP 
+    reason:"Early removal requested"
+    ```
+3. The bot will remove the temporary role from the user.
+
+## Troubleshooting
+<Callout type="warning">
+- **Role not removed:** Ensure the bot has Manage Roles permission and the role is temporary.<br />
+- **User not found:** Double-check the username or mention.
+</Callout>
+
+## Related Commands
+<Cards>
+  <Card title="/assign-temp-role" description="Assign a temporary role" href="./assign-temp-role" />
+  <Card title="/list-temp-roles" description="List all active temporary roles" href="./list-temp-roles" />
+</Cards>
+
+## Best Practices
+<Callout type="success">
+- Use for moderation flexibility or to end temporary access early.<br />
+- Document reasons for early removal if needed.
+</Callout>
