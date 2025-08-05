@@ -20,18 +20,27 @@ export const metadata: Metadata = {
     template: "%s | Role Reactor",
   },
   description:
-    "Role Reactor - The most powerful Discord bot for automated role management. Set up reaction roles, manage permissions, and enhance your Discord server experience.",
+    "Role Reactor is a powerful Discord bot for automated role management. Set up reaction roles instantly, manage permissions, and enhance your Discord server with the most effective role assignment system.",
   keywords: [
+    "role reactor",
+    "role reactor bot",
     "discord bot",
-    "role management",
-    "discord roles",
-    "reaction roles",
+    "discord bots",
+    "discord bot for roles",
+    "role management discord bot",
+    "discord roles bot",
+    "reaction roles discord",
     "discord automation",
     "discord server management",
     "role assignment",
     "discord permissions",
     "server moderation",
     "discord utilities",
+    "self assign roles",
+    "emoji roles",
+    "discord role bot",
+    "free discord bot",
+    "discord bot list",
   ],
   authors: [{ name: "Tyecode" }],
   creator: "Tyecode",
@@ -52,7 +61,7 @@ export const metadata: Metadata = {
     url: "/",
     title: "Role Reactor - Discord Bot for Role Management",
     description:
-      "The most powerful Discord bot for automated role management. Set up reaction roles, manage permissions, and enhance your Discord server experience.",
+      "Role Reactor is a powerful Discord bot for automated role management. Set up reaction roles instantly, manage permissions, and enhance your Discord server experience.",
     siteName: "Role Reactor",
     images: [
       {
@@ -67,7 +76,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Role Reactor - Discord Bot for Role Management",
     description:
-      "The most powerful Discord bot for automated role management. Set up reaction roles, manage permissions, and enhance your Discord server experience.",
+      "Role Reactor is a powerful Discord bot for automated role management. Set up reaction roles instantly, manage permissions, and enhance your Discord server experience.",
     images: ["/og.png"],
   },
   robots: {
@@ -84,6 +93,11 @@ export const metadata: Metadata = {
   verification: {
     google: process.env.GOOGLE_SITE_VERIFICATION,
   },
+  ...(process.env.GOOGLE_SITE_VERIFICATION && {
+    other: {
+      "google-site-verification": process.env.GOOGLE_SITE_VERIFICATION,
+    },
+  }),
 };
 
 export default function Layout({ children }: { children: ReactNode }) {

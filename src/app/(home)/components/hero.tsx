@@ -15,7 +15,7 @@ const audiowide = Audiowide({
 
 export function Hero() {
   const tagline =
-    "Discord role management, simplified. Set up reaction roles in minutes.";
+    "Automated role management for Discord. Set up reaction roles in minutes.";
 
   return (
     <section className="flex flex-col items-center justify-center min-h-screen px-4 relative overflow-hidden">
@@ -41,7 +41,7 @@ export function Hero() {
                 src="/logo.png"
                 width={64}
                 height={64}
-                alt="Role Reactor Logo"
+                alt="Role Reactor Discord Bot Logo - Best Discord Bot for Role Management"
                 priority
                 className="relative z-10 drop-shadow-lg"
               />
@@ -51,7 +51,7 @@ export function Hero() {
                 "text-4xl md:text-5xl font-medium animate-slide-up hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300",
                 audiowide.className
               )}
-              aria-label="Role Reactor homepage title"
+              aria-label="Role Reactor - Best Discord Bot for Role Management"
             >
               Role Reactor
             </h1>
@@ -63,7 +63,7 @@ export function Hero() {
             text={tagline}
             className="text-lg text-gray-700 dark:text-gray-300 max-w-lg mx-auto leading-relaxed min-h-[2.5em]"
             cursor
-            aria-label="tagline"
+            aria-label="Role Reactor Discord bot tagline"
           />
         </div>
 
@@ -73,17 +73,17 @@ export function Hero() {
             className="group flex items-center justify-center gap-2 bg-[#5865F2] hover:bg-[#4752C4] text-white px-8 py-3 rounded-lg font-semibold text-base transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 animate-bounce-slow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#5865F2] hover:rotate-1"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Add Role Reactor to Discord Server"
+            aria-label="Add Role Reactor Discord Bot to Server - Free Discord Bot"
           >
             <FaDiscord size={20} className="-ml-1 group-hover:animate-pulse" />
-            Add to Discord
+            Add Bot Free
           </Link>
           <Link
             href="/docs"
             className="text-gray-600 dark:text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400 px-8 py-3 text-base font-medium transition-all duration-300 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-indigo-300 dark:hover:border-indigo-500 hover:bg-gray-50 dark:hover:bg-gray-800 animate-fade-in focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-400 hover:scale-105 transform"
-            aria-label="Documentation"
+            aria-label="Role Reactor Discord Bot Documentation and Setup Guide"
           >
-            View Documentation →
+            Bot Guide →
           </Link>
         </div>
       </div>

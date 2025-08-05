@@ -4,6 +4,24 @@ Allow: /
 # Sitemap
 Sitemap: https://rolereactor.app/sitemap.xml
 
+# Crawl delay for respectful crawling
+Crawl-delay: 1
+
+# Allow all important pages
+Allow: /docs/
+Allow: /privacy/
+Allow: /terms/
+
 # Disallow admin or private areas if any exist
 # Disallow: /admin/
 # Disallow: /private/
+
+# Specific bot directives
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
