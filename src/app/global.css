@@ -7,11 +7,16 @@
   body {
     scroll-behavior: smooth;
     overscroll-behavior: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
+
   ::selection {
     background: #b4c5f6;
     color: #22223b;
   }
+
   html.dark ::selection,
   body.dark ::selection {
     background: #5865f2;
@@ -40,6 +45,12 @@
     }
   }
 
+  /* Focus styles for better accessibility */
+  .focus-visible:focus-visible {
+    outline: 2px solid #6366f1;
+    outline-offset: 2px;
+  }
+
   /* HomePage custom styles */
   @keyframes bgMove1 {
     0% {
@@ -58,6 +69,7 @@
       transform: translate(-80px, -80px) scale(1);
     }
   }
+
   @keyframes bgMove2 {
     0% {
       transform: translate(100px, 100px) scale(1);
@@ -75,6 +87,7 @@
       transform: translate(100px, 100px) scale(1);
     }
   }
+
   @keyframes bgMove3 {
     0% {
       transform: translate(-50%, -50%) scale(1);
@@ -92,22 +105,29 @@
       transform: translate(-50%, -50%) scale(1);
     }
   }
+
   .animate-bg-move-1 {
     animation: bgMove1 12s ease-in-out infinite;
     top: -80px;
     left: -80px;
     background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+    will-change: transform;
   }
+
   .animate-bg-move-2 {
     animation: bgMove2 14s ease-in-out infinite;
     bottom: -100px;
     right: -100px;
     background: linear-gradient(135deg, #818cf8 0%, #38bdf8 100%);
+    will-change: transform;
   }
+
   .animate-bg-move-3 {
     animation: bgMove3 16s ease-in-out infinite;
     background: linear-gradient(135deg, #a78bfa 0%, #818cf8 100%);
+    will-change: transform;
   }
+
   .typewriter-cursor {
     display: inline-block;
     width: 0.7ch;
@@ -115,7 +135,9 @@
     color: #6366f1;
     font-weight: bold;
     animation: blink 1s steps(1) infinite;
+    will-change: opacity;
   }
+
   @keyframes blink {
     0%,
     50% {

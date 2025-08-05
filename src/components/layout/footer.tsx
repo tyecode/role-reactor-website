@@ -67,7 +67,7 @@ export function Footer() {
             href={links.author.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent font-medium hover:from-blue-600 hover:to-purple-400 transition-all duration-200"
+            className="text-indigo-600 dark:text-indigo-400 font-medium transition-all duration-200"
           >
             Tyecode
           </Link>
@@ -75,4 +75,4 @@ export function Footer() {
       </div>
     </footer>
   );
-} 
+}

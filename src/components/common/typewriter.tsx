@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "fumadocs-ui/utils/cn";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 
 interface TypewriterProps {
   text: string;
@@ -19,26 +19,37 @@ function Typewriter({
   const [displayed, setDisplayed] = useState("");
   const [showCursor, setShowCursor] = useState(true);
 
-  useEffect(() => {
+  const memoizedText = useMemo(() => text, [text]);
+
+  const animateText = useCallback(() => {
     let i = 0;
     const interval = setInterval(() => {
-      setDisplayed(text.slice(0, i));
+      setDisplayed(memoizedText.slice(0, i));
       i++;
-      if (i > text.length) clearInterval(interval);
+      if (i > memoizedText.length) {
+        clearInterval(interval);
+      }
     }, speed);
+    return () => clearInterval(interval);
+  }, [memoizedText, speed]);
 
-    let cursorInterval: NodeJS.Timeout | undefined;
-    if (cursor) {
-      cursorInterval = setInterval(() => {
-        setShowCursor((prev) => !prev);
-      }, 500);
-    }
+  const animateCursor = useCallback(() => {
+    if (!cursor) return () => {};
+    const cursorInterval = setInterval(() => {
+      setShowCursor((prev) => !prev);
+    }, 500);
+    return () => clearInterval(cursorInterval);
+  }, [cursor]);
+
+  useEffect(() => {
+    const textCleanup = animateText();
+    const cursorCleanup = animateCursor();
 
     return () => {
-      clearInterval(interval);
-      if (cursorInterval) clearInterval(cursorInterval);
+      textCleanup();
+      cursorCleanup();
     };
-  }, [text, speed, cursor]);
+  }, [animateText, animateCursor]);
 
   return (
     <p

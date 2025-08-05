@@ -35,9 +35,9 @@ export function CookieNotice({
       if (!dismissed) {
         setIsVisible(true);
       }
-    } catch (error) {
+    } catch {
       // Handle localStorage errors (e.g., in private browsing mode)
-      console.warn("Failed to access localStorage:", error);
+      // Show notice by default if localStorage is unavailable
       setIsVisible(true);
     }
   }, [storageKey]);
@@ -45,8 +45,9 @@ export function CookieNotice({
   const dismissNotice = () => {
     try {
       localStorage.setItem(storageKey, "true");
-    } catch (error) {
-      console.warn("Failed to save to localStorage:", error);
+    } catch {
+      // Silently handle localStorage errors
+      // User experience is not affected by this failure
     }
     setIsVisible(false);
   };
