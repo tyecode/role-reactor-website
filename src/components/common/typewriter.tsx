@@ -40,15 +40,23 @@ function Typewriter({
     <p
       className={cn(
         className,
-        (className =
-          "text-lg text-gray-700 dark:text-gray-300 max-w-lg mx-auto leading-relaxed min-h-[2.5em]")
+        "text-lg text-gray-700 dark:text-gray-300 max-w-lg mx-auto leading-relaxed min-h-[2.5em] relative"
       )}
     >
       {displayed}
-      {cursor && showCursor && <span className="typewriter-cursor">|</span>}
+      {cursor && (
+        <span
+          className={cn(
+            "typewriter-cursor",
+            showCursor ? "opacity-100" : "opacity-0"
+          )}
+        >
+          |
+        </span>
+      )}
     </p>
   );
 }
 
 export { Typewriter };
-export type { TypewriterProps };
+export type { TypewriterProps }; 

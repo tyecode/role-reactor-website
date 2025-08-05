@@ -31,7 +31,7 @@ export default function PrivacyPage() {
             Privacy Policy
           </h1>
           <p className="text-lg text-gray-600 dark:text-gray-400">
-            Last updated: August 2, 2025
+            Last updated: August 3, 2025
           </p>
         </div>
 
@@ -219,7 +219,7 @@ export default function PrivacyPage() {
                     </li>
                     <li>
                       <strong>Manual Review:</strong> Technical issues may be
-                      reviewed by developers
+                      reviewed when necessary
                     </li>
                     <li>
                       <strong>No Profiling:</strong> We do not create user
@@ -270,8 +270,7 @@ export default function PrivacyPage() {
                   </h3>
                   <ul className="list-disc list-inside space-y-1 text-gray-700 dark:text-gray-300">
                     <li>
-                      <strong>Primary Storage:</strong> MongoDB database
-                      (self-hosted or cloud)
+                      <strong>Primary Storage:</strong> Secure database storage
                     </li>
                     <li>
                       <strong>Backup Storage:</strong> Local backups for data
@@ -298,8 +297,8 @@ export default function PrivacyPage() {
                       connections (TLS 1.3)
                     </li>
                     <li>
-                      <strong>Access Control:</strong> Limited developer access
-                      to production data
+                      <strong>Access Control:</strong> Limited access to
+                      production data
                     </li>
                     <li>
                       <strong>Regular Updates:</strong> Security patches applied
@@ -418,8 +417,8 @@ export default function PrivacyPage() {
                   </h3>
                   <ul className="list-disc list-inside space-y-1 text-gray-700 dark:text-gray-300">
                     <li>
-                      <strong>MongoDB Atlas:</strong> Database hosting (if cloud
-                      storage is used)
+                      <strong>Database Hosting:</strong> Secure cloud database
+                      services
                     </li>
                     <li>
                       <strong>Discord API:</strong> Essential service
@@ -508,8 +507,8 @@ export default function PrivacyPage() {
                   </h3>
                   <ul className="list-disc list-inside space-y-1 text-gray-700 dark:text-gray-300">
                     <li>
-                      <strong>Export Data:</strong> Use `/storage` command
-                      (developer only) to export all data
+                      <strong>Export Data:</strong> Contact us to export your
+                      data
                     </li>
                     <li>
                       <strong>Data Transfer:</strong> We can transfer your data
@@ -547,8 +546,7 @@ export default function PrivacyPage() {
                       assignments, and server configurations
                     </li>
                     <li>
-                      <strong>Export Method:</strong> `/storage` command
-                      (developer access) or manual request
+                      <strong>Export Method:</strong> Contact us for data export
                     </li>
                     <li>
                       <strong>Response Time:</strong> Within 30 days of request
@@ -851,7 +849,8 @@ export default function PrivacyPage() {
                   </h3>
                   <ul className="list-disc list-inside space-y-1 text-gray-700 dark:text-gray-300">
                     <li>
-                      <strong>MongoDB Atlas:</strong> Database hosting (if used)
+                      <strong>Database Services:</strong> Secure cloud database
+                      hosting
                     </li>
                     <li>
                       <strong>Discord API:</strong> Essential service
@@ -931,8 +930,8 @@ export default function PrivacyPage() {
                       breach response
                     </li>
                     <li>
-                      <strong>Training:</strong> Privacy awareness training for
-                      team members
+                      <strong>Privacy Awareness:</strong> Maintaining privacy
+                      best practices
                     </li>
                   </ul>
                 </div>
@@ -942,10 +941,10 @@ export default function PrivacyPage() {
             <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
               <div className="text-center text-sm text-gray-600 dark:text-gray-400">
                 <p>
-                  <strong>Last Updated:</strong> August 2, 2025
+                  <strong>Last Updated:</strong> August 3, 2025
                 </p>
                 <p>
-                  <strong>Version:</strong> 1.0
+                  <strong>Version:</strong> 1.1
                 </p>
                 <p>
                   <strong>Effective Date:</strong> Upon bot release (TBD)

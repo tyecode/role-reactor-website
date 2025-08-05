@@ -30,9 +30,9 @@ export const metadata: Metadata = {
     "server moderation",
     "discord utilities",
   ],
-  authors: [{ name: "Role Reactor Team" }],
-  creator: "Role Reactor",
-  publisher: "Role Reactor",
+  authors: [{ name: "Tyecode" }],
+  creator: "Tyecode",
+  publisher: "Tyecode",
   category: "Technology",
   formatDetection: {
     email: false,
@@ -53,10 +53,10 @@ export const metadata: Metadata = {
     siteName: "Role Reactor",
     images: [
       {
-        url: "/logo.png",
+        url: "/og.png",
         width: 1200,
         height: 630,
-        alt: "Role Reactor Logo",
+        alt: "Role Reactor - Discord Bot for Role Management",
       },
     ],
   },
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     title: "Role Reactor - Discord Bot for Role Management",
     description:
       "The most powerful Discord bot for automated role management. Set up reaction roles, manage permissions, and enhance your Discord server experience.",
-    images: ["/logo.png"],
+    images: ["/og.png"],
   },
   robots: {
     index: true,

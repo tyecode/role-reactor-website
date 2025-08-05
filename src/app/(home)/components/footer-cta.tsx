@@ -11,8 +11,8 @@ export function FooterCTA() {
           Ready to Transform Your Server?
         </h2>
         <p className="text-blue-100 mb-8 max-w-lg mx-auto">
-          Join thousands of Discord communities using Role Reactor for seamless
-          role management.
+          Simplify your Discord server with powerful reaction-based role
+          management.
         </p>
         <Link
           href={links.inviteBot}

@@ -22,7 +22,7 @@ const features = [
   },
 ];
 
-export function FeaturesSection() {
+export function Features() {
   return (
     <section className="py-20 px-4 border-t border-gray-200/50 dark:border-gray-800/50 bg-white/50 dark:bg-black/50 backdrop-blur-sm">
       <div className="max-w-[var(--spacing-fd-container)] mx-auto text-center">

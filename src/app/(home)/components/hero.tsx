@@ -6,7 +6,7 @@ import { Audiowide } from "next/font/google";
 import { FaDiscord } from "react-icons/fa";
 import { cn } from "fumadocs-ui/utils/cn";
 
-import { Typewriter } from "@/components/Typewriter";
+import { Typewriter } from "@/components/common/typewriter";
 import { links } from "@/constants/links";
 
 const audiowide = Audiowide({
@@ -14,7 +14,7 @@ const audiowide = Audiowide({
   weight: "400",
 });
 
-export function HeroSection() {
+export function Hero() {
   const tagline =
     "Discord role management, simplified. Set up reaction roles in minutes.";
 

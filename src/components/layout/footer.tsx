@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { links } from "@/constants/links";
+
 export function Footer() {
   return (
     <footer className="border-t border-gray-200/50 dark:border-gray-800/50 py-12 px-4 bg-white/90 dark:bg-gray-950/90 backdrop-blur-md transition-colors duration-300">
@@ -36,14 +38,6 @@ export function Footer() {
               Documentation
             </Link>
             <Link
-              href="https://discord.gg/your-support-server"
-              className="text-gray-600 dark:text-gray-400 hover:text-[var(--color-fd-foreground)] transition-colors"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Support
-            </Link>
-            <Link
               href="/privacy"
               className="text-gray-600 dark:text-gray-400 hover:text-[var(--color-fd-foreground)] transition-colors"
             >
@@ -53,7 +47,15 @@ export function Footer() {
               href="/terms"
               className="text-gray-600 dark:text-gray-400 hover:text-[var(--color-fd-foreground)] transition-colors"
             >
-              Terms of Service
+              Terms of Use
+            </Link>
+            <Link
+              href={links.support}
+              className="text-gray-600 dark:text-gray-400 hover:text-[var(--color-fd-foreground)] transition-colors"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Support
             </Link>
           </div>
         </div>
@@ -62,7 +64,7 @@ export function Footer() {
         <div className="mt-8 pt-8 border-t border-gray-200/50 dark:border-gray-800/50 text-center text-xs text-gray-600 dark:text-gray-400">
           © {new Date().getFullYear()} Role Reactor. Built with 💜 by{" "}
           <Link
-            href="https://github.com/tyecode"
+            href={links.author.url}
             target="_blank"
             rel="noopener noreferrer"
             className="bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent font-medium hover:from-blue-600 hover:to-purple-400 transition-all duration-200"
@@ -73,4 +75,4 @@ export function Footer() {
       </div>
     </footer>
   );
-}
+} 

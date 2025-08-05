@@ -3,9 +3,9 @@ import { HomeLayout } from "fumadocs-ui/layouts/home";
 import { Book, ComponentIcon } from "lucide-react";
 
 import { baseOptions, linkItems } from "@/app/layout.config";
-import { Footer } from "@/components/Footer";
+import { Footer } from "@/components/layout/footer";
 
-export default function Layout({ children }: { children: ReactNode }) {
+export default function TermsLayout({ children }: { children: ReactNode }) {
   return (
     <HomeLayout
       {...baseOptions}

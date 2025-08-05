@@ -16,7 +16,7 @@ const stats = [
   },
 ];
 
-export function SocialProofSection() {
+export function SocialProof() {
   return (
     <section className="py-16 px-4 bg-gray-50 dark:bg-gray-900/50">
       <div className="max-w-[var(--spacing-fd-container)] mx-auto text-center">
