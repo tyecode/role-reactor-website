@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "fumadocs-ui/utils/cn";
 import { useEffect, useState } from "react";
 
@@ -24,12 +26,14 @@ function Typewriter({
       i++;
       if (i > text.length) clearInterval(interval);
     }, speed);
+
     let cursorInterval: NodeJS.Timeout | undefined;
     if (cursor) {
       cursorInterval = setInterval(() => {
         setShowCursor((prev) => !prev);
       }, 500);
     }
+
     return () => {
       clearInterval(interval);
       if (cursorInterval) clearInterval(cursorInterval);
@@ -59,4 +63,4 @@ function Typewriter({
 }
 
 export { Typewriter };
-export type { TypewriterProps }; 
+export type { TypewriterProps };

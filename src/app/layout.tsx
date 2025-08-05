@@ -9,6 +9,7 @@ import "@/app/global.css";
 
 const inter = Inter({
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {

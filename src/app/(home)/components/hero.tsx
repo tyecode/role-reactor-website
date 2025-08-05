@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import Image from "next/image";
 import { Audiowide } from "next/font/google";
@@ -12,6 +10,7 @@ import { links } from "@/constants/links";
 const audiowide = Audiowide({
   subsets: ["latin"],
   weight: "400",
+  display: "swap",
 });
 
 export function Hero() {
@@ -35,9 +34,9 @@ export function Hero() {
       </div>
 
       <div className="max-w-[var(--spacing-fd-container)] mx-auto text-center space-y-8 relative z-10">
-        <div className="flex flex-col items-center justify-center gap-2 mb-8">
+        <div className="flex flex-col items-center justify-center gap-2 mb-8 animate-fade-in-up">
           <div className="flex items-center justify-center gap-4 flex-col md:flex-row">
-            <div className="relative animate-fade-in">
+            <div className="relative animate-fade-in hover:scale-110 transition-transform duration-300">
               <Image
                 src="/logo.png"
                 width={64}
@@ -46,11 +45,10 @@ export function Hero() {
                 priority
                 className="relative z-10 drop-shadow-lg"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-200 to-purple-200 rounded-full blur-lg opacity-15 scale-110"></div>
             </div>
             <h1
               className={cn(
-                "text-4xl md:text-5xl font-medium animate-slide-up",
+                "text-4xl md:text-5xl font-medium animate-slide-up hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300",
                 audiowide.className
               )}
               aria-label="Role Reactor homepage title"
@@ -60,27 +58,29 @@ export function Hero() {
           </div>
         </div>
 
-        <Typewriter
-          text={tagline}
-          className="text-lg text-gray-700 dark:text-gray-300 max-w-lg mx-auto leading-relaxed min-h-[2.5em]"
-          cursor
-          aria-label="tagline"
-        />
+        <div className="animate-fade-in-up delay-300">
+          <Typewriter
+            text={tagline}
+            className="text-lg text-gray-700 dark:text-gray-300 max-w-lg mx-auto leading-relaxed min-h-[2.5em]"
+            cursor
+            aria-label="tagline"
+          />
+        </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6">
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6 animate-fade-in-up delay-500">
           <Link
             href={links.inviteBot}
-            className="flex items-center justify-center gap-2 bg-[#5865F2] hover:bg-[#4752C4] text-white px-8 py-3 rounded-lg font-semibold text-base transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 animate-bounce-slow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#5865F2]"
+            className="group flex items-center justify-center gap-2 bg-[#5865F2] hover:bg-[#4752C4] text-white px-8 py-3 rounded-lg font-semibold text-base transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 animate-bounce-slow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#5865F2] hover:rotate-1"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Add Role Reactor to Discord Server"
           >
-            <FaDiscord size={20} className="-ml-1" />
+            <FaDiscord size={20} className="-ml-1 group-hover:animate-pulse" />
             Add to Discord
           </Link>
           <Link
             href="/docs"
-            className="text-gray-600 dark:text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400 px-8 py-3 text-base font-medium transition-colors border border-gray-200 dark:border-gray-700 rounded-lg hover:border-indigo-300 dark:hover:border-indigo-500 hover:bg-gray-50 dark:hover:bg-gray-800 animate-fade-in focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-400"
+            className="text-gray-600 dark:text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400 px-8 py-3 text-base font-medium transition-all duration-300 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-indigo-300 dark:hover:border-indigo-500 hover:bg-gray-50 dark:hover:bg-gray-800 animate-fade-in focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-400 hover:scale-105 transform"
             aria-label="Documentation"
           >
             View Documentation →

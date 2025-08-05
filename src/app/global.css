@@ -18,59 +18,61 @@
     color: #f8f8ff;
   }
 
+  /* Animation utilities */
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .delay-300 {
+    animation-delay: 0.3s;
+  }
+
+  .delay-500 {
+    animation-delay: 0.5s;
+  }
+
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   /* HomePage custom styles */
   @keyframes bgMove1 {
     0% {
-      top: -80px;
-      left: -80px;
-      transform: scale(1);
+      transform: translate(-80px, -80px) scale(1);
     }
     25% {
-      top: 40px;
-      left: 40px;
-      transform: scale(1.1);
+      transform: translate(40px, 40px) scale(1.1);
     }
     50% {
-      top: 120px;
-      left: 120px;
-      transform: scale(0.95);
+      transform: translate(120px, 120px) scale(0.95);
     }
     75% {
-      top: 40px;
-      left: 40px;
-      transform: scale(1.05);
+      transform: translate(40px, 40px) scale(1.05);
     }
     100% {
-      top: -80px;
-      left: -80px;
-      transform: scale(1);
+      transform: translate(-80px, -80px) scale(1);
     }
   }
   @keyframes bgMove2 {
     0% {
-      bottom: -100px;
-      right: -100px;
-      transform: scale(1);
+      transform: translate(100px, 100px) scale(1);
     }
     25% {
-      bottom: 40px;
-      right: 40px;
-      transform: scale(1.1);
+      transform: translate(-40px, -40px) scale(1.1);
     }
     50% {
-      bottom: 120px;
-      right: 120px;
-      transform: scale(0.95);
+      transform: translate(-120px, -120px) scale(0.95);
     }
     75% {
-      bottom: 40px;
-      right: 40px;
-      transform: scale(1.05);
+      transform: translate(-40px, -40px) scale(1.05);
     }
     100% {
-      bottom: -100px;
-      right: -100px;
-      transform: scale(1);
+      transform: translate(100px, 100px) scale(1);
     }
   }
   @keyframes bgMove3 {
