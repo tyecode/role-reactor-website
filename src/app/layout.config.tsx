@@ -28,6 +28,7 @@ export const linkItems: LinkItemType[] = [
 
 export const baseOptions: BaseLayoutProps = {
   nav: {
+    transparentMode: "always",
     title: (
       <>
         <Image
