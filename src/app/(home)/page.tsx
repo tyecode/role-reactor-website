@@ -1,7 +1,9 @@
 import { Hero } from "@/app/(home)/components/hero";
 import { Features } from "@/app/(home)/components/features";
 import { FooterCTA } from "@/app/(home)/components/footer-cta";
+import { DevelopmentNotice } from "@/components/common/development-notice";
 import { links } from "@/constants/links";
+import { AlertTriangle } from "lucide-react";
 
 export default function HomePage() {
   const structuredData = {
@@ -56,6 +58,16 @@ export default function HomePage() {
         <Hero />
         <Features />
         <FooterCTA />
+        <DevelopmentNotice
+          noticeId="home-dev-notice"
+          title="Development Notice"
+          variant={"warning"}
+          icon={<AlertTriangle className="w-5 h-5 text-white" />}
+          subtitle="Role Reactor Bot"
+          description="🚧 This Discord bot is currently in development! Features may change, some functionality might not be complete, and you may encounter bugs. We're actively working to improve the bot and appreciate your patience during this development phase."
+          primaryButtonText="Got it, thanks!"
+          secondaryButtonText="Don't show again"
+        />
       </main>
     </>
   );
