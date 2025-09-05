@@ -8,6 +8,15 @@ importers:
 
   .:
     dependencies:
+      '@radix-ui/react-slot':
+        specifier: ^1.2.3
+        version: 1.2.3(@types/react@19.1.8)(react@19.1.0)
+      class-variance-authority:
+        specifier: ^0.7.1
+        version: 0.7.1
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
       fumadocs-core:
         specifier: 15.6.5
         version: 15.6.5(@types/react@19.1.8)(next@15.4.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -32,6 +41,9 @@ importers:
       react-icons:
         specifier: ^5.5.0
         version: 5.5.0(react@19.1.0)
+      tailwind-merge:
+        specifier: ^3.3.1
+        version: 3.3.1
     devDependencies:
       '@commitlint/cli':
         specifier: ^19.8.1

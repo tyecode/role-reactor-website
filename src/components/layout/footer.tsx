@@ -9,12 +9,12 @@ export function Footer() {
       <div>
         <div className="max-w-[var(--spacing-fd-container)] mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
           {/* Brand */}
-          <div className="flex items-center gap-3">
+          <div className="flex gap-3 items-center">
             <div className="relative">
               <Image
                 src="/logo.png"
-                width={32}
-                height={32}
+                width={42}
+                height={42}
                 alt="Role Reactor Logo"
               />
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg blur-md opacity-20 scale-110"></div>
