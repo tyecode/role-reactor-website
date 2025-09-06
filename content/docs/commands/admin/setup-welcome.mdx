@@ -1,0 +1,91 @@
+---
+title: Setup Welcome
+description: Configure the welcome system for new members. Set up automatic welcome messages, auto-roles, and customize the welcome experience.
+keywords: welcome, setup, new members, auto-role, configuration, greeting
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
+import { Cards, Card } from 'fumadocs-ui/components/card';
+
+## Parameters
+<Cards>
+  <Card title="channel (required)" description="Channel where welcome messages will be sent" />
+  <Card title="message (optional)" description="Welcome message (use placeholders like {user}, {server})" />
+  <Card title="auto-role (optional)" description="Role to automatically assign to new members" />
+  <Card title="enabled (optional)" description="Enable or disable the welcome system" />
+  <Card title="embed (optional)" description="Use embed format for welcome messages" />
+</Cards>
+
+## Placeholders
+You can use these placeholders in your welcome message:
+- `{user}` - User mention
+- `{username}` - Username without mention
+- `{server}` - Server name
+- `{memberCount}` - Total member count
+- `{userCount}` - User count (excluding bots)
+
+## Step-by-Step Example
+<Tabs items={["Basic Setup", "Advanced Setup", "With Auto-Role"]}>
+  <Tab value="Basic Setup">
+    1. Choose a channel for welcome messages.<br />
+    2. Run the command:
+    ```bash
+    /setup-welcome 
+    channel:#welcome 
+    message:"Welcome {user} to {server}! 🎉"
+    ```
+    3. The bot will configure the welcome system.
+  </Tab>
+  <Tab value="Advanced Setup">
+    Set up with embed and auto-role:
+    ```bash
+    /setup-welcome 
+    channel:#welcome 
+    message:"Welcome {user} to {server}! We now have {memberCount} members!" 
+    auto-role:@Member 
+    enabled:true 
+    embed:true
+    ```
+  </Tab>
+  <Tab value="With Auto-Role">
+    Configure auto-role assignment:
+    ```bash
+    /setup-welcome 
+    channel:#general 
+    message:"Welcome {user}! You've been given the @Member role." 
+    auto-role:@Member 
+    enabled:true
+    ```
+  </Tab>
+</Tabs>
+
+## Permissions Required
+<Callout type="warning">
+- **Manage Guild:** Required to configure welcome system
+- **Send Messages:** Required to post welcome messages
+- **Manage Roles:** Required if using auto-role feature
+- **Embed Links:** Required if using embed format
+</Callout>
+
+## Troubleshooting
+<Callout type="warning">
+- **Permission denied:** You need Manage Guild permissions to configure welcome system.<br />
+- **Channel not found:** Make sure the channel exists and the bot can access it.<br />
+- **Auto-role not working:** Ensure the bot's role is above the auto-role in the role hierarchy.<br />
+- **Message not sending:** Check bot permissions in the welcome channel.
+</Callout>
+
+## Related Commands
+<Cards>
+  <Card title="/welcome-settings" description="View and manage welcome system settings" href="./welcome-settings" />
+  <Card title="/role-reactions" description="Create role selection messages" href="./role-reactions" />
+</Cards>
+
+## Best Practices
+<Callout type="success">
+- Use a dedicated welcome channel for better organization.<br />
+- Test the welcome system with a test account before going live.<br />
+- Use placeholders to make messages more personal.<br />
+- Consider using embeds for a more polished look.
+</Callout>

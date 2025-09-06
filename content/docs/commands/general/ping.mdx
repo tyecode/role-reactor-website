@@ -1,0 +1,50 @@
+---
+title: Ping
+description: Check the bot's latency and connection status. See how fast the bot responds to commands and verify it's working properly.
+keywords: ping, latency, status, connection, response time, health
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Cards, Card } from 'fumadocs-ui/components/card';
+
+## Parameters
+<Cards>
+  <Card title="No parameters required" description="This command shows bot latency and status" />
+</Cards>
+
+## Step-by-Step Example
+1. Run the command:
+   ```bash
+   /ping
+   ```
+2. The bot will respond with:
+   - Bot latency (response time)
+   - API latency (Discord API response time)
+   - Uptime information
+   - Connection status
+
+## What the Response Shows
+- **Bot Latency:** How fast the bot processes commands
+- **API Latency:** Discord API response time
+- **Uptime:** How long the bot has been running
+- **Status:** Whether the bot is functioning properly
+
+## Troubleshooting
+<Callout type="warning">
+- **High latency:** The bot may be experiencing performance issues.<br />
+- **No response:** The bot may be offline or experiencing problems.<br />
+- **API errors:** Discord API may be experiencing issues.
+</Callout>
+
+## Related Commands
+<Cards>
+  <Card title="/help" description="Get help with bot commands" href="./help" />
+  <Card title="/serverinfo" description="Get server information" href="./serverinfo" />
+</Cards>
+
+## Best Practices
+<Callout type="success">
+- Use this command to check if the bot is working properly.<br />
+- Regular ping checks can help identify performance issues.<br />
+- Share ping results when reporting bot issues.
+</Callout>

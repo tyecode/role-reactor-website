@@ -7,30 +7,36 @@ keywords: role management, discord bot, self-assign roles, role messages, easy s
 import { Callout } from 'fumadocs-ui/components/callout';
 
 ## Step-by-Step Setup
-1. List the main platforms and game genres in your community.
-2. Assign clear emoji to each platform and genre.
-3. Use the `/setup-roles` command with the following roles string:
 
-    ```markdown
-    #Platforms
-    🖥️:PC Gaming
-    🎮:PlayStation
-    🎮:Xbox
-    📱:Mobile
-    #Games
-    🔫:FPS
-    ⚔️:RPG
-    🏎️:Racing
-    🎲:Strategy
-    ```
-4. Encourage members to react to get access to game-specific channels or notifications.
+### 1. Create the Roles
+First, create these roles in your server:
+- **PC Gaming** - For PC gamers
+- **PlayStation** - For PlayStation players
+- **Xbox** - For Xbox players
+- **Mobile** - For mobile gamers
+- **FPS** - For first-person shooter fans
+- **RPG** - For role-playing game enthusiasts
+- **Racing** - For racing game fans
+- **Strategy** - For strategy game players
+
+### 2. Create the Role Message
+Use this command to create your gaming role message:
+
+```bash
+/role-reactions setup title:"Gaming Platforms" description:"Choose your preferred gaming platform!" roles:"#Platforms\n🖥️:PC Gaming,🎮:PlayStation,🎯:Xbox,📱:Mobile\n#Game Genres\n🔫:FPS,⚔️:RPG,🏎️:Racing,🎲:Strategy" color:"#FF6B6B"
+```
+
+### 3. Test It Out
+- Click the reactions to test role assignment
+- Verify members can get/remove roles
+- Check that the bot has proper permissions
 
 ## Example Role Message
 ```markdown
 #Platforms
 🖥️:PC Gaming
 🎮:PlayStation
-🎮:Xbox
+🎯:Xbox
 📱:Mobile
 #Games
 🔫:FPS
@@ -39,10 +45,39 @@ import { Callout } from 'fumadocs-ui/components/callout';
 🎲:Strategy
 ```
 
-## Advanced Customization
-- Add more games or genres as your server grows.
-- Use custom emoji for popular games or server branding.
-- Create separate role messages for tournaments or special events.
+## Advanced Gaming Server Features
+
+### Multiple Role Messages
+Create separate role messages for different purposes:
+
+#### Platform Selection
+```bash
+/role-reactions setup title:"Gaming Platforms" description:"Choose your main gaming platform" roles:"🖥️:PC Gaming,🎮:PlayStation,🎯:Xbox,📱:Mobile,🕹️:Nintendo" color:"#4ECDC4"
+```
+
+#### Game Genres
+```bash
+/role-reactions setup title:"Favorite Genres" description:"What types of games do you enjoy?" roles:"🔫:FPS,⚔️:RPG,🏎️:Racing,🎲:Strategy,👥:MMO,🎮:Action" color:"#FF6B6B"
+```
+
+#### Activity Level
+```bash
+/role-reactions setup title:"Gaming Activity" description:"How often do you game?" roles:"🌟:Daily Gamer,🌙:Weekend Warrior,📱:Casual Player,🏆:Competitive" color:"#45B7D1"
+```
+
+### Temporary Roles for Events
+Use temporary roles for special gaming events:
+
+```bash
+/temp-roles assign users:"@user1,@user2" role:"@Tournament Participant" duration:"3h" reason:"Gaming tournament" notify:true
+```
+
+### Scheduled Gaming Sessions
+Schedule recurring gaming sessions:
+
+```bash
+/schedule-role create users:"@user1" role:"@Weekly Gaming Night" type:recurring schedule:"every Friday at 19:00" reason:"Weekly gaming session"
+```
 
 ## Troubleshooting
 <Callout type="warning">
@@ -60,6 +95,6 @@ import { Callout } from 'fumadocs-ui/components/callout';
 </Callout>
 
 ## Related Docs
-- [How to Use /setup-roles](/docs/commands/role-management/setup-roles)
+- [How to Use /role-reactions setup](/docs/commands/admin/role-reactions)
 - [Community Server Example](/docs/examples/community-server)
 - [Educational Server Example](/docs/examples/educational-server)

@@ -1,0 +1,61 @@
+---
+title: XP Settings
+description: View and manage XP system settings. Configure experience point rewards, level requirements, and XP system behavior.
+keywords: xp, experience, settings, level, configuration, rewards
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Cards, Card } from 'fumadocs-ui/components/card';
+
+## Parameters
+<Cards>
+  <Card title="No parameters required" description="This command shows current XP system settings" />
+</Cards>
+
+## Step-by-Step Example
+1. Run the command:
+   ```bash
+   /xp-settings
+   ```
+2. The bot will display:
+   - XP system status (enabled/disabled)
+   - XP reward rates
+   - Level requirements
+   - Cooldown settings
+   - Channel restrictions
+
+## Information Displayed
+- **System Status:** Whether the XP system is enabled
+- **XP Rates:** How much XP users earn per message/activity
+- **Level Requirements:** XP needed for each level
+- **Cooldowns:** Time between XP rewards
+- **Channel Settings:** Which channels give XP
+- **Role Rewards:** Special XP bonuses for roles
+
+## XP System Features
+- **Message Rewards:** Users earn XP for sending messages
+- **Voice Activity:** XP for participating in voice channels
+- **Level Progression:** Automatic level advancement
+- **Cooldown System:** Prevents XP farming
+- **Channel Restrictions:** Control which channels give XP
+
+## Troubleshooting
+<Callout type="warning">
+- **Permission denied:** You need Manage Guild permissions to view XP settings.<br />
+- **XP not working:** Check if the XP system is enabled.<br />
+- **No XP earned:** Users may be in cooldown or restricted channels.
+</Callout>
+
+## Related Commands
+<Cards>
+  <Card title="/level" description="Check user level and experience" href="../general/level" />
+  <Card title="/leaderboard" description="View server experience leaderboard" href="../general/leaderboard" />
+</Cards>
+
+## Best Practices
+<Callout type="success">
+- Monitor XP settings to ensure fair progression.<br />
+- Adjust XP rates based on server activity.<br />
+- Use channel restrictions to prevent XP farming.<br />
+- Regularly check if the system is working as expected.
+</Callout>

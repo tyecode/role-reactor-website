@@ -1,0 +1,53 @@
+---
+title: Welcome Settings
+description: View and manage welcome system settings. Check current configuration, modify settings, and troubleshoot welcome system issues.
+keywords: welcome, settings, configuration, management, view, troubleshoot
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Cards, Card } from 'fumadocs-ui/components/card';
+
+## Parameters
+<Cards>
+  <Card title="No parameters required" description="This command shows current welcome system settings" />
+</Cards>
+
+## Step-by-Step Example
+1. Run the command:
+   ```bash
+   /welcome-settings
+   ```
+2. The bot will display:
+   - Current welcome channel
+   - Welcome message configuration
+   - Auto-role settings
+   - System status (enabled/disabled)
+   - Embed format preference
+
+## Information Displayed
+- **Welcome Channel:** Which channel receives welcome messages
+- **Welcome Message:** Current message template with placeholders
+- **Auto-Role:** Role automatically assigned to new members
+- **System Status:** Whether the welcome system is enabled
+- **Embed Format:** Whether messages use embed format
+- **Last Updated:** When settings were last modified
+
+## Troubleshooting
+<Callout type="warning">
+- **Permission denied:** You need Manage Guild permissions to view welcome settings.<br />
+- **No settings found:** Welcome system may not be configured yet.<br />
+- **Settings not loading:** The bot may be experiencing issues.
+</Callout>
+
+## Related Commands
+<Cards>
+  <Card title="/setup-welcome" description="Configure the welcome system" href="./setup-welcome" />
+  <Card title="/role-reactions" description="Create role selection messages" href="./role-reactions" />
+</Cards>
+
+## Best Practices
+<Callout type="success">
+- Check welcome settings regularly to ensure they're working correctly.<br />
+- Use this command to troubleshoot welcome system issues.<br />
+- Verify settings after making changes with /setup-welcome.
+</Callout>

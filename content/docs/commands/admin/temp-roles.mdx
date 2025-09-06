@@ -1,0 +1,117 @@
+---
+title: Temp Roles
+description: Manage temporary role assignments. Assign roles that automatically expire after a set time, perfect for events, timeouts, or temporary access.
+keywords: temporary roles, assign, remove, list, expire, moderation, events
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
+import { Cards, Card } from 'fumadocs-ui/components/card';
+
+## Quick Start
+Perfect for:
+- **Event winners** - Give VIP access for a limited time
+- **Moderation** - Temporary timeouts or restrictions
+- **Trial periods** - Let users try premium features
+- **Special occasions** - Holiday roles or celebration access
+
+## Subcommands
+<Cards>
+  <Card title="assign" description="Assign a temporary role to users" />
+  <Card title="list" description="List all active temporary roles" />
+  <Card title="remove" description="Remove a temporary role early" />
+</Cards>
+
+## Parameters
+
+### Assign Subcommand
+<Cards>
+  <Card title="users (required)" description="Comma-separated list of user IDs or mentions" />
+  <Card title="role (required)" description="The role to assign temporarily" />
+  <Card title="duration (required)" description="How long the role should last (e.g., 1h, 2d, 1w, 30m)" />
+  <Card title="reason (optional)" description="Reason for assigning the temporary role" />
+  <Card title="notify (optional)" description="Send DM notification to users (default: false)" />
+  <Card title="notify-expiry (optional)" description="Send DM notification when role expires (default: false)" />
+</Cards>
+
+### List Subcommand
+<Cards>
+  <Card title="user (optional)" description="The user to check (leave empty for all users)" />
+</Cards>
+
+### Remove Subcommand
+<Cards>
+  <Card title="users (required)" description="Comma-separated list of user IDs or mentions" />
+  <Card title="role (required)" description="The temporary role to remove" />
+  <Card title="reason (optional)" description="Reason for removing the temporary role" />
+</Cards>
+
+## Step-by-Step Examples
+<Tabs items={["Assign Role", "List Roles", "Remove Role"]}>
+  <Tab value="Assign Role">
+    1. Assign a temporary role:
+    ```bash
+    /temp-roles assign 
+    users:@User1,@User2 
+    role:@VIP 
+    duration:7d 
+    reason:"Event winners" 
+    notify:true 
+    notify-expiry:true
+    ```
+    2. The bot will assign the role and automatically remove it after the duration.
+  </Tab>
+  <Tab value="List Roles">
+    1. List all temporary roles:
+    ```bash
+    /temp-roles list
+    ```
+    2. List for specific user:
+    ```bash
+    /temp-roles list user:@username
+    ```
+  </Tab>
+  <Tab value="Remove Role">
+    1. Remove a temporary role early:
+    ```bash
+    /temp-roles remove 
+    users:@User1,@User2 
+    role:@VIP 
+    reason:"Early removal requested"
+    ```
+  </Tab>
+</Tabs>
+
+## Duration Formats
+- **Minutes:** `30m`, `120m`
+- **Hours:** `1h`, `6h`, `24h`
+- **Days:** `1d`, `7d`, `30d`
+- **Weeks:** `1w`, `2w`, `4w`
+
+## Permissions Required
+<Callout type="warning">
+- **Administrator:** Required to manage temporary roles
+- **Manage Roles:** Required to assign/remove roles from users
+</Callout>
+
+## Troubleshooting
+<Callout type="warning">
+- **Role not removed after duration:** Ensure the bot is online and has Manage Roles permission.<br />
+- **User not found:** Double-check user IDs or mentions.<br />
+- **Invalid duration:** Use supported formats (e.g., 1h, 2d, 1w).<br />
+- **Permission denied:** You need Administrator permissions to manage temporary roles.
+</Callout>
+
+## Related Commands
+<Cards>
+  <Card title="/role-reactions" description="Create role reaction messages" href="./role-reactions" />
+  <Card title="/schedule-role" description="Schedule role assignments" href="./schedule-role" />
+</Cards>
+
+## Best Practices
+<Callout type="success">
+- Use for time-limited access or moderation actions.<br />
+- Enable notifications to keep users informed.<br />
+- Test with short durations first.<br />
+- Regularly monitor active temporary roles.
+</Callout>

@@ -11,6 +11,10 @@ import { Cards, Card } from 'fumadocs-ui/components/card';
 
 ## Quick Start
 
+<Callout type="info">
+**Formatting Tip:** When creating role strings, avoid extra spaces around commas and ensure each emoji is unique. Use `🎮:Gaming,🎨:Art` not `🎮:Gaming, 🎨:Art`.
+</Callout>
+
 <Steps>
   <Step>
     **Invite the Bot**
@@ -28,7 +32,7 @@ import { Cards, Card } from 'fumadocs-ui/components/card';
     **Create Your First Role Message**
     
     ```
-    /setup-roles title:"Server Roles" 
+    /role-reactions setup title:"Server Roles" 
     description:"Choose your roles below!" 
     roles:"🎮:Gaming,📚:Books,🎵:Music"
     ```
@@ -76,7 +80,7 @@ The bot needs these permissions to function:
   <Tab value="Simple Format">
     **Basic role list:**
     ```
-    /setup-roles 
+    /role-reactions setup 
     title:"Choose Your Roles" 
     description:"React to get roles!"
     roles:"🎮:Gaming,📚:Reading,🎵:Music,🎨:Art"
@@ -93,33 +97,27 @@ The bot needs these permissions to function:
   
   <Tab value="With Categories">
     **Organized with categories:**
-    ```
-    2. Create role categories:
-   ```
-   /setup-roles 
-   title:"Game Roles" 
-   description:"Choose your favorite games!" 
-   roles:"🔴:Valorant,⚡:Apex Legends,⚔️:League of Legends"
-   ```
+    
+    ```bash
+    /role-reactions setup 
+    title:"Game Roles" 
+    description:"Choose your favorite games!" 
+    roles:"🔴:Valorant,⚡:Apex Legends,⚔️:League of Legends"
     ```
     
     **Results in:**
     ```
-    Server Roles
-    Pick your interests!
+    Game Roles
+    Choose your favorite games!
     
-    ─────── Hobbies ───────
-    🎮 📚
-    
-    ─────── Notifications ───────
-    📢 🎉
+    🔴 ⚡ ⚔️
     ```
   </Tab>
   
   <Tab value="Advanced Options">
     **Full customization:**
-    ```
-    /setup-roles 
+    ```bash
+    /role-reactions setup 
     title:"🌟 Community Roles" 
     description:"**Welcome!** Choose your roles below.\n\n*You can select multiple roles.*"
     roles:"#Gaming 🎮\n🖥️:PC Gaming,🎮:Console,📱:Mobile\n#Creative 🎨\n🎨:Art,📸:Photo,🎵:Music"
@@ -167,19 +165,20 @@ Organize roles with categories for better user experience:
 ### Managing Existing Messages
 
 <Cards>
-  <Card title="Edit Message" description="/update-roles - Update title, description, or roles" />
-  <Card title="Delete Message" description="/delete-roles - Remove a role message" />
-  <Card title="List Messages" description="/list-roles - See all your role messages" />
+  <Card title="Edit Message" description="/role-reactions update - Update title, description, or roles" />
+  <Card title="Delete Message" description="/role-reactions delete - Remove a role message" />
+  <Card title="List Messages" description="/role-reactions list - See all your role messages" />
   <Card title="Refresh Reactions" description="Contact support - Fix broken reactions" />
 </Cards>
 
 ### Role Colors and Customization
 
 **Setting Role Colors:**
-```
-/role create name:"Gaming" color:"#FF0000" emoji:"🎮"
-/role create name:"Music" color:"#00FF00" emoji:"🎵"
-```
+Roles are created through Discord's server settings. The bot can only manage existing roles.
+
+1. Go to Server Settings > Roles
+2. Create new roles with your desired colors
+3. Use the bot to assign these roles via reactions
 
 **Color Guidelines:**
 - Use hex colors (#FF0000) for precise control
@@ -249,44 +248,44 @@ For larger servers, create multiple focused role messages:
 <Tabs items={['Basic Setup', 'Gaming Server', 'Study Server']}>
   <Tab value="Basic Setup">
     **Message 1: Essential Roles**
-    ```
-    /setup-roles title:"Essential Roles"
+    ```bash
+    /role-reactions setup title:"Essential Roles"
     roles:"📢:Announcements,🎉:Events,💬:General Chat"
     ```
     
     **Message 2: Interests**
-    ```
-    /setup-roles title:"Your Interests"  
+    ```bash
+    /role-reactions setup title:"Your Interests"  
     roles:"#Hobbies\n🎮:Gaming,📚:Reading,🎵:Music,🎨:Art"
     ```
   </Tab>
   
   <Tab value="Gaming Server">
     **Message 1: Gaming Platforms**
-    ```
-    roles:"🖥️:PC,🎮:PlayStation,🎮:Xbox,📱:Mobile,🕹️:Nintendo"
+    ```bash
+    /role-reactions setup title:"Gaming Platforms" roles:"🖥️:PC,🎮:PlayStation,🎯:Xbox,📱:Mobile,🕹️:Nintendo"
     ```
     
     **Message 2: Game Types**
-    ```
-    roles:"#Genres\n🔫:FPS,⚔️:RPG,🏎️:Racing,🎲:Strategy,👥:MMO"
+    ```bash
+    /role-reactions setup title:"Game Genres" roles:"#Genres\n🔫:FPS,⚔️:RPG,🏎️:Racing,🎲:Strategy,👥:MMO"
     ```
     
     **Message 3: Activity**
-    ```
-    roles:"#Playstyle\n🏆:Competitive,🎯:Casual,👥:Looking for Group"
+    ```bash
+    /role-reactions setup title:"Playstyle" roles:"#Playstyle\n🏆:Competitive,🎯:Casual,👥:Looking for Group"
     ```
   </Tab>
   
   <Tab value="Study Server">
     **Message 1: Subjects**
-    ```
-    roles:"#Subjects\n📊:Math,🔬:Science,📚:English,🏛️:History"
+    ```bash
+    /role-reactions setup title:"Study Subjects" roles:"#Subjects\n📊:Math,🔬:Science,📚:English,🏛️:History"
     ```
     
     **Message 2: Study Groups**
-    ```
-    roles:"#Study Style\n👥:Group Study,🤫:Solo Study,📅:Study Schedule"
+    ```bash
+    /role-reactions setup title:"Study Style" roles:"#Study Style\n👥:Group Study,🤫:Solo Study,📅:Study Schedule"
     ```
   </Tab>
 </Tabs>
