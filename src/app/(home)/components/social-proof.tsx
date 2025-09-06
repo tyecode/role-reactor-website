@@ -1,10 +1,4 @@
-import {
-  Heart,
-  Shield,
-  TrendingUp,
-  Zap,
-  Sparkles,
-} from "lucide-react";
+import { Heart, Shield, TrendingUp, Zap, Sparkles } from "lucide-react";
 
 const stats = [
   {

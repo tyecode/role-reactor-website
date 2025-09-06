@@ -1,9 +1,6 @@
 import Link from "next/link";
 import { FaDiscord, FaRocket } from "react-icons/fa";
-import {
-  Sparkles,
-  ArrowRight,
-} from "lucide-react";
+import { Sparkles, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import { links } from "@/constants/links";
