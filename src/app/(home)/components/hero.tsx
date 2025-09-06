@@ -1,10 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Audiowide } from "next/font/google";
-import { FaDiscord } from "react-icons/fa";
+import { FaDiscord, FaRocket, FaShieldAlt, FaUsers } from "react-icons/fa";
 import { cn } from "fumadocs-ui/utils/cn";
+import { ArrowRight, Sparkles, Zap } from "lucide-react";
 
 import { Typewriter } from "@/components/common/typewriter";
+import { Button } from "@/components/ui/button";
 import { links } from "@/constants/links";
 
 const audiowide = Audiowide({
@@ -15,76 +17,152 @@ const audiowide = Audiowide({
 
 export function Hero() {
   const tagline =
-    "Automated role management for Discord. Set up reaction roles in minutes.";
+    "A simple Discord bot for role management. Let members choose their own roles with reactions and welcome new members automatically.";
 
   return (
-    <section className="flex flex-col items-center justify-center min-h-screen px-4 relative overflow-hidden">
-      {/* Animated Background Shapes */}
+    <section className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
+      {/* Epic Animated Background */}
       <div className="absolute inset-0 pointer-events-none z-0">
-        <div className="absolute w-[220px] h-[220px] bg-gradient-to-br from-blue-200 to-purple-200 rounded-full blur-3xl opacity-25 animate-bg-move-1" />
-        <div className="absolute w-[180px] h-[180px] bg-gradient-to-br from-indigo-200 to-blue-200 rounded-full blur-2xl opacity-20 animate-bg-move-2" />
+        {/* Main gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-100 via-white to-blue-100 dark:from-gray-900 dark:via-gray-950 dark:to-blue-900" />
+
+        {/* Animated floating orbs */}
+        <div className="absolute w-96 h-96 bg-gradient-to-r from-blue-300 to-purple-400 dark:from-blue-400 dark:to-purple-500 rounded-full blur-3xl opacity-30 dark:opacity-20 animate-float-1" />
+        <div className="absolute w-80 h-80 bg-gradient-to-r from-pink-300 to-red-400 dark:from-pink-400 dark:to-red-500 rounded-full blur-3xl opacity-25 dark:opacity-15 animate-float-2" />
+        <div className="absolute w-64 h-64 bg-gradient-to-r from-cyan-300 to-blue-400 dark:from-cyan-400 dark:to-blue-500 rounded-full blur-3xl opacity-35 dark:opacity-25 animate-float-3" />
+
+        {/* Grid pattern overlay */}
         <div
-          className="absolute w-[60px] h-[60px] bg-gradient-to-br from-purple-200 to-indigo-200 rounded-full blur-xl opacity-15 animate-bg-move-3"
+          className="absolute inset-0 opacity-40"
           style={{
-            left: "50%",
-            top: "50%",
-            transform: "translate(-50%, -50%)",
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
           }}
         />
+
+        {/* Floating particles */}
+        <div className="absolute inset-0">
+          {[...Array(20)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-1 h-1 bg-indigo-500 dark:bg-white rounded-full opacity-60 dark:opacity-60 animate-particle"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 3}s`,
+                animationDuration: `${3 + Math.random() * 4}s`,
+              }}
+            />
+          ))}
+        </div>
       </div>
 
-      <div className="max-w-[var(--spacing-fd-container)] mx-auto text-center space-y-8 relative z-10">
-        <div className="flex flex-col items-center justify-center gap-2 mb-8 animate-fade-in-up">
+      <div className="max-w-6xl mx-auto text-center space-y-8 relative z-10">
+        {/* Main heading with enhanced styling */}
+        <div className="space-y-4 animate-fade-in-up delay-200">
           <div className="flex items-center justify-center gap-4 flex-col md:flex-row">
-            <div className="relative animate-fade-in hover:scale-110 transition-transform duration-300">
-              <Image
-                src="/logo.png"
-                width={64}
-                height={64}
-                alt="Role Reactor Discord Bot Logo - Best Discord Bot for Role Management"
-                priority
-                className="relative z-10 drop-shadow-lg"
-              />
+            <div className="relative group">
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl blur-lg opacity-75 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="relative bg-white/80 dark:bg-white/10 backdrop-blur-sm border border-indigo-200/50 dark:border-white/20 rounded-xl p-3 group-hover:scale-110 transition-transform duration-300">
+                <Image
+                  src="/logo.png"
+                  width={60}
+                  height={60}
+                  alt="Role Reactor Discord Bot Logo"
+                  priority
+                  className="drop-shadow-2xl"
+                />
+              </div>
             </div>
-            <h1
-              className={cn(
-                "text-4xl md:text-5xl font-medium animate-slide-up hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors duration-300",
-                audiowide.className
-              )}
-              aria-label="Role Reactor - Best Discord Bot for Role Management"
-            >
-              Role Reactor
-            </h1>
+            <div className="text-center md:text-left">
+              <h1
+                className={cn(
+                  "text-4xl md:text-6xl font-bold bg-gradient-to-r from-indigo-900 via-blue-800 to-purple-800 dark:from-white dark:via-blue-100 dark:to-purple-100 bg-clip-text text-transparent leading-tight animate-slide-up",
+                  audiowide.className
+                )}
+                aria-label="Role Reactor - Ultimate Discord Bot for Role Management"
+              >
+                Role Reactor
+              </h1>
+            </div>
           </div>
         </div>
 
-        <div className="animate-fade-in-up delay-300">
+        {/* Enhanced tagline with typewriter */}
+        <div className="animate-fade-in-up delay-400">
           <Typewriter
             text={tagline}
-            className="text-lg text-gray-700 dark:text-gray-300 max-w-lg mx-auto leading-relaxed min-h-[2.5em]"
+            className="text-lg md:text-xl text-indigo-800 dark:text-white/90 max-w-3xl mx-auto leading-relaxed min-h-[2.5em] font-light"
             cursor
             aria-label="Role Reactor Discord bot tagline"
           />
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6 animate-fade-in-up delay-500">
-          <Link
-            href={links.inviteBot}
-            className="group flex items-center justify-center gap-2 bg-[#5865F2] hover:bg-[#4752C4] text-white px-8 py-3 rounded-lg font-semibold text-base transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 animate-bounce-slow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#5865F2] hover:rotate-1"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Add Role Reactor Discord Bot to Server - Free Discord Bot"
+        {/* Enhanced CTA buttons */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6 animate-fade-in-up delay-700">
+          <Button
+            asChild
+            size="lg"
+            className="group relative bg-gradient-to-r !from-[#5865F2] !to-[#4752C4] text-white px-8 py-3 rounded-lg font-bold transition-all duration-300 shadow-2xl transform hover:scale-105 hover:-translate-y-1 focus:outline-none"
           >
-            <FaDiscord size={20} className="-ml-1 group-hover:animate-pulse" />
-            Add Bot Free
-          </Link>
-          <Link
-            href="/docs"
-            className="text-gray-600 dark:text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400 px-8 py-3 text-base font-medium transition-all duration-300 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-indigo-300 dark:hover:border-indigo-500 hover:bg-gray-50 dark:hover:bg-gray-800 animate-fade-in focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-400 hover:scale-105 transform"
-            aria-label="Role Reactor Discord Bot Documentation and Setup Guide"
+            <Link
+              href={links.inviteBot}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Add Role Reactor Discord Bot to Server - Free Discord Bot"
+            >
+              <FaDiscord
+                size={20}
+                className="relative z-10 group-hover:animate-pulse mr-2"
+              />
+              <span className="relative z-10">Add Bot Free</span>
+              <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform ml-2" />
+            </Link>
+          </Button>
+
+          <Button
+            asChild
+            variant="outline"
+            size="lg"
+            className="group px-8 py-3 rounded-lg hover:scale-105 hover:-translate-y-1 duration-300 transition-all"
           >
-            Bot Guide →
-          </Link>
+            <Link
+              href="/docs"
+              aria-label="Role Reactor Discord Bot Documentation and Setup Guide"
+            >
+              <FaRocket className="w-4 h-4 group-hover:rotate-12 transition-transform mr-2" />
+              <span>View Documentation</span>
+            </Link>
+          </Button>
+        </div>
+
+        {/* Trust indicators */}
+        <div className="flex items-center justify-center gap-10 pt-8 animate-fade-in-up delay-800">
+          <div className="text-center">
+            <div className="text-lg font-bold text-indigo-900 dark:text-white">
+              Free
+            </div>
+            <div className="text-indigo-600 dark:text-white/60 text-xs">
+              No cost
+            </div>
+          </div>
+          <div className="w-px h-8 bg-indigo-300 dark:bg-white/20" />
+          <div className="text-center">
+            <div className="text-lg font-bold text-indigo-900 dark:text-white">
+              Simple
+            </div>
+            <div className="text-indigo-600 dark:text-white/60 text-xs">
+              Easy setup
+            </div>
+          </div>
+          <div className="w-px h-8 bg-indigo-300 dark:bg-white/20" />
+          <div className="text-center">
+            <div className="text-lg font-bold text-indigo-900 dark:text-white">
+              Reliable
+            </div>
+            <div className="text-indigo-600 dark:text-white/60 text-xs">
+              Always works
+            </div>
+          </div>
         </div>
       </div>
     </section>
