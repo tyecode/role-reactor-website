@@ -145,7 +145,6 @@ export interface DevelopmentNoticeProps
   subtitle?: string;
   description?: string;
   icon?: React.ReactNode;
-  showDiscordFooter?: boolean;
   primaryButtonText?: string;
   secondaryButtonText?: string;
   onPrimaryAction?: () => void;
@@ -183,7 +182,6 @@ const DevelopmentNotice = React.forwardRef<
       subtitle = "Role Reactor Bot",
       description = "No description provided",
       icon,
-      showDiscordFooter = true,
       primaryButtonText = "Got it, thanks!",
       secondaryButtonText = "Don't show again",
       onPrimaryAction,
@@ -230,7 +228,11 @@ const DevelopmentNotice = React.forwardRef<
     }, [onClose]);
 
     const handlePrimaryAction = React.useCallback(() => {
-      onPrimaryAction?.() || handleClose();
+      if (onPrimaryAction) {
+        onPrimaryAction();
+      } else {
+        handleClose();
+      }
     }, [onPrimaryAction, handleClose]);
 
     const handleSecondaryAction = React.useCallback(() => {
