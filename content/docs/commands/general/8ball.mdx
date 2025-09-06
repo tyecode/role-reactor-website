@@ -1,0 +1,47 @@
+---
+title: 8ball
+description: Ask the magic 8-ball a question and get a random response. Perfect for fun interactions and decision-making.
+keywords: 8ball, magic 8ball, fun, random, question, entertainment
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Cards, Card } from 'fumadocs-ui/components/card';
+
+## Parameters
+<Cards>
+  <Card title="question (required)" description="Your question for the magic 8-ball" />
+</Cards>
+
+## Step-by-Step Example
+1. Think of a question you want to ask the magic 8-ball.<br />
+2. Run the command:
+   ```bash
+   /8ball question:"Will I have a good day today?"
+   ```
+3. The bot will respond with a random 8-ball answer like "It is certain" or "Reply hazy, try again".
+
+## Example Questions
+```
+/8ball question:"Should I learn a new programming language?"
+/8ball question:"Is this server going to be active today?"
+/8ball question:"Will my team win the game tonight?"
+```
+
+## Troubleshooting
+<Callout type="warning">
+- **No response:** Make sure the bot is online and has permission to send messages.<br />
+- **Question too long:** Keep your question reasonable in length.
+</Callout>
+
+## Related Commands
+<Cards>
+  <Card title="/help" description="Get help with bot commands" href="./help" />
+  <Card title="/ping" description="Check bot latency" href="./ping" />
+</Cards>
+
+## Best Practices
+<Callout type="success">
+- Use for fun and entertainment purposes.<br />
+- Don't rely on 8-ball responses for important decisions.<br />
+- Keep questions appropriate for your server.
+</Callout>

@@ -1,0 +1,57 @@
+---
+title: Leaderboard
+description: View the server experience leaderboard with time filters. See who's the most active in your server.
+keywords: leaderboard, ranking, experience, xp, top users, competition
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Cards, Card } from 'fumadocs-ui/components/card';
+
+## Parameters
+<Cards>
+  <Card title="timeframe (optional)" description="Time period for the leaderboard (all, daily, weekly, monthly)" />
+</Cards>
+
+## Step-by-Step Example
+1. To see the all-time leaderboard:
+   ```bash
+   /leaderboard
+   ```
+2. To see a specific timeframe:
+   ```bash
+   /leaderboard timeframe:weekly
+   ```
+3. The bot will display the top users ranked by experience points.
+
+## Timeframe Options
+- **🏆 All Time:** Shows total XP earned since joining
+- **📅 Daily:** Shows XP earned in the last 24 hours
+- **📊 Weekly:** Shows XP earned in the last 7 days
+- **📈 Monthly:** Shows XP earned in the last 30 days
+
+**Note:** The timeframe options are predefined choices in the command, not free text input.
+
+## Features
+- **Top rankings:** See the most active users
+- **Multiple timeframes:** Compare activity across different periods
+- **User stats:** View individual user experience and levels
+- **Server insights:** Understand server activity patterns
+
+## Troubleshooting
+<Callout type="warning">
+- **Empty leaderboard:** Users may not have earned XP yet.<br />
+- **No timeframe data:** The selected timeframe may not have enough activity.
+</Callout>
+
+## Related Commands
+<Cards>
+  <Card title="/level" description="Check individual user level" href="./level" />
+  <Card title="/serverinfo" description="Get server information" href="./serverinfo" />
+</Cards>
+
+## Best Practices
+<Callout type="success">
+- Use different timeframes to see various activity patterns.<br />
+- Encourage friendly competition among members.<br />
+- Regular leaderboard checks can motivate server activity.
+</Callout>

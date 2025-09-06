@@ -1,4 +1,15 @@
 {
   "title": "General",
-  "pages": ["help", "support", "invite", "ping"]
+  "pages": [
+    "help",
+    "support",
+    "invite",
+    "ping",
+    "8ball",
+    "avatar",
+    "level",
+    "leaderboard",
+    "serverinfo",
+    "sponsor"
+  ]
 }

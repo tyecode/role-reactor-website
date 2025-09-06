@@ -1,0 +1,54 @@
+---
+title: Level
+description: Check your level and experience points. See your progress in the server's XP system.
+keywords: level, experience, xp, progress, ranking, stats
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Cards, Card } from 'fumadocs-ui/components/card';
+
+## Parameters
+<Cards>
+  <Card title="user (optional)" description="User to check (defaults to you)" />
+</Cards>
+
+## Step-by-Step Example
+1. To check your own level:
+   ```bash
+   /level
+   ```
+2. To check someone else's level:
+   ```bash
+   /level user:@username
+   ```
+3. The bot will show the user's current level, experience points, and progress to the next level.
+
+## How XP Works
+- **Gaining XP:** Users earn XP by being active in the server (sending messages, participating in voice channels)
+- **Level progression:** Higher levels require more XP to reach
+- **Automatic updates:** XP is awarded automatically based on server activity
+
+## Features
+- **Current level:** Shows the user's current level
+- **Experience points:** Displays total XP earned
+- **Progress bar:** Visual representation of progress to next level
+- **XP needed:** Shows how much XP is needed for the next level
+
+## Troubleshooting
+<Callout type="warning">
+- **No level data:** The user may not have earned any XP yet.<br />
+- **XP not updating:** Make sure the XP system is enabled in the server.
+</Callout>
+
+## Related Commands
+<Cards>
+  <Card title="/leaderboard" description="View server experience leaderboard" href="./leaderboard" />
+  <Card title="/avatar" description="View user avatar" href="./avatar" />
+</Cards>
+
+## Best Practices
+<Callout type="success">
+- Check your level regularly to track progress.<br />
+- Encourage server activity to help users gain XP.<br />
+- Use leaderboard to see how you rank among other members.
+</Callout>

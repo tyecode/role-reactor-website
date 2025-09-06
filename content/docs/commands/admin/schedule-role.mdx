@@ -1,0 +1,126 @@
+---
+title: Schedule Role
+description: Schedule role assignments for specific times. Create one-time or recurring role schedules for events, meetings, or special occasions.
+keywords: schedule, role, timing, recurring, events, automation
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
+import { Cards, Card } from 'fumadocs-ui/components/card';
+
+## Subcommands
+<Cards>
+  <Card title="create" description="Create a new role schedule" />
+  <Card title="list" description="List all scheduled and recurring roles" />
+  <Card title="cancel" description="Cancel a scheduled or recurring role" />
+  <Card title="view" description="View detailed information about a schedule" />
+</Cards>
+
+## Parameters
+
+### Create Subcommand
+<Cards>
+  <Card title="users (required)" description="Comma-separated list of user IDs or mentions" />
+  <Card title="role (required)" description="The role to assign" />
+  <Card title="type (required)" description="Type of schedule (one-time, daily, weekly, monthly, custom)" />
+  <Card title="schedule (required)" description="When to assign (e.g., 'tomorrow 9am', 'monday 6pm', '15 2pm')" />
+  <Card title="duration (required)" description="How long the role should last (e.g., 1h, 2d, 1w)" />
+  <Card title="reason (optional)" description="Reason for the role assignment" />
+</Cards>
+
+### List Subcommand
+<Cards>
+  <Card title="No parameters required" description="This command lists all scheduled and recurring roles" />
+</Cards>
+
+### Cancel Subcommand
+<Cards>
+  <Card title="id (required)" description="Schedule ID (shortened format like 2802a998...7f7a)" />
+</Cards>
+
+### View Subcommand
+<Cards>
+  <Card title="id (required)" description="Schedule ID (shortened format like 2802a998...7f7a)" />
+</Cards>
+
+## Schedule Types
+- **One Time:** Assign role once at a specific time
+- **Daily:** Assign role every day at the specified time
+- **Weekly:** Assign role every week on the specified day/time
+- **Monthly:** Assign role every month on the specified date/time
+- **Custom Interval:** Assign role at custom intervals
+
+## Step-by-Step Example
+<Tabs items={["One-Time Event", "Recurring Meeting", "Custom Schedule"]}>
+  <Tab value="One-Time Event">
+    1. Schedule a one-time role assignment:
+    ```bash
+    /schedule-role create 
+    users:@User1,@User2 
+    role:@EventAttendee 
+    type:one-time 
+    schedule:"tomorrow 9am" 
+    duration:4h 
+    reason:"Conference attendance"
+    ```
+  </Tab>
+  <Tab value="Recurring Meeting">
+    Create a weekly meeting role:
+    ```bash
+    /schedule-role create 
+    users:@TeamMember1,@TeamMember2 
+    role:@MeetingTime 
+    type:weekly 
+    schedule:"monday 2pm" 
+    duration:2h 
+    reason:"Weekly team meeting"
+    ```
+  </Tab>
+  <Tab value="Custom Schedule">
+    Custom interval schedule:
+    ```bash
+    /schedule-role create 
+    users:@Moderator1 
+    role:@OnCall 
+    type:custom 
+    schedule:"every 3 days at 8am" 
+    duration:24h 
+    reason:"Moderator rotation"
+    ```
+  </Tab>
+</Tabs>
+
+## Schedule Format Examples
+- **Tomorrow:** `"tomorrow 9am"`, `"tomorrow 2:30pm"`
+- **Specific day:** `"monday 6pm"`, `"friday 9am"`
+- **Date and time:** `"15 2pm"` (15th of current month at 2pm)
+- **Time only:** `"9am"` (next occurrence at 9am)
+- **Minutes from now:** `"120"` (in 120 minutes)
+
+## Permissions Required
+<Callout type="warning">
+- **Manage Roles:** Required to assign/remove roles from users
+- **Administrator:** Required to create and manage schedules
+</Callout>
+
+## Troubleshooting
+<Callout type="warning">
+- **Schedule not created:** Check bot permissions and schedule format.<br />
+- **Role not assigned:** Ensure the bot's role is above the target role.<br />
+- **Invalid time format:** Use supported time formats (see examples above).<br />
+- **Schedule not found:** Make sure the schedule ID is correct.
+</Callout>
+
+## Related Commands
+<Cards>
+  <Card title="/temp-roles" description="Manage temporary role assignments" href="./temp-roles" />
+  <Card title="/role-reactions" description="Create role reaction messages" href="./role-reactions" />
+</Cards>
+
+## Best Practices
+<Callout type="success">
+- Test schedules with short durations first.<br />
+- Use clear, descriptive reasons for role assignments.<br />
+- Regularly review and clean up old schedules.<br />
+- Consider time zones when scheduling.
+</Callout>

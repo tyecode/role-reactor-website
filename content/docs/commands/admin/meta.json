@@ -1,0 +1,11 @@
+{
+  "title": "Admin",
+  "pages": [
+    "role-reactions",
+    "schedule-role",
+    "temp-roles",
+    "setup-welcome",
+    "welcome-settings",
+    "xp-settings"
+  ]
+}

@@ -1,0 +1,49 @@
+---
+title: Avatar
+description: Get a user's avatar with interactive features. View avatars in different sizes and formats.
+keywords: avatar, profile picture, user, image, display
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Cards, Card } from 'fumadocs-ui/components/card';
+
+## Parameters
+<Cards>
+  <Card title="user (optional)" description="The user whose avatar you want to see (defaults to you)" />
+</Cards>
+
+## Step-by-Step Example
+1. To see your own avatar:
+   ```bash
+   /avatar
+   ```
+2. To see someone else's avatar:
+   ```bash
+   /avatar user:@username
+   ```
+3. The bot will display the avatar with interactive options.
+
+## Features
+- **Multiple sizes:** View avatar in different resolutions
+- **Download options:** Get direct links to the avatar image
+- **Format support:** Supports various image formats (PNG, JPG, WebP, GIF)
+- **Animated avatars:** Shows animated avatars for users with GIF profile pictures
+
+## Troubleshooting
+<Callout type="warning">
+- **User not found:** Make sure the user exists and is in the server.<br />
+- **No avatar:** Some users may not have set a custom avatar.
+</Callout>
+
+## Related Commands
+<Cards>
+  <Card title="/serverinfo" description="Get server information" href="./serverinfo" />
+  <Card title="/level" description="Check user level and experience" href="./level" />
+</Cards>
+
+## Best Practices
+<Callout type="success">
+- Use to quickly view user profile pictures.<br />
+- Great for identifying users in discussions.<br />
+- Respect user privacy when viewing avatars.
+</Callout>

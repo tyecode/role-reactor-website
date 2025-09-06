@@ -35,13 +35,17 @@ First, decide what roles you want members to be able to assign themselves. For t
 In any channel where you want the role message to appear, type:
 
 ```
-/setup-roles title:"Choose Your Roles" description:"React below to assign yourself roles!" roles:"🎮:Gamer,🎨:Artist,💻:Developer"
+/role-reactions setup title:"Choose Your Roles" description:"React below to assign yourself roles!" roles:"🎮:Gamer,🎨:Artist,💻:Developer"
 ```
 
 **What this does:**
 - Creates a message titled "Choose Your Roles"
 - Adds a description explaining what to do
 - Sets up 3 emoji-role pairs (🎮 for Gamer, 🎨 for Artist, 💻 for Developer)
+
+<Callout type="info">
+**Formatting tip:** Make sure there are no extra spaces around commas in the roles string. Use `🎮:Gamer,🎨:Artist` not `🎮:Gamer, 🎨:Artist`.
+</Callout>
 
 </Step>
 <Step>
@@ -68,7 +72,7 @@ Let's improve the appearance with a custom color and better description:
 <Tab value="Command">
 
 ```
-/setup-roles title:"🌟 Community Roles" description:"**Welcome to our server!**\n\nChoose roles that match your interests:\n\n• 🎮 Gaming enthusiasts\n• 🎨 Creative minds\n• 💻 Tech lovers" roles:"🎮:Gamer,🎨:Artist,💻:Developer" color:"#7289DA"
+/role-reactions setup title:"🌟 Community Roles" description:"**Welcome to our server!**\n\nChoose roles that match your interests:\n\n• 🎮 Gaming enthusiasts\n• 🎨 Creative minds\n• 💻 Tech lovers" roles:"🎮:Gamer,🎨:Artist,💻:Developer" color:"#7289DA"
 ```
 
 </Tab>
@@ -116,7 +120,7 @@ For servers with many roles, organize them into categories:
 <Tab value="Command">
 
 ```
-/setup-roles title:"Server Roles" description:"Choose your roles by category!" roles:"#Gaming\n🎮:Gamer,🎲:Board Games,🕹️:Retro Gaming\n#Creative\n🎨:Artist,📸:Photographer,✍️:Writer" color:"#43AA8B"
+/role-reactions setup title:"Server Roles" description:"Choose your roles by category!" roles:"#Gaming\n🎮:Gamer,🎲:Board Games,🕹️:Retro Gaming\n#Creative\n🎨:Artist,📸:Photographer,✍️:Writer" color:"#43AA8B"
 ```
 
 </Tab>
@@ -143,13 +147,41 @@ Choose your roles by category!
 </Tab>
 </Tabs>
 
+## 🚀 What's Next?
+
+Now that you have basic role management working, explore these advanced features:
+
+### ⏰ Temporary Roles
+Give members time-limited access with auto-expiration:
+```bash
+/temp-roles assign users:"@user1,@user2" role:"@Trial Member" duration:"7d" reason:"Free trial period"
+```
+
+### 📅 Scheduled Roles
+Assign roles at specific times or create recurring schedules:
+```bash
+/schedule-role create users:"@user1" role:"@Event Participant" schedule:"2024-12-25 18:00" reason:"Holiday event"
+```
+
+### 🎉 Welcome System
+Auto-welcome new members with custom messages:
+```bash
+/setup-welcome channel:#welcome message:"Welcome {user} to {server}!" auto-role:"@Member"
+```
+
+### 📊 XP System
+Track member activity with experience points:
+```bash
+/xp-settings enable:true message-xp:true role-xp:true
+```
+
 ## 🔧 Quick Troubleshooting
 
 ### Common Issues
 
 **"The bot didn't respond to my command"**
 - Make sure the bot has permission to send messages in that channel
-- Check that you typed the command correctly (start with `/setup-roles`)
+- Check that you typed the command correctly (start with `/role-reactions setup`)
 
 **"Members can't get roles when they react"**
 - Verify the role names match exactly (case-sensitive)
