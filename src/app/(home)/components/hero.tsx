@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Audiowide } from "next/font/google";
-import { FaDiscord, FaRocket, FaShieldAlt, FaUsers } from "react-icons/fa";
+import { FaDiscord, FaRocket } from "react-icons/fa";
 import { cn } from "fumadocs-ui/utils/cn";
-import { ArrowRight, Sparkles, Zap } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 import { Typewriter } from "@/components/common/typewriter";
 import { Button } from "@/components/ui/button";

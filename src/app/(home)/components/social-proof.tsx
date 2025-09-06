@@ -3,10 +3,7 @@ import {
   Shield,
   TrendingUp,
   Zap,
-  Star,
   Sparkles,
-  CheckCircle,
-  Users,
 } from "lucide-react";
 
 const stats = [
@@ -180,7 +177,7 @@ export function SocialProof() {
               { label: "Always Reliable", icon: TrendingUp },
               { label: "Free Forever", icon: Zap },
               { label: "Community Focused", icon: Heart },
-            ].map((item, index) => (
+            ].map((item) => (
               <div key={item.label} className="text-center group">
                 <div className="w-10 h-10 mx-auto mb-2 bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg flex items-center justify-center text-white group-hover:scale-110 transition-transform duration-300">
                   <item.icon className="w-5 h-5" />

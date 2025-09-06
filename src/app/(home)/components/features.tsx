@@ -7,7 +7,6 @@ import {
   Settings,
   Bot,
   CheckCircle,
-  ArrowRight,
 } from "lucide-react";
 
 const features = [
