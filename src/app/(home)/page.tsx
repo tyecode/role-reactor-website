@@ -1,5 +1,6 @@
 import { Hero } from "@/app/(home)/components/hero";
 import { Features } from "@/app/(home)/components/features";
+import { SocialProof } from "@/app/(home)/components/social-proof";
 import { FooterCTA } from "@/app/(home)/components/footer-cta";
 import { DevelopmentNotice } from "@/components/common/development-notice";
 import { links } from "@/constants/links";
@@ -9,9 +10,9 @@ export default function HomePage() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    name: "Role Reactor",
+    name: "Role Reactor Bot",
     description:
-      "Role Reactor is a powerful Discord bot for automated role management. Set up reaction roles instantly, manage permissions, and enhance your Discord server with the most effective role assignment system.",
+      "A simple Discord bot for role management. Let members choose their own roles with reactions and welcome new members automatically. Free to use with basic features.",
     url: links.home,
     applicationCategory: "Discord Bot",
     operatingSystem: "Discord",
@@ -23,6 +24,8 @@ export default function HomePage() {
     author: {
       "@type": "Person",
       name: "Tyecode",
+      email: "tyecoder@gmail.com",
+      url: "https://github.com/tyecode",
     },
     aggregateRating: {
       "@type": "AggregateRating",
@@ -30,20 +33,25 @@ export default function HomePage() {
       ratingCount: "150",
     },
     featureList: [
-      "Discord bot for role management",
-      "Automated role assignment",
-      "Reaction-based role system",
-      "Easy setup with slash commands",
-      "User-friendly Discord bot interface",
-      "Secure permission handling",
-      "Customizable role messages",
-      "Free Discord bot",
-      "Role management automation",
+      "Basic role management with reactions",
+      "Temporary roles that auto-expire",
+      "Simple role scheduling",
+      "Welcome new members automatically",
+      "Basic XP system with leaderboards",
+      "Fun 8ball game",
+      "User information display",
+      "Custom emoji support",
+      "Role categories",
+      "Free to use",
+      "Easy setup",
+      "Simple commands",
+      "Basic features",
+      "New bot with growing features",
     ],
     keywords:
-      "discord bot, discord bots, role management, reaction roles, discord automation, free discord bot, discord role bot",
+      "discord bot, discord bots, role management, reaction roles, temporary roles, welcome system, XP system, free discord bot, discord role bot, easy setup, community management, server roles",
     applicationSubCategory: "Role Management Bot",
-    softwareVersion: "1.0.0",
+    softwareVersion: "0.4.1",
     downloadUrl: links.inviteBot,
     installUrl: links.inviteBot,
   };
@@ -54,18 +62,19 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      <main className="min-h-screen bg-gradient-to-br from-slate-100 via-white to-blue-100 dark:from-gray-900 dark:via-gray-950 dark:to-blue-900">
+      <main className="min-h-screen">
         <Hero />
         <Features />
+        <SocialProof />
         <FooterCTA />
         <DevelopmentNotice
           noticeId="home-dev-notice"
-          title="Development Notice"
-          variant={"warning"}
+          title="Bot Information"
+          variant={"success"}
           icon={<AlertTriangle className="w-5 h-5 text-white" />}
-          subtitle="Role Reactor Bot"
-          description="🚧 This Discord bot is currently in development! Features may change, some functionality might not be complete, and you may encounter bugs. We're actively working to improve the bot and appreciate your patience during this development phase."
-          primaryButtonText="Got it, thanks!"
+          subtitle="Role Reactor Bot v0.4.1"
+          description="✨ Role Reactor Bot provides simple role management features for Discord servers. Basic functionality includes reaction roles, temporary roles, welcome messages, and XP system. Free to use with easy setup!"
+          primaryButtonText="Get Started!"
           secondaryButtonText="Don't show again"
         />
       </main>

@@ -55,7 +55,7 @@ function Typewriter({
     <p
       className={cn(
         className,
-        "text-lg text-gray-700 dark:text-gray-300 max-w-lg mx-auto leading-relaxed min-h-[2.5em] relative"
+        "text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed min-h-[2.5em] relative"
       )}
     >
       {displayed}
