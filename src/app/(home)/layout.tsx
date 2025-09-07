@@ -9,11 +9,6 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <HomeLayout
       {...baseOptions}
-      style={
-        {
-          "--spacing-fd-container": "1120px",
-        } as object
-      }
       links={[
         {
           type: "menu",

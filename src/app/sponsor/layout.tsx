@@ -1,8 +1,5 @@
 import type { ReactNode } from "react";
-import { HomeLayout } from "fumadocs-ui/layouts/home";
-import { Book, ComponentIcon } from "lucide-react";
 
-import { baseOptions, linkItems } from "@/app/layout.config";
 import { Footer } from "@/components/layout/footer";
 import { Metadata } from "next";
 
