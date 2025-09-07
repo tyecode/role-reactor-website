@@ -2,9 +2,7 @@ import { Hero } from "@/app/(home)/components/hero";
 import { Features } from "@/app/(home)/components/features";
 import { SocialProof } from "@/app/(home)/components/social-proof";
 import { FooterCTA } from "@/app/(home)/components/footer-cta";
-import { DevelopmentNotice } from "@/components/common/development-notice";
 import { links } from "@/constants/links";
-import { AlertTriangle } from "lucide-react";
 
 export default function HomePage() {
   const structuredData = {
@@ -67,16 +65,6 @@ export default function HomePage() {
         <Features />
         <SocialProof />
         <FooterCTA />
-        <DevelopmentNotice
-          noticeId="home-dev-notice"
-          title="Bot Information"
-          variant={"success"}
-          icon={<AlertTriangle className="w-5 h-5 text-white" />}
-          subtitle="Role Reactor Bot v0.4.1"
-          description="✨ Role Reactor Bot provides simple role management features for Discord servers. Basic functionality includes reaction roles, temporary roles, welcome messages, and XP system. Free to use with easy setup!"
-          primaryButtonText="Get Started!"
-          secondaryButtonText="Don't show again"
-        />
       </main>
     </>
   );

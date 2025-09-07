@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { KofiReliableWidget } from "@/components/sponsor/kofi-reliable-widget";
-// import { StatsWidget } from "@/components/sponsor/stats-widget";
 import { Zap, Shield, Gift, Github, ExternalLink } from "lucide-react";
 import { links } from "@/constants/links";
 import Link from "next/link";
@@ -67,8 +66,6 @@ export default function SponsorPage() {
               server costs.
             </p>
 
-            {/* Usage Stats - Hidden until real data is available */}
-            {/* <StatsWidget /> */}
           </div>
         </section>
 

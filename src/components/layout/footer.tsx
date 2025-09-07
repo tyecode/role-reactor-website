@@ -1,9 +1,19 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 import { links } from "@/constants/links";
+import { Heart } from "lucide-react";
 
 export function Footer() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <footer className="border-t border-gray-200/50 dark:border-gray-800/50 py-12 px-4 bg-white/90 dark:bg-gray-950/90 backdrop-blur-md transition-colors duration-300">
       <div>
@@ -61,13 +71,17 @@ export function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="mt-8 pt-8 border-t border-gray-200/50 dark:border-gray-800/50 text-center text-xs text-gray-600 dark:text-gray-400">
-          © {new Date().getFullYear()} Role Reactor. Built with 💜 by{" "}
+        <div className="flex items-center justify-center mt-8 pt-8 border-t border-gray-200/50 dark:border-gray-800/50 text-center text-xs text-gray-600 dark:text-gray-400">
+          <span>
+            © {mounted ? new Date().getFullYear() : 2025} Role Reactor. Built
+            with{" "}
+          </span>
+          <Heart className="text-pink-500 w-4 h-4 mx-1" /> by
           <Link
             href={links.author.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-indigo-600 dark:text-indigo-400 font-medium transition-all duration-200"
+            className="text-indigo-600 dark:text-indigo-400 font-medium transition-all duration-200 mx-1"
           >
             Tyecode
           </Link>
