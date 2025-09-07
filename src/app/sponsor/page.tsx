@@ -65,7 +65,6 @@ export default function SponsorPage() {
               Help us keep Role Reactor free while supporting development and
               server costs.
             </p>
-
           </div>
         </section>
 
