@@ -11,5 +11,5 @@ export const links = {
   github: "https://github.com/qodinger/role-reactor-bot",
   sponsor: "https://ko-fi.com/rolereactor",
   inviteBot:
-    "https://discord.com/api/oauth2/authorize?client_id=1405466007622910053&scope=bot+applications.commands&permissions=268790880",
+    "https://discord.com/api/oauth2/authorize?client_id=1392714201558159431&scope=bot+applications.commands&permissions=268790880",
 };
