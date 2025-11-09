@@ -3,33 +3,13 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { ExternalLink, Coffee, Calendar, DollarSign } from "lucide-react";
-
-interface Supporter {
-  id: string;
-  name: string;
-  amount: number;
-  message: string;
-  date: string;
-  isMonthly: boolean;
-  discordUsername: string | null;
-}
-
-interface DiscordUser {
-  id: string;
-  username: string;
-  discriminator: string;
-  avatar: string | null;
-  avatar_url: string;
-  verified: boolean;
-}
-
-interface BMCStats {
-  totalSupporters: number;
-  totalAmount: number;
-  monthlyAmount: number;
-  oneTimeAmount: number;
-  thisMonth: number;
-}
+import {
+  getMockSupporters,
+  getMockDiscordUser,
+  type Supporter,
+  type DiscordUser,
+  type BMCStats,
+} from "@/lib/mock-data";
 
 export function DiscordSponsors() {
   const [supporters, setSupporters] = useState<Supporter[]>([]);
@@ -44,17 +24,15 @@ export function DiscordSponsors() {
   const fetchSupporters = async () => {
     try {
       setLoading(true);
-      const response = await fetch("/api/kofi/donations");
+      // Simulate API delay
+      await new Promise((resolve) => setTimeout(resolve, 300));
 
-      if (!response.ok) {
-        throw new Error("Failed to fetch supporters");
-      }
-
-      const data = await response.json();
+      // Use mock data directly
+      const data = getMockSupporters();
       setSupporters(data.supporters || []);
       setStats(data.stats);
     } catch (err) {
-      console.error("Error fetching supporters:", err);
+      console.error("Error loading supporters:", err);
       setError("Failed to load supporters");
     } finally {
       setLoading(false);
@@ -177,16 +155,14 @@ function SupporterCard({ supporter }: { supporter: Supporter }) {
 
   const fetchDiscordUser = async (username: string) => {
     try {
-      const response = await fetch(
-        `/api/discord/user?username=${encodeURIComponent(username)}`
-      );
+      // Simulate API delay
+      await new Promise((resolve) => setTimeout(resolve, 200));
 
-      if (response.ok) {
-        const user = await response.json();
-        setDiscordUser(user);
-      }
+      // Use mock data directly
+      const user = getMockDiscordUser(username);
+      setDiscordUser(user);
     } catch (error) {
-      console.error("Error fetching Discord user:", error);
+      console.error("Error loading Discord user:", error);
     }
   };
 

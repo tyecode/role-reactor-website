@@ -171,14 +171,15 @@ role-reactor-website/
 │   ├── 📱 app/                  # Next.js App Router pages
 │   │   ├── (home)/             # Homepage route group
 │   │   ├── docs/                # Documentation pages
-│   │   ├── api/                 # API routes
+│   │   ├── api/                 # API routes (search only)
 │   │   └── layout.tsx           # Root layout
 │   ├── 🧩 components/          # Reusable React components
 │   │   ├── common/             # Common UI components
 │   │   ├── layout/             # Layout components
+│   │   ├── sponsor/             # Sponsor/donation components
 │   │   └── ui/                 # UI primitives
 │   ├── 📊 constants/           # Application constants
-│   └── 🛠️ lib/                # Utility functions
+│   └── 🛠️ lib/                # Utility functions and mock data
 │
 ├── 🖼️ public/                   # Static assets
 │   ├── images/                 # Images and icons
@@ -348,19 +349,21 @@ These checks ensure code quality and consistency across the project.
 Create a `.env.local` file for local development or configure in your deployment platform:
 
 ```env
-# Site Configuration
-NEXT_PUBLIC_SITE_URL=https://rolereactor.app
+# Site Configuration (Optional - has default fallback)
+# Used for metadata base URL and sitemap generation
 NEXT_PUBLIC_BASE_URL=https://rolereactor.app
 
 # Optional: Google Site Verification
+# Used for Google Search Console verification
 GOOGLE_SITE_VERIFICATION=your_verification_code
-
-# Optional: Discord Bot Token (for user lookup API)
-DISCORD_BOT_TOKEN=your_bot_token
-
-# Optional: Ko-fi API Key
-KOFI_API_KEY=your_ko_fi_api_key
 ```
+
+> **Note**: All environment variables are optional. The application will work with default values if variables are not provided:
+>
+> - `NEXT_PUBLIC_BASE_URL` defaults to `https://rolereactor.app` if not set
+> - `GOOGLE_SITE_VERIFICATION` is only needed for Google Search Console verification
+>
+> **Note**: The application uses mock data for sponsor/donation features. Real API integrations can be added in the future by implementing the appropriate API routes.
 
 ### Build & Deploy
 
