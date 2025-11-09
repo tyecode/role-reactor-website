@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { RootProvider } from "fumadocs-ui/provider";
+import { Analytics } from "@vercel/analytics/react";
 
 import { links } from "@/constants/links";
 
@@ -140,6 +141,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       </head>
       <body className="flex flex-col min-h-screen antialiased">
         <RootProvider>{children}</RootProvider>
+        <Analytics />
       </body>
     </html>
   );
