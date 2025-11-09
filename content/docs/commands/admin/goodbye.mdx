@@ -1,0 +1,85 @@
+---
+title: Goodbye
+description: Configure the goodbye system for members leaving the server. Set up automatic goodbye messages with customizable placeholders.
+keywords: goodbye, setup, members leaving, farewell, configuration
+---
+
+import { Callout } from 'fumadocs-ui/components/callout';
+import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
+import { Cards, Card } from 'fumadocs-ui/components/card';
+
+## Parameters
+<Cards>
+  <Card title="channel (required)" description="Channel where goodbye messages will be sent" />
+  <Card title="message (optional)" description="Goodbye message (use placeholders like {user}, {server})" />
+  <Card title="enabled (optional)" description="Enable or disable the goodbye system" />
+  <Card title="embed (optional)" description="Use embed format for goodbye messages" />
+</Cards>
+
+## Placeholders
+You can use these placeholders in your goodbye message:
+- `{user}` - User mention
+- `{user.name}` - Username
+- `{user.tag}` - User tag
+- `{server}` - Server name
+- `{memberCount}` - Total member count
+- `{memberCount.ordinal}` - Ordinal member count (e.g., "1st", "2nd", "3rd")
+
+## Step-by-Step Example
+<Tabs items={["Basic Setup", "Advanced Setup", "With Embed"]}>
+  <Tab value="Basic Setup">
+    1. Select a channel for goodbye messages.<br />
+    2. Execute the command:
+    ```bash
+    /goodbye setup channel:#general message:**{user}** left the server! Thanks for being part of **{server}**! 👋 enabled:true
+    ```
+    3. The bot will configure the goodbye system.
+  </Tab>
+  <Tab value="Advanced Setup">
+    Set up with embed and custom message:
+    ```bash
+    /goodbye setup channel:#general message:**{user}** left the server! Thanks for being part of **{server}**! 👋 enabled:true
+    ```
+  </Tab>
+  <Tab value="With Embed">
+    View and manage settings:
+    ```bash
+    /goodbye settings
+    ```
+  </Tab>
+</Tabs>
+
+## Permissions Required
+<Callout type="info">
+- **Manage Server:** Required to configure goodbye system
+</Callout>
+
+## Troubleshooting
+<Callout type="warning">
+- **Permission denied:** You require Manage Server permissions to configure goodbye system.<br />
+- **Channel not found:** Verify the channel exists and the bot can access it.<br />
+- **Message not sending:** Verify bot permissions in the goodbye channel.<br />
+- **Placeholders not working:** Ensure placeholders are spelled correctly (case-sensitive).
+</Callout>
+
+## What You'll See
+<Callout type="info">
+Interactive goodbye system with channel selection, message customization, and real-time settings management for members leaving!
+</Callout>
+
+## Related Commands
+<Cards>
+  <Card title="/goodbye settings" description="View and manage goodbye system settings" href="./goodbye" />
+  <Card title="/welcome setup" description="Configure the welcome system" href="./setup-welcome" />
+  <Card title="/role-reactions" description="Create role selection messages" href="./role-reactions" />
+</Cards>
+
+## Best Practices
+<Callout type="success">
+- Use a dedicated channel for goodbye messages for better organization.<br />
+- Test the goodbye system with a test account before deployment.<br />
+- Use placeholders to make messages more personal.<br />
+- Consider using embeds for a more polished appearance.<br />
+- Keep messages friendly and welcoming, even for members leaving.
+</Callout>
+
