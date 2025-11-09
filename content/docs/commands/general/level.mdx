@@ -21,18 +21,19 @@ import { Cards, Card } from 'fumadocs-ui/components/card';
    ```bash
    /level user:@username
    ```
-3. The bot will show the user's current level, experience points, and progress to the next level.
-
-## How XP Works
-- **Gaining XP:** Users earn XP by being active in the server (sending messages, participating in voice channels)
-- **Level progression:** Higher levels require more XP to reach
-- **Automatic updates:** XP is awarded automatically based on server activity
+3. The bot will show detailed level information including current XP, progress to next level, and rank.
 
 ## Features
 - **Current level:** Shows the user's current level
 - **Experience points:** Displays total XP earned
 - **Progress bar:** Visual representation of progress to next level
 - **XP needed:** Shows how much XP is needed for the next level
+- **Rank:** Shows the user's position in the server leaderboard
+
+## Permissions Required
+<Callout type="info">
+- **View Channel:** Required to check level information
+</Callout>
 
 ## Troubleshooting
 <Callout type="warning">
@@ -43,7 +44,7 @@ import { Cards, Card } from 'fumadocs-ui/components/card';
 ## Related Commands
 <Cards>
   <Card title="/leaderboard" description="View server experience leaderboard" href="./leaderboard" />
-  <Card title="/avatar" description="View user avatar" href="./avatar" />
+  <Card title="/xp settings" description="Configure XP system settings" href="../admin/xp-settings" />
 </Cards>
 
 ## Best Practices

@@ -10,105 +10,100 @@ import { Cards, Card } from 'fumadocs-ui/components/card';
 
 ## Subcommands
 <Cards>
-  <Card title="create" description="Create a new role schedule" />
-  <Card title="list" description="List all scheduled and recurring roles" />
-  <Card title="cancel" description="Cancel a scheduled or recurring role" />
-  <Card title="view" description="View detailed information about a schedule" />
+  <Card title="create" description="Create a new scheduled role assignment or removal" />
+  <Card title="list" description="List all active scheduled roles with pagination" />
+  <Card title="view" description="View details of a specific scheduled role" />
+  <Card title="cancel" description="Cancel a scheduled role (keeps in database)" />
+  <Card title="delete" description="Permanently delete a scheduled role from database" />
 </Cards>
 
 ## Parameters
 
 ### Create Subcommand
 <Cards>
-  <Card title="users (required)" description="Comma-separated list of user IDs or mentions" />
-  <Card title="role (required)" description="The role to assign" />
-  <Card title="type (required)" description="Type of schedule (one-time, daily, weekly, monthly, custom)" />
-  <Card title="schedule (required)" description="When to assign (e.g., 'tomorrow 9am', 'monday 6pm', '15 2pm')" />
-  <Card title="duration (required)" description="How long the role should last (e.g., 1h, 2d, 1w)" />
-  <Card title="reason (optional)" description="Reason for the role assignment" />
+  <Card title="action (required)" description="Action to perform: assign or remove" />
+  <Card title="role (required)" description="The role to assign or remove" />
+  <Card title="users (required)" description="Users to target (supports mentions, IDs, role mentions, @everyone)" />
+  <Card title="schedule-type (required)" description="Type of schedule: one-time, daily, weekly, monthly, or custom" />
+  <Card title="schedule (required)" description="When to execute (e.g., 'tomorrow 8am', '9am', 'monday 9am', '15 2pm', '60')" />
+  <Card title="reason (optional)" description="Reason for the scheduled role action" />
 </Cards>
 
 ### List Subcommand
 <Cards>
-  <Card title="No parameters required" description="This command lists all scheduled and recurring roles" />
-</Cards>
-
-### Cancel Subcommand
-<Cards>
-  <Card title="id (required)" description="Schedule ID (shortened format like 2802a998...7f7a)" />
+  <Card title="page (optional)" description="Page number to display" />
+  <Card title="show-all (optional)" description="Show all schedules including cancelled ones" />
 </Cards>
 
 ### View Subcommand
 <Cards>
-  <Card title="id (required)" description="Schedule ID (shortened format like 2802a998...7f7a)" />
+  <Card title="schedule-id (required)" description="The schedule ID to view" />
+</Cards>
+
+### Cancel Subcommand
+<Cards>
+  <Card title="schedule-id (required)" description="The schedule ID to cancel" />
+</Cards>
+
+### Delete Subcommand
+<Cards>
+  <Card title="schedule-id (required)" description="The schedule ID to permanently delete" />
 </Cards>
 
 ## Schedule Types
-- **One Time:** Assign role once at a specific time
-- **Daily:** Assign role every day at the specified time
-- **Weekly:** Assign role every week on the specified day/time
-- **Monthly:** Assign role every month on the specified date/time
-- **Custom Interval:** Assign role at custom intervals
+- **one-time** - Execute once at the specified time
+- **daily** - Execute every day at the specified time
+- **weekly** - Execute every week on the specified day and time
+- **monthly** - Execute every month on the specified date and time
+- **custom** - Execute at custom intervals (specified in minutes)
 
 ## Step-by-Step Example
-<Tabs items={["One-Time Event", "Recurring Meeting", "Custom Schedule"]}>
-  <Tab value="One-Time Event">
+<Tabs items={["One-Time Assignment", "Recurring Daily", "Target by Role"]}>
+  <Tab value="One-Time Assignment">
     1. Schedule a one-time role assignment:
     ```bash
-    /schedule-role create 
-    users:@User1,@User2 
-    role:@EventAttendee 
-    type:one-time 
-    schedule:"tomorrow 9am" 
-    duration:4h 
-    reason:"Conference attendance"
+    /schedule-role create action:assign role:@EventRole users:@user1,@RoleName schedule-type:one-time schedule:tomorrow 8am
     ```
   </Tab>
-  <Tab value="Recurring Meeting">
-    Create a weekly meeting role:
+  <Tab value="Recurring Daily">
+    Create a daily recurring role removal:
     ```bash
-    /schedule-role create 
-    users:@TeamMember1,@TeamMember2 
-    role:@MeetingTime 
-    type:weekly 
-    schedule:"monday 2pm" 
-    duration:2h 
-    reason:"Weekly team meeting"
+    /schedule-role create action:remove role:@Mute users:@RoleName schedule-type:daily schedule:9am
     ```
   </Tab>
-  <Tab value="Custom Schedule">
-    Custom interval schedule:
+  <Tab value="Target by Role">
+    Target all members with a role:
     ```bash
-    /schedule-role create 
-    users:@Moderator1 
-    role:@OnCall 
-    type:custom 
-    schedule:"every 3 days at 8am" 
-    duration:24h 
-    reason:"Moderator rotation"
+    /schedule-role list page:1 show-all:false
     ```
   </Tab>
 </Tabs>
 
 ## Schedule Format Examples
-- **Tomorrow:** `"tomorrow 9am"`, `"tomorrow 2:30pm"`
-- **Specific day:** `"monday 6pm"`, `"friday 9am"`
-- **Date and time:** `"15 2pm"` (15th of current month at 2pm)
-- **Time only:** `"9am"` (next occurrence at 9am)
-- **Minutes from now:** `"120"` (in 120 minutes)
+- **`tomorrow 8am`** - Tomorrow at 8:00 AM
+- **`9am`** - Today at 9:00 AM (if before 9am) or tomorrow
+- **`monday 9am`** - Next Monday at 9:00 AM
+- **`15 2pm`** - 15th of this month at 2:00 PM
+- **`60`** - 60 minutes from now (for custom intervals)
+
+## User Targeting
+- **User mentions** - `@user1,@user2` (target specific users)
+- **Role mentions** - `@RoleName` (target all members with that role)
+- **User IDs** - `123456789,987654321` (target by ID)
+- **@everyone** - Target all server members
+- **Mix formats** - Combine any of the above
 
 ## Permissions Required
-<Callout type="warning">
-- **Manage Roles:** Required to assign/remove roles from users
-- **Administrator:** Required to create and manage schedules
+<Callout type="info">
+- **Manage Roles:** Required to schedule role assignments/removals
 </Callout>
 
 ## Troubleshooting
 <Callout type="warning">
-- **Schedule not created:** Check bot permissions and schedule format.<br />
-- **Role not assigned:** Ensure the bot's role is above the target role.<br />
+- **Schedule not created:** Verify bot permissions and schedule format.<br />
+- **Role not assigned:** Ensure the bot's role is positioned above the target role.<br />
 - **Invalid time format:** Use supported time formats (see examples above).<br />
-- **Schedule not found:** Make sure the schedule ID is correct.
+- **Schedule not found:** Verify the schedule ID is correct.
 </Callout>
 
 ## Related Commands
@@ -117,10 +112,11 @@ import { Cards, Card } from 'fumadocs-ui/components/card';
   <Card title="/role-reactions" description="Create role reaction messages" href="./role-reactions" />
 </Cards>
 
-## Best Practices
+## Use Cases
 <Callout type="success">
-- Test schedules with short durations first.<br />
-- Use clear, descriptive reasons for role assignments.<br />
-- Regularly review and clean up old schedules.<br />
-- Consider time zones when scheduling.
+- Automated role assignments for events<br />
+- Scheduled maintenance windows<br />
+- Recurring tasks (daily, weekly, monthly)<br />
+- Time-based role management<br />
+- Night shift restrictions and daily role changes
 </Callout>

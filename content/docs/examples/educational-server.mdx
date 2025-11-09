@@ -1,63 +1,68 @@
 ---
 title: Educational Server
-description: A recommended role message for an educational Discord server. Group roles by subject and study style for quick recognition and easy access.
-keywords: role management, discord bot, self-assign roles, role messages, easy setup
+description: Implementation example for an educational Discord server. Organize roles by subject and study style for efficient academic community management.
+keywords: role management, discord bot, self-assign roles, role messages, educational, study groups
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
-## Step-by-Step Setup
-1. List the main subjects and study styles in your community.
-2. Assign clear emoji to each subject and group.
-3. Use the `/role-reactions setup` command with the following roles string:
+## Implementation Guide
 
-    ```markdown
-    #Subjects
-    📊:Mathematics
-    🔬:Science
-    📚:English
-    🏛️:History
-    #Study Groups
-    👥:Group Study
-    🤫:Solo Study
-    📅:Evening Study
-    ```
-4. Instruct members to react to join study groups or get subject notifications.
+### Prerequisites
 
-## Example Role Message
-```markdown
-#Subjects
-📊:Mathematics
-🔬:Science
-📚:English
-🏛️:History
-#Study Groups
-👥:Group Study
-🤫:Solo Study
-📅:Evening Study
+1. Identify the main subjects and study styles in your community
+2. Assign clear, recognizable emojis to each subject and group
+3. Ensure the following roles exist in your server:
+   - **Mathematics** - For math students
+   - **Science** - For science students
+   - **English** - For English students
+   - **History** - For history students
+   - **Group Study** - For group study participants
+   - **Solo Study** - For solo study participants
+   - **Evening Study** - For evening study sessions
+
+### Role Message Creation
+
+Execute the following command to create your educational role message:
+
+```bash
+/role-reactions setup title:Study Groups description:Join subject-based study communities! roles:📊:Mathematics,🔬:Science,📚:English,🏛️:History,👥:Group Study,🤫:Solo Study,📅:Evening Study
 ```
 
+### Verification
+
+After creating the role message:
+
+- Test role assignment by clicking reactions
+- Verify members can assign and remove roles
+- Confirm the bot has proper permissions
+
 ## Advanced Customization
-- Add more subjects or group types as your server grows.
-- Use custom emoji for school branding or mascot.
-- Create separate role messages for courses, clubs, or events.
+
+- Add additional subjects or group types as your server grows
+- Use custom emojis for school branding or mascot
+- Create separate role messages for courses, clubs, or events
+- Organize roles by academic level or semester
 
 ## Troubleshooting
+
 <Callout type="warning">
-- **Roles not assigned:** Check bot permissions and role order.
-- **Emoji not working:** Use emoji the bot can access.
-- **Members unsure:** Provide a pinned guide for what each role means.
+- **Roles not assigned:** Verify bot permissions and role hierarchy order
+- **Emoji not working:** Ensure emojis are accessible to the bot
+- **Members unsure:** Provide a pinned guide explaining the purpose of each role
 </Callout>
 
 ## Best Practices
+
 <Callout type="success">
-- Group roles by subject and study style.<br />
-- Encourage users to join relevant groups for collaboration.<br />
-- Use clear emoji for each subject or group.<br />
-- Update roles each semester or term.
+- Group roles by subject and study style for clarity<br />
+- Encourage users to join relevant groups for collaboration<br />
+- Use clear, recognizable emojis for each subject or group<br />
+- Update roles each semester or term to reflect current offerings
 </Callout>
 
-## Related Docs
-- [How to Use /role-reactions setup](/docs/commands/admin/role-reactions)
+## Related Documentation
+
+- [Role Reactions Command](/docs/commands/admin/role-reactions)
 - [Gaming Server Example](/docs/examples/gaming-server)
 - [Community Server Example](/docs/examples/community-server)

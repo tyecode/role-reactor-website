@@ -1,67 +1,152 @@
 ---
 title: Common Issues
-description: These are the most frequent problems users encounter with Role Reactor Bot and how to solve them.
-keywords: role management, discord bot, self-assign roles, role messages, easy setup
+description: Frequently encountered problems with Role Reactor Bot and their solutions.
+keywords: troubleshooting, common issues, error resolution, discord bot
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 import { Steps, Step } from 'fumadocs-ui/components/steps';
 
 ## Bot Not Responding
+
 <Steps>
   <Step>
-    **Check Bot Status**
-    - Is the bot online?
-    - Try `/ping` to test if bot responds
+    **Verify Bot Status**
+    - Confirm the bot is online
+    - Execute `/ping` to test bot responsiveness
   </Step>
   <Step>
     **Verify Permissions**
-    - Bot needs "Send Messages" and "Use Slash Commands"
-    - Check channel-specific permissions
+    - Bot requires "Send Messages" and "View Channel" permissions
+    - Verify channel-specific permissions
   </Step>
   <Step>
     **Check Role Position**
-    - Bot's role must be above roles it manages
-    - Go to Server Settings > Roles to check hierarchy
+    - Bot's role must be positioned above roles it manages
+    - Navigate to Server Settings > Roles to verify hierarchy
   </Step>
 </Steps>
 
 ## Roles Not Being Assigned
+
 <Callout type="warning">
-**Most Common Cause:** Bot's role is positioned below the roles it's trying to assign
+**Most Common Cause:** Bot's role is positioned below the roles it is attempting to assign
 </Callout>
+
 <Steps>
   <Step>
-    **Fix Role Hierarchy**
-    1. Go to Server Settings > Roles
+    **Correct Role Hierarchy**
+    1. Navigate to Server Settings > Roles
     2. Drag the bot's role above all roles you want it to manage
     3. Test role assignment again
   </Step>
   <Step>
-    **Check Role Names**
-    - Make sure role names in the command match exactly
+    **Verify Role Names**
+    - Ensure role names in the command match exactly
     - Role names are case-sensitive
   </Step>
   <Step>
     **Verify Bot Permissions**
-    - Bot needs "Manage Roles" permission
+    - Bot requires "Manage Roles" permission
   </Step>
 </Steps>
 
 ## Command Errors
+
 <Callout type="info">
-See the Troubleshooting Guide for a full list of error messages and solutions.
+Refer to the [Troubleshooting Guide](/docs/troubleshooting) for a complete list of error messages and solutions.
 </Callout>
 
 ## Reactions Missing
+
 <Steps>
   <Step>
-    **Use Unicode Emojis**
-    - Custom server emojis might not work in all situations
-    - Stick to standard Unicode emojis for best results
+    **Verify Emoji Format**
+    - Custom server emojis (including animated) are supported
+    - Unicode emojis (🎮📚🎵) are also supported
+    - Ensure the bot has access to custom server emojis
   </Step>
   <Step>
-    **Check Bot Permissions**
-    - Bot needs "Add Reactions" and "Manage Messages"
+    **Verify Bot Permissions**
+    - Bot requires "Add Reactions" and "Manage Messages" permissions
+    - Verify channel-specific permissions
+  </Step>
+  <Step>
+    **Refresh Reactions**
+    - Contact support to refresh reactions for a specific message
+    - This resolves most reaction-related issues
+  </Step>
+</Steps>
+
+## XP System Not Working
+
+<Callout type="warning">
+**Most Common Cause:** XP system is disabled by default and must be enabled by server administrators
+</Callout>
+
+<Steps>
+  <Step>
+    **Enable XP System**
+    1. Execute `/xp settings` command
+    2. Click the toggle to enable the XP system
+    3. Verify all XP types are enabled (message, command, role, voice)
+  </Step>
+  <Step>
+    **Verify Cooldowns**
+    - Message XP: 60-second cooldown between messages
+    - Command XP: 30-second cooldown between commands
+    - Users will not earn XP if they are in cooldown
+  </Step>
+  <Step>
+    **Verify Activity**
+    - Users must be actively messaging or using commands
+    - Voice activity requires users to be in voice channels
+    - Role assignments grant 50 XP per role
+  </Step>
+</Steps>
+
+## Voice Permissions Not Working
+
+<Steps>
+  <Step>
+    **Verify Bot Permissions**
+    - Bot requires "Move Members" permission to disconnect users
+    - Bot requires "Mute Members" permission to mute users
+    - Verify permissions in Server Settings > Roles > Bot Role
+  </Step>
+  <Step>
+    **Verify Role Permissions**
+    - Role must have "Connect" permission disabled to disconnect users
+    - Role must have "Speak" permission disabled to mute users
+    - Check role permissions in Server Settings > Roles
+  </Step>
+  <Step>
+    **Test Voice Restrictions**
+    - Assign a restrictive role to a test user
+    - Have the user join a voice channel
+    - Bot should automatically disconnect or mute them
+  </Step>
+</Steps>
+
+## Welcome/Goodbye System Not Working
+
+<Steps>
+  <Step>
+    **Verify System Status**
+    - Execute `/welcome settings` or `/goodbye settings` to verify it is enabled
+    - System may be disabled in settings
+    - Verify channel configuration
+  </Step>
+  <Step>
+    **Verify Channel Permissions**
+    - Bot requires "Send Messages" permission in the configured channel
+    - Bot requires "Embed Links" if using embed format
+    - Verify channel-specific permissions
+  </Step>
+  <Step>
+    **Test Configuration**
+    - Use test functionality if available
+    - Verify message format and placeholders
+    - Verify auto-role assignment if configured
   </Step>
 </Steps>

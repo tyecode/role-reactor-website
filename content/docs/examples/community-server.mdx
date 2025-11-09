@@ -1,63 +1,68 @@
 ---
 title: Community Server
-description: A recommended role message for a community-focused Discord server. Use categories to organize interests and activity levels.
-keywords: role management, discord bot, self-assign roles, role messages, easy setup
+description: Implementation example for a community-focused Discord server. Organize roles by interests and activity levels.
+keywords: role management, discord bot, self-assign roles, role messages, community, interests
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
-## Step-by-Step Setup
-1. Decide which interests and activity levels are most relevant for your community.
-2. Choose clear emoji for each role.
-3. Use the `/role-reactions setup` command with the following roles string:
+## Implementation Guide
 
-    ```markdown
-    #Interests
-    🎨:Art
-    📸:Photography
-    🎵:Music
-    📚:Books
-    #Activity Level
-    🔥:Very Active
-    😎:Casual
-    👀:Lurker
-    ```
-4. Encourage members to react to the message to assign themselves roles.
+### Prerequisites
 
-## Example Role Message
-```markdown
-#Interests
-🎨:Art
-📸:Photography
-🎵:Music
-📚:Books
-#Activity Level
-🔥:Very Active
-😎:Casual
-👀:Lurker
+1. Identify the interests and activity levels most relevant to your community
+2. Select clear, recognizable emojis for each role
+3. Ensure the following roles exist in your server:
+   - **Art** - For art enthusiasts
+   - **Photography** - For photographers
+   - **Music** - For music lovers
+   - **Books** - For book readers
+   - **Very Active** - For highly active members
+   - **Casual** - For casual members
+   - **Lurker** - For members who prefer to observe
+
+### Role Message Creation
+
+Execute the following command to create your community role message:
+
+```bash
+/role-reactions setup title:Community Interests description:Choose your interests and activity level! roles:🎨:Art,📸:Photography,🎵:Music,📚:Books,🔥:Very Active,😎:Casual,👀:Lurker
 ```
 
+### Verification
+
+After creating the role message:
+
+- Test role assignment by clicking reactions
+- Verify members can assign and remove roles
+- Confirm the bot has proper permissions
+
 ## Advanced Customization
-- Add more categories (e.g., #Notifications, #Events) as your community grows.
-- Use custom emoji for unique server branding.
-- Combine with other templates for multi-purpose servers.
+
+- Add additional categories as your community grows
+- Use custom emojis for unique server branding
+- Create separate messages for different interest categories
+- Combine with other templates for multi-purpose servers
 
 ## Troubleshooting
+
 <Callout type="warning">
-- **Roles not assigned:** Make sure the bot has Manage Roles permission and its role is above the target roles.
-- **Emoji not working:** Use standard emoji or custom emoji the bot can access.
-- **Members confused:** Pin a message explaining what each role means.
+- **Roles not assigned:** Verify the bot has Manage Roles permission and its role is positioned above target roles
+- **Emoji not working:** Use standard emojis or custom emojis accessible to the bot
+- **Members confused:** Pin a message explaining the purpose of each role
 </Callout>
 
 ## Best Practices
+
 <Callout type="success">
-- Use categories to organize interests and activity levels.<br />
-- Keep the list concise for easy selection.<br />
-- Encourage members to pick roles that match their engagement.<br />
-- Regularly review and update roles to match community interests.
+- Use clear, recognizable emojis for each interest category<br />
+- Maintain concise role lists for easy selection<br />
+- Encourage members to select roles that match their engagement level<br />
+- Regularly review and update roles to align with community interests
 </Callout>
 
-## Related Docs
-- [How to Use /role-reactions setup](/docs/commands/admin/role-reactions)
+## Related Documentation
+
+- [Role Reactions Command](/docs/commands/admin/role-reactions)
 - [Gaming Server Example](/docs/examples/gaming-server)
 - [Educational Server Example](/docs/examples/educational-server)

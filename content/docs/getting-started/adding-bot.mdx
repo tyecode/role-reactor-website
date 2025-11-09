@@ -1,136 +1,157 @@
 ---
 title: Adding the Bot
-description: Learn how to add Role Reactor Bot to your Discord server and set it up for role management.
-keywords: add discord bot, role management, self-assign roles, role reactor bot, easy
+description: Learn how to add Role Reactor Bot to your Discord server and configure it for role management.
+keywords: add discord bot, role management, self-assign roles, role reactor bot, installation
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 import { Step, Steps } from 'fumadocs-ui/components/steps';
 
-## 🎯 Quick Add (Recommended)
+## Quick Installation
 
 <Callout type="info">
-**Fastest way:** Use our pre-configured invitation link with all the right permissions!
+**Recommended Method:** Use the pre-configured invitation link with all required permissions included.
 </Callout>
 
 <Steps>
 <Step>
 
-### Click the Invite Link
+### Access the Invitation Link
 
 [**Add Role Reactor Bot to Your Server**](https://discord.com/api/oauth2/authorize?client_id=1392714201558159431&scope=bot+applications.commands&permissions=268790880)
 
-</Step>
-<Step>
-
-### Select Your Server
-
-1. **Choose your server** from the dropdown menu
-2. **Make sure you have permission** to add bots (you need "Manage Server" permission)
-3. Click **"Continue"**
+The invitation link includes all necessary permissions pre-selected for optimal functionality.
 
 </Step>
 <Step>
 
-### Review Permissions
+### Select Target Server
 
-The bot needs these permissions to work properly:
-
-- ✅ **Manage Roles** - To give and remove roles from members
-- ✅ **Send Messages** - To respond to your commands
-- ✅ **Add Reactions** - To add emoji reactions to messages
-- ✅ **Read Message History** - To see when people react
-- ✅ **View Channel** - To see channels where it operates
-
-Click **"Authorize"** to confirm these permissions.
+1. Choose your server from the dropdown menu
+2. Verify you have "Manage Server" permission (required to add bots)
+3. Click "Continue" to proceed
 
 </Step>
 <Step>
 
-### Verify the Bot Joined
+### Review Required Permissions
 
-1. **Check your server member list** - Role Reactor Bot should appear online
-2. **Look in your channels** - The bot should be visible
-3. **Test with a command** - Try typing `/help` to see if it responds
+The bot requires the following permissions to function properly:
+
+- **Manage Roles** - Assign and remove roles from members
+- **Manage Messages** - Manage role-reaction messages
+- **Add Reactions** - Add emoji reactions to role selection messages
+- **Read Message History** - Monitor reaction events and read channel history
+- **View Channel** - Access channels where the bot operates
+- **Send Messages** - Respond to commands and create role messages
+- **Embed Links** - Create rich embedded messages
+- **Manage Server** - Manage server settings and configurations
+- **Use External Emojis** - Use emojis from other servers
+
+Click "Authorize" to grant these permissions and complete the installation.
+
+</Step>
+<Step>
+
+### Verify Installation
+
+1. Check your server member list - Role Reactor Bot should appear online
+2. Verify the bot is visible in your channels
+3. Test functionality by running `/help` to confirm the bot responds
 
 </Step>
 </Steps>
 
-## 🔧 Manual Permission Setup
+## Manual Permission Configuration
 
-If you prefer to set up permissions manually or need to adjust them later:
+If you prefer to configure permissions manually or need to adjust them after installation:
 
-### Required Permissions Checklist
+### Required Permissions
 
-Make sure Role Reactor Bot has these permissions in your server:
+Ensure Role Reactor Bot has the following permissions in your server:
 
-- [ ] **Manage Roles** - Essential for role assignment
-- [ ] **Send Messages** - To respond to commands
-- [ ] **Add Reactions** - To add emojis to role messages
-- [ ] **Read Message History** - To detect when members react
-- [ ] **View Channel** - To access channels where it works
-- [ ] **Use Slash Commands** - To register and use commands
+- **Manage Roles** - Essential for role assignment operations
+- **Manage Messages** - Required to manage role-reaction messages
+- **Add Reactions** - Necessary to add emojis to role messages
+- **Read Message History** - Required to detect member reactions and read channel history
+- **View Channel** - Needed to access channels where the bot operates
+- **Send Messages** - Required to respond to commands and create role messages
+- **Embed Links** - Required to create rich embedded messages
+- **Manage Server** - Required to manage server settings and configurations
+- **Use External Emojis** - Required to use emojis from other servers
 
-### Permission Number
+### Optional Permissions
 
-If you need the permission number: **268823616**
+For advanced features, the bot may also benefit from:
 
-## 🎭 Setting Up Bot Role Position
+- **Move Members** - Required for voice channel disconnection (voice restrictions)
+- **Mute Members** - Required for voice channel muting (voice restrictions)
+
+### Permission Value
+
+If you need the permission value for manual configuration: **268790880**
+
+## Role Hierarchy Configuration
 
 <Callout type="warn">
-**Important:** The bot can only manage roles that are **below** its own role in your server's role hierarchy!
+**Critical:** The bot can only manage roles that are positioned below its own role in your server's role hierarchy.
 </Callout>
 
 <Steps>
 <Step>
 
-### Go to Server Settings
+### Access Server Settings
 
-1. **Right-click your server name**
-2. Select **"Server Settings"**
-3. Click **"Roles"** in the left sidebar
+1. Right-click your server name
+2. Select "Server Settings"
+3. Navigate to "Roles" in the left sidebar
 
 </Step>
 <Step>
 
-### Position the Bot Role
+### Configure Bot Role Position
 
-1. **Find "Role Reactor Bot" role** in the list
-2. **Drag it up** so it's above any roles you want it to manage
-3. **Save changes**
+1. Locate "Role Reactor Bot" role in the role list
+2. Drag the bot's role upward so it is positioned above any roles you want it to manage
+3. Save your changes
 
 </Step>
 </Steps>
 
-### Example Role Hierarchy
+### Recommended Role Hierarchy
 
 ```
-@Server Owner (highest)
+@Server Owner (highest position)
 @Administrators
 @Moderators
-@Role Reactor Bot  ← Bot role here
-@VIP Members       ← Can manage this
-@Gamers           ← Can manage this
-@Artists          ← Can manage this
-@everyone (lowest)
+@Role Reactor Bot  ← Bot role positioned here
+@VIP Members       ← Bot can manage this
+@Gamers           ← Bot can manage this
+@Artists          ← Bot can manage this
+@everyone (lowest position)
 ```
 
-## 🎨 Customizing Bot Appearance (Optional)
+## Optional Customization
 
-### Change Bot Nickname
+### Bot Nickname
 
-1. **Right-click the bot** in your member list
-2. Select **"Change Nickname"**
-3. **Enter a custom name** (e.g., "Role Manager", "🎭 Roles")
+To customize the bot's display name:
 
-### Create Custom Role for Bot
+1. Right-click the bot in your member list
+2. Select "Change Nickname"
+3. Enter your preferred name (e.g., "Role Manager", "Roles")
 
-1. **Go to Server Settings > Roles**
-2. **Create a new role** with a custom name and color
-3. **Assign it to the bot** and position it correctly
+### Custom Bot Role
+
+To create a custom role for the bot:
+
+1. Navigate to Server Settings > Roles
+2. Create a new role with your preferred name and color
+3. Assign the role to the bot
+4. Position the role correctly in the hierarchy
 
 ---
 
 <Callout type="info">
-**Next:** Ready to create your first role message? Check out [Setup Guide](/docs/getting-started/setup)!
+**Next:** Proceed to the [Setup Guide](/docs/getting-started/setup) to create your first role message.
 </Callout>

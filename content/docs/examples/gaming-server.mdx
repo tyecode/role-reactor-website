@@ -1,15 +1,17 @@
 ---
 title: Gaming Server
-description: A recommended role message for a gaming-focused Discord server. Separate roles by platform and game genre for quick recognition and easy access.
-keywords: role management, discord bot, self-assign roles, role messages, easy setup
+description: Implementation example for a gaming-focused Discord server. Organize roles by platform and game genre for efficient member classification.
+keywords: role management, discord bot, self-assign roles, role messages, gaming, platforms
 ---
 
 import { Callout } from 'fumadocs-ui/components/callout';
 
-## Step-by-Step Setup
+## Implementation Guide
 
-### 1. Create the Roles
-First, create these roles in your server:
+### Prerequisites
+
+Before creating the role message, ensure the following roles exist in your server:
+
 - **PC Gaming** - For PC gamers
 - **PlayStation** - For PlayStation players
 - **Xbox** - For Xbox players
@@ -19,82 +21,79 @@ First, create these roles in your server:
 - **Racing** - For racing game fans
 - **Strategy** - For strategy game players
 
-### 2. Create the Role Message
-Use this command to create your gaming role message:
+### Role Message Creation
+
+Execute the following command to create your gaming role message:
 
 ```bash
-/role-reactions setup title:"Gaming Platforms" description:"Choose your preferred gaming platform!" roles:"#Platforms\n🖥️:PC Gaming,🎮:PlayStation,🎯:Xbox,📱:Mobile\n#Game Genres\n🔫:FPS,⚔️:RPG,🏎️:Racing,🎲:Strategy" color:"#FF6B6B"
+/role-reactions setup title:Gaming Platforms description:Choose your preferred gaming platform! roles:🖥️:PC Gaming,🎮:PlayStation,🎯:Xbox,📱:Mobile
 ```
 
-### 3. Test It Out
-- Click the reactions to test role assignment
-- Verify members can get/remove roles
-- Check that the bot has proper permissions
+For game genres, create a separate message:
 
-## Example Role Message
-```markdown
-#Platforms
-🖥️:PC Gaming
-🎮:PlayStation
-🎯:Xbox
-📱:Mobile
-#Games
-🔫:FPS
-⚔️:RPG
-🏎️:Racing
-🎲:Strategy
+```bash
+/role-reactions setup title:Game Genres description:What types of games do you enjoy? roles:🔫:FPS,⚔️:RPG,🏎️:Racing,🎲:Strategy
 ```
 
-## Advanced Gaming Server Features
+### Verification
+
+After creating the role message:
+
+- Test role assignment by clicking reactions
+- Verify members can assign and remove roles
+- Confirm the bot has proper permissions
+
+## Advanced Configuration
 
 ### Multiple Role Messages
-Create separate role messages for different purposes:
+
+For larger gaming communities, create separate role messages for different purposes:
 
 #### Platform Selection
+
 ```bash
-/role-reactions setup title:"Gaming Platforms" description:"Choose your main gaming platform" roles:"🖥️:PC Gaming,🎮:PlayStation,🎯:Xbox,📱:Mobile,🕹️:Nintendo" color:"#4ECDC4"
+/role-reactions setup title:Gaming Platforms description:Choose your main gaming platform roles:🖥️:PC Gaming,🎮:PlayStation,🎯:Xbox,📱:Mobile,🕹️:Nintendo
 ```
 
 #### Game Genres
+
 ```bash
-/role-reactions setup title:"Favorite Genres" description:"What types of games do you enjoy?" roles:"🔫:FPS,⚔️:RPG,🏎️:Racing,🎲:Strategy,👥:MMO,🎮:Action" color:"#FF6B6B"
+/role-reactions setup title:Favorite Genres description:What types of games do you enjoy? roles:🔫:FPS,⚔️:RPG,🏎️:Racing,🎲:Strategy,👥:MMO,🎮:Action
 ```
 
 #### Activity Level
+
 ```bash
-/role-reactions setup title:"Gaming Activity" description:"How often do you game?" roles:"🌟:Daily Gamer,🌙:Weekend Warrior,📱:Casual Player,🏆:Competitive" color:"#45B7D1"
+/role-reactions setup title:Gaming Activity description:How often do you game? roles:🌟:Daily Gamer,🌙:Weekend Warrior,📱:Casual Player,🏆:Competitive
 ```
 
 ### Temporary Roles for Events
+
 Use temporary roles for special gaming events:
 
 ```bash
-/temp-roles assign users:"@user1,@user2" role:"@Tournament Participant" duration:"3h" reason:"Gaming tournament" notify:true
-```
-
-### Scheduled Gaming Sessions
-Schedule recurring gaming sessions:
-
-```bash
-/schedule-role create users:"@user1" role:"@Weekly Gaming Night" type:recurring schedule:"every Friday at 19:00" reason:"Weekly gaming session"
+/temp-roles assign users:@user1,@user2 role:@Tournament Participant duration:3h reason:Gaming tournament notify:true
 ```
 
 ## Troubleshooting
+
 <Callout type="warning">
-- **Roles not assigned:** Check bot permissions and role order.
-- **Emoji not working:** Use emoji the bot can access.
-- **Members confused:** Pin a message explaining each role.
+- **Roles not assigned:** Verify bot permissions and role hierarchy order
+- **Emoji not working:** Ensure emojis are accessible to the bot
+- **Members confused:** Pin a message explaining each role's purpose
 </Callout>
 
 ## Best Practices
+
 <Callout type="success">
-- Separate roles by platform and game genre.<br />
-- Use clear emoji for quick recognition.<br />
-- Regularly update the list to match your community's favorite games.<br />
-- Use categories to keep the role list organized.
+- Organize roles by platform and game genre for clarity<br />
+- Use clear, recognizable emojis for quick identification<br />
+- Regularly update role lists to match community preferences<br />
+- Create separate messages for different role categories
 </Callout>
 
-## Related Docs
-- [How to Use /role-reactions setup](/docs/commands/admin/role-reactions)
+## Related Documentation
+
+- [Role Reactions Command](/docs/commands/admin/role-reactions)
 - [Community Server Example](/docs/examples/community-server)
 - [Educational Server Example](/docs/examples/educational-server)

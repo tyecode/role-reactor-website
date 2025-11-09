@@ -8,11 +8,11 @@ import { Callout } from 'fumadocs-ui/components/callout';
 import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
 import { Cards, Card } from 'fumadocs-ui/components/card';
 
-## Quick Start
-Perfect for:
-- **Event winners** - Give VIP access for a limited time
+## Use Cases
+Suitable for:
+- **Event winners** - Provide VIP access for a limited time
 - **Moderation** - Temporary timeouts or restrictions
-- **Trial periods** - Let users try premium features
+- **Trial periods** - Enable users to try premium features
 - **Special occasions** - Holiday roles or celebration access
 
 ## Subcommands
@@ -26,11 +26,11 @@ Perfect for:
 
 ### Assign Subcommand
 <Cards>
-  <Card title="users (required)" description="Comma-separated list of user IDs or mentions" />
+  <Card title="users (required)" description="Users to target (supports mentions, IDs, role mentions, @everyone)" />
   <Card title="role (required)" description="The role to assign temporarily" />
-  <Card title="duration (required)" description="How long the role should last (e.g., 1h, 2d, 1w, 30m)" />
+  <Card title="duration (required)" description="How long the role should last (e.g., 30m, 2h, 1d, 1w)" />
   <Card title="reason (optional)" description="Reason for assigning the temporary role" />
-  <Card title="notify (optional)" description="Send DM notification to users (default: false)" />
+  <Card title="notify (optional)" description="Send DM notification when role is assigned/removed (default: false)" />
   <Card title="notify-expiry (optional)" description="Send DM notification when role expires (default: false)" />
 </Cards>
 
@@ -41,25 +41,26 @@ Perfect for:
 
 ### Remove Subcommand
 <Cards>
-  <Card title="users (required)" description="Comma-separated list of user IDs or mentions" />
+  <Card title="users (required)" description="Users to target (supports mentions, IDs, role mentions, @everyone)" />
   <Card title="role (required)" description="The temporary role to remove" />
   <Card title="reason (optional)" description="Reason for removing the temporary role" />
+  <Card title="notify (optional)" description="Send DM notification about role removal (default: false)" />
 </Cards>
 
 ## Step-by-Step Examples
-<Tabs items={["Assign Role", "List Roles", "Remove Role"]}>
+<Tabs items={["Assign Role", "Bulk Assignment", "List Roles", "Remove Role"]}>
   <Tab value="Assign Role">
     1. Assign a temporary role:
     ```bash
-    /temp-roles assign 
-    users:@User1,@User2 
-    role:@VIP 
-    duration:7d 
-    reason:"Event winners" 
-    notify:true 
-    notify-expiry:true
+    /temp-roles assign users:@user1,@user2 role:@EventRole duration:2h reason:Tournament participation notify:true
     ```
     2. The bot will assign the role and automatically remove it after the duration.
+  </Tab>
+  <Tab value="Bulk Assignment">
+    Assign to multiple users with expiry notification:
+    ```bash
+    /temp-roles assign users:@RoleName role:@Mute duration:5m notify-expiry:true
+    ```
   </Tab>
   <Tab value="List Roles">
     1. List all temporary roles:
@@ -68,38 +69,42 @@ Perfect for:
     ```
     2. List for specific user:
     ```bash
-    /temp-roles list user:@username
+    /temp-roles list user:@user1
     ```
   </Tab>
   <Tab value="Remove Role">
     1. Remove a temporary role early:
     ```bash
-    /temp-roles remove 
-    users:@User1,@User2 
-    role:@VIP 
-    reason:"Early removal requested"
+    /temp-roles remove users:@user1,@user2 role:@EventRole reason:Early removal notify:true
     ```
   </Tab>
 </Tabs>
 
-## Duration Formats
-- **Minutes:** `30m`, `120m`
-- **Hours:** `1h`, `6h`, `24h`
-- **Days:** `1d`, `7d`, `30d`
-- **Weeks:** `1w`, `2w`, `4w`
+## User Targeting
+- **User mentions** - `@user1,@user2` (target specific users)
+- **Role mentions** - `@RoleName` (target all members with that role)
+- **User IDs** - `123456789,987654321` (target by ID)
+- **@everyone** - Target all server members
+- **Mix formats** - Combine any of the above (e.g., `@user1,@RoleName,123456789`)
+
+## Time Examples
+- **`30m`** - 30 minutes (suitable for quick events)
+- **`2h`** - 2 hours (appropriate for tournaments)
+- **`1d`** - 1 day (suitable for day-long events)
+- **`1w`** - 1 week (for extended special access)
+- **`1h30m`** - 1 hour 30 minutes (flexible timing)
 
 ## Permissions Required
-<Callout type="warning">
-- **Administrator:** Required to manage temporary roles
-- **Manage Roles:** Required to assign/remove roles from users
+<Callout type="info">
+- **Manage Roles:** Required to assign/remove temporary roles
 </Callout>
 
 ## Troubleshooting
 <Callout type="warning">
-- **Role not removed after duration:** Ensure the bot is online and has Manage Roles permission.<br />
-- **User not found:** Double-check user IDs or mentions.<br />
+- **Role not removed after duration:** Verify the bot is online and has Manage Roles permission.<br />
+- **User not found:** Verify user IDs or mentions.<br />
 - **Invalid duration:** Use supported formats (e.g., 1h, 2d, 1w).<br />
-- **Permission denied:** You need Administrator permissions to manage temporary roles.
+- **Permission denied:** You require Manage Roles permission to manage temporary roles.
 </Callout>
 
 ## Related Commands
@@ -108,10 +113,10 @@ Perfect for:
   <Card title="/schedule-role" description="Schedule role assignments" href="./schedule-role" />
 </Cards>
 
-## Best Practices
+## Use Cases
 <Callout type="success">
-- Use for time-limited access or moderation actions.<br />
-- Enable notifications to keep users informed.<br />
-- Test with short durations first.<br />
-- Regularly monitor active temporary roles.
+- Events, tournaments, giveaways, VIP access<br />
+- Beta testing, temporary mutes, or any temporary special access<br />
+- Time-limited access or moderation actions<br />
+- Enable notifications to keep users informed
 </Callout>
