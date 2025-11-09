@@ -10,12 +10,12 @@
     "documentation",
     "next.js"
   ],
-  "author": "tyecode",
+  "author": "qodinger",
   "license": "MIT",
   "homepage": "https://rolereactor.app",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tyecode-bots/role-reactor-website"
+    "url": "https://github.com/qodinger/role-reactor-website"
   },
   "scripts": {
     "build": "next build",

@@ -67,7 +67,7 @@ _Streamline your Discord server role management with powerful reaction-based rol
 
 ```bash
 # Clone the repository
-git clone https://github.com/tyecode-bots/role-reactor-website.git
+git clone https://github.com/qodinger/role-reactor-website.git
 cd role-reactor-website
 
 # Install dependencies
@@ -234,7 +234,7 @@ pnpm type-check
 
 - [📚 Next.js Documentation](https://nextjs.org/docs) - Learn about Next.js features and API
 - [📖 Fumadocs](https://fumadocs.vercel.app) - Learn about the Fumadocs documentation framework
-- [🤖 Role Reactor Bot](https://github.com/tyecode-bots/role-reactor-bot) - The Discord bot this website documents
+- [🤖 Role Reactor Bot](https://github.com/qodinger/role-reactor-bot) - The Discord bot this website documents
 - [🎨 Tailwind CSS](https://tailwindcss.com/docs) - Utility-first CSS framework
 
 ## 📄 License
@@ -245,10 +245,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 <div align="center">
 
-**Made with ❤️ by [tyecode](https://github.com/tyecode)**
+**Made with ❤️ by [qodinger](https://github.com/qodinger)**
 
 [![Website](https://img.shields.io/badge/Website-rolereactor.app-blue?style=flat-square)](https://rolereactor.app)
 [![Documentation](https://img.shields.io/badge/Documentation-Docs-blue?style=flat-square)](https://rolereactor.app/docs)
-[![GitHub](https://img.shields.io/badge/GitHub-Repository-black?style=flat-square&logo=github)](https://github.com/tyecode-bots/role-reactor-website)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-black?style=flat-square&logo=github)](https://github.com/qodinger/role-reactor-website)
 
 </div>
