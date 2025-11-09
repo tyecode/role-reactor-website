@@ -1,4 +1,4 @@
-import { Heart, Shield, TrendingUp, Zap, Sparkles } from "lucide-react";
+import { Heart, Shield, TrendingUp, Zap } from "lucide-react";
 
 const stats = [
   {
@@ -26,36 +26,12 @@ const stats = [
     gradient: "from-blue-500 to-cyan-500",
   },
   {
-    value: "Basic",
-    label: "Essential Features",
-    description: "Core functionality",
+    value: "Powerful",
+    label: "Advanced Features",
+    description: "Comprehensive tools",
     icon: Zap,
     color: "yellow",
     gradient: "from-yellow-500 to-orange-500",
-  },
-];
-
-const testimonials = [
-  {
-    name: "Simple Setup",
-    role: "Easy to Use",
-    content:
-      "Basic commands that are easy to understand. No complex configuration needed - just add the bot and start using it.",
-    avatar: Sparkles,
-  },
-  {
-    name: "Reliable",
-    role: "Stable Performance",
-    content:
-      "Consistent performance with basic monitoring. The bot runs smoothly without issues for role management tasks.",
-    avatar: Zap,
-  },
-  {
-    name: "Free to Use",
-    role: "No Cost",
-    content:
-      "Completely free with no hidden costs. All features are available without any payment or subscription required.",
-    avatar: Heart,
   },
 ];
 
@@ -77,11 +53,11 @@ export function SocialProof() {
             <span>Simple & Reliable</span>
           </div>
           <h2 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 via-green-900 to-blue-900 dark:from-white dark:via-green-100 dark:to-blue-100 bg-clip-text text-transparent mb-4 leading-tight">
-            Simple Role Management
+            Why Choose Role Reactor Bot
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            A straightforward Discord bot for role management. Easy to use with
-            basic features that help organize your server without complexity.
+            A comprehensive Discord bot for role management with advanced
+            features. Easy to use with powerful automation capabilities.
           </p>
         </div>
 
@@ -111,48 +87,6 @@ export function SocialProof() {
           ))}
         </div>
 
-        {/* Testimonials */}
-        <div className="mb-12">
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
-              Why Choose Our Bot
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400">
-              Simple features that work well for Discord server management
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {testimonials.map((testimonial, index) => (
-              <div
-                key={testimonial.name}
-                className="group bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-xl p-6 hover:bg-white/80 dark:hover:bg-gray-900/80 transition-all duration-300 hover:scale-105 hover:shadow-xl"
-                style={{ animationDelay: `${index * 150}ms` }}
-              >
-                {/* Icon */}
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white">
-                    <testimonial.avatar className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="font-semibold text-gray-900 dark:text-white text-sm">
-                      {testimonial.name}
-                    </div>
-                    <div className="text-xs text-gray-600 dark:text-gray-400">
-                      {testimonial.role}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Content */}
-                <blockquote className="text-gray-700 dark:text-gray-300 leading-relaxed text-sm">
-                  {testimonial.content}
-                </blockquote>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* Trust indicators */}
         <div className="bg-gradient-to-r from-gray-50 to-blue-50 dark:from-gray-900/50 dark:to-blue-900/20 rounded-2xl p-8 border border-gray-200/50 dark:border-gray-700/50">
           <div className="text-center mb-6">
@@ -160,7 +94,7 @@ export function SocialProof() {
               Perfect for Your Server
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              Works well for Discord servers of any size. Simple features that
+              Works for Discord servers of any size. Comprehensive features that
               are easy to manage.
             </p>
           </div>

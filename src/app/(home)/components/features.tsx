@@ -1,12 +1,15 @@
 import {
   Zap,
   Target,
-  Shield,
   Clock,
   Users,
   Settings,
   Bot,
   CheckCircle,
+  MessageSquare,
+  Image,
+  Mic,
+  Brain,
 } from "lucide-react";
 
 const features = [
@@ -47,6 +50,24 @@ const features = [
     color: "orange",
   },
   {
+    icon: MessageSquare,
+    title: "Goodbye System",
+    description:
+      "Auto-goodbye messages when members leave with customizable placeholders and embed support.",
+    gradient: "from-amber-500 to-yellow-500",
+    stats: "Auto-goodbye",
+    color: "amber",
+  },
+  {
+    icon: Mic,
+    title: "Voice Permissions",
+    description:
+      "Automatically enforces Connect/Speak restrictions for all role assignments with smart voice management.",
+    gradient: "from-violet-500 to-purple-500",
+    stats: "Auto-enforce",
+    color: "violet",
+  },
+  {
     icon: Settings,
     title: "XP System",
     description:
@@ -56,13 +77,31 @@ const features = [
     color: "indigo",
   },
   {
-    icon: Shield,
+    icon: Image,
+    title: "AI Avatar Generation",
+    description:
+      "Generate unique anime-style avatars using AI with multiple style options and custom prompts.",
+    gradient: "from-pink-500 to-rose-500",
+    stats: "AI-powered",
+    color: "pink",
+  },
+  {
+    icon: MessageSquare,
+    title: "Poll System",
+    description:
+      "Create and manage native Discord polls with interactive forms and real-time voting.",
+    gradient: "from-green-500 to-emerald-500",
+    stats: "Native polls",
+    color: "green",
+  },
+  {
+    icon: Brain,
     title: "8ball Game",
     description:
-      "Fun magic 8ball game for entertainment. Ask questions and get random responses.",
-    gradient: "from-rose-500 to-pink-500",
+      "Ask the magic 8ball questions and get random responses for fun and entertainment.",
+    gradient: "from-cyan-500 to-blue-500",
     stats: "Fun game",
-    color: "rose",
+    color: "cyan",
   },
 ];
 
@@ -81,23 +120,23 @@ export function Features() {
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-full text-xs font-medium mb-4">
             <Bot className="w-3 h-3" />
-            <span>Basic Features</span>
+            <span>Powerful Features</span>
           </div>
           <h2 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 dark:from-white dark:via-blue-100 dark:to-purple-100 bg-clip-text text-transparent mb-4">
-            Simple Features
+            Comprehensive Features
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            Basic role management features to help organize your Discord server.
-            Easy to set up and use.
+            Role management features with AI-powered tools, XP tracking, and
+            advanced automation. Easy to set up and use.
           </p>
         </div>
 
         {/* Main features grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
           {features.map((feature, index) => (
             <div
               key={feature.title}
-              className="group relative bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-xl p-6 hover:bg-white/80 dark:hover:bg-gray-900/80 transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/10 min-h-[200px] flex flex-col"
+              className="group relative bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-xl p-6 hover:bg-white/80 dark:hover:bg-gray-900/80 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/10 min-h-[200px] flex flex-col"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               {/* Gradient background */}

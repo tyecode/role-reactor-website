@@ -42,9 +42,9 @@ export const metadata: Metadata = {
     "free discord bot",
     "discord bot list",
   ],
-  authors: [{ name: "Tyecode" }],
-  creator: "Tyecode",
-  publisher: "Tyecode",
+  authors: [{ name: "qodinger" }],
+  creator: "qodinger",
+  publisher: "qodinger",
   category: "Technology",
   formatDetection: {
     email: false,

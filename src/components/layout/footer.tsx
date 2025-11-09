@@ -83,7 +83,7 @@ export function Footer() {
             rel="noopener noreferrer"
             className="text-indigo-600 dark:text-indigo-400 font-medium transition-all duration-200 mx-1"
           >
-            Tyecode
+            qodinger
           </Link>
         </div>
       </div>
