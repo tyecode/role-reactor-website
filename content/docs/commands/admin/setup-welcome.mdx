@@ -28,52 +28,44 @@ You can use these placeholders in your welcome message:
 ## Step-by-Step Example
 <Tabs items={["Basic Setup", "Advanced Setup", "With Auto-Role"]}>
   <Tab value="Basic Setup">
-    1. Choose a channel for welcome messages.<br />
-    2. Run the command:
+    1. Select a channel for welcome messages.<br />
+    2. Execute the command:
     ```bash
-    /setup-welcome 
-    channel:#welcome 
-    message:"Welcome {user} to {server}! 🎉"
+    /welcome setup channel:#welcome message:Welcome {user} to {server}! 🎉 auto-role:@Member enabled:true
     ```
     3. The bot will configure the welcome system.
   </Tab>
   <Tab value="Advanced Setup">
     Set up with embed and auto-role:
     ```bash
-    /setup-welcome 
-    channel:#welcome 
-    message:"Welcome {user} to {server}! We now have {memberCount} members!" 
-    auto-role:@Member 
-    enabled:true 
-    embed:true
+    /welcome setup channel:#welcome message:Welcome {user} to {server}! 🎉 auto-role:@Member enabled:true
     ```
   </Tab>
   <Tab value="With Auto-Role">
-    Configure auto-role assignment:
+    View and manage settings:
     ```bash
-    /setup-welcome 
-    channel:#general 
-    message:"Welcome {user}! You've been given the @Member role." 
-    auto-role:@Member 
-    enabled:true
+    /welcome settings
     ```
   </Tab>
 </Tabs>
 
+## Subcommands
+<Cards>
+  <Card title="setup" description="Configure the welcome system with channel, message, and auto-role" />
+  <Card title="settings" description="View and manage current welcome system settings" />
+</Cards>
+
 ## Permissions Required
-<Callout type="warning">
-- **Manage Guild:** Required to configure welcome system
-- **Send Messages:** Required to post welcome messages
-- **Manage Roles:** Required if using auto-role feature
-- **Embed Links:** Required if using embed format
+<Callout type="info">
+- **Manage Server:** Required to configure welcome system
 </Callout>
 
 ## Troubleshooting
 <Callout type="warning">
-- **Permission denied:** You need Manage Guild permissions to configure welcome system.<br />
-- **Channel not found:** Make sure the channel exists and the bot can access it.<br />
-- **Auto-role not working:** Ensure the bot's role is above the auto-role in the role hierarchy.<br />
-- **Message not sending:** Check bot permissions in the welcome channel.
+- **Permission denied:** You require Manage Server permissions to configure welcome system.<br />
+- **Channel not found:** Verify the channel exists and the bot can access it.<br />
+- **Auto-role not working:** Ensure the bot's role is positioned above the auto-role in the role hierarchy.<br />
+- **Message not sending:** Verify bot permissions in the welcome channel.
 </Callout>
 
 ## Related Commands
@@ -82,10 +74,16 @@ You can use these placeholders in your welcome message:
   <Card title="/role-reactions" description="Create role selection messages" href="./role-reactions" />
 </Cards>
 
+## What You'll See
+<Callout type="info">
+Interactive welcome system with channel selection, message customization, auto-role assignment, and real-time settings management for new members!
+</Callout>
+
 ## Best Practices
 <Callout type="success">
 - Use a dedicated welcome channel for better organization.<br />
-- Test the welcome system with a test account before going live.<br />
+- Test the welcome system with a test account before deployment.<br />
 - Use placeholders to make messages more personal.<br />
-- Consider using embeds for a more polished look.
+- Consider using embeds for a more polished appearance.<br />
+- Execute `/welcome settings` to view and manage your configuration.
 </Callout>

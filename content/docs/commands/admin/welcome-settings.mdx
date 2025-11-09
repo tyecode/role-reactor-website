@@ -13,9 +13,9 @@ import { Cards, Card } from 'fumadocs-ui/components/card';
 </Cards>
 
 ## Step-by-Step Example
-1. Run the command:
+1. Execute the command:
    ```bash
-   /welcome-settings
+   /welcome settings
    ```
 2. The bot will display:
    - Current welcome channel
@@ -32,22 +32,39 @@ import { Cards, Card } from 'fumadocs-ui/components/card';
 - **Embed Format:** Whether messages use embed format
 - **Last Updated:** When settings were last modified
 
+## Subcommands
+<Cards>
+  <Card title="setup" description="Configure the welcome system" href="./setup-welcome" />
+  <Card title="settings" description="View and manage current welcome system settings" />
+</Cards>
+
+## Permissions Required
+<Callout type="info">
+- **Manage Server:** Required to view and manage welcome settings
+</Callout>
+
 ## Troubleshooting
 <Callout type="warning">
-- **Permission denied:** You need Manage Guild permissions to view welcome settings.<br />
-- **No settings found:** Welcome system may not be configured yet.<br />
+- **Permission denied:** You require Manage Server permissions to view welcome settings.<br />
+- **No settings found:** Welcome system may not be configured yet. Execute `/welcome setup` to configure it.<br />
 - **Settings not loading:** The bot may be experiencing issues.
 </Callout>
 
 ## Related Commands
 <Cards>
-  <Card title="/setup-welcome" description="Configure the welcome system" href="./setup-welcome" />
+  <Card title="/welcome setup" description="Configure the welcome system" href="./setup-welcome" />
   <Card title="/role-reactions" description="Create role selection messages" href="./role-reactions" />
 </Cards>
 
+## What You'll See
+<Callout type="info">
+Interactive welcome system with channel selection, message customization, auto-role assignment, and real-time settings management for new members!
+</Callout>
+
 ## Best Practices
 <Callout type="success">
-- Check welcome settings regularly to ensure they're working correctly.<br />
+- Review welcome settings regularly to ensure they are functioning correctly.<br />
 - Use this command to troubleshoot welcome system issues.<br />
-- Verify settings after making changes with /setup-welcome.
+- Verify settings after making changes with `/welcome setup`.<br />
+- Use the interactive buttons to quickly modify settings.
 </Callout>

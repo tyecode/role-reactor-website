@@ -1,6 +1,6 @@
 {
   "name": "role-reactor-website",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Official website and documentation for Role Reactor Discord bot",
   "private": true,
   "keywords": [
@@ -10,12 +10,12 @@
     "documentation",
     "next.js"
   ],
-  "author": "tyecode",
+  "author": "qodinger",
   "license": "MIT",
   "homepage": "https://rolereactor.app",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tyecode-bots/role-reactor-website"
+    "url": "https://github.com/qodinger/role-reactor-website"
   },
   "scripts": {
     "build": "next build",

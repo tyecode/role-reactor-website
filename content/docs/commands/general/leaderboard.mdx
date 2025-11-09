@@ -9,49 +9,58 @@ import { Cards, Card } from 'fumadocs-ui/components/card';
 
 ## Parameters
 <Cards>
-  <Card title="timeframe (optional)" description="Time period for the leaderboard (all, daily, weekly, monthly)" />
+  <Card title="limit (optional)" description="Number of users to show (1-20, default: 10)" />
+  <Card title="type (optional)" description="Type of leaderboard: xp, level, messages, or voice (default: xp)" />
 </Cards>
 
 ## Step-by-Step Example
-1. To see the all-time leaderboard:
+1. To see the default leaderboard (top 10 by XP):
    ```bash
    /leaderboard
    ```
-2. To see a specific timeframe:
+2. To see top 20 users by level:
    ```bash
-   /leaderboard timeframe:weekly
+   /leaderboard limit:20 type:level
    ```
-3. The bot will display the top users ranked by experience points.
+3. To see top 5 users by messages:
+   ```bash
+   /leaderboard limit:5 type:messages
+   ```
+4. The bot will display the top users ranked by the selected type.
 
-## Timeframe Options
-- **🏆 All Time:** Shows total XP earned since joining
-- **📅 Daily:** Shows XP earned in the last 24 hours
-- **📊 Weekly:** Shows XP earned in the last 7 days
-- **📈 Monthly:** Shows XP earned in the last 30 days
-
-**Note:** The timeframe options are predefined choices in the command, not free text input.
+## Leaderboard Types
+- **xp** - Total experience points (default)
+- **level** - Current level
+- **messages** - Total messages sent
+- **voice** - Total voice time
 
 ## Features
 - **Top rankings:** See the most active users
-- **Multiple timeframes:** Compare activity across different periods
-- **User stats:** View individual user experience and levels
+- **Multiple types:** Compare by XP, level, messages, or voice time
+- **Customizable limit:** Show 1-20 users (default: 10)
 - **Server insights:** Understand server activity patterns
+
+## Permissions Required
+<Callout type="info">
+- **View Channel:** Required to view the leaderboard
+</Callout>
 
 ## Troubleshooting
 <Callout type="warning">
 - **Empty leaderboard:** Users may not have earned XP yet.<br />
-- **No timeframe data:** The selected timeframe may not have enough activity.
+- **No data:** The selected leaderboard type may not have enough activity.
 </Callout>
 
 ## Related Commands
 <Cards>
   <Card title="/level" description="Check individual user level" href="./level" />
-  <Card title="/serverinfo" description="Get server information" href="./serverinfo" />
+  <Card title="/xp settings" description="Configure XP system settings" href="../admin/xp-settings" />
 </Cards>
 
 ## Best Practices
 <Callout type="success">
-- Use different timeframes to see various activity patterns.<br />
+- Use different leaderboard types to see various activity patterns (XP, level, messages, voice).<br />
 - Encourage friendly competition among members.<br />
-- Regular leaderboard checks can motivate server activity.
+- Regular leaderboard checks can motivate server activity.<br />
+- Adjust the limit to show more or fewer users based on your server size.
 </Callout>

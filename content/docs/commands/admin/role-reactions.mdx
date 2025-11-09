@@ -45,72 +45,61 @@ import { Cards, Card } from 'fumadocs-ui/components/card';
   <Card title="color (optional)" description="New color for the embed" />
 </Cards>
 
-## Formatting Tips
+## Role Format Tips
 <Callout type="info">
-**Important:** When formatting the roles string, avoid extra spaces around commas. Use consistent formatting:
-- ✅ Correct: `🎮:Gaming,🎨:Art,🎵:Music`
-- ❌ Avoid: `🎮:Gaming, 🎨:Art, 🎵:Music` (extra spaces)
-- ❌ Avoid: `🎮:Gaming,🎨: Art,🎵:Music` (inconsistent spacing)
+**Role Format Options:**
+- **@RoleName** - Use @ symbol (e.g., `@Gamer`)
+- **RoleName** - Use role name directly (e.g., `Gamer`)
+- **Role Mention** - Use role mention format (e.g., `&lt;@&123456789&gt;`)
+- **"Role Name"** - Use quotes for spaces (e.g., `"Gaming Role"`)
+
+**Examples:**
+- `🎮:@Gamer,🎨:@Artist` - Using @ symbol
+- `🎮:Gamer,🎨:Artist` - Direct role names
+- `🎮:"Gaming Role",🎨:"Art Role"` - Quoted names with spaces
 </Callout>
 
 ## Step-by-Step Example
-<Tabs items={["Basic Setup", "Gaming Server", "Community Server", "Update Message"]}>
+<Tabs items={["Basic Setup", "With @ Symbol", "Update Message", "List Messages"]}>
   <Tab value="Basic Setup">
-    1. Choose roles and emojis for your message.<br />
-    2. Run the command:
+    1. Select roles and emojis for your message.<br />
+    2. Execute the command:
     ```bash
-    /role-reactions setup 
-    title:"Choose Your Roles" 
-    description:"React to get access to channels!" 
-    roles:"🎮:Gaming,📚:Books,🎵:Music"
+    /role-reactions setup title:Choose Your Roles description:React to get roles! roles:🎮:@Gamer, 🎨:@Artist
     ```
     3. The bot will create an interactive message that users can react to.
   </Tab>
-  <Tab value="Gaming Server">
-    Perfect for gaming communities:
+  <Tab value="With @ Symbol">
+    Using @ symbol for role mentions:
     ```bash
-    /role-reactions setup 
-    title:"Gaming Roles" 
-    description:"Select your favorite games to get access to game channels!" 
-    roles:"🎮:Minecraft,⚔️:Valorant,🏎️:Racing,🎯:FPS,🎲:Board Games"
-    color:"#00ff00"
-    ```
-  </Tab>
-  <Tab value="Community Server">
-    Great for general communities:
-    ```bash
-    /role-reactions setup 
-    title:"Community Roles" 
-    description:"Choose your interests and notification preferences" 
-    roles:"#Interests\n🎮:Gaming\n📚:Books\n🎵:Music\n#Notifications\n📢:News\n🎉:Events" 
-    color:"#0099ff"
+    /role-reactions setup title:Game Roles description:Pick your role! roles:🎮:Gamer, 🎨:Artist
     ```
   </Tab>
   <Tab value="Update Message">
     Update an existing message:
     ```bash
-    /role-reactions update 
-    message_id:123456789012345678 
-    title:"Updated Role Selection" 
-    roles:"🎮:Gaming,📚:Books,🎵:Music,🎨:Art"
+    /role-reactions update message_id:1234567890 title:Updated Title
+    ```
+  </Tab>
+  <Tab value="List Messages">
+    List all role-reaction messages:
+    ```bash
+    /role-reactions list
     ```
   </Tab>
 </Tabs>
 
 ## Permissions Required
-<Callout type="warning">
-- **Manage Roles:** Required to assign/remove roles from users
-- **Send Messages:** Required to post the role message
-- **Add Reactions:** Required to add reaction emojis
-- **Embed Links:** Required to create rich embeds
+<Callout type="info">
+- **Manage Roles:** Required to create and manage role-reaction messages
 </Callout>
 
 ## Troubleshooting
 <Callout type="warning">
-- **Bot not posting message:** Check bot permissions (Manage Roles, Send Messages, Add Reactions).<br />
-- **Roles not assigned:** Ensure the bot's role is above the target roles in the Discord role list.<br />
-- **Emoji not working:** Use standard emoji or custom emoji the bot has access to.<br />
-- **Message not found:** Make sure the message ID is correct and the message still exists.
+- **Bot not posting message:** Verify bot permissions (Manage Roles, Send Messages, Add Reactions).<br />
+- **Roles not assigned:** Ensure the bot's role is positioned above the target roles in the Discord role list.<br />
+- **Emoji not working:** Use standard emoji or custom emoji accessible to the bot.<br />
+- **Message not found:** Verify the message ID is correct and the message still exists.
 </Callout>
 
 ## Related Commands
@@ -119,10 +108,16 @@ import { Cards, Card } from 'fumadocs-ui/components/card';
   <Card title="/schedule-role" description="Schedule role assignments" href="./schedule-role" />
 </Cards>
 
+## What You'll See
+<Callout type="info">
+Interactive role assignment via emoji reactions with customizable embeds, automatic reaction addition, and comprehensive management tools!
+</Callout>
+
 ## Best Practices
 <Callout type="success">
-- Keep role lists manageable (5-12 per message is ideal).<br />
+- Maintain manageable role lists (5-12 per message is recommended).<br />
 - Use clear, descriptive role names and appropriate emojis.<br />
-- Test your setup with a test user before going live.<br />
-- Regularly clean up unused role-reaction messages.
+- Test your setup with a test user before deployment.<br />
+- Regularly clean up unused role-reaction messages.<br />
+- Use the update command to modify existing messages instead of creating new ones.
 </Callout>

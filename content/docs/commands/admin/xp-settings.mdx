@@ -13,37 +13,45 @@ import { Cards, Card } from 'fumadocs-ui/components/card';
 </Cards>
 
 ## Step-by-Step Example
-1. Run the command:
+1. Execute the command:
    ```bash
-   /xp-settings
+   /xp settings
    ```
-2. The bot will display:
-   - XP system status (enabled/disabled)
-   - XP reward rates
-   - Level requirements
-   - Cooldown settings
-   - Channel restrictions
+2. The bot will display an interactive XP system management interface with buttons to:
+   - Toggle the entire XP system on/off
+   - Enable/disable message XP, command XP, role XP, and voice XP individually
+   - View current XP amounts, cooldowns, and settings
+   - Access configuration help and reset options
 
-## Information Displayed
-- **System Status:** Whether the XP system is enabled
-- **XP Rates:** How much XP users earn per message/activity
-- **Level Requirements:** XP needed for each level
-- **Cooldowns:** Time between XP rewards
-- **Channel Settings:** Which channels give XP
-- **Role Rewards:** Special XP bonuses for roles
+## Subcommands
+<Cards>
+  <Card title="settings" description="View and configure XP system settings" />
+</Cards>
 
-## XP System Features
-- **Message Rewards:** Users earn XP for sending messages
-- **Voice Activity:** XP for participating in voice channels
-- **Level Progression:** Automatic level advancement
-- **Cooldown System:** Prevents XP farming
-- **Channel Restrictions:** Control which channels give XP
+## What You'll See
+<Callout type="info">
+Interactive XP system management interface with buttons to:
+- Toggle the entire XP system on/off
+- Enable/disable message XP, command XP, role XP, and voice XP individually
+- View current XP amounts, cooldowns, and settings
+- Access configuration help and reset options
+</Callout>
+
+## Quick Actions
+- Use the buttons to quickly toggle features on/off
+- All changes are applied immediately
+- Settings use optimized default values
+
+## Permissions Required
+<Callout type="info">
+- **Manage Server:** Required to configure XP system settings
+</Callout>
 
 ## Troubleshooting
 <Callout type="warning">
-- **Permission denied:** You need Manage Guild permissions to view XP settings.<br />
-- **XP not working:** Check if the XP system is enabled.<br />
-- **No XP earned:** Users may be in cooldown or restricted channels.
+- **Permission denied:** You require Manage Server permissions to configure XP settings.<br />
+- **XP not working:** Verify if the XP system is enabled using the toggle button.<br />
+- **No XP earned:** Users may be in cooldown or the specific XP type may be disabled.
 </Callout>
 
 ## Related Commands
@@ -57,5 +65,5 @@ import { Cards, Card } from 'fumadocs-ui/components/card';
 - Monitor XP settings to ensure fair progression.<br />
 - Adjust XP rates based on server activity.<br />
 - Use channel restrictions to prevent XP farming.<br />
-- Regularly check if the system is working as expected.
+- Regularly verify the system is functioning as expected.
 </Callout>

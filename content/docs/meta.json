@@ -18,6 +18,8 @@
     "--- TROUBLESHOOTING ---",
     "./troubleshooting/index.mdx",
     "./troubleshooting/common-issues.mdx",
-    "./troubleshooting/faq.mdx"
+    "./troubleshooting/faq.mdx",
+    "--- CHANGELOG ---",
+    "./changelog/index.mdx"
   ]
 }

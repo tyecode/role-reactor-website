@@ -17,7 +17,7 @@ const audiowide = Audiowide({
 
 export function Hero() {
   const tagline =
-    "A simple Discord bot for role management. Let members choose their own roles with reactions and welcome new members automatically.";
+    "A powerful Discord bot for role management. Let members choose their own roles with reactions, welcome new members automatically, track XP, generate AI avatars, and more.";
 
   return (
     <section className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">

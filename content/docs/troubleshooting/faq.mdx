@@ -1,12 +1,12 @@
 ---
 title: FAQ
-description: This guide covers the most common questions and their solutions.
-keywords: role management, discord bot, self-assign roles, role messages, easy setup
+description: Frequently asked questions about Role Reactor Bot and their answers.
+keywords: faq, frequently asked questions, help, support, discord bot
 ---
 
 import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
 
-<Tabs items={["General", "Roles", "Permissions", "Commands"]}>
+<Tabs items={["General", "Roles", "XP System", "Voice", "Welcome/Goodbye", "Permissions", "Commands"]}>
   <Tab value="General">
     **Q: Is Role Reactor free to use?**
     
@@ -14,33 +14,112 @@ import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
     
     **Q: Where can I get support?**
     
-    A: Join our support server or check the documentation.
+    A: Join our [support server](https://discord.gg/D8tYkU75Ry) or review the documentation.
+    
+    **Q: How do I report a bug?**
+    
+    A: Report bugs through [GitHub Issues](https://github.com/qodinger/role-reactor-bot/issues) or our support server.
+    
+    **Q: Why is the bot not responding?**
+    
+    A: Verify the bot is online, check permissions, and ensure the bot's role is positioned above managed roles.
   </Tab>
   <Tab value="Roles">
     **Q: Why aren't roles being assigned?**
     
-    A: Check the bot's permissions and role hierarchy. See the troubleshooting guide for details.
+    A: Verify the bot's permissions and role hierarchy. The bot's role must be positioned above roles it manages. See the troubleshooting guide for details.
     
     **Q: Can I use custom emoji?**
     
-    A: Yes, but the bot must have access to the emoji.
-  </Tab>
-  <Tab value="Permissions">
-    **Q: What permissions does the bot need?**
-    
-    A: Manage Roles, Send Messages, Add Reactions, Use Slash Commands.
-    
-    **Q: How do I fix missing permissions?**
-    
-    A: Update the bot's role in Server Settings > Roles.
-  </Tab>
-  <Tab value="Commands">
-    **Q: Why do I get 'Missing Permissions' errors?**
-    
-    A: You need the correct Discord permissions to use certain commands. See the command docs for details.
+    A: Yes, custom server emojis (including animated) are supported. The bot must have access to the emoji.
     
     **Q: How do I update a role message?**
     
     A: Use `/role-reactions update` with the message ID from `/role-reactions list`.
+    
+    **Q: Can I use temporary roles?**
+    
+    A: Yes, use `/temp-roles assign` to assign roles that automatically expire after a specified time.
+  </Tab>
+  <Tab value="XP System">
+    **Q: Why isn't XP being tracked?**
+    
+    A: The XP system is disabled by default. Execute `/xp settings` to enable it. Verify that specific XP types (message, command, role, voice) are enabled.
+    
+    **Q: How much XP do users earn?**
+    
+    A: Message XP: 15-25 XP (60s cooldown), Command XP: 3-15 XP (30s cooldown), Role XP: 50 XP per role, Voice XP: 10 XP (60s cooldown).
+    
+    **Q: Why am I not earning XP?**
+    
+    A: You may be in cooldown, the XP system may be disabled, or specific XP types may be disabled. Check `/xp settings` for details.
+    
+    **Q: How do I check my level?**
+    
+    A: Execute `/level` to view your current level, experience points, and server rank.
+  </Tab>
+  <Tab value="Voice">
+    **Q: How do voice restrictions work?**
+    
+    A: When a role has "Connect" or "Speak" permissions disabled, the bot automatically disconnects or mutes users with that role in voice channels.
+    
+    **Q: Why aren't voice restrictions working?**
+    
+    A: Bot requires "Move Members" and "Mute Members" permissions. Verify role permissions are configured correctly and test with a user in a voice channel.
+    
+    **Q: Do voice restrictions work with temporary roles?**
+    
+    A: Yes, voice restrictions apply to all role assignments including temporary roles, scheduled roles, and role reactions.
+  </Tab>
+  <Tab value="Welcome/Goodbye">
+    **Q: Why aren't welcome messages sending?**
+    
+    A: Verify the welcome system is enabled with `/welcome settings`. Check channel permissions and message format.
+    
+    **Q: What placeholders can I use?**
+    
+    A: Welcome/Goodbye messages support: `{user}`, `{user.name}`, `{user.tag}`, `{user.id}`, `{server}`, `{server.id}`, `{memberCount}`, `{memberCount.ordinal}`.
+    
+    **Q: How do I set up auto-role assignment?**
+    
+    A: Use `/welcome setup` and specify the `auto-role` parameter with the role you want to assign to new members.
+    
+    **Q: Can I use embeds for welcome messages?**
+    
+    A: Yes, enable embed format in `/welcome setup` for rich embed messages with member information.
+  </Tab>
+  <Tab value="Permissions">
+    **Q: What permissions does the bot need?**
+    
+    A: Manage Roles, Manage Messages, Add Reactions, Send Messages, Read Message History, View Channel, Embed Links, Manage Server, Use External Emojis. Optional: Move Members and Mute Members (for voice restrictions).
+    
+    **Q: How do I fix missing permissions?**
+    
+    A: Update the bot's role in Server Settings > Roles. Use the official invite link to ensure all permissions are granted.
+    
+    **Q: Why do I get 'Missing Permissions' errors?**
+    
+    A: You need the correct Discord permissions to use certain commands. Admin commands require "Manage Roles" or "Manage Server" permission.
+    
+    **Q: What's the most common permission issue?**
+    
+    A: Bot's role being positioned below managed roles in the role hierarchy. Drag the bot's role above all roles it needs to manage.
+  </Tab>
+  <Tab value="Commands">
+    **Q: Why do I get 'Command not found' errors?**
+    
+    A: Slash commands may not be deployed. Wait a few minutes for commands to sync, or try refreshing Discord.
+    
+    **Q: How do I use subcommands?**
+    
+    A: Type the main command (e.g., `/poll`) and Discord will display available subcommands. Select the subcommand you want.
+    
+    **Q: Why do commands timeout?**
+    
+    A: Commands may take longer if processing large amounts of data. Try again or check if the bot is experiencing issues.
+    
+    **Q: Can I use commands in DMs?**
+    
+    A: Most commands work in DMs, but server-specific commands (like role management) only work in servers.
   </Tab>
 </Tabs>

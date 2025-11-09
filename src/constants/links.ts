@@ -1,7 +1,7 @@
 export const links = {
   author: {
-    name: "Tyecode",
-    url: "https://github.com/tyecode",
+    name: "qodinger",
+    url: "https://github.com/qodinger",
   },
   contact: {
     email: "rolereactor@gmail.com",

@@ -7,9 +7,10 @@
     "ping",
     "8ball",
     "avatar",
+    "core",
+    "poll",
     "level",
     "leaderboard",
-    "serverinfo",
     "sponsor"
   ]
 }

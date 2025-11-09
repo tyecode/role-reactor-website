@@ -9,19 +9,24 @@ import { Callout } from 'fumadocs-ui/components/callout';
 
 ## What is Role Reactor Bot?
 
-Role Reactor Bot is a powerful Discord bot that makes role management simple and engaging. Instead of complex commands, members just click emoji reactions to get or remove roles automatically.
+Role Reactor Bot is a powerful Discord bot that simplifies role management through interactive emoji reactions. Members click emoji reactions to assign or remove roles automatically, eliminating the need for complex commands.
 
-**🎯 Core Features:**
-- **Self-Assignable Roles** - Click reactions to get/remove roles
+**Core Features:**
+- **Self-Assignable Roles** - Click reactions to assign or remove roles
 - **Temporary Roles** - Auto-expire roles after set time periods
 - **Scheduled Roles** - Assign roles at specific times or intervals
 - **Welcome System** - Auto-welcome new members with custom messages
+- **Goodbye System** - Auto-goodbye messages when members leave
+- **Voice Channel Permissions** - Automatic enforcement of Connect/Speak restrictions
 - **XP System** - Track member activity with levels and leaderboards
-- **Smart 8ball** - Interactive question answering with context awareness
+- **AI Avatar Generation** - Generate unique anime-style avatars using AI
+- **Core Credit System** - Credit-based economy with Ko-fi integration
+- **Poll System** - Create and manage native Discord polls
+- **8ball Game** - Ask the magic 8ball questions for entertainment
 
-**Perfect for:**
+**Use Cases:**
 - Gaming platform preferences (PC, Console, Mobile)
-- Study subject groups and academic levels  
+- Study subject groups and academic levels
 - Hobby and interest communities
 - Notification preferences
 - Event participation tracking
@@ -32,11 +37,17 @@ Role Reactor Bot is a powerful Discord bot that makes role management simple and
 
 <Cards>
   <Card title="🎯 Easy Setup" description="Create role messages with simple slash commands - no complex configuration needed" />
-  <Card title="📱 User Friendly" description="Members just click emoji reactions - no commands to learn or remember" />
+  <Card title="📱 User Friendly" description="Members click emoji reactions - no commands to learn or remember" />
   <Card title="⏰ Temporary Roles" description="Auto-expire roles after set time periods with smart notifications" />
   <Card title="📅 Scheduled Roles" description="Assign roles at specific times or create recurring schedules" />
   <Card title="🎉 Welcome System" description="Auto-welcome new members with customizable messages and auto-role assignment" />
+  <Card title="👋 Goodbye System" description="Auto-goodbye messages when members leave with customizable placeholders" />
+  <Card title="🎤 Voice Permissions" description="Automatically enforces Connect/Speak restrictions for all role assignments" />
   <Card title="📊 XP System" description="Track member activity with configurable experience points and leaderboards" />
+  <Card title="🎨 AI Avatar Generation" description="Generate unique anime-style avatars using AI with multiple style options" />
+  <Card title="💎 Core Credit System" description="Credit-based economy for avatar generation with Ko-fi integration" />
+  <Card title="📊 Poll System" description="Create and manage native Discord polls with interactive forms" />
+  <Card title="🎱 8ball Game" description="Ask the magic 8ball questions and get random responses for entertainment" />
   <Card title="🗂️ Organized Categories" description="Group related roles with category headers for clean organization" />
   <Card title="🎨 Customizable" description="Choose colors, emojis, and formatting to match your server's style" />
   <Card title="🔒 Secure" description="Respects Discord's permission system and role hierarchy automatically" />
@@ -45,39 +56,51 @@ Role Reactor Bot is a powerful Discord bot that makes role management simple and
 
 ## How It Works
 
-### 🎯 Basic Role Management
+### Basic Role Management
 1. **Create a role message** with `/role-reactions setup`
-2. **Choose your roles** - list them with emojis like `🎮:Gaming,📚:Books`
-3. **Members click reactions** - they automatically get/remove roles
+2. **Select your roles** - list them with emojis like `🎮:Gaming,📚:Books`
+3. **Members click reactions** - they automatically assign or remove roles
 4. **Manage easily** - edit, delete, or refresh messages anytime
 
-### ⏰ Advanced Features
-- **Temporary Roles** - Use `/temp-roles assign` to give time-limited access
-- **Scheduled Roles** - Use `/schedule-role create` for future assignments
-- **Welcome System** - Use `/setup-welcome` to auto-welcome new members
+### Advanced Features
+- **Temporary Roles** - Execute `/temp-roles assign` to provide time-limited access
+- **Scheduled Roles** - Execute `/schedule-role create` for future assignments
+- **Welcome System** - Execute `/welcome setup` to auto-welcome new members
+- **Goodbye System** - Execute `/goodbye setup` to send goodbye messages
+- **Voice Permissions** - Automatically enforced for all role assignments
 - **XP Tracking** - Members earn experience points for activity automatically
+- **AI Avatars** - Execute `/avatar` to generate unique anime-style avatars
+- **Core Credits** - Execute `/core balance` to view your credit balance
+- **Polls** - Execute `/poll create` to create native Discord polls
 
 ## Available Commands
 
-### 🎯 General Commands (All Users)
-- `/help` - Get help and command information
-- `/ping` - Check bot latency and status
-- `/avatar` - Get user avatars with interactive features
-- `/level` - Check your experience level and progress
+### General Commands (All Users)
+- `/help` - Access help and command information
+- `/ping` - Verify bot latency and status
+- `/avatar` - Generate AI-powered avatars with custom prompts
+- `/level` - View your experience level and progress
 - `/leaderboard` - View server experience leaderboard
-- `/8ball` - Ask the magic 8-ball a question
-- `/serverinfo` - Get information about the server
+- `/8ball` - Ask the magic 8ball a question
+- `/core balance` - View your current Core balance and tier status
+- `/core pricing` - View Core pricing and membership benefits
+- `/poll create` - Create a new poll using interactive form
+- `/poll list` - List all polls in the server
+- `/poll end` - End an active poll early
+- `/poll delete` - Delete a poll permanently
 - `/invite` - Get bot invite link
 - `/support` - Get support server link
 - `/sponsor` - Get information about sponsoring the bot
 
-### ⚙️ Admin Commands (Administrators)
+### Admin Commands (Administrators)
 - `/role-reactions` - Create and manage role selection messages
 - `/temp-roles` - Assign and manage temporary roles
 - `/schedule-role` - Schedule future role assignments
-- `/setup-welcome` - Configure the welcome system
-- `/welcome-settings` - View and manage welcome settings
-- `/xp-settings` - Configure the experience system
+- `/welcome setup` - Configure the welcome system
+- `/welcome settings` - View and manage welcome settings
+- `/goodbye setup` - Configure the goodbye system
+- `/goodbye settings` - View and manage goodbye settings
+- `/xp settings` - Configure the experience system
 
 ## Documentation Sections
 
@@ -91,41 +114,29 @@ Role Reactor Bot is a powerful Discord bot that makes role management simple and
 ## Quick Examples
 
 ### Gaming Server
-```
-🎮 Gaming Platforms
-🖥️:PC Gaming,🎮:Console,📱:Mobile
-
-🎯 Game Types  
-🔫:FPS,⚔️:RPG,🏎️:Racing,🎲:Strategy
+```bash
+/role-reactions setup title:Gaming Platforms description:Choose your preferred gaming platform! roles:🖥️:PC Gaming,🎮:PlayStation,🎯:Xbox,📱:Mobile
 ```
 
 ### Study Server
-```
-📚 School Subjects
-📊:Math,🔬:Science,📚:English,🏛️:History
-
-👥 Study Groups
-👥:Group Study,🤫:Solo Study,📅:Scheduled Sessions
+```bash
+/role-reactions setup title:Study Groups description:Join subject-based study communities! roles:📊:Mathematics,🔬:Science,📚:English,🏛️:History
 ```
 
 ### Community Server
-```
-🎨 Interests
-🎨:Art,📸:Photography,🎵:Music,📚:Reading
-
-🔔 Notifications
-📢:Announcements,🎉:Events,📰:Weekly Updates
+```bash
+/role-reactions setup title:Community Interests description:Choose your interests! roles:🎨:Art,📸:Photography,🎵:Music,📚:Books
 ```
 
 ## Why Choose Role Reactor Bot?
 
 **Simple for Users:** No commands to learn - just click reactions  
-**Easy for Admins:** Set up complex role systems with simple commands  
+**Easy for Administrators:** Set up complex role systems with simple commands  
 **Flexible Design:** Works for any server size or purpose  
 **Always Reliable:** Built for stability with automatic error recovery
 
 ---
 
 <Callout type="success">
-**Ready to get started?** Check out the [Getting Started](/docs/getting-started/introduction) guide to add Role Reactor Bot to your server!
+**Ready to get started?** Review the [Getting Started](/docs/getting-started/introduction) guide to add Role Reactor Bot to your server.
 </Callout>
