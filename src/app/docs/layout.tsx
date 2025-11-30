@@ -1,16 +1,18 @@
 import { DocsLayout } from "fumadocs-ui/layouts/docs";
 import type { ReactNode } from "react";
-import { baseOptions } from "@/app/layout.config";
+import { docsOptions } from "@/app/layout.config";
 import { source } from "@/lib/source";
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
     <DocsLayout
-      tree={source.pageTree}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      tree={source.pageTree as any}
       sidebar={{ prefetch: false }}
-      {...baseOptions}
-    >
-      {children}
-    </DocsLayout>
+      nav={docsOptions.nav}
+      links={docsOptions.links}
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      {...({ children } as any)}
+    />
   );
 }

@@ -5,6 +5,8 @@ import { RootProvider } from "fumadocs-ui/provider";
 import { Analytics } from "@vercel/analytics/next";
 
 import { links } from "@/constants/links";
+import { SessionProvider } from "@/components/auth/session-provider";
+import { ConsoleFilter } from "@/components/common/console-filter";
 
 import "@/app/global.css";
 
@@ -140,7 +142,10 @@ export default function Layout({ children }: { children: ReactNode }) {
         />
       </head>
       <body className="flex flex-col min-h-screen antialiased">
-        <RootProvider>{children}</RootProvider>
+        <ConsoleFilter />
+        <SessionProvider>
+          <RootProvider>{children}</RootProvider>
+        </SessionProvider>
         <Analytics />
       </body>
     </html>

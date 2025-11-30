@@ -20,7 +20,7 @@ export function Hero() {
     "A powerful Discord bot for role management. Let members choose their own roles with reactions, welcome new members automatically, track XP, generate AI avatars, and more.";
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden">
+    <section className="relative min-h-[110vh] flex items-center justify-center px-4 overflow-hidden -mt-16 pt-16">
       {/* Epic Animated Background */}
       <div className="absolute inset-0 pointer-events-none z-0">
         {/* Main gradient background */}

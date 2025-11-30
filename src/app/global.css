@@ -2,8 +2,78 @@
 @import "fumadocs-ui/css/catppuccin.css";
 @import "fumadocs-ui/css/preset.css";
 
+@theme {
+  /* shadcn-ui colors mapped to catppuccin (light mode - Latte) */
+  /* Using CSS variable references for shadcn-ui compatibility */
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --radius: 0.5rem;
+}
+
 :root {
   --spacing-fd-container: 1120px;
+
+  /* shadcn-ui CSS variables for compatibility (light mode) */
+  --background: 220 23% 95%;
+  --foreground: 234 16% 35%;
+  --card: 220 23% 92%;
+  --card-foreground: 234 16% 35%;
+  --popover: 220 23% 95%;
+  --popover-foreground: 234 16% 35%;
+  --primary: 234 16% 35%;
+  --primary-foreground: 220 23% 95%;
+  --secondary: 220 23% 88%;
+  --secondary-foreground: 234 16% 35%;
+  --muted: 220 23% 88%;
+  --muted-foreground: 234 13% 41%;
+  --accent: 220 23% 88%;
+  --accent-foreground: 234 16% 35%;
+  --destructive: 347 87% 75%;
+  --destructive-foreground: 220 23% 95%;
+  --border: 220 23% 88%;
+  --input: 220 23% 88%;
+  --ring: 217 92% 76%;
+  --radius: 0.5rem;
+}
+
+.dark {
+  /* shadcn-ui CSS variables mapped to catppuccin colors (dark mode - Mocha) */
+  --background: 240 21% 15%; /* Base #1e1e2e */
+  --foreground: 231 48% 87%; /* Text #cdd6f4 */
+  --card: 240 21% 23%; /* Surface0 #313244 */
+  --card-foreground: 231 48% 87%; /* Text #cdd6f4 */
+  --popover: 240 21% 15%; /* Base #1e1e2e */
+  --popover-foreground: 231 48% 87%; /* Text #cdd6f4 */
+  --primary: 231 48% 87%; /* Text #cdd6f4 */
+  --primary-foreground: 240 21% 15%; /* Base #1e1e2e */
+  --secondary: 240 21% 23%; /* Surface0 #313244 */
+  --secondary-foreground: 231 48% 87%; /* Text #cdd6f4 */
+  --muted: 240 21% 23%; /* Surface0 #313244 */
+  --muted-foreground: 231 25% 80%; /* Subtext1 #bac2de */
+  --accent: 240 21% 23%; /* Surface0 #313244 */
+  --accent-foreground: 231 48% 87%; /* Text #cdd6f4 */
+  --destructive: 347 87% 75%; /* Red #f38ba8 */
+  --destructive-foreground: 231 48% 87%; /* Text #cdd6f4 */
+  --border: 240 21% 23%; /* Surface0 #313244 */
+  --input: 240 21% 23%; /* Surface0 #313244 */
+  --ring: 217 92% 76%; /* Blue #89b4fa */
 }
 
 @layer utilities {
