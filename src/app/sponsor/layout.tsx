@@ -27,33 +27,39 @@ export const metadata: Metadata = {
 };
 
 export default function SponsorLayout({ children }: { children: ReactNode }) {
+  const mergedLinks = [
+    // Left-side navigation items
+    {
+      type: "menu" as const,
+      on: "menu" as const,
+      text: "Documentation",
+      items: [
+        {
+          text: "Getting Started",
+          url: "/docs/ui",
+          icon: <Book />,
+        },
+        {
+          text: "Components",
+          url: "/docs/ui/components",
+          icon: <ComponentIcon />,
+        },
+      ],
+    },
+    {
+      text: "Documentation",
+      url: "/docs",
+    },
+    // All items from linkItems (GitHub, Discord, Sponsor)
+    ...linkItems,
+    // Right-side items from baseOptions (Login button)
+    ...(baseOptions.links || []),
+  ];
+
   return (
     <HomeLayout
       {...baseOptions}
-      links={[
-        {
-          type: "menu",
-          on: "menu",
-          text: "Documentation",
-          items: [
-            {
-              text: "Getting Started",
-              url: "/docs/ui",
-              icon: <Book />,
-            },
-            {
-              text: "Components",
-              url: "/docs/ui/components",
-              icon: <ComponentIcon />,
-            },
-          ],
-        },
-        {
-          text: "Documentation",
-          url: "/docs",
-        },
-        ...linkItems,
-      ]}
+      {...{ links: mergedLinks }}
       className="dark:bg-neutral-950 dark:[--color-fd-background:var(--color-neutral-950)]"
     >
       {children}

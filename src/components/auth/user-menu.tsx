@@ -2,6 +2,7 @@
 
 import { useSession, signIn, signOut } from "next-auth/react";
 import { LogOut } from "lucide-react";
+import { useEffect, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,12 +13,43 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+
+// Helper function to check if session cookie exists
+function hasSessionCookie(): boolean {
+  if (typeof document === "undefined") return false;
+
+  // NextAuth v5 uses different cookie names, check for common ones
+  const cookies = document.cookie.split(";");
+  return cookies.some(
+    (cookie) =>
+      cookie.trim().startsWith("authjs.session-token=") ||
+      cookie.trim().startsWith("__Secure-authjs.session-token=") ||
+      cookie.trim().startsWith("next-auth.session-token=") ||
+      cookie.trim().startsWith("__Secure-next-auth.session-token=")
+  );
+}
 
 export function UserMenu() {
   const { data: session, status } = useSession();
+  const [hasCookie, setHasCookie] = useState(false);
 
-  // Show Login button by default (for loading or unauthenticated states)
-  if (status === "loading" || status === "unauthenticated" || !session) {
+  // Check for session cookie on mount and when status changes
+  useEffect(() => {
+    setHasCookie(hasSessionCookie());
+  }, [status]);
+
+  // Show loading skeleton when checking authentication status
+  // Only show skeleton if we have a session cookie (user might be logged in)
+  if (status === "loading") {
+    if (hasCookie || session) {
+      return (
+        <div className="relative flex items-center ml-2">
+          <Skeleton className="h-8 w-8 rounded-full" />
+        </div>
+      );
+    }
+    // No cookie and no session - show Login button (disabled)
     return (
       <Button
         variant="ghost"
@@ -30,7 +62,27 @@ export function UserMenu() {
         aria-label="Login"
         title="Login"
         className="h-8 ml-2"
-        disabled={status === "loading"}
+        disabled
+      >
+        Login
+      </Button>
+    );
+  }
+
+  // Show Login button when unauthenticated or no session
+  if (status === "unauthenticated" || !session) {
+    return (
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={() => {
+          const currentPath =
+            typeof window !== "undefined" ? window.location.pathname : "/";
+          signIn("discord", { callbackUrl: currentPath });
+        }}
+        aria-label="Login"
+        title="Login"
+        className="h-8 ml-2"
       >
         Login
       </Button>

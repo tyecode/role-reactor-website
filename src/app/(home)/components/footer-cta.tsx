@@ -2,42 +2,35 @@ import Link from "next/link";
 import { FaDiscord, FaRocket } from "react-icons/fa";
 import { Sparkles, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { BubbleBackground } from "@/components/ui/bubble-background";
 
 import { links } from "@/constants/links";
 
 export function FooterCTA() {
   return (
     <section className="py-12 px-4 relative overflow-hidden">
-      {/* Enhanced background with more depth */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-purple-900/20" />
+      {/* Abstract Digital Background */}
+      <div className="absolute inset-0 z-0">
+        {/* Main gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-purple-900/20 pointer-events-none" />
 
-      {/* More prominent decorative elements */}
-      <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-r from-blue-400 to-cyan-400 dark:from-blue-500 dark:to-cyan-500 rounded-full blur-3xl opacity-20 dark:opacity-15 animate-float-1" />
-      <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-gradient-to-r from-purple-400 to-pink-400 dark:from-purple-500 dark:to-pink-500 rounded-full blur-3xl opacity-25 dark:opacity-20 animate-float-2" />
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-gradient-to-r from-indigo-400 to-blue-400 dark:from-indigo-500 dark:to-blue-500 rounded-full blur-3xl opacity-30 dark:opacity-25 animate-float-3" />
+        {/* Bubble Background with gooey metaball effect - different from hero */}
+        <BubbleBackground
+          interactive={false}
+          className="absolute inset-0"
+          transition={{ stiffness: 50, damping: 30 }}
+          colors={{
+            first: "139, 92, 246", // purple-500
+            second: "236, 72, 153", // pink-500
+            third: "168, 85, 247", // purple-400
+            fourth: "99, 102, 241", // indigo-500
+            fifth: "59, 130, 246", // blue-500
+            sixth: "124, 58, 237", // violet-600
+          }}
+        />
 
-      {/* Grid pattern */}
-      <div
-        className="absolute inset-0 opacity-20"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%236366F1' fill-opacity='0.1'%3E%3Ccircle cx='20' cy='20' r='1'/%3E%3C/g%3E%3C/svg%3E")`,
-        }}
-      />
-
-      {/* Floating particles for extra visual interest */}
-      <div className="absolute inset-0">
-        {[...Array(15)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-1 h-1 bg-indigo-500 dark:bg-white rounded-full opacity-60 dark:opacity-60 animate-particle"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${3 + Math.random() * 4}s`,
-            }}
-          />
-        ))}
+        {/* Dark overlay to reduce brightness - slightly lighter than hero */}
+        <div className="absolute inset-0 bg-black/30 dark:bg-black/50 pointer-events-none" />
       </div>
 
       <div className="max-w-4xl mx-auto relative z-10">

@@ -8,6 +8,7 @@ import { ArrowRight } from "lucide-react";
 import { Typewriter } from "@/components/common/typewriter";
 import { Button } from "@/components/ui/button";
 import { links } from "@/constants/links";
+import { BubbleBackground } from "@/components/ui/bubble-background";
 
 const audiowide = Audiowide({
   subsets: ["latin"],
@@ -21,39 +22,28 @@ export function Hero() {
 
   return (
     <section className="relative min-h-[110vh] flex items-center justify-center px-4 overflow-hidden -mt-16 pt-16">
-      {/* Epic Animated Background */}
-      <div className="absolute inset-0 pointer-events-none z-0">
+      {/* Abstract Digital Background */}
+      <div className="absolute inset-0 z-0">
         {/* Main gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-100 via-white to-blue-100 dark:from-gray-900 dark:via-gray-950 dark:to-blue-900" />
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-100 via-white to-blue-100 dark:from-gray-900 dark:via-gray-950 dark:to-blue-900 pointer-events-none" />
 
-        {/* Animated floating orbs */}
-        <div className="absolute w-96 h-96 bg-gradient-to-r from-blue-300 to-purple-400 dark:from-blue-400 dark:to-purple-500 rounded-full blur-3xl opacity-30 dark:opacity-20 animate-float-1" />
-        <div className="absolute w-80 h-80 bg-gradient-to-r from-pink-300 to-red-400 dark:from-pink-400 dark:to-red-500 rounded-full blur-3xl opacity-25 dark:opacity-15 animate-float-2" />
-        <div className="absolute w-64 h-64 bg-gradient-to-r from-cyan-300 to-blue-400 dark:from-cyan-400 dark:to-blue-500 rounded-full blur-3xl opacity-35 dark:opacity-25 animate-float-3" />
-
-        {/* Grid pattern overlay */}
-        <div
-          className="absolute inset-0 opacity-40"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+        {/* Bubble Background with gooey metaball effect */}
+        <BubbleBackground
+          interactive={true}
+          className="absolute inset-0"
+          transition={{ stiffness: 50, damping: 30 }}
+          colors={{
+            first: "99, 102, 241", // indigo-500
+            second: "139, 92, 246", // purple-500
+            third: "59, 130, 246", // blue-500
+            fourth: "236, 72, 153", // pink-500
+            fifth: "168, 85, 247", // purple-400
+            sixth: "79, 70, 229", // indigo-600
           }}
         />
 
-        {/* Floating particles */}
-        <div className="absolute inset-0">
-          {[...Array(20)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-1 h-1 bg-indigo-500 dark:bg-white rounded-full opacity-60 dark:opacity-60 animate-particle"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 3}s`,
-                animationDuration: `${3 + Math.random() * 4}s`,
-              }}
-            />
-          ))}
-        </div>
+        {/* Dark overlay to reduce brightness */}
+        <div className="absolute inset-0 bg-black/40 dark:bg-black/60 pointer-events-none" />
       </div>
 
       <div className="max-w-6xl mx-auto text-center space-y-8 relative z-10">
