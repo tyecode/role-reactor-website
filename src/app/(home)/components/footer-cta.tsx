@@ -12,7 +12,7 @@ export function FooterCTA() {
       {/* Abstract Digital Background */}
       <div className="absolute inset-0 z-0">
         {/* Main gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900/20 dark:to-purple-900/20 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-900/20 to-purple-900/20 pointer-events-none" />
 
         {/* Bubble Background with gooey metaball effect - different from hero */}
         <BubbleBackground
@@ -30,14 +30,14 @@ export function FooterCTA() {
         />
 
         {/* Dark overlay to reduce brightness - slightly lighter than hero */}
-        <div className="absolute inset-0 bg-black/30 dark:bg-black/50 pointer-events-none" />
+        <div className="absolute inset-0 bg-black/50 pointer-events-none" />
       </div>
 
       <div className="max-w-4xl mx-auto relative z-10">
         {/* Main CTA Card */}
-        <div className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl border border-gray-200/50 dark:border-gray-700/50 rounded-2xl p-6 md:p-8 shadow-xl relative overflow-hidden">
+        <div className="bg-gray-900/90 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-6 md:p-8 shadow-xl relative overflow-hidden">
           {/* Card background pattern */}
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-purple-50/50 dark:from-blue-900/10 dark:to-purple-900/10" />
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 to-purple-900/10" />
 
           {/* Decorative elements */}
           <div className="absolute top-4 right-4 w-20 h-20 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full blur-xl opacity-20" />
@@ -51,11 +51,11 @@ export function FooterCTA() {
             </div>
 
             {/* Main heading */}
-            <h2 className="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
+            <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
               Ready to Level Up?
             </h2>
 
-            <p className="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed mb-8">
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed mb-8">
               Stop struggling with manual role management. Role Reactor
               automates everything so you can focus on building an amazing
               community.
@@ -103,17 +103,17 @@ export function FooterCTA() {
 
         {/* Trust Indicators */}
         <div className="mt-8 text-center">
-          <div className="flex items-center justify-center gap-8 text-gray-600 dark:text-gray-400 text-sm">
+          <div className="flex items-center justify-center gap-8 text-gray-400 text-sm">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
               <span>100% Free</span>
             </div>
-            <div className="w-px h-4 bg-gray-300 dark:bg-gray-600" />
+            <div className="w-px h-4 bg-gray-600" />
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
               <span>30s Setup</span>
             </div>
-            <div className="w-px h-4 bg-gray-300 dark:bg-gray-600" />
+            <div className="w-px h-4 bg-gray-600" />
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" />
               <span>24/7 Online</span>

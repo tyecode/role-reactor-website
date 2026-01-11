@@ -9,18 +9,19 @@ import { links } from "@/constants/links";
 import { UserMenu } from "@/components/auth/user-menu";
 
 export const linkItems: LinkItemType[] = [
-  {
-    type: "custom",
-    children: (
-      <a
-        href="/sponsor"
-        className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
-      >
-        <Heart className="h-4 w-4 text-pink-500" />
-        <span>Sponsor</span>
-      </a>
-    ),
-  },
+  // Temporarily hidden - sponsor page not ready
+  // {
+  //   type: "custom",
+  //   children: (
+  //     <a
+  //       href="/sponsor"
+  //       className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+  //     >
+  //       <Heart className="h-4 w-4 text-pink-500" />
+  //       <span>Sponsor</span>
+  //     </a>
+  //   ),
+  // },
 ];
 
 export const baseOptions: BaseLayoutProps = {

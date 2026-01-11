@@ -9,7 +9,7 @@ const audiowide = Audiowide({
 
 export default function NotFound() {
   return (
-    <main className="relative flex flex-col items-center justify-center min-h-screen text-center px-4 bg-gradient-to-br from-slate-100 via-white to-blue-100 dark:from-gray-900 dark:via-gray-950 dark:to-blue-900 overflow-hidden">
+    <main className="relative flex flex-col items-center justify-center min-h-screen text-center px-4 bg-gradient-to-br from-slate-100 via-white from-gray-900via-gray-950to-blue-900 overflow-hidden">
       {/* Animated Background Shapes */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <div className="absolute w-[180px] h-[180px] bg-gradient-to-br from-blue-200 to-purple-200 rounded-full blur-3xl opacity-25 animate-bg-move-1" />
@@ -29,7 +29,7 @@ export default function NotFound() {
           width={64}
           height={64}
           alt="Role Reactor Bot Logo"
-          className="mb-6 drop-shadow-lg rounded-full border border-primary/20 bg-white dark:bg-[#23263a]"
+          className="mb-6 drop-shadow-lg rounded-full border border-primary/20 bg-[#23263a]"
           priority
         />
         <h1

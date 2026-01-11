@@ -12,12 +12,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly" as const,
       priority: 1,
     },
-    {
-      url: `${baseUrl}/sponsor`,
-      lastModified: new Date(),
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
-    },
+    // Temporarily hidden - sponsor page not ready
+    // {
+    //   url: `${baseUrl}/sponsor`,
+    //   lastModified: new Date(),
+    //   changeFrequency: "monthly" as const,
+    //   priority: 0.9,
+    // },
     {
       url: `${baseUrl}/docs`,
       lastModified: new Date(),

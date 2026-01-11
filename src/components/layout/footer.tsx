@@ -60,6 +60,12 @@ export function Footer() {
               Terms of Use
             </Link>
             <Link
+              href="/contact"
+              className="text-gray-600 dark:text-gray-400 hover:text-[var(--color-fd-foreground)] transition-colors"
+            >
+              Contact
+            </Link>
+            <Link
               href={links.support}
               className="text-gray-600 dark:text-gray-400 hover:text-[var(--color-fd-foreground)] transition-colors"
               target="_blank"

@@ -77,13 +77,17 @@ function BubbleBackground(
     >
       <style>
         {`
-          :root {
+          [data-slot="bubble-background"] {
             --first-color: ${colors.first};
             --second-color: ${colors.second};
             --third-color: ${colors.third};
             --fourth-color: ${colors.fourth};
             --fifth-color: ${colors.fifth};
             --sixth-color: ${colors.sixth};
+            --bubble-opacity: 0.8;
+          }
+          [data-slot="bubble-background"] .bubble-blend {
+            mix-blend-mode: hard-light;
           }
         `}
       </style>
@@ -113,7 +117,7 @@ function BubbleBackground(
         style={{ filter: "url(#goo) blur(40px)" }}
       >
         <motion.div
-          className="absolute rounded-full size-[80%] top-[10%] left-[10%] mix-blend-hard-light bg-[radial-gradient(circle_at_center,rgba(var(--first-color),0.8)_0%,rgba(var(--first-color),0)_50%)]"
+          className="absolute rounded-full size-[80%] top-[10%] left-[10%] bubble-blend bg-[radial-gradient(circle_at_center,rgba(var(--first-color),var(--bubble-opacity))_0%,rgba(var(--first-color),0)_50%)]"
           animate={{ y: [-50, 50, -50] }}
           transition={{
             duration: 40,
@@ -131,17 +135,17 @@ function BubbleBackground(
             repeatType: "loop",
           }}
         >
-          <div className="rounded-full size-[80%] top-[10%] left-[10%] mix-blend-hard-light bg-[radial-gradient(circle_at_center,rgba(var(--second-color),0.8)_0%,rgba(var(--second-color),0)_50%)]" />
+          <div className="rounded-full size-[80%] top-[10%] left-[10%] bubble-blend bg-[radial-gradient(circle_at_center,rgba(var(--second-color),var(--bubble-opacity))_0%,rgba(var(--second-color),0)_50%)]" />
         </motion.div>
         <motion.div
           className="absolute inset-0 flex justify-center items-center origin-[calc(50%+400px)]"
           animate={{ rotate: 360 }}
           transition={{ duration: 50, ease: "linear", repeat: Infinity }}
         >
-          <div className="absolute rounded-full size-[80%] bg-[radial-gradient(circle_at_center,rgba(var(--third-color),0.8)_0%,rgba(var(--third-color),0)_50%)] mix-blend-hard-light top-[calc(50%+200px)] left-[calc(50%-500px)]" />
+          <div className="absolute rounded-full size-[80%] bubble-blend bg-[radial-gradient(circle_at_center,rgba(var(--third-color),var(--bubble-opacity))_0%,rgba(var(--third-color),0)_50%)] top-[calc(50%+200px)] left-[calc(50%-500px)]" />
         </motion.div>
         <motion.div
-          className="absolute rounded-full size-[80%] top-[10%] left-[10%] mix-blend-hard-light bg-[radial-gradient(circle_at_center,rgba(var(--fourth-color),0.8)_0%,rgba(var(--fourth-color),0)_50%)] opacity-70"
+          className="absolute rounded-full size-[80%] top-[10%] left-[10%] bubble-blend bg-[radial-gradient(circle_at_center,rgba(var(--fourth-color),var(--bubble-opacity))_0%,rgba(var(--fourth-color),0)_50%)] opacity-70"
           animate={{ x: [-50, 50, -50] }}
           transition={{
             duration: 50,
@@ -154,11 +158,11 @@ function BubbleBackground(
           animate={{ rotate: 360 }}
           transition={{ duration: 35, ease: "linear", repeat: Infinity }}
         >
-          <div className="absolute rounded-full size-[160%] mix-blend-hard-light bg-[radial-gradient(circle_at_center,rgba(var(--fifth-color),0.8)_0%,rgba(var(--fifth-color),0)_50%)] top-[calc(50%-80%)] left-[calc(50%-80%)]" />
+          <div className="absolute rounded-full size-[160%] bubble-blend bg-[radial-gradient(circle_at_center,rgba(var(--fifth-color),var(--bubble-opacity))_0%,rgba(var(--fifth-color),0)_50%)] top-[calc(50%-80%)] left-[calc(50%-80%)]" />
         </motion.div>
         {interactive && (
           <motion.div
-            className="absolute rounded-full size-full mix-blend-hard-light bg-[radial-gradient(circle_at_center,rgba(var(--sixth-color),0.8)_0%,rgba(var(--sixth-color),0)_50%)] opacity-70"
+            className="absolute rounded-full size-full bubble-blend bg-[radial-gradient(circle_at_center,rgba(var(--sixth-color),var(--bubble-opacity))_0%,rgba(var(--sixth-color),0)_50%)] opacity-70"
             style={{
               x: springX,
               y: springY,

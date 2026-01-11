@@ -7,8 +7,10 @@ import { Analytics } from "@vercel/analytics/next";
 import { links } from "@/constants/links";
 import { SessionProvider } from "@/components/auth/session-provider";
 import { ConsoleFilter } from "@/components/common/console-filter";
+import { OnchainKitProviderWrapper } from "@/components/providers/onchainkit-provider";
 
 import "@/app/global.css";
+import "@coinbase/onchainkit/styles.css";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -105,7 +107,11 @@ export const metadata: Metadata = {
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={inter.className} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${inter.className} dark`}
+      suppressHydrationWarning
+    >
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/images/favicon/favicon.ico" />
@@ -140,13 +146,88 @@ export default function Layout({ children }: { children: ReactNode }) {
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
+        {/* Force dark mode script - runs early to ensure dark class is always applied */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                if (typeof document === 'undefined') return;
+                document.documentElement.classList.add('dark');
+                // Prevent theme switching by removing theme from localStorage
+                try {
+                  localStorage.removeItem('theme');
+                  localStorage.removeItem('fumadocs-theme');
+                } catch (e) {}
+                // Observer to ensure dark class stays
+                const observer = new MutationObserver(function(mutations) {
+                  if (!document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.add('dark');
+                  }
+                });
+                observer.observe(document.documentElement, {
+                  attributes: true,
+                  attributeFilter: ['class']
+                });
+              })();
+            `,
+          }}
+        />
+        {/* Console filter script - runs early to catch extension warnings */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                if (typeof window === 'undefined') return;
+                const patterns = [
+                  /SES Removing unpermitted intrinsics/i,
+                  /Removing intrinsics/i,
+                  /lockdown-install/i,
+                  /moz-extension:/i,
+                  /chrome-extension:/i,
+                  /safari-extension:/i,
+                  /Partitioned cookie or storage access/i,
+                  /verify\\.walletconnect/i,
+                  /contentscript/i,
+                  /Ignoring unsupported entryTypes/i,
+                  /longtask/i,
+                  /This page is in Quirks Mode/i,
+                  /Page layout may be impacted/i,
+                  /\\[bugsnag\\]/i,
+                  /Referrer Policy: Ignoring/i,
+                  /Analytics SDK.*NetworkError/i,
+                  /NetworkError when attempting to fetch resource/i,
+                  /AnalyticsSDKApiError/i
+                ];
+                const shouldFilter = (args) => {
+                  const msg = args.map(a => typeof a === 'string' ? a : String(a)).join(' ');
+                  return patterns.some(p => p.test(msg));
+                };
+                const origWarn = console.warn;
+                const origError = console.error;
+                const origInfo = console.info;
+                console.warn = function(...args) {
+                  if (!shouldFilter(args)) origWarn.apply(console, args);
+                };
+                console.error = function(...args) {
+                  if (!shouldFilter(args)) origError.apply(console, args);
+                };
+                console.info = function(...args) {
+                  if (!shouldFilter(args)) origInfo.apply(console, args);
+                };
+              })();
+            `,
+          }}
+        />
       </head>
       <body className="flex flex-col min-h-screen antialiased">
         <ConsoleFilter />
         <SessionProvider>
-          <RootProvider>{children}</RootProvider>
+          <OnchainKitProviderWrapper>
+            <RootProvider>{children}</RootProvider>
+          </OnchainKitProviderWrapper>
         </SessionProvider>
-        <Analytics />
+        {/* Only load analytics in production to prevent development errors */}
+        {process.env.NODE_ENV === "production" && <Analytics />}
       </body>
     </html>
   );

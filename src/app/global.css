@@ -1,9 +1,9 @@
 @import "tailwindcss";
-@import "fumadocs-ui/css/catppuccin.css";
+@import "fumadocs-ui/css/vitepress.css";
 @import "fumadocs-ui/css/preset.css";
 
 @theme {
-  /* shadcn-ui colors mapped to catppuccin (light mode - Latte) */
+  /* shadcn-ui colors mapped to catppuccin (dark mode - Mocha) */
   /* Using CSS variable references for shadcn-ui compatibility */
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
@@ -30,30 +30,10 @@
 :root {
   --spacing-fd-container: 1120px;
 
-  /* shadcn-ui CSS variables for compatibility (light mode) */
-  --background: 220 23% 95%;
-  --foreground: 234 16% 35%;
-  --card: 220 23% 92%;
-  --card-foreground: 234 16% 35%;
-  --popover: 220 23% 95%;
-  --popover-foreground: 234 16% 35%;
-  --primary: 234 16% 35%;
-  --primary-foreground: 220 23% 95%;
-  --secondary: 220 23% 88%;
-  --secondary-foreground: 234 16% 35%;
-  --muted: 220 23% 88%;
-  --muted-foreground: 234 13% 41%;
-  --accent: 220 23% 88%;
-  --accent-foreground: 234 16% 35%;
-  --destructive: 347 87% 75%;
-  --destructive-foreground: 220 23% 95%;
-  --border: 220 23% 88%;
-  --input: 220 23% 88%;
-  --ring: 217 92% 76%;
-  --radius: 0.5rem;
-}
+  /* Override fumadocs border colors to use dark theme */
+  --fd-border: hsl(var(--border)) !important;
+  --fd-border-color: hsl(var(--border)) !important;
 
-.dark {
   /* shadcn-ui CSS variables mapped to catppuccin colors (dark mode - Mocha) */
   --background: 240 21% 15%; /* Base #1e1e2e */
   --foreground: 231 48% 87%; /* Text #cdd6f4 */
@@ -71,9 +51,10 @@
   --accent-foreground: 231 48% 87%; /* Text #cdd6f4 */
   --destructive: 347 87% 75%; /* Red #f38ba8 */
   --destructive-foreground: 231 48% 87%; /* Text #cdd6f4 */
-  --border: 240 21% 23%; /* Surface0 #313244 */
-  --input: 240 21% 23%; /* Surface0 #313244 */
+  --border: 240 23% 25%; /* Surface1 - lighter for better visibility */
+  --input: 240 23% 25%; /* Surface1 - lighter for better visibility */
   --ring: 217 92% 76%; /* Blue #89b4fa */
+  --radius: 0.5rem;
 }
 
 @layer utilities {
@@ -86,13 +67,81 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  ::selection {
-    background: #b4c5f6;
-    color: #22223b;
+  /* Force dark mode - hide theme toggle */
+  html:not(.dark) {
+    color-scheme: dark;
   }
 
-  html.dark ::selection,
-  body.dark ::selection {
+  /* Hide theme toggle button if it exists */
+  [data-theme-toggle],
+  button[aria-label*="theme"],
+  button[aria-label*="Theme"] {
+    display: none !important;
+  }
+
+  /* Remove white borders from fumadocs components - comprehensive override */
+  /* Override fumadocs CSS variables */
+  :root,
+  html,
+  body {
+    --fd-border: hsl(var(--border)) !important;
+    --fd-border-color: hsl(var(--border)) !important;
+  }
+
+  /* Override all borders in fumadocs documentation */
+  nav[class*="border"],
+  aside[class*="border"],
+  [role="navigation"][class*="border"],
+  [role="complementary"][class*="border"],
+  [role="banner"][class*="border"],
+  header[class*="border"],
+  section[class*="border"],
+  div[class*="border"],
+  article[class*="border"] {
+    border-color: hsl(var(--border)) !important;
+  }
+
+  /* Override any white/light border classes */
+  [class*="border-white"],
+  [class*="border-gray-100"],
+  [class*="border-gray-200"],
+  [class*="border-slate-100"],
+  [class*="border-slate-200"],
+  [class*="border-zinc-100"],
+  [class*="border-zinc-200"],
+  [class*="border-neutral-100"],
+  [class*="border-neutral-200"],
+  [class*="border-stone-100"],
+  [class*="border-stone-200"] {
+    border-color: hsl(var(--border)) !important;
+  }
+
+  /* Target fumadocs layout components specifically */
+  [data-fd-nav],
+  [data-fd-sidebar],
+  [data-fd-content],
+  [class*="fd-nav"],
+  [class*="fd-sidebar"],
+  [class*="fd-content"],
+  [class*="fd-layout"] {
+    border-color: hsl(var(--border)) !important;
+  }
+
+  /* Override borders in documentation pages */
+  main[class*="fd"] [class*="border"],
+  main[class*="fd"] *[class*="border"],
+  [href*="/docs"] ~ * [class*="border"] {
+    border-color: hsl(var(--border)) !important;
+  }
+
+  /* Force all visible borders to use dark theme color (except transparent/none) */
+  [class*="border"]:not([class*="border-transparent"]):not(
+      [class*="border-none"]
+    ):not([class*="border-0"]) {
+    border-color: hsl(var(--border)) !important;
+  }
+
+  ::selection {
     background: #5865f2;
     color: #f8f8ff;
   }

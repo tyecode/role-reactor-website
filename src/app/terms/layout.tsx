@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 
 export default function TermsLayout({ children }: { children: ReactNode }) {
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       {children}
       <Footer />
     </div>

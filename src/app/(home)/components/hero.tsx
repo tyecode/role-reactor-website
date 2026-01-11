@@ -25,7 +25,7 @@ export function Hero() {
       {/* Abstract Digital Background */}
       <div className="absolute inset-0 z-0">
         {/* Main gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-100 via-white to-blue-100 dark:from-gray-900 dark:via-gray-950 dark:to-blue-900 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-950 to-blue-900 pointer-events-none" />
 
         {/* Bubble Background with gooey metaball effect */}
         <BubbleBackground
@@ -43,7 +43,7 @@ export function Hero() {
         />
 
         {/* Dark overlay to reduce brightness */}
-        <div className="absolute inset-0 bg-black/40 dark:bg-black/60 pointer-events-none" />
+        <div className="absolute inset-0 bg-black/60 pointer-events-none" />
       </div>
 
       <div className="max-w-6xl mx-auto text-center space-y-8 relative z-10">
@@ -52,7 +52,7 @@ export function Hero() {
           <div className="flex items-center justify-center gap-4 flex-col md:flex-row">
             <div className="relative group">
               <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl blur-lg opacity-75 group-hover:opacity-100 transition-opacity duration-300" />
-              <div className="relative bg-white/80 dark:bg-white/10 backdrop-blur-sm border border-indigo-200/50 dark:border-white/20 rounded-xl p-3 group-hover:scale-110 transition-transform duration-300">
+              <div className="relative bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-3 group-hover:scale-110 transition-transform duration-300">
                 <Image
                   src="/logo.png"
                   width={60}
@@ -66,7 +66,7 @@ export function Hero() {
             <div className="text-center md:text-left">
               <h1
                 className={cn(
-                  "text-4xl md:text-6xl font-bold bg-gradient-to-r from-indigo-900 via-blue-800 to-purple-800 dark:from-white dark:via-blue-100 dark:to-purple-100 bg-clip-text text-transparent leading-tight animate-slide-up",
+                  "text-4xl md:text-6xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent leading-tight animate-slide-up",
                   audiowide.className
                 )}
                 aria-label="Role Reactor - Ultimate Discord Bot for Role Management"
@@ -81,7 +81,7 @@ export function Hero() {
         <div className="animate-fade-in-up delay-400">
           <Typewriter
             text={tagline}
-            className="text-lg md:text-xl text-indigo-800 dark:text-white/90 max-w-3xl mx-auto leading-relaxed min-h-[2.5em] font-light"
+            className="text-lg md:text-xl text-white/90 max-w-3xl mx-auto leading-relaxed min-h-[2.5em] font-light"
             cursor
             aria-label="Role Reactor Discord bot tagline"
           />
@@ -128,28 +128,28 @@ export function Hero() {
         {/* Trust indicators */}
         <div className="flex items-center justify-center gap-10 pt-8 animate-fade-in-up delay-800">
           <div className="text-center">
-            <div className="text-lg font-bold text-indigo-900 dark:text-white">
+            <div className="text-lg font-bold text-white">
               Free
             </div>
-            <div className="text-indigo-600 dark:text-white/60 text-xs">
+            <div className="text-white/60 text-xs">
               No cost
             </div>
           </div>
-          <div className="w-px h-8 bg-indigo-300 dark:bg-white/20" />
+          <div className="w-px h-8 bg-white/20" />
           <div className="text-center">
-            <div className="text-lg font-bold text-indigo-900 dark:text-white">
+            <div className="text-lg font-bold text-white">
               Simple
             </div>
-            <div className="text-indigo-600 dark:text-white/60 text-xs">
+            <div className="text-white/60 text-xs">
               Easy setup
             </div>
           </div>
-          <div className="w-px h-8 bg-indigo-300 dark:bg-white/20" />
+          <div className="w-px h-8 bg-white/20" />
           <div className="text-center">
-            <div className="text-lg font-bold text-indigo-900 dark:text-white">
+            <div className="text-lg font-bold text-white">
               Reliable
             </div>
-            <div className="text-indigo-600 dark:text-white/60 text-xs">
+            <div className="text-white/60 text-xs">
               Always works
             </div>
           </div>

@@ -60,7 +60,7 @@ export default function SponsorLayout({ children }: { children: ReactNode }) {
     <HomeLayout
       {...baseOptions}
       {...{ links: mergedLinks }}
-      className="dark:bg-neutral-950 dark:[--color-fd-background:var(--color-neutral-950)]"
+      className="[--color-fd-background:var(--color-neutral-950)]"
     >
       {children}
       <Footer />

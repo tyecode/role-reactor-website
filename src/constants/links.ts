@@ -10,6 +10,7 @@ export const links = {
   support: "https://discord.gg/D8tYkU75Ry",
   github: "https://github.com/qodinger/role-reactor-bot",
   sponsor: "https://ko-fi.com/rolereactor",
+  buymeacoffee: "https://buymeacoffee.com/rolereactor",
   inviteBot:
     "https://discord.com/api/oauth2/authorize?client_id=1392714201558159431&scope=bot+applications.commands&permissions=268790880",
 };
