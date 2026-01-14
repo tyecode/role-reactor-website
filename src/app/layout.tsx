@@ -196,7 +196,12 @@ export default function Layout({ children }: { children: ReactNode }) {
                   /Referrer Policy: Ignoring/i,
                   /Analytics SDK.*NetworkError/i,
                   /NetworkError when attempting to fetch resource/i,
-                  /AnalyticsSDKApiError/i
+                  /AnalyticsSDKApiError/i,
+                  /Source map error.*request failed with status 404/i,
+                  /Source map error.*No sources are declared/i,
+                  /Source map error.*can't access property "sources"/i,
+                  /installHook\\.js\\.map/i,
+                  /react_devtools_backend_compact\\.js\\.map/i
                 ];
                 const shouldFilter = (args) => {
                   const msg = args.map(a => typeof a === 'string' ? a : String(a)).join(' ');

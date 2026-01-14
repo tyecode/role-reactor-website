@@ -48,6 +48,13 @@ export function ConsoleFilter() {
       /Analytics SDK.*NetworkError/i,
       /NetworkError when attempting to fetch resource/i,
       /AnalyticsSDKApiError/i,
+
+      // Source map errors (development mode)
+      /Source map error.*request failed with status 404/i,
+      /Source map error.*No sources are declared/i,
+      /Source map error.*can't access property "sources"/i,
+      /installHook\.js\.map/i,
+      /react_devtools_backend_compact\.js\.map/i,
     ];
 
     // Helper function to check if message should be filtered
