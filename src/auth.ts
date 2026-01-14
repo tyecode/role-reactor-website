@@ -16,14 +16,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async session({ session, token }) {
       if (session.user && token) {
-        session.user.id = token.sub as string;
+        // Use Discord ID (stored in token.id), not NextAuth's internal UUID (token.sub)
+        session.user.id = (token.id as string) || (token.sub as string);
         // Ensure image is set from token, or use default Discord avatar
         if (token.picture) {
           session.user.image = token.picture;
-        } else if (token.sub) {
+        } else if (token.id || token.sub) {
           // Fallback to default Discord avatar based on user ID
+          const discordId = (token.id as string) || (token.sub as string);
           session.user.image = `https://cdn.discordapp.com/embed/avatars/${
-            Number(token.sub) % 5
+            Number(discordId) % 5
           }.png`;
         }
       }

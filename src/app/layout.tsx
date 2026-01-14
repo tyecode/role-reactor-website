@@ -7,10 +7,10 @@ import { Analytics } from "@vercel/analytics/next";
 import { links } from "@/constants/links";
 import { SessionProvider } from "@/components/auth/session-provider";
 import { ConsoleFilter } from "@/components/common/console-filter";
-import { OnchainKitProviderWrapper } from "@/components/providers/onchainkit-provider";
+
 
 import "@/app/global.css";
-import "@coinbase/onchainkit/styles.css";
+
 
 const inter = Inter({
   subsets: ["latin"],
@@ -227,9 +227,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       <body className="flex flex-col min-h-screen antialiased">
         <ConsoleFilter />
         <SessionProvider>
-          <OnchainKitProviderWrapper>
             <RootProvider>{children}</RootProvider>
-          </OnchainKitProviderWrapper>
         </SessionProvider>
         {/* Only load analytics in production to prevent development errors */}
         {process.env.NODE_ENV === "production" && <Analytics />}

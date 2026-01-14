@@ -8,7 +8,8 @@ import { PaymentInfo } from "./components/payment-info";
 import { PricingCards } from "./components/pricing-cards";
 import { SupporterLeaderboard } from "./components/supporter-leaderboard";
 import { PricingFAQ } from "./components/pricing-faq";
-import { donationOptions } from "./components/constants";
+import { defaultPackages } from "./components/constants";
+import type { CorePackage, PricingData } from "@/types/pricing";
 
 interface Supporter {
   userId: string;
@@ -50,9 +51,37 @@ export default function SponsorPage() {
   const [supporters, setSupporters] = useState<Supporter[]>([]);
   const [totalRaised, setTotalRaised] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [loadingAmount, setLoadingAmount] = useState<number | null>(null);
+  const [loadingPackageId, setLoadingPackageId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [paymentStatus, setPaymentStatus] = useState<string | null>(null);
+  const [packages, setPackages] = useState<CorePackage[]>(defaultPackages);
+  const [pricingData, setPricingData] = useState<PricingData | null>(null);
+  const [pricingLoading, setPricingLoading] = useState(true);
+
+  // Fetch pricing data from API
+  const fetchPricing = useCallback(async () => {
+    try {
+      setPricingLoading(true);
+      const url = session?.user?.id
+        ? `/api/pricing?user_id=${session.user.id}`
+        : "/api/pricing";
+
+      const response = await fetch(url);
+      const data = await response.json();
+
+      if (data.success && data.data) {
+        setPricingData(data.data);
+        if (data.data.packages && data.data.packages.length > 0) {
+          setPackages(data.data.packages);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching pricing:", error);
+      // Keep using default packages on error
+    } finally {
+      setPricingLoading(false);
+    }
+  }, [session?.user?.id]);
 
   const fetchSupporters = useCallback(async () => {
     try {
@@ -71,14 +100,18 @@ export default function SponsorPage() {
   }, []);
 
   useEffect(() => {
+    fetchPricing();
     fetchSupporters();
-  }, [fetchSupporters]);
+  }, [fetchPricing, fetchSupporters]);
 
   const handlePaymentStatus = useCallback((status: string | null) => {
     setPaymentStatus(status);
   }, []);
 
-  const handlePayment = async (amount: number): Promise<void> => {
+  const handlePayment = async (
+    packageId: string,
+    amount: number
+  ): Promise<void> => {
     if (!session?.user?.id) {
       // Redirect to login
       signIn("discord", {
@@ -87,7 +120,7 @@ export default function SponsorPage() {
       return;
     }
 
-    setLoadingAmount(amount);
+    setLoadingPackageId(packageId);
     setError(null);
 
     try {
@@ -96,7 +129,10 @@ export default function SponsorPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ amount }),
+        body: JSON.stringify({
+          amount,
+          packageId,
+        }),
       });
 
       const data = await response.json();
@@ -109,16 +145,19 @@ export default function SponsorPage() {
         throw new Error(`${errorMsg}${details}`);
       }
 
-      if (data.success && data.data?.paymentUrl) {
+      // Handle different payment URL responses
+      const paymentUrl = data.data?.paymentUrl || data.data?.invoiceUrl;
+
+      if (data.success && paymentUrl) {
         // Redirect to payment page
-        window.location.href = data.data.paymentUrl;
+        window.location.href = paymentUrl;
       } else {
         throw new Error("No payment URL received");
       }
     } catch (err) {
       console.error("Payment error:", err);
       setError(err instanceof Error ? err.message : "Failed to create payment");
-      setLoadingAmount(null);
+      setLoadingPackageId(null);
     }
   };
 
@@ -137,12 +176,14 @@ export default function SponsorPage() {
         {/* Background */}
         <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-950 to-gray-900 opacity-30" />
 
-        <div className="max-w-[1120px] mx-auto relative z-10 px-4">
+        <div className="max-w-[1400px] mx-auto relative z-10 px-4">
           <PaymentInfo paymentStatus={paymentStatus} error={error} />
           <PricingCards
-            donationOptions={donationOptions}
+            packages={packages}
+            pricingData={pricingData}
             onPayment={handlePayment}
-            loadingAmount={loadingAmount}
+            loadingPackageId={loadingPackageId}
+            isLoading={pricingLoading}
           />
         </div>
       </section>
