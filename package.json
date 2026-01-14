@@ -19,7 +19,7 @@
   },
   "scripts": {
     "build": "next build",
-    "dev": "next dev --turbo",
+    "dev": "next dev --turbo --port 8080",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
