@@ -7,8 +7,8 @@ import { NextResponse } from "next/server";
 export async function GET() {
   try {
     // Get bot API URL from environment variable
-    const botApiUrl = process.env.BOT_API_URL || process.env.NEXT_PUBLIC_BOT_API_URL;
-    
+    const botApiUrl = process.env.BOT_API_URL;
+
     if (!botApiUrl) {
       console.warn("BOT_API_URL not configured, returning empty leaderboard");
       return NextResponse.json({
@@ -36,7 +36,7 @@ export async function GET() {
     }
 
     const data = await response.json();
-    
+
     // The bot returns data in format: { success: true, response: { data: {...} } }
     if (data.success && data.response?.data) {
       return NextResponse.json({
@@ -61,8 +61,7 @@ export async function GET() {
         success: false,
         error: "Failed to fetch supporters",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
-

@@ -8,8 +8,7 @@ import { auth } from "@/auth";
 export async function GET(request: NextRequest) {
   try {
     // Get bot API URL from environment variable
-    const botApiUrl =
-      process.env.BOT_API_URL || process.env.NEXT_PUBLIC_BOT_API_URL;
+    const botApiUrl = process.env.BOT_API_URL;
 
     if (!botApiUrl) {
       console.warn("BOT_API_URL not configured, returning default pricing");

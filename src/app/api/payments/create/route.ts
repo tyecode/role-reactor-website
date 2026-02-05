@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
             code: 401,
           },
         },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -39,13 +39,12 @@ export async function POST(request: NextRequest) {
             code: 400,
           },
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     // Get bot API URL (required for Plisio payments)
-    const botApiUrl =
-      process.env.BOT_API_URL || process.env.NEXT_PUBLIC_BOT_API_URL;
+    const botApiUrl = process.env.BOT_API_URL;
 
     if (!botApiUrl) {
       return NextResponse.json(
@@ -56,7 +55,7 @@ export async function POST(request: NextRequest) {
             code: 503,
           },
         },
-        { status: 503 }
+        { status: 503 },
       );
     }
 
@@ -101,7 +100,7 @@ export async function POST(request: NextRequest) {
       if (process.env.NODE_ENV === "development") {
         console.error(
           `Bot API payment creation failed (${botResponse.status}):`,
-          errorData
+          errorData,
         );
       }
 
@@ -122,7 +121,7 @@ export async function POST(request: NextRequest) {
               process.env.NODE_ENV === "development" ? errorData : undefined,
           },
         },
-        { status: statusCode }
+        { status: statusCode },
       );
     }
 
@@ -146,7 +145,7 @@ export async function POST(request: NextRequest) {
             code: 500,
           },
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -185,7 +184,7 @@ export async function POST(request: NextRequest) {
           code: 500,
         },
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
