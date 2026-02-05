@@ -11,7 +11,7 @@ import {
   type BMCStats,
 } from "@/lib/mock-data";
 
-export function DiscordSponsors() {
+export function SupportersList() {
   const [supporters, setSupporters] = useState<Supporter[]>([]);
   const [stats, setStats] = useState<BMCStats | null>(null);
   const [loading, setLoading] = useState(true);

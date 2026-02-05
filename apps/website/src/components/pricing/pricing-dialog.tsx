@@ -8,9 +8,9 @@ import {
   DialogTrigger,
 } from "@role-reactor/ui/components/dialog";
 import { Button } from "@role-reactor/ui/components/button";
-import { defaultPackages } from "@/components/sponsor/constants";
-import { PricingCards } from "@/components/sponsor/pricing-cards";
-import { PaymentModal } from "@/components/sponsor/payment-modal";
+import { defaultPackages } from "@/components/pricing/constants";
+import { PricingCards } from "@/components/pricing/pricing-cards";
+import { PaymentModal } from "@/components/pricing/payment-modal";
 import type { CorePackage, PricingData } from "@/types/pricing";
 import { Zap } from "lucide-react";
 

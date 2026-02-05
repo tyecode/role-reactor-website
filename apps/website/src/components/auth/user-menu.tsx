@@ -14,7 +14,7 @@ import {
 import { Avatar, AvatarImage, AvatarFallback } from "@role-reactor/ui/components/avatar";
 import { Button } from "@role-reactor/ui/components/button";
 import { Skeleton } from "@role-reactor/ui/components/skeleton";
-import { PricingDialog } from "@/components/sponsor/pricing-dialog";
+import { PricingDialog } from "@/components/pricing/pricing-dialog";
 
 // Helper function to check if session cookie exists
 function hasSessionCookie(): boolean {

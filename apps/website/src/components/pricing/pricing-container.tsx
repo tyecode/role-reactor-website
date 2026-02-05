@@ -1,18 +1,18 @@
 import { ReactNode } from "react";
 import { BubbleBackground } from "@role-reactor/ui/components/bubble-background";
 
-interface SponsorContainerProps {
+interface PricingContainerProps {
   children: ReactNode;
 }
 
-export function SponsorContainer({ children }: SponsorContainerProps) {
+export function PricingContainer({ children }: PricingContainerProps) {
   return (
     <>
       {/* Fixed background that extends behind navbar */}
       <div className="fixed inset-0 z-0 pointer-events-none">
         {/* Main gradient background - matching pricing page */}
         <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-950 to-blue-900 pointer-events-none" />
-        
+
         {/* Bubble Background with gooey metaball effect */}
         <BubbleBackground
           interactive={true}
@@ -27,15 +27,13 @@ export function SponsorContainer({ children }: SponsorContainerProps) {
             sixth: "79, 70, 229", // indigo-600
           }}
         />
-        
+
         {/* Dark overlay to reduce brightness */}
         <div className="absolute inset-0 bg-black/60 pointer-events-none" />
       </div>
 
       {/* Content container */}
-      <div className="relative min-h-screen z-10">
-        {children}
-      </div>
+      <div className="relative min-h-screen z-10">{children}</div>
     </>
   );
 }

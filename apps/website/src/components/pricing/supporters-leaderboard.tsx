@@ -1,7 +1,12 @@
 "use client";
 
 import { Loader2, Trophy, Users, DollarSign } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@role-reactor/ui/components/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@role-reactor/ui/components/card";
 import { Button } from "@role-reactor/ui/components/button";
 
 interface Supporter {
@@ -13,33 +18,34 @@ interface Supporter {
   rank: number;
 }
 
-interface SupporterLeaderboardProps {
+interface SupportersLeaderboardProps {
   supporters: Supporter[];
   totalRaised: number;
   loading: boolean;
 }
 
-export function SupporterLeaderboard({
+export function SupportersLeaderboard({
   supporters,
   totalRaised,
   loading,
-}: SupporterLeaderboardProps) {
+}: SupportersLeaderboardProps) {
   return (
     <section className="py-20 px-4 relative overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-950 to-gray-900 opacity-30" />
+      <div className="absolute inset-0 bg-linear-to-b from-gray-900 via-gray-950 to-gray-900 opacity-30" />
 
       <div className="max-w-[1120px] mx-auto relative z-10 px-4">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent mb-4 leading-tight">
+          <h2 className="text-3xl md:text-5xl font-bold bg-linear-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent mb-4 leading-tight">
             Our Supporters
           </h2>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed mb-6">
-            Shoutout to everyone who's chipped in! Your support helps keep Role Reactor free and lets us build new stuff. You're the real MVPs.
+            Shoutout to everyone who's chipped in! Your support helps keep Role
+            Reactor free and lets us build new stuff. You're the real MVPs.
           </p>
           {totalRaised > 0 && (
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full border border-blue-500/30">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-linear-to-r from-blue-500/20 to-purple-500/20 rounded-full border border-blue-500/30">
               <DollarSign className="w-4 h-4 text-blue-400" />
               <span className="text-lg font-bold text-white">
                 ${totalRaised.toFixed(2)} raised
@@ -61,14 +67,15 @@ export function SupporterLeaderboard({
                 Be the First!
               </CardTitle>
               <p className="text-sm text-gray-400 mb-6">
-                Want to help out? Grab some Core Energy and unlock AI features while keeping Role Reactor free for everyone else.
+                Want to help out? Grab some Core Energy and unlock AI features
+                while keeping Role Reactor free for everyone else.
               </p>
               <Button
                 onClick={() => {
                   // Scroll to top of page where payment section is
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white"
+                className="bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white"
               >
                 Get Started
               </Button>
@@ -86,8 +93,8 @@ export function SupporterLeaderboard({
                       index === 0
                         ? "border-amber-500/50"
                         : index === 1
-                        ? "border-gray-600/50"
-                        : "border-orange-500/50"
+                          ? "border-gray-600/50"
+                          : "border-orange-500/50"
                     }`}
                   >
                     <CardHeader className="text-center pb-4">
@@ -97,8 +104,8 @@ export function SupporterLeaderboard({
                             index === 0
                               ? "text-amber-400"
                               : index === 1
-                              ? "text-gray-400"
-                              : "text-orange-400"
+                                ? "text-gray-400"
+                                : "text-orange-400"
                           }`}
                         />
                       </div>
@@ -111,7 +118,7 @@ export function SupporterLeaderboard({
                       </p>
                     </CardHeader>
                     <CardContent className="text-center">
-                      <div className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-2">
+                      <div className="text-2xl font-bold bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent mb-2">
                         ${supporter.totalDonated.toFixed(2)}
                       </div>
                       <p className="text-sm text-gray-400">
@@ -156,7 +163,7 @@ export function SupporterLeaderboard({
                               </div>
                             </div>
                           </div>
-                          <div className="text-lg font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                          <div className="text-lg font-bold bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
                             ${supporter.totalDonated.toFixed(2)}
                           </div>
                         </div>
