@@ -4,7 +4,24 @@ import { SocialProof } from "@/app/(home)/components/social-proof";
 import { FooterCTA } from "@/app/(home)/components/footer-cta";
 import { links } from "@/constants/links";
 
-export default function HomePage() {
+export default async function HomePage() {
+  // Fetch command usage stats from the bot API
+  let totalExecutions = 0;
+  try {
+    const botApiUrl = process.env.BOT_API_URL;
+    if (botApiUrl) {
+      const response = await fetch(`${botApiUrl}/api/commands/usage`, {
+        next: { revalidate: 3600 }, // Cache for 1 hour
+      });
+      if (response.ok) {
+        const data = await response.json();
+        totalExecutions = data.summary?.totalExecutions || 0;
+      }
+    }
+  } catch (error) {
+    console.error("Failed to fetch command stats:", error);
+  }
+
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -62,7 +79,7 @@ export default function HomePage() {
       <main className="min-h-screen">
         <Hero />
         <Features />
-        <SocialProof />
+        <SocialProof totalExecutions={totalExecutions} />
         <FooterCTA />
       </main>
     </>

@@ -6,11 +6,8 @@ import { Analytics } from "@vercel/analytics/next";
 
 import { links } from "@/constants/links";
 import { SessionProvider } from "@/components/auth/session-provider";
-import { ConsoleFilter } from "@/components/common/console-filter";
-
 
 import "@/app/global.css";
-
 
 const inter = Inter({
   subsets: ["latin"],
@@ -172,62 +169,10 @@ export default function Layout({ children }: { children: ReactNode }) {
             `,
           }}
         />
-        {/* Console filter script - runs early to catch extension warnings */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                if (typeof window === 'undefined') return;
-                const patterns = [
-                  /SES Removing unpermitted intrinsics/i,
-                  /Removing intrinsics/i,
-                  /lockdown-install/i,
-                  /moz-extension:/i,
-                  /chrome-extension:/i,
-                  /safari-extension:/i,
-                  /Partitioned cookie or storage access/i,
-                  /verify\\.walletconnect/i,
-                  /contentscript/i,
-                  /Ignoring unsupported entryTypes/i,
-                  /longtask/i,
-                  /This page is in Quirks Mode/i,
-                  /Page layout may be impacted/i,
-                  /\\[bugsnag\\]/i,
-                  /Referrer Policy: Ignoring/i,
-                  /Analytics SDK.*NetworkError/i,
-                  /NetworkError when attempting to fetch resource/i,
-                  /AnalyticsSDKApiError/i,
-                  /Source map error.*request failed with status 404/i,
-                  /Source map error.*No sources are declared/i,
-                  /Source map error.*can't access property "sources"/i,
-                  /installHook\\.js\\.map/i,
-                  /react_devtools_backend_compact\\.js\\.map/i
-                ];
-                const shouldFilter = (args) => {
-                  const msg = args.map(a => typeof a === 'string' ? a : String(a)).join(' ');
-                  return patterns.some(p => p.test(msg));
-                };
-                const origWarn = console.warn;
-                const origError = console.error;
-                const origInfo = console.info;
-                console.warn = function(...args) {
-                  if (!shouldFilter(args)) origWarn.apply(console, args);
-                };
-                console.error = function(...args) {
-                  if (!shouldFilter(args)) origError.apply(console, args);
-                };
-                console.info = function(...args) {
-                  if (!shouldFilter(args)) origInfo.apply(console, args);
-                };
-              })();
-            `,
-          }}
-        />
       </head>
       <body className="flex flex-col min-h-screen antialiased">
-        <ConsoleFilter />
         <SessionProvider>
-            <RootProvider>{children}</RootProvider>
+          <RootProvider theme={{ enabled: false }}>{children}</RootProvider>
         </SessionProvider>
         {/* Only load analytics in production to prevent development errors */}
         {process.env.NODE_ENV === "production" && <Analytics />}

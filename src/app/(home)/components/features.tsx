@@ -11,6 +11,8 @@ import {
   Mic,
   Brain,
 } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 const features = [
   {
@@ -118,14 +120,17 @@ export function Features() {
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-blue-900/30 text-blue-300 rounded-full text-xs font-medium mb-4">
+          <Badge
+            variant="secondary"
+            className="mb-4 bg-blue-900/30 text-blue-300 hover:bg-blue-900/40 gap-2"
+          >
             <Bot className="w-3 h-3" />
             <span>Powerful Features</span>
-          </div>
+          </Badge>
           <h2 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent mb-4">
             Comprehensive Features
           </h2>
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             Role management features with AI-powered tools, XP tracking, and
             advanced automation. Easy to set up and use.
           </p>
@@ -134,43 +139,48 @@ export function Features() {
         {/* Main features grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
           {features.map((feature, index) => (
-            <div
+            <Card
               key={feature.title}
-              className="group relative bg-gray-900/60 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 hover:bg-gray-900/80 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/10 min-h-[200px] flex flex-col"
+              className="group relative bg-gray-900/60 backdrop-blur-sm border-gray-800 hover:border-gray-700 transition-all duration-300 hover:shadow-xl overflow-hidden"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               {/* Gradient background */}
               <div
-                className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-5 rounded-xl transition-opacity duration-300`}
+                className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}
               />
 
-              {/* Icon */}
-              <div className="relative mb-4">
-                <div
-                  className={`w-12 h-12 bg-gradient-to-br ${feature.gradient} rounded-xl flex items-center justify-center text-white shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-300`}
-                >
-                  <feature.icon className="w-6 h-6" />
+              <CardContent className="p-6 flex flex-col h-full relative z-10">
+                {/* Icon */}
+                <div className="relative mb-4">
+                  <div
+                    className={`w-12 h-12 bg-gradient-to-br ${feature.gradient} rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-all duration-300`}
+                  >
+                    <feature.icon className="w-6 h-6" />
+                  </div>
+                  <div className="absolute -top-1 -right-1 w-5 h-5 bg-blue-900/30 rounded-full flex items-center justify-center border border-blue-500/20">
+                    <CheckCircle className="w-3 h-3 text-blue-400" />
+                  </div>
                 </div>
-                <div className="absolute -top-1 -right-1 w-5 h-5 bg-blue-900/30 rounded-full flex items-center justify-center">
-                  <CheckCircle className="w-3 h-3 text-blue-400" />
-                </div>
-              </div>
 
-              {/* Content */}
-              <div className="space-y-3 flex-1 flex flex-col">
-                <div className="flex items-start justify-between gap-2">
-                  <h3 className="text-lg font-bold text-white group-hover:text-blue-400 transition-colors flex-1">
-                    {feature.title}
-                  </h3>
-                  <span className="text-xs font-bold text-gray-400 bg-gray-800 px-2 py-1 rounded-full whitespace-nowrap flex-shrink-0">
-                    {feature.stats}
-                  </span>
+                {/* Content */}
+                <div className="space-y-3 flex-1 flex flex-col">
+                  <div className="flex items-start justify-between gap-2">
+                    <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors flex-1">
+                      {feature.title}
+                    </h3>
+                    <Badge
+                      variant="secondary"
+                      className="bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white transition-colors"
+                    >
+                      {feature.stats}
+                    </Badge>
+                  </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed flex-1">
+                    {feature.description}
+                  </p>
                 </div>
-                <p className="text-sm text-gray-400 leading-relaxed flex-1">
-                  {feature.description}
-                </p>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
       </div>

@@ -1,4 +1,6 @@
 import { Heart, Shield, TrendingUp, Zap } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 const stats = [
   {
@@ -35,7 +37,35 @@ const stats = [
   },
 ];
 
-export function SocialProof() {
+interface SocialProofProps {
+  totalExecutions?: number;
+}
+
+export function SocialProof({ totalExecutions = 0 }: SocialProofProps) {
+  // Update the Free stat to show dynamic command executions
+  const dynamicStats = [
+    {
+      value:
+        totalExecutions > 0
+          ? `${(totalExecutions / 1000).toFixed(1)}k+`
+          : "100k+",
+      label: "Commands Executed",
+      description: "Proven track record",
+      icon: TrendingUp,
+      color: "green",
+      gradient: "from-green-500 to-emerald-500",
+    },
+    ...stats.filter((s) => s.label !== "No Cost" && s.label !== "Easy Setup"),
+    {
+      value: "99.9%",
+      label: "Uptime",
+      description: "Always available",
+      icon: Shield,
+      color: "blue",
+      gradient: "from-blue-500 to-cyan-500",
+    },
+  ];
+
   return (
     <section className="py-16 px-4 relative overflow-hidden">
       {/* Background */}
@@ -48,14 +78,17 @@ export function SocialProof() {
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-900/30 text-green-300 rounded-full text-xs font-medium mb-4">
+          <Badge
+            variant="secondary"
+            className="mb-4 bg-green-900/30 text-green-300 hover:bg-green-900/40 gap-2"
+          >
             <Heart className="w-3 h-3" />
             <span>Simple & Reliable</span>
-          </div>
+          </Badge>
           <h2 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-white via-green-100 to-blue-100 bg-clip-text text-transparent mb-4 leading-tight">
             Why Choose Role Reactor Bot
           </h2>
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             A comprehensive Discord bot for role management with advanced
             features. Easy to use with powerful automation capabilities.
           </p>
@@ -63,58 +96,64 @@ export function SocialProof() {
 
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6 mb-12">
-          {stats.map((stat, index) => (
-            <div
+          {dynamicStats.map((stat, index) => (
+            <Card
               key={stat.label}
-              className="group text-center bg-gray-900/60 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6 hover:bg-gray-900/80 transition-all duration-300 hover:scale-105 hover:shadow-xl"
+              className="group text-center bg-gray-900/60 backdrop-blur-sm border-gray-800 hover:bg-gray-900/80 transition-all duration-300 hover:scale-105 hover:shadow-xl overflow-hidden"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div
-                className={`w-12 h-12 mx-auto mb-3 bg-gradient-to-br ${stat.gradient} rounded-xl flex items-center justify-center text-white shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-300`}
-              >
-                <stat.icon className="w-6 h-6" />
-              </div>
-              <div className="text-xl font-bold text-white mb-1 group-hover:scale-110 transition-transform duration-300">
-                {stat.value}
-              </div>
-              <div className="text-sm font-semibold text-white mb-1">
-                {stat.label}
-              </div>
-              <div className="text-xs text-gray-400">{stat.description}</div>
-            </div>
+              <CardContent className="p-6">
+                <div
+                  className={`w-12 h-12 mx-auto mb-3 bg-gradient-to-br ${stat.gradient} rounded-xl flex items-center justify-center text-white shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-300`}
+                >
+                  <stat.icon className="w-6 h-6" />
+                </div>
+                <div className="text-xl font-bold text-foreground mb-1 group-hover:scale-110 transition-transform duration-300">
+                  {stat.value}
+                </div>
+                <div className="text-sm font-semibold text-foreground mb-1">
+                  {stat.label}
+                </div>
+                <div className="text-xs text-muted-foreground">
+                  {stat.description}
+                </div>
+              </CardContent>
+            </Card>
           ))}
         </div>
 
         {/* Trust indicators */}
-        <div className="bg-gradient-to-r from-gray-900/50 to-blue-900/20 rounded-2xl p-8 border border-gray-700/50">
-          <div className="text-center mb-6">
-            <h3 className="text-xl font-bold text-white mb-3">
-              Perfect for Your Server
-            </h3>
-            <p className="text-sm text-gray-400">
-              Works for Discord servers of any size. Comprehensive features that
-              are easy to manage.
-            </p>
-          </div>
+        <Card className="bg-gradient-to-r from-gray-900/50 to-blue-900/20 border-gray-800">
+          <CardContent className="p-8">
+            <div className="text-center mb-6">
+              <h3 className="text-xl font-bold text-foreground mb-3">
+                Perfect for Your Server
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                Works for Discord servers of any size. Comprehensive features
+                that are easy to manage.
+              </p>
+            </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
-            {[
-              { label: "Easy Setup", icon: Shield },
-              { label: "Always Reliable", icon: TrendingUp },
-              { label: "Free Forever", icon: Zap },
-              { label: "Community Focused", icon: Heart },
-            ].map((item) => (
-              <div key={item.label} className="text-center group">
-                <div className="w-10 h-10 mx-auto mb-2 bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg flex items-center justify-center text-white group-hover:scale-110 transition-transform duration-300">
-                  <item.icon className="w-5 h-5" />
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
+              {[
+                { label: "Easy Setup", icon: Shield },
+                { label: "Always Reliable", icon: TrendingUp },
+                { label: "Free Forever", icon: Zap },
+                { label: "Community Focused", icon: Heart },
+              ].map((item) => (
+                <div key={item.label} className="text-center group">
+                  <div className="w-10 h-10 mx-auto mb-2 bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg flex items-center justify-center text-white group-hover:scale-110 transition-transform duration-300">
+                    <item.icon className="w-5 h-5" />
+                  </div>
+                  <div className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+                    {item.label}
+                  </div>
                 </div>
-                <div className="text-xs font-medium text-gray-300 group-hover:text-white transition-colors">
-                  {item.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
       </div>
     </section>
   );
