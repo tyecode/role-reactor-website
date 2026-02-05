@@ -5,11 +5,10 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Audiowide } from "next/font/google";
 import { FaDiscord, FaRocket } from "react-icons/fa";
-import { Zap, ArrowRight, ShieldCheck, Zap as ZapIcon } from "lucide-react";
+import { ArrowRight, ShieldCheck, Zap as ZapIcon } from "lucide-react";
 import { cn } from "fumadocs-ui/utils/cn";
 
 import { Button } from "@role-reactor/ui/components/button";
-import { Badge } from "@role-reactor/ui/components/badge";
 import { links } from "@/constants/links";
 import { BubbleBackground } from "@role-reactor/ui/components/bubble-background";
 
@@ -60,7 +59,7 @@ export function Hero() {
           )}
         >
           Role{" "}
-          <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">
+          <span className="bg-linear-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">
             Reactor
           </span>
         </h1>

@@ -1,8 +1,9 @@
 "use client";
 
 import { useSession, signIn, signOut } from "next-auth/react";
-import { LogOut, Zap, Plus, LayoutDashboard } from "lucide-react";
+import { LogOut, Zap, LayoutDashboard } from "lucide-react";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,7 +19,6 @@ import {
 } from "@role-reactor/ui/components/avatar";
 import { Button } from "@role-reactor/ui/components/button";
 import { Skeleton } from "@role-reactor/ui/components/skeleton";
-import { PricingDialog } from "@/components/sponsor/pricing-dialog";
 
 // Helper function to check if session cookie exists
 function hasSessionCookie(): boolean {
@@ -39,7 +39,6 @@ export function UserMenu() {
   const { data: session, status } = useSession();
   const [hasCookie, setHasCookie] = useState(false);
   const [coreBalance, setCoreBalance] = useState<number | null>(null);
-  const [isPricingOpen, setIsPricingOpen] = useState(false);
 
   // Check for session cookie on mount and when status changes
   useEffect(() => {
@@ -59,7 +58,7 @@ export function UserMenu() {
         })
         .catch((err) => console.error("Failed to fetch core balance:", err));
     }
-  }, [session, isPricingOpen]); // Re-fetch when pricing dialog closes (after potential purchase)
+  }, [session]); // Re-fetch when session changes
 
   // Show loading skeleton when checking authentication status
   // Only show skeleton if we have a session cookie (user might be logged in)
@@ -131,115 +130,90 @@ export function UserMenu() {
   };
 
   return (
-    <>
-      <PricingDialog open={isPricingOpen} onOpenChange={setIsPricingOpen}>
-        <span className="hidden" />
-      </PricingDialog>
+    <div className="relative flex items-center gap-2 ml-2">
+      {/* Core Balance Display */}
+      {coreBalance !== null && (
+        <div className="hidden md:flex items-center gap-1.5 text-muted-foreground px-2">
+          <Zap className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+          <span className="font-semibold text-foreground">{coreBalance}</span>
+        </div>
+      )}
 
-      <div className="relative flex items-center gap-2 ml-2">
-        {/* Core Balance Display (optional, can be just inside dropdown) */}
-        {coreBalance !== null && (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
-            size="sm"
-            className="hidden md:flex items-center gap-1.5 text-muted-foreground hover:text-yellow-400 px-2"
-            onClick={() => setIsPricingOpen(true)}
+            size="icon"
+            className="h-8 w-8 rounded-md"
+            aria-label="User menu"
+            title={user.name || "User menu"}
           >
-            <Zap className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-            <span className="font-semibold text-foreground">{coreBalance}</span>
-            <div className="bg-primary/20 rounded-full p-0.5 ml-1">
-              <Plus className="w-3 h-3 text-primary" />
-            </div>
+            <Avatar className="h-8 w-8">
+              <AvatarImage src={avatarUrl} alt={user.name || "User avatar"} />
+              <AvatarFallback className="text-xs">
+                {getInitials(user.name)}
+              </AvatarFallback>
+            </Avatar>
           </Button>
-        )}
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8 rounded-md"
-              aria-label="User menu"
-              title={user.name || "User menu"}
-            >
-              <Avatar className="h-8 w-8">
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-60">
+          <DropdownMenuLabel className="font-normal">
+            <div className="flex items-center gap-3 mb-2">
+              <Avatar className="h-10 w-10 flex-shrink-0">
                 <AvatarImage src={avatarUrl} alt={user.name || "User avatar"} />
-                <AvatarFallback className="text-xs">
+                <AvatarFallback className="text-sm">
                   {getInitials(user.name)}
                 </AvatarFallback>
               </Avatar>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-60">
-            <DropdownMenuLabel className="font-normal">
-              <div className="flex items-center gap-3 mb-2">
-                <Avatar className="h-10 w-10 flex-shrink-0">
-                  <AvatarImage
-                    src={avatarUrl}
-                    alt={user.name || "User avatar"}
-                  />
-                  <AvatarFallback className="text-sm">
-                    {getInitials(user.name)}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="flex flex-col min-w-0 flex-1 overflow-hidden">
-                  <span className="text-sm font-medium truncate">
-                    {user.name}
+              <div className="flex flex-col min-w-0 flex-1 overflow-hidden">
+                <span className="text-sm font-medium truncate">
+                  {user.name}
+                </span>
+                {user.email && (
+                  <span className="text-xs text-muted-foreground truncate">
+                    {user.email}
                   </span>
-                  {user.email && (
-                    <span className="text-xs text-muted-foreground truncate">
-                      {user.email}
-                    </span>
-                  )}
-                </div>
+                )}
               </div>
+            </div>
 
-              {/* Cores in Dropdown */}
-              <div className="p-2 bg-muted/50 rounded-lg flex items-center justify-between border border-border/50">
-                <div className="flex items-center gap-2">
-                  <div className="p-1.5 bg-yellow-500/10 rounded-md">
-                    <Zap className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                      Cores
-                    </span>
-                    <span className="text-sm font-bold leading-none">
-                      {coreBalance ?? "..."}
-                    </span>
-                  </div>
+            {/* Cores in Dropdown */}
+            <div className="p-2 bg-muted/50 rounded-lg flex items-center justify-between border border-border/50">
+              <div className="flex items-center gap-2">
+                <div className="p-1.5 bg-yellow-500/10 rounded-md">
+                  <Zap className="w-4 h-4 text-yellow-500 fill-yellow-500" />
                 </div>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="h-7 text-xs"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setIsPricingOpen(true);
-                  }}
-                >
-                  Add Cores
-                </Button>
+                <div className="flex flex-col">
+                  <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+                    Cores
+                  </span>
+                  <span className="text-sm font-bold leading-none">
+                    {coreBalance ?? "..."}
+                  </span>
+                </div>
               </div>
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-              <a href="/dashboard" className="cursor-pointer flex items-center">
-                <LayoutDashboard className="mr-2 h-4 w-4" />
-                <span>Dashboard</span>
-              </a>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              onClick={() => signOut({ callbackUrl: "/" })}
-              className="cursor-pointer text-red-400 focus:text-red-400 focus:bg-red-950/20"
-            >
-              <LogOut className="mr-2 h-4 w-4" />
-              <span>Logout</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    </>
+              <Link href="/" className="text-xs text-primary hover:underline">
+                Get Cores
+              </Link>
+            </div>
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem asChild>
+            <a href="/dashboard" className="cursor-pointer flex items-center">
+              <LayoutDashboard className="mr-2 h-4 w-4" />
+              <span>Dashboard</span>
+            </a>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={() => signOut({ callbackUrl: "/" })}
+            className="cursor-pointer text-red-400 focus:text-red-400 focus:bg-red-950/20"
+          >
+            <LogOut className="mr-2 h-4 w-4" />
+            <span>Logout</span>
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
   );
 }
