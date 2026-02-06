@@ -4,8 +4,8 @@ description: Frequently encountered problems with Role Reactor Bot and their sol
 keywords: troubleshooting, common issues, error resolution, discord bot
 ---
 
-import { Callout } from 'fumadocs-ui/components/callout';
-import { Steps, Step } from 'fumadocs-ui/components/steps';
+import { Callout } from "fumadocs-ui/components/callout";
+import { Steps, Step } from "fumadocs-ui/components/steps";
 
 ## Bot Not Responding
 
@@ -30,7 +30,8 @@ import { Steps, Step } from 'fumadocs-ui/components/steps';
 ## Roles Not Being Assigned
 
 <Callout type="warning">
-**Most Common Cause:** Bot's role is positioned below the roles it is attempting to assign
+  **Most Common Cause:** Bot's role is positioned below the roles it is
+  attempting to assign
 </Callout>
 
 <Steps>
@@ -54,54 +55,50 @@ import { Steps, Step } from 'fumadocs-ui/components/steps';
 ## Command Errors
 
 <Callout type="info">
-Refer to the [Troubleshooting Guide](/docs/troubleshooting) for a complete list of error messages and solutions.
+  Refer to the [Troubleshooting Guide](/docs/troubleshooting) for a complete
+  list of error messages and solutions.
 </Callout>
 
 ## Reactions Missing
 
 <Steps>
   <Step>
-    **Verify Emoji Format**
-    - Custom server emojis (including animated) are supported
-    - Unicode emojis (🎮📚🎵) are also supported
-    - Ensure the bot has access to custom server emojis
+    **Verify Emoji Format** - Custom server emojis (including animated) are
+    supported - Unicode emojis (🎮📚🎵) are also supported - Ensure the bot has
+    access to custom server emojis
   </Step>
   <Step>
-    **Verify Bot Permissions**
-    - Bot requires "Add Reactions" and "Manage Messages" permissions
-    - Verify channel-specific permissions
+    **Verify Bot Permissions** - Bot requires "Add Reactions" and "Manage
+    Messages" permissions - Verify channel-specific permissions
   </Step>
   <Step>
-    **Refresh Reactions**
-    - Contact support to refresh reactions for a specific message
-    - This resolves most reaction-related issues
+    **Refresh Reactions** - Contact support to refresh reactions for a specific
+    message - This resolves most reaction-related issues
   </Step>
 </Steps>
 
 ## XP System Not Working
 
 <Callout type="warning">
-**Most Common Cause:** XP system is disabled by default and must be enabled by server administrators
+  **Most Common Cause:** XP system is disabled by default and must be enabled by
+  server administrators
 </Callout>
 
 <Steps>
   <Step>
-    **Enable XP System**
-    1. Execute `/xp settings` command
-    2. Click the toggle to enable the XP system
-    3. Verify all XP types are enabled (message, command, role, voice)
+    **Enable XP System** 1. Execute `/xp settings` command 2. Click the toggle
+    to enable the XP system 3. Verify all XP types are enabled (message,
+    command, role, voice)
   </Step>
   <Step>
-    **Verify Cooldowns**
-    - Message XP: 60-second cooldown between messages
-    - Command XP: 30-second cooldown between commands
-    - Users will not earn XP if they are in cooldown
+    **Verify Cooldowns** - Message XP: 60-second cooldown between messages -
+    Command XP: 30-second cooldown between commands - Users will not earn XP if
+    they are in cooldown
   </Step>
   <Step>
-    **Verify Activity**
-    - Users must be actively messaging or using commands
-    - Voice activity requires users to be in voice channels
-    - Role assignments grant 50 XP per role
+    **Verify Activity** - Users must be actively messaging or using commands -
+    Voice activity requires users to be in voice channels - Role assignments
+    grant 50 XP per role
   </Step>
 </Steps>
 
@@ -132,21 +129,17 @@ Refer to the [Troubleshooting Guide](/docs/troubleshooting) for a complete list 
 
 <Steps>
   <Step>
-    **Verify System Status**
-    - Execute `/welcome settings` or `/goodbye settings` to verify it is enabled
-    - System may be disabled in settings
-    - Verify channel configuration
+    **Verify System Status** - Execute `/welcome settings` or `/goodbye
+    settings` to verify it is enabled - System may be disabled in settings -
+    Verify channel configuration
   </Step>
   <Step>
-    **Verify Channel Permissions**
-    - Bot requires "Send Messages" permission in the configured channel
-    - Bot requires "Embed Links" if using embed format
-    - Verify channel-specific permissions
+    **Verify Channel Permissions** - Bot requires "Send Messages" permission in
+    the configured channel - Bot requires "Embed Links" if using embed format -
+    Verify channel-specific permissions
   </Step>
   <Step>
-    **Test Configuration**
-    - Use test functionality if available
-    - Verify message format and placeholders
-    - Verify auto-role assignment if configured
+    **Test Configuration** - Use test functionality if available - Verify
+    message format and placeholders - Verify auto-role assignment if configured
   </Step>
 </Steps>

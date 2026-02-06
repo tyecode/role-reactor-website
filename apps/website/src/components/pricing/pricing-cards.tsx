@@ -1,6 +1,5 @@
-"use client";
-
-import { Loader2, Zap } from "lucide-react";
+import Image from "next/image";
+import { Loader2 } from "lucide-react";
 import { useSession, signIn } from "next-auth/react";
 import { cn } from "@/lib/utils";
 import type { CorePackage, PricingData } from "@/types/pricing";
@@ -15,7 +14,6 @@ interface PricingCardsProps {
 
 export function PricingCards({
   packages,
-
   onPayment,
   loadingPackageId,
   isLoading = false,
@@ -58,27 +56,28 @@ export function PricingCards({
               isProcessing || (loadingPackageId !== null && !isProcessing)
             }
             className={cn(
-              "w-full flex items-center justify-between p-4 rounded-2xl border transition-all duration-200 group relative overflow-hidden",
-              "bg-zinc-900 border-zinc-800 hover:border-zinc-700 hover:bg-zinc-800/80",
+              "w-full flex items-center justify-between p-2.5 rounded-xl border transition-all duration-300 group relative overflow-hidden",
+              "bg-zinc-900/40 border-zinc-800/60 hover:border-blue-500/30 hover:bg-zinc-800/60",
+              "hover:shadow-[0_0_15px_rgba(59,130,146,0.05)]",
               isProcessing && "opacity-80 cursor-wait",
-              "disabled:opacity-50 disabled:cursor-not-allowed",
+              "disabled:opacity-50 disabled:cursor-not-allowed"
             )}
           >
-            {/* Background Gradient Effect on Hover */}
-            <div className="absolute inset-0 bg-linear-to-r from-orange-500/5 to-yellow-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            {/* Background Light Effect */}
+            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
             {/* Left Side: Price & Badge */}
             <div className="flex flex-col items-start gap-1 z-10">
               {bonusPercent > 0 && (
-                <div className="flex items-center gap-1 bg-green-900/30 text-green-400 text-[10px] font-bold px-2 py-0.5 rounded-full border border-green-900/50 uppercase tracking-wide">
-                  +{bonusPercent}%
-                  <Zap className="w-2.5 h-2.5 fill-current" />
+                <div className="flex items-center gap-1 bg-blue-500/10 text-blue-400 text-[9px] font-bold px-1.5 py-0.5 rounded-full border border-blue-500/20 uppercase tracking-tight">
+                  +{bonusPercent}% Bonus
                 </div>
               )}
-              <div className="text-xl font-bold text-white">
-                ${pkg.price}{" "}
-                <span className="text-sm font-normal text-zinc-500 ml-0.5">
-                  US
+              <div className="text-lg font-bold text-white tracking-tight flex items-center gap-1">
+                <span className="text-zinc-400 text-xs font-medium">$</span>
+                {pkg.price}
+                <span className="text-[9px] uppercase font-bold text-zinc-500 ml-1 tracking-widest">
+                  USD
                 </span>
               </div>
             </div>
@@ -86,19 +85,27 @@ export function PricingCards({
             {/* Right Side: Cores */}
             <div className="flex flex-col items-end z-10">
               {bonusPercent > 0 && (
-                <div className="flex items-center gap-1 text-[10px] text-zinc-500 line-through font-mono opacity-60">
-                  {pkg.baseCores} <Zap className="w-2 h-2" />
+                <div className="flex items-center gap-1 text-[11px] text-zinc-400 line-through font-medium opacity-70">
+                  {pkg.baseCores}
                 </div>
               )}
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-2">
                 {isProcessing ? (
-                  <Loader2 className="w-6 h-6 text-orange-400 animate-spin" />
+                  <Loader2 className="w-4 h-4 text-blue-500 animate-spin" />
                 ) : (
                   <>
-                    <span className="text-2xl font-bold bg-linear-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent filter drop-shadow-sm">
+                    <span className="text-xl font-black bg-linear-to-b from-white to-zinc-400 bg-clip-text text-transparent filter drop-shadow-[0_0_10px_rgba(255,255,255,0.1)]">
                       {pkg.totalCores}
                     </span>
-                    <Zap className="w-6 h-6 text-yellow-500 fill-yellow-500 drop-shadow-lg shadow-orange-500/50" />
+                    <div className="relative">
+                      <Image
+                        src="/images/cores/core_energy.png"
+                        width={20}
+                        height={20}
+                        alt="Cores"
+                        className="relative"
+                      />
+                    </div>
                   </>
                 )}
               </div>

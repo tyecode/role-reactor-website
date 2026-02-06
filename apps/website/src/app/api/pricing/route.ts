@@ -11,11 +11,14 @@ export async function GET(request: NextRequest) {
     const botApiUrl = process.env.BOT_API_URL;
 
     if (!botApiUrl) {
-      console.warn("BOT_API_URL not configured, returning default pricing");
-      return NextResponse.json({
-        success: true,
-        data: getDefaultPricing(),
-      });
+      console.warn("BOT_API_URL not configured");
+      return NextResponse.json(
+        {
+          success: false,
+          error: "Pricing service configuration is missing.",
+        },
+        { status: 500 }
+      );
     }
 
     // Check if user is authenticated to get personalized pricing
@@ -39,8 +42,8 @@ export async function GET(request: NextRequest) {
       headers: {
         "Content-Type": "application/json",
       },
-      // Cache for 5 minutes
-      next: { revalidate: 300 },
+      // Disable cache to ensure real-time balance updates
+      cache: "no-store",
     });
 
     if (!response.ok) {
@@ -49,7 +52,7 @@ export async function GET(request: NextRequest) {
 
     const data = await response.json();
 
-    // The bot returns data in format: { success: true, data: {...} }
+    // Handle bot's response format (either success: true with data envelope OR status: success with spread data)
     if (data.success && data.data) {
       return NextResponse.json({
         success: true,
@@ -57,96 +60,25 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    // Fallback to default pricing
-    return NextResponse.json({
-      success: true,
-      data: getDefaultPricing(),
-    });
+    if (data.status === "success") {
+      // The bot spreads data into the root object, so we extract the useful bits
+      const { status, timestamp, ...pricingInfo } = data;
+      return NextResponse.json({
+        success: true,
+        data: pricingInfo,
+      });
+    }
+
+    throw new Error("Invalid response format from Bot API");
   } catch (error) {
     console.error("Error fetching pricing:", error);
-    // Return default pricing on error so page still works
-    return NextResponse.json({
-      success: true,
-      data: getDefaultPricing(),
-    });
+    return NextResponse.json(
+      {
+        success: false,
+        error:
+          "Pricing service is currently unavailable. Please try again later.",
+      },
+      { status: 503 }
+    );
   }
-}
-
-/**
- * Default pricing config when bot API is unavailable
- */
-function getDefaultPricing() {
-  return {
-    packages: [
-      {
-        id: "$5",
-        name: "Starter",
-        price: 5,
-        currency: "USD",
-        baseCores: 75,
-        bonusCores: 5,
-        totalCores: 80,
-        valuePerDollar: "16.0 Cores/$1",
-        description: "Perfect for trying AI features",
-        estimatedUsage: "~8,000 chat messages or 38 images",
-        popular: false,
-        features: [],
-      },
-      {
-        id: "$10",
-        name: "Basic",
-        price: 10,
-        currency: "USD",
-        baseCores: 150,
-        bonusCores: 15,
-        totalCores: 165,
-        valuePerDollar: "16.5 Cores/$1",
-        description: "Most popular choice for regular users",
-        estimatedUsage: "~16,500 chat messages or 78 images",
-        popular: true,
-        features: [],
-      },
-      {
-        id: "$25",
-        name: "Pro",
-        price: 25,
-        currency: "USD",
-        baseCores: 375,
-        bonusCores: 50,
-        totalCores: 425,
-        valuePerDollar: "17.0 Cores/$1",
-        description: "Best value for power users",
-        estimatedUsage: "~42,500 chat messages or 202 images",
-        popular: false,
-        features: [],
-      },
-      {
-        id: "$50",
-        name: "Ultimate",
-        price: 50,
-        currency: "USD",
-        baseCores: 750,
-        bonusCores: 125,
-        totalCores: 875,
-        valuePerDollar: "17.5 Cores/$1",
-        description: "Maximum value for heavy usage",
-        estimatedUsage: "~87,500 chat messages or 416 images",
-        popular: false,
-        features: ["Priority processing", "Dedicated support"],
-      },
-    ],
-    minimumPayment: 3,
-    currency: "USD",
-    paymentMethods: {
-      paypal: true,
-      crypto: true,
-    },
-    promotions: [],
-    referralSystem: {
-      enabled: true,
-      referrerBonus: "15%",
-      refereeBonus: "10%",
-      minimumPurchase: 10,
-    },
-  };
 }

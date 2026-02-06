@@ -69,26 +69,26 @@ export function SocialProof({ totalExecutions = 0 }: SocialProofProps) {
   return (
     <section className="py-16 px-4 relative overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-950 to-gray-900" />
+      <div className="absolute inset-0 bg-background" />
 
       {/* Decorative elements */}
-      <div className="absolute top-1/4 left-0 w-96 h-96 bg-blue-900/20 rounded-full blur-3xl opacity-30" />
-      <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-purple-900/20 rounded-full blur-3xl opacity-30" />
+      <div className="absolute top-1/4 left-0 w-96 h-96 bg-zinc-800/10 rounded-full blur-3xl opacity-30" />
+      <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-zinc-900/10 rounded-full blur-3xl opacity-30" />
 
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Header */}
         <div className="text-center mb-12">
           <Badge
             variant="secondary"
-            className="mb-4 bg-green-900/30 text-green-300 hover:bg-green-900/40 gap-2"
+            className="mb-4 bg-zinc-800/50 text-zinc-400 hover:bg-zinc-800/80 border-zinc-700/50 gap-2"
           >
             <Heart className="w-3 h-3" />
             <span>Simple & Reliable</span>
           </Badge>
-          <h2 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-white via-green-100 to-blue-100 bg-clip-text text-transparent mb-4 leading-tight">
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 leading-tight">
             Why Choose Role Reactor Bot
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed">
             A comprehensive Discord bot for role management with advanced
             features. Easy to use with powerful automation capabilities.
           </p>
@@ -99,7 +99,7 @@ export function SocialProof({ totalExecutions = 0 }: SocialProofProps) {
           {dynamicStats.map((stat, index) => (
             <Card
               key={stat.label}
-              className="group text-center bg-gray-900/60 backdrop-blur-sm border-gray-800 hover:bg-gray-900/80 transition-all duration-300 hover:scale-105 hover:shadow-xl overflow-hidden"
+              className="group text-center bg-zinc-900/40 backdrop-blur-sm border-zinc-800/60 hover:bg-zinc-900/60 transition-all duration-300 hover:scale-105 hover:shadow-xl overflow-hidden"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               <CardContent className="p-6">
@@ -123,7 +123,7 @@ export function SocialProof({ totalExecutions = 0 }: SocialProofProps) {
         </div>
 
         {/* Trust indicators */}
-        <Card className="bg-gradient-to-r from-gray-900/50 to-blue-900/20 border-gray-800">
+        <Card className="bg-linear-to-r from-zinc-900/40 to-zinc-800/10 border-zinc-800/60">
           <CardContent className="p-8">
             <div className="text-center mb-6">
               <h3 className="text-xl font-bold text-foreground mb-3">

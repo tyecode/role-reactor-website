@@ -4,11 +4,10 @@ description: Complete version history and release notes for Role Reactor Bot. Tr
 keywords: changelog, version history, release notes, updates, features, bug fixes
 ---
 
-import { Callout } from 'fumadocs-ui/components/callout';
+import { Callout } from "fumadocs-ui/components/callout";
 
 <Callout type="info">
-**Current Version:** 1.4.0  
-**Latest Release:** November 9, 2025
+  **Current Version:** 1.4.0 **Latest Release:** November 9, 2025
 </Callout>
 
 ## [1.4.0] - 2025-11-09
@@ -38,7 +37,7 @@ import { Callout } from 'fumadocs-ui/components/callout';
 
 - Role Reactions: Custom emojis (including animated) now correctly grant and remove roles. This fix ensures reactions using server emojis work the same as standard Unicode emojis, with no setup changes required.
 - Core Credits Storage: Fixed issue where core credits were saved to local files but not immediately synchronized to MongoDB database, ensuring credits persist correctly after donations and subscriptions
-- Ko-fi Webhooks: Fixed webhook reception issues in production by binding server to 0.0.0.0, configuring trust proxy, and simplifying webhook handler to properly process all Ko-fi webhook events
+- Webhooks: Fixed webhook reception issues in production by binding server to 0.0.0.0, configuring trust proxy, and simplifying webhook handler to properly process all webhook events
 
 ## [1.3.0] - 2025-10-28
 
@@ -78,7 +77,7 @@ import { Callout } from 'fumadocs-ui/components/callout';
 - XP Button Navigation: Fixed "back_to_settings" button error that occurred after XP command simplification
 - Database Index Conflicts: Resolved MongoDB duplicate key errors in temp-roles
 - Interaction Stability: Fixed bot stability issues and interaction timeouts
-- Ko-fi Webhook Processing: Resolved webhook processing limitations
+- Webhook Processing: Resolved webhook processing limitations
 - Member Permission Errors: Fixed permission checking across commands
 - Help Command Examples: Fixed incorrect command examples in help system (removed quotes from parameters)
 - Role Parsing: Resolved role parsing issue with emoji variation selectors
@@ -90,7 +89,7 @@ import { Callout } from 'fumadocs-ui/components/callout';
 - AI Avatar Generation: Complete AI-powered avatar generation system with `/avatar` command
 - Avatar Content Filter: Advanced content filtering with 97.6% accuracy for inappropriate content detection
 - Avatar Style Options: Multiple style choices including color_style, mood, and art_style parameters
-- Core Credit System: New credit-based economy for avatar generation with Ko-fi integration
+- Core Credit System: New credit-based economy for avatar generation with recurring support options
 - Core Command: New `/core` command with clean UI and Core Energy branding
 - Core Tier Benefits: Priority processing and increased rate limits for Core subscribers
 - Poll System: Create and manage native Discord polls with `/poll` command
@@ -149,7 +148,7 @@ import { Callout } from 'fumadocs-ui/components/callout';
 
 ### Added
 
-- Ko-fi Funding Support: Added Ko-fi funding option to GitHub FUNDING.yml for additional support channels
+- Support Funding: Added funding options to GitHub FUNDING.yml for additional support channels
 - Comprehensive Deployment Solution: Added new deployment scripts and solutions to fix version mismatch issues
 - Enhanced Docker Update Scripts: Improved docker update scripts for more reliable deployments
 - Quick Deployment Guide: Added QUICK-DEPLOY.md for streamlined deployment process
@@ -270,5 +269,7 @@ import { Callout } from 'fumadocs-ui/components/callout';
 ---
 
 <Callout type="info">
-**Want to stay updated?** Join our [support server](https://discord.gg/D8tYkU75Ry) to get notified about new releases and updates!
+  **Want to stay updated?** Join our [support
+  server](https://discord.gg/D8tYkU75Ry) to get notified about new releases and
+  updates!
 </Callout>

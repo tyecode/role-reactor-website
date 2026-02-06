@@ -4,15 +4,20 @@ description: Ask the magic 8ball a question and get a random response. Perfect f
 keywords: 8ball, magic 8ball, fun, random, question, entertainment
 ---
 
-import { Callout } from 'fumadocs-ui/components/callout';
-import { Cards, Card } from 'fumadocs-ui/components/card';
+import { Callout } from "fumadocs-ui/components/callout";
+import { Cards, Card } from "fumadocs-ui/components/card";
 
 ## Parameters
+
 <Cards>
-  <Card title="question (required)" description="Your question for the magic 8-ball" />
+  <Card
+    title="question (required)"
+    description="Your question for the magic 8-ball"
+  />
 </Cards>
 
 ## Step-by-Step Example
+
 1. Formulate a question you want to ask the magic 8ball.<br />
 2. Execute the command:
    ```bash
@@ -21,16 +26,20 @@ import { Cards, Card } from 'fumadocs-ui/components/card';
 3. The bot will respond with a random 8ball answer such as "It is certain" or "Reply hazy, try again".
 
 ## Permissions Required
+
 <Callout type="info">
-- **No special permissions required** - Available to all users
+  - **No special permissions required** - Available to all users
 </Callout>
 
 ## What You'll See
+
 <Callout type="info">
-A random response from the magic 8ball with various answer categories. Suitable for entertainment and casual decision-making.
+  A random response from the magic 8ball with various answer categories.
+  Suitable for entertainment and casual decision-making.
 </Callout>
 
 ## Example Questions
+
 ```
 /8ball question:Should I learn a new programming language?
 /8ball question:Is this server going to be active today?
@@ -38,20 +47,26 @@ A random response from the magic 8ball with various answer categories. Suitable 
 ```
 
 ## Troubleshooting
+
 <Callout type="warning">
-- **No response:** Verify the bot is online and has permission to send messages.<br />
-- **Question too long:** Ensure your question remains within reasonable length limits.
+  - **No response:** Verify the bot is online and has permission to send
+  messages.
+  <br />- **Question too long:** Ensure your question remains within reasonable
+  length limits.
 </Callout>
 
 ## Related Commands
+
 <Cards>
   <Card title="/help" description="Get help with bot commands" href="./help" />
   <Card title="/ping" description="Check bot latency" href="./ping" />
 </Cards>
 
 ## Best Practices
+
 <Callout type="success">
-- Use for entertainment purposes.<br />
-- Do not rely on 8ball responses for important decisions.<br />
-- Ensure questions are appropriate for your server.
+  - Use for entertainment purposes.
+  <br />
+  - Do not rely on 8ball responses for important decisions.
+  <br />- Ensure questions are appropriate for your server.
 </Callout>

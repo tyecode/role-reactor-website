@@ -4,15 +4,20 @@ description: Check the bot's latency and connection status. See how fast the bot
 keywords: ping, latency, status, connection, response time, health
 ---
 
-import { Callout } from 'fumadocs-ui/components/callout';
-import { Cards, Card } from 'fumadocs-ui/components/card';
+import { Callout } from "fumadocs-ui/components/callout";
+import { Cards, Card } from "fumadocs-ui/components/card";
 
 ## Parameters
+
 <Cards>
-  <Card title="No parameters required" description="This command shows bot latency and status" />
+  <Card
+    title="No parameters required"
+    description="This command shows bot latency and status"
+  />
 </Cards>
 
 ## Step-by-Step Example
+
 1. Execute the command:
    ```bash
    /ping
@@ -24,31 +29,43 @@ import { Cards, Card } from 'fumadocs-ui/components/card';
    - Connection status
 
 ## Permissions Required
+
 <Callout type="info">
-- **No special permissions required** - Available to all users
+  - **No special permissions required** - Available to all users
 </Callout>
 
 ## What You'll See
+
 <Callout type="info">
-Bot latency information including API latency, heartbeat, and overall connection status. Useful for verifying bot operational status.
+  Bot latency information including API latency, heartbeat, and overall
+  connection status. Useful for verifying bot operational status.
 </Callout>
 
 ## Troubleshooting
+
 <Callout type="warning">
-- **High latency:** The bot may be experiencing performance issues.<br />
-- **No response:** The bot may be offline or experiencing problems.<br />
-- **API errors:** Discord API may be experiencing issues.
+  - **High latency:** The bot may be experiencing performance issues.
+  <br />
+  - **No response:** The bot may be offline or experiencing problems.
+  <br />- **API errors:** Discord API may be experiencing issues.
 </Callout>
 
 ## Related Commands
+
 <Cards>
   <Card title="/help" description="Get help with bot commands" href="./help" />
-  <Card title="/level" description="Check user level and experience" href="./level" />
+  <Card
+    title="/level"
+    description="Check user level and experience"
+    href="./level"
+  />
 </Cards>
 
 ## Best Practices
+
 <Callout type="success">
-- Use this command to check if the bot is working properly.<br />
-- Regular ping checks can help identify performance issues.<br />
-- Share ping results when reporting bot issues.
+  - Use this command to check if the bot is working properly.
+  <br />
+  - Regular ping checks can help identify performance issues.
+  <br />- Share ping results when reporting bot issues.
 </Callout>

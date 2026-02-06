@@ -3,12 +3,15 @@
 ## Issues to Fix
 
 ### 1. Remove Empty Package Directories ✅
+
 ```bash
 rm -rf packages/config packages/tsconfig
 ```
 
 ### 2. Remove Checkout from Dashboard ✅
+
 The checkout flow should stay in **website only** because:
+
 - It's used by the public UserMenu component
 - Marketing/landing page needs it
 - Dashboard is for authenticated user actions only
@@ -23,6 +26,7 @@ rm -rf apps/dashboard/src/types/pricing.ts
 ```
 
 ### 3. Fix Unused Imports in Website
+
 ```bash
 # apps/website/src/app/layout.config.tsx - remove Heart
 # apps/website/src/app/(home)/components/hero.tsx - remove Zap, Badge
@@ -32,6 +36,7 @@ rm -rf apps/dashboard/src/types/pricing.ts
 ## Final Structure
 
 ### Website (Marketing + Docs + Checkout)
+
 ```
 apps/website/
 ├── app/
@@ -49,6 +54,7 @@ apps/website/
 ```
 
 ### Dashboard (User Features)
+
 ```
 apps/dashboard/
 ├── app/
@@ -67,6 +73,7 @@ apps/dashboard/
 ```
 
 ### Shared UI
+
 ```
 packages/ui/
 ├── components/           # All Shadcn components
@@ -81,4 +88,3 @@ packages/ui/
 3. Fix unused imports
 4. Rebuild both apps
 5. Commit changes
-

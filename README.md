@@ -42,7 +42,7 @@ role-reactor-website/
 
 ### Prerequisites
 
-- **Node.js** 18+ 
+- **Node.js** 18+
 - **pnpm** 8+ (recommended package manager)
 
 ### Installation
@@ -60,11 +60,13 @@ pnpm install
 ### Development Mode
 
 **Run all apps:**
+
 ```bash
 pnpm dev
 ```
 
 **Run specific app:**
+
 ```bash
 # Website only (landing + docs)
 pnpm dev --filter website
@@ -74,17 +76,20 @@ pnpm dev --filter dashboard
 ```
 
 **Access the apps:**
+
 - Website: http://localhost:3000
 - Dashboard: http://localhost:3001 (or next available port)
 
 ### Build
 
 **Build all apps:**
+
 ```bash
 pnpm run build
 ```
 
 **Build specific app:**
+
 ```bash
 pnpm build --filter website
 pnpm build --filter dashboard
@@ -93,6 +98,7 @@ pnpm build --filter dashboard
 ### Production
 
 **Start production server:**
+
 ```bash
 # Build first
 pnpm run build
@@ -108,6 +114,7 @@ pnpm start --filter dashboard
 ## 🧪 Other Commands
 
 ### Type Checking
+
 ```bash
 # Check all packages
 pnpm type-check
@@ -117,6 +124,7 @@ pnpm type-check --filter website
 ```
 
 ### Linting
+
 ```bash
 # Lint all packages
 pnpm lint
@@ -125,7 +133,18 @@ pnpm lint
 pnpm lint --filter website
 ```
 
+### Formatting
+
+```bash
+# Format all files with Prettier
+pnpm format
+
+# Check formatting without making changes
+pnpm format:check
+```
+
 ### Clean Build Artifacts
+
 ```bash
 # Clean all build outputs
 pnpm clean
@@ -137,14 +156,18 @@ rm -rf apps/*/. next apps/*/.turbo packages/*/.turbo
 ## 📦 Package Scripts
 
 ### Root (Monorepo)
+
 - `pnpm dev` - Start all apps in development
 - `pnpm build` - Build all apps
 - `pnpm start` - Start all apps in production
 - `pnpm lint` - Lint all packages
+- `pnpm format` - Format all files with Prettier
+- `pnpm format:check` - Check formatting without changes
 - `pnpm type-check` - Type check all packages
 - `pnpm clean` - Clean build artifacts
 
 ### Website App
+
 - `pnpm dev` - Start dev server (port 3000)
 - `pnpm build` - Build for production
 - `pnpm start` - Start production server
@@ -152,6 +175,7 @@ rm -rf apps/*/. next apps/*/.turbo packages/*/.turbo
 - `pnpm type-check` - Run TypeScript compiler
 
 ### Dashboard App
+
 - `pnpm dev` - Start dev server (port 3001)
 - `pnpm build` - Build for production
 - `pnpm start` - Start production server
@@ -159,6 +183,7 @@ rm -rf apps/*/. next apps/*/.turbo packages/*/.turbo
 - `pnpm type-check` - Run TypeScript compiler
 
 ### UI Package
+
 - `pnpm type-check` - Type check the package
 
 ## 🔧 Environment Variables
@@ -166,6 +191,7 @@ rm -rf apps/*/. next apps/*/.turbo packages/*/.turbo
 Create `.env.local` files in each app directory:
 
 ### Website (`apps/website/.env.local`)
+
 ```env
 # NextAuth
 NEXTAUTH_URL=http://localhost:3000
@@ -187,6 +213,7 @@ BOT_API_URL=http://localhost:8080
 ```
 
 ### Dashboard (`apps/dashboard/.env.local`)
+
 ```env
 # NextAuth
 NEXTAUTH_URL=http://localhost:3001
@@ -214,6 +241,7 @@ DATABASE_URL=your-database-url
 ## �� Key Features
 
 ### Website
+
 - Landing page with hero, features, social proof
 - Documentation powered by Fumadocs
 - Pricing/checkout flow with PayPal
@@ -221,6 +249,7 @@ DATABASE_URL=your-database-url
 - Authentication with Discord OAuth
 
 ### Dashboard
+
 - User dashboard home
 - AI avatar generation
 - Generation history
@@ -228,6 +257,7 @@ DATABASE_URL=your-database-url
 - Core balance display
 
 ### Shared UI Package
+
 - All Shadcn UI components
 - Shared hooks (`use-mobile`)
 - Utility functions (`cn`)
@@ -243,12 +273,14 @@ DATABASE_URL=your-database-url
 ## 🐛 Troubleshooting
 
 **Port already in use:**
+
 ```bash
 # Kill process on port 3000
 lsof -ti:3000 | xargs kill -9
 ```
 
 **Build errors:**
+
 ```bash
 # Clean and reinstall
 pnpm clean
@@ -258,6 +290,7 @@ pnpm build
 ```
 
 **Type errors:**
+
 ```bash
 # Check types
 pnpm type-check
@@ -282,6 +315,7 @@ pnpm build
 ### Vercel (Recommended)
 
 **Deploy Website:**
+
 ```bash
 # Root directory: role-reactor-website
 # Framework: Next.js
@@ -290,6 +324,7 @@ pnpm build
 ```
 
 **Deploy Dashboard:**
+
 ```bash
 # Root directory: role-reactor-website
 # Framework: Next.js

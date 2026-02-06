@@ -4,18 +4,21 @@ description: Manage temporary role assignments. Assign roles that automatically 
 keywords: temporary roles, assign, remove, list, expire, moderation, events
 ---
 
-import { Callout } from 'fumadocs-ui/components/callout';
-import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
-import { Cards, Card } from 'fumadocs-ui/components/card';
+import { Callout } from "fumadocs-ui/components/callout";
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+import { Cards, Card } from "fumadocs-ui/components/card";
 
 ## Use Cases
+
 Suitable for:
+
 - **Event winners** - Provide VIP access for a limited time
 - **Moderation** - Temporary timeouts or restrictions
 - **Trial periods** - Enable users to try premium features
 - **Special occasions** - Holiday roles or celebration access
 
 ## Subcommands
+
 <Cards>
   <Card title="assign" description="Assign a temporary role to users" />
   <Card title="list" description="List all active temporary roles" />
@@ -25,62 +28,83 @@ Suitable for:
 ## Parameters
 
 ### Assign Subcommand
+
 <Cards>
-  <Card title="users (required)" description="Users to target (supports mentions, IDs, role mentions, @everyone)" />
+  <Card
+    title="users (required)"
+    description="Users to target (supports mentions, IDs, role mentions, @everyone)"
+  />
   <Card title="role (required)" description="The role to assign temporarily" />
-  <Card title="duration (required)" description="How long the role should last (e.g., 30m, 2h, 1d, 1w)" />
-  <Card title="reason (optional)" description="Reason for assigning the temporary role" />
-  <Card title="notify (optional)" description="Send DM notification when role is assigned/removed (default: false)" />
-  <Card title="notify-expiry (optional)" description="Send DM notification when role expires (default: false)" />
+  <Card
+    title="duration (required)"
+    description="How long the role should last (e.g., 30m, 2h, 1d, 1w)"
+  />
+  <Card
+    title="reason (optional)"
+    description="Reason for assigning the temporary role"
+  />
+  <Card
+    title="notify (optional)"
+    description="Send DM notification when role is assigned/removed (default: false)"
+  />
+  <Card
+    title="notify-expiry (optional)"
+    description="Send DM notification when role expires (default: false)"
+  />
 </Cards>
 
 ### List Subcommand
+
 <Cards>
-  <Card title="user (optional)" description="The user to check (leave empty for all users)" />
+  <Card
+    title="user (optional)"
+    description="The user to check (leave empty for all users)"
+  />
 </Cards>
 
 ### Remove Subcommand
+
 <Cards>
-  <Card title="users (required)" description="Users to target (supports mentions, IDs, role mentions, @everyone)" />
+  <Card
+    title="users (required)"
+    description="Users to target (supports mentions, IDs, role mentions, @everyone)"
+  />
   <Card title="role (required)" description="The temporary role to remove" />
-  <Card title="reason (optional)" description="Reason for removing the temporary role" />
-  <Card title="notify (optional)" description="Send DM notification about role removal (default: false)" />
+  <Card
+    title="reason (optional)"
+    description="Reason for removing the temporary role"
+  />
+  <Card
+    title="notify (optional)"
+    description="Send DM notification about role removal (default: false)"
+  />
 </Cards>
 
 ## Step-by-Step Examples
+
 <Tabs items={["Assign Role", "Bulk Assignment", "List Roles", "Remove Role"]}>
   <Tab value="Assign Role">
-    1. Assign a temporary role:
-    ```bash
-    /temp-roles assign users:@user1,@user2 role:@EventRole duration:2h reason:Tournament participation notify:true
-    ```
-    2. The bot will assign the role and automatically remove it after the duration.
+    1. Assign a temporary role: ```bash /temp-roles assign users:@user1,@user2
+    role:@EventRole duration:2h reason:Tournament participation notify:true ```
+    2. The bot will assign the role and automatically remove it after the
+    duration.
   </Tab>
   <Tab value="Bulk Assignment">
-    Assign to multiple users with expiry notification:
-    ```bash
-    /temp-roles assign users:@RoleName role:@Mute duration:5m notify-expiry:true
-    ```
+    Assign to multiple users with expiry notification: ```bash /temp-roles
+    assign users:@RoleName role:@Mute duration:5m notify-expiry:true ```
   </Tab>
   <Tab value="List Roles">
-    1. List all temporary roles:
-    ```bash
-    /temp-roles list
-    ```
-    2. List for specific user:
-    ```bash
-    /temp-roles list user:@user1
-    ```
+    1. List all temporary roles: ```bash /temp-roles list ``` 2. List for
+    specific user: ```bash /temp-roles list user:@user1 ```
   </Tab>
   <Tab value="Remove Role">
-    1. Remove a temporary role early:
-    ```bash
-    /temp-roles remove users:@user1,@user2 role:@EventRole reason:Early removal notify:true
-    ```
+    1. Remove a temporary role early: ```bash /temp-roles remove
+    users:@user1,@user2 role:@EventRole reason:Early removal notify:true ```
   </Tab>
 </Tabs>
 
 ## User Targeting
+
 - **User mentions** - `@user1,@user2` (target specific users)
 - **Role mentions** - `@RoleName` (target all members with that role)
 - **User IDs** - `123456789,987654321` (target by ID)
@@ -88,6 +112,7 @@ Suitable for:
 - **Mix formats** - Combine any of the above (e.g., `@user1,@RoleName,123456789`)
 
 ## Time Examples
+
 - **`30m`** - 30 minutes (suitable for quick events)
 - **`2h`** - 2 hours (appropriate for tournaments)
 - **`1d`** - 1 day (suitable for day-long events)
@@ -95,28 +120,46 @@ Suitable for:
 - **`1h30m`** - 1 hour 30 minutes (flexible timing)
 
 ## Permissions Required
+
 <Callout type="info">
-- **Manage Roles:** Required to assign/remove temporary roles
+  - **Manage Roles:** Required to assign/remove temporary roles
 </Callout>
 
 ## Troubleshooting
+
 <Callout type="warning">
-- **Role not removed after duration:** Verify the bot is online and has Manage Roles permission.<br />
-- **User not found:** Verify user IDs or mentions.<br />
-- **Invalid duration:** Use supported formats (e.g., 1h, 2d, 1w).<br />
-- **Permission denied:** You require Manage Roles permission to manage temporary roles.
+  - **Role not removed after duration:** Verify the bot is online and has Manage
+  Roles permission.
+  <br />
+  - **User not found:** Verify user IDs or mentions.
+  <br />
+  - **Invalid duration:** Use supported formats (e.g., 1h, 2d, 1w).
+  <br />- **Permission denied:** You require Manage Roles permission to manage
+  temporary roles.
 </Callout>
 
 ## Related Commands
+
 <Cards>
-  <Card title="/role-reactions" description="Create role reaction messages" href="./role-reactions" />
-  <Card title="/schedule-role" description="Schedule role assignments" href="./schedule-role" />
+  <Card
+    title="/role-reactions"
+    description="Create role reaction messages"
+    href="./role-reactions"
+  />
+  <Card
+    title="/schedule-role"
+    description="Schedule role assignments"
+    href="./schedule-role"
+  />
 </Cards>
 
 ## Use Cases
+
 <Callout type="success">
-- Events, tournaments, giveaways, VIP access<br />
-- Beta testing, temporary mutes, or any temporary special access<br />
-- Time-limited access or moderation actions<br />
-- Enable notifications to keep users informed
+  - Events, tournaments, giveaways, VIP access
+  <br />
+  - Beta testing, temporary mutes, or any temporary special access
+  <br />
+  - Time-limited access or moderation actions
+  <br />- Enable notifications to keep users informed
 </Callout>

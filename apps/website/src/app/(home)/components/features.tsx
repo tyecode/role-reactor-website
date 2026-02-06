@@ -111,26 +111,26 @@ export function Features() {
   return (
     <section className="py-16 px-4 relative overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-gray-950 to-gray-900" />
+      <div className="absolute inset-0 bg-background" />
 
       {/* Decorative elements */}
-      <div className="absolute top-0 left-1/4 w-72 h-72 bg-blue-900/20 rounded-full blur-3xl opacity-30" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-900/20 rounded-full blur-3xl opacity-30" />
+      <div className="absolute top-0 left-1/4 w-72 h-72 bg-zinc-800/20 rounded-full blur-3xl opacity-30" />
+      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-zinc-900/20 rounded-full blur-3xl opacity-30" />
 
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Header */}
         <div className="text-center mb-12">
           <Badge
             variant="secondary"
-            className="mb-4 bg-blue-900/30 text-blue-300 hover:bg-blue-900/40 gap-2"
+            className="mb-4 bg-zinc-800/50 text-zinc-400 hover:bg-zinc-800/80 border-zinc-700/50 gap-2"
           >
             <Bot className="w-3 h-3" />
             <span>Powerful Features</span>
           </Badge>
-          <h2 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent mb-4">
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
             Comprehensive Features
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed">
             Role management features with AI-powered tools, XP tracking, and
             advanced automation. Easy to set up and use.
           </p>
@@ -141,7 +141,7 @@ export function Features() {
           {features.map((feature, index) => (
             <Card
               key={feature.title}
-              className="group relative bg-gray-900/60 backdrop-blur-sm border-gray-800 hover:border-gray-700 transition-all duration-300 hover:shadow-xl overflow-hidden"
+              className="group relative bg-zinc-900/40 backdrop-blur-sm border-zinc-800/60 hover:border-zinc-700 transition-all duration-300 hover:shadow-xl overflow-hidden"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               {/* Gradient background */}
@@ -157,8 +157,8 @@ export function Features() {
                   >
                     <feature.icon className="w-6 h-6" />
                   </div>
-                  <div className="absolute -top-1 -right-1 w-5 h-5 bg-blue-900/30 rounded-full flex items-center justify-center border border-blue-500/20">
-                    <CheckCircle className="w-3 h-3 text-blue-400" />
+                  <div className="absolute -top-1 -right-1 w-5 h-5 bg-emerald-500/20 rounded-full flex items-center justify-center border border-emerald-500/20">
+                    <CheckCircle className="w-3 h-3 text-emerald-400" />
                   </div>
                 </div>
 
@@ -170,7 +170,7 @@ export function Features() {
                     </h3>
                     <Badge
                       variant="secondary"
-                      className="bg-gray-800 text-gray-400 hover:bg-gray-700 hover:text-white transition-colors"
+                      className="bg-zinc-800/50 text-zinc-500 hover:bg-zinc-800 transition-colors border-zinc-700/50"
                     >
                       {feature.stats}
                     </Badge>

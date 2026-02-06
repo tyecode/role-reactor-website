@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 
 // Minimum payment amount
-const MINIMUM_PAYMENT = 3;
+const MINIMUM_PAYMENT = 1;
 
 export async function POST(request: NextRequest) {
   try {
@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
             code: 401,
           },
         },
-        { status: 401 },
+        { status: 401 }
       );
     }
 
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
 
     // Parse request body
     const body = await request.json();
-    const { amount, packageId } = body;
+    const { amount, packageId, currency } = body;
 
     // Validate amount
     if (!amount || typeof amount !== "number" || amount < MINIMUM_PAYMENT) {
@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
             code: 400,
           },
         },
-        { status: 400 },
+        { status: 400 }
       );
     }
 
@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
             code: 503,
           },
         },
-        { status: 503 },
+        { status: 503 }
       );
     }
 
@@ -80,6 +80,7 @@ export async function POST(request: NextRequest) {
       body: JSON.stringify({
         amount,
         packageId,
+        currency, // Pass selected cryptocurrency
         // Pass authenticated user info from website session
         discordId: userId,
         email: userEmail,
@@ -100,7 +101,7 @@ export async function POST(request: NextRequest) {
       if (process.env.NODE_ENV === "development") {
         console.error(
           `Bot API payment creation failed (${botResponse.status}):`,
-          errorData,
+          errorData
         );
       }
 
@@ -121,7 +122,7 @@ export async function POST(request: NextRequest) {
               process.env.NODE_ENV === "development" ? errorData : undefined,
           },
         },
-        { status: statusCode },
+        { status: statusCode }
       );
     }
 
@@ -145,7 +146,7 @@ export async function POST(request: NextRequest) {
             code: 500,
           },
         },
-        { status: 500 },
+        { status: 500 }
       );
     }
 
@@ -184,7 +185,7 @@ export async function POST(request: NextRequest) {
           code: 500,
         },
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }

@@ -20,13 +20,13 @@ const audiowide = Audiowide({
 
 export function Hero() {
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center px-4 overflow-hidden -mt-16 pt-16">
+    <section className="relative min-h-screen flex items-center justify-center px-4 overflow-hidden -mt-16 pt-24 pb-12">
       {/* Abstract Digital Background */}
       <div className="absolute inset-0 z-0">
         {/* Main gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-900/20 to-purple-900/20 pointer-events-none" />
+        <div className="absolute inset-0 bg-zinc-950 pointer-events-none" />
 
-        {/* Bubble Background with gooey metaball effect - different from hero */}
+        {/* Bubble Background with gooey metaball effect */}
         <BubbleBackground
           interactive={false}
           className="absolute inset-0"
@@ -41,8 +41,8 @@ export function Hero() {
           }}
         />
 
-        {/* Dark overlay to reduce brightness - slightly lighter than hero */}
-        <div className="absolute inset-0 bg-black/50 pointer-events-none" />
+        {/* Dark overlay to reduce brightness */}
+        <div className="absolute inset-0 bg-black/40 pointer-events-none" />
       </div>
 
       <motion.div
@@ -55,7 +55,7 @@ export function Hero() {
         <h1
           className={cn(
             "text-6xl md:text-8xl font-bold tracking-tight text-white drop-shadow-[0_0_30px_rgba(59,130,246,0.5)]",
-            audiowide.className,
+            audiowide.className
           )}
         >
           Role{" "}
@@ -65,7 +65,7 @@ export function Hero() {
         </h1>
 
         {/* Subtitle / Tagline */}
-        <p className="text-xl md:text-2xl text-blue-100/60 max-w-3xl mx-auto leading-relaxed font-light">
+        <p className="text-xl md:text-2xl text-zinc-400 max-w-3xl mx-auto leading-relaxed font-light">
           The ultimate Discord bot for{" "}
           <span className="text-white font-medium">
             automated role management
@@ -95,7 +95,7 @@ export function Hero() {
             asChild
             variant="outline"
             size="lg"
-            className="w-full sm:w-auto gap-2 text-base h-12 px-8 min-w-[200px] bg-white/5 hover:bg-white/10 border-white/10 text-white backdrop-blur-sm rounded-full group"
+            className="w-full sm:w-auto gap-2 text-base h-12 px-8 min-w-[200px] bg-zinc-900/50 hover:bg-zinc-800/80 border-zinc-800 text-white backdrop-blur-sm rounded-full group transition-all"
           >
             <Link href="/docs">
               <FaRocket className="w-4 h-4 group-hover:-rotate-12 transition-transform" />
@@ -105,9 +105,9 @@ export function Hero() {
         </div>
 
         {/* Trust Indicators - Horizontal */}
-        <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-4 pt-12 text-sm text-blue-200/40 font-medium tracking-wide">
+        <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-4 pt-12 text-sm text-zinc-500 font-medium tracking-wide">
           <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_10px_theme(colors.green.400)]" />
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_10px_theme(colors.emerald.500)]" />
             Always Online
           </div>
           <div className="flex items-center gap-2">

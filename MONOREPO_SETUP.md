@@ -1,7 +1,9 @@
 # Monorepo Setup Complete ✅
 
 ## Overview
+
 Successfully refactored the Role Reactor project into a **Turborepo monorepo** with separated concerns:
+
 - **Website**: Landing page + Documentation (with Fumadocs)
 - **Dashboard**: User dashboard (clean, no Fumadocs)
 - **UI Package**: Shared UI components
@@ -53,6 +55,7 @@ role-reactor-website/
 ## Key Changes
 
 ### 1. UI Package (`packages/ui`)
+
 - ✅ Extracted all Shadcn UI components
 - ✅ Moved `use-mobile` hook
 - ✅ Configured as workspace package
@@ -60,12 +63,14 @@ role-reactor-website/
 - ✅ React 19 + Tailwind v4 support
 
 **Usage:**
+
 ```tsx
 import { Button } from "@role-reactor/ui/components/button";
 import { useMobile } from "@role-reactor/ui/hooks/use-mobile";
 ```
 
 ### 2. Website App (`apps/website`)
+
 - ✅ Removed local UI components
 - ✅ Updated all imports to use `@role-reactor/ui`
 - ✅ Removed dashboard routes (moved to dashboard app)
@@ -73,6 +78,7 @@ import { useMobile } from "@role-reactor/ui/hooks/use-mobile";
 - ✅ Kept Fumadocs for documentation
 
 ### 3. Dashboard App (`apps/dashboard`)
+
 - ✅ Created standalone Next.js app
 - ✅ Copied dashboard-specific components
 - ✅ Clean `globals.css` without Fumadocs styles

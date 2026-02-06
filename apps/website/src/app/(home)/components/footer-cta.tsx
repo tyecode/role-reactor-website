@@ -11,10 +11,10 @@ export function FooterCTA() {
     <section className="py-12 px-4 relative overflow-hidden">
       {/* Abstract Digital Background */}
       <div className="absolute inset-0 z-0">
-        {/* Main gradient background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-blue-900/20 to-purple-900/20 pointer-events-none" />
+        {/* Main background */}
+        <div className="absolute inset-0 bg-background pointer-events-none" />
 
-        {/* Bubble Background with gooey metaball effect - different from hero */}
+        {/* Bubble Background with gooey metaball effect */}
         <BubbleBackground
           interactive={false}
           className="absolute inset-0"
@@ -29,23 +29,23 @@ export function FooterCTA() {
           }}
         />
 
-        {/* Dark overlay to reduce brightness - slightly lighter than hero */}
-        <div className="absolute inset-0 bg-black/50 pointer-events-none" />
+        {/* Dark overlay to reduce brightness */}
+        <div className="absolute inset-0 bg-black/40 pointer-events-none" />
       </div>
 
       <div className="max-w-4xl mx-auto relative z-10">
         {/* Main CTA Card */}
-        <div className="bg-gray-900/90 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-6 md:p-8 shadow-xl relative overflow-hidden">
+        <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800/60 rounded-2xl p-6 md:p-8 shadow-xl relative overflow-hidden">
           {/* Card background pattern */}
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 to-purple-900/10" />
+          <div className="absolute inset-0 bg-linear-to-br from-zinc-800/10 to-transparent" />
 
           {/* Decorative elements */}
-          <div className="absolute top-4 right-4 w-20 h-20 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full blur-xl opacity-20" />
-          <div className="absolute bottom-4 left-4 w-16 h-16 bg-gradient-to-r from-pink-400 to-red-400 rounded-full blur-xl opacity-20" />
+          <div className="absolute top-4 right-4 w-20 h-20 bg-linear-to-r from-blue-400 to-purple-400 rounded-full blur-xl opacity-20" />
+          <div className="absolute bottom-4 left-4 w-16 h-16 bg-linear-to-r from-pink-400 to-red-400 rounded-full blur-xl opacity-20" />
 
           <div className="relative z-10 text-center">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full text-sm font-medium mb-6 shadow-lg">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-linear-to-r from-blue-500 to-purple-500 text-white rounded-full text-sm font-medium mb-6 shadow-lg">
               <Sparkles className="w-4 h-4" />
               <span>Transform Your Discord Server Today</span>
             </div>
@@ -55,7 +55,7 @@ export function FooterCTA() {
               Ready to Level Up?
             </h2>
 
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed mb-8">
+            <p className="text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed mb-8">
               Stop struggling with manual role management. Role Reactor
               automates everything so you can focus on building an amazing
               community.
@@ -66,7 +66,7 @@ export function FooterCTA() {
               <Button
                 asChild
                 size="lg"
-                className="group relative bg-gradient-to-r !from-[#5865F2] !to-[#4752C4] text-white px-8 py-3 rounded-lg font-bold transition-all duration-300 shadow-2xl transform hover:scale-105 hover:-translate-y-1 focus:outline-none"
+                className="group relative bg-linear-to-r from-[#5865F2]! to-[#4752C4]! text-white px-8 py-3 rounded-lg font-bold transition-all duration-300 shadow-2xl transform hover:scale-105 hover:-translate-y-1 focus:outline-none"
               >
                 <Link
                   href={links.inviteBot}
@@ -103,17 +103,17 @@ export function FooterCTA() {
 
         {/* Trust Indicators */}
         <div className="mt-8 text-center">
-          <div className="flex items-center justify-center gap-8 text-gray-400 text-sm">
+          <div className="flex items-center justify-center gap-8 text-zinc-500 text-sm">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+              <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
               <span>100% Free</span>
             </div>
-            <div className="w-px h-4 bg-gray-600" />
+            <div className="w-px h-4 bg-zinc-800" />
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
               <span>30s Setup</span>
             </div>
-            <div className="w-px h-4 bg-gray-600" />
+            <div className="w-px h-4 bg-zinc-800" />
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" />
               <span>24/7 Online</span>

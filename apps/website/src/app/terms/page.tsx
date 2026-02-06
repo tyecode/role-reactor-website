@@ -14,12 +14,8 @@ export default function TermsPage() {
           >
             ← Back to Home
           </Link>
-          <h1 className="text-4xl font-bold text-white mb-2">
-            Terms of Use
-          </h1>
-          <p className="text-gray-400">
-            Last Updated: September 7, 2025
-          </p>
+          <h1 className="text-4xl font-bold text-white mb-2">Terms of Use</h1>
+          <p className="text-gray-400">Last Updated: September 7, 2025</p>
         </div>
 
         {/* Content */}
@@ -74,10 +70,7 @@ export default function TermsPage() {
             <p className="text-gray-300 leading-relaxed mb-6">
               Your privacy rights are important to us. Please take your time to
               review our{" "}
-              <Link
-                href="/privacy"
-                className="text-indigo-400 hover:underline"
-              >
+              <Link href="/privacy" className="text-indigo-400 hover:underline">
                 Privacy Policy
               </Link>
               .
@@ -110,7 +103,7 @@ export default function TermsPage() {
             <p className="text-gray-300 leading-relaxed mb-4">
               Role Reactor is a free, open-source Discord bot that provides role
               management and gamification features. Our core service is provided
-              free of charge, with optional donations and sponsorships available
+              free of charge, with optional supporting opportunities available
               to support development and server costs.
             </p>
 
@@ -127,7 +120,7 @@ export default function TermsPage() {
               <li>Welcome system for new members</li>
               <li>Administrative tools for server management</li>
               <li>Interactive 8-ball question answering</li>
-              <li>Optional sponsorship and donation features</li>
+              <li>Optional support features</li>
             </ul>
 
             <h2 className="text-2xl font-semibold text-white mb-4">
@@ -168,11 +161,11 @@ export default function TermsPage() {
               Optional Donations
             </h3>
             <p className="text-gray-300 leading-relaxed mb-4">
-              Role Reactor is provided free of charge. We offer optional
-              donation and sponsorship opportunities through platforms like
-              Ko-fi to help cover server costs and support development. All
-              donations are processed through third-party payment processors and
-              are subject to their terms and conditions.
+              Role Reactor is provided free of charge. We offer optional support
+              opportunities through third-party platforms to help cover server
+              costs and support development. All contributions are processed
+              through third-party payment processors and are subject to their
+              terms and conditions.
             </p>
 
             <h3 className="text-xl font-semibold text-white mb-3">
@@ -296,9 +289,7 @@ export default function TermsPage() {
               </li>
             </ul>
 
-            <h2 className="text-2xl font-semibold text-white mb-4">
-              Changes
-            </h2>
+            <h2 className="text-2xl font-semibold text-white mb-4">Changes</h2>
             <p className="text-gray-300 leading-relaxed">
               We may change these Terms from time to time. If we do, we'll
               provide notice of any changes. Your continued use of the Services

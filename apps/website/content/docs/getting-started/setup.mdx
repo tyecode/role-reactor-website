@@ -4,15 +4,17 @@ description: Complete setup guide for Role Reactor Bot - from installation to cr
 keywords: role management, discord bot, self-assign roles, role messages, configuration
 ---
 
-import { Callout } from 'fumadocs-ui/components/callout';
-import { Steps, Step } from 'fumadocs-ui/components/steps';
-import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
-import { Cards, Card } from 'fumadocs-ui/components/card';
+import { Callout } from "fumadocs-ui/components/callout";
+import { Steps, Step } from "fumadocs-ui/components/steps";
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+import { Cards, Card } from "fumadocs-ui/components/card";
 
 ## Quick Start
 
 <Callout type="info">
-**Formatting Note:** When creating role strings, avoid extra spaces around commas and ensure each emoji is unique. Use `🎮:Gaming,🎨:Art` not `🎮:Gaming, 🎨:Art`.
+  **Formatting Note:** When creating role strings, avoid extra spaces around
+  commas and ensure each emoji is unique. Use `🎮:Gaming,🎨:Art` not `🎮:Gaming,
+  🎨:Art`.
 </Callout>
 
 <Steps>
@@ -22,24 +24,19 @@ import { Cards, Card } from 'fumadocs-ui/components/card';
     [Add Role Reactor Bot to your server](https://discord.com/api/oauth2/authorize?client_id=1392714201558159431&scope=bot+applications.commands&permissions=268790880)
     
     Ensure the following permissions are granted:
-    - Manage Roles
-    - Manage Messages
-    - Send Messages
-    - Add Reactions
-    - Read Message History
-    - View Channel
-    - Embed Links
-    - Manage Server
-    - Use External Emojis
+    
+    Manage Roles, Manage Messages, Send Messages, Add Reactions, Read Message History, View Channel, Embed Links, Manage Server, Use External Emojis
+
   </Step>
 
-  <Step>
-    **Create Your First Role Message**
-    
-    ```
-    /role-reactions setup title:Server Roles description:Choose your roles below! roles:🎮:Gaming,📚:Books,🎵:Music
-    ```
-  </Step>
+<Step>
+  **Create Your First Role Message**
+  
+  ```bash
+  /role-reactions setup title:Server Roles description:Choose your roles below! roles:🎮:Gaming,📚:Books,🎵:Music
+  ```
+
+</Step>
 
   <Step>
     **Verify Functionality**
@@ -49,7 +46,8 @@ import { Cards, Card } from 'fumadocs-ui/components/card';
 </Steps>
 
 <Callout type="success">
-Setup complete. You now have a functional role system. Continue reading for advanced configuration options.
+  Setup complete. You now have a functional role system. Continue reading for
+  advanced configuration options.
 </Callout>
 
 ## Permission Requirements
@@ -59,15 +57,33 @@ Setup complete. You now have a functional role system. Continue reading for adva
 The bot requires the following permissions to function:
 
 <Cards>
-  <Card title="Manage Roles" description="Assign and remove roles from members" />
+  <Card
+    title="Manage Roles"
+    description="Assign and remove roles from members"
+  />
   <Card title="Manage Messages" description="Manage role-reaction messages" />
   <Card title="Add Reactions" description="Add emoji reactions to messages" />
-  <Card title="Read Message History" description="Monitor reaction events and read channel history" />
-  <Card title="View Channel" description="Access channels where the bot operates" />
-  <Card title="Send Messages" description="Create role selection messages and respond to commands" />
+  <Card
+    title="Read Message History"
+    description="Monitor reaction events and read channel history"
+  />
+  <Card
+    title="View Channel"
+    description="Access channels where the bot operates"
+  />
+  <Card
+    title="Send Messages"
+    description="Create role selection messages and respond to commands"
+  />
   <Card title="Embed Links" description="Create rich embedded messages" />
-  <Card title="Manage Server" description="Manage server settings and configurations" />
-  <Card title="Use External Emojis" description="Use emojis from other servers" />
+  <Card
+    title="Manage Server"
+    description="Manage server settings and configurations"
+  />
+  <Card
+    title="Use External Emojis"
+    description="Use emojis from other servers"
+  />
 </Cards>
 
 ### Permission Configuration
@@ -77,50 +93,33 @@ The bot requires the following permissions to function:
 3. **Role Position**: Ensure the bot's role is positioned above any roles it manages
 
 <Callout type="warn">
-**Important**: The bot can only manage roles that are positioned below its own role in the server hierarchy.
+  **Important**: The bot can only manage roles that are positioned below its own
+  role in the server hierarchy.
 </Callout>
 
 ## Creating Role Messages
 
 ### Basic Role Message
 
-<Tabs items={['Simple Format', 'With Categories', 'Advanced Options']}>
+<Tabs items={["Simple Format", "With Categories", "Advanced Options"]}>
   <Tab value="Simple Format">
-    **Basic role list:**
-    ```
-    /role-reactions setup title:Choose Your Roles description:React to get roles! roles:🎮:Gaming,📚:Reading,🎵:Music,🎨:Art
-    ```
-    
-    **Output:**
-    ```
-    Choose Your Roles
-    React to get roles!
-    
-    🎮 📚 🎵 🎨
-    ```
+    **Basic role list:** ``` /role-reactions setup title:Choose Your Roles
+    description:React to get roles! roles:🎮:Gaming,📚:Reading,🎵:Music,🎨:Art
+    ``` **Output:** ``` Choose Your Roles React to get roles! 🎮 📚 🎵 🎨 ```
   </Tab>
-  
-  <Tab value="With Categories">
-    **Organized with categories:**
-    
-    ```bash
-    /role-reactions setup title:Game Roles description:Choose your favorite games! roles:🔴:Valorant,⚡:Apex Legends,⚔️:League of Legends
-    ```
-    
-    **Output:**
-    ```
-    Game Roles
-    Choose your favorite games!
-    
-    🔴 ⚡ ⚔️
-    ```
-  </Tab>
-  
+
+<Tab value="With Categories">
+  **Organized with categories:** ```bash /role-reactions setup title:Game Roles
+  description:Choose your favorite games! roles:🔴:Valorant,⚡:Apex
+  Legends,⚔️:League of Legends ``` **Output:** ``` Game Roles Choose your
+  favorite games! 🔴 ⚡ ⚔️ ```
+</Tab>
+
   <Tab value="Advanced Options">
-    **Full customization:**
-    ```bash
-    /role-reactions setup title:🌟 Community Roles description:**Welcome!** Choose your roles below.\n\n*You can select multiple roles.* roles:#Gaming 🎮\n🖥️:PC Gaming,🎮:Console,📱:Mobile\n#Creative 🎨\n🎨:Art,📸:Photo,🎵:Music
-    ```
+    **Full customization:** ```bash /role-reactions setup title:🌟 Community
+    Roles description:**Welcome!** Choose your roles below.\n\n*You can select
+    multiple roles.* roles:#Gaming 🎮\n🖥️:PC
+    Gaming,🎮:Console,📱:Mobile\n#Creative 🎨\n🎨:Art,📸:Photo,🎵:Music ```
   </Tab>
 </Tabs>
 
@@ -130,29 +129,24 @@ Organize roles into categories for improved user experience:
 
 <Steps>
   <Step>
-    **Category Header**
-    
-    Begin with `#Category Name` to create a section header
+    **Category Header** Begin with `#Category Name` to create a section header
   </Step>
-  
+
+<Step>
+  **Add Roles** List roles under each category: `emoji:role1,emoji:role2`
+</Step>
+
   <Step>
-    **Add Roles**
-    
-    List roles under each category: `emoji:role1,emoji:role2`
-  </Step>
-  
-  <Step>
-    **Multiple Categories**
-    
-    Separate categories with `\n` for new lines
+    **Multiple Categories** Separate categories with `\n` for new lines
   </Step>
 </Steps>
 
 **Example Structure:**
+
 ```
 #Gaming Platforms
 🖥️:PC Gaming,🎮:Console Gaming,📱:Mobile Gaming
-#Notifications  
+#Notifications
 📢:Announcements,🎉:Events,📰:News
 #Interests
 🎨:Art,📚:Books,🎵:Music
@@ -163,10 +157,22 @@ Organize roles into categories for improved user experience:
 ### Managing Existing Messages
 
 <Cards>
-  <Card title="Edit Message" description="/role-reactions update - Update title, description, or roles" />
-  <Card title="Delete Message" description="/role-reactions delete - Remove a role message" />
-  <Card title="List Messages" description="/role-reactions list - View all role messages" />
-  <Card title="Refresh Reactions" description="Contact support - Fix broken reactions" />
+  <Card
+    title="Edit Message"
+    description="/role-reactions update - Update title, description, or roles"
+  />
+  <Card
+    title="Delete Message"
+    description="/role-reactions delete - Remove a role message"
+  />
+  <Card
+    title="List Messages"
+    description="/role-reactions list - View all role messages"
+  />
+  <Card
+    title="Refresh Reactions"
+    description="Contact support - Fix broken reactions"
+  />
 </Cards>
 
 ### Role Color Configuration
@@ -193,7 +199,7 @@ Roles are created through Discord's server settings. The bot can only manage exi
 ```
 📋 INFORMATION
 ├── 📖 rules
-├── 📢 announcements  
+├── 📢 announcements
 └── 🎭 get-roles
 
 💬 GENERAL
@@ -205,7 +211,8 @@ Roles are created through Discord's server settings. The bot can only manage exi
 ### Role Channel Best Practices
 
 <Callout type="info">
-**Recommendation:** Create a dedicated #get-roles channel for optimal user experience.
+  **Recommendation:** Create a dedicated #get-roles channel for optimal user
+  experience.
 </Callout>
 
 **Channel Configuration:**
@@ -216,12 +223,13 @@ Roles are created through Discord's server settings. The bot can only manage exi
 4. Add channel description explaining reaction usage
 
 **Channel Description Example:**
+
 ```
 🎭 Role Selection
 
 React to the messages below to get roles!
 • Click an emoji to get that role
-• Click again to remove the role  
+• Click again to remove the role
 • You can have multiple roles
 • Ask in #general if you need help
 ```
@@ -247,46 +255,28 @@ React to the messages below to get roles!
 
 For larger servers, create multiple focused role messages:
 
-<Tabs items={['Basic Setup', 'Gaming Server', 'Study Server']}>
+<Tabs items={["Basic Setup", "Gaming Server", "Study Server"]}>
   <Tab value="Basic Setup">
-    **Message 1: Essential Roles**
-    ```bash
-    /role-reactions setup title:Essential Roles roles:📢:Announcements,🎉:Events,💬:General Chat
-    ```
-    
-    **Message 2: Interests**
-    ```bash
-    /role-reactions setup title:Your Interests roles:#Hobbies\n🎮:Gaming,📚:Reading,🎵:Music,🎨:Art
-    ```
+    **Message 1: Essential Roles** ```bash /role-reactions setup title:Essential
+    Roles roles:📢:Announcements,🎉:Events,💬:General Chat ``` **Message 2:
+    Interests** ```bash /role-reactions setup title:Your Interests
+    roles:#Hobbies\n🎮:Gaming,📚:Reading,🎵:Music,🎨:Art ```
   </Tab>
-  
-  <Tab value="Gaming Server">
-    **Message 1: Gaming Platforms**
-    ```bash
-    /role-reactions setup title:Gaming Platforms roles:🖥️:PC,🎮:PlayStation,🎯:Xbox,📱:Mobile,🕹️:Nintendo
-    ```
-    
-    **Message 2: Game Types**
-    ```bash
-    /role-reactions setup title:Game Genres roles:#Genres\n🔫:FPS,⚔️:RPG,🏎️:Racing,🎲:Strategy,👥:MMO
-    ```
-    
-    **Message 3: Activity**
-    ```bash
-    /role-reactions setup title:Playstyle roles:#Playstyle\n🏆:Competitive,🎯:Casual,👥:Looking for Group
-    ```
-  </Tab>
-  
+
+<Tab value="Gaming Server">
+  **Message 1: Gaming Platforms** ```bash /role-reactions setup title:Gaming
+  Platforms roles:🖥️:PC,🎮:PlayStation,🎯:Xbox,📱:Mobile,🕹️:Nintendo ```
+  **Message 2: Game Types** ```bash /role-reactions setup title:Game Genres
+  roles:#Genres\n🔫:FPS,⚔️:RPG,🏎️:Racing,🎲:Strategy,👥:MMO ``` **Message 3:
+  Activity** ```bash /role-reactions setup title:Playstyle
+  roles:#Playstyle\n🏆:Competitive,🎯:Casual,👥:Looking for Group ```
+</Tab>
+
   <Tab value="Study Server">
-    **Message 1: Subjects**
-    ```bash
-    /role-reactions setup title:Study Subjects roles:#Subjects\n📊:Math,🔬:Science,📚:English,🏛️:History
-    ```
-    
-    **Message 2: Study Groups**
-    ```bash
-    /role-reactions setup title:Study Style roles:#Study Style\n👥:Group Study,🤫:Solo Study,📅:Study Schedule
-    ```
+    **Message 1: Subjects** ```bash /role-reactions setup title:Study Subjects
+    roles:#Subjects\n📊:Math,🔬:Science,📚:English,🏛️:History ``` **Message 2:
+    Study Groups** ```bash /role-reactions setup title:Study Style roles:#Study
+    Style\n👥:Group Study,🤫:Solo Study,📅:Study Schedule ```
   </Tab>
 </Tabs>
 
@@ -296,27 +286,19 @@ For larger servers, create multiple focused role messages:
 
 <Steps>
   <Step>
-    **Bot Not Responding**
-    
-    - Verify bot permissions
-    - Check bot role position
-    - Confirm bot is online
+    **Bot Not Responding** - Verify bot permissions - Check bot role position -
+    Confirm bot is online
   </Step>
-  
+
+<Step>
+  **Roles Not Being Assigned** - Verify role hierarchy (bot role above target
+  roles) - Confirm role names match exactly - Test with a simple role first
+</Step>
+
   <Step>
-    **Roles Not Being Assigned**
-    
-    - Verify role hierarchy (bot role above target roles)
-    - Confirm role names match exactly
-    - Test with a simple role first
-  </Step>
-  
-  <Step>
-    **Reactions Not Working**
-    
-    - Contact support to fix reactions
-    - Verify emojis are from the server or Unicode
-    - Confirm bot can add reactions in the channel
+    **Reactions Not Working** - Contact support to fix reactions - Verify emojis
+    are from the server or Unicode - Confirm bot can add reactions in the
+    channel
   </Step>
 </Steps>
 
@@ -331,5 +313,7 @@ If issues persist:
 ---
 
 <Callout type="success">
-**Setup Complete:** Your Role Reactor Bot is now configured and ready to use. Visit the [Examples section](/docs/examples) for inspiration on creating engaging role systems for your community.
+  **Setup Complete:** Your Role Reactor Bot is now configured and ready to use.
+  Visit the [Examples section](/docs/examples) for inspiration on creating
+  engaging role systems for your community.
 </Callout>

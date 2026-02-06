@@ -4,15 +4,17 @@ description: Check your level and experience points. See your progress in the se
 keywords: level, experience, xp, progress, ranking, stats
 ---
 
-import { Callout } from 'fumadocs-ui/components/callout';
-import { Cards, Card } from 'fumadocs-ui/components/card';
+import { Callout } from "fumadocs-ui/components/callout";
+import { Cards, Card } from "fumadocs-ui/components/card";
 
 ## Parameters
+
 <Cards>
   <Card title="user (optional)" description="User to check (defaults to you)" />
 </Cards>
 
 ## Step-by-Step Example
+
 1. To check your own level:
    ```bash
    /level
@@ -24,6 +26,7 @@ import { Cards, Card } from 'fumadocs-ui/components/card';
 3. The bot will show detailed level information including current XP, progress to next level, and rank.
 
 ## Features
+
 - **Current level:** Shows the user's current level
 - **Experience points:** Displays total XP earned
 - **Progress bar:** Visual representation of progress to next level
@@ -31,25 +34,38 @@ import { Cards, Card } from 'fumadocs-ui/components/card';
 - **Rank:** Shows the user's position in the server leaderboard
 
 ## Permissions Required
+
 <Callout type="info">
-- **View Channel:** Required to check level information
+  - **View Channel:** Required to check level information
 </Callout>
 
 ## Troubleshooting
+
 <Callout type="warning">
-- **No level data:** The user may not have earned any XP yet.<br />
-- **XP not updating:** Make sure the XP system is enabled in the server.
+  - **No level data:** The user may not have earned any XP yet.
+  <br />- **XP not updating:** Make sure the XP system is enabled in the server.
 </Callout>
 
 ## Related Commands
+
 <Cards>
-  <Card title="/leaderboard" description="View server experience leaderboard" href="./leaderboard" />
-  <Card title="/xp settings" description="Configure XP system settings" href="../admin/xp-settings" />
+  <Card
+    title="/leaderboard"
+    description="View server experience leaderboard"
+    href="./leaderboard"
+  />
+  <Card
+    title="/xp settings"
+    description="Configure XP system settings"
+    href="../admin/xp-settings"
+  />
 </Cards>
 
 ## Best Practices
+
 <Callout type="success">
-- Check your level regularly to track progress.<br />
-- Encourage server activity to help users gain XP.<br />
-- Use leaderboard to see how you rank among other members.
+  - Check your level regularly to track progress.
+  <br />
+  - Encourage server activity to help users gain XP.
+  <br />- Use leaderboard to see how you rank among other members.
 </Callout>

@@ -1,42 +1,38 @@
 ---
 title: Core
 description: Check your Core balance and view pricing information for the Core credit system. Manage your credits for AI avatar generation.
-keywords: core, credits, balance, pricing, avatar generation, ko-fi, membership
+keywords: core, credits, balance, pricing, avatar generation, support, membership
 ---
 
-import { Callout } from 'fumadocs-ui/components/callout';
-import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
-import { Cards, Card } from 'fumadocs-ui/components/card';
+import { Callout } from "fumadocs-ui/components/callout";
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+import { Cards, Card } from "fumadocs-ui/components/card";
 
 ## Subcommands
+
 <Cards>
-  <Card title="balance" description="Check your current Core balance and tier status" />
-  <Card title="pricing" description="View Core pricing, membership benefits, and donation options" />
+  <Card
+    title="balance"
+    description="Check your current Core balance and tier status"
+  />
+  <Card
+    title="pricing"
+    description="View Core pricing, membership benefits, and donation options"
+  />
 </Cards>
 
 ## Usage Examples
+
 <Tabs items={["Check Balance", "View Pricing"]}>
   <Tab value="Check Balance">
-    Check your current Core balance:
-    ```bash
-    /core balance
-    ```
-    This will show:
-    - Your current Core balance
-    - Your membership tier (if any)
-    - Total avatar generations used
-    - Membership benefits
+    Check your current Core balance: ```bash /core balance ``` This will show: -
+    Your current Core balance - Your membership tier (if any) - Total avatar
+    generations used - Membership benefits
   </Tab>
   <Tab value="View Pricing">
-    View Core pricing and membership options:
-    ```bash
-    /core pricing
-    ```
-    This will show:
-    - Donation rates (10 Cores per $1)
-    - Membership tiers and benefits
-    - Monthly credit allocations
-    - Ko-fi integration links
+    View Core pricing and membership options: ```bash /core pricing ``` This
+    will show: - Support rates (10 Cores per $1) - Membership tiers and benefits
+    - Monthly credit allocations - Integration links
   </Tab>
 </Tabs>
 
@@ -46,7 +42,7 @@ The Core credit system is a credit-based economy for AI avatar generation. Users
 
 ### How It Works
 
-1. **Donations**: Donate via Ko-fi to receive Cores (10 Cores per $1)
+1. **Support**: Support our development to receive Cores (10 Cores per $1)
 2. **Memberships**: Subscribe to monthly membership tiers for recurring Cores
 3. **Avatar Generation**: Use 1 Core per AI avatar generation
 4. **Balance Tracking**: Your balance is tracked across all servers
@@ -61,36 +57,58 @@ The Core credit system is a credit-based economy for AI avatar generation. Users
 
 - **Minimum Donation**: $1
 - **Core Rate**: 10 Cores per $1 donated
-- **Automatic Processing**: Cores are added automatically after donation verification
+- **Automatic Processing**: Cores are added automatically after verification
 
 ## Permissions Required
+
 <Callout type="info">
-- **Send Messages:** Required to view balance and pricing
+  - **Send Messages:** Required to view balance and pricing
 </Callout>
 
 ## What You'll See
+
 <Callout type="info">
-Your Core balance, tier information, and transaction history. Core credits are used for AI avatar generation and can be purchased or transferred between users!
+  Your Core balance, tier information, and transaction history. Core credits are
+  used for AI avatar generation and can be purchased or transferred between
+  users!
 </Callout>
 
 ## Troubleshooting
+
 <Callout type="warning">
-- **Balance not updating:** Donations may take a few minutes to process. Contact support if issues persist.<br />
-- **Membership not showing:** Ensure your Ko-fi subscription is active and linked to your Discord account.<br />
-- **Credits not received:** Check that your donation was verified. Contact support if you need assistance.
+  - **Balance not updating:** Donations may take a few minutes to process.
+  Contact support if issues persist.
+  <br />
+  - **Membership not showing:** Ensure your membership subscription is active
+  and linked to your Discord account.
+  <br />- **Credits not received:** Check that your support was verified.
+  Contact support if you need assistance.
 </Callout>
 
 ## Related Commands
+
 <Cards>
-  <Card title="/avatar" description="Generate AI-powered avatars using Core credits" href="./avatar" />
-  <Card title="/sponsor" description="Get information about sponsoring the bot" href="./sponsor" />
+  <Card
+    title="/avatar"
+    description="Generate AI-powered avatars using Core credits"
+    href="./avatar"
+  />
+  <Card
+    title="/sponsor"
+    description="Get information about sponsoring the bot"
+    href="./sponsor"
+  />
 </Cards>
 
 ## Best Practices
-<Callout type="success">
-- Check your balance before generating avatars to ensure you have enough Cores.<br />
-- Consider a membership subscription for regular avatar generation needs.<br />
-- Donations support bot development and help keep the service running.<br />
-- Your Core balance is shared across all servers where the bot is present.
-</Callout>
 
+<Callout type="success">
+  - Check your balance before generating avatars to ensure you have enough
+  Cores.
+  <br />
+  - Consider a membership subscription for regular avatar generation needs.
+  <br />
+  - Support helps bot development and help keep the service running.
+  <br />- Your Core balance is shared across all servers where the bot is
+  present.
+</Callout>

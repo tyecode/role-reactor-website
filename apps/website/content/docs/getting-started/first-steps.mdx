@@ -4,9 +4,9 @@ description: Get started with Role Reactor Bot by creating your first role messa
 keywords: role management, discord bot, self-assign roles, role messages, quick start
 ---
 
-import { Callout } from 'fumadocs-ui/components/callout';
-import { Step, Steps } from 'fumadocs-ui/components/steps';
-import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
+import { Callout } from "fumadocs-ui/components/callout";
+import { Step, Steps } from "fumadocs-ui/components/steps";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 
 ## Quick Start Tutorial
 
@@ -20,7 +20,7 @@ This tutorial will guide you through creating your first role message using Role
 Before creating a role message, ensure the roles you want to use exist in your server. For this example, we'll use:
 
 - **Gamer** - For gaming enthusiasts
-- **Artist** - For creative members  
+- **Artist** - For creative members
 - **Developer** - For tech-minded people
 
 <Callout type="info">
@@ -39,12 +39,14 @@ In any channel where you want the role message to appear, execute:
 ```
 
 **Command Breakdown:**
+
 - `title:Choose Your Roles` - Sets the message title
 - `description:React below to assign yourself roles!` - Provides instructions
 - `roles:🎮:Gamer,🎨:Artist,💻:Developer` - Defines emoji-role pairs
 
 <Callout type="info">
-**Formatting Note:** Ensure there are no extra spaces around commas in the roles string. Use `🎮:Gamer,🎨:Artist` not `🎮:Gamer, 🎨:Artist`.
+  **Formatting Note:** Ensure there are no extra spaces around commas in the
+  roles string. Use `🎮:Gamer,🎨:Artist` not `🎮:Gamer, 🎨:Artist`.
 </Callout>
 
 </Step>
@@ -58,7 +60,8 @@ In any channel where you want the role message to appear, execute:
 4. Remove the reaction to confirm the role is removed
 
 <Callout type="check">
-**Success:** Your members can now self-assign roles by reacting to your message.
+  **Success:** Your members can now self-assign roles by reacting to your
+  message.
 </Callout>
 
 </Step>
@@ -86,7 +89,7 @@ Welcome to our server!
 Choose roles that match your interests:
 
 • 🎮 Gaming enthusiasts
-• 🎨 Creative minds  
+• 🎨 Creative minds
 • 💻 Tech lovers
 
 🎮 🎨 💻
@@ -96,8 +99,9 @@ Choose roles that match your interests:
 </Tabs>
 
 **Formatting Features Used:**
+
 - **Bold text** with `**bold**`
-- **Line breaks** with `\n`  
+- **Line breaks** with `\n`
 - **Bullet points** with `•`
 
 ## User Experience
@@ -188,15 +192,18 @@ Track member activity with experience points:
 ### Common Issues
 
 **"The bot didn't respond to my command"**
+
 - Verify the bot has permission to send messages in that channel
 - Confirm the command syntax is correct (start with `/role-reactions setup`)
 
 **"Members can't get roles when they react"**
+
 - Verify role names match exactly (case-sensitive)
 - Ensure the bot's role is positioned above the roles it's trying to assign
 - Confirm the bot has "Manage Roles" permission
 
 **"The emoji reactions didn't appear"**
+
 - The bot requires "Add Reactions" permission
 - Custom emojis may not be available to the bot
 
@@ -209,6 +216,7 @@ Track member activity with experience points:
 ---
 
 **Next Steps:**
+
 - Review [Example Setups](/docs/examples) for your server type
 - Explore [Command Documentation](/docs/commands) for advanced features
 - Visit [Troubleshooting Guide](/docs/troubleshooting) for additional support

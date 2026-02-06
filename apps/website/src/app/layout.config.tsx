@@ -1,6 +1,6 @@
 import { type LinkItemType } from "fumadocs-ui/layouts/docs";
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
-import { BookOpen, Home } from "lucide-react";
+
 import Image from "next/image";
 import { BsGithub } from "react-icons/bs";
 import { FaDiscord } from "react-icons/fa";

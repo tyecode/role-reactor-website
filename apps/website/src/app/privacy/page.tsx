@@ -14,12 +14,8 @@ export default function PrivacyPage() {
           >
             ← Back to Home
           </Link>
-          <h1 className="text-4xl font-bold text-white mb-2">
-            Privacy Policy
-          </h1>
-          <p className="text-gray-400">
-            Last Updated: September 7, 2025
-          </p>
+          <h1 className="text-4xl font-bold text-white mb-2">Privacy Policy</h1>
+          <p className="text-gray-400">Last Updated: September 7, 2025</p>
         </div>
 
         {/* Content */}
@@ -71,11 +67,11 @@ export default function PrivacyPage() {
             </p>
 
             <p className="text-gray-300 leading-relaxed mb-4">
-              When you make donations through our Services, your payment
-              processing service provider (Ko-fi) may collect your name, email
-              address, and payment information to process the transaction. We
-              receive a notification of the donation, which may include your
-              provided name and message.
+              When you make contributions through our Services, your payment
+              processing service provider may collect your name, email address,
+              and payment information to process the transaction. We receive a
+              notification of the contribution, which may include your provided
+              name and message.
             </p>
 
             <p className="text-gray-300 leading-relaxed mb-6">
@@ -181,11 +177,11 @@ export default function PrivacyPage() {
             <p className="text-gray-300 leading-relaxed mb-4">
               We may provide your information to third-party companies that
               perform services for us or on our behalf. These services include
-              payment processing (Ko-fi), data hosting and storage (MongoDB
-              Atlas), and issue tracking for support (GitHub). These service
-              providers have access to your information only to perform these
-              tasks on our behalf and are obligated not to disclose or use it
-              for any other purpose.
+              payment processing, data hosting and storage (MongoDB Atlas), and
+              issue tracking for support (GitHub). These service providers have
+              access to your information only to perform these tasks on our
+              behalf and are obligated not to disclose or use it for any other
+              purpose.
             </p>
 
             <h3 className="text-xl font-semibold text-white mb-3">

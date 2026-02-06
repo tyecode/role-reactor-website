@@ -1,4 +1,9 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@role-reactor/ui/components/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@role-reactor/ui/components/card";
 import { Button } from "@role-reactor/ui/components/button";
 import { ArrowRight, ImageIcon, Zap, Clock } from "lucide-react";
 import Link from "next/link";

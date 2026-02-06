@@ -1,8 +1,9 @@
 "use client";
 
 import { useSession, signIn, signOut } from "next-auth/react";
-import { LogOut, Zap, LayoutDashboard } from "lucide-react";
+import { LogOut, LayoutDashboard, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import {
   DropdownMenu,
@@ -31,7 +32,7 @@ function hasSessionCookie(): boolean {
       cookie.trim().startsWith("authjs.session-token=") ||
       cookie.trim().startsWith("__Secure-authjs.session-token=") ||
       cookie.trim().startsWith("next-auth.session-token=") ||
-      cookie.trim().startsWith("__Secure-next-auth.session-token="),
+      cookie.trim().startsWith("__Secure-next-auth.session-token=")
   );
 }
 
@@ -133,8 +134,13 @@ export function UserMenu() {
     <div className="relative flex items-center gap-2 ml-2">
       {/* Core Balance Display */}
       {coreBalance !== null && (
-        <div className="hidden md:flex items-center gap-1.5 text-muted-foreground px-2">
-          <Zap className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+        <div className="flex items-center gap-1.5 text-muted-foreground px-2">
+          <Image
+            src="/images/cores/core_energy.png"
+            width={18}
+            height={18}
+            alt="Cores"
+          />
           <span className="font-semibold text-foreground">{coreBalance}</span>
         </div>
       )}
@@ -156,21 +162,25 @@ export function UserMenu() {
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-60">
-          <DropdownMenuLabel className="font-normal">
-            <div className="flex items-center gap-3 mb-2">
-              <Avatar className="h-10 w-10 flex-shrink-0">
+        <DropdownMenuContent
+          align="end"
+          portal={false}
+          className="w-64 p-2 bg-zinc-950/95 backdrop-blur-sm border-zinc-800/60 shadow-xl"
+        >
+          <DropdownMenuLabel className="font-normal p-0 mb-2">
+            <div className="flex items-center gap-3 px-2 py-1.5">
+              <Avatar className="h-9 w-9 shrink-0 border border-border/50">
                 <AvatarImage src={avatarUrl} alt={user.name || "User avatar"} />
                 <AvatarFallback className="text-sm">
                   {getInitials(user.name)}
                 </AvatarFallback>
               </Avatar>
               <div className="flex flex-col min-w-0 flex-1 overflow-hidden">
-                <span className="text-sm font-medium truncate">
+                <span className="text-sm font-medium truncate leading-none mb-1">
                   {user.name}
                 </span>
                 {user.email && (
-                  <span className="text-xs text-muted-foreground truncate">
+                  <span className="text-xs text-muted-foreground truncate leading-none">
                     {user.email}
                   </span>
                 )}
@@ -178,40 +188,59 @@ export function UserMenu() {
             </div>
 
             {/* Cores in Dropdown */}
-            <div className="p-2 bg-muted/50 rounded-lg flex items-center justify-between border border-border/50">
-              <div className="flex items-center gap-2">
-                <div className="p-1.5 bg-yellow-500/10 rounded-md">
-                  <Zap className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+            <div className="mt-2 p-3 bg-linear-to-br from-zinc-900 to-black rounded-lg border border-border/40 flex items-center justify-between shadow-inner">
+              <div className="flex items-center gap-3">
+                <div className="p-1 bg-yellow-500/10 rounded-full border border-yellow-500/20">
+                  <Image
+                    src="/images/cores/core_energy.png"
+                    width={32}
+                    height={32}
+                    alt="Cores"
+                  />
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                    Cores
+                  <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+                    Your Cores
                   </span>
-                  <span className="text-sm font-bold leading-none">
-                    {coreBalance ?? "..."}
+                  <span className="text-base font-bold leading-tight font-mono text-foreground">
+                    {coreBalance ?? 0}
                   </span>
                 </div>
               </div>
-              <Link href="/" className="text-xs text-primary hover:underline">
-                Get Cores
-              </Link>
+              <Button
+                size="sm"
+                variant="secondary"
+                asChild
+                className="h-7 w-7 p-0 bg-zinc-800 hover:bg-zinc-700 text-zinc-100 border border-white/5 rounded-lg shrink-0"
+                title="Add Cores"
+              >
+                <Link href="/">
+                  <Plus className="w-3.5 h-3.5" />
+                </Link>
+              </Button>
             </div>
           </DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem asChild>
-            <a href="/dashboard" className="cursor-pointer flex items-center">
-              <LayoutDashboard className="mr-2 h-4 w-4" />
-              <span>Dashboard</span>
-            </a>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem
-            onClick={() => signOut({ callbackUrl: "/" })}
-            className="cursor-pointer text-red-400 focus:text-red-400 focus:bg-red-950/20"
-          >
-            <LogOut className="mr-2 h-4 w-4" />
-            <span>Logout</span>
-          </DropdownMenuItem>
+
+          <div className="px-1">
+            <DropdownMenuSeparator className="-mx-1 my-1" />
+            <DropdownMenuItem asChild>
+              <a
+                href="/dashboard"
+                className="cursor-pointer flex items-center py-2.5 px-2 rounded-md transition-colors hover:bg-accent/50"
+              >
+                <LayoutDashboard className="mr-3 h-4 w-4 text-muted-foreground" />
+                <span className="font-medium">Dashboard</span>
+              </a>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator className="-mx-1 my-1" />
+            <DropdownMenuItem
+              onClick={() => signOut({ callbackUrl: "/" })}
+              className="cursor-pointer text-red-400 focus:text-red-400 focus:bg-red-500/10 flex items-center py-2.5 px-2 rounded-md"
+            >
+              <LogOut className="mr-3 h-4 w-4" />
+              <span className="font-medium">Logout</span>
+            </DropdownMenuItem>
+          </div>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

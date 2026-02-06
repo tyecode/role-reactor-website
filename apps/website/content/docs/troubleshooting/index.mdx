@@ -4,33 +4,54 @@ description: Comprehensive troubleshooting guide for Role Reactor Bot covering c
 keywords: troubleshooting, discord bot, role management, error resolution, support
 ---
 
-import { Callout } from 'fumadocs-ui/components/callout';
-import { Steps, Step } from 'fumadocs-ui/components/steps';
-import { Cards, Card } from 'fumadocs-ui/components/card';
-import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
+import { Callout } from "fumadocs-ui/components/callout";
+import { Steps, Step } from "fumadocs-ui/components/steps";
+import { Cards, Card } from "fumadocs-ui/components/card";
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
 
 ## Quick Problem Reference
 
 <Cards>
-  <Card title="🤖 Bot Not Responding" description="Bot does not respond to commands or emoji reactions" />
-  <Card title="🚫 Roles Not Being Assigned" description="Reactions function but roles are not assigned" />
-  <Card title="❌ Command Errors" description="Slash commands return error messages" />
-  <Card title="🔄 Reactions Missing" description="Emoji reactions disappear or do not appear" />
-  <Card title="📊 XP Not Tracking" description="Experience points are not being awarded" />
-  <Card title="🎤 Voice Permissions Issues" description="Voice restrictions are not functioning" />
-  <Card title="🎉 Welcome/Goodbye Not Working" description="Welcome or goodbye messages are not being sent" />
+  <Card
+    title="🤖 Bot Not Responding"
+    description="Bot does not respond to commands or emoji reactions"
+  />
+  <Card
+    title="🚫 Roles Not Being Assigned"
+    description="Reactions function but roles are not assigned"
+  />
+  <Card
+    title="❌ Command Errors"
+    description="Slash commands return error messages"
+  />
+  <Card
+    title="🔄 Reactions Missing"
+    description="Emoji reactions disappear or do not appear"
+  />
+  <Card
+    title="📊 XP Not Tracking"
+    description="Experience points are not being awarded"
+  />
+  <Card
+    title="🎤 Voice Permissions Issues"
+    description="Voice restrictions are not functioning"
+  />
+  <Card
+    title="🎉 Welcome/Goodbye Not Working"
+    description="Welcome or goodbye messages are not being sent"
+  />
 </Cards>
 
 ## Common Issues
 
 <Callout type="warning">
-<strong>Common Causes:</strong>
-<ul>
-  <li>Bot role positioned below managed roles in hierarchy</li>
-  <li>Missing "Manage Roles" or "Add Reactions" permissions</li>
-  <li>Role name spelling or case mismatches</li>
-  <li>Custom emojis not accessible to the bot</li>
-</ul>
+  <strong>Common Causes:</strong>
+  <ul>
+    <li>Bot role positioned below managed roles in hierarchy</li>
+    <li>Missing "Manage Roles" or "Add Reactions" permissions</li>
+    <li>Role name spelling or case mismatches</li>
+    <li>Custom emojis not accessible to the bot</li>
+  </ul>
 </Callout>
 
 ### Bot Not Responding
@@ -63,7 +84,8 @@ import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
 **Symptoms:** Reactions function but members do not receive roles
 
 <Callout type="warn">
-**Most Common Cause:** Bot's role is positioned below the roles it is attempting to assign
+  **Most Common Cause:** Bot's role is positioned below the roles it is
+  attempting to assign
 </Callout>
 
 <Steps>
@@ -146,22 +168,19 @@ import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
 
 <Steps>
   <Step>
-    **Verify Emoji Format**
-    - Custom server emojis (including animated) are supported
-    - Unicode emojis (🎮📚🎵) are also supported
-    - Ensure the bot has access to custom server emojis
+    **Verify Emoji Format** - Custom server emojis (including animated) are
+    supported - Unicode emojis (🎮📚🎵) are also supported - Ensure the bot has
+    access to custom server emojis
   </Step>
-  
+
+<Step>
+  **Refresh Reactions** Contact support to refresh reactions for a specific
+  message. This resolves most reaction-related issues.
+</Step>
+
   <Step>
-    **Refresh Reactions**
-    Contact support to refresh reactions for a specific message. This resolves most reaction-related issues.
-  </Step>
-  
-  <Step>
-    **Verify Bot Permissions**
-    - Bot requires "Add Reactions" permission
-    - Bot requires "Manage Messages" permission
-    - Verify channel-specific permissions
+    **Verify Bot Permissions** - Bot requires "Add Reactions" permission - Bot
+    requires "Manage Messages" permission - Verify channel-specific permissions
   </Step>
 </Steps>
 
@@ -171,24 +190,21 @@ import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
 
 <Steps>
   <Step>
-    **Verify XP System Status**
-    - Execute `/xp settings` to verify the system is enabled
-    - Check if message XP, command XP, role XP, or voice XP are disabled
+    **Verify XP System Status** - Execute `/xp settings` to verify the system is
+    enabled - Check if message XP, command XP, role XP, or voice XP are disabled
     - The XP system is disabled by default and must be enabled by administrators
   </Step>
-  
+
+<Step>
+  **Verify Cooldowns** - Message XP: 60-second cooldown between messages -
+  Command XP: 30-second cooldown between commands - Users will not earn XP if
+  they are in cooldown
+</Step>
+
   <Step>
-    **Verify Cooldowns**
-    - Message XP: 60-second cooldown between messages
-    - Command XP: 30-second cooldown between commands
-    - Users will not earn XP if they are in cooldown
-  </Step>
-  
-  <Step>
-    **Verify User Activity**
-    - Users must be actively messaging or using commands
-    - Voice activity requires users to be in voice channels
-    - Role assignments grant 50 XP per role
+    **Verify User Activity** - Users must be actively messaging or using
+    commands - Voice activity requires users to be in voice channels - Role
+    assignments grant 50 XP per role
   </Step>
 </Steps>
 
@@ -225,24 +241,20 @@ import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
 
 <Steps>
   <Step>
-    **Verify System Status**
-    - Execute `/welcome settings` or `/goodbye settings` to verify it is enabled
-    - System may be disabled in settings
-    - Verify channel configuration
+    **Verify System Status** - Execute `/welcome settings` or `/goodbye
+    settings` to verify it is enabled - System may be disabled in settings -
+    Verify channel configuration
   </Step>
-  
+
+<Step>
+  **Verify Channel Permissions** - Bot requires "Send Messages" permission in
+  the configured channel - Bot requires "Embed Links" if using embed format -
+  Verify channel-specific permissions
+</Step>
+
   <Step>
-    **Verify Channel Permissions**
-    - Bot requires "Send Messages" permission in the configured channel
-    - Bot requires "Embed Links" if using embed format
-    - Verify channel-specific permissions
-  </Step>
-  
-  <Step>
-    **Test Configuration**
-    - Use test functionality if available
-    - Verify message format and placeholders
-    - Verify auto-role assignment if configured
+    **Test Configuration** - Use test functionality if available - Verify
+    message format and placeholders - Verify auto-role assignment if configured
   </Step>
 </Steps>
 
@@ -252,35 +264,33 @@ import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
 
 <Steps>
   <Step>
-    **Verify Permissions**
-    - You require "Send Messages" permission to create polls
-    - Bot requires "Send Messages" in the channel
-    - Verify you are using the command in the correct channel
+    **Verify Permissions** - You require "Send Messages" permission to create
+    polls - Bot requires "Send Messages" in the channel - Verify you are using
+    the command in the correct channel
   </Step>
-  
+
+<Step>
+  **Verify Poll Limits** - Check if you have reached the server's poll limit -
+  Execute `/poll list` to view existing polls - Delete old polls if needed
+</Step>
+
   <Step>
-    **Verify Poll Limits**
-    - Check if you have reached the server's poll limit
-    - Execute `/poll list` to view existing polls
-    - Delete old polls if needed
-  </Step>
-  
-  <Step>
-    **Verify Poll Status**
-    - Execute `/poll list` to view all polls
-    - Verify poll has not already ended
-    - Check poll duration settings
+    **Verify Poll Status** - Execute `/poll list` to view all polls - Verify
+    poll has not already ended - Check poll duration settings
   </Step>
 </Steps>
 
 <Callout type="success">
-<strong>Best Practices:</strong>
-<ul>
-  <li>Position your bot's role high in the role list to minimize issues</li>
-  <li>Review permissions after adding new bots or roles</li>
-  <li>Test changes in a private channel before deploying</li>
-  <li>Bookmark the <a href="/docs/troubleshooting/faq">FAQ</a> and <a href="/docs/troubleshooting/common-issues">Common Issues</a> pages</li>
-</ul>
+  <strong>Best Practices:</strong>
+  <ul>
+    <li>Position your bot's role high in the role list to minimize issues</li>
+    <li>Review permissions after adding new bots or roles</li>
+    <li>Test changes in a private channel before deploying</li>
+    <li>
+      Bookmark the <a href="/docs/troubleshooting/faq">FAQ</a> and{" "}
+      <a href="/docs/troubleshooting/common-issues">Common Issues</a> pages
+    </li>
+  </ul>
 </Callout>
 
 ## Permission Troubleshooting
@@ -288,22 +298,52 @@ import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
 ### Required Bot Permissions
 
 <Cards>
-  <Card title="Manage Roles" description="Required to assign and remove roles" />
-  <Card title="Manage Messages" description="Required to manage role-reaction messages" />
-  <Card title="Add Reactions" description="Required to add emoji reactions to messages" />
-  <Card title="Send Messages" description="Required to reply to commands and errors" />
-  <Card title="Read Message History" description="Required to access reaction events" />
+  <Card
+    title="Manage Roles"
+    description="Required to assign and remove roles"
+  />
+  <Card
+    title="Manage Messages"
+    description="Required to manage role-reaction messages"
+  />
+  <Card
+    title="Add Reactions"
+    description="Required to add emoji reactions to messages"
+  />
+  <Card
+    title="Send Messages"
+    description="Required to reply to commands and errors"
+  />
+  <Card
+    title="Read Message History"
+    description="Required to access reaction events"
+  />
   <Card title="View Channel" description="Required to read channel content" />
-  <Card title="Embed Links" description="Required to create rich embedded messages" />
-  <Card title="Manage Server" description="Required to manage server settings" />
-  <Card title="Use External Emojis" description="Required to use emojis from other servers" />
+  <Card
+    title="Embed Links"
+    description="Required to create rich embedded messages"
+  />
+  <Card
+    title="Manage Server"
+    description="Required to manage server settings"
+  />
+  <Card
+    title="Use External Emojis"
+    description="Required to use emojis from other servers"
+  />
 </Cards>
 
 ### Optional Permissions
 
 <Cards>
-  <Card title="Move Members" description="Required for voice channel disconnection (voice restrictions)" />
-  <Card title="Mute Members" description="Required for voice channel muting (voice restrictions)" />
+  <Card
+    title="Move Members"
+    description="Required for voice channel disconnection (voice restrictions)"
+  />
+  <Card
+    title="Mute Members"
+    description="Required for voice channel muting (voice restrictions)"
+  />
 </Cards>
 
 ### Permission Configuration
@@ -337,20 +377,32 @@ import { Tabs, Tab } from 'fumadocs-ui/components/tabs';
 ### Before Requesting Support
 
 <Callout type="info">
-<strong>Please complete these steps first:</strong>
-1. Review this troubleshooting guide
-2. Check the [FAQ](/docs/troubleshooting/faq)
-3. Review [Common Issues](/docs/troubleshooting/common-issues)
-4. Test with a simple role message first
+  <strong>Please complete these steps first:</strong>
+  1. Review this troubleshooting guide 2. Check the
+  [FAQ](/docs/troubleshooting/faq) 3. Review [Common
+  Issues](/docs/troubleshooting/common-issues) 4. Test with a simple role
+  message first
 </Callout>
 
 ### Support Channels
 
 <Cards>
-  <Card title="📖 Documentation" description="Comprehensive guides and examples" />
-  <Card title="❓ FAQ Section" description="Quick answers to frequently asked questions" />
-  <Card title="💬 Support Server" description="Join our Discord server for live assistance" />
-  <Card title="🐛 Bug Reports" description="Report bugs through GitHub issues" />
+  <Card
+    title="📖 Documentation"
+    description="Comprehensive guides and examples"
+  />
+  <Card
+    title="❓ FAQ Section"
+    description="Quick answers to frequently asked questions"
+  />
+  <Card
+    title="💬 Support Server"
+    description="Join our Discord server for live assistance"
+  />
+  <Card
+    title="🐛 Bug Reports"
+    description="Report bugs through GitHub issues"
+  />
 </Cards>
 
 ### Information to Provide
@@ -369,24 +421,18 @@ When requesting support, please provide:
 
 <Steps>
   <Step>
-    **Start Simple**
-    - Test with 2-3 basic roles first
-    - Use simple role names without special characters
-    - Use common emojis (🎮📚🎵)
+    **Start Simple** - Test with 2-3 basic roles first - Use simple role names
+    without special characters - Use common emojis (🎮📚🎵)
   </Step>
-  
+
+<Step>
+  **Verify Before Expanding** - Confirm basic setup functions correctly - Test
+  role assignment with reactions - Verify bot permissions are correct
+</Step>
+
   <Step>
-    **Verify Before Expanding**
-    - Confirm basic setup functions correctly
-    - Test role assignment with reactions
-    - Verify bot permissions are correct
-  </Step>
-  
-  <Step>
-    **Plan Role Hierarchy**
-    - Position bot role near the top of role list
-    - Group managed roles below bot role
-    - Keep admin/mod roles above bot role
+    **Plan Role Hierarchy** - Position bot role near the top of role list -
+    Group managed roles below bot role - Keep admin/mod roles above bot role
   </Step>
 </Steps>
 
@@ -400,5 +446,7 @@ When requesting support, please provide:
 ---
 
 <Callout type="success">
-<strong>Still need assistance?</strong> Review the [FAQ](/docs/troubleshooting/faq) for more specific questions, or join our support server for community assistance.
+  <strong>Still need assistance?</strong> Review the
+  [FAQ](/docs/troubleshooting/faq) for more specific questions, or join our
+  support server for community assistance.
 </Callout>

@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { RootProvider } from "fumadocs-ui/provider";
 import { Analytics } from "@vercel/analytics/next";
@@ -15,6 +15,15 @@ const inter = Inter({
   preload: true,
   fallback: ["system-ui", "arial"],
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "white" },
+    { media: "(prefers-color-scheme: dark)", color: "black" },
+  ],
+};
 
 export const metadata: Metadata = {
   title: {
@@ -95,6 +104,23 @@ export const metadata: Metadata = {
   verification: {
     google: process.env.GOOGLE_SITE_VERIFICATION,
   },
+  icons: {
+    icon: [
+      { url: "/images/favicon/favicon.ico" },
+      {
+        url: "/images/favicon/favicon-16x16.png",
+        sizes: "16x16",
+        type: "image/png",
+      },
+      {
+        url: "/images/favicon/favicon-32x32.png",
+        sizes: "32x32",
+        type: "image/png",
+      },
+    ],
+    apple: [{ url: "/images/favicon/apple-touch-icon.png", sizes: "180x180" }],
+  },
+  manifest: "/images/favicon/site.webmanifest",
   ...(process.env.GOOGLE_SITE_VERIFICATION && {
     other: {
       "google-site-verification": process.env.GOOGLE_SITE_VERIFICATION,
@@ -104,75 +130,19 @@ export const metadata: Metadata = {
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <html
-      lang="en"
-      className={`${inter.className} dark`}
-      suppressHydrationWarning
-    >
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/images/favicon/favicon.ico" />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/images/favicon/favicon-16x16.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/images/favicon/favicon-32x32.png"
-        />
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/images/favicon/apple-touch-icon.png"
-        />
-        <link rel="manifest" href="/images/favicon/site.webmanifest" />
-        <link rel="preload" href="/logo.png" as="image" type="image/png" />
-        <link rel="dns-prefetch" href="//fonts.googleapis.com" />
-        <link rel="dns-prefetch" href="//fonts.gstatic.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.googleapis.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        {/* Force dark mode script - runs early to ensure dark class is always applied */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                if (typeof document === 'undefined') return;
-                document.documentElement.classList.add('dark');
-                // Prevent theme switching by removing theme from localStorage
-                try {
-                  localStorage.removeItem('theme');
-                  localStorage.removeItem('fumadocs-theme');
-                } catch (e) {}
-                // Observer to ensure dark class stays
-                const observer = new MutationObserver(function(mutations) {
-                  if (!document.documentElement.classList.contains('dark')) {
-                    document.documentElement.classList.add('dark');
-                  }
-                });
-                observer.observe(document.documentElement, {
-                  attributes: true,
-                  attributeFilter: ['class']
-                });
-              })();
-            `,
-          }}
-        />
-      </head>
+    <html lang="en" className={inter.className} suppressHydrationWarning>
       <body className="flex flex-col min-h-screen antialiased">
         <SessionProvider>
-          <RootProvider theme={{ enabled: false }}>{children}</RootProvider>
+          <RootProvider
+            theme={{
+              defaultTheme: "dark",
+              forcedTheme: "dark",
+              attribute: "class",
+              enableSystem: false,
+            }}
+          >
+            {children}
+          </RootProvider>
         </SessionProvider>
         {/* Only load analytics in production to prevent development errors */}
         {process.env.NODE_ENV === "production" && <Analytics />}

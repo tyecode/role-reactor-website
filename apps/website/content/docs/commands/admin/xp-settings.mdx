@@ -4,15 +4,20 @@ description: View and manage XP system settings. Configure experience point rewa
 keywords: xp, experience, settings, level, configuration, rewards
 ---
 
-import { Callout } from 'fumadocs-ui/components/callout';
-import { Cards, Card } from 'fumadocs-ui/components/card';
+import { Callout } from "fumadocs-ui/components/callout";
+import { Cards, Card } from "fumadocs-ui/components/card";
 
 ## Parameters
+
 <Cards>
-  <Card title="No parameters required" description="This command shows current XP system settings" />
+  <Card
+    title="No parameters required"
+    description="This command shows current XP system settings"
+  />
 </Cards>
 
 ## Step-by-Step Example
+
 1. Execute the command:
    ```bash
    /xp settings
@@ -24,46 +29,66 @@ import { Cards, Card } from 'fumadocs-ui/components/card';
    - Access configuration help and reset options
 
 ## Subcommands
+
 <Cards>
   <Card title="settings" description="View and configure XP system settings" />
 </Cards>
 
 ## What You'll See
+
 <Callout type="info">
-Interactive XP system management interface with buttons to:
-- Toggle the entire XP system on/off
-- Enable/disable message XP, command XP, role XP, and voice XP individually
-- View current XP amounts, cooldowns, and settings
-- Access configuration help and reset options
+  Interactive XP system management interface with buttons to: - Toggle the
+  entire XP system on/off - Enable/disable message XP, command XP, role XP, and
+  voice XP individually - View current XP amounts, cooldowns, and settings -
+  Access configuration help and reset options
 </Callout>
 
 ## Quick Actions
+
 - Use the buttons to quickly toggle features on/off
 - All changes are applied immediately
 - Settings use optimized default values
 
 ## Permissions Required
+
 <Callout type="info">
-- **Manage Server:** Required to configure XP system settings
+  - **Manage Server:** Required to configure XP system settings
 </Callout>
 
 ## Troubleshooting
+
 <Callout type="warning">
-- **Permission denied:** You require Manage Server permissions to configure XP settings.<br />
-- **XP not working:** Verify if the XP system is enabled using the toggle button.<br />
-- **No XP earned:** Users may be in cooldown or the specific XP type may be disabled.
+  - **Permission denied:** You require Manage Server permissions to configure XP
+  settings.
+  <br />
+  - **XP not working:** Verify if the XP system is enabled using the toggle
+  button.
+  <br />- **No XP earned:** Users may be in cooldown or the specific XP type may
+  be disabled.
 </Callout>
 
 ## Related Commands
+
 <Cards>
-  <Card title="/level" description="Check user level and experience" href="../general/level" />
-  <Card title="/leaderboard" description="View server experience leaderboard" href="../general/leaderboard" />
+  <Card
+    title="/level"
+    description="Check user level and experience"
+    href="../general/level"
+  />
+  <Card
+    title="/leaderboard"
+    description="View server experience leaderboard"
+    href="../general/leaderboard"
+  />
 </Cards>
 
 ## Best Practices
+
 <Callout type="success">
-- Monitor XP settings to ensure fair progression.<br />
-- Adjust XP rates based on server activity.<br />
-- Use channel restrictions to prevent XP farming.<br />
-- Regularly verify the system is functioning as expected.
+  - Monitor XP settings to ensure fair progression.
+  <br />
+  - Adjust XP rates based on server activity.
+  <br />
+  - Use channel restrictions to prevent XP farming.
+  <br />- Regularly verify the system is functioning as expected.
 </Callout>

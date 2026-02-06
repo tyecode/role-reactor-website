@@ -1,36 +1,417 @@
 // @ts-nocheck -- skip type checking
-import * as docs_31 from "../content/docs/commands/admin/xp-settings.mdx?collection=docs&hash=1764494180117"
-import * as docs_30 from "../content/docs/commands/admin/welcome-settings.mdx?collection=docs&hash=1764494180117"
-import * as docs_29 from "../content/docs/commands/admin/temp-roles.mdx?collection=docs&hash=1764494180117"
-import * as docs_28 from "../content/docs/commands/admin/setup-welcome.mdx?collection=docs&hash=1764494180117"
-import * as docs_27 from "../content/docs/commands/admin/schedule-role.mdx?collection=docs&hash=1764494180117"
-import * as docs_26 from "../content/docs/commands/admin/role-reactions.mdx?collection=docs&hash=1764494180117"
-import * as docs_25 from "../content/docs/commands/admin/goodbye.mdx?collection=docs&hash=1764494180117"
-import * as docs_24 from "../content/docs/commands/general/support.mdx?collection=docs&hash=1764494180117"
-import * as docs_23 from "../content/docs/commands/general/sponsor.mdx?collection=docs&hash=1764494180117"
-import * as docs_22 from "../content/docs/commands/general/poll.mdx?collection=docs&hash=1764494180117"
-import * as docs_21 from "../content/docs/commands/general/ping.mdx?collection=docs&hash=1764494180117"
-import * as docs_20 from "../content/docs/commands/general/level.mdx?collection=docs&hash=1764494180117"
-import * as docs_19 from "../content/docs/commands/general/leaderboard.mdx?collection=docs&hash=1764494180117"
-import * as docs_18 from "../content/docs/commands/general/invite.mdx?collection=docs&hash=1764494180117"
-import * as docs_17 from "../content/docs/commands/general/help.mdx?collection=docs&hash=1764494180117"
-import * as docs_16 from "../content/docs/commands/general/core.mdx?collection=docs&hash=1764494180117"
-import * as docs_15 from "../content/docs/commands/general/avatar.mdx?collection=docs&hash=1764494180117"
-import * as docs_14 from "../content/docs/commands/general/8ball.mdx?collection=docs&hash=1764494180117"
-import * as docs_13 from "../content/docs/troubleshooting/index.mdx?collection=docs&hash=1764494180117"
-import * as docs_12 from "../content/docs/troubleshooting/faq.mdx?collection=docs&hash=1764494180117"
-import * as docs_11 from "../content/docs/troubleshooting/common-issues.mdx?collection=docs&hash=1764494180117"
-import * as docs_10 from "../content/docs/getting-started/setup.mdx?collection=docs&hash=1764494180117"
-import * as docs_9 from "../content/docs/getting-started/introduction.mdx?collection=docs&hash=1764494180117"
-import * as docs_8 from "../content/docs/getting-started/first-steps.mdx?collection=docs&hash=1764494180117"
-import * as docs_7 from "../content/docs/getting-started/adding-bot.mdx?collection=docs&hash=1764494180117"
-import * as docs_6 from "../content/docs/examples/index.mdx?collection=docs&hash=1764494180117"
-import * as docs_5 from "../content/docs/examples/gaming-server.mdx?collection=docs&hash=1764494180117"
-import * as docs_4 from "../content/docs/examples/educational-server.mdx?collection=docs&hash=1764494180117"
-import * as docs_3 from "../content/docs/examples/community-server.mdx?collection=docs&hash=1764494180117"
-import * as docs_2 from "../content/docs/commands/index.mdx?collection=docs&hash=1764494180117"
-import * as docs_1 from "../content/docs/changelog/index.mdx?collection=docs&hash=1764494180117"
-import * as docs_0 from "../content/docs/index.mdx?collection=docs&hash=1764494180117"
-import { _runtime } from "fumadocs-mdx"
-import * as _source from "../source.config"
-export const docs = _runtime.docs<typeof _source.docs>([{ info: {"path":"index.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/index.mdx"}, data: docs_0 }, { info: {"path":"changelog/index.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/changelog/index.mdx"}, data: docs_1 }, { info: {"path":"commands/index.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/index.mdx"}, data: docs_2 }, { info: {"path":"examples/community-server.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/examples/community-server.mdx"}, data: docs_3 }, { info: {"path":"examples/educational-server.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/examples/educational-server.mdx"}, data: docs_4 }, { info: {"path":"examples/gaming-server.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/examples/gaming-server.mdx"}, data: docs_5 }, { info: {"path":"examples/index.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/examples/index.mdx"}, data: docs_6 }, { info: {"path":"getting-started/adding-bot.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/getting-started/adding-bot.mdx"}, data: docs_7 }, { info: {"path":"getting-started/first-steps.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/getting-started/first-steps.mdx"}, data: docs_8 }, { info: {"path":"getting-started/introduction.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/getting-started/introduction.mdx"}, data: docs_9 }, { info: {"path":"getting-started/setup.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/getting-started/setup.mdx"}, data: docs_10 }, { info: {"path":"troubleshooting/common-issues.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/troubleshooting/common-issues.mdx"}, data: docs_11 }, { info: {"path":"troubleshooting/faq.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/troubleshooting/faq.mdx"}, data: docs_12 }, { info: {"path":"troubleshooting/index.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/troubleshooting/index.mdx"}, data: docs_13 }, { info: {"path":"commands/general/8ball.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/general/8ball.mdx"}, data: docs_14 }, { info: {"path":"commands/general/avatar.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/general/avatar.mdx"}, data: docs_15 }, { info: {"path":"commands/general/core.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/general/core.mdx"}, data: docs_16 }, { info: {"path":"commands/general/help.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/general/help.mdx"}, data: docs_17 }, { info: {"path":"commands/general/invite.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/general/invite.mdx"}, data: docs_18 }, { info: {"path":"commands/general/leaderboard.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/general/leaderboard.mdx"}, data: docs_19 }, { info: {"path":"commands/general/level.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/general/level.mdx"}, data: docs_20 }, { info: {"path":"commands/general/ping.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/general/ping.mdx"}, data: docs_21 }, { info: {"path":"commands/general/poll.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/general/poll.mdx"}, data: docs_22 }, { info: {"path":"commands/general/sponsor.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/general/sponsor.mdx"}, data: docs_23 }, { info: {"path":"commands/general/support.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/general/support.mdx"}, data: docs_24 }, { info: {"path":"commands/admin/goodbye.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/admin/goodbye.mdx"}, data: docs_25 }, { info: {"path":"commands/admin/role-reactions.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/admin/role-reactions.mdx"}, data: docs_26 }, { info: {"path":"commands/admin/schedule-role.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/admin/schedule-role.mdx"}, data: docs_27 }, { info: {"path":"commands/admin/setup-welcome.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/admin/setup-welcome.mdx"}, data: docs_28 }, { info: {"path":"commands/admin/temp-roles.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/admin/temp-roles.mdx"}, data: docs_29 }, { info: {"path":"commands/admin/welcome-settings.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/admin/welcome-settings.mdx"}, data: docs_30 }, { info: {"path":"commands/admin/xp-settings.mdx","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/admin/xp-settings.mdx"}, data: docs_31 }], [{"info":{"path":"meta.json","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/meta.json"},"data":{"title":"Documentation","pages":["index","--- GETTING STARTED ---","./getting-started/introduction.mdx","./getting-started/first-steps.mdx","./getting-started/adding-bot.mdx","./getting-started/setup.mdx","--- COMMANDS ---","./commands/general","./commands/admin","--- EXAMPLES ---","./examples/index.mdx","./examples/gaming-server.mdx","./examples/community-server.mdx","./examples/educational-server.mdx","--- TROUBLESHOOTING ---","./troubleshooting/index.mdx","./troubleshooting/common-issues.mdx","./troubleshooting/faq.mdx","--- CHANGELOG ---","./changelog/index.mdx"]}}, {"info":{"path":"commands/meta.json","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/meta.json"},"data":{"title":"Commands","pages":["general","admin"]}}, {"info":{"path":"getting-started/meta.json","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/getting-started/meta.json"},"data":{"title":"Getting Started","pages":["introduction","first-steps","adding-bot","setup"]}}, {"info":{"path":"troubleshooting/meta.json","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/troubleshooting/meta.json"},"data":{"title":"Troubleshooting","pages":["index","faq","common-issues"]}}, {"info":{"path":"examples/meta.json","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/examples/meta.json"},"data":{"title":"Examples","pages":["index","gaming-server","community-server","educational-server"]}}, {"info":{"path":"commands/admin/meta.json","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/admin/meta.json"},"data":{"title":"Admin","pages":["role-reactions","schedule-role","temp-roles","setup-welcome","welcome-settings","goodbye","xp-settings"]}}, {"info":{"path":"commands/general/meta.json","absolutePath":"/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/general/meta.json"},"data":{"title":"General","pages":["help","support","invite","ping","8ball","avatar","core","poll","level","leaderboard","sponsor"]}}])
+import * as docs_31 from "../content/docs/commands/admin/xp-settings.mdx?collection=docs&hash=1764494180117";
+import * as docs_30 from "../content/docs/commands/admin/welcome-settings.mdx?collection=docs&hash=1764494180117";
+import * as docs_29 from "../content/docs/commands/admin/temp-roles.mdx?collection=docs&hash=1764494180117";
+import * as docs_28 from "../content/docs/commands/admin/setup-welcome.mdx?collection=docs&hash=1764494180117";
+import * as docs_27 from "../content/docs/commands/admin/schedule-role.mdx?collection=docs&hash=1764494180117";
+import * as docs_26 from "../content/docs/commands/admin/role-reactions.mdx?collection=docs&hash=1764494180117";
+import * as docs_25 from "../content/docs/commands/admin/goodbye.mdx?collection=docs&hash=1764494180117";
+import * as docs_24 from "../content/docs/commands/general/support.mdx?collection=docs&hash=1764494180117";
+import * as docs_23 from "../content/docs/commands/general/sponsor.mdx?collection=docs&hash=1764494180117";
+import * as docs_22 from "../content/docs/commands/general/poll.mdx?collection=docs&hash=1764494180117";
+import * as docs_21 from "../content/docs/commands/general/ping.mdx?collection=docs&hash=1764494180117";
+import * as docs_20 from "../content/docs/commands/general/level.mdx?collection=docs&hash=1764494180117";
+import * as docs_19 from "../content/docs/commands/general/leaderboard.mdx?collection=docs&hash=1764494180117";
+import * as docs_18 from "../content/docs/commands/general/invite.mdx?collection=docs&hash=1764494180117";
+import * as docs_17 from "../content/docs/commands/general/help.mdx?collection=docs&hash=1764494180117";
+import * as docs_16 from "../content/docs/commands/general/core.mdx?collection=docs&hash=1764494180117";
+import * as docs_15 from "../content/docs/commands/general/avatar.mdx?collection=docs&hash=1764494180117";
+import * as docs_14 from "../content/docs/commands/general/8ball.mdx?collection=docs&hash=1764494180117";
+import * as docs_13 from "../content/docs/troubleshooting/index.mdx?collection=docs&hash=1764494180117";
+import * as docs_12 from "../content/docs/troubleshooting/faq.mdx?collection=docs&hash=1764494180117";
+import * as docs_11 from "../content/docs/troubleshooting/common-issues.mdx?collection=docs&hash=1764494180117";
+import * as docs_10 from "../content/docs/getting-started/setup.mdx?collection=docs&hash=1764494180117";
+import * as docs_9 from "../content/docs/getting-started/introduction.mdx?collection=docs&hash=1764494180117";
+import * as docs_8 from "../content/docs/getting-started/first-steps.mdx?collection=docs&hash=1764494180117";
+import * as docs_7 from "../content/docs/getting-started/adding-bot.mdx?collection=docs&hash=1764494180117";
+import * as docs_6 from "../content/docs/examples/index.mdx?collection=docs&hash=1764494180117";
+import * as docs_5 from "../content/docs/examples/gaming-server.mdx?collection=docs&hash=1764494180117";
+import * as docs_4 from "../content/docs/examples/educational-server.mdx?collection=docs&hash=1764494180117";
+import * as docs_3 from "../content/docs/examples/community-server.mdx?collection=docs&hash=1764494180117";
+import * as docs_2 from "../content/docs/commands/index.mdx?collection=docs&hash=1764494180117";
+import * as docs_1 from "../content/docs/changelog/index.mdx?collection=docs&hash=1764494180117";
+import * as docs_0 from "../content/docs/index.mdx?collection=docs&hash=1764494180117";
+import { _runtime } from "fumadocs-mdx";
+import * as _source from "../source.config";
+export const docs = _runtime.docs<typeof _source.docs>(
+  [
+    {
+      info: {
+        path: "index.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/index.mdx",
+      },
+      data: docs_0,
+    },
+    {
+      info: {
+        path: "changelog/index.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/changelog/index.mdx",
+      },
+      data: docs_1,
+    },
+    {
+      info: {
+        path: "commands/index.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/index.mdx",
+      },
+      data: docs_2,
+    },
+    {
+      info: {
+        path: "examples/community-server.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/examples/community-server.mdx",
+      },
+      data: docs_3,
+    },
+    {
+      info: {
+        path: "examples/educational-server.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/examples/educational-server.mdx",
+      },
+      data: docs_4,
+    },
+    {
+      info: {
+        path: "examples/gaming-server.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/examples/gaming-server.mdx",
+      },
+      data: docs_5,
+    },
+    {
+      info: {
+        path: "examples/index.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/examples/index.mdx",
+      },
+      data: docs_6,
+    },
+    {
+      info: {
+        path: "getting-started/adding-bot.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/getting-started/adding-bot.mdx",
+      },
+      data: docs_7,
+    },
+    {
+      info: {
+        path: "getting-started/first-steps.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/getting-started/first-steps.mdx",
+      },
+      data: docs_8,
+    },
+    {
+      info: {
+        path: "getting-started/introduction.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/getting-started/introduction.mdx",
+      },
+      data: docs_9,
+    },
+    {
+      info: {
+        path: "getting-started/setup.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/getting-started/setup.mdx",
+      },
+      data: docs_10,
+    },
+    {
+      info: {
+        path: "troubleshooting/common-issues.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/troubleshooting/common-issues.mdx",
+      },
+      data: docs_11,
+    },
+    {
+      info: {
+        path: "troubleshooting/faq.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/troubleshooting/faq.mdx",
+      },
+      data: docs_12,
+    },
+    {
+      info: {
+        path: "troubleshooting/index.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/troubleshooting/index.mdx",
+      },
+      data: docs_13,
+    },
+    {
+      info: {
+        path: "commands/general/8ball.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/general/8ball.mdx",
+      },
+      data: docs_14,
+    },
+    {
+      info: {
+        path: "commands/general/avatar.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/general/avatar.mdx",
+      },
+      data: docs_15,
+    },
+    {
+      info: {
+        path: "commands/general/core.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/general/core.mdx",
+      },
+      data: docs_16,
+    },
+    {
+      info: {
+        path: "commands/general/help.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/general/help.mdx",
+      },
+      data: docs_17,
+    },
+    {
+      info: {
+        path: "commands/general/invite.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/general/invite.mdx",
+      },
+      data: docs_18,
+    },
+    {
+      info: {
+        path: "commands/general/leaderboard.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/general/leaderboard.mdx",
+      },
+      data: docs_19,
+    },
+    {
+      info: {
+        path: "commands/general/level.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/general/level.mdx",
+      },
+      data: docs_20,
+    },
+    {
+      info: {
+        path: "commands/general/ping.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/general/ping.mdx",
+      },
+      data: docs_21,
+    },
+    {
+      info: {
+        path: "commands/general/poll.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/general/poll.mdx",
+      },
+      data: docs_22,
+    },
+    {
+      info: {
+        path: "commands/general/sponsor.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/general/sponsor.mdx",
+      },
+      data: docs_23,
+    },
+    {
+      info: {
+        path: "commands/general/support.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/general/support.mdx",
+      },
+      data: docs_24,
+    },
+    {
+      info: {
+        path: "commands/admin/goodbye.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/admin/goodbye.mdx",
+      },
+      data: docs_25,
+    },
+    {
+      info: {
+        path: "commands/admin/role-reactions.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/admin/role-reactions.mdx",
+      },
+      data: docs_26,
+    },
+    {
+      info: {
+        path: "commands/admin/schedule-role.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/admin/schedule-role.mdx",
+      },
+      data: docs_27,
+    },
+    {
+      info: {
+        path: "commands/admin/setup-welcome.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/admin/setup-welcome.mdx",
+      },
+      data: docs_28,
+    },
+    {
+      info: {
+        path: "commands/admin/temp-roles.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/admin/temp-roles.mdx",
+      },
+      data: docs_29,
+    },
+    {
+      info: {
+        path: "commands/admin/welcome-settings.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/admin/welcome-settings.mdx",
+      },
+      data: docs_30,
+    },
+    {
+      info: {
+        path: "commands/admin/xp-settings.mdx",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/admin/xp-settings.mdx",
+      },
+      data: docs_31,
+    },
+  ],
+  [
+    {
+      info: {
+        path: "meta.json",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/meta.json",
+      },
+      data: {
+        title: "Documentation",
+        pages: [
+          "index",
+          "--- GETTING STARTED ---",
+          "./getting-started/introduction.mdx",
+          "./getting-started/first-steps.mdx",
+          "./getting-started/adding-bot.mdx",
+          "./getting-started/setup.mdx",
+          "--- COMMANDS ---",
+          "./commands/general",
+          "./commands/admin",
+          "--- EXAMPLES ---",
+          "./examples/index.mdx",
+          "./examples/gaming-server.mdx",
+          "./examples/community-server.mdx",
+          "./examples/educational-server.mdx",
+          "--- TROUBLESHOOTING ---",
+          "./troubleshooting/index.mdx",
+          "./troubleshooting/common-issues.mdx",
+          "./troubleshooting/faq.mdx",
+          "--- CHANGELOG ---",
+          "./changelog/index.mdx",
+        ],
+      },
+    },
+    {
+      info: {
+        path: "commands/meta.json",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/meta.json",
+      },
+      data: { title: "Commands", pages: ["general", "admin"] },
+    },
+    {
+      info: {
+        path: "getting-started/meta.json",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/getting-started/meta.json",
+      },
+      data: {
+        title: "Getting Started",
+        pages: ["introduction", "first-steps", "adding-bot", "setup"],
+      },
+    },
+    {
+      info: {
+        path: "troubleshooting/meta.json",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/troubleshooting/meta.json",
+      },
+      data: {
+        title: "Troubleshooting",
+        pages: ["index", "faq", "common-issues"],
+      },
+    },
+    {
+      info: {
+        path: "examples/meta.json",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/examples/meta.json",
+      },
+      data: {
+        title: "Examples",
+        pages: [
+          "index",
+          "gaming-server",
+          "community-server",
+          "educational-server",
+        ],
+      },
+    },
+    {
+      info: {
+        path: "commands/admin/meta.json",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/admin/meta.json",
+      },
+      data: {
+        title: "Admin",
+        pages: [
+          "role-reactions",
+          "schedule-role",
+          "temp-roles",
+          "setup-welcome",
+          "welcome-settings",
+          "goodbye",
+          "xp-settings",
+        ],
+      },
+    },
+    {
+      info: {
+        path: "commands/general/meta.json",
+        absolutePath:
+          "/Users/tyecode/dev/projects/discord-bots/role-reactor-website/content/docs/commands/general/meta.json",
+      },
+      data: {
+        title: "General",
+        pages: [
+          "help",
+          "support",
+          "invite",
+          "ping",
+          "8ball",
+          "avatar",
+          "core",
+          "poll",
+          "level",
+          "leaderboard",
+          "sponsor",
+        ],
+      },
+    },
+  ]
+);

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source "../../../../packages/ui";
 @import "fumadocs-ui/css/vitepress.css";
 @import "fumadocs-ui/css/preset.css";
 
@@ -36,27 +37,27 @@
   --fd-border: hsl(var(--border)) !important;
   --fd-border-color: hsl(var(--border)) !important;
 
-  /* shadcn-ui CSS variables mapped to catppuccin colors (dark mode - Mocha) */
-  --background: 240 21% 15%; /* Base #1e1e2e */
-  --foreground: 231 48% 87%; /* Text #cdd6f4 */
-  --card: 240 21% 23%; /* Surface0 #313244 */
-  --card-foreground: 231 48% 87%; /* Text #cdd6f4 */
-  --popover: 240 21% 15%; /* Base #1e1e2e */
-  --popover-foreground: 231 48% 87%; /* Text #cdd6f4 */
-  --primary: 231 48% 87%; /* Text #cdd6f4 */
-  --primary-foreground: 240 21% 15%; /* Base #1e1e2e */
-  --secondary: 240 21% 23%; /* Surface0 #313244 */
-  --secondary-foreground: 231 48% 87%; /* Text #cdd6f4 */
-  --muted: 240 21% 23%; /* Surface0 #313244 */
-  --muted-foreground: 231 25% 80%; /* Subtext1 #bac2de */
-  --accent: 240 21% 23%; /* Surface0 #313244 */
-  --accent-foreground: 231 48% 87%; /* Text #cdd6f4 */
-  --destructive: 347 87% 75%; /* Red #f38ba8 */
-  --destructive-foreground: 231 48% 87%; /* Text #cdd6f4 */
-  --border: 240 23% 25%; /* Surface1 - lighter for better visibility */
-  --input: 240 23% 25%; /* Surface1 - lighter for better visibility */
-  --ring: 217 92% 76%; /* Blue #89b4fa */
-  --radius: 0.5rem;
+  /* shadcn-ui CSS variables aligned with the Zinc/Black palette used in pricing */
+  --background: 240 10% 3.9%; /* Black / Zinc-950 base */
+  --foreground: 0 0% 98%; /* Zinc-50 text */
+  --card: 240 10% 3.9%; /* Matching background */
+  --card-foreground: 0 0% 98%;
+  --popover: 240 10% 4.8%; /* Slightly lighter Zinc */
+  --popover-foreground: 0 0% 98%;
+  --primary: 0 0% 98%; /* Primary is white/near-white */
+  --primary-foreground: 240 5.9% 10%;
+  --secondary: 240 3.7% 15.9%; /* Zinc-800 */
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%; /* Zinc-800 */
+  --muted-foreground: 240 5% 64.9%; /* Zinc-400 */
+  --accent: 240 3.7% 15.9%; /* Zinc-800 */
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%; /* Zinc-800 - The common "base" border color */
+  --input: 240 3.7% 15.9%; /* Zinc-800 */
+  --ring: 240 4.9% 83.9%;
+  --radius: 0.75rem;
   --sidebar: hsl(0 0% 98%);
   --sidebar-foreground: hsl(240 5.3% 26.1%);
   --sidebar-primary: hsl(240 5.9% 10%);

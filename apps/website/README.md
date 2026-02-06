@@ -207,7 +207,6 @@ role-reactor-website/
    ```
 
 2. **Make your changes**
-
    - Write code following TypeScript best practices
    - Add appropriate tests for new features
    - Update documentation as needed
@@ -330,13 +329,11 @@ These checks ensure code quality and consistency across the project.
 [Vercel](https://vercel.com) provides seamless deployment for Next.js applications:
 
 1. **Connect Repository**
-
    - Sign in to Vercel
    - Import your GitHub repository
    - Vercel will auto-detect Next.js
 
 2. **Configure Environment Variables**
-
    - Add required environment variables in Vercel dashboard
    - Variables are automatically injected during build
 
@@ -385,7 +382,6 @@ We welcome contributions from the community! Whether it's fixing bugs, adding fe
 ### How to Contribute
 
 1. **Fork the Repository**
-
    - Click the "Fork" button on GitHub
    - Clone your fork locally
 
@@ -396,7 +392,6 @@ We welcome contributions from the community! Whether it's fixing bugs, adding fe
    ```
 
 3. **Make Your Changes**
-
    - Write clean, well-documented code
    - Follow the project's coding standards
    - Add tests for new features
@@ -411,14 +406,15 @@ We welcome contributions from the community! Whether it's fixing bugs, adding fe
    ```
 
 5. **Commit Your Changes**
-
    - Follow the [Conventional Commits](#commit-convention) specification
    - Write clear, descriptive commit messages
 
 6. **Push and Create Pull Request**
+
    ```bash
    git push origin feature/your-feature-name
    ```
+
    - Open a Pull Request on GitHub
    - Provide a clear description of your changes
    - Reference any related issues

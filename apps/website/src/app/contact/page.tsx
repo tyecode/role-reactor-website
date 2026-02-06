@@ -4,7 +4,7 @@ import { links } from "@/constants/links";
 
 export default function ContactPage() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-950 via-black to-blue-950">
+    <main className="min-h-screen bg-linear-to-br from-gray-950 via-black to-blue-950">
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto">
           <Link
@@ -14,9 +14,7 @@ export default function ContactPage() {
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Home
           </Link>
-          <h1 className="text-4xl font-bold text-white mb-2">
-            Contact Us
-          </h1>
+          <h1 className="text-4xl font-bold text-white mb-2">Contact Us</h1>
           <p className="text-gray-400">
             Get in touch with the Role Reactor team
           </p>
@@ -25,8 +23,9 @@ export default function ContactPage() {
         <div className="max-w-4xl mx-auto mt-12">
           <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-8 border border-gray-800">
             <p className="text-lg text-gray-300 leading-relaxed mb-8">
-              We're here to help! Whether you have questions about Role Reactor, 
-              need technical support, or want to provide feedback, we'd love to hear from you.
+              We're here to help! Whether you have questions about Role Reactor,
+              need technical support, or want to provide feedback, we'd love to
+              hear from you.
             </p>
 
             <div className="grid md:grid-cols-2 gap-8">
@@ -56,7 +55,8 @@ export default function ContactPage() {
                       Discord Community
                     </h3>
                     <p className="text-gray-300 mb-2">
-                      Join our Discord server for real-time support and community discussions:
+                      Join our Discord server for real-time support and
+                      community discussions:
                     </p>
                     <a
                       href={links.support}
@@ -112,14 +112,6 @@ export default function ContactPage() {
                   </p>
                   <div className="space-y-2">
                     <a
-                      href={links.sponsor}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block text-indigo-400 hover:underline"
-                    >
-                      Ko-fi Donations
-                    </a>
-                    <a
                       href={links.buymeacoffee}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -137,12 +129,24 @@ export default function ContactPage() {
                 Business Information
               </h3>
               <div className="text-gray-300 space-y-2">
-                <p><strong>Service:</strong> Role Reactor Discord Bot</p>
-                <p><strong>Type:</strong> Discord Bot Development & Support</p>
-                <p><strong>Developer:</strong> {links.author.name}</p>
-                <p><strong>Business Email:</strong> {links.contact.email}</p>
-                <p><strong>Website:</strong> {links.home}</p>
-                <p><strong>Support:</strong> Discord Community & Email</p>
+                <p>
+                  <strong>Service:</strong> Role Reactor Discord Bot
+                </p>
+                <p>
+                  <strong>Type:</strong> Discord Bot Development & Support
+                </p>
+                <p>
+                  <strong>Developer:</strong> {links.author.name}
+                </p>
+                <p>
+                  <strong>Business Email:</strong> {links.contact.email}
+                </p>
+                <p>
+                  <strong>Website:</strong> {links.home}
+                </p>
+                <p>
+                  <strong>Support:</strong> Discord Community & Email
+                </p>
               </div>
             </div>
           </div>

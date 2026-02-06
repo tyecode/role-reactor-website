@@ -3,12 +3,14 @@
 ## ✅ What's Working Well
 
 ### 1. Monorepo Setup
+
 - ✅ Turborepo configured correctly
 - ✅ pnpm workspace setup
 - ✅ Both apps build successfully
 - ✅ UI package properly shared
 
 ### 2. Package Structure
+
 ```
 packages/ui/
 ├── src/
@@ -20,6 +22,7 @@ packages/ui/
 ```
 
 ### 3. Apps Configuration
+
 - ✅ Both apps use `transpilePackages: ["@role-reactor/ui"]`
 - ✅ React 19 compatibility
 - ✅ Tailwind v4 in both apps
@@ -28,6 +31,7 @@ packages/ui/
 ## ⚠️ Issues Found
 
 ### 1. **Empty Package Directories**
+
 **Location:** `packages/config/` and `packages/tsconfig/`
 **Issue:** Empty directories not referenced anywhere
 **Impact:** Low - just clutter
@@ -38,19 +42,23 @@ rm -rf packages/config packages/tsconfig
 ```
 
 ### 2. **Duplicate Sponsor/Checkout Components**
+
 **Location:** Both `apps/website` and `apps/dashboard` have:
+
 - `/checkout` route
 - `/components/sponsor/*`
 - `/api/payments/*`
 
 **Issue:** Code duplication - these components exist in both apps
 **Impact:** Medium - maintenance burden, potential inconsistency
-**Recommendation:** 
+**Recommendation:**
+
 - Keep checkout/sponsor in **website only** (for marketing/landing)
 - OR move to **dashboard only** (for authenticated users)
 - OR extract to shared package if both need it
 
 **Current State:**
+
 ```
 apps/website/src/
 ├── app/checkout/              ⚠️ Duplicate
@@ -64,11 +72,13 @@ apps/dashboard/src/
 ```
 
 ### 3. **Website Has No /sponsor Route**
+
 **Issue:** Website has sponsor components but no `/sponsor` page
 **Impact:** Low - components might be unused
 **Check:** Are sponsor components used in the home page?
 
 ### 4. **Unused Imports in Website**
+
 **Location:** `apps/website/src/app/layout.config.tsx`
 **Issue:** Unused `Heart` import
 **Impact:** Low - linting warning
@@ -78,6 +88,7 @@ apps/dashboard/src/
 **Impact:** Low - linting warning
 
 ### 5. **Missing Type-Check Script in UI Package**
+
 **Location:** `packages/ui/package.json`
 **Issue:** Has `type-check` script but it's disabled for linting
 **Impact:** Low - type checking works but lint is skipped
@@ -87,6 +98,7 @@ apps/dashboard/src/
 ### Priority 1: Remove Duplicates
 
 **Option A: Keep Checkout in Website (Recommended)**
+
 ```bash
 # Remove checkout from dashboard (it's for public marketing)
 rm -rf apps/dashboard/src/app/checkout
@@ -95,6 +107,7 @@ rm -rf apps/dashboard/src/app/api/payments
 ```
 
 **Option B: Keep Checkout in Dashboard**
+
 ```bash
 # Remove from website (if checkout is only for logged-in users)
 rm -rf apps/website/src/app/checkout
@@ -103,12 +116,14 @@ rm -rf apps/website/src/app/api/payments
 ```
 
 **Option C: Extract to Shared Package**
+
 ```bash
 # Create packages/checkout with shared components
 # Both apps import from @role-reactor/checkout
 ```
 
 ### Priority 2: Clean Up Unused Files
+
 ```bash
 # Remove empty directories
 rm -rf packages/config packages/tsconfig
@@ -117,6 +132,7 @@ rm -rf packages/config packages/tsconfig
 ```
 
 ### Priority 3: Add Missing Routes
+
 ```bash
 # If website needs sponsor page:
 mkdir -p apps/website/src/app/sponsor
@@ -126,6 +142,7 @@ mkdir -p apps/website/src/app/sponsor
 ## 🎯 Recommended Structure
 
 ### For Marketing + Docs Website:
+
 ```
 apps/website/
 ├── app/
@@ -139,6 +156,7 @@ apps/website/
 ```
 
 ### For User Dashboard:
+
 ```
 apps/dashboard/
 ├── app/
@@ -152,6 +170,7 @@ apps/dashboard/
 ```
 
 ### Shared UI:
+
 ```
 packages/ui/
 ├── components/           # All Shadcn components
@@ -179,13 +198,12 @@ packages/ui/
 
 ## 📊 Current Status
 
-| Item | Status | Action Needed |
-|------|--------|---------------|
-| Monorepo Setup | ✅ Working | None |
-| UI Package | ✅ Working | None |
-| Website Build | ✅ Passing | Remove unused imports |
-| Dashboard Build | ✅ Passing | None |
-| Code Duplication | ⚠️ Issue | Decide & remove |
-| Empty Packages | ⚠️ Issue | Remove |
-| Missing Routes | ⚠️ Maybe | Add if needed |
-
+| Item             | Status     | Action Needed         |
+| ---------------- | ---------- | --------------------- |
+| Monorepo Setup   | ✅ Working | None                  |
+| UI Package       | ✅ Working | None                  |
+| Website Build    | ✅ Passing | Remove unused imports |
+| Dashboard Build  | ✅ Passing | None                  |
+| Code Duplication | ⚠️ Issue   | Decide & remove       |
+| Empty Packages   | ⚠️ Issue   | Remove                |
+| Missing Routes   | ⚠️ Maybe   | Add if needed         |

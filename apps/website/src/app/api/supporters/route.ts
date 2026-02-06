@@ -61,7 +61,7 @@ export async function GET() {
         success: false,
         error: "Failed to fetch supporters",
       },
-      { status: 500 },
+      { status: 500 }
     );
   }
 }
