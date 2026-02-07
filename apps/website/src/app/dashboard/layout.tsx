@@ -9,7 +9,20 @@ export const metadata: Metadata = {
   description: "Manage your Role Reactor bot settings",
 };
 
-export default function DashboardLayout({ children }: { children: ReactNode }) {
+import { auth } from "@/auth";
+import { notFound } from "next/navigation";
+
+export default async function DashboardLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const session = await auth();
+
+  if (!session) {
+    notFound();
+  }
+
   return (
     <SidebarProvider className="flex min-h-screen w-full">
       <DashboardSidebar />

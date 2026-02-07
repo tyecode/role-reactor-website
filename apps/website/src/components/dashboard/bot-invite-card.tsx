@@ -36,18 +36,30 @@ export function BotInviteCard({ guildId }: BotInviteCardProps) {
         </p>
       </div>
 
-      <div className="flex gap-4">
-        <Link href="/dashboard">
-          <Button variant="outline" className="h-11 px-6 border-white/10">
-            Back to Dashboard
-          </Button>
-        </Link>
-        <Link href={inviteUrl} target="_blank">
-          <Button className="h-11 px-8 bg-blue-600 hover:bg-blue-500 text-white font-bold shadow-lg shadow-blue-500/20 gap-2">
-            <Plus className="w-5 h-5" />
+      <div className="flex gap-3">
+        <Button
+          asChild
+          variant="outline"
+          size="sm"
+          className="h-9 px-5 border-white/10 font-bold rounded-lg"
+        >
+          <Link href="/dashboard">Back to Dashboard</Link>
+        </Button>
+        <Button
+          asChild
+          size="sm"
+          className="h-9 px-6 bg-blue-600 hover:bg-blue-500 text-white font-bold shadow-lg shadow-blue-500/20 rounded-lg"
+        >
+          <a
+            href={inviteUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2"
+          >
+            <Plus className="w-4 h-4" />
             Add to Server
-          </Button>
-        </Link>
+          </a>
+        </Button>
       </div>
     </div>
   );

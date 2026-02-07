@@ -232,7 +232,7 @@ export function PricingDialog({
                 Cores will be added automatically.
               </p>
               <Button
-                className="w-full max-w-[200px] mt-4 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl"
+                className="w-full max-w-[160px] mt-4 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl h-10"
                 onClick={() => {
                   // Force refresh user data when closing after payment
                   if (session?.user?.id) {
@@ -287,7 +287,7 @@ export function PricingDialog({
                     className="mt-6 space-y-4 outline-none"
                   >
                     <Button
-                      className="w-full bg-white text-black hover:bg-zinc-200 h-12 rounded-xl text-sm font-bold group"
+                      className="w-full bg-white text-black hover:bg-zinc-200 h-10 rounded-xl text-sm font-bold group"
                       onClick={handleStripePayment}
                       disabled={loadingStripe}
                     >

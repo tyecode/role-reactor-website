@@ -59,15 +59,8 @@ export function ServerSwitcher() {
     setMounted(true);
   }, []);
 
-  // Priority: Path param -> Search param -> History (if installed)
-  const activeGuildId =
-    (params.guildId as string) ||
-    searchParams.get("guild") ||
-    (mounted &&
-    lastActiveGuildId &&
-    installedGuildIds.includes(lastActiveGuildId)
-      ? lastActiveGuildId
-      : null);
+  // Priority: Path param -> Search param (No historical fallback on global route)
+  const activeGuildId = (params.guildId as string) || searchParams.get("guild");
 
   const installedGuilds = guilds.filter((g) =>
     installedGuildIds.includes(g.id)

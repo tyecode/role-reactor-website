@@ -61,14 +61,8 @@ export function DashboardSidebar() {
   // The "Truth" of what server is currently being viewed (URL source)
   const activeGuildId = (params.guildId as string) || searchParams.get("guild");
 
-  // A helper that falls back to history ONLY after we are mounted on the client
-  // During SSR and first pass hydration, contextId MUST be exactly activeGuildId
-  const contextId = mounted
-    ? activeGuildId ||
-      (lastActiveGuildId && installedGuildIds.includes(lastActiveGuildId)
-        ? lastActiveGuildId
-        : null)
-    : activeGuildId;
+  // Context ID should only be active if we are on a guild-specific route or if explicitly forced
+  const contextId = activeGuildId;
 
   // Sync current selection to store ONLY if we have an explicit one from the URL
   useEffect(() => {
@@ -251,30 +245,30 @@ export function DashboardSidebar() {
         </div>
         <Skeleton className="ml-auto size-4 shrink-0 group-data-[collapsible=icon]:hidden rounded-md" />
       </SidebarMenuButton>
-    ) : session?.user ? (
+    ) : (
       <SidebarMenuButton
         size="lg"
         className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-        tooltip={session.user.name || "Account"}
+        tooltip={session?.user?.name || "Account"}
       >
         <Avatar className="h-8 w-8 rounded-md shrink-0">
           <AvatarImage
-            src={getAvatarUrl(session.user)}
-            alt={session.user.name || "User"}
+            src={getAvatarUrl(session?.user || {})}
+            alt={session?.user?.name || "User"}
           />
           <AvatarFallback className="rounded-md bg-linear-to-br from-blue-500 to-purple-600 text-white text-xs">
-            {session.user.name?.charAt(0).toUpperCase() || "U"}
+            {session?.user?.name?.charAt(0).toUpperCase() || "U"}
           </AvatarFallback>
         </Avatar>
         <div className="grid flex-1 text-left text-sm leading-tight min-w-0 group-data-[collapsible=icon]:hidden">
-          <span className="truncate font-semibold">{session.user.name}</span>
+          <span className="truncate font-semibold">{session?.user?.name}</span>
           <span className="truncate text-xs text-muted-foreground">
-            {session.user.email}
+            {session?.user?.email}
           </span>
         </div>
         <ChevronUp className="ml-auto size-4 shrink-0 group-data-[collapsible=icon]:hidden" />
       </SidebarMenuButton>
-    ) : null;
+    );
 
   return (
     <Sidebar
@@ -296,26 +290,24 @@ export function DashboardSidebar() {
 
       <SidebarFooter>
         <SidebarMenu>
-          {status !== "unauthenticated" && (
-            <SidebarMenuItem>
-              <UserMenu
-                user={session?.user}
-                status={status}
-                coreImageUrl="/images/cores/core_energy.png"
-                dashboardUrl="/dashboard"
-                settingsUrl="/dashboard/settings"
-                showDashboardLink={false}
-                showSettingsLink={true}
-                showCoreBalance={true}
-                variant="sidebar"
-                side="top"
-                align="end"
-                className="w-full"
-                customTrigger={sidebarUserTrigger}
-                hideUserInfo={true}
-              />
-            </SidebarMenuItem>
-          )}
+          <SidebarMenuItem>
+            <UserMenu
+              user={session?.user}
+              status={status}
+              coreImageUrl="/images/cores/core_energy.png"
+              dashboardUrl="/dashboard"
+              settingsUrl="/dashboard/settings"
+              showDashboardLink={false}
+              showSettingsLink={true}
+              showCoreBalance={true}
+              variant="sidebar"
+              side="top"
+              align="end"
+              className="w-full"
+              customTrigger={sidebarUserTrigger}
+              hideUserInfo={true}
+            />
+          </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
       <SidebarRail />
