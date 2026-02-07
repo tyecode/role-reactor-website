@@ -54,12 +54,13 @@ export function ServerSelector() {
 
         const allGuilds: DiscordGuild[] = await discordRes.json();
 
-        // Filter for guilds where user has MANAGE_GUILD (0x20) or ADMINISTRATOR (0x8) permissions
+        // Filter for guilds where user is the OWNER only
         const manageableGuilds = allGuilds.filter((guild) => {
           const perms = BigInt(guild.permissions);
           return (
-            (perms & BigInt(0x20)) === BigInt(0x20) ||
-            (perms & BigInt(0x8)) === BigInt(0x8)
+            guild.owner ||
+            (perms & 0x8n) === 0x8n || // ADMINISTRATOR
+            (perms & 0x20n) === 0x20n // MANAGE_GUILD
           );
         });
 

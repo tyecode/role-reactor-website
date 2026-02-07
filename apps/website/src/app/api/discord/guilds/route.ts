@@ -58,24 +58,15 @@ export async function GET() {
 
     const allGuilds = await response.json();
 
-    // Standard Discord Bot Permission Bits
-    const MANAGE_GUILD = 0x20n; // 32
-    const ADMINISTRATOR = 0x8n; // 8
-
-    // Filter for "Manageable" servers (Owner OR Admin OR Manage Guild)
-    const manageableGuilds = allGuilds.filter((guild: any) => {
-      const isOwner = guild.owner === true;
-      const perms = BigInt(guild.permissions);
-      const canManage = (perms & MANAGE_GUILD) === MANAGE_GUILD;
-      const isAdmin = (perms & ADMINISTRATOR) === ADMINISTRATOR;
-
-      return isOwner || canManage || isAdmin;
+    // Filter for servers where user is the OWNER only
+    const ownedGuilds = allGuilds.filter((guild: any) => {
+      return guild.owner === true;
     });
 
     console.log(
-      `Filtered ${allGuilds.length} guilds down to ${manageableGuilds.length} manageable ones`
+      `Filtered ${allGuilds.length} guilds down to ${ownedGuilds.length} owned servers`
     );
-    return NextResponse.json(manageableGuilds);
+    return NextResponse.json(ownedGuilds);
   } catch (error: any) {
     console.error("Internal Server Error in Guilds API:", error);
     return NextResponse.json(

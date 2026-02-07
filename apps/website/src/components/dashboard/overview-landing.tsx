@@ -287,35 +287,33 @@ export function OverviewLanding() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.05 * i }}
+                className="h-full"
               >
-                <Link href={action.href}>
-                  <Card className="bg-zinc-900/40 border-white/5 shadow-xl p-5 group hover:bg-zinc-800/60 hover:border-blue-500/30 transition-all duration-300 rounded-2xl relative overflow-hidden cursor-pointer">
+                <Link href={action.href} className="h-full block">
+                  <Card className="bg-zinc-900/40 border-white/5 shadow-xl p-5 group hover:bg-zinc-800/60 hover:border-blue-500/30 transition-all duration-300 rounded-2xl relative overflow-hidden cursor-pointer h-full min-h-[100px]">
                     <div
                       className={cn(
                         "absolute inset-0 bg-linear-to-br opacity-0 group-hover:opacity-5 transition-opacity duration-500",
                         action.gradient
                       )}
                     />
-                    <div className="relative z-10 flex items-center justify-between gap-4">
-                      <div className="flex items-center gap-4 flex-1 min-w-0">
-                        <div
-                          className={cn(
-                            "w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-linear-to-br text-white shadow-lg group-hover:scale-110 transition-transform duration-300",
-                            action.gradient
-                          )}
-                        >
-                          <action.icon className="w-6 h-6" />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <h3 className="text-base font-bold text-white tracking-tight mb-1">
-                            {action.title}
-                          </h3>
-                          <p className="text-zinc-500 text-xs leading-relaxed">
-                            {action.desc}
-                          </p>
-                        </div>
+                    <div className="relative z-10 flex flex-col items-center text-center gap-3 h-full justify-center">
+                      <div
+                        className={cn(
+                          "w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-linear-to-br text-white shadow-lg group-hover:scale-110 transition-transform duration-300",
+                          action.gradient
+                        )}
+                      >
+                        <action.icon className="w-6 h-6" />
                       </div>
-                      <ArrowRight className="w-5 h-5 text-zinc-600 group-hover:text-blue-400 group-hover:translate-x-1 transition-all duration-300 flex-shrink-0" />
+                      <div className="space-y-1">
+                        <h3 className="text-base font-bold text-white tracking-tight">
+                          {action.title}
+                        </h3>
+                        <p className="text-zinc-500 text-xs leading-relaxed line-clamp-2">
+                          {action.desc}
+                        </p>
+                      </div>
                     </div>
                   </Card>
                 </Link>
