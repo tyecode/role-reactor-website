@@ -27,7 +27,7 @@ export function Footer() {
                 height={42}
                 alt="Role Reactor Logo"
               />
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg blur-md opacity-20 scale-110"></div>
+              <div className="absolute inset-0 bg-linear-to-r from-blue-500 to-purple-500 rounded-lg blur-md opacity-20 scale-110"></div>
             </div>
             <div>
               <span className="font-semibold dark:to-gray-300 text-[var(--color-fd-foreground)]">

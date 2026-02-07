@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { FaDiscord, FaRocket } from "react-icons/fa";
 import { Sparkles, ArrowRight } from "lucide-react";
-import { Button } from "@role-reactor/ui/components/button";
-import { BubbleBackground } from "@role-reactor/ui/components/bubble-background";
+import { Button } from "@/components/ui/button";
+import { BubbleBackground } from "@/components/ui/bubble-background";
 
 import { links } from "@/constants/links";
 

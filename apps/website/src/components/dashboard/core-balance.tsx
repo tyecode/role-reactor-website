@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Plus } from "lucide-react";
-import { cn } from "@role-reactor/ui/lib/utils"; // Assuming utils exist in ui package
+import { cn } from "@/lib/utils"; // Assuming utils exist in ui package
 import { useSession } from "next-auth/react";
 import { PricingModal } from "./pricing-modal";
 

@@ -1,6 +1,6 @@
 import { Heart, Shield, TrendingUp, Zap } from "lucide-react";
-import { Card, CardContent } from "@role-reactor/ui/components/card";
-import { Badge } from "@role-reactor/ui/components/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 const stats = [
   {
@@ -104,7 +104,7 @@ export function SocialProof({ totalExecutions = 0 }: SocialProofProps) {
             >
               <CardContent className="p-6">
                 <div
-                  className={`w-12 h-12 mx-auto mb-3 bg-gradient-to-br ${stat.gradient} rounded-xl flex items-center justify-center text-white shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-300`}
+                  className={`w-12 h-12 mx-auto mb-3 bg-linear-to-br ${stat.gradient} rounded-xl flex items-center justify-center text-white shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-300`}
                 >
                   <stat.icon className="w-6 h-6" />
                 </div>
@@ -143,7 +143,7 @@ export function SocialProof({ totalExecutions = 0 }: SocialProofProps) {
                 { label: "Community Focused", icon: Heart },
               ].map((item) => (
                 <div key={item.label} className="text-center group">
-                  <div className="w-10 h-10 mx-auto mb-2 bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg flex items-center justify-center text-white group-hover:scale-110 transition-transform duration-300">
+                  <div className="w-10 h-10 mx-auto mb-2 bg-linear-to-br from-blue-500 to-purple-500 rounded-lg flex items-center justify-center text-white group-hover:scale-110 transition-transform duration-300">
                     <item.icon className="w-5 h-5" />
                   </div>
                   <div className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">

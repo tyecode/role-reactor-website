@@ -8,13 +8,13 @@ import {
   DialogTrigger,
   DialogTitle,
   DialogHeader,
-} from "@role-reactor/ui/components/dialog";
+} from "@/components/ui/dialog";
 import { Loader2 } from "lucide-react";
-import { PricingCards } from "@role-reactor/ui/components/pricing-cards";
-import { PricingBenefits } from "@role-reactor/ui/components/pricing-benefits";
-import type { CorePackage } from "@role-reactor/core/types/pricing";
+import { PricingCards } from "@/components/ui/pricing-cards";
+import { PricingBenefits } from "@/components/ui/pricing-benefits";
+import type { CorePackage } from "@/types/pricing";
 
-import { usePricingStore } from "@role-reactor/core/store/use-pricing-store";
+import { usePricingStore } from "@/store/use-pricing-store";
 import { useSession } from "next-auth/react";
 
 interface PricingModalProps {

@@ -62,7 +62,7 @@ export async function GET(request: NextRequest) {
 
     if (data.status === "success") {
       // The bot spreads data into the root object, so we extract the useful bits
-      const { status, timestamp, ...pricingInfo } = data;
+      const { status: _, timestamp: __, ...pricingInfo } = data;
       return NextResponse.json({
         success: true,
         data: pricingInfo,

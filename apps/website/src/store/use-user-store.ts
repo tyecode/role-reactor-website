@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import type { UserPricingInfo } from "@role-reactor/core/types/pricing";
+import type { UserPricingInfo } from "@/types/pricing";
 
 interface UserState {
   user: UserPricingInfo | null;

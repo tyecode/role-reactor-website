@@ -9,13 +9,13 @@ const audiowide = Audiowide({
 
 export default function NotFound() {
   return (
-    <main className="relative flex flex-col items-center justify-center min-h-screen text-center px-4 bg-gradient-to-br from-slate-100 via-white from-gray-900via-gray-950to-blue-900 overflow-hidden">
+    <main className="relative flex flex-col items-center justify-center min-h-screen text-center px-4 bg-linear-to-br from-slate-100 via-white from-gray-900via-gray-950to-blue-900 overflow-hidden">
       {/* Animated Background Shapes */}
       <div className="absolute inset-0 pointer-events-none z-0">
-        <div className="absolute w-[180px] h-[180px] bg-gradient-to-br from-blue-200 to-purple-200 rounded-full blur-3xl opacity-25 animate-bg-move-1" />
-        <div className="absolute w-[120px] h-[120px] bg-gradient-to-br from-indigo-200 to-blue-200 rounded-full blur-2xl opacity-20 animate-bg-move-2" />
+        <div className="absolute w-[180px] h-[180px] bg-linear-to-br from-blue-200 to-purple-200 rounded-full blur-3xl opacity-25 animate-bg-move-1" />
+        <div className="absolute w-[120px] h-[120px] bg-linear-to-br from-indigo-200 to-blue-200 rounded-full blur-2xl opacity-20 animate-bg-move-2" />
         <div
-          className="absolute w-[40px] h-[40px] bg-gradient-to-br from-purple-200 to-indigo-200 rounded-full blur-xl opacity-15 animate-bg-move-3"
+          className="absolute w-[40px] h-[40px] bg-linear-to-br from-purple-200 to-indigo-200 rounded-full blur-xl opacity-15 animate-bg-move-3"
           style={{
             left: "50%",
             top: "60%",

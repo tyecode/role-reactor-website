@@ -19,7 +19,8 @@ import {
 import { Avatar, AvatarImage, AvatarFallback } from "./avatar";
 import { Button } from "./button";
 import { Skeleton } from "./skeleton";
-import { cn } from "../lib/utils";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 export interface UserMenuUser {
   id?: string;
@@ -138,7 +139,7 @@ export function UserMenu({
     >
       <Avatar className="h-8 w-8 rounded-lg shrink-0">
         <AvatarImage src={avatarUrl} alt={user.name || "User"} />
-        <AvatarFallback className="rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 text-white text-xs">
+        <AvatarFallback className="rounded-lg bg-linear-to-br from-blue-500 to-purple-600 text-white text-xs">
           {getInitials(user.name)}
         </AvatarFallback>
       </Avatar>
@@ -185,7 +186,7 @@ export function UserMenu({
             onClick={onAddCredits}
           >
             {coreImageUrl && (
-              <img
+              <Image
                 src={coreImageUrl}
                 width={18}
                 height={18}
@@ -242,11 +243,11 @@ export function UserMenu({
 
             {/* Cores Section */}
             {showCoreBalance && (
-              <div className="mt-2 p-3 bg-gradient-to-br from-zinc-900 to-black rounded-lg border border-border/40 flex items-center justify-between shadow-inner">
+              <div className="mt-2 p-3 bg-linear-to-br from-zinc-900 to-black rounded-lg border border-border/40 flex items-center justify-between shadow-inner">
                 <div className="flex items-center gap-3">
                   <div className="p-1 bg-yellow-500/10 rounded-full border border-yellow-500/20">
                     {coreImageUrl && (
-                      <img
+                      <Image
                         src={coreImageUrl}
                         width={32}
                         height={32}

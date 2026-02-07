@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import {
   UserMenu as SharedUserMenu,
   UserMenuProps as SharedUserMenuProps,
-} from "@role-reactor/ui/components/user-menu";
+} from "@/components/ui/user-menu";
 import { PricingDialog } from "@/components/pricing/pricing-dialog";
 import { useUserStore } from "@/store/use-user-store";
 
@@ -81,7 +81,6 @@ export function UserMenu(props: Partial<Props>) {
         showSettingsLink={false}
         showCoreBalance={true}
         variant="header"
-        className="ml-2"
         {...props}
       />
     </>

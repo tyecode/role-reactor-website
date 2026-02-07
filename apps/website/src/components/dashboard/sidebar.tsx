@@ -13,7 +13,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 import {
@@ -28,14 +28,9 @@ import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarRail,
-} from "@role-reactor/ui/components/sidebar";
+} from "@/components/ui/sidebar";
 import { UserMenu } from "@/components/auth/user-menu";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@role-reactor/ui/components/avatar";
-import { Button } from "@role-reactor/ui/components/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const mainNavItems = [
   {
@@ -95,6 +90,7 @@ export function DashboardSidebar() {
     <SidebarMenuButton
       size="lg"
       className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+      tooltip={session.user.name || "Account"}
     >
       <Avatar className="h-8 w-8 rounded-lg shrink-0">
         <AvatarImage
@@ -105,18 +101,22 @@ export function DashboardSidebar() {
           {session.user.name?.charAt(0).toUpperCase() || "U"}
         </AvatarFallback>
       </Avatar>
-      <div className="grid flex-1 text-left text-sm leading-tight min-w-0">
+      <div className="grid flex-1 text-left text-sm leading-tight min-w-0 group-data-[collapsible=icon]:hidden">
         <span className="truncate font-semibold">{session.user.name}</span>
         <span className="truncate text-xs text-muted-foreground">
           {session.user.email}
         </span>
       </div>
-      <ChevronUp className="ml-auto size-4 shrink-0" />
+      <ChevronUp className="ml-auto size-4 shrink-0 group-data-[collapsible=icon]:hidden" />
     </SidebarMenuButton>
   ) : null;
 
   return (
-    <Sidebar collapsible="icon" className="border-r border-sidebar-border">
+    <Sidebar
+      collapsible="icon"
+      className="border-r border-sidebar-border"
+      variant="inset"
+    >
       {/* Header with Logo */}
       <SidebarHeader>
         <SidebarMenu>
@@ -127,7 +127,7 @@ export function DashboardSidebar() {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <Link href="/">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-gradient-to-br from-blue-500 to-purple-600 text-sidebar-primary-foreground">
+                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-linear-to-br from-blue-500 to-purple-600 text-sidebar-primary-foreground">
                   <Image
                     src="/logo.png"
                     width={20}
@@ -197,11 +197,11 @@ export function DashboardSidebar() {
         {/* Upgrade Card - Hidden when collapsed */}
         <SidebarGroup className="group-data-[collapsible=icon]:hidden mt-auto">
           <SidebarGroupContent>
-            <div className="relative overflow-hidden rounded-lg bg-gradient-to-br from-blue-600/20 via-purple-600/20 to-pink-600/10 p-4 border border-sidebar-border">
+            <div className="relative overflow-hidden rounded-lg bg-linear-to-br from-blue-600/20 via-purple-600/20 to-pink-600/10 p-3 border border-sidebar-border">
               <div className="absolute -top-8 -right-8 w-16 h-16 bg-blue-500/20 rounded-full blur-xl" />
               <div className="relative">
                 <div className="flex items-center gap-2 mb-2">
-                  <div className="p-1.5 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-md">
+                  <div className="p-1.5 bg-linear-to-br from-yellow-400 to-orange-500 rounded-md">
                     <Zap className="w-3 h-3 text-white fill-white" />
                   </div>
                   <span className="font-semibold text-sm">Upgrade to Pro</span>
@@ -211,7 +211,7 @@ export function DashboardSidebar() {
                 </p>
                 <SidebarMenuButton
                   asChild
-                  className="w-full justify-center bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700"
+                  className="w-full justify-center bg-linear-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700"
                 >
                   <Link href="/pricing">
                     <CreditCard className="w-4 h-4" />

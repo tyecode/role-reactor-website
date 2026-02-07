@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback, ReactNode } from "react";
+import { useEffect, useState, ReactNode } from "react";
 import { useSession, signIn } from "next-auth/react";
 import {
   Dialog,
@@ -8,37 +8,16 @@ import {
   DialogTrigger,
   DialogTitle,
   DialogHeader,
-  DialogDescription,
-} from "@role-reactor/ui/components/dialog";
-import { Button } from "@role-reactor/ui/components/button";
-import { PricingCards } from "@role-reactor/ui/components/pricing-cards";
-import { PricingBenefits } from "@role-reactor/ui/components/pricing-benefits";
-import { usePricingStore } from "@role-reactor/core/store/use-pricing-store";
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { PricingCards } from "@/components/ui/pricing-cards";
+import { PricingBenefits } from "@/components/ui/pricing-benefits";
+import { usePricingStore } from "@/store/use-pricing-store";
 import { useUserStore } from "@/store/use-user-store";
-import type {
-  CorePackage,
-  PricingData,
-} from "@role-reactor/core/types/pricing";
+import type { CorePackage } from "@/types/pricing";
 import Image from "next/image";
-import {
-  Zap,
-  CheckCircle2,
-  Sparkles,
-  Rocket,
-  ArrowLeft,
-  CreditCard,
-  Bitcoin,
-  Loader2,
-  ScanFace,
-  Library,
-  X,
-} from "lucide-react";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@role-reactor/ui/components/tabs";
+import { Rocket, ArrowLeft, CreditCard, Bitcoin, Loader2 } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { supportedCryptos } from "./constants";
 import { useRouter } from "next/navigation";
 
@@ -71,7 +50,7 @@ export function PricingDialog({
     fetchPricing,
   } = usePricingStore();
 
-  const { user: userData, updateBalance, fetchUser } = useUserStore();
+  const { updateBalance, fetchUser } = useUserStore();
 
   const packages = pricingData?.packages || [];
   const loading = isStoreLoading;
@@ -98,7 +77,7 @@ export function PricingDialog({
     }
   }, [isOpen, fetchPricing, session?.user?.id]);
 
-  const handlePaymentInitiation = (packageId: string, amount?: number) => {
+  const handlePaymentInitiation = (packageId: string) => {
     if (!session?.user?.id) {
       signIn("discord", { callbackUrl: window.location.href });
       return;
@@ -148,7 +127,7 @@ export function PricingDialog({
 
       const contentType = response.headers.get("content-type");
       if (!contentType || !contentType.includes("application/json")) {
-        const text = await response.text();
+        await response.text();
         throw new Error(`Invalid response from server (${response.status})`);
       }
 

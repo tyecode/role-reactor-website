@@ -1,10 +1,5 @@
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@role-reactor/ui/components/card";
-import { Button } from "@role-reactor/ui/components/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { ArrowRight, ImageIcon, Zap, Clock, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import { auth } from "@/auth";
@@ -38,7 +33,7 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-8">
       {/* Welcome Section */}
-      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-zinc-950 border border-border/50 p-8 md:p-12">
+      <section className="relative overflow-hidden rounded-3xl bg-linear-to-br from-blue-900/20 via-purple-900/20 to-zinc-950 border border-border/50 p-8 md:p-12">
         <div className="absolute top-0 right-0 p-12 opacity-10 pointer-events-none">
           <Zap className="w-64 h-64 text-blue-500" />
         </div>
@@ -46,7 +41,7 @@ export default async function DashboardPage() {
         <div className="relative z-10 max-w-2xl space-y-4">
           <h1 className="text-3xl md:text-5xl font-black tracking-tight text-white">
             Unleash Your{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400">
+            <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-purple-400">
               Creativity
             </span>
           </h1>
@@ -163,7 +158,7 @@ export default async function DashboardPage() {
               className="aspect-square rounded-xl bg-muted/30 border border-border/50 flex items-center justify-center group cursor-pointer hover:bg-muted/50 transition-colors relative overflow-hidden"
             >
               {/* Decorative placeholder pattern */}
-              <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#ffffff20_1px,transparent_1px)] [background-size:16px_16px]"></div>
+              <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#ffffff20_1px,transparent_1px)] bg-size-[16px_16px]"></div>
               <ImageIcon className="w-8 h-8 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors relative z-10" />
             </div>
           ))}

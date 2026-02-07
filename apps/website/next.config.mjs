@@ -4,7 +4,7 @@ const withMDX = createMDX();
 
 /** @type {import('next').NextConfig} */
 const config = {
-  transpilePackages: ["@role-reactor/ui", "@role-reactor/core"],
+  transpilePackages: [],
   reactStrictMode: true,
   // Essential performance optimizations
   compress: true,

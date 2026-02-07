@@ -2,10 +2,7 @@ import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import { DashboardSidebar } from "@/components/dashboard/sidebar";
 import { DashboardHeader } from "@/components/dashboard/header";
-import {
-  SidebarProvider,
-  SidebarInset,
-} from "@role-reactor/ui/components/sidebar";
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 
 export const metadata: Metadata = {
   title: "Dashboard | Role Reactor",

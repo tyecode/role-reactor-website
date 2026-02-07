@@ -36,8 +36,6 @@
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tabs": "^1.1.13",
     "@radix-ui/react-tooltip": "^1.2.8",
-    "@role-reactor/core": "workspace:*",
-    "@role-reactor/ui": "workspace:*",
     "@tanstack/react-query": "^5.90.12",
     "@tsparticles/interaction-external-attract": "^3.9.1",
     "@tsparticles/interaction-external-bounce": "^3.9.1",

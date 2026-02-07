@@ -1,7 +1,6 @@
 "use client";
 
-import { UserMenu } from "@/components/auth/user-menu";
-import { SidebarTrigger } from "@role-reactor/ui/components/sidebar";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 import { CoreBalance } from "./core-balance";
 
 export function DashboardHeader() {

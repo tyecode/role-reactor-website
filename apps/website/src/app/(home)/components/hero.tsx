@@ -8,9 +8,9 @@ import { FaDiscord, FaRocket } from "react-icons/fa";
 import { ArrowRight, ShieldCheck, Zap as ZapIcon } from "lucide-react";
 import { cn } from "fumadocs-ui/utils/cn";
 
-import { Button } from "@role-reactor/ui/components/button";
+import { Button } from "@/components/ui/button";
 import { links } from "@/constants/links";
-import { BubbleBackground } from "@role-reactor/ui/components/bubble-background";
+import { BubbleBackground } from "@/components/ui/bubble-background";
 
 const audiowide = Audiowide({
   subsets: ["latin"],
@@ -107,7 +107,7 @@ export function Hero() {
         {/* Trust Indicators - Horizontal */}
         <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-4 pt-12 text-sm text-zinc-500 font-medium tracking-wide">
           <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_10px_theme(colors.emerald.500)]" />
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_10px_var(--color-emerald-500)]" />
             Always Online
           </div>
           <div className="flex items-center gap-2">

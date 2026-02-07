@@ -11,8 +11,8 @@ import {
   Mic,
   Brain,
 } from "lucide-react";
-import { Card, CardContent } from "@role-reactor/ui/components/card";
-import { Badge } from "@role-reactor/ui/components/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 const features = [
   {
@@ -146,14 +146,14 @@ export function Features() {
             >
               {/* Gradient background */}
               <div
-                className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}
+                className={`absolute inset-0 bg-linear-to-br ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}
               />
 
               <CardContent className="p-6 flex flex-col h-full relative z-10">
                 {/* Icon */}
                 <div className="relative mb-4">
                   <div
-                    className={`w-12 h-12 bg-gradient-to-br ${feature.gradient} rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-all duration-300`}
+                    className={`w-12 h-12 bg-linear-to-br ${feature.gradient} rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-all duration-300`}
                   >
                     <feature.icon className="w-6 h-6" />
                   </div>
