@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { DiscordPreview } from "./discord-preview";
-import { Plus, Trash2, Send, Rocket } from "lucide-react";
+import { Plus, Trash2, Rocket } from "lucide-react";
 
 export function RoleBuilder() {
   const [title, setTitle] = useState("Get Your Roles!");

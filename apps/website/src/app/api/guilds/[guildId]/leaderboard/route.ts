@@ -37,6 +37,7 @@ export async function GET(
         {
           success: false,
           error: errorData.message || "Failed to fetch leaderboard",
+          hint: errorData.hint,
         },
         { status: response.status }
       );

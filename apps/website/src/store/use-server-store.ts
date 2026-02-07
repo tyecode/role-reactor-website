@@ -14,11 +14,13 @@ interface ServerState {
   isLoading: boolean;
   error: "none" | "re-login" | "error";
   lastFetched: number | null;
+  lastActiveGuildId: string | null;
 
   // Actions
   fetchServers: (force?: boolean) => Promise<void>;
   setGuilds: (guilds: DiscordGuild[]) => void;
   setInstalledGuildIds: (ids: string[]) => void;
+  setLastActiveGuildId: (id: string | null) => void;
   clearServers: () => void;
 }
 
@@ -30,6 +32,7 @@ export const useServerStore = create<ServerState>()(
       isLoading: false,
       error: "none",
       lastFetched: null,
+      lastActiveGuildId: null,
 
       fetchServers: async (force = false) => {
         const { lastFetched, isLoading } = get();
@@ -90,11 +93,13 @@ export const useServerStore = create<ServerState>()(
 
       setGuilds: (guilds) => set({ guilds }),
       setInstalledGuildIds: (ids) => set({ installedGuildIds: ids }),
+      setLastActiveGuildId: (id) => set({ lastActiveGuildId: id }),
       clearServers: () =>
         set({
           guilds: [],
           installedGuildIds: [],
           lastFetched: null,
+          lastActiveGuildId: null,
           error: "none",
         }),
     }),
@@ -105,6 +110,7 @@ export const useServerStore = create<ServerState>()(
         guilds: state.guilds,
         installedGuildIds: state.installedGuildIds,
         lastFetched: state.lastFetched,
+        lastActiveGuildId: state.lastActiveGuildId,
       }),
     }
   )

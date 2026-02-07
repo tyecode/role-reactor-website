@@ -22,7 +22,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         // Pass the access token to the session for Discord API calls
         if (token.accessToken) {
-          (session as any).accessToken = token.accessToken;
+          Object.assign(session, { accessToken: token.accessToken });
         }
 
         // Ensure image is set from token, or use default Discord avatar

@@ -5,7 +5,7 @@ import { Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSession } from "next-auth/react";
 import { useCoreBalance } from "@/hooks/use-core-balance";
-import { PricingModal } from "@/components/dashboard/pricing-modal";
+import { PricingDialog } from "@/components/pricing/pricing-dialog";
 import { Button } from "@/components/ui/button";
 
 export interface CoreBalanceProps {
@@ -28,7 +28,7 @@ export function CoreBalance({
   onClick,
   showPlusButton = true,
 }: CoreBalanceProps) {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
   const { balance, isLoading } = useCoreBalance();
 
   if (status === "unauthenticated") return null;
@@ -155,7 +155,7 @@ export function CoreBalance({
               <Plus className="w-3 h-3 text-primary" />
             </div>
           ) : (
-            <PricingModal
+            <PricingDialog
               trigger={
                 <div className="bg-primary/20 rounded-full p-0.5 ml-1 cursor-pointer hover:bg-primary/30 transition-colors">
                   <Plus className="w-3 h-3 text-primary" />
@@ -205,7 +205,7 @@ export function CoreBalance({
             <Plus className="w-3.5 h-3.5" />
           </div>
         ) : (
-          <PricingModal
+          <PricingDialog
             trigger={
               <div className="w-6.5 h-6.5 flex items-center justify-center rounded-full bg-zinc-800 hover:bg-zinc-700 text-white transition-colors border border-white/10 cursor-pointer">
                 <Plus className="w-3.5 h-3.5" />

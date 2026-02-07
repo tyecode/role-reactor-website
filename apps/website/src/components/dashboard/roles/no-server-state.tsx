@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Plus, ShieldAlert, Server, ExternalLink } from "lucide-react";
-import Link from "next/link";
+
 import { motion } from "motion/react";
 
 export function NoServerState() {

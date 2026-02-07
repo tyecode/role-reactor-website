@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ShieldCheck, Plus, ExternalLink, Loader2, Server } from "lucide-react";
+import { ShieldCheck, Server, Plus } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link";
+import * as React from "react";
 
 interface DiscordGuild {
   id: string;
@@ -16,11 +17,6 @@ interface DiscordGuild {
   owner: boolean;
   permissions: string;
   features: string[];
-}
-
-interface GuildStatus {
-  id: string;
-  isInstalled: boolean;
 }
 
 export function ServerSelector() {
@@ -44,7 +40,6 @@ export function ServerSelector() {
         setError(null);
 
         // 1. Fetch user guilds from our server-side proxy
-        // This avoids CORS issues and handles token management server-side
         const discordRes = await fetch("/api/discord/guilds");
 
         if (!discordRes.ok) {
@@ -231,7 +226,7 @@ export function ServerSelector() {
   );
 }
 
-function ArrowRight(props: any) {
+function ArrowRight(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}

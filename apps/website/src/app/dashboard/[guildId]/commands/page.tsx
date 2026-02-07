@@ -1,7 +1,7 @@
 "use client";
 
 import { CommandList } from "@/components/dashboard/commands/command-list";
-import { NoServerState } from "@/components/dashboard/roles/no-server-state";
+import { BotInviteCard } from "@/components/dashboard/bot-invite-card";
 import { useParams } from "next/navigation";
 import { Suspense } from "react";
 import { Loader2, Terminal } from "lucide-react";
@@ -23,7 +23,7 @@ function CommandsContent() {
   }
 
   if (!guildId || !isInstalled) {
-    return <NoServerState />;
+    return <BotInviteCard guildId={guildId} />;
   }
 
   return (

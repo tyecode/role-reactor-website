@@ -1,19 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  ArrowRight,
-  ImageIcon,
-  Zap,
-  Clock,
-  TrendingUp,
-  Server,
-  Plus,
-} from "lucide-react";
+import { Zap, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import { auth } from "@/auth";
 import { API_PREFIX } from "@/lib/api-config";
 import { botFetch } from "@/lib/bot-fetch";
-import { DashboardLanding } from "@/components/dashboard/dashboard-landing";
+import { OverviewLanding } from "@/components/dashboard/overview-landing";
 
 async function getUserBalance(userId: string): Promise<number | null> {
   try {
@@ -48,42 +40,19 @@ export default async function DashboardPage() {
 
         <div className="relative z-10 max-w-2xl space-y-4">
           <h1 className="text-3xl md:text-5xl font-black tracking-tight text-white">
-            Unleash Your{" "}
-            <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-purple-400">
-              Creativity
-            </span>
+            Overview
           </h1>
           <p className="text-lg text-gray-300 leading-relaxed">
-            Create stunning AI avatars, manage your server roles, and track your
-            community engagement all in one place.
+            Welcome to your personal dashboard. Manage your servers and track
+            your balance.
           </p>
-          <div className="pt-4 flex flex-wrap gap-4">
-            <Link href="/dashboard/generate">
-              <Button
-                size="lg"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold rounded-xl h-12 px-8"
-              >
-                Start Generating
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </Link>
-            <Link href="/dashboard/history">
-              <Button
-                size="lg"
-                variant="outline"
-                className="rounded-xl h-12 px-8"
-              >
-                View History
-              </Button>
-            </Link>
-          </div>
         </div>
       </section>
 
-      <DashboardLanding />
+      <OverviewLanding />
 
       {/* Quick Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="bg-card/40 border-border/50 backdrop-blur-sm relative group overflow-hidden">
           <div className="absolute inset-0 bg-yellow-500/5 group-hover:bg-yellow-500/10 transition-colors duration-500" />
           <CardHeader className="flex flex-row items-center justify-between pb-2 relative z-10">
@@ -102,9 +71,7 @@ export default async function DashboardPage() {
               <span className="text-sm font-medium text-yellow-500">Cores</span>
             </div>
             <div className="flex items-center justify-between mt-1">
-              <p className="text-xs text-muted-foreground">
-                Available for generation
-              </p>
+              <p className="text-xs text-muted-foreground">Available for use</p>
               <Link href="/pricing">
                 <Button
                   variant="ghost"
@@ -121,57 +88,36 @@ export default async function DashboardPage() {
         <Card className="bg-card/40 border-border/50 backdrop-blur-sm">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-md font-medium text-muted-foreground">
-              Images Created
+              Coming Soon
             </CardTitle>
-            <ImageIcon className="w-5 h-5 text-blue-500" />
+            <Zap className="w-5 h-5 text-purple-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-4xl font-black">0</div>
+            <div className="text-4xl font-black">---</div>
             <p className="text-xs text-muted-foreground mt-1">
-              Lifetime generations
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-card/40 border-border/50 backdrop-blur-sm">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-md font-medium text-muted-foreground">
-              Server Rank
-            </CardTitle>
-            <Clock className="w-5 h-5 text-purple-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-4xl font-black">#--</div>
-            <p className="text-xs text-muted-foreground mt-1">
-              Global leaderboard position
+              New features are currently in development.
             </p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Recent Collections / Placeholder */}
+      {/* Recent Activity / Placeholder */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-bold">Recent Generations</h2>
-          <Link
-            href="/dashboard/history"
-            className="text-sm text-primary hover:underline"
-          >
-            View all
-          </Link>
+          <h2 className="text-xl font-bold">Server Activity</h2>
+          <span className="text-sm text-muted-foreground">
+            Live updates enabled
+          </span>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          {[1, 2, 3, 4, 5].map((i) => (
-            <div
-              key={i}
-              className="aspect-square rounded-xl bg-muted/30 border border-border/50 flex items-center justify-center group cursor-pointer hover:bg-muted/50 transition-colors relative overflow-hidden"
-            >
-              {/* Decorative placeholder pattern */}
-              <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#ffffff20_1px,transparent_1px)] bg-size-[16px_16px]"></div>
-              <ImageIcon className="w-8 h-8 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors relative z-10" />
-            </div>
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Card className="bg-card/40 border-border/50 p-6 flex items-center justify-center text-muted-foreground italic">
+            Select a server from the sidebar to view detailed activity and
+            settings.
+          </Card>
+          <Card className="bg-card/40 border-border/50 p-6 flex items-center justify-center text-muted-foreground italic">
+            New modules like Polls and Welcome Systems coming soon.
+          </Card>
         </div>
       </div>
     </div>

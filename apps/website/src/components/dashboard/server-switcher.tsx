@@ -15,6 +15,7 @@ import {
   usePathname,
   useParams,
 } from "next/navigation";
+import Image from "next/image";
 
 import {
   DropdownMenu,
@@ -44,31 +45,39 @@ export function ServerSwitcher() {
   const router = useRouter();
   const pathname = usePathname();
 
-  // Priority: Path param -> Search param
-  const activeGuildId = (params.guildId as string) || searchParams.get("guild");
+  const {
+    guilds,
+    installedGuildIds,
+    isLoading,
+    error,
+    fetchServers,
+    lastActiveGuildId,
+  } = useServerStore();
 
-  const { guilds, installedGuildIds, isLoading, error, fetchServers } =
-    useServerStore();
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Priority: Path param -> Search param -> History (if installed)
+  const activeGuildId =
+    (params.guildId as string) ||
+    searchParams.get("guild") ||
+    (mounted &&
+    lastActiveGuildId &&
+    installedGuildIds.includes(lastActiveGuildId)
+      ? lastActiveGuildId
+      : null);
+
+  const installedGuilds = guilds.filter((g) =>
+    installedGuildIds.includes(g.id)
+  );
 
   React.useEffect(() => {
     if (status === "authenticated") {
       fetchServers();
     }
   }, [status, fetchServers]);
-
-  // Auto-select first guild if none selected and on a page that might need it
-  // or just redirect to the first guild's dashboard from the main dashboard
-  React.useEffect(() => {
-    if (
-      !activeGuildId &&
-      guilds.length > 0 &&
-      !isLoading &&
-      error === "none" &&
-      pathname === "/dashboard"
-    ) {
-      router.replace(`/dashboard/${guilds[0].id}`);
-    }
-  }, [activeGuildId, guilds, isLoading, error, pathname, router]);
 
   const activeGuild = guilds.find((g) => g.id === activeGuildId);
 
@@ -79,7 +88,7 @@ export function ServerSwitcher() {
       const newPathname = pathname.replace(params.guildId as string, guildId);
       router.push(newPathname);
     } else {
-      // If we are on a global dashboard page, just navigate to that guild's overview
+      // If we are on a global dashboard page, navigate to that guild's overview
       router.push(`/dashboard/${guildId}`);
     }
   };
@@ -156,7 +165,7 @@ export function ServerSwitcher() {
               </div>
             ) : error === "re-login" ? (
               <div className="px-3 py-4 text-center">
-                <p className="text-xs text-red-400 mb-2">Permissions missing</p>
+                <p className="text-xs text-red-300 mb-2">Permissions missing</p>
                 <Button
                   size="sm"
                   variant="outline"
@@ -170,12 +179,12 @@ export function ServerSwitcher() {
               <div className="px-2 py-3 text-xs text-red-400 text-center">
                 Failed to load servers
               </div>
-            ) : guilds.length === 0 ? (
+            ) : installedGuilds.length === 0 ? (
               <div className="px-2 py-3 text-xs text-muted-foreground text-center">
-                No manageable servers
+                No installed servers
               </div>
             ) : (
-              guilds.map((guild, index) => (
+              installedGuilds.map((guild, index) => (
                 <DropdownMenuItem
                   key={guild.id}
                   onClick={() => handleServerSelect(guild.id)}
@@ -183,8 +192,10 @@ export function ServerSwitcher() {
                 >
                   <div className="flex size-6 items-center justify-center rounded-sm border border-border/50 bg-zinc-800">
                     {guild.icon ? (
-                      <img
+                      <Image
                         src={`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`}
+                        width={24}
+                        height={24}
                         className="size-full rounded-sm object-cover"
                         alt={guild.name}
                       />
@@ -198,11 +209,9 @@ export function ServerSwitcher() {
                     <span className="truncate text-sm font-medium">
                       {guild.name}
                     </span>
-                    {installedGuildIds.includes(guild.id) && (
-                      <span className="text-[9px] text-green-500 flex items-center gap-0.5">
-                        <ShieldCheck className="size-2" /> Installed
-                      </span>
-                    )}
+                    <span className="text-[9px] text-green-500 flex items-center gap-0.5">
+                      <ShieldCheck className="size-2" /> Installed
+                    </span>
                   </div>
                   <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>
                 </DropdownMenuItem>

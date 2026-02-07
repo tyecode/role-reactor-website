@@ -1,14 +1,8 @@
 "use client";
 
-import { usePathname, useParams, useSearchParams } from "next/navigation";
+import { useSearchParams, usePathname, useParams } from "next/navigation";
 import {
   LayoutDashboard,
-  Image as ImageIcon,
-  Settings,
-  Zap,
-  CreditCard,
-  Sparkles,
-  Home,
   ChevronUp,
   ShieldCheck,
   Trophy,
@@ -17,7 +11,6 @@ import {
   BarChart3,
   Terminal,
 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { Badge } from "@/components/ui/badge";
@@ -39,21 +32,8 @@ import { UserMenu } from "@/components/auth/user-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ServerSwitcher } from "./server-switcher";
-import { Suspense } from "react";
-
-const aiNavItems = [
-  {
-    title: "Avatar Studio",
-    href: "/dashboard/generate",
-    icon: Sparkles,
-    badge: "Beta",
-  },
-  {
-    title: "Gallery",
-    href: "/dashboard/history",
-    icon: ImageIcon,
-  },
-];
+import { useServerStore } from "@/store/use-server-store";
+import { Suspense, useEffect, useState } from "react";
 
 // Helper to get avatar URL
 function getAvatarUrl(user: { id?: string; image?: string | null }): string {
@@ -68,127 +48,193 @@ export function DashboardSidebar() {
   const pathname = usePathname();
   const params = useParams();
   const searchParams = useSearchParams();
-  const { data: session, status } = useSession();
+  const { data: session, status } = useSession(); // Reverted to original as the provided snippet was syntactically incorrect and would break functionality
+  const { lastActiveGuildId, setLastActiveGuildId, installedGuildIds } =
+    useServerStore();
 
-  const guildId = (params.guildId as string) || searchParams.get("guild");
+  // Fix hydration mismatch: use a state for mounted to avoid using localStorage-based store values on server
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // The "Truth" of what server is currently being viewed (URL source)
+  const activeGuildId = (params.guildId as string) || searchParams.get("guild");
+
+  // A helper that falls back to history ONLY after we are mounted on the client
+  // During SSR and first pass hydration, contextId MUST be exactly activeGuildId
+  const contextId = mounted
+    ? activeGuildId ||
+      (lastActiveGuildId && installedGuildIds.includes(lastActiveGuildId)
+        ? lastActiveGuildId
+        : null)
+    : activeGuildId;
+
+  // Sync current selection to store ONLY if we have an explicit one from the URL
+  useEffect(() => {
+    if (activeGuildId && activeGuildId !== lastActiveGuildId) {
+      setLastActiveGuildId(activeGuildId);
+    }
+  }, [activeGuildId, lastActiveGuildId, setLastActiveGuildId]);
 
   const getHref = (baseHref: string, isGuildSpecific: boolean) => {
-    if (!isGuildSpecific) return baseHref;
-
-    // If we need a guildId but don't have one, just stay on dashboard
-    // or handle the "Select a server" prompt
-    if (!guildId) return "/dashboard";
-
-    // Replace /dashboard/feature with /dashboard/[guildId]/feature
-    if (baseHref.startsWith("/dashboard/")) {
-      return baseHref.replace("/dashboard/", `/dashboard/${guildId}/`);
+    // If the route is guild-specific (like /dashboard/xp), we NEED a guildId
+    if (isGuildSpecific) {
+      if (contextId && baseHref.startsWith("/dashboard/")) {
+        // Special case for overview: don't append extra segments
+        if (baseHref === "/dashboard") return `/dashboard/${contextId}`;
+        return baseHref.replace("/dashboard/", `/dashboard/${contextId}/`);
+      }
+      return baseHref;
     }
+
+    // For general routes (generated image gallery, settings), we just go there.
+    // Clean URLs only.
     return baseHref;
   };
 
-  const getEngagementItems = () => [
-    {
-      title: "XP & Levels",
-      href: getHref("/dashboard/xp", true),
-      icon: Trophy,
-    },
-    {
-      title: "Welcome System",
-      href: getHref("/dashboard/welcome", true),
-      icon: UserPlus,
-      isComingSoon: true,
-    },
-    {
-      title: "Polls",
-      href: getHref("/dashboard/polls", true),
-      icon: Vote,
-      isComingSoon: true,
-    },
-    {
-      title: "Analytics",
-      href: getHref("/dashboard/analytics", true),
-      icon: BarChart3,
-      isComingSoon: true,
-    },
-  ];
+  const getEngagementItems = () =>
+    contextId
+      ? [
+          {
+            title: "XP & Levels",
+            href: getHref("/dashboard/xp", true),
+            icon: Trophy,
+          },
+          {
+            title: "Welcome System",
+            href: getHref("/dashboard/welcome", true),
+            icon: UserPlus,
+            isComingSoon: true,
+          },
+          {
+            title: "Polls",
+            href: getHref("/dashboard/polls", true),
+            icon: Vote,
+            isComingSoon: true,
+          },
+          {
+            title: "Analytics",
+            href: getHref("/dashboard/analytics", true),
+            icon: BarChart3,
+            isComingSoon: true,
+          },
+        ]
+      : [];
 
-  const getSystemItems = () => [
-    {
-      title: "Command settings",
-      href: getHref("/dashboard/commands", true),
-      icon: Terminal,
-    },
-  ];
+  const getSystemItems = () =>
+    contextId
+      ? [
+          {
+            title: "Command settings",
+            href: getHref("/dashboard/commands", true),
+            icon: Terminal,
+          },
+        ]
+      : [];
 
   const getCoreItems = () => [
     {
       title: "Overview",
-      href: guildId ? `/dashboard/${guildId}` : "/dashboard",
+      href: contextId ? `/dashboard/${contextId}` : "/dashboard",
       icon: LayoutDashboard,
     },
-    {
-      title: "Reaction Roles",
-      href: getHref("/dashboard/roles", true),
-      icon: ShieldCheck,
-    },
+    ...(contextId
+      ? [
+          {
+            title: "Reaction Roles",
+            href: getHref("/dashboard/roles", true),
+            icon: ShieldCheck,
+          },
+        ]
+      : []),
   ];
 
   const isActive = (href: string) => {
-    if (href === "/dashboard") return pathname === "/dashboard";
-    return pathname.startsWith(href);
+    const cleanHref = href.split("?")[0].replace(/\/$/, "");
+    const cleanPathname = pathname.split("?")[0].replace(/\/$/, "");
+
+    // 1. Exact match for the main dashboard list
+    if (cleanHref === "/dashboard") {
+      return cleanPathname === "/dashboard";
+    }
+
+    // 2. Exact match for a specific Guild Overview (e.g. /dashboard/123)
+    const guildRootRegex = /^\/dashboard\/[^\/]+$/;
+    if (guildRootRegex.test(cleanHref)) {
+      return cleanPathname === cleanHref;
+    }
+
+    // 3. Prefix match for everything else (features like XP, Roles, etc.)
+    return cleanPathname.startsWith(cleanHref);
   };
 
-  const NavGroup = ({ label, items }: { label: string; items: any[] }) => (
-    <SidebarGroup>
-      <SidebarGroupLabel className="group-data-[collapsible=icon]:hidden">
-        {label}
-      </SidebarGroupLabel>
-      <SidebarGroupContent>
-        <SidebarMenu>
-          {items.map((item) => (
-            <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton
-                asChild={!item.isComingSoon}
-                isActive={isActive(item.href)}
-                tooltip={item.title}
-                disabled={item.isComingSoon}
-                className={
-                  item.isComingSoon ? "opacity-50 cursor-not-allowed" : ""
-                }
-              >
-                {item.isComingSoon ? (
-                  <div className="flex items-center gap-2 w-full">
-                    <item.icon className="size-4 shrink-0" />
-                    <span className="group-data-[collapsible=icon]:hidden">
-                      {item.title}
-                    </span>
-                    <Badge
-                      variant="outline"
-                      className="ml-auto text-[10px] h-4 px-1 py-0 border-zinc-800 text-zinc-500 group-data-[collapsible=icon]:hidden"
-                    >
-                      Soon
-                    </Badge>
-                  </div>
-                ) : (
-                  <Link href={item.href} className="flex items-center gap-2">
-                    <item.icon className="shrink-0" />
-                    <span className="group-data-[collapsible=icon]:hidden">
-                      {item.title}
-                    </span>
-                    {item.badge && (
-                      <Badge className="ml-auto text-[10px] h-4 px-1 py-0 bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 border-none group-data-[collapsible=icon]:hidden">
-                        {item.badge}
+  const NavGroup = ({
+    label,
+    items,
+  }: {
+    label: string;
+    items: {
+      title: string;
+      href: string;
+      icon: React.ElementType;
+      isComingSoon?: boolean;
+      badge?: string;
+    }[];
+  }) => {
+    if (items.length === 0) return null;
+    return (
+      <SidebarGroup>
+        <SidebarGroupLabel className="group-data-[collapsible=icon]:hidden">
+          {label}
+        </SidebarGroupLabel>
+        <SidebarGroupContent>
+          <SidebarMenu>
+            {items.map((item) => (
+              <SidebarMenuItem key={item.title}>
+                <SidebarMenuButton
+                  asChild={!item.isComingSoon}
+                  isActive={isActive(item.href)}
+                  tooltip={item.title}
+                  disabled={item.isComingSoon}
+                  className={
+                    item.isComingSoon ? "opacity-50 cursor-not-allowed" : ""
+                  }
+                >
+                  {item.isComingSoon ? (
+                    <div className="flex items-center gap-2 w-full">
+                      <item.icon className="size-4 shrink-0" />
+                      <span className="group-data-[collapsible=icon]:hidden">
+                        {item.title}
+                      </span>
+                      <Badge
+                        variant="outline"
+                        className="ml-auto text-[10px] h-4 px-1 py-0 border-zinc-800 text-zinc-500 group-data-[collapsible=icon]:hidden"
+                      >
+                        Soon
                       </Badge>
-                    )}
-                  </Link>
-                )}
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
-        </SidebarMenu>
-      </SidebarGroupContent>
-    </SidebarGroup>
-  );
+                    </div>
+                  ) : (
+                    <Link href={item.href} className="flex items-center gap-2">
+                      <item.icon className="shrink-0" />
+                      <span className="group-data-[collapsible=icon]:hidden">
+                        {item.title}
+                      </span>
+                      {item.badge && (
+                        <Badge className="ml-auto text-[10px] h-4 px-1 py-0 bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 border-none group-data-[collapsible=icon]:hidden">
+                          {item.badge}
+                        </Badge>
+                      )}
+                    </Link>
+                  )}
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            ))}
+          </SidebarMenu>
+        </SidebarGroupContent>
+      </SidebarGroup>
+    );
+  };
 
   // Custom trigger following shadcn sidebar pattern
   const sidebarUserTrigger =
@@ -236,25 +282,20 @@ export function DashboardSidebar() {
       className="border-r border-sidebar-border"
       variant="inset"
     >
-      {/* Header with Server Switcher */}
       <SidebarHeader>
         <Suspense fallback={<Skeleton className="h-12 w-full rounded-md" />}>
           <ServerSwitcher />
         </Suspense>
       </SidebarHeader>
 
-      {/* Navigation Groups */}
       <SidebarContent>
         <NavGroup label="Main" items={getCoreItems()} />
-        <NavGroup label="AI Tools" items={aiNavItems} />
         <NavGroup label="Engagement" items={getEngagementItems()} />
         <NavGroup label="System" items={getSystemItems()} />
       </SidebarContent>
 
-      {/* Footer with User Menu */}
       <SidebarFooter>
         <SidebarMenu>
-          {/* User Account - Using Shared UserMenu */}
           {status !== "unauthenticated" && (
             <SidebarMenuItem>
               <UserMenu
@@ -277,8 +318,6 @@ export function DashboardSidebar() {
           )}
         </SidebarMenu>
       </SidebarFooter>
-
-      {/* Rail for hover-to-expand */}
       <SidebarRail />
     </Sidebar>
   );

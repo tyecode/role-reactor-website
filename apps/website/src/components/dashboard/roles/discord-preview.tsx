@@ -1,8 +1,5 @@
 "use client";
 
-import { useSession } from "next-auth/react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { cn } from "@/lib/utils";
 import { ShieldCheck } from "lucide-react";
 
 interface DiscordPreviewProps {
@@ -18,8 +15,6 @@ export function DiscordPreview({
   color = "#3b82f6",
   reactions,
 }: DiscordPreviewProps) {
-  const { data: session } = useSession();
-
   return (
     <div className="bg-[#313338] text-[#dbdee1] p-4 rounded-xl font-sans text-[15px] select-none shadow-2xl border border-white/5">
       <div className="flex gap-4">

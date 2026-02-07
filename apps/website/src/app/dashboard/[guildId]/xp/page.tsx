@@ -12,12 +12,15 @@ import {
   TrendingUp,
   Medal,
   Users,
+  Settings,
 } from "lucide-react";
 import { useServerStore } from "@/store/use-server-store";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { BotInviteCard } from "@/components/dashboard/bot-invite-card";
 import { XPSettingsTab } from "./settings-tab";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 interface LeaderboardEntry {
   userId: string;
@@ -36,9 +39,12 @@ function XPPageContent() {
   const guildId = params.guildId as string;
   const { isLoading: isStoreLoading } = useServerStore();
 
+  const [activeTab, setActiveTab] = useState("leaderboard");
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [needsInvite, setNeedsInvite] = useState(false);
+  const [isXpDisabled, setIsXpDisabled] = useState(false);
 
   useEffect(() => {
     if (!guildId) return;
@@ -46,6 +52,8 @@ function XPPageContent() {
     const fetchLeaderboard = async () => {
       setLoading(true);
       setError(null);
+      setNeedsInvite(false);
+      setIsXpDisabled(false);
 
       try {
         const response = await fetch(
@@ -53,12 +61,22 @@ function XPPageContent() {
         );
 
         if (!response.ok) {
-          throw new Error("Failed to fetch leaderboard");
+          const errorData = await response.json().catch(() => ({}));
+
+          if (response.status === 404) {
+            setNeedsInvite(true);
+            return;
+          }
+
+          if (errorData.hint === "XP_DISABLED") {
+            setIsXpDisabled(true);
+            return;
+          }
+
+          throw new Error(errorData.error || "Failed to fetch leaderboard");
         }
 
         const data = await response.json();
-        // The bot API response is wrapped in { status: "success", data: { leaderboard: [...] } }
-        // or directly { status: "success", leaderboard: [...] }
         const leaderboardData = data.data?.leaderboard || data.leaderboard;
 
         if (data.status === "success" && Array.isArray(leaderboardData)) {
@@ -84,6 +102,10 @@ function XPPageContent() {
     return <XPPageSkeleton />;
   }
 
+  if (needsInvite) {
+    return <BotInviteCard guildId={guildId} />;
+  }
+
   if (!guildId) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center space-y-6 animate-in fade-in zoom-in-95 duration-500">
@@ -105,7 +127,6 @@ function XPPageContent() {
   }
 
   const topThree = leaderboard.slice(0, 3);
-  const remaining = leaderboard.slice(3);
 
   return (
     <div className="space-y-8 animate-in fade-in duration-700">
@@ -139,7 +160,7 @@ function XPPageContent() {
         )}
       </div>
 
-      <Tabs defaultValue="leaderboard" className="w-full">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="inline-flex h-12 items-center justify-center rounded-lg bg-zinc-900/80 p-1 text-muted-foreground border border-white/5 backdrop-blur-xl mb-8">
           <TabsTrigger
             value="leaderboard"
@@ -170,6 +191,32 @@ function XPPageContent() {
                 ))}
               </div>
               <Skeleton className="h-[400px] rounded-xl bg-zinc-900/50" />
+            </div>
+          ) : isXpDisabled ? (
+            <div className="flex flex-col items-center justify-center py-20 bg-zinc-900/30 rounded-2xl border border-dashed border-white/10 text-center space-y-6">
+              <div className="relative">
+                <div className="absolute inset-0 bg-yellow-500/10 blur-3xl rounded-full" />
+                <div className="relative p-6 bg-zinc-900 border border-white/5 rounded-2xl shadow-2xl">
+                  <TrendingUp className="w-12 h-12 text-yellow-500/50" />
+                </div>
+              </div>
+              <div className="space-y-2 max-w-sm">
+                <h3 className="text-2xl font-bold text-white">
+                  XP System Disabled
+                </h3>
+                <p className="text-muted-foreground">
+                  The leveling system is currently turned off for this server.
+                  Enable it in the settings tab to start tracking member
+                  engagement.
+                </p>
+              </div>
+              <Button
+                onClick={() => setActiveTab("settings")}
+                className="bg-zinc-800 hover:bg-zinc-700 text-white gap-2"
+              >
+                <Settings className="w-4 h-4" />
+                Configure XP Settings
+              </Button>
             </div>
           ) : error ? (
             <Alert
