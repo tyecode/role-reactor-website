@@ -1,10 +1,14 @@
+"use client";
+
 import Image from "next/image";
 import { Loader2 } from "lucide-react";
-import { useSession, signIn } from "next-auth/react";
-import { cn } from "@/lib/utils";
-import type { CorePackage, PricingData } from "@/types/pricing";
+import { cn } from "../lib/utils";
+import type {
+  CorePackage,
+  PricingData,
+} from "@role-reactor/core/types/pricing";
 
-interface PricingCardsProps {
+export interface PricingCardsProps {
   packages: CorePackage[];
   pricingData?: PricingData | null;
   onPayment: (packageId: string, amount: number) => void;
@@ -18,8 +22,6 @@ export function PricingCards({
   loadingPackageId,
   isLoading = false,
 }: PricingCardsProps) {
-  const { data: session } = useSession();
-
   if (isLoading) {
     return (
       <div className="space-y-3">
@@ -45,13 +47,7 @@ export function PricingCards({
         return (
           <button
             key={pkg.id}
-            onClick={() => {
-              if (!session?.user?.id) {
-                signIn("discord", { callbackUrl: window.location.href });
-              } else {
-                onPayment(pkg.id, pkg.price);
-              }
-            }}
+            onClick={() => onPayment(pkg.id, pkg.price)}
             disabled={
               isProcessing || (loadingPackageId !== null && !isProcessing)
             }
@@ -64,7 +60,7 @@ export function PricingCards({
             )}
           >
             {/* Background Light Effect */}
-            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
             {/* Left Side: Price & Badge */}
             <div className="flex flex-col items-start gap-1 z-10">
@@ -94,7 +90,7 @@ export function PricingCards({
                   <Loader2 className="w-4 h-4 text-blue-500 animate-spin" />
                 ) : (
                   <>
-                    <span className="text-xl font-black bg-linear-to-b from-white to-zinc-400 bg-clip-text text-transparent filter drop-shadow-[0_0_10px_rgba(255,255,255,0.1)]">
+                    <span className="text-xl font-black bg-gradient-to-b from-white to-zinc-400 bg-clip-text text-transparent filter drop-shadow-[0_0_10px_rgba(255,255,255,0.1)]">
                       {pkg.totalCores}
                     </span>
                     <div className="relative">

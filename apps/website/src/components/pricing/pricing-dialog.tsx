@@ -11,8 +11,14 @@ import {
   DialogDescription,
 } from "@role-reactor/ui/components/dialog";
 import { Button } from "@role-reactor/ui/components/button";
-import { PricingCards } from "@/components/pricing/pricing-cards";
-import type { CorePackage, PricingData } from "@/types/pricing";
+import { PricingCards } from "@role-reactor/ui/components/pricing-cards";
+import { PricingBenefits } from "@role-reactor/ui/components/pricing-benefits";
+import { usePricingStore } from "@role-reactor/core/store/use-pricing-store";
+import { useUserStore } from "@/store/use-user-store";
+import type {
+  CorePackage,
+  PricingData,
+} from "@role-reactor/core/types/pricing";
 import Image from "next/image";
 import {
   Zap,
@@ -59,9 +65,24 @@ export function PricingDialog({
   const isOpen = controlledOpen ?? internalOpen;
   const setOpen = setControlledOpen ?? setInternalOpen;
 
-  const [packages, setPackages] = useState<CorePackage[]>([]);
-  const [pricingData, setPricingData] = useState<PricingData | null>(null);
-  const [loading, setLoading] = useState(true);
+  const {
+    data: pricingData,
+    isLoading: isStoreLoading,
+    fetchPricing,
+  } = usePricingStore();
+
+  const { user: userData, updateBalance, fetchUser } = useUserStore();
+
+  const packages = pricingData?.packages || [];
+  const loading = isStoreLoading;
+
+  // Sync pricing store user data with user store if pricing fetch returns user data
+  useEffect(() => {
+    if (pricingData?.user?.currentCredits) {
+      updateBalance(pricingData.user.currentCredits);
+    }
+  }, [pricingData?.user, updateBalance]);
+
   const [selectedPackage, setSelectedPackage] = useState<CorePackage | null>(
     null
   );
@@ -69,35 +90,13 @@ export function PricingDialog({
   const [loadingCryptoId, setLoadingCryptoId] = useState<string | null>(null);
   const [loadingStripe, setLoadingStripe] = useState(false);
 
-  const fetchPricing = useCallback(async () => {
-    try {
-      setLoading(true);
-      const url = session?.user?.id
-        ? `/api/pricing?user_id=${session.user.id}`
-        : "/api/pricing";
-
-      const response = await fetch(url);
-      const data = await response.json();
-
-      if (data.success && data.data) {
-        setPricingData(data.data);
-        if (data.data.packages && data.data.packages.length > 0) {
-          setPackages(data.data.packages);
-        }
-      }
-    } catch (error) {
-      console.error("Error fetching pricing:", error);
-    } finally {
-      setLoading(false);
-    }
-  }, [session?.user?.id]);
-
   useEffect(() => {
     if (isOpen) {
-      fetchPricing();
+      // Using store to fetch (handles caching internally)
+      fetchPricing(session?.user?.id);
       setView("packages");
     }
-  }, [isOpen, fetchPricing]);
+  }, [isOpen, fetchPricing, session?.user?.id]);
 
   const handlePaymentInitiation = (packageId: string, amount?: number) => {
     if (!session?.user?.id) {
@@ -224,47 +223,7 @@ export function PricingDialog({
               </DialogHeader>
 
               {/* Benefits Section */}
-              <div className="relative mx-6 mb-4 p-4 rounded-[24px] border border-zinc-800/50 bg-zinc-900/50 overflow-hidden group">
-                {/* Subtle Gradient Glow matching home page */}
-                <div className="absolute -top-24 -right-24 w-48 h-48 bg-blue-500/10 blur-[80px] rounded-full pointer-events-none group-hover:bg-blue-500/15 transition-colors duration-500" />
-                <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-purple-500/10 blur-[80px] rounded-full pointer-events-none group-hover:bg-purple-500/15 transition-colors duration-500" />
-
-                <div className="relative z-10">
-                  <ul className="space-y-3">
-                    <li className="flex items-center gap-3 text-white group/item">
-                      <div className="text-zinc-500 group-hover/item:text-blue-400 transition-colors">
-                        <ScanFace className="w-5 h-5" />
-                      </div>
-                      <span className="text-sm font-bold tracking-tight">
-                        Full AI Feature Access
-                      </span>
-                    </li>
-                    <li className="flex items-center gap-3 text-white group/item">
-                      <div className="text-zinc-500 group-hover/item:text-yellow-500 transition-colors">
-                        <Zap className="w-5 h-5" />
-                      </div>
-                      <span className="text-sm font-bold tracking-tight">
-                        NSFW Generation Unlocked
-                      </span>
-                    </li>
-                    <li className="flex items-center gap-3 text-white group/item">
-                      <div className="text-zinc-500 group-hover/item:text-purple-400 transition-colors">
-                        <Library className="w-5 h-5" />
-                      </div>
-                      <span className="text-sm font-bold tracking-tight">
-                        Priority Processing Speed
-                      </span>
-                    </li>
-                  </ul>
-                </div>
-
-                {/* Fake Pagination Dots */}
-                <div className="flex justify-center gap-1.5 mt-4">
-                  <span className="w-1 h-1 rounded-full bg-zinc-700" />
-                  <span className="w-3 h-1 rounded-full bg-blue-500 transition-all duration-300" />
-                  <span className="w-1 h-1 rounded-full bg-zinc-700" />
-                </div>
-              </div>
+              <PricingBenefits />
 
               <div className="px-4 pb-6 pt-2 max-h-[60vh] overflow-y-auto custom-scrollbar">
                 <PricingCards
@@ -295,7 +254,13 @@ export function PricingDialog({
               </p>
               <Button
                 className="w-full max-w-[200px] mt-4 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl"
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  // Force refresh user data when closing after payment
+                  if (session?.user?.id) {
+                    fetchUser(session.user.id, true);
+                  }
+                  setOpen(false);
+                }}
               >
                 Close
               </Button>

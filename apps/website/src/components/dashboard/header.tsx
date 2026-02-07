@@ -2,6 +2,7 @@
 
 import { UserMenu } from "@/components/auth/user-menu";
 import { SidebarTrigger } from "@role-reactor/ui/components/sidebar";
+import { CoreBalance } from "./core-balance";
 
 export function DashboardHeader() {
   return (
@@ -11,7 +12,7 @@ export function DashboardHeader() {
       </div>
 
       <div className="flex items-center gap-3">
-        <UserMenu />
+        <CoreBalance />
       </div>
     </header>
   );

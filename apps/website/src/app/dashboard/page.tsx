@@ -5,16 +5,42 @@ import {
   CardTitle,
 } from "@role-reactor/ui/components/card";
 import { Button } from "@role-reactor/ui/components/button";
-import { ArrowRight, ImageIcon, Zap, Clock } from "lucide-react";
+import { ArrowRight, ImageIcon, Zap, Clock, TrendingUp } from "lucide-react";
 import Link from "next/link";
+import { auth } from "@/auth";
 
-export default function DashboardPage() {
+async function getUserBalance(userId: string): Promise<number | null> {
+  try {
+    const botApiUrl = process.env.BOT_API_URL;
+    if (!botApiUrl) return null;
+
+    const res = await fetch(`${botApiUrl}/api/pricing?user_id=${userId}`, {
+      next: { revalidate: 60 }, // Cache for 60s
+    });
+
+    if (!res.ok) return null;
+
+    const data = await res.json();
+    return data.data?.user?.currentCredits ?? 0;
+  } catch (error) {
+    console.error("Failed to fetch balance:", error);
+    return null;
+  }
+}
+
+export default async function DashboardPage() {
+  const session = await auth();
+  const userId = session?.user?.id;
+
+  // Parallel fetch if we add more stats later
+  const balance = userId ? await getUserBalance(userId) : null;
+
   return (
     <div className="space-y-8">
       {/* Welcome Section */}
-      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-900/50 via-purple-900/40 to-black border border-indigo-500/20 p-8 md:p-12">
+      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-900/20 via-purple-900/20 to-zinc-950 border border-border/50 p-8 md:p-12">
         <div className="absolute top-0 right-0 p-12 opacity-10 pointer-events-none">
-          <Zap className="w-64 h-64 text-indigo-500" />
+          <Zap className="w-64 h-64 text-blue-500" />
         </div>
 
         <div className="relative z-10 max-w-2xl space-y-4">
@@ -32,7 +58,7 @@ export default function DashboardPage() {
             <Link href="/dashboard/generate">
               <Button
                 size="lg"
-                className="bg-white text-black hover:bg-gray-200 font-bold rounded-xl h-12 px-8"
+                className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold rounded-xl h-12 px-8"
               >
                 Start Generating
                 <ArrowRight className="w-4 h-4 ml-2" />
@@ -42,7 +68,7 @@ export default function DashboardPage() {
               <Button
                 size="lg"
                 variant="outline"
-                className="border-gray-700 bg-gray-900/50 text-white hover:bg-gray-800 rounded-xl h-12 px-8"
+                className="rounded-xl h-12 px-8"
               >
                 View History
               </Button>
@@ -53,18 +79,37 @@ export default function DashboardPage() {
 
       {/* Quick Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="bg-card/40 border-border/50 backdrop-blur-sm">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
+        <Card className="bg-card/40 border-border/50 backdrop-blur-sm relative group overflow-hidden">
+          <div className="absolute inset-0 bg-yellow-500/5 group-hover:bg-yellow-500/10 transition-colors duration-500" />
+          <CardHeader className="flex flex-row items-center justify-between pb-2 relative z-10">
             <CardTitle className="text-md font-medium text-muted-foreground">
               Core Balance
             </CardTitle>
-            <Zap className="w-5 h-5 text-yellow-500" />
+            <div className="p-2 bg-yellow-500/10 rounded-full">
+              <Zap className="w-5 h-5 text-yellow-500 fill-yellow-500" />
+            </div>
           </CardHeader>
-          <CardContent>
-            <div className="text-4xl font-black">---</div>
-            <p className="text-xs text-muted-foreground mt-1">
-              Available for generation
-            </p>
+          <CardContent className="relative z-10">
+            <div className="flex items-baseline gap-2">
+              <div className="text-4xl font-black tabular-nums tracking-tight">
+                {balance !== null ? balance.toLocaleString() : "---"}
+              </div>
+              <span className="text-sm font-medium text-yellow-500">Cores</span>
+            </div>
+            <div className="flex items-center justify-between mt-1">
+              <p className="text-xs text-muted-foreground">
+                Available for generation
+              </p>
+              <Link href="/pricing">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-6 gap-1 text-xs text-yellow-500 hover:text-yellow-400 hover:bg-yellow-500/10 p-2"
+                >
+                  Top up <TrendingUp className="w-3 h-3" />
+                </Button>
+              </Link>
+            </div>
           </CardContent>
         </Card>
 
@@ -115,9 +160,11 @@ export default function DashboardPage() {
           {[1, 2, 3, 4, 5].map((i) => (
             <div
               key={i}
-              className="aspect-square rounded-xl bg-muted/30 border border-border/50 flex items-center justify-center group cursor-pointer hover:bg-muted/50 transition-colors"
+              className="aspect-square rounded-xl bg-muted/30 border border-border/50 flex items-center justify-center group cursor-pointer hover:bg-muted/50 transition-colors relative overflow-hidden"
             >
-              <ImageIcon className="w-8 h-8 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors" />
+              {/* Decorative placeholder pattern */}
+              <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#ffffff20_1px,transparent_1px)] [background-size:16px_16px]"></div>
+              <ImageIcon className="w-8 h-8 text-muted-foreground/50 group-hover:text-muted-foreground transition-colors relative z-10" />
             </div>
           ))}
         </div>

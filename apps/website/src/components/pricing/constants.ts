@@ -1,4 +1,7 @@
-import type { CorePackage, PricingData } from "@/types/pricing";
+import type {
+  CorePackage,
+  PricingData,
+} from "@role-reactor/core/types/pricing";
 
 export type { CorePackage, PricingData };
 
