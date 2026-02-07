@@ -33,7 +33,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ServerSwitcher } from "./server-switcher";
 import { useServerStore } from "@/store/use-server-store";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect } from "react";
 
 // Helper to get avatar URL
 function getAvatarUrl(user: { id?: string; image?: string | null }): string {
@@ -49,14 +49,9 @@ export function DashboardSidebar() {
   const params = useParams();
   const searchParams = useSearchParams();
   const { data: session, status } = useSession(); // Reverted to original as the provided snippet was syntactically incorrect and would break functionality
-  const { lastActiveGuildId, setLastActiveGuildId, installedGuildIds } =
-    useServerStore();
+  const { lastActiveGuildId, setLastActiveGuildId } = useServerStore();
 
   // Fix hydration mismatch: use a state for mounted to avoid using localStorage-based store values on server
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // The "Truth" of what server is currently being viewed (URL source)
   const activeGuildId = (params.guildId as string) || searchParams.get("guild");

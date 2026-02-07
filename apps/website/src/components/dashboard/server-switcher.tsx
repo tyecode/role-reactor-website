@@ -5,8 +5,8 @@ import {
   ChevronsUpDown,
   Plus,
   ShieldCheck,
-  Server,
   Loader2,
+  Server,
 } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import {
@@ -45,19 +45,8 @@ export function ServerSwitcher() {
   const router = useRouter();
   const pathname = usePathname();
 
-  const {
-    guilds,
-    installedGuildIds,
-    isLoading,
-    error,
-    fetchServers,
-    lastActiveGuildId,
-  } = useServerStore();
-
-  const [mounted, setMounted] = React.useState(false);
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
+  const { guilds, installedGuildIds, isLoading, error, fetchServers } =
+    useServerStore();
 
   // Priority: Path param -> Search param (No historical fallback on global route)
   const activeGuildId = (params.guildId as string) || searchParams.get("guild");
