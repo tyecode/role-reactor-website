@@ -34,7 +34,7 @@ type Props = Omit<
 
 export function UserMenu(props: Partial<Props>) {
   const { data: session, status } = useSession();
-  const { user: userData, fetchUser, clearUser } = useUserStore();
+  const { fetchUser, clearUser } = useUserStore();
   const [hasCookie, setHasCookie] = useState(() => hasSessionCookie());
   const [isPricingOpen, setIsPricingOpen] = useState(false);
 
@@ -52,8 +52,6 @@ export function UserMenu(props: Partial<Props>) {
     }
   }, [session, status, fetchUser, clearUser]);
 
-  const coreBalance = userData?.currentCredits ?? null;
-
   // Determine the actual status - if loading with no cookie, show unauthenticated
   const effectiveStatus =
     status === "loading" && !hasCookie && !session ? "unauthenticated" : status;
@@ -67,7 +65,6 @@ export function UserMenu(props: Partial<Props>) {
       <SharedUserMenu
         user={session?.user}
         status={effectiveStatus}
-        coreBalance={coreBalance}
         coreImageUrl="/images/cores/core_energy.png"
         onLogin={() => {
           const currentPath =

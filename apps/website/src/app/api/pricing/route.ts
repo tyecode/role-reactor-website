@@ -62,7 +62,8 @@ export async function GET(request: NextRequest) {
 
     if (data.status === "success") {
       // The bot spreads data into the root object, so we extract the useful bits
-      const { status: _, timestamp: __, ...pricingInfo } = data;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { status, timestamp, ...pricingInfo } = data;
       return NextResponse.json({
         success: true,
         data: pricingInfo,

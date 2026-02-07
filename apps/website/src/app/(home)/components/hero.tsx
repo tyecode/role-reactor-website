@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import { Audiowide } from "next/font/google";
 import { FaDiscord, FaRocket } from "react-icons/fa";
 import { ArrowRight, ShieldCheck, Zap as ZapIcon } from "lucide-react";
@@ -10,7 +11,15 @@ import { cn } from "fumadocs-ui/utils/cn";
 
 import { Button } from "@/components/ui/button";
 import { links } from "@/constants/links";
-import { BubbleBackground } from "@/components/ui/bubble-background";
+
+// Lazy load BubbleBackground for better initial page load performance
+const BubbleBackground = dynamic(
+  () =>
+    import("@/components/ui/bubble-background").then(
+      (mod) => mod.BubbleBackground
+    ),
+  { ssr: false }
+);
 
 const audiowide = Audiowide({
   subsets: ["latin"],

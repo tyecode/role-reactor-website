@@ -14,7 +14,6 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
 
 import {
   Sidebar,
@@ -70,15 +69,6 @@ function getAvatarUrl(user: { id?: string; image?: string | null }): string {
 export function DashboardSidebar() {
   const pathname = usePathname();
   const { data: session, status } = useSession();
-  const [coreBalance, setCoreBalance] = useState<number | null>(null);
-
-  // TODO: Fetch user data including core balance from API
-  useEffect(() => {
-    if (session?.user?.id) {
-      // Placeholder: In production, fetch from user store or API
-      setCoreBalance(null);
-    }
-  }, [session]);
 
   const isActive = (href: string) => {
     if (href === "/dashboard") return pathname === "/dashboard";
@@ -243,7 +233,6 @@ export function DashboardSidebar() {
               <UserMenu
                 user={session.user}
                 status={status}
-                coreBalance={coreBalance}
                 coreImageUrl="/images/cores/core_energy.png"
                 dashboardUrl="/dashboard"
                 settingsUrl="/dashboard/settings"

@@ -1,13 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  LogOut,
-  Plus,
-  LayoutDashboard,
-  Settings,
-  ChevronUp,
-} from "lucide-react";
+import { LogOut, LayoutDashboard, Settings, ChevronUp } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,7 +14,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "./avatar";
 import { Button } from "./button";
 import { Skeleton } from "./skeleton";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
+import { CoreBalance } from "@/components/dashboard/core-balance";
 
 export interface UserMenuUser {
   id?: string;
@@ -34,8 +28,6 @@ export interface UserMenuProps {
   user: UserMenuUser | null | undefined;
   /** Authentication status */
   status: "loading" | "authenticated" | "unauthenticated";
-  /** User's core/credit balance */
-  coreBalance?: number | null;
   /** Core balance image URL */
   coreImageUrl?: string;
   /** Called when user clicks login */
@@ -88,7 +80,6 @@ function getAvatarUrl(user: UserMenuUser): string {
 export function UserMenu({
   user,
   status,
-  coreBalance,
   coreImageUrl = "/images/cores/core_energy.png",
   onLogin,
   onLogout,
@@ -175,32 +166,13 @@ export function UserMenu({
       onPointerDown={(e) => e.stopPropagation()}
     >
       {/* Core Balance Display (header variant only) */}
-      {!isSidebar &&
-        showCoreBalance &&
-        coreBalance !== null &&
-        coreBalance !== undefined && (
-          <Button
-            variant="ghost"
-            size="sm"
-            className="flex items-center gap-1.5 text-muted-foreground hover:text-yellow-400 px-2"
-            onClick={onAddCredits}
-          >
-            {coreImageUrl && (
-              <Image
-                src={coreImageUrl}
-                width={18}
-                height={18}
-                alt="Cores"
-                draggable={false}
-                className="select-none"
-              />
-            )}
-            <span className="font-semibold text-foreground">{coreBalance}</span>
-            <div className="bg-primary/20 rounded-full p-0.5 ml-1">
-              <Plus className="w-3 h-3 text-primary" />
-            </div>
-          </Button>
-        )}
+      {!isSidebar && showCoreBalance && (
+        <CoreBalance
+          variant="full"
+          coreImageUrl={coreImageUrl}
+          onClick={onAddCredits}
+        />
+      )}
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -243,42 +215,11 @@ export function UserMenu({
 
             {/* Cores Section */}
             {showCoreBalance && (
-              <div className="mt-2 p-3 bg-linear-to-br from-zinc-900 to-black rounded-lg border border-border/40 flex items-center justify-between shadow-inner">
-                <div className="flex items-center gap-3">
-                  <div className="p-1 bg-yellow-500/10 rounded-full border border-yellow-500/20">
-                    {coreImageUrl && (
-                      <Image
-                        src={coreImageUrl}
-                        width={32}
-                        height={32}
-                        alt="Cores"
-                        draggable={false}
-                        className="select-none"
-                      />
-                    )}
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
-                      Your Cores
-                    </span>
-                    <span className="text-base font-bold leading-tight font-mono text-foreground">
-                      {coreBalance ?? 0}
-                    </span>
-                  </div>
-                </div>
-                <Button
-                  size="sm"
-                  variant="secondary"
-                  className="h-7 w-7 p-0 bg-zinc-800 hover:bg-zinc-700 text-zinc-100 border border-white/5 rounded-lg shrink-0"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    onAddCredits?.();
-                  }}
-                  title="Add Cores"
-                >
-                  <Plus className="w-3.5 h-3.5" />
-                </Button>
-              </div>
+              <CoreBalance
+                variant="dropdown"
+                coreImageUrl={coreImageUrl}
+                onClick={onAddCredits}
+              />
             )}
           </DropdownMenuLabel>
 
