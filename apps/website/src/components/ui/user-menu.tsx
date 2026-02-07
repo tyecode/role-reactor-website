@@ -97,9 +97,44 @@ export function UserMenu({
 }: UserMenuProps) {
   // Loading state
   if (status === "loading") {
+    // Prefer custom trigger if provided
+    if (customTrigger) {
+      return (
+        <div className={cn("relative flex items-center gap-2", className)}>
+          {customTrigger}
+        </div>
+      );
+    }
+
+    // Fallback loading states based on variant
+    if (variant === "sidebar") {
+      return (
+        <div className={cn("w-full px-2 py-2", className)}>
+          <div className="flex items-center gap-3">
+            <Skeleton className="h-8 w-8 rounded-lg shrink-0" />
+            <div className="flex flex-col gap-1.5 flex-1 min-w-0">
+              <Skeleton className="h-4 w-24" />
+              <Skeleton className="h-3 w-32" />
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // Default header variant
     return (
-      <div className={cn("relative flex items-center", className)}>
-        <Skeleton className="h-8 w-8 rounded-full" />
+      <div className={cn("relative flex items-center gap-2", className)}>
+        {showCoreBalance && (
+          <CoreBalance variant="full" coreImageUrl={coreImageUrl} />
+        )}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8 rounded-md cursor-not-allowed opacity-50"
+          disabled
+        >
+          <div className="h-8 w-8 rounded-full bg-zinc-800/50 animate-pulse" />
+        </Button>
       </div>
     );
   }

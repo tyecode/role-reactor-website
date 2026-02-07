@@ -52,9 +52,9 @@ export function UserMenu(props: Partial<Props>) {
     }
   }, [session, status, fetchUser, clearUser]);
 
-  // Determine the actual status - if loading with no cookie, show unauthenticated
-  const effectiveStatus =
-    status === "loading" && !hasCookie && !session ? "unauthenticated" : status;
+  // Determine the actual status
+  // We want to show loading state if it's loading, even if the cookie check is unsure
+  const effectiveStatus = status;
 
   return (
     <>

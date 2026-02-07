@@ -28,10 +28,42 @@ export function CoreBalance({
   onClick,
   showPlusButton = true,
 }: CoreBalanceProps) {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const { balance, isLoading } = useCoreBalance();
 
-  if (!session?.user) return null;
+  if (status === "unauthenticated") return null;
+
+  // Loading state skeleton
+  if (status === "loading" || isLoading) {
+    if (variant === "compact") {
+      return (
+        <div
+          className={cn(
+            "h-5 w-12 bg-zinc-800/10 animate-pulse rounded-full",
+            className
+          )}
+        />
+      );
+    }
+    if (variant === "dropdown") {
+      return (
+        <div
+          className={cn(
+            "mt-2 h-[58px] w-full bg-zinc-900/50 animate-pulse rounded-lg border border-border/40",
+            className
+          )}
+        />
+      );
+    }
+    return (
+      <div
+        className={cn(
+          "h-8 w-24 bg-black/40 border border-white/5 animate-pulse rounded-full backdrop-blur-md ml-3",
+          className
+        )}
+      />
+    );
+  }
 
   // Dropdown variant (for user menu dropdown)
   if (variant === "dropdown") {
@@ -114,18 +146,23 @@ export function CoreBalance({
         >
           {isLoading ? "..." : balance}
         </span>
-        {showPlusButton && (
-          <PricingModal
-            trigger={
-              <div
-                className="bg-primary/20 rounded-full p-0.5 ml-1 cursor-pointer hover:bg-primary/30 transition-colors"
-                onClick={onClick}
-              >
-                <Plus className="w-3 h-3 text-primary" />
-              </div>
-            }
-          />
-        )}
+        {showPlusButton &&
+          (onClick ? (
+            <div
+              className="bg-primary/20 rounded-full p-0.5 ml-1 cursor-pointer hover:bg-primary/30 transition-colors"
+              onClick={onClick}
+            >
+              <Plus className="w-3 h-3 text-primary" />
+            </div>
+          ) : (
+            <PricingModal
+              trigger={
+                <div className="bg-primary/20 rounded-full p-0.5 ml-1 cursor-pointer hover:bg-primary/30 transition-colors">
+                  <Plus className="w-3 h-3 text-primary" />
+                </div>
+              }
+            />
+          ))}
       </div>
     );
   }
@@ -134,7 +171,7 @@ export function CoreBalance({
   return (
     <div
       className={cn(
-        "flex items-center bg-black/40 border border-white/5 rounded-full px-1.5 py-1 gap-2.5 backdrop-blur-md",
+        "flex items-center bg-black/40 border border-white/5 rounded-full px-1.5 py-1 gap-2.5 backdrop-blur-md ml-3",
         className
       )}
     >
@@ -159,18 +196,23 @@ export function CoreBalance({
       </span>
 
       {/* Plus Button with Modal */}
-      {showPlusButton && (
-        <PricingModal
-          trigger={
-            <div
-              className="w-6.5 h-6.5 flex items-center justify-center rounded-full bg-zinc-800 hover:bg-zinc-700 text-white transition-colors border border-white/10 cursor-pointer"
-              onClick={onClick}
-            >
-              <Plus className="w-3.5 h-3.5" />
-            </div>
-          }
-        />
-      )}
+      {showPlusButton &&
+        (onClick ? (
+          <div
+            className="w-6.5 h-6.5 flex items-center justify-center rounded-full bg-zinc-800 hover:bg-zinc-700 text-white transition-colors border border-white/10 cursor-pointer"
+            onClick={onClick}
+          >
+            <Plus className="w-3.5 h-3.5" />
+          </div>
+        ) : (
+          <PricingModal
+            trigger={
+              <div className="w-6.5 h-6.5 flex items-center justify-center rounded-full bg-zinc-800 hover:bg-zinc-700 text-white transition-colors border border-white/10 cursor-pointer">
+                <Plus className="w-3.5 h-3.5" />
+              </div>
+            }
+          />
+        ))}
     </div>
   );
 }

@@ -30,6 +30,7 @@ import {
 } from "@/components/ui/sidebar";
 import { UserMenu } from "@/components/auth/user-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const mainNavItems = [
   {
@@ -76,30 +77,44 @@ export function DashboardSidebar() {
   };
 
   // Custom trigger following shadcn sidebar pattern
-  const sidebarUserTrigger = session?.user ? (
-    <SidebarMenuButton
-      size="lg"
-      className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-      tooltip={session.user.name || "Account"}
-    >
-      <Avatar className="h-8 w-8 rounded-lg shrink-0">
-        <AvatarImage
-          src={getAvatarUrl(session.user)}
-          alt={session.user.name || "User"}
-        />
-        <AvatarFallback className="rounded-lg bg-linear-to-br from-blue-500 to-purple-600 text-white text-xs">
-          {session.user.name?.charAt(0).toUpperCase() || "U"}
-        </AvatarFallback>
-      </Avatar>
-      <div className="grid flex-1 text-left text-sm leading-tight min-w-0 group-data-[collapsible=icon]:hidden">
-        <span className="truncate font-semibold">{session.user.name}</span>
-        <span className="truncate text-xs text-muted-foreground">
-          {session.user.email}
-        </span>
-      </div>
-      <ChevronUp className="ml-auto size-4 shrink-0 group-data-[collapsible=icon]:hidden" />
-    </SidebarMenuButton>
-  ) : null;
+  const sidebarUserTrigger =
+    status === "loading" ? (
+      <SidebarMenuButton
+        size="lg"
+        className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+        disabled
+      >
+        <Skeleton className="h-8 w-8 rounded-lg shrink-0" />
+        <div className="grid flex-1 text-left text-sm leading-tight min-w-0 group-data-[collapsible=icon]:hidden">
+          <Skeleton className="h-4 w-24 mb-1" />
+          <Skeleton className="h-3 w-32" />
+        </div>
+        <Skeleton className="ml-auto size-4 shrink-0 group-data-[collapsible=icon]:hidden rounded-md" />
+      </SidebarMenuButton>
+    ) : session?.user ? (
+      <SidebarMenuButton
+        size="lg"
+        className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+        tooltip={session.user.name || "Account"}
+      >
+        <Avatar className="h-8 w-8 rounded-lg shrink-0">
+          <AvatarImage
+            src={getAvatarUrl(session.user)}
+            alt={session.user.name || "User"}
+          />
+          <AvatarFallback className="rounded-lg bg-linear-to-br from-blue-500 to-purple-600 text-white text-xs">
+            {session.user.name?.charAt(0).toUpperCase() || "U"}
+          </AvatarFallback>
+        </Avatar>
+        <div className="grid flex-1 text-left text-sm leading-tight min-w-0 group-data-[collapsible=icon]:hidden">
+          <span className="truncate font-semibold">{session.user.name}</span>
+          <span className="truncate text-xs text-muted-foreground">
+            {session.user.email}
+          </span>
+        </div>
+        <ChevronUp className="ml-auto size-4 shrink-0 group-data-[collapsible=icon]:hidden" />
+      </SidebarMenuButton>
+    ) : null;
 
   return (
     <Sidebar
@@ -228,10 +243,10 @@ export function DashboardSidebar() {
           </SidebarMenuItem>
 
           {/* User Account - Using Shared UserMenu */}
-          {session?.user && (
+          {status !== "unauthenticated" && (
             <SidebarMenuItem>
               <UserMenu
-                user={session.user}
+                user={session?.user}
                 status={status}
                 coreImageUrl="/images/cores/core_energy.png"
                 dashboardUrl="/dashboard"

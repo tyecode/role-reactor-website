@@ -17,11 +17,11 @@ const fetcher = async (url: string) => {
  * Uses SWR for automatic caching, revalidation, and deduplication
  */
 export function useCoreBalance() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   const {
     data: balance,
-    isLoading,
+    isLoading: isSWRManagerLoading,
     error,
     mutate,
   } = useSWR(session?.user ? "/api/user/balance" : null, fetcher, {
@@ -30,6 +30,8 @@ export function useCoreBalance() {
     revalidateOnReconnect: true, // Refetch on reconnect
     dedupingInterval: 5000, // Dedupe requests within 5s
   });
+
+  const isLoading = status === "loading" || isSWRManagerLoading;
 
   return {
     balance: balance ?? 0,
