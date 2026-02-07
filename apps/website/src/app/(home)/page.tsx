@@ -3,20 +3,19 @@ import { Features } from "@/app/(home)/components/features";
 import { SocialProof } from "@/app/(home)/components/social-proof";
 import { FooterCTA } from "@/app/(home)/components/footer-cta";
 import { links } from "@/constants/links";
+import { API_PREFIX } from "@/lib/api-config";
+import { botFetch } from "@/lib/bot-fetch";
 
 export default async function HomePage() {
   // Fetch command usage stats from the bot API
   let totalExecutions = 0;
   try {
-    const botApiUrl = process.env.BOT_API_URL;
-    if (botApiUrl) {
-      const response = await fetch(`${botApiUrl}/api/commands/usage`, {
-        next: { revalidate: 3600 }, // Cache for 1 hour
-      });
-      if (response.ok) {
-        const data = await response.json();
-        totalExecutions = data.summary?.totalExecutions || 0;
-      }
+    const response = await botFetch(`${API_PREFIX}/commands/usage`, {
+      next: { revalidate: 3600 }, // Cache for 1 hour
+    });
+    if (response.ok) {
+      const data = await response.json();
+      totalExecutions = data.summary?.totalExecutions || 0;
     }
   } catch (error) {
     console.error("Failed to fetch command stats:", error);

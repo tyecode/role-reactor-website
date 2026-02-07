@@ -1,15 +1,23 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ImageIcon, Zap, Clock, TrendingUp } from "lucide-react";
+import {
+  ArrowRight,
+  ImageIcon,
+  Zap,
+  Clock,
+  TrendingUp,
+  Server,
+  Plus,
+} from "lucide-react";
 import Link from "next/link";
 import { auth } from "@/auth";
+import { API_PREFIX } from "@/lib/api-config";
+import { botFetch } from "@/lib/bot-fetch";
+import { DashboardLanding } from "@/components/dashboard/dashboard-landing";
 
 async function getUserBalance(userId: string): Promise<number | null> {
   try {
-    const botApiUrl = process.env.BOT_API_URL;
-    if (!botApiUrl) return null;
-
-    const res = await fetch(`${botApiUrl}/api/pricing?user_id=${userId}`, {
+    const res = await botFetch(`${API_PREFIX}/pricing?user_id=${userId}`, {
       next: { revalidate: 60 }, // Cache for 60s
     });
 
@@ -71,6 +79,8 @@ export default async function DashboardPage() {
           </div>
         </div>
       </section>
+
+      <DashboardLanding />
 
       {/* Quick Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

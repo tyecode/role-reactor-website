@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { API_PREFIX } from "@/lib/api-config";
+import { botFetch } from "@/lib/bot-fetch";
 
 /**
  * Get supporter leaderboard
@@ -6,30 +8,12 @@ import { NextResponse } from "next/server";
  */
 export async function GET() {
   try {
-    // Get bot API URL from environment variable
-    const botApiUrl = process.env.BOT_API_URL;
-
-    if (!botApiUrl) {
-      console.warn("BOT_API_URL not configured, returning empty leaderboard");
-      return NextResponse.json({
-        success: true,
-        data: {
-          supporters: [],
-          totalSupporters: 0,
-          totalRaised: 0,
-        },
-      });
-    }
-
     // Call bot API to get supporter leaderboard
-    const response = await fetch(`${botApiUrl}/api/supporters/leaderboard`, {
+    const response = await botFetch(`${API_PREFIX}/supporters/leaderboard`, {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
       // Cache for 5 minutes
       next: { revalidate: 300 },
-    });
+    } as any);
 
     if (!response.ok) {
       throw new Error(`Bot API returned ${response.status}`);

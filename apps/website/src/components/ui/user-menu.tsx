@@ -56,6 +56,8 @@ export interface UserMenuProps {
   side?: "top" | "bottom" | "left" | "right";
   /** Dropdown align */
   align?: "start" | "center" | "end";
+  /** Hide the avatar/name section in the dropdown content (useful if trigger already shows it) */
+  hideUserInfo?: boolean;
 }
 
 // Helper function to get user initials
@@ -94,6 +96,7 @@ export function UserMenu({
   className,
   side = "bottom",
   align = "end",
+  hideUserInfo = false,
 }: UserMenuProps) {
   // Loading state
   if (status === "loading") {
@@ -224,29 +227,31 @@ export function UserMenu({
           )}
         >
           <DropdownMenuLabel className="font-normal p-0 mb-2">
-            <div className="flex items-center gap-3 px-2 py-1.5">
-              <Avatar className="h-9 w-9 shrink-0 border border-border/50">
-                <AvatarImage
-                  src={avatarUrl}
-                  alt={user.name || "User avatar"}
-                  draggable={false}
-                  className="select-none"
-                />
-                <AvatarFallback className="text-sm">
-                  {getInitials(user.name)}
-                </AvatarFallback>
-              </Avatar>
-              <div className="flex flex-col min-w-0 flex-1 overflow-hidden">
-                <span className="text-sm font-medium truncate leading-none mb-1">
-                  {user.name}
-                </span>
-                {user.email && (
-                  <span className="text-xs text-muted-foreground truncate leading-none">
-                    {user.email}
+            {!hideUserInfo && (
+              <div className="flex items-center gap-3 px-2 py-1.5">
+                <Avatar className="h-9 w-9 shrink-0 border border-border/50">
+                  <AvatarImage
+                    src={avatarUrl}
+                    alt={user.name || "User avatar"}
+                    draggable={false}
+                    className="select-none"
+                  />
+                  <AvatarFallback className="text-sm">
+                    {getInitials(user.name)}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="flex flex-col min-w-0 flex-1 overflow-hidden">
+                  <span className="text-sm font-medium truncate leading-none mb-1">
+                    {user.name}
                   </span>
-                )}
+                  {user.email && (
+                    <span className="text-xs text-muted-foreground truncate leading-none">
+                      {user.email}
+                    </span>
+                  )}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Cores Section */}
             {showCoreBalance && (

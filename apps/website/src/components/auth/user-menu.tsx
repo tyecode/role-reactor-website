@@ -30,6 +30,7 @@ type Props = Omit<
   "onLogin" | "onLogout" | "onAddCredits"
 > & {
   // Add any specific props if needed, but for now we just pass through
+  hideUserInfo?: boolean;
 };
 
 export function UserMenu(props: Partial<Props>) {
@@ -78,6 +79,7 @@ export function UserMenu(props: Partial<Props>) {
         showSettingsLink={false}
         showCoreBalance={true}
         variant="header"
+        hideUserInfo={props.hideUserInfo}
         {...props}
       />
     </>

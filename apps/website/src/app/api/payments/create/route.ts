@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
+import { API_PREFIX } from "@/lib/api-config";
+import { botFetch } from "@/lib/bot-fetch";
 
 // Minimum payment amount
 const MINIMUM_PAYMENT = 1;
@@ -43,40 +45,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Get bot API URL (required for Plisio payments)
-    const botApiUrl = process.env.BOT_API_URL;
-
-    if (!botApiUrl) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: {
-            message: "Payment system not configured. BOT_API_URL is required.",
-            code: 503,
-          },
-        },
-        { status: 503 }
-      );
-    }
-
-    // Get internal API key for service-to-service auth (optional but recommended)
-    const internalApiKey = process.env.BOT_INTERNAL_API_KEY;
-
-    // Build headers
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-    };
-
-    // Add internal API key if configured
-    if (internalApiKey) {
-      headers["X-Internal-API-Key"] = internalApiKey;
-    }
-
     // Create payment via bot API (Plisio)
     // Pass user info directly since we've already authenticated them on the website
-    const botResponse = await fetch(`${botApiUrl}/api/payments/create`, {
+    const botResponse = await botFetch(`${API_PREFIX}/payments/create`, {
       method: "POST",
-      headers,
       body: JSON.stringify({
         amount,
         packageId,
@@ -129,7 +101,6 @@ export async function POST(request: NextRequest) {
     const botData = await botResponse.json();
 
     // Handle potential response structure variations
-    // Some endpoints might return { success: true, response: { ... } } instead of data
     const responseData = botData.data || botData.response || botData;
     const invoiceUrl = responseData?.invoiceUrl || responseData?.paymentUrl;
 

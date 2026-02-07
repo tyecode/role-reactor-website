@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { auth } from "@/auth";
+import { API_PREFIX } from "@/lib/api-config";
+import { botFetch } from "@/lib/bot-fetch";
 
 /**
  * Get Core credit packages and pricing from the bot API
@@ -7,41 +8,18 @@ import { auth } from "@/auth";
  */
 export async function GET(request: NextRequest) {
   try {
-    // Get bot API URL from environment variable
-    const botApiUrl = process.env.BOT_API_URL;
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get("user_id");
 
-    if (!botApiUrl) {
-      console.warn("BOT_API_URL not configured");
-      return NextResponse.json(
-        {
-          success: false,
-          error: "Pricing service configuration is missing.",
-        },
-        { status: 500 }
-      );
-    }
-
-    // Check if user is authenticated to get personalized pricing
-    const session = await auth();
-    const userId = session?.user?.id;
-
-    // Also check query params for user_id
-    const searchParams = request.nextUrl.searchParams;
-    const queryUserId = searchParams.get("user_id");
-    const effectiveUserId = userId || queryUserId;
-
-    // Build URL with optional user_id
-    const url = new URL(`${botApiUrl}/api/pricing`);
-    if (effectiveUserId) {
-      url.searchParams.set("user_id", effectiveUserId);
+    // Build path with optional user_id
+    let path = `${API_PREFIX}/pricing`;
+    if (userId) {
+      path += `?user_id=${userId}`;
     }
 
     // Call bot API to get pricing
-    const response = await fetch(url.toString(), {
+    const response = await botFetch(path, {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
       // Disable cache to ensure real-time balance updates
       cache: "no-store",
     });

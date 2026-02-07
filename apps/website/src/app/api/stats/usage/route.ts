@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { API_PREFIX } from "@/lib/api-config";
+import { botFetch } from "@/lib/bot-fetch";
 
 /**
  * Proxy command usage statistics from the bot API
@@ -6,17 +8,12 @@ import { NextResponse } from "next/server";
  */
 export async function GET() {
   try {
-    const botApiUrl = process.env.BOT_API_URL;
-
     // Fetch from bot API
-    const response = await fetch(`${botApiUrl}/api/commands/usage`, {
+    const response = await botFetch(`${API_PREFIX}/commands/usage`, {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
       // Cache for 1 minute to avoid hammering the bot API
       next: { revalidate: 60 },
-    });
+    } as any);
 
     if (!response.ok) {
       throw new Error(`Bot API returned ${response.status}`);

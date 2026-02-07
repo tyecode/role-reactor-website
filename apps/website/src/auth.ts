@@ -8,7 +8,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       clientSecret: process.env.DISCORD_CLIENT_SECRET!,
       authorization: {
         params: {
-          scope: "identify email",
+          scope: "identify email guilds",
+          prompt: "consent",
         },
       },
     }),
@@ -18,6 +19,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       if (session.user && token) {
         // Use Discord ID (stored in token.id), not NextAuth's internal UUID (token.sub)
         session.user.id = (token.id as string) || (token.sub as string);
+
+        // Pass the access token to the session for Discord API calls
+        if (token.accessToken) {
+          (session as any).accessToken = token.accessToken;
+        }
+
         // Ensure image is set from token, or use default Discord avatar
         if (token.picture) {
           session.user.image = token.picture;
