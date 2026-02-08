@@ -9,21 +9,6 @@ import {
 import { PricingDialog } from "@/components/pricing/pricing-dialog";
 import { useUserStore } from "@/store/use-user-store";
 
-// Helper function to check if session cookie exists
-function hasSessionCookie(): boolean {
-  if (typeof document === "undefined") return false;
-
-  // NextAuth v5 uses different cookie names, check for common ones
-  const cookies = document.cookie.split(";");
-  return cookies.some(
-    (cookie) =>
-      cookie.trim().startsWith("authjs.session-token=") ||
-      cookie.trim().startsWith("__Secure-authjs.session-token=") ||
-      cookie.trim().startsWith("next-auth.session-token=") ||
-      cookie.trim().startsWith("__Secure-next-auth.session-token=")
-  );
-}
-
 // Omit the props we are overriding/handling internally
 type Props = Omit<
   SharedUserMenuProps,
@@ -36,13 +21,7 @@ type Props = Omit<
 export function UserMenu(props: Partial<Props>) {
   const { data: session, status } = useSession();
   const { fetchUser, clearUser } = useUserStore();
-  const [hasCookie, setHasCookie] = useState(() => hasSessionCookie());
   const [isPricingOpen, setIsPricingOpen] = useState(false);
-
-  // Check for session cookie on mount and when status changes
-  useEffect(() => {
-    setHasCookie(hasSessionCookie());
-  }, [status]);
 
   // Handle session sync with store
   useEffect(() => {

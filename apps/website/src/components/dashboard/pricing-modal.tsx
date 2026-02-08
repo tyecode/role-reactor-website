@@ -7,6 +7,7 @@ import {
   DialogContent,
   DialogTrigger,
   DialogTitle,
+  DialogDescription,
   DialogHeader,
 } from "@/components/ui/dialog";
 import { Loader2 } from "lucide-react";
@@ -56,13 +57,17 @@ export function PricingModal({ trigger }: PricingModalProps) {
     <Dialog>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="max-w-[400px] bg-black border-zinc-800 p-0 shadow-3xl overflow-hidden gap-0 rounded-[40px] ring-1 ring-zinc-800/50">
-        <DialogTitle className="sr-only">Purchase Cores</DialogTitle>
+        <DialogTitle className="sr-only">Purchase Core Balance</DialogTitle>
+        <DialogDescription className="sr-only">
+          Choose a package to top up your server's core balance and unlock
+          premium features.
+        </DialogDescription>
 
         <DialogHeader className="px-6 pt-8 pb-4">
           <div className="flex flex-col">
-            <DialogTitle className="text-xl font-black text-white tracking-tight leading-none">
+            <h3 className="text-xl font-black text-white tracking-tight leading-none">
               What's included
-            </DialogTitle>
+            </h3>
           </div>
         </DialogHeader>
 

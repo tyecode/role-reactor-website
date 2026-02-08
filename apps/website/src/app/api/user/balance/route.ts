@@ -1,12 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { API_PREFIX } from "@/lib/api-config";
 import { botFetch } from "@/lib/bot-fetch";
 
 /**
  * Proxy user balance requests to the bot API
  */
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const session = await auth();
     const userId = session?.user?.id;
@@ -18,7 +17,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const response = await botFetch(`${API_PREFIX}/user/${userId}/balance`, {
+    const response = await botFetch(`/user/${userId}/balance`, {
       method: "GET",
       cache: "no-store",
     });

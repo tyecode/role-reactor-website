@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { PremiumGuard } from "../premium-guard";
@@ -32,12 +33,10 @@ import {
   LifeBuoy,
   User,
   Split,
-  Loader2,
   AlertCircle,
   Terminal,
   Lock,
   Crown,
-  CheckCircle2,
   Clock,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -70,6 +69,12 @@ const iconMap: Record<string, any> = {
   wyr: Split,
 };
 
+const categoryIconMap: Record<string, any> = {
+  Admin: Shield,
+  Developer: Terminal,
+  General: HelpCircle,
+};
+
 const fetcher = async (url: string) => {
   const res = await fetch(url);
   if (!res.ok) {
@@ -87,10 +92,11 @@ interface CommandListProps {
   description?: string;
 }
 
-export function CommandList({ guildId, title, description }: CommandListProps) {
+export function CommandList({ guildId }: CommandListProps) {
   const { data: session } = useSession();
   const [search, setSearch] = useState("");
   const [isActivating, setIsActivating] = useState(false);
+  const [showPremiumModal, setShowPremiumModal] = useState(false);
   const { data, error, mutate, isLoading } = useSWR(
     `/api/guilds/${guildId}/settings`,
     fetcher,
@@ -105,7 +111,7 @@ export function CommandList({ guildId, title, description }: CommandListProps) {
 
     // Safety check: if not premium, don't allow toggling
     if (!data.isPremium?.pro) {
-      toast.error("Pro Engine required to toggle commands.");
+      setShowPremiumModal(true);
       return;
     }
 
@@ -180,103 +186,51 @@ export function CommandList({ guildId, title, description }: CommandListProps) {
     }
   };
 
-  if (isLoading) {
-    return (
-      <div className="space-y-8 animate-pulse">
-        <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-zinc-900/40 p-4 rounded-2xl border border-white/5 backdrop-blur-md">
-          <Skeleton className="h-11 w-full md:max-w-md rounded-xl bg-zinc-800/20" />
-          <div className="flex gap-4">
-            <Skeleton className="h-6 w-24 bg-zinc-800/20 rounded-full" />
-            <Skeleton className="h-6 w-24 bg-zinc-800/20 rounded-full" />
-          </div>
-        </div>
+  // No early return for isLoading - we render the structure normally
+  // and only skeletonize the results and status.
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {Array.from({ length: 8 }).map((_, i) => (
-            <Card key={i} className="bg-zinc-900/40 border-white/5 rounded-2xl">
-              <CardHeader className="p-5 flex flex-row items-center gap-4 space-y-0">
-                <Skeleton className="h-10 w-10 rounded-xl bg-zinc-800/20" />
-                <div className="flex-1 space-y-2">
-                  <Skeleton className="h-4 w-24 bg-zinc-800/20" />
-                  <Skeleton className="h-3 w-16 bg-zinc-800/20" />
-                </div>
-                <Skeleton className="h-6 w-11 rounded-full bg-zinc-800/20" />
-              </CardHeader>
-              <CardContent className="px-5 pb-5 pt-0">
-                <Skeleton className="h-4 w-full bg-zinc-800/20" />
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
-    );
-  }
+  // We handle error/loading inline below
 
-  if (error || data?.status !== "success") {
-    return (
-      <div className="space-y-8 animate-in fade-in duration-500">
-        <Card className="bg-zinc-900/40 border-red-500/20 backdrop-blur-xl rounded-2xl overflow-hidden relative">
-          <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 via-transparent to-transparent pointer-events-none" />
-          <CardContent className="p-12 text-center space-y-6 relative z-10">
-            <div className="w-20 h-20 bg-red-500/10 rounded-3xl border border-red-500/20 flex items-center justify-center mx-auto shadow-2xl">
-              <AlertCircle className="w-10 h-10 text-red-500" />
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-2xl font-black text-white">
-                API Connection Offline
-              </h3>
-              <p className="text-zinc-500 max-w-md mx-auto leading-relaxed text-sm font-medium">
-                We're having trouble communicating with the Role Reactor bot
-                instance. Please ensure the bot is online in your server and try
-                again.
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Button
-                onClick={() => mutate()}
-                className="bg-red-600 hover:bg-red-500 text-white font-bold h-11 px-8 rounded-lg border-t border-white/20 shadow-lg shadow-red-500/20 transition-all active:scale-95"
-              >
-                Retry Sync
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => window.location.reload()}
-                className="bg-white/5 border-white/10 hover:bg-white/10 h-11 px-8 rounded-lg transition-all"
-              >
-                Refresh Page
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-
-  const commands = data.availableCommands || [];
-  const disabledCommands = data.settings.disabledCommands || [];
-  const isPremium = data.isPremium?.pro;
-  const subscription = data.premiumFeatures?.pro_engine;
+  const commands = data?.availableCommands || [];
+  const disabledCommands = data?.settings?.disabledCommands || [];
+  const isPremium = data?.isPremium?.pro;
+  const subscription = data?.premiumFeatures?.pro_engine;
 
   const filteredCommands = commands.filter(
     (cmd: any) =>
       cmd.name.toLowerCase().includes(search.toLowerCase()) ||
-      cmd.description.toLowerCase().includes(search.toLowerCase())
+      cmd.description.toLowerCase().includes(search.toLowerCase()) ||
+      cmd.category?.toLowerCase().includes(search.toLowerCase())
   );
 
+  const groupedCommands = filteredCommands.reduce(
+    (acc: any, cmd: any) => {
+      const cat = cmd.category || "General";
+      if (!acc[cat]) acc[cat] = [];
+      acc[cat].push(cmd);
+      return acc;
+    },
+    {} as Record<string, any[]>
+  );
+
+  const sortedCategories = Object.keys(groupedCommands).sort();
+
   return (
-    <PremiumGuard
-      isPremium={isPremium}
-      onActivate={handleActivatePremium}
-      isActivating={isActivating}
-      title="ACTIVATE PRO ENGINE"
-      description="Take full control of your server's slash commands. Hide what you don't need and keep your menu clean."
-      features={[
-        "Toggle Any Command",
-        "Declutter Slash Menu",
-        "Instant Updates",
-        "Server Protection",
-      ]}
-    >
+    <>
+      <PremiumGuard
+        open={showPremiumModal}
+        onOpenChange={setShowPremiumModal}
+        onActivate={handleActivatePremium}
+        isActivating={isActivating}
+        title="ACTIVATE PRO ENGINE"
+        description="Take full control of your server's slash commands. Hide what you don't need and keep your menu clean."
+        features={[
+          "Toggle Any Command",
+          "Declutter Slash Menu",
+          "Instant Updates",
+          "Server Protection",
+        ]}
+      />
       <div className="space-y-8 relative animate-in fade-in slide-in-from-bottom-2 duration-700">
         <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-zinc-900/40 p-4 rounded-2xl border border-white/5 backdrop-blur-md shadow-2xl overflow-hidden relative">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-transparent pointer-events-none" />
@@ -286,13 +240,17 @@ export function CommandList({ guildId, title, description }: CommandListProps) {
               placeholder="Search commands (e.g. 'avatar', '8ball')..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              disabled={!isPremium}
               className="pl-11 bg-zinc-950/50 border-white/10 h-11 focus:border-blue-500/50 focus:ring-blue-500/20 transition-all rounded-xl font-medium placeholder:text-zinc-600"
             />
           </div>
 
           <div className="flex items-center gap-4 text-sm text-muted-foreground whitespace-nowrap">
-            {isPremium ? (
+            {isLoading ? (
+              <div className="flex gap-4">
+                <Skeleton className="h-6 w-24 bg-zinc-800/20 rounded-full" />
+                <Skeleton className="h-6 w-24 bg-zinc-800/20 rounded-full" />
+              </div>
+            ) : isPremium ? (
               <>
                 <span className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-blue-500" />
@@ -321,81 +279,200 @@ export function CommandList({ guildId, title, description }: CommandListProps) {
           </div>
         </div>
 
-        <div className="relative">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 transition-all duration-700">
-            {filteredCommands.map((cmd: any) => {
-              const Icon = iconMap[cmd.name] || Terminal;
-              const isDisabled = disabledCommands.includes(cmd.name);
-
-              return (
-                <Card
-                  key={cmd.name}
-                  className={cn(
-                    "group relative overflow-hidden transition-all duration-300 border-white/5 rounded-2xl",
-                    isDisabled
-                      ? "bg-zinc-950/30 grayscale opacity-40 border-dashed"
-                      : "bg-zinc-900/40 backdrop-blur-md hover:bg-zinc-800/60 hover:border-blue-500/20 hover:shadow-[0_8px_30px_rgba(0,0,0,0.2)] hover:-translate-y-1"
-                  )}
-                >
-                  <CardHeader className="p-5 flex flex-row items-center gap-4 space-y-0">
-                    <div
-                      className={cn(
-                        "p-2.5 rounded-xl transition-all duration-300 shadow-inner group-hover:scale-110",
-                        isDisabled
-                          ? "bg-zinc-800/50 text-zinc-500"
-                          : "bg-blue-500/10 text-blue-400 border border-blue-500/10"
-                      )}
-                    >
-                      <Icon className="w-5 h-5" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <CardTitle
-                          className={cn(
-                            "text-base font-black text-white truncate transition-colors",
-                            !isDisabled && "group-hover:text-blue-400",
-                            audiowide.className
-                          )}
-                        >
-                          {cmd.name}
-                        </CardTitle>
-                      </div>
-                      <CardDescription className="text-[10px] uppercase tracking-widest font-black text-zinc-500">
-                        {cmd.category}
-                      </CardDescription>
-                    </div>
-
-                    <button
-                      onClick={() => toggleCommand(cmd.name)}
-                      disabled={!isPremium}
-                      className={cn(
-                        "w-11 h-6 rounded-full relative transition-all duration-500 p-1 shadow-inner",
-                        isDisabled
-                          ? "bg-zinc-800"
-                          : "bg-blue-600 shadow-[0_0_15px_rgba(59,130,246,0.2)]"
-                      )}
-                    >
-                      <div
-                        className={cn(
-                          "w-4 h-4 rounded-full bg-white transition-all duration-500 shadow-sm",
-                          isDisabled ? "translate-x-0" : "translate-x-5"
-                        )}
-                      />
-                    </button>
-                  </CardHeader>
-                  <CardContent className="px-5 pb-5 pt-0">
-                    <p className="text-[11px] text-zinc-500 line-clamp-2 leading-relaxed h-[34px] font-medium">
-                      {cmd.description}
+        <div className="relative space-y-12">
+          {isLoading ? (
+            <div className="space-y-12">
+              {[...Array(2)].map((_, sectionIdx) => (
+                <div key={sectionIdx} className="space-y-6">
+                  <div className="flex items-center gap-3">
+                    <Skeleton className="h-6 w-6 rounded-lg bg-zinc-800/50" />
+                    <Skeleton className="h-6 w-32 bg-zinc-800/50" />
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 animate-pulse">
+                    {Array.from({ length: 4 }).map((_, i) => (
+                      <Card
+                        key={i}
+                        className="bg-zinc-900/40 border-white/5 rounded-2xl"
+                      >
+                        <CardHeader className="p-5 flex flex-row items-center gap-4 space-y-0">
+                          <Skeleton className="h-10 w-10 rounded-xl bg-zinc-800/20" />
+                          <div className="flex-1 space-y-2">
+                            <Skeleton className="h-4 w-24 bg-zinc-800/20" />
+                            <Skeleton className="h-3 w-16 bg-zinc-800/20" />
+                          </div>
+                          <Skeleton className="h-6 w-11 rounded-full bg-zinc-800/20" />
+                        </CardHeader>
+                        <CardContent className="px-5 pb-5 pt-0">
+                          <Skeleton className="h-4 w-full bg-zinc-800/20" />
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : error || data?.status !== "success" ? (
+            <div className="space-y-8 animate-in fade-in duration-500">
+              <Card className="bg-zinc-900/40 border-red-500/20 backdrop-blur-xl rounded-2xl overflow-hidden relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 via-transparent to-transparent pointer-events-none" />
+                <CardContent className="p-12 text-center space-y-6 relative z-10">
+                  <div className="w-20 h-20 bg-red-500/10 rounded-3xl border border-red-500/20 flex items-center justify-center mx-auto shadow-2xl">
+                    <AlertCircle className="w-10 h-10 text-red-500" />
+                  </div>
+                  <div className="space-y-2">
+                    <h3 className="text-2xl font-black text-white">
+                      API Connection Offline
+                    </h3>
+                    <p className="text-zinc-500 max-w-md mx-auto leading-relaxed text-sm font-medium">
+                      We're having trouble communicating with the Role Reactor
+                      bot instance. Please ensure the bot is online in your
+                      server and try again.
                     </p>
-                  </CardContent>
+                  </div>
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                    <Button
+                      onClick={() => mutate()}
+                      className="bg-red-600 hover:bg-red-500 text-white font-bold h-11 px-8 rounded-lg border-t border-white/20 shadow-lg shadow-red-500/20 transition-all active:scale-95"
+                    >
+                      Retry Sync
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={() => window.location.reload()}
+                      className="bg-white/5 border-white/10 hover:bg-white/10 h-11 px-8 rounded-lg transition-all"
+                    >
+                      Refresh Page
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          ) : (
+            <>
+              {sortedCategories.map((category) => {
+                const CategoryIcon = categoryIconMap[category] || Terminal;
+                return (
+                  <div
+                    key={category}
+                    className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="p-2 bg-white/5 rounded-lg border border-white/5 text-zinc-400">
+                        <CategoryIcon className="w-4 h-4" />
+                      </div>
+                      <h3
+                        className={cn(
+                          "text-lg font-black text-white tracking-widest uppercase",
+                          audiowide.className
+                        )}
+                      >
+                        {category}
+                      </h3>
+                      <div className="h-px bg-linear-to-r from-white/10 to-transparent flex-1" />
+                    </div>
 
-                  {!isDisabled && (
-                    <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  )}
-                </Card>
-              );
-            })}
-          </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                      {groupedCommands[category].map((cmd: any) => {
+                        const Icon = iconMap[cmd.name] || Terminal;
+                        const isDisabled = disabledCommands.includes(cmd.name);
+
+                        return (
+                          <Card
+                            key={cmd.name}
+                            className={cn(
+                              "group relative overflow-hidden transition-all duration-300 border-white/5 rounded-2xl",
+                              isDisabled
+                                ? "bg-zinc-950/30 grayscale opacity-40 border-dashed"
+                                : "bg-zinc-900/40 backdrop-blur-md hover:bg-zinc-800/60 hover:border-blue-500/20 hover:shadow-[0_8px_30px_rgba(0,0,0,0.2)] hover:-translate-y-1"
+                            )}
+                          >
+                            <CardHeader className="p-5 flex flex-row items-center gap-4 space-y-0">
+                              <div
+                                className={cn(
+                                  "p-2.5 rounded-xl transition-all duration-300 shadow-inner group-hover:scale-110",
+                                  isDisabled
+                                    ? "bg-zinc-800/50 text-zinc-500"
+                                    : "bg-blue-500/10 text-blue-400 border border-blue-500/10"
+                                )}
+                              >
+                                <Icon className="w-5 h-5" />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-2">
+                                  <CardTitle
+                                    className={cn(
+                                      "text-base font-black text-white truncate transition-colors",
+                                      !isDisabled &&
+                                        "group-hover:text-blue-400",
+                                      audiowide.className
+                                    )}
+                                  >
+                                    {cmd.name}
+                                  </CardTitle>
+                                </div>
+                                <CardDescription className="text-[10px] uppercase tracking-widest font-black text-zinc-500">
+                                  {cmd.category}
+                                </CardDescription>
+                              </div>
+
+                              <button
+                                onClick={() => toggleCommand(cmd.name)}
+                                className={cn(
+                                  "w-11 h-6 rounded-full relative transition-all duration-500 p-1 shadow-inner",
+                                  isDisabled
+                                    ? "bg-zinc-800"
+                                    : "bg-blue-600 shadow-[0_0_15px_rgba(59,130,246,0.2)]"
+                                )}
+                              >
+                                <div
+                                  className={cn(
+                                    "w-4 h-4 rounded-full bg-white transition-all duration-500 shadow-sm",
+                                    isDisabled
+                                      ? "translate-x-0"
+                                      : "translate-x-5"
+                                  )}
+                                />
+                              </button>
+                            </CardHeader>
+                            <CardContent className="px-5 pb-5 pt-0">
+                              <p className="text-[11px] text-zinc-500 line-clamp-2 leading-relaxed h-[34px] font-medium">
+                                {cmd.description}
+                              </p>
+                            </CardContent>
+
+                            {!isDisabled && (
+                              <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                            )}
+                          </Card>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })}
+
+              {filteredCommands.length === 0 && (
+                <div className="text-center py-20 bg-zinc-900/20 rounded-3xl border border-dashed border-white/10">
+                  <div className="w-16 h-16 bg-zinc-800/50 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Search className="w-8 h-8 text-zinc-600" />
+                  </div>
+                  <h4 className="text-white font-bold mb-1">
+                    No commands found
+                  </h4>
+                  <p className="text-muted-foreground text-sm italic">
+                    Try searching for something else
+                  </p>
+                  <Button
+                    variant="link"
+                    onClick={() => setSearch("")}
+                    className="text-blue-500 mt-2"
+                  >
+                    Clear Search
+                  </Button>
+                </div>
+              )}
+            </>
+          )}
         </div>
 
         {!isPremium && (
@@ -428,7 +505,7 @@ export function CommandList({ guildId, title, description }: CommandListProps) {
           </div>
         )}
       </div>
-    </PremiumGuard>
+    </>
   );
 }
 

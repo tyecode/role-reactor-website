@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { API_PREFIX } from "@/lib/api-config";
 import { botFetch } from "@/lib/bot-fetch";
 
 export async function GET(
@@ -18,7 +17,7 @@ export async function GET(
       );
     }
 
-    const response = await botFetch(`${API_PREFIX}/guilds/${guildId}/roles`, {
+    const response = await botFetch(`/guilds/${guildId}/roles`, {
       cache: "no-store",
     });
 

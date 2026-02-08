@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { API_PREFIX } from "@/lib/api-config";
 import { botFetch } from "@/lib/bot-fetch";
 
 export async function GET(
@@ -21,7 +20,7 @@ export async function GET(
     // TODO: Verify if user has permissions for this guild
     // For now, we trust the auth session exists
 
-    const response = await botFetch(`${API_PREFIX}/guilds/${guildId}/settings`);
+    const response = await botFetch(`/guilds/${guildId}/settings`);
 
     if (!response.ok) {
       const errorData = await response.json();
@@ -62,13 +61,10 @@ export async function PATCH(
 
     const body = await request.json();
 
-    const response = await botFetch(
-      `${API_PREFIX}/guilds/${guildId}/settings`,
-      {
-        method: "PATCH",
-        body: JSON.stringify(body),
-      }
-    );
+    const response = await botFetch(`/guilds/${guildId}/settings`, {
+      method: "PATCH",
+      body: JSON.stringify(body),
+    });
 
     if (!response.ok) {
       const errorData = await response.json();

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { API_PREFIX } from "@/lib/api-config";
 import { botFetch } from "@/lib/bot-fetch";
 
 export async function POST(request: NextRequest) {
@@ -15,7 +14,7 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
 
-    const response = await botFetch(`${API_PREFIX}/guilds/check`, {
+    const response = await botFetch("/guilds/check", {
       method: "POST",
       body: JSON.stringify(body),
     });

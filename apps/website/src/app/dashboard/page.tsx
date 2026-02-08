@@ -1,4 +1,3 @@
-import { auth } from "@/auth";
 import { OverviewLanding } from "@/components/dashboard/overview-landing";
 
 export default async function DashboardPage() {

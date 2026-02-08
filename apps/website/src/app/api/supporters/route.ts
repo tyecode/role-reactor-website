@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { API_PREFIX } from "@/lib/api-config";
 import { botFetch } from "@/lib/bot-fetch";
 
 /**
@@ -9,11 +8,11 @@ import { botFetch } from "@/lib/bot-fetch";
 export async function GET() {
   try {
     // Call bot API to get supporter leaderboard
-    const response = await botFetch(`${API_PREFIX}/supporters/leaderboard`, {
+    const response = await botFetch("/supporters/leaderboard", {
       method: "GET",
       // Cache for 5 minutes
       next: { revalidate: 300 },
-    } as any);
+    } as RequestInit & { next?: { revalidate?: number } });
 
     if (!response.ok) {
       throw new Error(`Bot API returned ${response.status}`);

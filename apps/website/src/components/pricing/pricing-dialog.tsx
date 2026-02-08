@@ -7,6 +7,7 @@ import {
   DialogContent,
   DialogTrigger,
   DialogTitle,
+  DialogDescription,
   DialogHeader,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -190,14 +191,17 @@ export function PricingDialog({
           <DialogTitle className="sr-only">
             {view === "packages" ? "Purchase Cores" : "Select Payment Method"}
           </DialogTitle>
+          <DialogDescription className="sr-only">
+            Select a package to purchase Core energy for your Discord server.
+          </DialogDescription>
 
           {view === "packages" ? (
             <>
               <DialogHeader className="px-6 pt-8 pb-4">
                 <div className="flex flex-col">
-                  <DialogTitle className="text-xl font-black text-white tracking-tight leading-none">
+                  <h3 className="text-xl font-black text-white tracking-tight leading-none">
                     What's included
-                  </DialogTitle>
+                  </h3>
                 </div>
               </DialogHeader>
 

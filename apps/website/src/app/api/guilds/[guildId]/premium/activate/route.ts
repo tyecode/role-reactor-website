@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { API_PREFIX } from "@/lib/api-config";
 import { botFetch } from "@/lib/bot-fetch";
 
 export async function POST(
@@ -20,13 +19,10 @@ export async function POST(
 
     const body = await request.json();
 
-    const response = await botFetch(
-      `${API_PREFIX}/guilds/${guildId}/premium/activate`,
-      {
-        method: "POST",
-        body: JSON.stringify(body),
-      }
-    );
+    const response = await botFetch(`/guilds/${guildId}/premium/activate`, {
+      method: "POST",
+      body: JSON.stringify(body),
+    });
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));

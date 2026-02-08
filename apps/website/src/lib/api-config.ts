@@ -14,8 +14,9 @@ export const getBotApiUrl = (path: string) => {
   // Ensure path starts with /
   const cleanPath = path.startsWith("/") ? path : `/${path}`;
 
-  // If path already contains /api/v1 (or current version), use it as is
-  if (cleanPath.startsWith(API_PREFIX)) {
+  // If path already contains /api/ (any version), use it as is
+  // This allows for future-proofing if we ever have v2 endpoints alongside v1
+  if (cleanPath.startsWith("/api/v")) {
     return cleanPath;
   }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useEffect } from "react";
+import { useMemo, useRef, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DiscordPreview } from "./discord-preview";
+import { PremiumGuard } from "../premium-guard";
 import { useRoleBuilder, type ReactionMapping } from "@/hooks/use-role-builder";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
@@ -58,6 +59,7 @@ function toHex(decimal: number) {
 }
 
 export function RoleBuilder() {
+  const [showPremiumModal, setShowPremiumModal] = useState(false);
   const {
     guildId,
     guildIconUrl,
@@ -90,6 +92,9 @@ export function RoleBuilder() {
     addReaction,
     removeReaction,
     updateReaction,
+    isPremium,
+    isActivatingPremium,
+    handleActivatePremium,
   } = useRoleBuilder();
 
   const pickerRef = useRef<HTMLDivElement | null>(null);
@@ -113,122 +118,132 @@ export function RoleBuilder() {
   }
 
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-[1fr_520px] gap-6 items-start animate-in fade-in duration-700 pb-10">
-      {/* Configuration Form */}
-      <div className="space-y-3 order-2 xl:order-1">
-        <SectionHeader
-          icon={<Settings2 className="w-4 h-4 text-blue-400" />}
-          title="Configuration"
-        />
-
-        <Card className="bg-zinc-900/40 border-white/5 backdrop-blur-xl rounded-2xl overflow-hidden shadow-2xl">
-          <CardContent className="p-4 space-y-3">
-            <ConfigurationFields
-              title={title}
-              setTitle={setTitle}
-              description={description}
-              setDescription={setDescription}
-              color={color}
-              setColor={setColor}
-              validation={validation}
-            />
-
-            <ChannelSelector
-              channels={serverChannels}
-              selectedChannel={selectedChannel}
-              setSelectedChannel={setSelectedChannel}
-              isLoadingChannels={isLoadingChannels}
-            />
-
-            <SelectionModePicker
-              mode={selectionMode}
-              setMode={setSelectionMode}
-            />
-          </CardContent>
-        </Card>
-
-        {/* Reaction Role Mappings */}
-        <div className="space-y-4">
+    <>
+      <div className="grid grid-cols-1 xl:grid-cols-[1fr_520px] gap-6 items-start animate-in fade-in duration-700 pb-10">
+        {/* Configuration Form */}
+        <div className="space-y-3 order-2 xl:order-1">
           <SectionHeader
-            icon={<Shield className="w-3.5 h-3.5" />}
-            title="Role Mappings"
-            action={
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={addReaction}
-                className="h-8 bg-white/5 border-white/10 hover:bg-white/10 text-[10px] font-black uppercase tracking-tighter rounded-lg transition-all"
-              >
-                <Plus className="w-3 h-3 mr-1.5" /> Add Mapping
-              </Button>
-            }
+            icon={<Settings2 className="w-4 h-4 text-blue-400" />}
+            title="Configuration"
           />
 
-          <Card className="bg-zinc-900/40 border-white/5 backdrop-blur-xl rounded-2xl shadow-xl">
-            <CardContent className="p-2 space-y-1">
-              <RoleMappingList
-                reactions={reactions}
-                removeReaction={removeReaction}
-                updateReaction={updateReaction}
-                serverRoles={serverRoles}
-                isLoadingRoles={isLoadingRoles}
-                serverEmojis={serverEmojis}
-                openEmojiPicker={openEmojiPicker}
-                setOpenEmojiPicker={setOpenEmojiPicker}
-                pickerRef={pickerRef}
-                guildId={guildId}
-                isLoadingEmojis={isLoadingEmojis}
-                hasFetchedEmojis={hasFetchedEmojis}
-                emojiError={emojiError}
-                fetchEmojis={fetchEmojis}
-                guildIconUrl={guildIconUrl}
+          <Card className="bg-zinc-900/40 border-white/5 backdrop-blur-xl rounded-2xl overflow-hidden shadow-2xl">
+            <CardContent className="p-4 space-y-3">
+              <ConfigurationFields
+                title={title}
+                setTitle={setTitle}
+                description={description}
+                setDescription={setDescription}
+                color={color}
+                setColor={setColor}
+                validation={validation}
               />
-              {reactions.length === 0 && (
-                <div className="py-12 text-center">
-                  <p className="text-zinc-600 text-sm italic">
-                    Add a mapping to get started...
-                  </p>
-                </div>
-              )}
+
+              <ChannelSelector
+                channels={serverChannels}
+                selectedChannel={selectedChannel}
+                setSelectedChannel={setSelectedChannel}
+                isLoadingChannels={isLoadingChannels}
+              />
+
+              <SelectionModePicker
+                mode={selectionMode}
+                setMode={setSelectionMode}
+                isPremium={isPremium}
+                setShowPremiumModal={setShowPremiumModal}
+              />
             </CardContent>
           </Card>
-        </div>
 
-        <div className="space-y-3">
-          <Button
-            disabled={!validation.isReady}
-            className={cn(
-              "w-full font-black h-12 rounded-lg border-t border-white/20 shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2 group",
-              validation.isReady
-                ? "bg-blue-600 hover:bg-blue-500 text-white shadow-blue-500/20"
-                : "bg-zinc-800 text-zinc-500 border-white/5 cursor-not-allowed opacity-50"
-            )}
-          >
-            <Rocket className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-            Deploy to Discord
-          </Button>
-        </div>
-      </div>
-
-      {/* Live Preview */}
-      <div className="space-y-4 order-1 xl:order-2 sticky top-24">
-        <PreviewHeader />
-        <div className="relative group transition-all">
-          <Card className="border-[#2b2d31] shadow-2xl overflow-hidden relative z-10">
-            <DiscordPreview
-              title={debouncedTitle}
-              description={debouncedDescription}
-              color={debouncedColor}
-              reactions={reactions}
-              serverEmojis={serverEmojis}
+          {/* Reaction Role Mappings */}
+          <div className="space-y-4">
+            <SectionHeader
+              icon={<Shield className="w-3.5 h-3.5" />}
+              title="Role Mappings"
+              action={
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={addReaction}
+                  className="h-8 bg-white/5 border-white/10 hover:bg-white/10 text-[10px] font-black uppercase tracking-tighter rounded-lg transition-all"
+                >
+                  <Plus className="w-3 h-3 mr-1.5" /> Add Mapping
+                </Button>
+              }
             />
-          </Card>
-        </div>
-        <PreviewInfo />
-      </div>
 
-      <EmojiPickerStyles />
-    </div>
+            <Card className="bg-zinc-900/40 border-white/5 backdrop-blur-xl rounded-2xl shadow-xl">
+              <CardContent className="p-2 space-y-1">
+                <RoleMappingList
+                  reactions={reactions}
+                  removeReaction={removeReaction}
+                  updateReaction={updateReaction}
+                  serverRoles={serverRoles}
+                  isLoadingRoles={isLoadingRoles}
+                  serverEmojis={serverEmojis}
+                  openEmojiPicker={openEmojiPicker}
+                  setOpenEmojiPicker={setOpenEmojiPicker}
+                  pickerRef={pickerRef}
+                  guildId={guildId}
+                  isLoadingEmojis={isLoadingEmojis}
+                  hasFetchedEmojis={hasFetchedEmojis}
+                  emojiError={emojiError}
+                  fetchEmojis={fetchEmojis}
+                  guildIconUrl={guildIconUrl}
+                />
+                {reactions.length === 0 && (
+                  <div className="py-12 text-center">
+                    <p className="text-zinc-600 text-sm italic">
+                      Add a mapping to get started...
+                    </p>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="space-y-3">
+            <Button
+              disabled={!validation.isReady}
+              className={cn(
+                "w-full font-black h-12 rounded-lg border-t border-white/20 shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2 group",
+                validation.isReady
+                  ? "bg-blue-600 hover:bg-blue-500 text-white shadow-blue-500/20"
+                  : "bg-zinc-800 text-zinc-500 border-white/5 cursor-not-allowed opacity-50"
+              )}
+            >
+              <Rocket className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+              Deploy to Discord
+            </Button>
+          </div>
+        </div>
+
+        {/* Live Preview */}
+        <div className="space-y-4 order-1 xl:order-2 sticky top-24">
+          <PreviewHeader />
+          <div className="relative group transition-all">
+            <Card className="border-[#2b2d31] shadow-2xl overflow-hidden relative z-10">
+              <DiscordPreview
+                title={debouncedTitle}
+                description={debouncedDescription}
+                color={debouncedColor}
+                reactions={reactions}
+                serverEmojis={serverEmojis}
+              />
+            </Card>
+          </div>
+          <PreviewInfo />
+        </div>
+
+        <EmojiPickerStyles />
+      </div>
+      <PremiumGuard
+        open={showPremiumModal}
+        onOpenChange={setShowPremiumModal}
+        isActivating={isActivatingPremium}
+        onActivate={handleActivatePremium}
+      />
+    </>
   );
 }
 
@@ -451,9 +466,16 @@ function ChannelSelector({
 interface SelectionModePickerProps {
   mode: string;
   setMode: (val: string) => void;
+  isPremium: boolean;
+  setShowPremiumModal: (val: boolean) => void;
 }
 
-function SelectionModePicker({ mode, setMode }: SelectionModePickerProps) {
+function SelectionModePicker({
+  mode,
+  setMode,
+  isPremium,
+  setShowPremiumModal,
+}: SelectionModePickerProps) {
   const modes = [
     {
       id: "standard",
@@ -503,7 +525,13 @@ function SelectionModePicker({ mode, setMode }: SelectionModePickerProps) {
             key={m.id}
             variant="ghost"
             size={"lg"}
-            onClick={() => setMode(m.id)}
+            onClick={() => {
+              if (m.premium && !isPremium) {
+                setShowPremiumModal(true);
+                return;
+              }
+              setMode(m.id);
+            }}
             className={cn(
               "flex flex-col items-center justify-center gap-2 p-3 rounded-xl border transition-all relative overflow-hidden group/btn h-16 hover:bg-white/[0.02] hover:text-zinc-300",
               mode === m.id

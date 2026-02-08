@@ -4,16 +4,51 @@ import { RoleBuilder } from "@/components/dashboard/roles/role-builder";
 import { BotInviteCard } from "@/components/dashboard/bot-invite-card";
 import { useParams } from "next/navigation";
 import { Suspense } from "react";
-import { Loader2, ShieldCheck } from "lucide-react";
-import { useServerStore } from "@/store/use-server-store";
+import { ShieldCheck } from "lucide-react";
 import { Audiowide } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useServerStore } from "@/store/use-server-store";
 
 const audiowide = Audiowide({
   subsets: ["latin"],
   weight: "400",
   display: "swap",
 });
+
+function RolesPageSkeleton() {
+  return (
+    <div className="min-h-screen pb-20 space-y-8 animate-pulse w-full">
+      <div className="space-y-4">
+        <div className="flex items-center gap-2">
+          <Skeleton className="size-4 rounded-full bg-zinc-800" />
+          <Skeleton className="w-32 h-3 bg-zinc-800" />
+        </div>
+        <Skeleton className="w-64 h-12 bg-zinc-800 rounded-xl" />
+        <Skeleton className="w-full max-w-md h-4 bg-zinc-800" />
+      </div>
+
+      <div className="space-y-6">
+        <div className="flex items-center justify-between bg-zinc-900/40 p-5 rounded-2xl border border-white/5">
+          <div className="flex gap-4">
+            <Skeleton className="h-10 w-32 bg-zinc-800/50 rounded-xl" />
+            <Skeleton className="h-10 w-32 bg-zinc-800/50 rounded-xl" />
+          </div>
+          <Skeleton className="h-10 w-40 bg-blue-500/10 rounded-xl" />
+        </div>
+
+        <div className="grid grid-cols-12 gap-6">
+          <div className="col-span-12 lg:col-span-8 space-y-6">
+            <Skeleton className="h-[400px] w-full bg-zinc-900/40 rounded-2xl border border-white/5" />
+          </div>
+          <div className="col-span-12 lg:col-span-4">
+            <Skeleton className="h-[600px] w-full bg-zinc-900/40 rounded-2xl border border-white/5" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function RolesContent() {
   const params = useParams();
@@ -22,7 +57,11 @@ function RolesContent() {
 
   const isInstalled = guildId ? installedGuildIds.includes(guildId) : false;
 
-  if ((!guildId || !isInstalled) && !isLoading) {
+  if (isLoading) {
+    return <RolesPageSkeleton />;
+  }
+
+  if (!guildId || !isInstalled) {
     return <BotInviteCard guildId={guildId} />;
   }
 
@@ -64,13 +103,7 @@ export default function RolesPage() {
         </div>
       </div>
 
-      <Suspense
-        fallback={
-          <div className="flex items-center justify-center min-h-[50vh]">
-            <Loader2 className="w-8 h-8 animate-spin text-primary" />
-          </div>
-        }
-      >
+      <Suspense fallback={<RolesPageSkeleton />}>
         <RolesContent />
       </Suspense>
     </div>

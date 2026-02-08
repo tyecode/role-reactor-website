@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { useServerStore } from "@/store/use-server-store";
 import { useEmojiStore } from "@/store/use-emoji-store";
 import { DiscordRole, DiscordEmoji, DiscordChannel } from "@/types/discord";
+import { toast } from "sonner";
 
 const EMPTY_EMOJIS: DiscordEmoji[] = [];
 
@@ -56,6 +57,8 @@ export function useRoleBuilder() {
   const [isLoadingRoles, setIsLoadingRoles] = useState(true);
   const [isLoadingChannels, setIsLoadingChannels] = useState(true);
   const [selectionMode, setSelectionMode] = useState("standard");
+  const [isPremium, setIsPremium] = useState(false);
+  const [isActivatingPremium, setIsActivatingPremium] = useState(false);
 
   // Debounced values
   const [debouncedTitle, setDebouncedTitle] = useState(title);
@@ -138,6 +141,13 @@ export function useRoleBuilder() {
               : []
           );
         }
+
+        // Fetch settings/premium status
+        const settingsRes = await fetch(`/api/guilds/${guildId}/settings`);
+        if (settingsRes.ok) {
+          const settings = await settingsRes.json();
+          setIsPremium(settings.isPremium?.pro || false);
+        }
       } catch (err) {
         console.error("Failed to sync guild data:", err);
       } finally {
@@ -193,6 +203,30 @@ export function useRoleBuilder() {
     []
   );
 
+  const handleActivatePremium = useCallback(async () => {
+    if (isActivatingPremium) return;
+    setIsActivatingPremium(true);
+    try {
+      const res = await fetch(`/api/guilds/${guildId}/premium/activate`, {
+        method: "POST",
+      });
+      if (res.ok) {
+        toast.success("Pro Engine activated successfully!");
+        setIsPremium(true);
+        return true;
+      } else {
+        const error = await res.json();
+        toast.error(error.message || "Failed to activate Pro Engine");
+        return false;
+      }
+    } catch {
+      toast.error("An unexpected error occurred");
+      return false;
+    } finally {
+      setIsActivatingPremium(false);
+    }
+  }, [guildId, isActivatingPremium]);
+
   return {
     guildId,
     currentGuild,
@@ -227,5 +261,10 @@ export function useRoleBuilder() {
     addReaction,
     removeReaction,
     updateReaction,
+    isPremium,
+    isActivatingPremium,
+    setIsActivatingPremium,
+    setIsPremium,
+    handleActivatePremium,
   };
 }

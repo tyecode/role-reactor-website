@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { API_PREFIX } from "@/lib/api-config";
 import { botFetch } from "@/lib/bot-fetch";
 
 // Minimum payment amount
@@ -47,7 +46,7 @@ export async function POST(request: NextRequest) {
 
     // Create payment via bot API (Plisio)
     // Pass user info directly since we've already authenticated them on the website
-    const botResponse = await botFetch(`${API_PREFIX}/payments/create`, {
+    const botResponse = await botFetch("/payments/create", {
       method: "POST",
       body: JSON.stringify({
         amount,
@@ -62,7 +61,8 @@ export async function POST(request: NextRequest) {
 
     if (!botResponse.ok) {
       const errorText = await botResponse.text();
-      let errorData;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      let errorData: any;
 
       try {
         errorData = JSON.parse(errorText);

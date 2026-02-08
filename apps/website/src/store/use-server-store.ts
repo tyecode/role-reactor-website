@@ -29,7 +29,7 @@ export const useServerStore = create<ServerState>()(
     (set, get) => ({
       guilds: [],
       installedGuildIds: [],
-      isLoading: true,
+      isLoading: true, // Default to true so skeletons show up immediately on refresh
       error: "none",
       lastFetched: null,
       lastActiveGuildId: null,
@@ -41,6 +41,7 @@ export const useServerStore = create<ServerState>()(
         const CACHE_DURATION = 2 * 60 * 1000;
         const now = Date.now();
         if (!force && lastFetched && now - lastFetched < CACHE_DURATION) {
+          console.log("Server store: Using cached guilds");
           set({ isLoading: false });
           return;
         }
@@ -48,20 +49,26 @@ export const useServerStore = create<ServerState>()(
         set({ isLoading: true, error: "none" });
 
         try {
+          console.log("Server store: Fetching Discord guilds...");
           const res = await fetch("/api/discord/guilds");
 
           if (!res.ok) {
+            console.error("Server store: Discord fetch failed", res.status);
             if (res.status === 401) {
               set({ error: "re-login", isLoading: false });
               return;
             }
-            throw new Error("Failed to fetch");
+            throw new Error("Failed to fetch guilds from Discord");
           }
 
           const manageableGuilds: DiscordGuild[] = await res.json();
           set({ guilds: manageableGuilds });
+          console.log(
+            `Server store: Found ${manageableGuilds.length} manageable guilds`
+          );
 
           if (manageableGuilds.length > 0) {
+            console.log("Server store: Checking bot installation status...");
             const botRes = await fetch("/api/guilds/check", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -77,6 +84,9 @@ export const useServerStore = create<ServerState>()(
                 (botData.data && botData.data.installedGuilds) ||
                 [];
               set({ installedGuildIds: ids });
+              console.log(`Server store: Found ${ids.length} installed guilds`);
+            } else {
+              console.warn("Server store: Bot check failed", botRes.status);
             }
           }
 

@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from "next/server";
 
 export async function GET() {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import { useSWRConfig } from "swr";
 import { Switch } from "@/components/ui/switch";
@@ -66,7 +67,7 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
     mutate,
   } = useXPSettings(guildId);
   const { mutate: globalMutate } = useSWRConfig();
-  const { channels, isLoading: channelsLoading } = useGuildChannels(guildId);
+  const { channels } = useGuildChannels(guildId);
   const [saving, setSaving] = useState(false);
   const [settings, setSettings] = useState<XPSettings | null>(null);
 

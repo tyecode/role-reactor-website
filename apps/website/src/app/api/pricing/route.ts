@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { API_PREFIX } from "@/lib/api-config";
 import { botFetch } from "@/lib/bot-fetch";
 
 /**
@@ -12,7 +11,7 @@ export async function GET(request: NextRequest) {
     const userId = searchParams.get("user_id");
 
     // Build path with optional user_id
-    let path = `${API_PREFIX}/pricing`;
+    let path = "/pricing";
     if (userId) {
       path += `?user_id=${userId}`;
     }

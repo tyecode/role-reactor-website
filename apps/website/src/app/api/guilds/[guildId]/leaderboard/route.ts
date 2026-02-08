@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { API_PREFIX } from "@/lib/api-config";
 import { botFetch } from "@/lib/bot-fetch";
 
 export async function GET(
@@ -13,7 +12,7 @@ export async function GET(
     const limit = searchParams.get("limit") || "50";
 
     const response = await botFetch(
-      `${API_PREFIX}/guilds/${guildId}/leaderboard?limit=${limit}`
+      `/guilds/${guildId}/leaderboard?limit=${limit}`
     );
 
     if (!response.ok) {
