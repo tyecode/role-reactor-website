@@ -10,6 +10,7 @@ import {
   Vote,
   BarChart3,
   Terminal,
+  Zap,
 } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
@@ -132,6 +133,12 @@ export function DashboardSidebar() {
     },
     ...(contextId
       ? [
+          {
+            title: "Pro Engine",
+            href: getHref("/dashboard/pro-engine", true),
+            icon: Zap,
+            badge: "PRO",
+          },
           {
             title: "Reaction Roles",
             href: getHref("/dashboard/roles", true),

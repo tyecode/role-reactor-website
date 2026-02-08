@@ -9,7 +9,16 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import { Crown, CheckCircle2, Loader2, Zap, X } from "lucide-react";
+import {
+  Crown,
+  CheckCircle2,
+  Loader2,
+  Zap,
+  X,
+  ExternalLink,
+} from "lucide-react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 
 interface PremiumGuardProps {
   isPremium?: boolean;
@@ -41,6 +50,9 @@ export function PremiumGuard({
   open,
   onOpenChange,
 }: PremiumGuardProps) {
+  const params = useParams();
+  const guildId = params.guildId as string;
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md w-full p-0 border-none bg-transparent shadow-none [&>button]:hidden">
@@ -107,6 +119,17 @@ export function PremiumGuard({
               <p className="text-[10px] text-zinc-600 uppercase tracking-widest font-bold">
                 {subText}
               </p>
+
+              {guildId && (
+                <Link
+                  href={`/dashboard/${guildId}/pro-engine`}
+                  onClick={() => onOpenChange?.(false)}
+                  className="flex items-center justify-center gap-1.5 text-[11px] text-blue-400 hover:text-blue-300 font-bold transition-colors group/link"
+                >
+                  <span>Learn more about Pro Engine</span>
+                  <ExternalLink className="w-3 h-3 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
+                </Link>
+              )}
             </div>
           </CardContent>
         </Card>

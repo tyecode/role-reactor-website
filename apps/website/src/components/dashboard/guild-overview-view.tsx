@@ -55,7 +55,11 @@ export function GuildOverviewView({
   const stats = [
     {
       label: "Total Members",
-      value: guildStats?.memberCount?.toLocaleString() || "0",
+      value:
+        (
+          guildStats?.humanCount ??
+          (guildStats?.memberCount || 0) - (guildStats?.botCount || 0)
+        ).toLocaleString() || "0",
       icon: Users,
       trend: "+12%",
       trendUp: true,
@@ -119,7 +123,7 @@ export function GuildOverviewView({
   ];
 
   return (
-    <div className="space-y-8 pb-12">
+    <div className="space-y-8 pb-12 w-full min-w-0 overflow-x-hidden">
       {/* Premium Banner (if visible) */}
       {!isPremium && (
         <motion.div
@@ -468,14 +472,14 @@ export function GuildOverviewView({
             <Hash className="text-zinc-500 w-5 h-5" /> Activity Log
           </h2>
 
-          <Card className="bg-zinc-950/40 border-white/5 backdrop-blur-xl h-full min-h-[350px] flex flex-col relative overflow-hidden rounded-2xl shadow-2xl">
+          <Card className="bg-zinc-950/40 border-white/5 backdrop-blur-xl flex flex-col relative overflow-hidden rounded-2xl shadow-2xl">
             {/* Fake terminal look */}
             <div
               className="absolute inset-0 bg-repeat opacity-[0.03] pointer-events-none"
               style={{ backgroundImage: "url('/grid.svg')" }}
             />
 
-            <div className="flex-1 flex flex-col items-center justify-center text-center p-8 space-y-6 relative z-10">
+            <div className="flex flex-col items-center justify-center text-center p-8 space-y-6 relative z-10">
               <div className="relative">
                 <div className="absolute inset-0 bg-zinc-500/10 blur-xl rounded-full animate-pulse" />
                 <div className="w-20 h-20 rounded-3xl bg-zinc-900/80 border border-white/5 flex items-center justify-center relative shadow-2xl">
