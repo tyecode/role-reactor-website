@@ -26,10 +26,12 @@ export default async function DashboardLayout({
   return (
     <SidebarProvider className="flex min-h-screen w-full">
       <DashboardSidebar />
-      <SidebarInset className="relative flex flex-col w-full md:m-2 md:rounded-xl md:shadow-2xl border border-white/5 bg-background/50 backdrop-blur-sm">
+      <SidebarInset className="relative flex flex-col flex-1 min-w-0 md:m-2 md:rounded-xl md:shadow-2xl border border-white/5 bg-background/50 backdrop-blur-sm">
         <DashboardHeader />
         <main className="flex-1 p-4 md:p-8">
-          <div className="max-w-7xl mx-auto w-full">{children}</div>
+          <div className="max-w-7xl mx-auto w-full overflow-x-hidden">
+            {children}
+          </div>
         </main>
       </SidebarInset>
     </SidebarProvider>

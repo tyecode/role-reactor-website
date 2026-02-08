@@ -1,22 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { API_PREFIX } from "@/lib/api-config";
+import { botFetch } from "@/lib/bot-fetch";
 
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: { guildId: string } }
 ) {
   try {
     const { guildId } = await params;
-    const botApiUrl = process.env.BOT_API_URL;
-    const apiKey = process.env.INTERNAL_API_KEY;
-
-    if (!botApiUrl || !apiKey) {
-      return NextResponse.json(
-        { success: false, error: "Server configuration missing" },
-        { status: 500 }
-      );
-    }
 
     const session = await auth();
     if (!session) {
@@ -29,15 +21,7 @@ export async function GET(
     // TODO: Verify if user has permissions for this guild
     // For now, we trust the auth session exists
 
-    const response = await fetch(
-      `${botApiUrl}${API_PREFIX}/guilds/${guildId}/settings`,
-      {
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await botFetch(`${API_PREFIX}/guilds/${guildId}/settings`);
 
     if (!response.ok) {
       const errorData = await response.json();
@@ -62,20 +46,11 @@ export async function GET(
 }
 
 export async function PATCH(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: { guildId: string } }
 ) {
   try {
     const { guildId } = await params;
-    const botApiUrl = process.env.BOT_API_URL;
-    const apiKey = process.env.INTERNAL_API_KEY;
-
-    if (!botApiUrl || !apiKey) {
-      return NextResponse.json(
-        { success: false, error: "Server configuration missing" },
-        { status: 500 }
-      );
-    }
 
     const session = await auth();
     if (!session) {
@@ -87,14 +62,10 @@ export async function PATCH(
 
     const body = await request.json();
 
-    const response = await fetch(
-      `${botApiUrl}${API_PREFIX}/guilds/${guildId}/settings`,
+    const response = await botFetch(
+      `${API_PREFIX}/guilds/${guildId}/settings`,
       {
         method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify(body),
       }
     );

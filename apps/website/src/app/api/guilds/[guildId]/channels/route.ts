@@ -1,22 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { API_PREFIX } from "@/lib/api-config";
+import { botFetch } from "@/lib/bot-fetch";
 
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: { guildId: string } }
 ) {
   try {
     const { guildId } = await params;
-    const botApiUrl = process.env.BOT_API_URL;
-    const apiKey = process.env.INTERNAL_API_KEY;
-
-    if (!botApiUrl || !apiKey) {
-      return NextResponse.json(
-        { success: false, error: "Server configuration missing" },
-        { status: 500 }
-      );
-    }
 
     const session = await auth();
     if (!session) {
@@ -26,13 +18,9 @@ export async function GET(
       );
     }
 
-    const response = await fetch(
-      `${botApiUrl}${API_PREFIX}/guilds/${guildId}/channels`,
+    const response = await botFetch(
+      `${API_PREFIX}/guilds/${guildId}/channels`,
       {
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          "Content-Type": "application/json",
-        },
         cache: "no-store",
       }
     );
@@ -49,7 +37,7 @@ export async function GET(
     }
 
     const data = await response.json();
-    return NextResponse.json(data);
+    return NextResponse.json(data.channels || []);
   } catch (error) {
     console.error("Guild channels proxy error:", error);
     return NextResponse.json(

@@ -86,60 +86,72 @@ export function ServerSwitcher() {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              className="data-[state=open]:bg-white/5 data-[state=open]:text-white transition-all hover:bg-white/5 rounded-xl border border-transparent data-[state=open]:border-white/5"
             >
-              <div className="flex aspect-square size-8 items-center justify-center rounded-md bg-linear-to-br from-blue-500 to-purple-600 text-sidebar-primary-foreground">
+              <div className="flex aspect-square size-9 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-purple-600 text-sidebar-primary-foreground shadow-lg shadow-blue-500/20 relative overflow-hidden group">
+                <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                 {isLoading ? (
-                  <Skeleton className="h-8 w-8 rounded-md bg-white/20" />
+                  <Skeleton className="h-full w-full rounded-xl bg-white/20" />
                 ) : activeGuild ? (
-                  <Avatar className="h-8 w-8 rounded-md">
+                  <Avatar className="h-full w-full rounded-none">
                     <AvatarImage
                       src={
                         activeGuild.icon
                           ? `https://cdn.discordapp.com/icons/${activeGuild.id}/${activeGuild.icon}.png`
                           : undefined
                       }
+                      className="object-cover"
                     />
-                    <AvatarFallback className="bg-transparent text-white font-bold">
+                    <AvatarFallback className="bg-transparent text-white font-black text-base">
                       {activeGuild.name.charAt(0).toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                 ) : (
-                  <Server className="size-4" />
+                  <Server className="size-5" />
                 )}
               </div>
-              <div className="grid flex-1 text-left text-sm leading-tight">
+              <div className="grid flex-1 text-left text-sm leading-tight ml-1">
                 {isLoading ? (
-                  <div className="space-y-1">
+                  <div className="space-y-1.5">
                     <Skeleton className="h-3 w-24 bg-white/10" />
                     <Skeleton className="h-2 w-16 bg-white/5" />
                   </div>
                 ) : (
                   <>
-                    <span className="truncate font-semibold">
-                      {activeGuild?.name || "Select Server"}
+                    <span className="truncate font-black text-white tracking-tight">
+                      {activeGuild?.name || "Server Selection"}
                     </span>
-                    <span className="truncate text-xs text-muted-foreground italic">
-                      {activeGuild
-                        ? installedGuildIds.includes(activeGuild.id)
-                          ? "Installed"
-                          : "Not Invited"
-                        : "Dashboard"}
+                    <span className="truncate text-[10px] text-zinc-500 font-bold uppercase tracking-wider flex items-center gap-1.5 mt-0.5">
+                      {activeGuild ? (
+                        installedGuildIds.includes(activeGuild.id) ? (
+                          <>
+                            <div className="w-1 h-1 rounded-full bg-emerald-500 shadow-[0_0_5px_rgba(16,185,129,0.5)]" />{" "}
+                            Node Linked
+                          </>
+                        ) : (
+                          <>
+                            <div className="w-1 h-1 rounded-full bg-zinc-700" />{" "}
+                            Offline
+                          </>
+                        )
+                      ) : (
+                        "Root Portal"
+                      )}
                     </span>
                   </>
                 )}
               </div>
-              <ChevronsUpDown className="ml-auto size-4" />
+              <ChevronsUpDown className="ml-auto size-4 text-zinc-600" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-md bg-card/95 backdrop-blur-md border-border/50"
+            className="w-(--radix-dropdown-menu-trigger-width) min-w-64 rounded-xl bg-zinc-900/95 backdrop-blur-xl border border-white/10 p-2 shadow-2xl"
             align="start"
             side={isMobile ? "bottom" : "right"}
-            sideOffset={4}
+            sideOffset={12}
           >
-            <DropdownMenuLabel className="text-xs text-muted-foreground">
-              Your Servers
+            <DropdownMenuLabel className="text-[10px] text-zinc-500 font-black uppercase tracking-widest px-3 py-2">
+              Neural Network Links
             </DropdownMenuLabel>
             {isLoading ? (
               <div className="flex items-center justify-center py-4">
@@ -201,13 +213,13 @@ export function ServerSwitcher() {
             )}
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              className="gap-2 p-2 cursor-pointer focus:bg-green-500/10 focus:text-green-400 font-medium text-muted-foreground group-hover:text-green-400 transition-colors"
+              className="gap-3 p-2.5 cursor-pointer focus:bg-emerald-500/10 focus:text-emerald-400 font-black text-[11px] text-zinc-500 uppercase tracking-widest group rounded-lg"
               onSelect={() => window.open(inviteUrl, "_blank")}
             >
-              <div className="flex size-6 items-center justify-center rounded-md border border-border bg-background">
+              <div className="flex size-7 items-center justify-center rounded-lg border border-white/5 bg-zinc-800 transition-colors group-hover:border-emerald-500/30 group-hover:bg-emerald-500/10">
                 <Plus className="size-4" />
               </div>
-              Add Server
+              Add Server Link
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

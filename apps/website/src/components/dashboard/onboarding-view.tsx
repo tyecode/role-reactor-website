@@ -27,12 +27,13 @@ export function OnboardingView({ inviteUrl }: OnboardingViewProps) {
       <motion.div
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="relative rounded-2xl overflow-hidden border border-white/5 bg-zinc-950 shadow-xl min-h-[320px] md:min-h-[400px] flex items-center"
+        className="relative rounded-3xl overflow-hidden border border-white/5 bg-zinc-900/40 shadow-2xl min-h-[400px] md:min-h-[440px] flex items-center backdrop-blur-xl group"
       >
         {/* Subtle Glow Background overlay */}
         <div className="absolute inset-0 z-0">
-          <div className="absolute top-0 left-0 w-full h-full bg-linear-to-br from-blue-600/5 via-transparent to-purple-600/5 opacity-20" />
-          <div className="absolute inset-0 bg-zinc-950/40" />
+          <div className="absolute top-0 left-0 w-full h-full bg-linear-to-br from-blue-600/10 via-transparent to-purple-600/10 opacity-30" />
+          <div className="absolute inset-0 bg-zinc-950/20" />
+          <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-blue-500/20 to-transparent" />
         </div>
 
         <CardContent className="relative z-20 p-8 sm:p-12 md:p-14 flex flex-col items-center lg:items-start text-center lg:text-left max-w-4xl">
@@ -53,12 +54,12 @@ export function OnboardingView({ inviteUrl }: OnboardingViewProps) {
 
           <h1
             className={cn(
-              "text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-4 text-white tracking-tight",
+              "text-3xl sm:text-4xl md:text-6xl font-black leading-tight mb-4 text-white tracking-tighter",
               audiowide.className
             )}
           >
             Role{" "}
-            <span className="bg-linear-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(59,130,246,0.3)]">
               Reactor
             </span>
           </h1>
@@ -72,7 +73,7 @@ export function OnboardingView({ inviteUrl }: OnboardingViewProps) {
           <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
             <Button
               asChild
-              className="rounded-xl font-bold px-6 h-10 text-sm bg-[#5865F2] hover:bg-[#4752C4] text-white shadow-lg shadow-[#5865F2]/20 transition-all group w-full sm:w-auto"
+              className="rounded-lg font-black px-8 h-12 text-sm bg-[#5865F2] hover:bg-[#4752C4] text-white shadow-xl shadow-[#5865F2]/20 transition-all group w-full sm:w-auto border-t border-white/20 active:scale-95"
             >
               <a
                 href={inviteUrl}
@@ -80,32 +81,41 @@ export function OnboardingView({ inviteUrl }: OnboardingViewProps) {
                 rel="noopener noreferrer"
                 className="inline-flex items-center"
               >
-                <FaDiscord size={18} className="mr-2" />
+                <FaDiscord
+                  size={20}
+                  className="mr-2.5 group-hover:rotate-12 transition-transform"
+                />
                 Connect Server
               </a>
             </Button>
             <Button
               variant="outline"
               asChild
-              className="rounded-xl font-bold px-6 h-10 text-sm bg-white/5 border-white/10 hover:bg-white/10 text-white backdrop-blur-md transition-all w-full sm:w-auto"
+              className="rounded-lg font-black px-8 h-12 text-sm bg-white/5 border-white/10 hover:bg-white/10 text-white backdrop-blur-md transition-all w-full sm:w-auto active:scale-95"
             >
               <Link href="/docs">View Guide</Link>
             </Button>
           </div>
 
           {/* Horizontal Trust Indicators */}
-          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-2 pt-10 text-[9px] text-zinc-500 font-bold uppercase tracking-widest opacity-60">
-            <div className="flex items-center gap-1.5">
-              <div className="w-1 h-1 rounded-full bg-emerald-500" />
-              Live
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-8 gap-y-3 pt-12 text-[10px] text-zinc-500 font-black uppercase tracking-widest">
+            <div className="flex items-center gap-2 group/item">
+              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse" />
+              <span className="group-hover/item:text-zinc-400 transition-colors">
+                Neural Link Active
+              </span>
             </div>
-            <div className="flex items-center gap-1.5">
-              <Shield size={10} className="text-blue-500" />
-              Secure
+            <div className="flex items-center gap-2 group/item">
+              <Shield size={12} className="text-blue-500 shadow-blue-500/20" />
+              <span className="group-hover/item:text-zinc-400 transition-colors">
+                Encrypted
+              </span>
             </div>
-            <div className="flex items-center gap-1.5">
-              <Zap size={10} className="text-yellow-500 fill-yellow-500/20" />
-              Instant
+            <div className="flex items-center gap-2 group/item">
+              <Zap size={12} className="text-yellow-500 fill-yellow-500/20" />
+              <span className="group-hover/item:text-zinc-400 transition-colors">
+                Zero-Latency
+              </span>
             </div>
           </div>
         </CardContent>
@@ -125,59 +135,62 @@ export function OnboardingView({ inviteUrl }: OnboardingViewProps) {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
           {[
             {
-              title: "Documentation",
-              desc: "Learn how to use features",
+              title: "System Docs",
+              desc: "Deep dive into reactor logic",
               icon: Server,
               href: "/docs",
-              gradient: "from-blue-500 to-indigo-600",
+              gradient: "from-blue-500/20 to-indigo-600/10",
+              accent: "text-blue-400",
             },
             {
-              title: "Support Server",
-              desc: "Get help from our team",
+              title: "Support Hub",
+              desc: "Get engineer assistance",
               icon: Shield,
               href: "https://discord.gg/role-reactor",
-              gradient: "from-purple-500 to-fuchsia-600",
+              gradient: "from-purple-500/20 to-fuchsia-600/10",
+              accent: "text-purple-400",
             },
             {
-              title: "Website",
-              desc: "Return to main site",
+              title: "Terminal",
+              desc: "Return to central portal",
               icon: Zap,
               href: "/",
-              gradient: "from-emerald-500 to-teal-600",
+              gradient: "from-emerald-500/20 to-teal-600/10",
+              accent: "text-emerald-400",
             },
           ].map((action, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.05 * i }}
+              transition={{ delay: 0.1 * i }}
               className="h-full"
             >
               <Link href={action.href} className="h-full block">
-                <Card className="bg-zinc-900/40 border-white/5 shadow-xl p-5 group hover:bg-zinc-800/60 hover:border-blue-500/30 transition-all duration-300 rounded-2xl relative overflow-hidden cursor-pointer h-full min-h-[100px]">
-                  <div
-                    className={cn(
-                      "absolute inset-0 bg-linear-to-br opacity-0 group-hover:opacity-5 transition-opacity duration-500",
-                      action.gradient
-                    )}
-                  />
-                  <div className="relative z-10 flex flex-col items-center text-center gap-3 h-full justify-center">
+                <Card className="bg-zinc-900/40 border-white/5 shadow-2xl p-6 group hover:bg-zinc-800/60 hover:border-blue-500/20 transition-all duration-300 rounded-2xl relative overflow-hidden cursor-pointer h-full backdrop-blur-md">
+                  <div className="absolute inset-x-0 bottom-0 h-1 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="relative z-10 flex flex-col items-center text-center gap-4 h-full justify-center">
                     <div
                       className={cn(
-                        "w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-linear-to-br text-white shadow-lg group-hover:scale-110 transition-transform duration-300",
-                        action.gradient
+                        "w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 bg-zinc-950 border border-white/5 shadow-inner group-hover:scale-110 transition-transform duration-500",
+                        action.accent
                       )}
                     >
                       <action.icon className="w-7 h-7" />
                     </div>
                     <div className="space-y-1">
-                      <h3 className="text-base font-bold text-white tracking-tight">
+                      <h3
+                        className={cn(
+                          "text-base font-black text-white tracking-widest uppercase",
+                          audiowide.className
+                        )}
+                      >
                         {action.title}
                       </h3>
-                      <p className="text-zinc-500 text-xs leading-relaxed line-clamp-2">
+                      <p className="text-zinc-500 text-[11px] leading-relaxed font-medium">
                         {action.desc}
                       </p>
                     </div>

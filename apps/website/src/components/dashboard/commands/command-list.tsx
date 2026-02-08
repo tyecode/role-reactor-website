@@ -43,6 +43,13 @@ import {
 import { cn } from "@/lib/utils";
 import { useSession } from "next-auth/react";
 import { toast } from "sonner";
+import { Audiowide } from "next/font/google";
+
+const audiowide = Audiowide({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+});
 
 const iconMap: Record<string, any> = {
   "8ball": CircleHelp,
@@ -175,37 +182,28 @@ export function CommandList({ guildId, title, description }: CommandListProps) {
 
   if (isLoading) {
     return (
-      <div className="space-y-8">
-        {(title || description) && (
-          <div>
-            {title}
-            {description && (
-              <p className="text-muted-foreground mt-1">{description}</p>
-            )}
-          </div>
-        )}
-
-        <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-zinc-900/10 p-4 rounded-xl border border-white/5">
-          <Skeleton className="h-10 w-full md:max-w-md rounded-lg bg-zinc-800/50" />
+      <div className="space-y-8 animate-pulse">
+        <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-zinc-900/40 p-4 rounded-2xl border border-white/5 backdrop-blur-md">
+          <Skeleton className="h-11 w-full md:max-w-md rounded-xl bg-zinc-800/20" />
           <div className="flex gap-4">
-            <Skeleton className="h-4 w-24 bg-zinc-800/50" />
-            <Skeleton className="h-4 w-24 bg-zinc-800/50" />
+            <Skeleton className="h-6 w-24 bg-zinc-800/20 rounded-full" />
+            <Skeleton className="h-6 w-24 bg-zinc-800/20 rounded-full" />
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {Array.from({ length: 8 }).map((_, i) => (
-            <Card key={i} className="bg-zinc-900/10 border-white/5">
+            <Card key={i} className="bg-zinc-900/40 border-white/5 rounded-2xl">
               <CardHeader className="p-5 flex flex-row items-center gap-4 space-y-0">
-                <Skeleton className="h-10 w-10 rounded-xl bg-zinc-800/50" />
+                <Skeleton className="h-10 w-10 rounded-xl bg-zinc-800/20" />
                 <div className="flex-1 space-y-2">
-                  <Skeleton className="h-4 w-24 bg-zinc-800/50" />
-                  <Skeleton className="h-3 w-16 bg-zinc-800/50" />
+                  <Skeleton className="h-4 w-24 bg-zinc-800/20" />
+                  <Skeleton className="h-3 w-16 bg-zinc-800/20" />
                 </div>
-                <Skeleton className="h-6 w-11 rounded-full bg-zinc-800/50" />
+                <Skeleton className="h-6 w-11 rounded-full bg-zinc-800/20" />
               </CardHeader>
               <CardContent className="px-5 pb-5 pt-0">
-                <Skeleton className="h-8 w-full bg-zinc-800/50" />
+                <Skeleton className="h-4 w-full bg-zinc-800/20" />
               </CardContent>
             </Card>
           ))}
@@ -216,41 +214,34 @@ export function CommandList({ guildId, title, description }: CommandListProps) {
 
   if (error || data?.status !== "success") {
     return (
-      <div className="space-y-8">
-        {(title || description) && (
-          <div>
-            {title}
-            {description && (
-              <p className="text-muted-foreground mt-1">{description}</p>
-            )}
-          </div>
-        )}
-        <Card className="bg-zinc-900/50 border-red-500/20 backdrop-blur-xl">
-          <CardContent className="p-12 text-center space-y-6">
-            <div className="w-20 h-20 bg-red-500/10 rounded-full flex items-center justify-center mx-auto">
+      <div className="space-y-8 animate-in fade-in duration-500">
+        <Card className="bg-zinc-900/40 border-red-500/20 backdrop-blur-xl rounded-2xl overflow-hidden relative">
+          <div className="absolute inset-0 bg-gradient-to-br from-red-500/5 via-transparent to-transparent pointer-events-none" />
+          <CardContent className="p-12 text-center space-y-6 relative z-10">
+            <div className="w-20 h-20 bg-red-500/10 rounded-3xl border border-red-500/20 flex items-center justify-center mx-auto shadow-2xl">
               <AlertCircle className="w-10 h-10 text-red-500" />
             </div>
             <div className="space-y-2">
               <h3 className="text-2xl font-black text-white">
                 API Connection Offline
               </h3>
-              <p className="text-muted-foreground max-w-md mx-auto leading-relaxed">
+              <p className="text-zinc-500 max-w-md mx-auto leading-relaxed text-sm font-medium">
                 We're having trouble communicating with the Role Reactor bot
                 instance. Please ensure the bot is online in your server and try
                 again.
               </p>
             </div>
-            <div className="flex gap-3 justify-center">
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <Button
                 onClick={() => mutate()}
-                className="bg-red-500 hover:bg-red-600 text-white font-bold px-8 shadow-lg shadow-red-500/20"
+                className="bg-red-600 hover:bg-red-500 text-white font-bold h-11 px-8 rounded-lg border-t border-white/20 shadow-lg shadow-red-500/20 transition-all active:scale-95"
               >
                 Retry Sync
               </Button>
               <Button
                 variant="outline"
                 onClick={() => window.location.reload()}
-                className="border-white/10 hover:bg-white/5"
+                className="bg-white/5 border-white/10 hover:bg-white/10 h-11 px-8 rounded-lg transition-all"
               >
                 Refresh Page
               </Button>
@@ -286,24 +277,17 @@ export function CommandList({ guildId, title, description }: CommandListProps) {
         "Server Protection",
       ]}
     >
-      <div className="space-y-8 relative">
-        {(title || description) && (
-          <div>
-            {title}
-            {description && (
-              <p className="text-muted-foreground mt-1">{description}</p>
-            )}
-          </div>
-        )}
-        <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-zinc-900/30 p-4 rounded-xl border border-white/5">
+      <div className="space-y-8 relative animate-in fade-in slide-in-from-bottom-2 duration-700">
+        <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-zinc-900/40 p-4 rounded-2xl border border-white/5 backdrop-blur-md shadow-2xl overflow-hidden relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-transparent pointer-events-none" />
           <div className="relative w-full md:max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
             <Input
               placeholder="Search commands (e.g. 'avatar', '8ball')..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               disabled={!isPremium}
-              className="pl-10 bg-black/40 border-white/10 h-11 focus:ring-blue-500/50 transition-all rounded-lg"
+              className="pl-11 bg-zinc-950/50 border-white/10 h-11 focus:border-blue-500/50 focus:ring-blue-500/20 transition-all rounded-xl font-medium placeholder:text-zinc-600"
             />
           </div>
 
@@ -347,41 +331,48 @@ export function CommandList({ guildId, title, description }: CommandListProps) {
                 <Card
                   key={cmd.name}
                   className={cn(
-                    "group relative overflow-hidden transition-all duration-300 border-white/5",
+                    "group relative overflow-hidden transition-all duration-300 border-white/5 rounded-2xl",
                     isDisabled
-                      ? "bg-zinc-950/30 grayscale opacity-50"
-                      : "bg-zinc-900/50 hover:bg-zinc-900/80 hover:border-blue-500/30 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:-translate-y-1"
+                      ? "bg-zinc-950/30 grayscale opacity-40 border-dashed"
+                      : "bg-zinc-900/40 backdrop-blur-md hover:bg-zinc-800/60 hover:border-blue-500/20 hover:shadow-[0_8px_30px_rgba(0,0,0,0.2)] hover:-translate-y-1"
                   )}
                 >
                   <CardHeader className="p-5 flex flex-row items-center gap-4 space-y-0">
                     <div
                       className={cn(
-                        "p-2.5 rounded-xl transition-colors duration-300 shadow-inner",
+                        "p-2.5 rounded-xl transition-all duration-300 shadow-inner group-hover:scale-110",
                         isDisabled
-                          ? "bg-zinc-800 text-zinc-500"
-                          : "bg-linear-to-br from-blue-500/20 to-blue-600/5 text-blue-400 group-hover:from-blue-500/30"
+                          ? "bg-zinc-800/50 text-zinc-500"
+                          : "bg-blue-500/10 text-blue-400 border border-blue-500/10"
                       )}
                     >
                       <Icon className="w-5 h-5" />
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <CardTitle className="text-base font-black text-white truncate group-hover:text-blue-400 transition-colors">
-                          /{cmd.name}
+                        <CardTitle
+                          className={cn(
+                            "text-base font-black text-white truncate transition-colors",
+                            !isDisabled && "group-hover:text-blue-400",
+                            audiowide.className
+                          )}
+                        >
+                          {cmd.name}
                         </CardTitle>
                       </div>
-                      <CardDescription className="text-[10px] uppercase tracking-widest font-bold text-zinc-500">
+                      <CardDescription className="text-[10px] uppercase tracking-widest font-black text-zinc-500">
                         {cmd.category}
                       </CardDescription>
                     </div>
 
                     <button
                       onClick={() => toggleCommand(cmd.name)}
+                      disabled={!isPremium}
                       className={cn(
                         "w-11 h-6 rounded-full relative transition-all duration-500 p-1 shadow-inner",
                         isDisabled
                           ? "bg-zinc-800"
-                          : "bg-blue-600 shadow-[0_0_15px_rgba(59,130,246,0.5)]"
+                          : "bg-blue-600 shadow-[0_0_15px_rgba(59,130,246,0.2)]"
                       )}
                     >
                       <div
@@ -393,13 +384,13 @@ export function CommandList({ guildId, title, description }: CommandListProps) {
                     </button>
                   </CardHeader>
                   <CardContent className="px-5 pb-5 pt-0">
-                    <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed h-[34px]">
+                    <p className="text-[11px] text-zinc-500 line-clamp-2 leading-relaxed h-[34px] font-medium">
                       {cmd.description}
                     </p>
                   </CardContent>
 
                   {!isDisabled && (
-                    <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-blue-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                   )}
                 </Card>
               );

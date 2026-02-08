@@ -125,29 +125,35 @@ export function GuildOverviewView({
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative overflow-hidden rounded-2xl bg-linear-to-r from-purple-600/20 to-blue-600/20 border border-purple-500/20 p-6 flex items-center justify-between"
+          className="relative overflow-hidden rounded-2xl bg-zinc-900/40 border border-purple-500/20 p-6 flex items-center justify-between backdrop-blur-xl group"
         >
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-blue-600/10 opacity-50" />
           <div className="flex items-center gap-4 z-10">
-            <div className="w-12 h-12 rounded-xl bg-linear-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white shadow-lg shadow-purple-500/20">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white shadow-lg shadow-purple-500/20 group-hover:scale-110 transition-transform">
               <Crown className="w-6 h-6" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-white flex items-center gap-2">
+              <h3
+                className={cn(
+                  "text-lg font-bold text-white flex items-center gap-2",
+                  audiowide.className
+                )}
+              >
                 Go Premium
                 <Badge
                   variant="outline"
-                  className="bg-yellow-500/10 text-yellow-500 border-yellow-500/20"
+                  className="bg-yellow-500/10 text-yellow-500 border-yellow-500/20 text-[10px] font-black"
                 >
                   PRO
                 </Badge>
               </h3>
-              <p className="text-zinc-400 text-sm">
+              <p className="text-zinc-500 text-xs font-medium">
                 Unlock advanced automation, unlimited roles, and more.
               </p>
             </div>
           </div>
           <Button
-            className="z-10 bg-white text-black hover:bg-zinc-200 font-bold"
+            className="z-10 bg-white text-black hover:bg-zinc-200 font-black h-10 px-6 rounded-lg border-t border-white/50 shadow-xl transition-all active:scale-95"
             asChild
           >
             <Link href="/pricing">Upgrade Server</Link>
@@ -163,75 +169,78 @@ export function GuildOverviewView({
         <motion.div
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="lg:col-span-2 relative overflow-hidden rounded-3xl bg-zinc-900/50 border border-white/5 p-8 flex flex-col md:flex-row items-center md:items-start gap-6 backdrop-blur-md"
+          className="lg:col-span-2 relative overflow-hidden rounded-3xl bg-zinc-900/40 border border-white/5 p-8 flex flex-col md:flex-row items-center md:items-start gap-8 backdrop-blur-xl shadow-2xl"
         >
           {/* Background Pattern */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(59,130,246,0.1),transparent_50%)]" />
 
-          <Avatar className="h-24 w-24 rounded-3xl border-4 border-zinc-900 shadow-2xl z-10">
-            <AvatarImage
-              src={
-                guildIcon
-                  ? `https://cdn.discordapp.com/icons/${guildId}/${guildIcon}.png`
-                  : undefined
-              }
-              alt={guildName}
-              className="rounded-none object-cover"
-            />
-            <AvatarFallback className="rounded-none bg-linear-to-br from-blue-600 to-purple-600 text-white text-3xl font-bold">
-              {guildName.charAt(0) || "S"}
-            </AvatarFallback>
-          </Avatar>
+          <div className="relative shrink-0">
+            <div className="absolute inset-0 bg-blue-500/20 blur-2xl rounded-full" />
+            <Avatar className="h-28 w-28 rounded-3xl border-4 border-zinc-900 shadow-2xl z-10 relative">
+              <AvatarImage
+                src={
+                  guildIcon
+                    ? `https://cdn.discordapp.com/icons/${guildId}/${guildIcon}.png`
+                    : undefined
+                }
+                alt={guildName}
+                className="rounded-none object-cover"
+              />
+              <AvatarFallback className="rounded-none bg-gradient-to-br from-blue-600 to-purple-600 text-white text-4xl font-black">
+                {guildName.charAt(0) || "S"}
+              </AvatarFallback>
+            </Avatar>
+          </div>
 
-          <div className="flex-1 text-center md:text-left z-10">
+          <div className="flex-1 text-center md:text-left z-10 flex flex-col justify-center min-w-0">
             <h1
               className={cn(
-                "text-3xl md:text-4xl font-black text-white tracking-tight mb-2 flex flex-col md:flex-row items-center md:items-end gap-3",
+                "text-3xl md:text-5xl font-black text-white tracking-tighter mb-4 flex flex-wrap items-center justify-center md:justify-start gap-4",
                 audiowide.className
               )}
             >
               {guildName}
               {isPremium && (
-                <Badge className="bg-gradient-to-r from-yellow-500 to-amber-600 text-black border-none px-2 py-0.5 text-[10px] items-center gap-1 mb-1.5">
+                <Badge className="bg-gradient-to-r from-yellow-500 to-amber-500 text-black border-none px-2 py-1 text-[10px] font-black items-center gap-1">
                   <Crown className="w-3 h-3 fill-black" /> PRO
                 </Badge>
               )}
             </h1>
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 md:gap-6 text-sm text-zinc-400 font-medium">
-              <span className="flex items-center gap-2 bg-zinc-900/50 px-3 py-1 rounded-full border border-white/5">
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 md:gap-4 font-medium">
+              <span className="flex items-center gap-2.5 bg-zinc-950/50 px-4 py-1.5 rounded-full border border-white/5 text-xs text-zinc-400">
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
                 </span>
-                System Operational
+                Active System
               </span>
-              <span className="flex items-center gap-2 bg-zinc-900/50 px-3 py-1 rounded-full border border-white/5 font-mono text-xs">
-                ID: {guildId}
+              <span className="flex items-center gap-2 bg-zinc-950/50 px-4 py-1.5 rounded-full border border-white/5 font-mono text-[10px] text-zinc-500 uppercase tracking-wider">
+                NODE_ID: {guildId.slice(0, 8)}...
               </span>
             </div>
           </div>
 
-          <div className="flex flex-row md:flex-col gap-3 z-10 mt-4 md:mt-0">
+          <div className="flex flex-row md:flex-col gap-3 z-10 mt-6 md:mt-0 shrink-0">
             <Button
               variant="outline"
               size="sm"
-              className="h-9 bg-white/5 border-white/10 hover:bg-white/10 hover:text-white backdrop-blur-md"
+              className="h-10 bg-white/5 border-white/10 hover:bg-white/10 hover:text-white backdrop-blur-md rounded-lg font-black uppercase text-[10px] tracking-wider px-4"
               asChild
             >
               <Link href={`/dashboard/${guildId}/settings`}>
-                <Settings2 className="w-4 h-4 mr-2" /> Settings
+                <Settings2 className="w-3.5 h-3.5 mr-2" /> Global Settings
               </Link>
             </Button>
             <Button
               size="sm"
-              className="h-9 bg-[#5865F2] hover:bg-[#4752C4] text-white shadow-lg shadow-[#5865F2]/20"
+              className="h-10 bg-[#5865F2] hover:bg-[#4752C4] text-white shadow-lg shadow-[#5865F2]/20 rounded-lg font-black uppercase text-[10px] tracking-wider px-4 border-t border-white/20"
               asChild
             >
               <Link
                 href={`https://discord.com/channels/${guildId}`}
                 target="_blank"
               >
-                <ExternalLink className="w-4 h-4 mr-2" /> Discord
+                <ExternalLink className="w-3.5 h-3.5 mr-2" /> Discord Client
               </Link>
             </Button>
           </div>
@@ -242,37 +251,44 @@ export function GuildOverviewView({
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.1 }}
-          className="rounded-3xl bg-zinc-900/50 border border-white/5 p-6 backdrop-blur-md flex flex-col justify-between"
+          className="rounded-3xl bg-zinc-900/40 border border-white/5 p-6 backdrop-blur-xl flex flex-col justify-between shadow-xl relative overflow-hidden"
         >
-          <div>
-            <h3 className="text-zinc-400 text-xs font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
-              <Activity className="w-3 h-3" /> Quick Stats
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent pointer-events-none" />
+          <div className="relative z-10">
+            <h3 className="text-zinc-500 text-[10px] font-black uppercase tracking-widest mb-6 flex items-center gap-2">
+              <Activity className="w-3 h-3 text-blue-400" /> Operational Context
             </h3>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-zinc-500 text-sm font-medium">
-                  Uptime
+                <span className="text-zinc-500 text-xs font-bold uppercase tracking-tighter">
+                  System Uptime
                 </span>
-                <span className="text-white font-bold tabular-nums">99.9%</span>
+                <span className="text-white font-black tabular-nums text-sm">
+                  99.9%
+                </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-zinc-500 text-sm font-medium">
-                  Commands ran
+                <span className="text-zinc-500 text-xs font-bold uppercase tracking-tighter">
+                  Total Payload
                 </span>
-                <span className="text-white font-bold tabular-nums">1,240</span>
+                <span className="text-white font-black tabular-nums text-sm">
+                  1,240
+                </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-zinc-500 text-sm font-medium">
-                  Last Event
+                <span className="text-zinc-500 text-xs font-bold uppercase tracking-tighter">
+                  Pulse Latency
                 </span>
-                <span className="text-white font-bold text-sm">2m ago</span>
+                <span className="text-emerald-400 font-black text-sm">
+                  32ms
+                </span>
               </div>
             </div>
           </div>
-          <div className="mt-6 pt-6 border-t border-white/5">
-            <div className="flex items-center justify-between text-xs text-zinc-500">
-              <span>Next refresh</span>
-              <span className="flex items-center gap-1">
+          <div className="mt-6 pt-6 border-t border-white/5 relative z-10">
+            <div className="flex items-center justify-between text-[10px] text-zinc-600 font-black uppercase tracking-widest">
+              <span>Next Refresh</span>
+              <span className="flex items-center gap-1.5 text-blue-400">
                 <Clock className="w-3 h-3" /> 59s
               </span>
             </div>
@@ -375,31 +391,37 @@ export function GuildOverviewView({
                   <Link href={module.href} className="h-full block">
                     <Card
                       className={cn(
-                        "group h-full transition-all duration-300 border-white/5 bg-zinc-900/40 hover:bg-zinc-800/60 hover:border-blue-500/20 cursor-pointer"
+                        "group h-full transition-all duration-300 border-white/5 bg-zinc-900/40 backdrop-blur-xl hover:bg-zinc-800/60 hover:border-blue-500/20 cursor-pointer rounded-2xl overflow-hidden shadow-xl"
                       )}
                     >
-                      <CardContent className="p-5 flex items-start gap-4 h-full">
+                      <CardContent className="p-5 flex items-start gap-4 h-full relative">
+                        <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-blue-500/0 via-blue-500/20 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity" />
                         <div
                           className={cn(
-                            "w-10 h-10 rounded-lg flex items-center justify-center transition-colors shadow-lg",
-                            `bg-${module.color}-500/20 text-${module.color}-500 group-hover:bg-${module.color}-500 group-hover:text-white`
+                            "w-11 h-11 rounded-xl flex items-center justify-center transition-all shadow-lg border border-white/5 shrink-0 group-hover:scale-110",
+                            `bg-${module.color}-500/10 text-${module.color}-400 group-hover:bg-${module.color}-500 group-hover:text-white`
                           )}
                         >
-                          <module.icon className="w-5 h-5" />
+                          <module.icon className="w-5.5 h-5.5" />
                         </div>
-                        <div className="flex-1 space-y-1">
+                        <div className="flex-1 space-y-1 min-w-0">
                           <div className="flex items-center justify-between">
-                            <h3 className="font-bold text-white group-hover:text-blue-400 transition-colors">
+                            <h3
+                              className={cn(
+                                "font-bold text-white group-hover:text-blue-400 transition-colors truncate",
+                                audiowide.className
+                              )}
+                            >
                               {module.name}
                             </h3>
                             <div
                               className={cn(
                                 "w-2 h-2 rounded-full",
-                                "bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"
+                                "bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse"
                               )}
                             />
                           </div>
-                          <p className="text-xs text-zinc-500 leading-relaxed font-medium">
+                          <p className="text-[11px] text-zinc-500 leading-relaxed font-medium line-clamp-2">
                             {module.desc}
                           </p>
                         </div>
@@ -409,21 +431,26 @@ export function GuildOverviewView({
                 ) : (
                   <Card
                     className={cn(
-                      "group h-full transition-all duration-300 border-white/5 bg-zinc-950/30 opacity-60 cursor-not-allowed border-dashed"
+                      "group h-full transition-all duration-300 border-white/5 bg-zinc-950/20 opacity-40 cursor-not-allowed border-dashed rounded-2xl"
                     )}
                   >
                     <CardContent className="p-5 flex items-start gap-4 h-full">
-                      <div className="w-10 h-10 rounded-lg flex items-center justify-center transition-colors shadow-lg bg-zinc-800 text-zinc-500">
-                        <module.icon className="w-5 h-5" />
+                      <div className="w-11 h-11 rounded-xl flex items-center justify-center transition-colors shadow-lg bg-zinc-900 text-zinc-600 border border-white/5 shrink-0">
+                        <module.icon className="w-5.5 h-5.5" />
                       </div>
-                      <div className="flex-1 space-y-1">
+                      <div className="flex-1 space-y-1 min-w-0">
                         <div className="flex items-center justify-between">
-                          <h3 className="font-bold text-white transition-colors">
+                          <h3
+                            className={cn(
+                              "font-bold text-zinc-400 truncate",
+                              audiowide.className
+                            )}
+                          >
                             {module.name}
                           </h3>
-                          <div className="w-2 h-2 rounded-full bg-zinc-700" />
+                          <div className="w-2 h-2 rounded-full bg-zinc-800" />
                         </div>
-                        <p className="text-xs text-zinc-500 leading-relaxed font-medium">
+                        <p className="text-[11px] text-zinc-600 leading-relaxed font-medium line-clamp-2">
                           {module.desc}
                         </p>
                       </div>
@@ -441,33 +468,45 @@ export function GuildOverviewView({
             <Hash className="text-zinc-500 w-5 h-5" /> Activity Log
           </h2>
 
-          <Card className="bg-zinc-950/50 border-white/5 backdrop-blur-sm h-full min-h-[300px] flex flex-col relative overflow-hidden">
+          <Card className="bg-zinc-950/40 border-white/5 backdrop-blur-xl h-full min-h-[350px] flex flex-col relative overflow-hidden rounded-2xl shadow-2xl">
             {/* Fake terminal look */}
             <div
-              className="absolute inset-0 bg-repeat opacity-5"
+              className="absolute inset-0 bg-repeat opacity-[0.03] pointer-events-none"
               style={{ backgroundImage: "url('/grid.svg')" }}
             />
 
-            <div className="flex-1 flex flex-col items-center justify-center text-center p-8 space-y-4 relative z-10">
-              <div className="w-16 h-16 rounded-2xl bg-zinc-900/80 border border-white/5 flex items-center justify-center mb-2">
-                <Activity className="w-8 h-8 text-zinc-700" />
+            <div className="flex-1 flex flex-col items-center justify-center text-center p-8 space-y-6 relative z-10">
+              <div className="relative">
+                <div className="absolute inset-0 bg-zinc-500/10 blur-xl rounded-full animate-pulse" />
+                <div className="w-20 h-20 rounded-3xl bg-zinc-900/80 border border-white/5 flex items-center justify-center relative shadow-2xl">
+                  <Activity className="w-10 h-10 text-zinc-700" />
+                </div>
               </div>
-              <div>
-                <h3 className="text-base font-bold text-zinc-300">
-                  System Standing By
+              <div className="space-y-2">
+                <h3
+                  className={cn(
+                    "text-lg font-bold text-zinc-400 uppercase tracking-widest",
+                    audiowide.className
+                  )}
+                >
+                  Scanner Active
                 </h3>
-                <p className="text-xs text-zinc-600 mt-2 max-w-[200px] mx-auto">
-                  Waiting for incoming events from discord gateway...
+                <p className="text-xs text-zinc-600 max-w-[220px] mx-auto leading-relaxed border-t border-white/5 pt-4">
+                  Observing gateway event streams. Awaiting neural triggers from
+                  Discord...
                 </p>
               </div>
             </div>
 
             {/* Fake Footer */}
-            <div className="bg-zinc-900/80 border-t border-white/5 p-3 flex items-center justify-between text-[10px] text-zinc-500 font-mono">
-              <span>STATUS: IDLE</span>
-              <span className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
-                CONNECTED
+            <div className="bg-zinc-900/80 border-t border-white/5 p-4 flex items-center justify-between text-[9px] text-zinc-600 font-mono tracking-widest">
+              <span className="flex items-center gap-2">
+                <div className="w-1 h-3 bg-blue-500/40" />
+                DASHBOARD_ID_8802
+              </span>
+              <span className="flex items-center gap-2 font-black">
+                <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+                LINK_ACTIVE
               </span>
             </div>
           </Card>

@@ -29,23 +29,19 @@ export const useServerStore = create<ServerState>()(
     (set, get) => ({
       guilds: [],
       installedGuildIds: [],
-      isLoading: false,
+      isLoading: true,
       error: "none",
       lastFetched: null,
       lastActiveGuildId: null,
 
       fetchServers: async (force = false) => {
-        const { lastFetched, isLoading } = get();
+        const { lastFetched } = get();
 
         // Cache for 2 minutes to keep it snappy but relatively fresh
         const CACHE_DURATION = 2 * 60 * 1000;
         const now = Date.now();
-        if (
-          !force &&
-          !isLoading &&
-          lastFetched &&
-          now - lastFetched < CACHE_DURATION
-        ) {
+        if (!force && lastFetched && now - lastFetched < CACHE_DURATION) {
+          set({ isLoading: false });
           return;
         }
 

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSWRConfig } from "swr";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import {
@@ -11,6 +12,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Loader2,
   Save,
@@ -29,7 +37,6 @@ import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useXPSettings } from "@/hooks/use-xp-settings";
 import { useGuildChannels } from "@/hooks/use-guild-channels";
-import { ChevronDown } from "lucide-react";
 
 interface XPSettings {
   enabled: boolean;
@@ -58,6 +65,7 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
     isError,
     mutate,
   } = useXPSettings(guildId);
+  const { mutate: globalMutate } = useSWRConfig();
   const { channels, isLoading: channelsLoading } = useGuildChannels(guildId);
   const [saving, setSaving] = useState(false);
   const [settings, setSettings] = useState<XPSettings | null>(null);
@@ -65,8 +73,7 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
   // Sync internal state with cached SWR data
   useEffect(() => {
     if (initialSettings && !settings) {
-      // Extract the experienceSystem portion or use defaults
-      const xpSettings = initialSettings.experienceSystem || {
+      const defaults: XPSettings = {
         enabled: false,
         messageXP: true,
         commandXP: true,
@@ -80,6 +87,12 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
         commandCooldown: 30,
         levelUpMessages: true,
       };
+
+      // Merge current settings with defaults to ensure new fields are populated
+      const xpSettings = initialSettings.experienceSystem
+        ? { ...defaults, ...initialSettings.experienceSystem }
+        : defaults;
+
       setSettings(xpSettings);
     }
   }, [initialSettings, settings]);
@@ -110,6 +123,8 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
         toast.success("Settings saved successfully");
         // Update the SWR cache with the new values
         mutate();
+        // Force refresh leaderboard as well
+        globalMutate(`/api/guilds/${guildId}/leaderboard?limit=100`);
       } else {
         throw new Error(data.message || "Failed to save settings");
       }
@@ -121,19 +136,21 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
     }
   };
 
-  const updateSetting = (key: keyof XPSettings, value: any) => {
+  const updateSetting = <T extends keyof XPSettings>(
+    key: T,
+    value: XPSettings[T]
+  ) => {
     if (!settings) return;
     setSettings({ ...settings, [key]: value });
   };
 
-  const updateNestedSetting = (
-    parent: keyof XPSettings,
+  const updateNestedSetting = <T extends "messageXPAmount" | "commandXPAmount">(
+    parent: T,
     key: string,
-    value: any
+    value: number
   ) => {
     if (!settings) return;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const parentObj = (settings as any)[parent];
+    const parentObj = settings[parent] as any;
     setSettings({
       ...settings,
       [parent]: { ...parentObj, [key]: value },
@@ -165,52 +182,62 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
   }
 
   return (
-    <div className="space-y-6 animate-in fade-in-50 duration-500">
+    <div className="space-y-8 animate-in fade-in duration-700 pb-10">
       {/* Header Section */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/5 pb-6">
-        <div>
-          <h2 className="text-2xl font-semibold tracking-tight text-white flex items-center gap-2">
-            <Settings2 className="w-6 h-6 text-primary" />
-            XP Configuration
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="space-y-1">
+          <h2 className="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
+            <div className="p-1.5 rounded-lg bg-blue-500/10 border border-blue-500/20">
+              <Settings2 className="w-5 h-5 text-blue-400" />
+            </div>
+            System Configuration
           </h2>
-          <p className="text-muted-foreground mt-1">
-            Customize how your community earns experience and levels up.
+          <p className="text-sm text-zinc-500 font-medium">
+            Fine-tune how your community interacts with the leveling system.
           </p>
         </div>
         <Button
           onClick={handleSave}
           disabled={saving}
-          className="bg-primary hover:bg-primary/90 text-primary-foreground min-w-[140px]"
+          className="bg-blue-600 hover:bg-blue-500 text-white font-bold h-10 px-6 rounded-lg border-t border-white/20 shadow-lg shadow-blue-500/20 transition-all active:scale-95 disabled:opacity-50"
         >
           {saving ? (
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           ) : (
             <Save className="mr-2 h-4 w-4" />
           )}
-          Save Changes
+          Update Configuration
         </Button>
       </div>
 
       {/* Main Feature Toggle */}
-      <Card className="border-primary/20 bg-primary/5">
-        <CardContent className="pt-6">
-          <div className="flex items-center justify-between">
+      <Card
+        className={cn(
+          "border-white/5 bg-zinc-900/40 backdrop-blur-xl relative overflow-hidden transition-all duration-500",
+          settings.enabled
+            ? "border-blue-500/20 shadow-[0_0_20px_rgba(59,130,246,0.05)]"
+            : "opacity-70"
+        )}
+      >
+        <CardContent className="p-6">
+          <div className="flex items-center justify-between gap-6">
             <div className="space-y-1">
               <Label
                 htmlFor="xp-enabled"
-                className="text-lg font-medium text-primary"
+                className="text-lg font-bold text-white cursor-pointer"
               >
-                Enable XP System
+                XP & Leveling System
               </Label>
-              <p className="text-sm text-muted-foreground">
-                Turn the entire leveling system on or off.
+              <p className="text-sm text-zinc-500 max-w-xl">
+                Enabling this will allow users to earn experience, gain levels,
+                and unlock rewards across the server.
               </p>
             </div>
             <Switch
               id="xp-enabled"
               checked={settings.enabled}
               onCheckedChange={(checked) => updateSetting("enabled", checked)}
-              className="data-[state=checked]:bg-primary"
+              className="data-[state=checked]:bg-blue-500 scale-110"
             />
           </div>
         </CardContent>
@@ -218,284 +245,244 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
 
       <div
         className={cn(
-          "grid gap-6 transition-opacity duration-300",
-          !settings.enabled && "opacity-50 pointer-events-none"
+          "grid gap-8 transition-all duration-500",
+          !settings.enabled &&
+            "opacity-40 grayscale pointer-events-none translate-y-2"
         )}
       >
         {/* XP Sources Grid */}
-        <div>
-          <h3 className="text-lg font-medium text-white mb-4 flex items-center gap-2">
-            <Zap className="w-5 h-5 text-yellow-500" />
-            Earning Sources
+        <div className="space-y-4">
+          <h3 className="text-xs font-black text-zinc-500 uppercase tracking-widest flex items-center gap-2 px-1">
+            <Zap className="w-3.5 h-3.5" />
+            Experience Sources
           </h3>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            <Card className="group bg-zinc-900/50 border-white/5 hover:border-blue-500/30 hover:bg-blue-500/2 transition-all duration-300 rounded-lg relative overflow-hidden">
-              <div className="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity blur-2xl -z-10" />
-              <CardContent className="pt-6">
-                <div className="flex items-start justify-between">
-                  <div className="space-y-1">
-                    <div className="p-2 w-fit rounded-md bg-blue-500/10 text-blue-500 mb-2 group-hover:scale-110 transition-transform duration-300">
-                      <MessageSquare className="w-5 h-5" />
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              {
+                id: "messageXP",
+                label: "Message Activity",
+                icon: MessageSquare,
+                color: "blue",
+                desc: "Earn XP via chat",
+              },
+              {
+                id: "commandXP",
+                label: "Bot Commands",
+                icon: Zap,
+                color: "yellow",
+                desc: "Earn XP via commands",
+              },
+              {
+                id: "voiceXP",
+                label: "Voice Channels",
+                icon: Mic,
+                color: "green",
+                desc: "Earn XP while talking",
+              },
+              {
+                id: "roleXP",
+                label: "Passive Roles",
+                icon: Shield,
+                color: "purple",
+                desc: "Earn XP periodically",
+              },
+            ].map((source) => (
+              <Card
+                key={source.id}
+                className="group bg-zinc-900/50 border-white/5 hover:border-white/10 transition-all duration-300 rounded-xl overflow-hidden relative"
+              >
+                <CardContent className="p-5">
+                  <div className="flex flex-col gap-4">
+                    <div className="flex items-start justify-between">
+                      <div
+                        className={cn(
+                          "p-2.5 rounded-xl transition-all duration-300 group-hover:scale-110",
+                          source.color === "blue" &&
+                            "bg-blue-500/10 text-blue-400 border border-blue-500/20",
+                          source.color === "yellow" &&
+                            "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20",
+                          source.color === "green" &&
+                            "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20",
+                          source.color === "purple" &&
+                            "bg-purple-500/10 text-purple-400 border border-purple-500/20"
+                        )}
+                      >
+                        <source.icon className="w-5 h-5" />
+                      </div>
+                      <Switch
+                        id={source.id}
+                        checked={
+                          settings[source.id as keyof XPSettings] as boolean
+                        }
+                        onCheckedChange={(checked) =>
+                          updateSetting(source.id as any, checked)
+                        }
+                        className="scale-90"
+                      />
                     </div>
-                    <Label
-                      htmlFor="message-xp"
-                      className="text-base font-medium"
-                    >
-                      Message XP
-                    </Label>
-                    <p className="text-xs text-muted-foreground">
-                      Users earn XP for sending messages.
-                    </p>
-                  </div>
-                  <Switch
-                    id="message-xp"
-                    checked={settings.messageXP}
-                    onCheckedChange={(checked) =>
-                      updateSetting("messageXP", checked)
-                    }
-                  />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="group bg-zinc-900/50 border-white/5 hover:border-cyan-500/30 hover:bg-cyan-500/2 transition-all duration-300 rounded-lg relative overflow-hidden">
-              <div className="absolute inset-0 bg-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity blur-2xl -z-10" />
-              <CardContent className="pt-6">
-                <div className="flex items-start justify-between">
-                  <div className="space-y-1">
-                    <div className="p-2 w-fit rounded-md bg-cyan-500/10 text-cyan-500 mb-2 group-hover:scale-110 transition-transform duration-300">
-                      <Zap className="w-5 h-5" />
+                    <div className="space-y-1">
+                      <Label
+                        htmlFor={source.id}
+                        className="text-sm font-bold text-white cursor-pointer"
+                      >
+                        {source.label}
+                      </Label>
+                      <p className="text-[11px] text-zinc-500 font-medium">
+                        {source.desc}
+                      </p>
                     </div>
-                    <Label
-                      htmlFor="command-xp"
-                      className="text-base font-medium"
-                    >
-                      Command XP
-                    </Label>
-                    <p className="text-xs text-muted-foreground">
-                      XP for using application commands.
-                    </p>
                   </div>
-                  <Switch
-                    id="command-xp"
-                    checked={settings.commandXP}
-                    onCheckedChange={(checked) =>
-                      updateSetting("commandXP", checked)
-                    }
-                  />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="group bg-zinc-900/50 border-white/5 hover:border-green-500/30 hover:bg-green-500/2 transition-all duration-300 rounded-lg relative overflow-hidden">
-              <div className="absolute inset-0 bg-green-500/5 opacity-0 group-hover:opacity-100 transition-opacity blur-2xl -z-10" />
-              <CardContent className="pt-6">
-                <div className="flex items-start justify-between">
-                  <div className="space-y-1">
-                    <div className="p-2 w-fit rounded-md bg-green-500/10 text-green-500 mb-2 group-hover:scale-110 transition-transform duration-300">
-                      <Mic className="w-5 h-5" />
-                    </div>
-                    <Label htmlFor="voice-xp" className="text-base font-medium">
-                      Voice XP
-                    </Label>
-                    <p className="text-xs text-muted-foreground">
-                      XP for time spent in voice channels.
-                    </p>
-                  </div>
-                  <Switch
-                    id="voice-xp"
-                    checked={settings.voiceXP}
-                    onCheckedChange={(checked) =>
-                      updateSetting("voiceXP", checked)
-                    }
-                  />
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="group bg-zinc-900/50 border-white/5 hover:border-purple-500/30 hover:bg-purple-500/2 transition-all duration-300 rounded-lg relative overflow-hidden">
-              <div className="absolute inset-0 bg-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity blur-2xl -z-10" />
-              <CardContent className="pt-6">
-                <div className="flex items-start justify-between">
-                  <div className="space-y-1">
-                    <div className="p-2 w-fit rounded-md bg-purple-500/10 text-purple-500 mb-2 group-hover:scale-110 transition-transform duration-300">
-                      <Shield className="w-5 h-5" />
-                    </div>
-                    <Label htmlFor="role-xp" className="text-base font-medium">
-                      Role XP
-                    </Label>
-                    <p className="text-xs text-muted-foreground">
-                      Periodic XP based on assigned roles.
-                    </p>
-                  </div>
-                  <Switch
-                    id="role-xp"
-                    checked={settings.roleXP}
-                    onCheckedChange={(checked) =>
-                      updateSetting("roleXP", checked)
-                    }
-                  />
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6 lg:grid-cols-2">
           {/* XP Rates */}
-          <Card className="bg-zinc-900/50 border-white/5">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Hash className="w-5 h-5 text-cyan-500" />
-                XP Values
+          <Card className="bg-zinc-900/40 border-white/5 backdrop-blur-sm shadow-xl rounded-2xl">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-base flex items-center gap-2 font-bold">
+                <Hash className="w-4 h-4 text-blue-400" />
+                Experience Scaling
               </CardTitle>
-              <CardDescription>
-                Configure how much XP is awarded per action.
+              <CardDescription className="text-xs">
+                Control the density of experience points awarded.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-3">
-                <Label className="text-xs uppercase text-muted-foreground font-semibold tracking-wider">
-                  Message XP Range
+                <Label className="text-[10px] uppercase text-zinc-500 font-black tracking-widest">
+                  Chat Message Range (Randomized)
                 </Label>
-                <div className="flex items-center gap-3 p-3 rounded-md bg-zinc-950/40 border border-white/5 focus-within:border-primary/50 transition-colors">
-                  <div className="space-y-1.5 flex-1">
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-2">
                     <Label
                       htmlFor="min-xp"
-                      className="text-[10px] uppercase text-muted-foreground font-bold"
+                      className="text-[11px] text-zinc-400 font-medium"
                     >
                       Minimum
                     </Label>
-                    <Input
-                      id="min-xp"
-                      type="number"
-                      className="h-8 bg-transparent border-none p-0 focus-visible:ring-0 text-white font-medium"
-                      value={settings.messageXPAmount.min}
-                      onChange={(e) =>
-                        updateNestedSetting(
-                          "messageXPAmount",
-                          "min",
-                          parseInt(e.target.value) || 0
-                        )
-                      }
-                    />
+                    <div className="relative group">
+                      <Input
+                        id="min-xp"
+                        type="number"
+                        className="bg-zinc-950/50 border-white/10 h-10 px-4 rounded-xl focus:border-blue-500/50 focus:ring-blue-500/20 transition-all font-mono"
+                        value={settings.messageXPAmount.min}
+                        onChange={(e) =>
+                          updateNestedSetting(
+                            "messageXPAmount",
+                            "min",
+                            parseInt(e.target.value) || 0
+                          )
+                        }
+                      />
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-black text-zinc-600 uppercase tracking-tighter">
+                        MIN
+                      </div>
+                    </div>
                   </div>
-                  <div className="h-8 w-px bg-white/10" />
-                  <div className="space-y-1.5 flex-1 pl-1">
+                  <div className="space-y-2">
                     <Label
                       htmlFor="max-xp"
-                      className="text-[10px] uppercase text-muted-foreground font-bold"
+                      className="text-[11px] text-zinc-400 font-medium"
                     >
                       Maximum
                     </Label>
-                    <Input
-                      id="max-xp"
-                      type="number"
-                      className="h-8 bg-transparent border-none p-0 focus-visible:ring-0 text-white font-medium"
-                      value={settings.messageXPAmount.max}
-                      onChange={(e) =>
-                        updateNestedSetting(
-                          "messageXPAmount",
-                          "max",
-                          parseInt(e.target.value) || 0
-                        )
-                      }
-                    />
+                    <div className="relative group">
+                      <Input
+                        id="max-xp"
+                        type="number"
+                        className="bg-zinc-950/50 border-white/10 h-10 px-4 rounded-xl focus:border-blue-500/50 focus:ring-blue-500/20 transition-all font-mono"
+                        value={settings.messageXPAmount.max}
+                        onChange={(e) =>
+                          updateNestedSetting(
+                            "messageXPAmount",
+                            "max",
+                            parseInt(e.target.value) || 0
+                          )
+                        }
+                      />
+                      <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-black text-zinc-600 uppercase tracking-tighter">
+                        MAX
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="role-xp-amount">Role Award</Label>
-                  <div className="relative">
+              <div className="grid grid-cols-3 gap-4">
+                {[
+                  {
+                    id: "commandXPAmount",
+                    label: "Command",
+                    parent: true,
+                    icon: Zap,
+                  },
+                  { id: "voiceXPAmount", label: "Voice/Min", icon: Mic },
+                  { id: "roleXPAmount", label: "Role/Hr", icon: Shield },
+                ].map((item) => (
+                  <div key={item.id} className="space-y-2">
+                    <Label className="text-[11px] text-zinc-400 font-medium flex items-center gap-1.5">
+                      <item.icon className="w-3 h-3" />
+                      {item.label}
+                    </Label>
                     <Input
-                      id="role-xp-amount"
+                      id={item.id}
                       type="number"
-                      className="pr-10 bg-zinc-950/50 border-white/10"
-                      value={settings.roleXPAmount}
-                      onChange={(e) =>
-                        updateSetting(
-                          "roleXPAmount",
-                          parseInt(e.target.value) || 0
-                        )
+                      className="bg-zinc-950/50 border-white/10 h-10 rounded-xl focus:border-blue-500/50 font-mono text-center"
+                      value={
+                        item.parent
+                          ? ((settings as any)[item.id]?.base ?? 0)
+                          : ((settings as any)[item.id] ?? 0)
                       }
+                      onChange={(e) => {
+                        if (item.parent)
+                          updateNestedSetting(
+                            item.id as any,
+                            "base",
+                            parseInt(e.target.value) || 0
+                          );
+                        else
+                          updateSetting(
+                            item.id as any,
+                            parseInt(e.target.value) || 0
+                          );
+                      }}
                     />
-                    <span className="absolute right-3 top-2.5 text-xs text-muted-foreground">
-                      XP
-                    </span>
                   </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="command-xp-amount">Command Award</Label>
-                  <div className="relative">
-                    <Input
-                      id="command-xp-amount"
-                      type="number"
-                      className="pr-10 bg-zinc-950/50 border-white/10"
-                      value={settings.commandXPAmount?.base ?? 8}
-                      onChange={(e) =>
-                        updateNestedSetting(
-                          "commandXPAmount",
-                          "base",
-                          parseInt(e.target.value) || 0
-                        )
-                      }
-                    />
-                    <span className="absolute right-3 top-2.5 text-xs text-muted-foreground">
-                      XP
-                    </span>
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="voice-xp-amount">Voice Award</Label>
-                  <div className="relative">
-                    <Input
-                      id="voice-xp-amount"
-                      type="number"
-                      className="pr-10 bg-zinc-950/50 border-white/10"
-                      value={settings.voiceXPAmount ?? 5}
-                      onChange={(e) =>
-                        updateSetting(
-                          "voiceXPAmount",
-                          parseInt(e.target.value) || 0
-                        )
-                      }
-                    />
-                    <span className="absolute right-3 top-2.5 text-xs text-muted-foreground">
-                      XP
-                    </span>
-                  </div>
-                </div>
+                ))}
               </div>
             </CardContent>
           </Card>
 
           {/* Cooldowns */}
-          <Card className="bg-zinc-900/50 border-white/5">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Clock className="w-5 h-5 text-orange-500" />
-                Cooldowns
+          <Card className="bg-zinc-900/40 border-white/5 backdrop-blur-sm shadow-xl rounded-2xl">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-base flex items-center gap-2 font-bold">
+                <Clock className="w-4 h-4 text-orange-400" />
+                Rate Limiting
               </CardTitle>
-              <CardDescription>
-                Prevents spam by limiting how often XP is earned.
+              <CardDescription className="text-xs">
+                Prevent automated experience farming.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="space-y-4">
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="msg-cooldown">Message Cooldown</Label>
-                    <span className="text-xs text-muted-foreground">
-                      Default: 60s
-                    </span>
+                    <Label
+                      htmlFor="msg-cooldown"
+                      className="text-[11px] text-zinc-400 font-medium"
+                    >
+                      Chat Message Cooldown
+                    </Label>
                   </div>
-                  <div className="relative">
+                  <div className="relative group">
                     <Input
                       id="msg-cooldown"
                       type="number"
-                      className="pr-12 bg-zinc-950/50 border-white/10"
+                      className="bg-zinc-950/50 border-white/10 h-10 px-4 rounded-xl focus:border-orange-500/50 font-mono"
                       value={settings.messageCooldown}
                       onChange={(e) =>
                         updateSetting(
@@ -504,24 +491,26 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
                         )
                       }
                     />
-                    <span className="absolute right-3 top-2.5 text-xs text-muted-foreground">
-                      Sec
-                    </span>
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-black text-zinc-600 uppercase tracking-widest">
+                      SEC
+                    </div>
                   </div>
                 </div>
 
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="cmd-cooldown">Command Cooldown</Label>
-                    <span className="text-xs text-muted-foreground">
-                      Default: 30s
-                    </span>
+                    <Label
+                      htmlFor="cmd-cooldown"
+                      className="text-[11px] text-zinc-400 font-medium"
+                    >
+                      Command Usage Cooldown
+                    </Label>
                   </div>
-                  <div className="relative">
+                  <div className="relative group">
                     <Input
                       id="cmd-cooldown"
                       type="number"
-                      className="pr-12 bg-zinc-950/50 border-white/10"
+                      className="bg-zinc-950/50 border-white/10 h-10 px-4 rounded-xl focus:border-orange-500/50 font-mono"
                       value={settings.commandCooldown}
                       onChange={(e) =>
                         updateSetting(
@@ -530,18 +519,18 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
                         )
                       }
                     />
-                    <span className="absolute right-3 top-2.5 text-xs text-muted-foreground">
-                      Sec
-                    </span>
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-black text-zinc-600 uppercase tracking-widest">
+                      SEC
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="rounded-md bg-orange-500/10 p-4 border border-orange-500/20">
-                <p className="text-xs text-orange-200">
-                  <span className="font-semibold block mb-1">Cooldown Tip</span>
-                  Higher cooldowns help prevent spam, but setting them too high
-                  might discourage user activity.
+              <div className="p-3.5 rounded-xl bg-orange-500/5 border border-orange-500/20 flex gap-3">
+                <AlertCircle className="w-4 h-4 text-orange-400 shrink-0" />
+                <p className="text-[11px] text-orange-200/70 leading-relaxed font-medium">
+                  Optimizing cooldowns helps maintain server health. High
+                  traffic servers benefit from 60-90s message cooldowns.
                 </p>
               </div>
             </CardContent>
@@ -549,24 +538,30 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
         </div>
 
         {/* Notifications */}
-        <Card className="bg-zinc-900/50 border-white/5">
+        <Card className="bg-zinc-900/40 border-white/5 backdrop-blur-sm shadow-xl rounded-2xl overflow-hidden relative">
+          <div className="absolute top-0 right-0 p-8 opacity-5">
+            <Bell className="w-24 h-24 rotate-12" />
+          </div>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Bell className="w-5 h-5 text-pink-500" />
-              Notifications
+            <CardTitle className="text-base flex items-center gap-2 font-bold">
+              <Bell className="w-4 h-4 text-pink-400" />
+              Announcements
             </CardTitle>
-            <CardDescription>
-              Configure level-up announcements and channels.
+            <CardDescription className="text-xs">
+              Manage how and where level-up notifications are delivered.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="flex items-center justify-between p-4 rounded-md bg-white/5 border border-white/10">
+            <div className="flex items-center justify-between p-5 rounded-2xl bg-white/2 border border-white/5 hover:bg-white/4 transition-colors">
               <div className="space-y-1">
-                <Label htmlFor="levelup-msg" className="text-base">
-                  Level Up Messages
+                <Label
+                  htmlFor="levelup-msg"
+                  className="text-sm font-bold text-white"
+                >
+                  Level Up Broadcasts
                 </Label>
-                <p className="text-xs text-muted-foreground">
-                  Send a message when a user levels up
+                <p className="text-[11px] text-zinc-500 font-medium">
+                  Trigger an automated celebratory message on level advancement.
                 </p>
               </div>
               <Switch
@@ -575,44 +570,52 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
                 onCheckedChange={(checked) =>
                   updateSetting("levelUpMessages", checked)
                 }
+                className="data-[state=checked]:bg-pink-500"
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="levelup-channel">Announcement Channel</Label>
-              <div className="relative group">
-                <select
-                  id="levelup-channel"
-                  className={cn(
-                    "flex h-10 w-full rounded-md border border-white/10 bg-zinc-950/50 px-3 py-2 text-sm ring-offset-background appearance-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 transition-all cursor-pointer hover:border-white/20",
-                    channelsLoading && "animate-pulse"
-                  )}
-                  value={settings.levelUpChannel || ""}
-                  onChange={(e) =>
-                    updateSetting("levelUpChannel", e.target.value)
+            <div className="space-y-3">
+              <Label
+                htmlFor="levelup-channel"
+                className="text-[11px] text-zinc-400 font-medium px-1"
+              >
+                Delivery Destination
+              </Label>
+              <div className="w-full">
+                <Select
+                  value={settings.levelUpChannel || "none"}
+                  onValueChange={(value) =>
+                    updateSetting(
+                      "levelUpChannel",
+                      value === "none" ? "" : value
+                    )
                   }
                 >
-                  <option value="" className="bg-zinc-900">
-                    Current Channel (Context)
-                  </option>
-                  {channels.map((channel) => (
-                    <option
-                      key={channel.id}
-                      value={channel.id}
-                      className="bg-zinc-900"
+                  <SelectTrigger
+                    id="levelup-channel"
+                    className="w-full h-11 bg-zinc-950/50 border-white/10 rounded-xl focus:ring-pink-500/20 focus:border-pink-500/50 transition-all text-white font-medium hover:bg-zinc-950/80"
+                  >
+                    <SelectValue placeholder="Select a channel" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-zinc-900 border-white/10 text-white rounded-xl shadow-2xl backdrop-blur-xl">
+                    <SelectItem
+                      value="none"
+                      className="focus:bg-white/5 focus:text-white cursor-pointer py-2.5"
                     >
-                      # {channel.name}
-                    </option>
-                  ))}
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-muted-foreground group-hover:text-white transition-colors">
-                  <ChevronDown className="w-4 h-4" />
-                </div>
+                      Context (Current Channel)
+                    </SelectItem>
+                    {channels.map((channel) => (
+                      <SelectItem
+                        key={channel.id}
+                        value={channel.id}
+                        className="focus:bg-white/5 focus:text-white cursor-pointer py-2.5"
+                      >
+                        # {channel.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
-              <p className="text-xs text-muted-foreground flex items-center gap-2">
-                <MessageSquare className="w-3 h-3" />
-                Select where level up notifications should be sent.
-              </p>
             </div>
           </CardContent>
         </Card>

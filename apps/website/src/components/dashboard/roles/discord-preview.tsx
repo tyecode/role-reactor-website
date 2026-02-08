@@ -1,12 +1,40 @@
 "use client";
 
-import { ShieldCheck } from "lucide-react";
+import Image from "next/image";
+import * as React from "react";
+import { useParams } from "next/navigation";
+import { Check, SmilePlus } from "lucide-react";
 
 interface DiscordPreviewProps {
   title: string;
   description: string;
   color?: string;
-  reactions: { emoji: string; roleName: string }[];
+  reactions: {
+    emoji: string;
+    roleName: string;
+    roleColor?: number;
+  }[];
+  serverEmojis?: DiscordEmoji[];
+}
+
+interface DiscordEmoji {
+  id: string;
+  url: string;
+  identifier: string;
+}
+
+const PREVIEW_EMOJIS_CACHE = new Map<string, DiscordEmoji[]>();
+
+function toHex(decimal?: number) {
+  if (!decimal || decimal === 0) return "#b9bbbe";
+  return `#${decimal.toString(16).padStart(6, "0")}`;
+}
+
+function hexToRgba(hex: string, alpha: number) {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
 export function DiscordPreview({
@@ -14,14 +42,75 @@ export function DiscordPreview({
   description,
   color = "#3b82f6",
   reactions,
+  serverEmojis: propEmojis,
 }: DiscordPreviewProps) {
+  const params = useParams();
+  const guildId = params.guildId as string;
+  const [serverEmojis, setServerEmojis] = React.useState<DiscordEmoji[]>(
+    propEmojis || []
+  );
+
+  React.useEffect(() => {
+    if (propEmojis) {
+      setServerEmojis(propEmojis);
+      return;
+    }
+
+    async function fetchEmojis() {
+      if (!guildId) return;
+
+      // Check cache first to avoid flicker
+      if (PREVIEW_EMOJIS_CACHE.has(guildId)) {
+        setServerEmojis(PREVIEW_EMOJIS_CACHE.get(guildId)!);
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/guilds/${guildId}/emojis`);
+        if (res.ok) {
+          const data = await res.json();
+          const emojis = Array.isArray(data) ? data : [];
+          setServerEmojis(emojis);
+          PREVIEW_EMOJIS_CACHE.set(guildId, emojis);
+        }
+      } catch (err) {
+        console.error("Failed to fetch emojis in preview:", err);
+      }
+    }
+    fetchEmojis();
+  }, [guildId, propEmojis]);
+  const currentTime = React.useMemo(() => {
+    const now = new Date();
+    return now.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+  }, []);
+
+  const footerTime = React.useMemo(() => {
+    const now = new Date();
+    return `Today at ${now.toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    })}`;
+  }, []);
+
   return (
     <div className="bg-[#313338] text-[#dbdee1] p-4 rounded-xl font-sans text-[15px] select-none shadow-2xl border border-white/5">
       <div className="flex gap-4">
         {/* User Avatar */}
         <div className="shrink-0 mt-0.5">
-          <div className="w-10 h-10 rounded-full bg-[#5865f2] flex items-center justify-center overflow-hidden">
-            <ShieldCheck className="w-6 h-6 text-white" />
+          <div className="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center overflow-hidden">
+            <Image
+              src="/logo.png"
+              alt="Role Reactor Logo"
+              width={40}
+              height={40}
+              className="w-full h-full object-cover"
+              draggable={false}
+            />
           </div>
         </div>
 
@@ -31,48 +120,146 @@ export function DiscordPreview({
             <span className="font-semibold text-white hover:underline cursor-pointer">
               Role Reactor
             </span>
-            <span className="bg-[#5865f2] text-white text-[10px] px-1 rounded-[3px] font-bold h-3.5 flex items-center">
-              BOT
+            <span className="bg-[#5865f2] text-white text-[10px] px-1 rounded-[3px] font-bold h-3.5 flex items-center gap-0.5">
+              <Check className="w-2.5 h-2.5 stroke-[4px]" />
+              APP
             </span>
-            <span className="text-[12px] text-[#949ba4] ml-1">
-              Today at 12:00 PM
+            <span className="text-[12px] text-[#949ba4] ml-1 font-medium">
+              {currentTime}
             </span>
           </div>
 
           <div className="space-y-1.5">
             {/* Embed */}
             <div
-              className="mt-1 flex border-l-4 rounded-[4px] bg-[#2b2d31] max-w-[520px] overflow-hidden"
-              style={{ borderLeftColor: color }}
+              className="mt-1 flex rounded-[4px] bg-[#2b2d31] max-w-[520px] overflow-hidden"
+              style={{ borderLeft: `4px solid ${color}` }}
             >
               <div className="p-3 md:p-4 pr-12 w-full">
                 {title && (
-                  <div className="text-white font-bold text-base mb-2">
+                  <div className="text-white font-bold text-base mb-1">
                     {title}
                   </div>
                 )}
                 {description && (
-                  <div className="text-[14px] leading-[1.375] whitespace-pre-wrap">
+                  <div className="text-[14px] leading-[1.375] whitespace-pre-wrap text-[#dbdee1]">
                     {description}
                   </div>
                 )}
+
+                {/* Automatically Generated Available Roles Section */}
+                {reactions.some((r) => r.roleName) && (
+                  <div className="mt-3 space-y-1">
+                    <div className="text-white font-bold text-[14px]">
+                      Available Roles
+                    </div>
+                    <div className="space-y-0.5">
+                      {reactions
+                        .filter((r) => r.roleName)
+                        .map((r, i) => {
+                          const roleColor = toHex(r.roleColor);
+                          const isDefault = roleColor === "#b9bbbe";
+
+                          return (
+                            <div
+                              key={i}
+                              className="flex items-center gap-2 group/role"
+                            >
+                              <span className="text-base shrink-0 flex items-center justify-center w-5 h-5">
+                                {r.emoji?.startsWith("<") ? (
+                                  <img
+                                    src={
+                                      serverEmojis.find(
+                                        (e) => e.identifier === r.emoji
+                                      )?.url
+                                    }
+                                    alt=""
+                                    className="w-5 h-5 object-contain"
+                                  />
+                                ) : (
+                                  r.emoji || "❓"
+                                )}
+                              </span>
+                              <span
+                                className="px-1 rounded-[3px] font-medium transition-colors cursor-pointer text-[14px]"
+                                style={{
+                                  color: roleColor,
+                                  backgroundColor: isDefault
+                                    ? "rgba(79, 84, 92, 0.3)"
+                                    : hexToRgba(roleColor, 0.1),
+                                }}
+                                onMouseOver={(e) => {
+                                  e.currentTarget.style.backgroundColor =
+                                    isDefault
+                                      ? "rgba(79, 84, 92, 0.5)"
+                                      : hexToRgba(roleColor, 0.2);
+                                }}
+                                onMouseOut={(e) => {
+                                  e.currentTarget.style.backgroundColor =
+                                    isDefault
+                                      ? "rgba(79, 84, 92, 0.3)"
+                                      : hexToRgba(roleColor, 0.1);
+                                }}
+                              >
+                                @{r.roleName}
+                              </span>
+                            </div>
+                          );
+                        })}
+                    </div>
+                  </div>
+                )}
+
+                {/* Embed Footer (as seen in image) */}
+                <div className="mt-2 flex items-center gap-2 border-l border-white/5 pl-2">
+                  <div className="w-5 h-5 rounded-full overflow-hidden shrink-0">
+                    <Image
+                      src="/logo.png"
+                      alt=""
+                      width={20}
+                      height={20}
+                      className="w-full h-full object-cover"
+                      draggable={false}
+                    />
+                  </div>
+                  <span className="text-[12px] text-[#dbdee1] font-medium flex items-center gap-1">
+                    Role Reactions • ID: {guildId || "000000000000000000"} •{" "}
+                    {footerTime}
+                  </span>
+                </div>
               </div>
             </div>
 
             {/* Reactions */}
             {reactions.length > 0 && (
-              <div className="flex flex-wrap gap-1.5 mt-2">
+              <div className="flex flex-wrap gap-1 mt-2">
                 {reactions.map((r, i) => (
                   <div
                     key={i}
-                    className="bg-[#2b2d31] hover:bg-[#35373c] border border-transparent hover:border-[#5865f2]/50 rounded-[8px] px-2 py-0.5 flex items-center gap-1.5 cursor-pointer transition-colors"
+                    className="bg-[#2b2d31] hover:bg-[#3b3d42] border border-transparent hover:border-[#5865f2]/50 rounded-[4px] px-1.5 py-0.5 flex items-center gap-2 cursor-pointer transition-colors"
                   >
-                    <span className="text-base">{r.emoji}</span>
-                    <span className="text-[14px] font-medium text-[#b5bac1]">
+                    <span className="text-base flex items-center justify-center w-5 h-5">
+                      {r.emoji?.startsWith("<") ? (
+                        <img
+                          src={
+                            serverEmojis.find((e) => e.identifier === r.emoji)
+                              ?.url
+                          }
+                          alt=""
+                          className="w-5 h-5 object-contain"
+                        />
+                      ) : (
+                        r.emoji
+                      )}
+                    </span>
+                    <span className="text-[14px] font-semibold text-[#dbdee1]">
                       1
                     </span>
                   </div>
                 ))}
+                <div className="bg-[#2b2d31] hover:bg-[#3b3d42] rounded-[4px] px-1.5 py-0.5 flex items-center cursor-pointer text-[#b5bac1] hover:text-[#dbdee1]">
+                  <SmilePlus className="w-4 h-4" />
+                </div>
               </div>
             )}
           </div>

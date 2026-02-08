@@ -13,6 +13,8 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { cn } from "@/lib/utils";
+import { motion } from "motion/react";
 import { Badge } from "@/components/ui/badge";
 
 import {
@@ -174,11 +176,11 @@ export function DashboardSidebar() {
     if (items.length === 0) return null;
     return (
       <SidebarGroup>
-        <SidebarGroupLabel className="group-data-[collapsible=icon]:hidden">
+        <SidebarGroupLabel className="group-data-[collapsible=icon]:hidden text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-2 px-4">
           {label}
         </SidebarGroupLabel>
         <SidebarGroupContent>
-          <SidebarMenu>
+          <SidebarMenu className="gap-1 px-2">
             {items.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton
@@ -186,31 +188,57 @@ export function DashboardSidebar() {
                   isActive={isActive(item.href)}
                   tooltip={item.title}
                   disabled={item.isComingSoon}
-                  className={
-                    item.isComingSoon ? "opacity-50 cursor-not-allowed" : ""
-                  }
+                  className={cn(
+                    "h-10 transition-all duration-300 rounded-lg group/btn relative overflow-hidden",
+                    item.isComingSoon
+                      ? "opacity-30 cursor-not-allowed"
+                      : "hover:bg-white/5 active:scale-[0.98]",
+                    isActive(item.href) &&
+                      "bg-blue-500/10 text-blue-400 font-bold"
+                  )}
                 >
                   {item.isComingSoon ? (
-                    <div className="flex items-center gap-2 w-full">
+                    <div className="flex items-center gap-3 w-full px-2">
                       <item.icon className="size-4 shrink-0" />
-                      <span className="group-data-[collapsible=icon]:hidden">
+                      <span className="group-data-[collapsible=icon]:hidden text-xs font-bold truncate">
                         {item.title}
                       </span>
                       <Badge
                         variant="outline"
-                        className="ml-auto text-[10px] h-4 px-1 py-0 border-zinc-800 text-zinc-500 group-data-[collapsible=icon]:hidden"
+                        className="ml-auto text-[8px] h-4 px-1 py-0 border-zinc-800 text-zinc-600 group-data-[collapsible=icon]:hidden font-black uppercase tracking-tighter"
                       >
                         Soon
                       </Badge>
                     </div>
                   ) : (
-                    <Link href={item.href} className="flex items-center gap-2">
-                      <item.icon className="shrink-0" />
-                      <span className="group-data-[collapsible=icon]:hidden">
+                    <Link
+                      href={item.href}
+                      className="flex items-center gap-3 w-full px-2 relative z-10"
+                    >
+                      {isActive(item.href) && (
+                        <motion.div
+                          layoutId="active-nav"
+                          className="absolute left-0 w-1 h-4 bg-blue-500 rounded-full"
+                          transition={{
+                            type: "spring",
+                            stiffness: 300,
+                            damping: 30,
+                          }}
+                        />
+                      )}
+                      <item.icon
+                        className={cn(
+                          "size-4 shrink-0 transition-transform group-hover/btn:scale-110",
+                          isActive(item.href)
+                            ? "text-blue-400"
+                            : "text-zinc-500"
+                        )}
+                      />
+                      <span className="group-data-[collapsible=icon]:hidden text-xs truncate">
                         {item.title}
                       </span>
                       {item.badge && (
-                        <Badge className="ml-auto text-[10px] h-4 px-1 py-0 bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 border-none group-data-[collapsible=icon]:hidden">
+                        <Badge className="ml-auto text-[9px] h-4 px-1.5 py-0 bg-blue-500/10 text-blue-400 border-none group-data-[collapsible=icon]:hidden font-black uppercase">
                           {item.badge}
                         </Badge>
                       )}
@@ -268,7 +296,7 @@ export function DashboardSidebar() {
   return (
     <Sidebar
       collapsible="icon"
-      className="border-r border-sidebar-border"
+      className="border-r border-white/5 bg-[#09090b]"
       variant="inset"
     >
       <SidebarHeader>
