@@ -4,7 +4,7 @@ import { API_PREFIX } from "@/lib/api-config";
 import { botFetch } from "@/lib/bot-fetch";
 
 export async function POST(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: { guildId: string } }
 ) {
   try {

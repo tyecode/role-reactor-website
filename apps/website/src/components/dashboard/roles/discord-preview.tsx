@@ -167,6 +167,7 @@ export function DiscordPreview({
                             >
                               <span className="text-base shrink-0 flex items-center justify-center w-5 h-5">
                                 {r.emoji?.startsWith("<") ? (
+                                  /* eslint-disable-next-line @next/next/no-img-element */
                                   <img
                                     src={
                                       serverEmojis.find(
@@ -240,6 +241,7 @@ export function DiscordPreview({
                   >
                     <span className="text-base flex items-center justify-center w-5 h-5">
                       {r.emoji?.startsWith("<") ? (
+                        /* eslint-disable-next-line @next/next/no-img-element */
                         <img
                           src={
                             serverEmojis.find((e) => e.identifier === r.emoji)

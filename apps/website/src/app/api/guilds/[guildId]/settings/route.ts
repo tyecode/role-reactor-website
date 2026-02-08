@@ -46,7 +46,7 @@ export async function GET(
 }
 
 export async function PATCH(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: { guildId: string } }
 ) {
   try {
