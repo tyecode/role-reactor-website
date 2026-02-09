@@ -20,6 +20,12 @@ const buttonVariants = cva(
         ghost:
           "hover:bg-accent hover:text-accent-foreground hover:cursor-pointer",
         link: "text-primary underline-offset-4 hover:underline hover:cursor-pointer",
+        // Cyberpunk variants
+        glitch:
+          "bg-white text-zinc-950 hover:bg-zinc-200 shadow-[0_0_20px_-5px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_-5px_rgba(6,182,212,0.4)] font-black uppercase tracking-wider overflow-hidden ring-1 ring-white/20 hover:cursor-pointer",
+        neon: "border border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-300 hover:shadow-[0_0_15px_-4px_rgba(6,182,212,0.6)] hover:border-cyan-400 font-bold uppercase tracking-wider backdrop-blur-sm hover:cursor-pointer",
+        "ghost-glow":
+          "text-zinc-400 hover:text-white hover:bg-zinc-800/50 hover:shadow-[0_0_15px_-5px_rgba(255,255,255,0.2)] hover:cursor-pointer",
       },
       size: {
         default: "h-10 px-4 py-2",

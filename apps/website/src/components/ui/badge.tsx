@@ -17,10 +17,10 @@ const badgeVariants = cva(
         outline: "text-foreground",
         // Cyberpunk variants
         accent:
-          "border-[hsl(var(--cyber-border-accent))] bg-[hsl(var(--cyber-accent))]/10 text-[hsl(var(--cyber-accent))] shadow-[var(--cyber-glow-sm)] hover:bg-[hsl(var(--cyber-accent))]/20",
+          "border-cyan-500/20 bg-cyan-500/10 text-cyan-400 shadow-[0_0_10px_-4px_rgba(6,182,212,0.5)] hover:bg-cyan-500/20 hover:shadow-[0_0_15px_-4px_rgba(6,182,212,0.6)] backdrop-blur-sm",
         premium:
-          "border-[hsl(var(--cyber-premium))]/20 bg-[hsl(var(--cyber-premium))]/10 text-[hsl(var(--cyber-premium))] shadow-[0_0_8px_rgb(234_179_8_/_0.3)] hover:bg-[hsl(var(--cyber-premium))]/20",
-        pro: "border-[hsl(var(--cyber-pro))]/20 bg-[hsl(var(--cyber-pro))]/10 text-[hsl(var(--cyber-pro))] shadow-[var(--cyber-glow-sm)] hover:bg-[hsl(var(--cyber-pro))]/20",
+          "border-yellow-500/20 bg-yellow-500/10 text-yellow-400 shadow-[0_0_10px_-4px_rgba(234,179,8,0.5)] hover:bg-yellow-500/20 hover:shadow-[0_0_15px_-4px_rgba(234,179,8,0.6)] backdrop-blur-sm",
+        pro: "border-cyan-400/20 bg-cyan-400/10 text-cyan-300 shadow-[0_0_10px_-4px_rgba(34,211,238,0.5)] hover:bg-cyan-400/20 hover:shadow-[0_0_15px_-4px_rgba(34,211,238,0.6)] backdrop-blur-sm font-black tracking-wider uppercase",
       },
     },
     defaultVariants: {

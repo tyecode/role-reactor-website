@@ -265,7 +265,7 @@ export function DashboardSidebar() {
     status === "loading" ? (
       <SidebarMenuButton
         size="lg"
-        className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+        className="data-[state=open]:bg-white/5 data-[state=open]:text-white"
         disabled
       >
         <Skeleton className="h-8 w-8 rounded-md shrink-0" />
@@ -278,7 +278,7 @@ export function DashboardSidebar() {
     ) : (
       <SidebarMenuButton
         size="lg"
-        className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+        className="data-[state=open]:bg-white/5 data-[state=open]:text-white"
         tooltip={session?.user?.name || "Account"}
       >
         <Avatar className="h-8 w-8 rounded-md shrink-0">
@@ -303,7 +303,7 @@ export function DashboardSidebar() {
   return (
     <Sidebar
       collapsible="icon"
-      className="border-r border-white/5 bg-[#09090b]"
+      className="border-r border-white/5 bg-zinc-950"
       variant="inset"
     >
       <SidebarHeader>

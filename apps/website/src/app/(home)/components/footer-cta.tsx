@@ -2,7 +2,7 @@ import Link from "next/link";
 import { FaDiscord, FaRocket } from "react-icons/fa";
 import { Sparkles, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { BubbleBackground } from "@/components/ui/bubble-background";
+import { BubbleBackground } from "@/components/common/bubble-background";
 
 import { links } from "@/constants/links";
 

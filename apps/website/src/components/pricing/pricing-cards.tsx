@@ -32,7 +32,7 @@ export function PricingCards({
         {[1, 2, 3, 4].map((i) => (
           <div
             key={i}
-            className="h-20 bg-zinc-950/40 rounded-2xl animate-pulse border border-white/5"
+            className="h-20 bg-zinc-950/40 rounded-2xl animate-skeleton-glitch border border-white/5"
           />
         ))}
       </div>

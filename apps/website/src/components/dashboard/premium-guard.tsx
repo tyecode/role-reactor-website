@@ -56,94 +56,101 @@ export function PremiumGuard({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[420px] bg-[hsl(var(--cyber-bg-base))] border-[hsl(var(--cyber-border-accent-hover))] p-0 shadow-[var(--cyber-shadow-xl)] gap-0 rounded-[var(--cyber-radius-lg)] backdrop-blur-2xl ring-2 ring-[hsl(var(--cyber-border-accent))] overflow-hidden">
-        <DialogTitle className="sr-only">{title}</DialogTitle>
-        <DialogDescription className="sr-only">{description}</DialogDescription>
+      <DialogContent className="max-w-[420px] overflow-visible bg-transparent border-none shadow-none ring-0 p-0 dialog-glitch-advanced">
+        <div className="dialog-inner-content relative bg-zinc-950/90 border border-white/10 shadow-[0_0_50px_-12px_rgba(6,182,212,0.25)] backdrop-blur-xl ring-1 ring-white/5 overflow-hidden rounded-[inherit]">
+          <DialogTitle className="sr-only">{title}</DialogTitle>
+          <DialogDescription className="sr-only">
+            {description}
+          </DialogDescription>
 
-        {/* Animated Background Effects */}
-        <div className="absolute inset-0 rounded-[var(--cyber-radius-lg)] overflow-hidden pointer-events-none">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(6,182,212,0.15),transparent_50%)]" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(6,182,212,0.1),transparent_50%)]" />
-          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--cyber-accent))]/50 to-transparent" />
-          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[hsl(var(--cyber-accent))]/30 to-transparent" />
-        </div>
+          {/* Animated Background Effects */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(6,182,212,0.15),transparent_60%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(6,182,212,0.1),transparent_60%)]" />
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent" />
 
-        <DialogHeader className="px-8 pt-8 pb-4 relative overflow-hidden">
-          {/* Enhanced Background Crown Glow */}
-          <div className="absolute top-0 right-0 p-8 opacity-20 blur-2xl pointer-events-none animate-pulse">
-            <Crown className="w-32 h-32 text-[hsl(var(--cyber-accent))]" />
-          </div>
-          <div className="absolute top-0 right-0 p-8 opacity-30 pointer-events-none">
-            <Crown className="w-24 h-24 text-[hsl(var(--cyber-accent))] drop-shadow-[var(--cyber-glow-lg)]" />
+            {/* Grid Pattern Overlay */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,black,transparent)]" />
           </div>
 
-          <div className="flex flex-col relative z-10">
-            <h3
-              className={cn(
-                "text-xl font-black text-[hsl(var(--cyber-text-primary))] tracking-widest leading-none flex items-center gap-3 drop-shadow-[var(--cyber-glow-sm)]",
-                audiowide.className
-              )}
-            >
-              <Zap className="w-5 h-5 text-[hsl(var(--cyber-accent))] drop-shadow-[var(--cyber-glow-sm)]" />
-              {title}
-            </h3>
-            <p className="text-[10px] text-[hsl(var(--cyber-text-muted))] mt-3 font-bold uppercase tracking-wider leading-relaxed">
-              {description}
-            </p>
-          </div>
-        </DialogHeader>
+          <DialogHeader className="px-8 pt-8 pb-4 relative overflow-hidden">
+            {/* Enhanced Background Crown Glow */}
+            <div className="absolute top-0 right-0 p-8 opacity-20 blur-2xl pointer-events-none animate-pulse">
+              <Crown className="w-32 h-32 text-cyan-500" />
+            </div>
+            <div className="absolute top-0 right-0 p-8 opacity-30 pointer-events-none">
+              <Crown className="w-24 h-24 text-cyan-500 drop-shadow-[0_0_15px_rgba(6,182,212,0.5)]" />
+            </div>
 
-        <div className="px-8 pb-8 space-y-6">
-          {/* Features Grid */}
-          <div className="grid grid-cols-2 gap-2">
-            {features.map((feature) => (
-              <div
-                key={feature}
-                className="bg-[hsl(var(--cyber-bg-elevated-subtle))] px-3 py-3 rounded-[var(--cyber-radius-sm)] border border-[hsl(var(--cyber-border-subtle))] flex items-center gap-2.5 hover:bg-[hsl(var(--cyber-bg-elevated))] hover:border-[hsl(var(--cyber-border-accent-hover))] transition-all group/item"
+            <div className="flex flex-col relative z-10">
+              <h3
+                className={cn(
+                  "text-xl font-black text-white tracking-widest leading-none flex items-center gap-3 drop-shadow-[0_0_8px_rgba(6,182,212,0.5)]",
+                  audiowide.className
+                )}
               >
-                <div className="w-5 h-5 rounded-full bg-[hsl(var(--cyber-accent))]/10 flex items-center justify-center shrink-0 group-hover/item:bg-[hsl(var(--cyber-accent))]/20 transition-colors border border-[hsl(var(--cyber-border-accent-hover))]">
-                  <CheckCircle2 className="w-3 h-3 text-[hsl(var(--cyber-accent))]" />
+                <Zap className="w-5 h-5 text-cyan-500 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
+                {title}
+              </h3>
+              <p className="text-[10px] text-zinc-400 mt-3 font-bold uppercase tracking-wider leading-relaxed">
+                {description}
+              </p>
+            </div>
+          </DialogHeader>
+
+          <div className="px-8 pb-8 space-y-6 relative z-10">
+            {/* Features Grid */}
+            <div className="grid grid-cols-2 gap-2">
+              {features.map((feature) => (
+                <div
+                  key={feature}
+                  className="bg-zinc-900/50 px-3 py-3 rounded-lg border border-white/5 flex items-center gap-2.5 hover:bg-zinc-800/50 hover:border-cyan-500/30 transition-all group/item backdrop-blur-sm"
+                >
+                  <div className="w-5 h-5 rounded-full bg-cyan-500/10 flex items-center justify-center shrink-0 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/20 group-hover/item:border-cyan-500/40">
+                    <CheckCircle2 className="w-3 h-3 text-cyan-400" />
+                  </div>
+                  <span className="text-[10px] text-zinc-300 font-bold uppercase tracking-wider truncate group-hover/item:text-white transition-colors">
+                    {feature}
+                  </span>
                 </div>
-                <span className="text-[10px] text-[hsl(var(--cyber-text-secondary))] font-bold uppercase tracking-wider truncate">
-                  {feature}
-                </span>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
 
-          {/* Activation Button */}
-          <Button
-            size="lg"
-            disabled={isActivating}
-            onClick={onActivate}
-            className="w-full bg-[hsl(var(--cyber-text-primary))] text-[hsl(var(--cyber-accent-foreground))] hover:bg-[hsl(var(--cyber-text-secondary))] h-14 rounded-[var(--cyber-radius-md)] text-xs font-black uppercase tracking-[0.2em] group transition-all active:scale-95 shadow-2xl relative overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-            {isActivating ? (
-              <Loader2 className="w-5 h-5 animate-spin" />
-            ) : (
-              <>
-                <Zap className="w-5 h-5 mr-3 group-hover:scale-110 transition-transform" />
-                {buttonText}
-              </>
-            )}
-          </Button>
-
-          <p className="text-[9px] text-[hsl(var(--cyber-text-placeholder))] text-center tracking-[0.3em] uppercase font-black opacity-60">
-            {subText}
-          </p>
-
-          {/* Learn More Link */}
-          {guildId && (
-            <Link
-              href={`/dashboard/${guildId}/pro-engine`}
-              onClick={() => onOpenChange?.(false)}
-              className="flex items-center justify-center gap-2 text-[10px] text-[hsl(var(--cyber-accent))] hover:text-[hsl(var(--cyber-accent))]/80 font-bold uppercase tracking-widest transition-colors group/link"
+            {/* Activation Button */}
+            <Button
+              size="lg"
+              disabled={isActivating}
+              onClick={onActivate}
+              className="w-full bg-white text-zinc-950 hover:bg-zinc-200 h-14 rounded-xl text-xs font-black uppercase tracking-[0.2em] group transition-all active:scale-95 shadow-[0_0_20px_-5px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_-5px_rgba(6,182,212,0.4)] relative overflow-hidden ring-1 ring-white/20"
             >
-              <span>Learn more about Pro Engine</span>
-              <ExternalLink className="w-3 h-3 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
-            </Link>
-          )}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+              {isActivating ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                <>
+                  <Zap className="w-5 h-5 mr-3 text-cyan-600 group-hover:scale-110 transition-transform fill-current" />
+                  {buttonText}
+                </>
+              )}
+            </Button>
+
+            <p className="text-[9px] text-zinc-500 text-center tracking-[0.3em] uppercase font-black opacity-60">
+              {subText}
+            </p>
+
+            {/* Learn More Link */}
+            {guildId && (
+              <Link
+                href={`/dashboard/${guildId}/pro-engine`}
+                onClick={() => onOpenChange?.(false)}
+                className="flex items-center justify-center gap-2 text-[10px] text-cyan-500 hover:text-cyan-400 font-bold uppercase tracking-widest transition-colors group/link hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.5)]"
+              >
+                <span>Learn more about Pro Engine</span>
+                <ExternalLink className="w-3 h-3 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
+              </Link>
+            )}
+          </div>
         </div>
       </DialogContent>
     </Dialog>

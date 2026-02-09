@@ -28,7 +28,7 @@
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
-  --radius: 0.5rem;
+  --radius: 1rem;
 }
 
 :root {
@@ -58,78 +58,8 @@
   --border: 240 3.7% 15.9%; /* Zinc-800 - The common "base" border color */
   --input: 240 3.7% 15.9%; /* Zinc-800 */
   --ring: 240 4.9% 83.9%;
-  --radius: 0.75rem;
-  --sidebar: hsl(0 0% 98%);
-  --sidebar-foreground: hsl(240 5.3% 26.1%);
-  --sidebar-primary: hsl(240 5.9% 10%);
-  --sidebar-primary-foreground: hsl(0 0% 98%);
-  --sidebar-accent: hsl(240 4.8% 95.9%);
-  --sidebar-accent-foreground: hsl(240 5.9% 10%);
-  --sidebar-border: hsl(220 13% 91%);
+  --radius: 1rem;
   --sidebar-ring: hsl(217.2 91.2% 59.8%);
-
-  /* ========================================
-     CYBERPUNK THEME VARIABLES
-     ======================================== */
-
-  /* Primary Accent - Cyan */
-  --cyber-accent: 188 91% 43%; /* cyan-500 #06B6D4 */
-  --cyber-accent-foreground: 0 0% 0%; /* Black text on cyan */
-
-  /* Background Layers */
-  --cyber-bg-base: 240 10% 3.9%; /* zinc-950 - Main background */
-  --cyber-bg-subtle: 240 10% 3.9% / 0.4; /* zinc-950/40 - Cards, overlays */
-  --cyber-bg-elevated: 240 5.9% 10%; /* zinc-900 - Elevated surfaces */
-  --cyber-bg-elevated-subtle: 240 5.9% 10% / 0.4; /* zinc-900/40 */
-  --cyber-bg-input: 240 5.9% 10% / 0.4; /* zinc-900/40 - Input backgrounds */
-
-  /* Border Colors */
-  --cyber-border-subtle: 0 0% 100% / 0.05; /* white/5 - Subtle borders */
-  --cyber-border-accent: 188 91% 43% / 0.1; /* cyan-500/10 - Accent borders */
-  --cyber-border-accent-hover: 188 91% 43% / 0.3; /* cyan-500/30 - Hover state */
-
-  /* Text Colors */
-  --cyber-text-primary: 0 0% 100%; /* white */
-  --cyber-text-secondary: 240 5% 84%; /* zinc-300 */
-  --cyber-text-muted: 240 5% 65%; /* zinc-400 */
-  --cyber-text-subtle: 240 5% 45%; /* zinc-500 */
-  --cyber-text-placeholder: 240 5% 45%; /* zinc-600 */
-
-  /* Ring/Focus Colors */
-  --cyber-ring: 188 91% 43% / 0.5; /* cyan-500/50 - Focus rings */
-  --cyber-ring-offset: 240 10% 3.9%; /* zinc-950 - Ring offset color */
-
-  /* Glow Effects (use with shadow-[...]) */
-  --cyber-glow-sm: 0 0 8px rgb(6 182 212 / 0.3);
-  --cyber-glow-md: 0 0 20px rgb(6 182 212 / 0.3);
-  --cyber-glow-lg: 0 0 40px rgb(6 182 212 / 0.3);
-  --cyber-glow-xl: 0 0 50px rgb(6 182 212 / 0.3);
-
-  /* Shadow Effects */
-  --cyber-shadow-sm: 0 0 10px rgb(0 0 0 / 0.5);
-  --cyber-shadow-md: 0 0 20px rgb(0 0 0 / 0.7);
-  --cyber-shadow-lg: 0 0 50px rgb(0 0 0 / 1);
-  --cyber-shadow-xl: 0 0 100px rgb(6 182 212 / 0.3), 0 0 50px rgb(0 0 0 / 1);
-
-  /* Gradient Colors */
-  --cyber-gradient-start: 188 91% 43%; /* cyan-500 */
-  --cyber-gradient-end: 188 91% 43%; /* cyan-500 */
-
-  /* Status Colors with Glow */
-  --cyber-success: 142 71% 45%; /* emerald-500 */
-  --cyber-warning: 38 92% 50%; /* amber-500 */
-  --cyber-error: 0 72% 51%; /* red-500 */
-  --cyber-info: 188 91% 43%; /* cyan-500 */
-
-  /* Premium/Pro Colors */
-  --cyber-premium: 45 93% 47%; /* yellow-500 for premium */
-  --cyber-pro: 188 91% 43%; /* cyan-500 for pro */
-
-  /* Border Radius */
-  --cyber-radius-sm: 0.75rem; /* 12px - rounded-xl */
-  --cyber-radius-md: 1rem; /* 16px - rounded-2xl */
-  --cyber-radius-lg: 1.5rem; /* 24px - rounded-3xl */
-  --cyber-radius-xl: 2.5rem; /* 40px - rounded-[2.5rem] */
 }
 
 /* Tailwind 4 compatibility fixes for sidebar group-data-* selectors */
@@ -168,7 +98,7 @@
 }
 
 .group[data-collapsible="offcanvas"] .sidebar-rail:hover {
-  background-color: var(--sidebar);
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 @layer utilities {
@@ -500,6 +430,49 @@
     display: none; /* Chrome, Safari and Opera */
   }
 
+  /* Skeleton Glitch Animation - For thematic loading states */
+  @keyframes skeletonGlitch {
+    0%,
+    100% {
+      opacity: 0.35;
+      transform: translateX(0) scale(1);
+      filter: brightness(1);
+    }
+    15% {
+      opacity: 0.5;
+      transform: translateX(-1px) scaleX(1.01);
+      filter: brightness(1.3) hue-rotate(5deg);
+    }
+    30% {
+      opacity: 0.25;
+      transform: translateX(2px) scaleY(1.02);
+      filter: brightness(0.8) hue-rotate(-5deg);
+    }
+    45% {
+      opacity: 0.6;
+      transform: translateX(-2px) scaleX(0.99);
+      filter: contrast(1.3);
+    }
+    60% {
+      opacity: 0.4;
+      transform: translateX(1px);
+      filter: brightness(1.1);
+    }
+    75% {
+      opacity: 0.7;
+      transform: translateX(0) scale(1.01);
+      filter: saturate(1.5);
+    }
+    90% {
+      opacity: 0.3;
+      transform: translateX(-1px);
+    }
+  }
+
+  .animate-skeleton-glitch {
+    animation: skeletonGlitch 0.6s steps(8) infinite;
+  }
+
   /* Glitch Animation for Dialogs */
   @keyframes dialogGlitchIn {
     0% {
@@ -688,25 +661,42 @@
   0% {
     opacity: 1;
     clip-path: inset(0 0 0 0);
-    filter: brightness(1);
+    filter: brightness(1) hue-rotate(0deg);
   }
-  25% {
-    filter: brightness(1.4) hue-rotate(-20deg);
-    opacity: 0.8;
+  10% {
+    filter: brightness(0.95) hue-rotate(-2deg);
+  }
+  20% {
+    filter: brightness(1.1) hue-rotate(3deg);
+  }
+  30% {
+    filter: brightness(0.85) hue-rotate(-5deg);
+  }
+  40% {
+    clip-path: inset(0 0 0 0);
+    filter: brightness(1.2) hue-rotate(5deg);
   }
   50% {
-    clip-path: inset(40% 0 35% 0);
-    filter: brightness(1.8) hue-rotate(20deg);
-    opacity: 0.5;
+    clip-path: inset(80% 0 0 0);
+    filter: brightness(1) hue-rotate(-8deg);
   }
-  75% {
-    clip-path: inset(20% 0 60% 0);
-    opacity: 0.2;
+  60% {
+    clip-path: inset(55% 0 20% 0);
+    filter: brightness(1.3) hue-rotate(10deg);
+  }
+  70% {
+    clip-path: inset(30% 0 45% 0);
+    filter: brightness(1) hue-rotate(-15deg);
+  }
+  80% {
+    opacity: 1;
+    clip-path: inset(0 0 70% 0);
+    filter: brightness(1.5) hue-rotate(15deg);
   }
   100% {
     opacity: 0;
     clip-path: inset(0 0 100% 0);
-    filter: brightness(3) saturate(0);
+    filter: brightness(2) saturate(0);
   }
 }
 
@@ -770,34 +760,105 @@
   }
 }
 
-/* Glitch Lines Fade Animation */
+/* Glitch Lines Fade & Jitter Animation */
 @keyframes glitchLinesFade {
-  0%,
-  100% {
+  0% {
     opacity: 0;
+    transform: translateY(0) scaleY(1);
+  }
+  2% {
+    opacity: 1;
+    transform: translateY(-5%) scaleY(1.5);
   }
   5% {
-    opacity: 1;
+    opacity: 0.8;
+    transform: translateY(2%) scaleY(0.5);
   }
   10% {
-    opacity: 0.8;
+    opacity: 1;
+    transform: translateY(-1%) scaleY(1.2);
   }
   15% {
+    opacity: 0.4;
+    transform: translateY(5%) scaleY(2);
+  }
+  20% {
     opacity: 1;
+    transform: translateY(-3%) scaleY(1);
   }
   25% {
     opacity: 0.6;
+    transform: translateY(1%) scaleY(0.8);
+  }
+  30% {
+    opacity: 0;
+    transform: translateY(0) scaleY(1);
+  }
+  31% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  32% {
+    opacity: 0.8;
+    transform: translateY(-10%) scaleY(0.5);
+  }
+  33% {
+    opacity: 0;
+    transform: translateY(0);
   }
   35% {
     opacity: 0.3;
+    transform: translateY(3%) scaleY(1.5);
   }
-  45% {
+  40% {
     opacity: 0;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+}
+
+@keyframes vibrantGlitchLines {
+  0% {
+    background-position: 0 0;
+  }
+  10% {
+    background-position: 2px 5%;
+  }
+  20% {
+    background-position: -3px -10%;
+  }
+  30% {
+    background-position: 5px 15%;
+  }
+  40% {
+    background-position: -2px -5%;
+  }
+  50% {
+    background-position: 0 20%;
+  }
+  60% {
+    background-position: -5px -15%;
+  }
+  70% {
+    background-position: 3px 10%;
+  }
+  80% {
+    background-position: -2px -20%;
+  }
+  90% {
+    background-position: 1px 5%;
+  }
+  100% {
+    background-position: 0 0;
   }
 }
 
 /* Glitch Scanlines Overlay - Cross-hatch CRT effect extending beyond dialog */
-.dialog-glitch-animation::before {
+.dialog-glitch-animation::before,
+.dialog-glitch-advanced::before {
   content: "";
   position: absolute;
   top: -100vh;
@@ -825,12 +886,18 @@
   mix-blend-mode: screen;
 }
 
-.dialog-glitch-animation[data-state="open"]::before {
-  animation: glitchLinesFade 0.5s steps(8) forwards;
+.dialog-glitch-animation[data-state="open"]::before,
+.dialog-glitch-advanced[data-state="open"]::before {
+  animation: glitchLinesFade 0.55s steps(12) forwards;
+}
+
+.dialog-glitch-advanced[data-state="closed"]::before {
+  animation: fade-out 0.5s forwards !important;
 }
 
 /* Vibrant Horizontal Glitch Lines - Screen-wide colorful artifacts */
-.dialog-glitch-animation::after {
+.dialog-glitch-animation::after,
+.dialog-glitch-advanced::after {
   content: "";
   position: absolute;
   top: -100vh;
@@ -838,123 +905,119 @@
   right: -100vw;
   height: 300vh;
   background:
-    /* Top screen glitch lines - Subtle */
-    linear-gradient(
+    /* More technical thin lines */
+    repeating-linear-gradient(
       transparent 0%,
-      transparent 8%,
-      rgba(255, 0, 150, 0.08) 8%,
-      rgba(255, 0, 150, 0.08) 8.2%,
-      transparent 8.2%,
-      transparent 100%
+      transparent 2%,
+      rgba(0, 255, 255, 0.05) 2.1%,
+      transparent 2.2%,
+      transparent 5%,
+      rgba(255, 0, 150, 0.04) 5.1%,
+      transparent 5.2%
     ),
     linear-gradient(
       transparent 0%,
-      transparent 15%,
-      rgba(0, 255, 200, 0.07) 15%,
-      rgba(0, 255, 200, 0.07) 15.2%,
-      transparent 15.2%,
-      transparent 100%
+      transparent 12%,
+      rgba(255, 255, 255, 0.08) 12.1%,
+      rgba(255, 255, 255, 0.08) 12.3%,
+      transparent 12.4%
     ),
     linear-gradient(
       transparent 0%,
-      transparent 25%,
-      rgba(255, 255, 0, 0.06) 25%,
-      rgba(255, 255, 0, 0.06) 25.15%,
-      transparent 25.15%,
-      transparent 100%
-    ),
-    /* Middle area - around dialog - More visible but still subtle */
-    linear-gradient(
-        transparent 0%,
-        transparent 42%,
-        rgba(255, 0, 150, 0.12) 42%,
-        rgba(255, 0, 150, 0.12) 42.2%,
-        transparent 42.2%,
-        transparent 100%
-      ),
-    linear-gradient(
-      transparent 0%,
-      transparent 48%,
-      rgba(0, 255, 255, 0.1) 48%,
-      rgba(0, 255, 255, 0.1) 48.2%,
-      transparent 48.2%,
-      transparent 100%
+      transparent 45%,
+      rgba(0, 150, 255, 0.1) 45.1%,
+      rgba(0, 150, 255, 0.1) 45.4%,
+      transparent 45.5%
     ),
     linear-gradient(
       transparent 0%,
-      transparent 52%,
-      rgba(150, 0, 255, 0.09) 52%,
-      rgba(150, 0, 255, 0.09) 52.2%,
-      transparent 52.2%,
-      transparent 100%
-    ),
-    linear-gradient(
-      transparent 0%,
-      transparent 58%,
-      rgba(0, 200, 255, 0.11) 58%,
-      rgba(0, 200, 255, 0.11) 58.2%,
-      transparent 58.2%,
-      transparent 100%
-    ),
-    /* Bottom screen glitch lines - Subtle */
-    linear-gradient(
-        transparent 0%,
-        transparent 68%,
-        rgba(255, 150, 0, 0.08) 68%,
-        rgba(255, 150, 0, 0.08) 68.15%,
-        transparent 68.15%,
-        transparent 100%
-      ),
-    linear-gradient(
-      transparent 0%,
-      transparent 78%,
-      rgba(0, 255, 150, 0.07) 78%,
-      rgba(0, 255, 150, 0.07) 78.2%,
-      transparent 78.2%,
-      transparent 100%
-    ),
-    linear-gradient(
-      transparent 0%,
-      transparent 88%,
-      rgba(255, 50, 200, 0.06) 88%,
-      rgba(255, 50, 200, 0.06) 88.15%,
-      transparent 88.15%,
-      transparent 100%
+      transparent 82%,
+      rgba(255, 0, 200, 0.07) 82.1%,
+      rgba(255, 0, 200, 0.07) 82.3%,
+      transparent 82.4%
     );
+  background-size: 100% 200%;
   pointer-events: none;
   z-index: 1001;
   opacity: 0;
 }
 
-.dialog-glitch-animation[data-state="open"]::after {
-  animation: glitchLinesFade 0.5s steps(8) forwards;
+.dialog-glitch-animation[data-state="open"]::after,
+.dialog-glitch-advanced[data-state="open"]::after {
+  animation:
+    glitchLinesFade 0.5s steps(10) forwards,
+    vibrantGlitchLines 0.5s steps(10) forwards;
+}
+
+.dialog-glitch-advanced[data-state="closed"]::after {
+  animation: fade-out 0.5s forwards !important;
 }
 
 /* Add mix-blend-mode to ::after for vibrant color blending */
-.dialog-glitch-animation::after {
+.dialog-glitch-animation::after,
+.dialog-glitch-advanced::after {
   mix-blend-mode: screen;
 }
 
-.dark {
-  --sidebar: hsl(240 5.9% 10%);
-  --sidebar-foreground: hsl(240 4.8% 95.9%);
-  --sidebar-primary: hsl(224.3 76.3% 48%);
-  --sidebar-primary-foreground: hsl(0 0% 100%);
-  --sidebar-accent: hsl(240 3.7% 15.9%);
-  --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
-  --sidebar-border: hsl(240 3.7% 15.9%);
-  --sidebar-ring: hsl(217.2 91.2% 59.8%);
+/* Advanced Glitch Dialog Overrides */
+.dialog-glitch-advanced {
+  overflow: visible !important;
 }
 
-@theme inline {
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+/* Parent must stay mounted while child glitches out, but should be totally transparent */
+.dialog-glitch-advanced[data-state="open"] {
+  opacity: 1;
+  clip-path: none !important;
+  animation: rgbSplit 0.5s steps(8) forwards;
+}
+
+.dialog-glitch-advanced[data-state="closed"] {
+  animation:
+    transparent-wait 0.55s forwards,
+    rgbSplit 0.5s steps(8) forwards !important;
+  clip-path: none !important;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+@keyframes transparent-wait {
+  0% {
+    opacity: 1;
+    background: transparent;
+  }
+  99% {
+    opacity: 1;
+    background: transparent;
+  }
+  100% {
+    opacity: 0;
+    background: transparent;
+  }
+}
+
+/* Overlay fades faster for a snappier exit */
+[data-state="closed"].fixed.inset-0.bg-black\/80 {
+  animation: fade-out 0.3s forwards !important;
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Apply glitch effect to inner content instead */
+.dialog-glitch-advanced[data-state="open"] .dialog-inner-content {
+  animation: dialogGlitchIn 0.5s steps(10) forwards;
+}
+
+.dialog-glitch-advanced[data-state="closed"] .dialog-inner-content {
+  animation: dialogGlitchOut 0.5s steps(10) forwards;
 }
 
 @layer base {

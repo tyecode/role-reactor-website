@@ -15,7 +15,7 @@ import { links } from "@/constants/links";
 // Lazy load BubbleBackground for better initial page load performance
 const BubbleBackground = dynamic(
   () =>
-    import("@/components/ui/bubble-background").then(
+    import("@/components/common/bubble-background").then(
       (mod) => mod.BubbleBackground
     ),
   { ssr: false }

@@ -164,7 +164,7 @@ export function UserMenu({
   const defaultTrigger = isSidebar ? (
     <Button
       variant="ghost"
-      className="w-full justify-start gap-2 px-2 py-6 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+      className="w-full justify-start gap-2 px-2 py-6 data-[state=open]:bg-white/5 data-[state=open]:text-white"
     >
       <Avatar className="h-8 w-8 rounded-lg shrink-0">
         <AvatarImage src={avatarUrl} alt={user.name || "User"} />

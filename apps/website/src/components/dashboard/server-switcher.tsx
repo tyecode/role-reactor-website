@@ -88,7 +88,7 @@ export function ServerSwitcher() {
               size="lg"
               className="data-[state=open]:bg-white/5 data-[state=open]:text-white transition-all hover:bg-white/5 rounded-xl border border-transparent data-[state=open]:border-white/5 overflow-visible"
             >
-              <div className="flex aspect-square size-9 group-data-[collapsible=icon]:size-8 items-center justify-center rounded-xl group-data-[collapsible=icon]:rounded-lg bg-zinc-800 text-sidebar-primary-foreground shadow-lg shadow-cyan-500/20 relative overflow-hidden group shrink-0 ring-1 ring-cyan-500/50 hover:ring-fuchsia-500/50 hover:shadow-fuchsia-500/20 transition-all duration-300">
+              <div className="flex aspect-square size-9 group-data-[collapsible=icon]:size-8 items-center justify-center rounded-xl group-data-[collapsible=icon]:rounded-lg bg-zinc-800 text-white shadow-lg shadow-cyan-500/20 relative overflow-hidden group shrink-0 ring-1 ring-cyan-500/50 hover:ring-fuchsia-500/50 hover:shadow-fuchsia-500/20 transition-all duration-300">
                 <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                 {isLoading ? (
                   <Skeleton className="h-full w-full rounded-xl bg-white/5" />
