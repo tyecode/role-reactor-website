@@ -7,6 +7,13 @@ import { useSession } from "next-auth/react";
 import { useCoreBalance } from "@/hooks/use-core-balance";
 import { PricingDialog } from "@/components/pricing/pricing-dialog";
 import { Button } from "@/components/ui/button";
+import { Audiowide } from "next/font/google";
+
+const audiowide = Audiowide({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+});
 
 export interface CoreBalanceProps {
   /** Visual variant */
@@ -70,31 +77,34 @@ export function CoreBalance({
     return (
       <div
         className={cn(
-          "mt-2 p-3 bg-linear-to-br from-zinc-900 to-black rounded-lg border border-border/40 flex items-center justify-between shadow-inner",
+          "mt-2 p-3 bg-zinc-950 border border-white/10 rounded-xl flex items-center justify-between shadow-2xl group/card relative overflow-hidden",
           className
         )}
       >
-        <div className="flex items-center gap-3">
-          <div className="p-1 bg-yellow-500/10 rounded-full border border-yellow-500/20">
+        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent pointer-events-none" />
+
+        <div className="flex items-center gap-3 relative z-10">
+          <div className="p-1.5 bg-cyan-500/10 rounded-lg border border-cyan-500/20 shadow-[0_0_10px_rgba(6,182,212,0.1)]">
             {coreImageUrl && (
               <Image
                 src={coreImageUrl}
-                width={32}
-                height={32}
+                width={28}
+                height={28}
                 alt="Cores"
                 draggable={false}
-                className="select-none"
+                className="select-none drop-shadow-[0_0_5px_rgba(0,255,255,0.4)]"
               />
             )}
           </div>
           <div className="flex flex-col">
-            <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+            <span className="text-[10px] font-black text-zinc-500 uppercase tracking-[0.2em]">
               Your Cores
             </span>
             <span
               className={cn(
-                "text-base font-bold leading-tight font-mono text-foreground",
-                isLoading && "opacity-50"
+                "text-lg font-black leading-tight tracking-widest text-white mt-0.5",
+                audiowide.className,
+                isLoading && "opacity-50 animate-pulse"
               )}
             >
               {isLoading ? "..." : balance}
@@ -105,14 +115,14 @@ export function CoreBalance({
           <Button
             size="sm"
             variant="secondary"
-            className="h-7 w-7 p-0 bg-zinc-800 hover:bg-zinc-700 text-zinc-100 border border-white/5 rounded-lg shrink-0"
+            className="h-8 w-8 p-0 bg-zinc-900 hover:bg-zinc-800 text-white border border-white/5 hover:border-cyan-500/50 hover:text-cyan-400 rounded-lg shrink-0 transition-all active:scale-95 group/btn shadow-lg"
             onClick={(e) => {
               e.preventDefault();
               onClick?.();
             }}
             title="Add Cores"
           >
-            <Plus className="w-3.5 h-3.5" />
+            <Plus className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
           </Button>
         )}
       </div>
@@ -124,24 +134,25 @@ export function CoreBalance({
     return (
       <div
         className={cn(
-          "flex items-center gap-1.5 text-muted-foreground",
+          "flex items-center gap-2 group cursor-pointer",
           className
         )}
       >
         {coreImageUrl && (
           <Image
             src={coreImageUrl}
-            width={18}
-            height={18}
+            width={20}
+            height={20}
             alt="Cores"
             draggable={false}
-            className="select-none"
+            className="select-none drop-shadow-[0_0_5px_rgba(0,255,255,0.4)] group-hover:scale-110 transition-transform"
           />
         )}
         <span
           className={cn(
-            "font-semibold text-foreground font-mono",
-            isLoading && "opacity-50"
+            "font-black text-sm tracking-widest text-zinc-300 group-hover:text-white transition-colors mt-0.5",
+            audiowide.className,
+            isLoading && "opacity-50 animate-pulse"
           )}
         >
           {isLoading ? "..." : balance}
@@ -149,16 +160,16 @@ export function CoreBalance({
         {showPlusButton &&
           (onClick ? (
             <div
-              className="bg-primary/20 rounded-full p-0.5 ml-1 cursor-pointer hover:bg-primary/30 transition-colors"
+              className="bg-cyan-500/10 border border-cyan-500/20 rounded-md p-0.5 ml-1 cursor-pointer hover:bg-cyan-500/20 hover:border-cyan-500/40 transition-all text-cyan-400"
               onClick={onClick}
             >
-              <Plus className="w-3 h-3 text-primary" />
+              <Plus className="w-3 h-3" />
             </div>
           ) : (
             <PricingDialog
               trigger={
-                <div className="bg-primary/20 rounded-full p-0.5 ml-1 cursor-pointer hover:bg-primary/30 transition-colors">
-                  <Plus className="w-3 h-3 text-primary" />
+                <div className="bg-cyan-500/10 border border-cyan-500/20 rounded-md p-0.5 ml-1 cursor-pointer hover:bg-cyan-500/20 hover:border-cyan-500/40 transition-all text-cyan-400">
+                  <Plus className="w-3 h-3" />
                 </div>
               }
             />
@@ -171,44 +182,48 @@ export function CoreBalance({
   return (
     <div
       className={cn(
-        "flex items-center bg-black/40 border border-white/5 rounded-full px-1.5 py-1 gap-2.5 backdrop-blur-md ml-3",
+        "flex items-center bg-zinc-950/60 border border-white/10 rounded-full px-1.5 py-1 gap-3 backdrop-blur-xl ml-3 hover:border-cyan-500/30 transition-all group shadow-2xl relative",
         className
       )}
     >
-      {/* Icon */}
-      <div className="relative w-4.5 h-4.5 flex-shrink-0">
+      {/* Inner Glow */}
+      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500/0 via-cyan-500/5 to-cyan-500/0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+
+      {/* Icon with Neon Glow */}
+      <div className="relative w-5 h-5 flex-shrink-0 ml-0.5">
         <Image
           src={coreImageUrl}
           alt="Cores"
           fill
-          className="object-contain drop-shadow-[0_0_7px_rgba(59,130,246,0.5)]"
+          className="object-contain drop-shadow-[0_0_8px_rgba(0,255,255,0.6)] group-hover:scale-110 transition-transform"
         />
       </div>
 
-      {/* Number */}
+      {/* Number with Audiowide */}
       <span
         className={cn(
-          "font-bold text-sm font-mono min-w-[18px] text-center",
-          isLoading ? "opacity-50" : "text-white"
+          "font-bold text-sm tracking-widest min-w-[20px] text-center z-10",
+          audiowide.className,
+          isLoading ? "opacity-50 animate-pulse" : "text-white"
         )}
       >
         {isLoading ? "0" : balance}
       </span>
 
-      {/* Plus Button with Modal */}
+      {/* Plus Button - Tech Style */}
       {showPlusButton &&
         (onClick ? (
           <div
-            className="w-6.5 h-6.5 flex items-center justify-center rounded-full bg-zinc-800 hover:bg-zinc-700 text-white transition-colors border border-white/10 cursor-pointer"
+            className="w-7 h-7 flex items-center justify-center rounded-full bg-zinc-900 border border-white/10 text-white hover:bg-zinc-800 hover:border-cyan-500/50 hover:text-cyan-400 transition-all cursor-pointer shadow-xl active:scale-95 group/btn"
             onClick={onClick}
           >
-            <Plus className="w-3.5 h-3.5" />
+            <Plus className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
           </div>
         ) : (
           <PricingDialog
             trigger={
-              <div className="w-6.5 h-6.5 flex items-center justify-center rounded-full bg-zinc-800 hover:bg-zinc-700 text-white transition-colors border border-white/10 cursor-pointer">
-                <Plus className="w-3.5 h-3.5" />
+              <div className="w-7 h-7 flex items-center justify-center rounded-full bg-zinc-900 border border-white/10 text-white hover:bg-zinc-800 hover:border-cyan-500/50 hover:text-cyan-400 transition-all cursor-pointer shadow-xl active:scale-95 group/btn">
+                <Plus className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
               </div>
             }
           />

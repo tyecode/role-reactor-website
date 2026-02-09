@@ -4,6 +4,13 @@ import Image from "next/image";
 import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { CorePackage, PricingData } from "@/types/pricing";
+import { Audiowide } from "next/font/google";
+
+const audiowide = Audiowide({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+});
 
 export interface PricingCardsProps {
   packages: CorePackage[];
@@ -25,7 +32,7 @@ export function PricingCards({
         {[1, 2, 3, 4].map((i) => (
           <div
             key={i}
-            className="h-20 bg-zinc-900/50 rounded-2xl animate-pulse border border-zinc-800/50"
+            className="h-20 bg-zinc-950/40 rounded-2xl animate-pulse border border-white/5"
           />
         ))}
       </div>
@@ -33,7 +40,7 @@ export function PricingCards({
   }
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2">
       {packages.map((pkg) => {
         const isProcessing = loadingPackageId === pkg.id;
         const bonusPercent =
@@ -50,26 +57,33 @@ export function PricingCards({
             }
             className={cn(
               "w-full flex items-center justify-between p-2.5 rounded-xl border transition-all duration-300 group relative overflow-hidden",
-              "bg-zinc-900/40 border-zinc-800/60 hover:border-blue-500/30 hover:bg-zinc-800/60",
-              "hover:shadow-[0_0_15px_rgba(59,130,146,0.05)]",
+              "bg-zinc-950/40 border-white/5 hover:border-cyan-500/30 hover:bg-zinc-900/60",
+              "hover:shadow-[0_0_20px_rgba(6,182,212,0.1)]",
               isProcessing && "opacity-80 cursor-wait",
               "disabled:opacity-50 disabled:cursor-not-allowed"
             )}
           >
-            {/* Background Light Effect */}
-            <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+            {/* Background Tech Pattern */}
+            <div className="absolute inset-x-0 bottom-0 h-full bg-gradient-to-t from-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
             {/* Left Side: Price & Badge */}
-            <div className="flex flex-col items-start gap-1 z-10">
+            <div className="flex flex-col items-start gap-0.5 z-10">
               {bonusPercent > 0 && (
-                <div className="flex items-center gap-1 bg-blue-500/10 text-blue-400 text-[9px] font-bold px-1.5 py-0.5 rounded-full border border-blue-500/20 uppercase tracking-tight">
+                <div className="px-1.5 py-0 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[8px] font-black uppercase tracking-wider mb-0.5">
                   +{bonusPercent}% Bonus
                 </div>
               )}
-              <div className="text-lg font-bold text-white tracking-tight flex items-center gap-1">
-                <span className="text-zinc-400 text-xs font-medium">$</span>
-                {pkg.price}
-                <span className="text-[9px] uppercase font-bold text-zinc-500 ml-1 tracking-widest">
+              <div className="flex items-baseline gap-1">
+                <span className="text-zinc-500 text-[10px] font-bold">$</span>
+                <span
+                  className={cn(
+                    "text-xl font-black text-white tracking-widest leading-none",
+                    audiowide.className
+                  )}
+                >
+                  {pkg.price}
+                </span>
+                <span className="text-[8px] uppercase font-black text-zinc-600 tracking-[0.2em] ml-0.5">
                   USD
                 </span>
               </div>
@@ -78,25 +92,30 @@ export function PricingCards({
             {/* Right Side: Cores */}
             <div className="flex flex-col items-end z-10">
               {bonusPercent > 0 && (
-                <div className="flex items-center gap-1 text-[11px] text-zinc-400 line-through font-medium opacity-70">
+                <div className="text-[9px] text-zinc-600 line-through font-black mb-0.5 opacity-60 tracking-widest">
                   {pkg.baseCores}
                 </div>
               )}
               <div className="flex items-center gap-2">
                 {isProcessing ? (
-                  <Loader2 className="w-4 h-4 text-blue-500 animate-spin" />
+                  <Loader2 className="w-4 h-4 text-cyan-500 animate-spin" />
                 ) : (
                   <>
-                    <span className="text-xl font-black bg-linear-to-b from-white to-zinc-400 bg-clip-text text-transparent filter drop-shadow-[0_0_10px_rgba(255,255,255,0.1)]">
+                    <span
+                      className={cn(
+                        "text-lg font-black tracking-widest text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]",
+                        audiowide.className
+                      )}
+                    >
                       {pkg.totalCores}
                     </span>
-                    <div className="relative">
+                    <div className="relative group-hover:scale-110 transition-transform duration-300">
                       <Image
                         src="/images/cores/core_energy.png"
                         width={20}
                         height={20}
                         alt="Cores"
-                        className="relative"
+                        className="drop-shadow-[0_0_8px_rgba(0,255,255,0.5)]"
                       />
                     </div>
                   </>

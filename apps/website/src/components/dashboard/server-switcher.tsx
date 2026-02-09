@@ -80,18 +80,18 @@ export function ServerSwitcher() {
   const inviteUrl = `https://discord.com/oauth2/authorize?client_id=${clientId}&permissions=8&scope=bot%20applications.commands`;
 
   return (
-    <SidebarMenu>
+    <SidebarMenu className="group-data-[collapsible=icon]:items-center">
       <SidebarMenuItem>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="data-[state=open]:bg-white/5 data-[state=open]:text-white transition-all hover:bg-white/5 rounded-xl border border-transparent data-[state=open]:border-white/5"
+              className="data-[state=open]:bg-white/5 data-[state=open]:text-white transition-all hover:bg-white/5 rounded-xl border border-transparent data-[state=open]:border-white/5 overflow-visible"
             >
-              <div className="flex aspect-square size-9 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-purple-600 text-sidebar-primary-foreground shadow-lg shadow-blue-500/20 relative overflow-hidden group">
-                <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="flex aspect-square size-9 group-data-[collapsible=icon]:size-8 items-center justify-center rounded-xl group-data-[collapsible=icon]:rounded-lg bg-zinc-800 text-sidebar-primary-foreground shadow-lg shadow-cyan-500/20 relative overflow-hidden group shrink-0 ring-1 ring-cyan-500/50 hover:ring-fuchsia-500/50 hover:shadow-fuchsia-500/20 transition-all duration-300">
+                <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                 {isLoading ? (
-                  <Skeleton className="h-full w-full rounded-xl bg-white/20" />
+                  <Skeleton className="h-full w-full rounded-xl bg-white/5" />
                 ) : activeGuild ? (
                   <Avatar className="h-full w-full rounded-none">
                     <AvatarImage
@@ -102,15 +102,15 @@ export function ServerSwitcher() {
                       }
                       className="object-cover"
                     />
-                    <AvatarFallback className="bg-transparent text-white font-black text-base">
-                      {activeGuild.name.charAt(0).toUpperCase()}
+                    <AvatarFallback className="bg-transparent text-zinc-400 font-bold text-base">
+                      {activeGuild.name.charAt(0)}
                     </AvatarFallback>
                   </Avatar>
                 ) : (
-                  <Server className="size-5" />
+                  <Server className="size-5 text-zinc-400" />
                 )}
               </div>
-              <div className="grid flex-1 text-left text-sm leading-tight ml-1">
+              <div className="grid flex-1 text-left text-sm leading-tight ml-1 group-data-[collapsible=icon]:hidden overflow-visible">
                 {isLoading ? (
                   <div className="space-y-1.5">
                     <Skeleton className="h-3 w-24 bg-white/10" />
@@ -121,17 +121,20 @@ export function ServerSwitcher() {
                     <span className="truncate font-black text-white tracking-tight">
                       {activeGuild?.name || "Server Selection"}
                     </span>
-                    <span className="truncate text-[10px] text-zinc-500 font-bold uppercase tracking-wider flex items-center gap-1.5 mt-0.5">
+                    <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider flex items-center gap-1.5 overflow-visible">
                       {activeGuild ? (
                         installedGuildIds.includes(activeGuild.id) ? (
                           <>
-                            <div className="w-1 h-1 rounded-full bg-emerald-500 shadow-[0_0_5px_rgba(16,185,129,0.5)]" />{" "}
-                            Node Linked
+                            <span className="relative flex h-1.5 w-1.5 shrink-0 overflow-visible">
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
+                            </span>
+                            <span className="truncate">Node Linked</span>
                           </>
                         ) : (
                           <>
-                            <div className="w-1 h-1 rounded-full bg-zinc-700" />{" "}
-                            Offline
+                            <div className="w-1.5 h-1.5 rounded-full bg-zinc-700 shrink-0" />
+                            <span className="truncate">Offline</span>
                           </>
                         )
                       ) : (
@@ -141,7 +144,7 @@ export function ServerSwitcher() {
                   </>
                 )}
               </div>
-              <ChevronsUpDown className="ml-auto size-4 text-zinc-600" />
+              <ChevronsUpDown className="ml-auto size-4 text-zinc-600 group-data-[collapsible=icon]:hidden" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -182,9 +185,9 @@ export function ServerSwitcher() {
                 <DropdownMenuItem
                   key={guild.id}
                   onClick={() => handleServerSelect(guild.id)}
-                  className="gap-2 p-2 focus:bg-blue-500/10 focus:text-blue-400 group cursor-pointer"
+                  className="gap-2 p-2 focus:bg-cyan-500/10 focus:text-cyan-400 group cursor-pointer"
                 >
-                  <div className="flex size-6 items-center justify-center rounded-sm border border-border/50 bg-zinc-800">
+                  <div className="flex size-6 items-center justify-center rounded-md bg-zinc-800 ring-1 ring-cyan-500/50 shadow-md shadow-cyan-500/20 group-hover:ring-fuchsia-500/50 group-hover:shadow-fuchsia-500/20 transition-all duration-300 overflow-hidden">
                     {guild.icon ? (
                       <Image
                         src={`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`}
@@ -216,8 +219,8 @@ export function ServerSwitcher() {
               className="gap-3 p-2.5 cursor-pointer focus:bg-emerald-500/10 focus:text-emerald-400 font-black text-[11px] text-zinc-500 uppercase tracking-widest group rounded-lg"
               onSelect={() => window.open(inviteUrl, "_blank")}
             >
-              <div className="flex size-7 items-center justify-center rounded-lg border border-white/5 bg-zinc-800 transition-colors group-hover:border-emerald-500/30 group-hover:bg-emerald-500/10">
-                <Plus className="size-4" />
+              <div className="flex size-7 items-center justify-center rounded-lg bg-zinc-800 ring-1 ring-cyan-500/50 shadow-md shadow-cyan-500/20 transition-all duration-300 group-hover:ring-fuchsia-500/50 group-hover:shadow-fuchsia-500/20">
+                <Plus className="size-4 text-zinc-400 group-hover:text-fuchsia-400 transition-colors" />
               </div>
               Add Server Link
             </DropdownMenuItem>

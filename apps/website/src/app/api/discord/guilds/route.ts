@@ -14,14 +14,12 @@ export async function GET() {
   }
 
   if (!(session as any).accessToken) {
-    console.error(
-      "No access token found in session for user:",
-      session.user?.id
+    console.warn(
+      `[API] No access token found in session for user: ${session.user?.id}. This usually means the user needs to re-login to refresh their token.`
     );
-    return NextResponse.json(
-      { error: "Unauthorized: No Access Token" },
-      { status: 401 }
-    );
+    // Return empty list instead of 401 to prevent client-side "Permissions missing" crash
+    // if we actually have a session but just not the token (e.g. old session)
+    return NextResponse.json([]);
   }
 
   try {
@@ -59,15 +57,19 @@ export async function GET() {
 
     const allGuilds = await response.json();
 
-    // Filter for servers where user is the OWNER only
-    const ownedGuilds = allGuilds.filter((guild: any) => {
-      return guild.owner === true;
+    // Filter for servers where user is an OWNER, ADMIN, or has MANAGE_GUILD
+    const manageableGuilds = allGuilds.filter((guild: any) => {
+      const permissions = BigInt(guild.permissions || "0");
+      const isAdmin = (permissions & BigInt(0x8)) === BigInt(0x8);
+      const canManage = (permissions & BigInt(0x20)) === BigInt(0x20);
+
+      return guild.owner === true || isAdmin || canManage;
     });
 
     console.log(
-      `Filtered ${allGuilds.length} guilds down to ${ownedGuilds.length} owned servers`
+      `Filtered ${allGuilds.length} guilds down to ${manageableGuilds.length} manageable servers`
     );
-    return NextResponse.json(ownedGuilds);
+    return NextResponse.json(manageableGuilds);
   } catch (error: any) {
     console.error("Internal Server Error in Guilds API:", error);
     return NextResponse.json(

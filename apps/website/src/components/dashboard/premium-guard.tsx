@@ -1,24 +1,25 @@
 "use client";
 
 import { ReactNode } from "react";
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   DialogDescription,
+  DialogHeader,
 } from "@/components/ui/dialog";
-import {
-  Crown,
-  CheckCircle2,
-  Loader2,
-  Zap,
-  X,
-  ExternalLink,
-} from "lucide-react";
+import { Crown, CheckCircle2, Loader2, Zap, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { Audiowide } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+const audiowide = Audiowide({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+});
 
 interface PremiumGuardProps {
   isPremium?: boolean;
@@ -55,84 +56,95 @@ export function PremiumGuard({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md w-full p-0 border-none bg-transparent shadow-none [&>button]:hidden">
-        <Card className="w-full bg-zinc-950/90 border-white/10 shadow-[0_0_80px_rgba(59,130,246,0.15)] animate-in fade-in zoom-in duration-500 rounded-3xl overflow-hidden relative backdrop-blur-xl">
-          <div className="absolute top-0 left-0 right-0 h-32 bg-linear-to-b from-blue-600/10 via-purple-600/5 to-transparent pointer-events-none" />
+      <DialogContent className="max-w-[420px] bg-zinc-950 border-cyan-500/20 p-0 shadow-[0_0_100px_rgba(6,182,212,0.3),0_0_50px_rgba(0,0,0,1)] gap-0 rounded-3xl! backdrop-blur-2xl ring-2 ring-cyan-500/10 overflow-hidden">
+        <DialogTitle className="sr-only">{title}</DialogTitle>
+        <DialogDescription className="sr-only">{description}</DialogDescription>
 
-          {/* Close Button Override */}
-          <button
-            onClick={() => onOpenChange?.(false)}
-            className="absolute top-4 right-4 z-50 p-2 rounded-full hover:bg-white/10 text-zinc-500 hover:text-white transition-all"
-          >
-            <X className="w-4 h-4" />
-          </button>
+        {/* Animated Background Effects */}
+        <div className="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(6,182,212,0.15),transparent_50%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(6,182,212,0.1),transparent_50%)]" />
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent" />
+        </div>
 
-          <CardContent className="p-6 text-center space-y-6 relative">
-            <div className="relative mx-auto">
-              <div className="w-16 h-16 bg-linear-to-br from-yellow-500/10 to-orange-500/10 rounded-2xl flex items-center justify-center mx-auto mb-2 border border-yellow-500/20 shadow-[0_0_20px_rgba(234,179,8,0.2)]">
-                <Crown className="w-8 h-8 text-yellow-500" />
-              </div>
-            </div>
+        <DialogHeader className="px-8 pt-8 pb-4 relative overflow-hidden">
+          {/* Enhanced Background Crown Glow */}
+          <div className="absolute top-0 right-0 p-8 opacity-20 blur-2xl pointer-events-none animate-pulse">
+            <Crown className="w-32 h-32 text-cyan-400" />
+          </div>
+          <div className="absolute top-0 right-0 p-8 opacity-30 pointer-events-none">
+            <Crown className="w-24 h-24 text-cyan-500 drop-shadow-[0_0_30px_rgba(6,182,212,0.6)]" />
+          </div>
 
-            <div className="space-y-2">
-              <DialogTitle className="text-2xl font-black italic uppercase tracking-tighter text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-purple-400">
-                {title}
-              </DialogTitle>
-              <DialogDescription className="text-zinc-400 text-xs leading-relaxed max-w-[280px] mx-auto font-medium">
-                {description}
-              </DialogDescription>
-            </div>
-
-            <div className="grid grid-cols-2 gap-2 text-left">
-              {features.map((feature) => (
-                <div
-                  key={feature}
-                  className="bg-black/40 px-3 py-2.5 rounded-lg border border-white/5 flex items-center gap-2.5 hover:bg-white/5 transition-colors group/item"
-                >
-                  <div className="w-4 h-4 rounded-full bg-blue-500/10 flex items-center justify-center shrink-0 group-hover/item:bg-blue-500/20 transition-colors">
-                    <CheckCircle2 className="w-2.5 h-2.5 text-blue-400" />
-                  </div>
-                  <span className="text-[10px] text-zinc-300 font-bold bg-transparent truncate">
-                    {feature}
-                  </span>
-                </div>
-              ))}
-            </div>
-
-            <div className="pt-2 space-y-3">
-              <Button
-                size="lg"
-                disabled={isActivating}
-                onClick={onActivate}
-                className="w-full bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-black text-sm h-12 rounded-xl shadow-[0_0_30px_rgba(79,70,229,0.3)] hover:shadow-[0_0_50px_rgba(79,70,229,0.5)] border-t border-white/20 group transition-all duration-300 relative overflow-hidden"
-              >
-                <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                {isActivating ? (
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                ) : (
-                  <div className="flex items-center gap-2">
-                    <Zap className="w-4 h-4 fill-white" />
-                    {buttonText}
-                  </div>
-                )}
-              </Button>
-              <p className="text-[10px] text-zinc-600 uppercase tracking-widest font-bold">
-                {subText}
-              </p>
-
-              {guildId && (
-                <Link
-                  href={`/dashboard/${guildId}/pro-engine`}
-                  onClick={() => onOpenChange?.(false)}
-                  className="flex items-center justify-center gap-1.5 text-[11px] text-blue-400 hover:text-blue-300 font-bold transition-colors group/link"
-                >
-                  <span>Learn more about Pro Engine</span>
-                  <ExternalLink className="w-3 h-3 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
-                </Link>
+          <div className="flex flex-col relative z-10">
+            <h3
+              className={cn(
+                "text-xl font-black text-white tracking-widest leading-none flex items-center gap-3 drop-shadow-[0_0_10px_rgba(6,182,212,0.3)]",
+                audiowide.className
               )}
-            </div>
-          </CardContent>
-        </Card>
+            >
+              <Zap className="w-5 h-5 text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,0.8)]" />
+              {title}
+            </h3>
+            <p className="text-[10px] text-zinc-400 mt-3 font-bold uppercase tracking-wider leading-relaxed">
+              {description}
+            </p>
+          </div>
+        </DialogHeader>
+
+        <div className="px-8 pb-8 space-y-6">
+          {/* Features Grid */}
+          <div className="grid grid-cols-2 gap-2">
+            {features.map((feature) => (
+              <div
+                key={feature}
+                className="bg-zinc-900/40 px-3 py-3 rounded-xl border border-white/5 flex items-center gap-2.5 hover:bg-zinc-900/80 hover:border-cyan-500/20 transition-all group/item"
+              >
+                <div className="w-5 h-5 rounded-full bg-cyan-500/10 flex items-center justify-center shrink-0 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/20">
+                  <CheckCircle2 className="w-3 h-3 text-cyan-400" />
+                </div>
+                <span className="text-[10px] text-zinc-300 font-bold uppercase tracking-wider truncate">
+                  {feature}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* Activation Button */}
+          <Button
+            size="lg"
+            disabled={isActivating}
+            onClick={onActivate}
+            className="w-full bg-white text-black hover:bg-zinc-200 h-14 rounded-2xl text-xs font-black uppercase tracking-[0.2em] group transition-all active:scale-95 shadow-2xl relative overflow-hidden"
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+            {isActivating ? (
+              <Loader2 className="w-5 h-5 animate-spin" />
+            ) : (
+              <>
+                <Zap className="w-5 h-5 mr-3 group-hover:scale-110 transition-transform" />
+                {buttonText}
+              </>
+            )}
+          </Button>
+
+          <p className="text-[9px] text-zinc-600 text-center tracking-[0.3em] uppercase font-black opacity-60">
+            {subText}
+          </p>
+
+          {/* Learn More Link */}
+          {guildId && (
+            <Link
+              href={`/dashboard/${guildId}/pro-engine`}
+              onClick={() => onOpenChange?.(false)}
+              className="flex items-center justify-center gap-2 text-[10px] text-cyan-400 hover:text-cyan-300 font-bold uppercase tracking-widest transition-colors group/link"
+            >
+              <span>Learn more about Pro Engine</span>
+              <ExternalLink className="w-3 h-3 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
+            </Link>
+          )}
+        </div>
       </DialogContent>
     </Dialog>
   );

@@ -15,7 +15,6 @@ import {
   TrendingUp,
   Users,
   Settings,
-  Loader2,
   Calendar,
   XCircle,
   Lock,
@@ -26,6 +25,7 @@ import { motion } from "motion/react";
 import { PremiumGuard } from "@/components/dashboard/premium-guard";
 import { Audiowide } from "next/font/google";
 import { useServerStore } from "@/store/use-server-store";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const audiowide = Audiowide({
   subsets: ["latin"],
@@ -153,8 +153,49 @@ export default function ProEnginePage() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <Loader2 className="w-8 h-8 animate-spin text-blue-500" />
+      <div className="space-y-8 pb-12 w-full min-w-0 overflow-x-hidden">
+        {/* Header Skeleton */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="space-y-4 flex-1">
+            <Skeleton className="h-4 w-32 bg-zinc-800" />
+            <Skeleton className="h-12 w-64 bg-zinc-800 rounded-lg" />
+            <Skeleton className="h-4 w-96 bg-zinc-800" />
+          </div>
+          <Skeleton className="h-11 w-48 rounded-lg bg-zinc-800" />
+        </div>
+
+        {/* Status Card Skeleton */}
+        <div className="relative overflow-hidden rounded-2xl bg-zinc-900/40 border border-white/5 p-6 backdrop-blur-xl">
+          <div className="flex items-center gap-4">
+            <Skeleton className="w-12 h-12 rounded-xl bg-zinc-800" />
+            <div className="space-y-2 flex-1">
+              <Skeleton className="h-4 w-48 bg-zinc-800" />
+              <Skeleton className="h-3 w-64 bg-zinc-800" />
+            </div>
+          </div>
+        </div>
+
+        {/* Features Grid Skeleton */}
+        <div className="space-y-6">
+          <div className="flex items-center justify-between">
+            <Skeleton className="h-6 w-48 bg-zinc-800" />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[...Array(6)].map((_, i) => (
+              <div
+                key={i}
+                className="h-32 rounded-2xl bg-zinc-900/40 border border-white/5 p-5 flex items-start gap-4"
+              >
+                <Skeleton className="w-11 h-11 rounded-xl bg-zinc-800 shrink-0" />
+                <div className="space-y-2 flex-1">
+                  <Skeleton className="h-4 w-3/4 bg-zinc-800" />
+                  <Skeleton className="h-3 w-full bg-zinc-800" />
+                  <Skeleton className="h-3 w-2/3 bg-zinc-800" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     );
   }
@@ -177,7 +218,7 @@ export default function ProEnginePage() {
             >
               <span>Pro Engine</span>
               {isPremium && (
-                <Badge className="bg-gradient-to-r from-yellow-500 to-amber-500 text-black border-none px-2 py-1 text-[10px] font-black items-center gap-1">
+                <Badge className="bg-linear-to-r from-yellow-500 to-amber-500 text-black border-none px-2 py-1 text-[10px] font-black items-center gap-1">
                   <CheckCircle2 className="w-3 h-3" /> ACTIVE
                 </Badge>
               )}
@@ -194,7 +235,7 @@ export default function ProEnginePage() {
           {!isPremium && (
             <Button
               onClick={() => setShowActivationModal(true)}
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-black h-11 px-6 rounded-lg shadow-lg shadow-blue-500/20 border-t border-white/20 transition-all active:scale-95"
+              className="bg-linear-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-black h-11 px-6 rounded-lg shadow-lg shadow-blue-500/20 border-t border-white/20 transition-all active:scale-95"
             >
               <Zap className="w-4 h-4 mr-2 fill-white" />
               Activate Pro Engine
@@ -209,10 +250,10 @@ export default function ProEnginePage() {
             animate={{ opacity: 1, y: 0 }}
             className="relative overflow-hidden rounded-2xl bg-zinc-900/40 border border-green-500/20 p-6 backdrop-blur-xl"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-green-600/10 to-emerald-600/10 opacity-50" />
+            <div className="absolute inset-0 bg-linear-to-r from-green-600/10 to-emerald-600/10 opacity-50" />
             <div className="flex items-center justify-between relative z-10">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center border border-green-500/30">
+                <div className="w-12 h-12 rounded-xl bg-linear-to-br from-green-500/20 to-emerald-500/20 flex items-center justify-center border border-green-500/30">
                   <CheckCircle2 className="w-6 h-6 text-green-400" />
                 </div>
                 <div>
@@ -241,9 +282,9 @@ export default function ProEnginePage() {
             animate={{ opacity: 1, y: 0 }}
             className="relative overflow-hidden rounded-2xl bg-zinc-900/40 border border-amber-500/20 p-6 backdrop-blur-xl"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-amber-600/10 to-orange-600/10 opacity-50" />
+            <div className="absolute inset-0 bg-linear-to-r from-amber-600/10 to-orange-600/10 opacity-50" />
             <div className="flex items-center gap-4 relative z-10">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center border border-amber-500/30">
+              <div className="w-12 h-12 rounded-xl bg-linear-to-br from-amber-500/20 to-orange-500/20 flex items-center justify-center border border-amber-500/30">
                 <Lock className="w-6 h-6 text-amber-400" />
               </div>
               <div className="flex-1">
@@ -372,7 +413,7 @@ export default function ProEnginePage() {
                 >
                   <CardContent className="p-5 flex items-start gap-4 h-full relative">
                     {feature.status === "active" && (
-                      <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-blue-500/0 via-blue-500/20 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <div className="absolute inset-x-0 bottom-0 h-1 bg-linear-to-r from-blue-500/0 via-blue-500/20 to-blue-500/0 opacity-0 group-hover:opacity-100 transition-opacity" />
                     )}
                     <div
                       className={cn(

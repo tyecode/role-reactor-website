@@ -182,12 +182,12 @@ export function DashboardSidebar() {
   }) => {
     if (items.length === 0) return null;
     return (
-      <SidebarGroup>
+      <SidebarGroup className="group-data-[collapsible=icon]:px-0">
         <SidebarGroupLabel className="group-data-[collapsible=icon]:hidden text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-2 px-4">
           {label}
         </SidebarGroupLabel>
         <SidebarGroupContent>
-          <SidebarMenu className="gap-1 px-2">
+          <SidebarMenu className="gap-1 px-2 group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:items-center">
             {items.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton
@@ -205,7 +205,7 @@ export function DashboardSidebar() {
                   )}
                 >
                   {item.isComingSoon ? (
-                    <div className="flex items-center gap-3 w-full px-2">
+                    <div className="flex items-center gap-3 w-full px-2 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0">
                       <item.icon className="size-4 shrink-0" />
                       <span className="group-data-[collapsible=icon]:hidden text-xs font-bold truncate">
                         {item.title}
@@ -220,12 +220,12 @@ export function DashboardSidebar() {
                   ) : (
                     <Link
                       href={item.href}
-                      className="flex items-center gap-3 w-full px-2 relative z-10"
+                      className="flex items-center gap-3 w-full px-2 relative z-10 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0"
                     >
                       {isActive(item.href) && (
                         <motion.div
                           layoutId="active-nav"
-                          className="absolute left-0 w-1 h-4 bg-blue-500 rounded-full"
+                          className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-4 bg-blue-500 rounded-full"
                           transition={{
                             type: "spring",
                             stiffness: 300,
@@ -245,7 +245,7 @@ export function DashboardSidebar() {
                         {item.title}
                       </span>
                       {item.badge && (
-                        <Badge className="ml-auto text-[9px] h-4 px-1.5 py-0 bg-blue-500/10 text-blue-400 border-none group-data-[collapsible=icon]:hidden font-black uppercase">
+                        <Badge className="ml-auto text-[9px] h-4 px-1.5 py-0 bg-blue-500/10 text-blue-400 hover:bg-blue-500/10 hover:text-blue-400 border-none group-data-[collapsible=icon]:hidden font-black uppercase">
                           {item.badge}
                         </Badge>
                       )}
@@ -286,7 +286,7 @@ export function DashboardSidebar() {
             src={getAvatarUrl(session?.user || {})}
             alt={session?.user?.name || "User"}
           />
-          <AvatarFallback className="rounded-md bg-linear-to-br from-blue-500 to-purple-600 text-white text-xs">
+          <AvatarFallback className="rounded-md bg-zinc-800 ring-1 ring-purple-500/40 text-zinc-400 text-xs font-bold">
             {session?.user?.name?.charAt(0).toUpperCase() || "U"}
           </AvatarFallback>
         </Avatar>
@@ -319,7 +319,7 @@ export function DashboardSidebar() {
       </SidebarContent>
 
       <SidebarFooter>
-        <SidebarMenu>
+        <SidebarMenu className="group-data-[collapsible=icon]:items-center">
           <SidebarMenuItem>
             <UserMenu
               user={session?.user}
@@ -333,7 +333,7 @@ export function DashboardSidebar() {
               variant="sidebar"
               side="top"
               align="end"
-              className="w-full"
+              className="w-full group-data-[collapsible=icon]:justify-center"
               customTrigger={sidebarUserTrigger}
               hideUserInfo={true}
             />
