@@ -21,7 +21,7 @@ const DialogOverlay = React.forwardRef<
   <DialogPrimitive.Overlay
     ref={ref}
     className={cn(
-      "fixed inset-0 z-50 bg-background/80 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+      "fixed inset-0 z-50 bg-black/80 backdrop-blur-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
       className
     )}
     {...props}
@@ -41,7 +41,8 @@ const DialogContent = React.forwardRef<
       ref={ref}
       data-dialog-content
       className={cn(
-        "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-background p-6 shadow-lg sm:rounded-2xl",
+        "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border bg-[hsl(var(--cyber-bg-base))] p-6 backdrop-blur-2xl rounded-[var(--cyber-radius-lg)]",
+        "border-[hsl(var(--cyber-border-accent))] shadow-[var(--cyber-shadow-xl)] ring-1 ring-[hsl(var(--cyber-border-accent))]",
         "dialog-glitch-animation",
         className
       )}
@@ -49,7 +50,7 @@ const DialogContent = React.forwardRef<
     >
       {children}
       {!hideClose && (
-        <DialogPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+        <DialogPrimitive.Close className="absolute right-4 top-4 rounded-xl p-2 opacity-70 bg-[hsl(var(--cyber-bg-elevated-subtle))] border border-[hsl(var(--cyber-border-subtle))] transition-all hover:opacity-100 hover:bg-[hsl(var(--cyber-bg-elevated))] hover:border-[hsl(var(--cyber-border-accent-hover))] focus:outline-none focus:ring-2 focus:ring-[hsl(var(--cyber-ring))] focus:ring-offset-2 focus:ring-offset-[hsl(var(--cyber-ring-offset))] disabled:pointer-events-none text-[hsl(var(--cyber-text-muted))] hover:text-[hsl(var(--cyber-text-primary))]">
           <X className="h-4 w-4" />
           <span className="sr-only">Close</span>
         </DialogPrimitive.Close>

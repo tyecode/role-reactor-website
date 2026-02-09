@@ -15,6 +15,12 @@ const badgeVariants = cva(
         destructive:
           "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
         outline: "text-foreground",
+        // Cyberpunk variants
+        accent:
+          "border-[hsl(var(--cyber-border-accent))] bg-[hsl(var(--cyber-accent))]/10 text-[hsl(var(--cyber-accent))] shadow-[var(--cyber-glow-sm)] hover:bg-[hsl(var(--cyber-accent))]/20",
+        premium:
+          "border-[hsl(var(--cyber-premium))]/20 bg-[hsl(var(--cyber-premium))]/10 text-[hsl(var(--cyber-premium))] shadow-[0_0_8px_rgb(234_179_8_/_0.3)] hover:bg-[hsl(var(--cyber-premium))]/20",
+        pro: "border-[hsl(var(--cyber-pro))]/20 bg-[hsl(var(--cyber-pro))]/10 text-[hsl(var(--cyber-pro))] shadow-[var(--cyber-glow-sm)] hover:bg-[hsl(var(--cyber-pro))]/20",
       },
     },
     defaultVariants: {

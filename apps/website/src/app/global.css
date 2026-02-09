@@ -67,6 +67,69 @@
   --sidebar-accent-foreground: hsl(240 5.9% 10%);
   --sidebar-border: hsl(220 13% 91%);
   --sidebar-ring: hsl(217.2 91.2% 59.8%);
+
+  /* ========================================
+     CYBERPUNK THEME VARIABLES
+     ======================================== */
+
+  /* Primary Accent - Cyan */
+  --cyber-accent: 188 91% 43%; /* cyan-500 #06B6D4 */
+  --cyber-accent-foreground: 0 0% 0%; /* Black text on cyan */
+
+  /* Background Layers */
+  --cyber-bg-base: 240 10% 3.9%; /* zinc-950 - Main background */
+  --cyber-bg-subtle: 240 10% 3.9% / 0.4; /* zinc-950/40 - Cards, overlays */
+  --cyber-bg-elevated: 240 5.9% 10%; /* zinc-900 - Elevated surfaces */
+  --cyber-bg-elevated-subtle: 240 5.9% 10% / 0.4; /* zinc-900/40 */
+  --cyber-bg-input: 240 5.9% 10% / 0.4; /* zinc-900/40 - Input backgrounds */
+
+  /* Border Colors */
+  --cyber-border-subtle: 0 0% 100% / 0.05; /* white/5 - Subtle borders */
+  --cyber-border-accent: 188 91% 43% / 0.1; /* cyan-500/10 - Accent borders */
+  --cyber-border-accent-hover: 188 91% 43% / 0.3; /* cyan-500/30 - Hover state */
+
+  /* Text Colors */
+  --cyber-text-primary: 0 0% 100%; /* white */
+  --cyber-text-secondary: 240 5% 84%; /* zinc-300 */
+  --cyber-text-muted: 240 5% 65%; /* zinc-400 */
+  --cyber-text-subtle: 240 5% 45%; /* zinc-500 */
+  --cyber-text-placeholder: 240 5% 45%; /* zinc-600 */
+
+  /* Ring/Focus Colors */
+  --cyber-ring: 188 91% 43% / 0.5; /* cyan-500/50 - Focus rings */
+  --cyber-ring-offset: 240 10% 3.9%; /* zinc-950 - Ring offset color */
+
+  /* Glow Effects (use with shadow-[...]) */
+  --cyber-glow-sm: 0 0 8px rgb(6 182 212 / 0.3);
+  --cyber-glow-md: 0 0 20px rgb(6 182 212 / 0.3);
+  --cyber-glow-lg: 0 0 40px rgb(6 182 212 / 0.3);
+  --cyber-glow-xl: 0 0 50px rgb(6 182 212 / 0.3);
+
+  /* Shadow Effects */
+  --cyber-shadow-sm: 0 0 10px rgb(0 0 0 / 0.5);
+  --cyber-shadow-md: 0 0 20px rgb(0 0 0 / 0.7);
+  --cyber-shadow-lg: 0 0 50px rgb(0 0 0 / 1);
+  --cyber-shadow-xl: 0 0 100px rgb(6 182 212 / 0.3), 0 0 50px rgb(0 0 0 / 1);
+
+  /* Gradient Colors */
+  --cyber-gradient-start: 188 91% 43%; /* cyan-500 */
+  --cyber-gradient-end: 188 91% 43%; /* cyan-500 */
+
+  /* Status Colors with Glow */
+  --cyber-success: 142 71% 45%; /* emerald-500 */
+  --cyber-warning: 38 92% 50%; /* amber-500 */
+  --cyber-error: 0 72% 51%; /* red-500 */
+  --cyber-info: 188 91% 43%; /* cyan-500 */
+
+  /* Premium/Pro Colors */
+  --cyber-premium: 45 93% 47%; /* yellow-500 for premium */
+  --cyber-pro: 188 91% 43%; /* cyan-500 for pro */
+
+  /* Border Radius */
+  --cyber-radius-sm: 0.75rem; /* 12px - rounded-xl */
+  --cyber-radius-md: 1rem; /* 16px - rounded-2xl */
+  --cyber-radius-lg: 1.5rem; /* 24px - rounded-3xl */
+  --cyber-radius-xl: 2.5rem; /* 40px - rounded-[2.5rem] */
 }
 
 /* Tailwind 4 compatibility fixes for sidebar group-data-* selectors */
