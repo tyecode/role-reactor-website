@@ -22,6 +22,7 @@ import { motion } from "motion/react";
 import { useServerStore } from "@/store/use-server-store";
 import { cn } from "@/lib/utils";
 import { Audiowide } from "next/font/google";
+import { CyberpunkBackground } from "@/components/common/cyberpunk-background";
 
 import {
   AreaChart,
@@ -425,7 +426,13 @@ export function GuildOverviewView({
           </div>
 
           <Card className="bg-zinc-900/40 border-white/5 rounded-2xl overflow-hidden shadow-xl backdrop-blur-xl relative">
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ffff_1px,transparent_1px),linear-gradient(to_bottom,#00ffff_1px,transparent_1px)] bg-[size:24px_24px] opacity-[0.02]" />
+            <CyberpunkBackground
+              gridSize={24}
+              gridOpacity={0.02}
+              gridColor="#00ffff"
+              showGlows={true}
+              glowOpacity={0.4}
+            />
             <CardContent className="p-8 relative z-10">
               <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-8">
                 <div className="space-y-1">

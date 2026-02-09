@@ -25,6 +25,7 @@ import { motion } from "motion/react";
 import { PremiumGuard } from "@/components/dashboard/premium-guard";
 import { Audiowide } from "next/font/google";
 import { useServerStore } from "@/store/use-server-store";
+import { useGuildStore, type PremiumStatus } from "@/store/use-guild-store";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const audiowide = Audiowide({
@@ -33,49 +34,28 @@ const audiowide = Audiowide({
   display: "swap",
 });
 
-interface PremiumStatus {
-  isPremium: {
-    pro: boolean;
-  };
-  subscription?: {
-    activatedAt: string;
-    expiresAt: string;
-    autoRenew: boolean;
-  };
-}
-
 export default function ProEnginePage() {
   const params = useParams();
   const guildId = params.guildId as string;
   const { guilds } = useServerStore();
   const activeGuild = guilds.find((g) => g.id === guildId);
 
-  const [premiumStatus, setPremiumStatus] = useState<PremiumStatus | null>(
-    null
-  );
-  const [isLoading, setIsLoading] = useState(true);
+  const { guildData, fetchSettings, isLoading: storeLoading } = useGuildStore();
+  const premiumStatus = guildData[guildId]?.settings || null;
+  // Only show skeleton if we are loading AND don't have data yet
+  const isLoading =
+    (storeLoading[guildId]?.settings ?? true) &&
+    (guildData[guildId]?.settings === null ||
+      guildData[guildId]?.settings === undefined);
+
   const [showActivationModal, setShowActivationModal] = useState(false);
   const [isActivating, setIsActivating] = useState(false);
 
   useEffect(() => {
-    if (!guildId) return;
-
-    const fetchPremiumStatus = async () => {
-      try {
-        const res = await fetch(`/api/guilds/${guildId}/settings`);
-        if (res.ok) {
-          const data = await res.json();
-          setPremiumStatus(data);
-        }
-      } catch (error) {
-        console.error("Failed to fetch premium status:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchPremiumStatus();
-  }, [guildId]);
+    if (guildId) {
+      fetchSettings(guildId);
+    }
+  }, [guildId, fetchSettings]);
 
   const handleActivate = async () => {
     setIsActivating(true);
@@ -86,12 +66,8 @@ export default function ProEnginePage() {
       if (res.ok) {
         toast.success("Pro Engine activated successfully!");
         setShowActivationModal(false);
-        // Refresh status
-        const statusRes = await fetch(`/api/guilds/${guildId}/settings`);
-        if (statusRes.ok) {
-          const data = await statusRes.json();
-          setPremiumStatus(data);
-        }
+        // Refresh status in store
+        await fetchSettings(guildId, true);
       } else {
         const error = await res.json();
         toast.error(error.error || "Failed to activate Pro Engine");

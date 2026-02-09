@@ -35,18 +35,29 @@ export const useServerStore = create<ServerState>()(
       lastActiveGuildId: null,
 
       fetchServers: async (force = false) => {
-        const { lastFetched } = get();
+        const {
+          lastFetched,
+          guilds: currentGuilds,
+          isLoading: currentLoading,
+        } = get();
 
-        // Cache for 2 minutes to keep it snappy but relatively fresh
+        // Cache duration: 2 minutes
         const CACHE_DURATION = 2 * 60 * 1000;
         const now = Date.now();
         if (!force && lastFetched && now - lastFetched < CACHE_DURATION) {
           console.log("Server store: Using cached guilds");
-          set({ isLoading: false });
+          if (currentLoading !== false) {
+            set({ isLoading: false });
+          }
           return;
         }
 
-        set({ isLoading: true, error: "none" });
+        // If we have guilds and are not forced, don't show loading even if fetching in background
+        if (!force && currentGuilds.length > 0) {
+          set({ error: "none" }); // Just clear error
+        } else {
+          set({ isLoading: true, error: "none" });
+        }
 
         try {
           console.log("Server store: Fetching Discord guilds...");

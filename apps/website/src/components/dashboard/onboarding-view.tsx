@@ -9,6 +9,7 @@ import { motion } from "motion/react";
 import { cn } from "@/lib/utils";
 import { Audiowide } from "next/font/google";
 import { FaDiscord } from "react-icons/fa";
+import { CyberpunkBackground } from "@/components/common/cyberpunk-background";
 
 const audiowide = Audiowide({
   subsets: ["latin"],
@@ -31,8 +32,14 @@ export function OnboardingView({ inviteUrl }: OnboardingViewProps) {
       >
         {/* Subtle Glow Background overlay */}
         <div className="absolute inset-0 z-0">
-          <div className="absolute top-0 left-0 w-full h-full bg-linear-to-br from-blue-600/10 via-transparent to-purple-600/10 opacity-30" />
-          <div className="absolute inset-0 bg-zinc-950/20" />
+          <CyberpunkBackground
+            gridSize={48}
+            gridOpacity={0.015}
+            gridColor="#3b82f6"
+            showGlows={true}
+            primaryGlow="rgba(59, 130, 246, 0.1)"
+            secondaryGlow="rgba(168, 85, 247, 0.05)"
+          />
           <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-blue-500/20 to-transparent" />
         </div>
 

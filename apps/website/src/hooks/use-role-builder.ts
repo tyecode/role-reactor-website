@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { useParams } from "next/navigation";
 import { useServerStore } from "@/store/use-server-store";
 import { useEmojiStore } from "@/store/use-emoji-store";
+import { useGuildStore } from "@/store/use-guild-store";
 import { DiscordRole, DiscordEmoji, DiscordChannel } from "@/types/discord";
 import { toast } from "sonner";
 
@@ -51,16 +52,10 @@ export function useRoleBuilder() {
   );
   const [color, setColor] = useState("#9b8bf0");
   const [reactions, setReactions] = useState<ReactionMapping[]>([]);
-  const [serverRoles, setServerRoles] = useState<DiscordRole[]>([]);
-  const [serverChannels, setServerChannels] = useState<DiscordChannel[]>([]);
   const [selectedChannel, setSelectedChannel] = useState("");
-  const [isLoadingRoles, setIsLoadingRoles] = useState(true);
-  const [isLoadingChannels, setIsLoadingChannels] = useState(true);
   const [selectionMode, setSelectionMode] = useState("standard");
-  const [isPremium, setIsPremium] = useState(false);
   const [isActivatingPremium, setIsActivatingPremium] = useState(false);
 
-  // Debounced values
   const [debouncedTitle, setDebouncedTitle] = useState(title);
   const [debouncedDescription, setDebouncedDescription] = useState(description);
   const [debouncedColor, setDebouncedColor] = useState(color);
@@ -81,6 +76,37 @@ export function useRoleBuilder() {
   }, [color]);
 
   const [openEmojiPicker, setOpenEmojiPicker] = useState<number | null>(null);
+
+  const {
+    guildData,
+    fetchRoles,
+    fetchChannels,
+    fetchSettings,
+    isLoading: storeLoading,
+  } = useGuildStore();
+
+  const serverRoles = useMemo(() => {
+    const roles = guildData[guildId]?.roles || [];
+    return roles.filter(
+      (r: DiscordRole) => r.name !== "@everyone" && !r.managed
+    );
+  }, [guildData, guildId]);
+
+  const serverChannels = useMemo(() => {
+    const channels = guildData[guildId]?.channels || [];
+    return channels.filter((ch: DiscordChannel) => ch.type === 0);
+  }, [guildData, guildId]);
+
+  const isPremium = guildData[guildId]?.settings?.isPremium?.pro || false;
+
+  const isLoadingRoles =
+    (storeLoading[guildId]?.roles ?? true) &&
+    (guildData[guildId]?.roles === null ||
+      guildData[guildId]?.roles === undefined);
+  const isLoadingChannels =
+    (storeLoading[guildId]?.channels ?? true) &&
+    (guildData[guildId]?.channels === null ||
+      guildData[guildId]?.channels === undefined);
 
   // Validation
   const validation = useMemo(() => {
@@ -109,63 +135,20 @@ export function useRoleBuilder() {
   useEffect(() => {
     if (!guildId) return;
 
-    setServerRoles([]);
-    setServerChannels([]);
-    setSelectedChannel("");
-    setIsLoadingRoles(true);
-    setIsLoadingChannels(true);
-
-    const fetchData = async () => {
-      try {
-        const [rolesRes, channelsRes] = await Promise.all([
-          fetch(`/api/guilds/${guildId}/roles`),
-          fetch(`/api/guilds/${guildId}/channels`),
-        ]);
-
-        if (rolesRes.ok) {
-          const roles = await rolesRes.json();
-          setServerRoles(
-            Array.isArray(roles)
-              ? roles.filter(
-                  (r: DiscordRole) => r.name !== "@everyone" && !r.managed
-                )
-              : []
-          );
-        }
-
-        if (channelsRes.ok) {
-          const channels = await channelsRes.json();
-          setServerChannels(
-            Array.isArray(channels)
-              ? channels.filter((ch: DiscordChannel) => ch.type === 0)
-              : []
-          );
-        }
-
-        // Fetch settings/premium status
-        const settingsRes = await fetch(`/api/guilds/${guildId}/settings`);
-        if (settingsRes.ok) {
-          const settings = await settingsRes.json();
-          setIsPremium(settings.isPremium?.pro || false);
-        }
-      } catch (err) {
-        console.error("Failed to sync guild data:", err);
-      } finally {
-        setIsLoadingRoles(false);
-        setIsLoadingChannels(false);
-      }
-    };
-
-    fetchData();
+    fetchRoles(guildId);
+    fetchChannels(guildId);
+    fetchSettings(guildId);
     fetchEmojis(guildId);
-  }, [guildId, fetchEmojis]);
+  }, [guildId, fetchRoles, fetchChannels, fetchSettings, fetchEmojis]);
 
   useEffect(() => {
     if (serverRoles.length > 0) {
       setReactions((prev) =>
         prev.map((r) => {
           if (!r.roleId && r.roleName) {
-            const matched = serverRoles.find((sr) => sr.name === r.roleName);
+            const matched = serverRoles.find(
+              (sr: DiscordRole) => sr.name === r.roleName
+            );
             if (matched) {
               return {
                 ...r,
@@ -212,7 +195,7 @@ export function useRoleBuilder() {
       });
       if (res.ok) {
         toast.success("Pro Engine activated successfully!");
-        setIsPremium(true);
+        await fetchSettings(guildId, true);
         return true;
       } else {
         const error = await res.json();
@@ -225,7 +208,7 @@ export function useRoleBuilder() {
     } finally {
       setIsActivatingPremium(false);
     }
-  }, [guildId, isActivatingPremium]);
+  }, [guildId, isActivatingPremium, fetchSettings]);
 
   return {
     guildId,
@@ -263,8 +246,6 @@ export function useRoleBuilder() {
     updateReaction,
     isPremium,
     isActivatingPremium,
-    setIsActivatingPremium,
-    setIsPremium,
     handleActivatePremium,
   };
 }

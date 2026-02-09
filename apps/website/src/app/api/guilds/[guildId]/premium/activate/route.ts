@@ -4,7 +4,7 @@ import { botFetch } from "@/lib/bot-fetch";
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { guildId: string } }
+  { params }: { params: Promise<{ guildId: string }> }
 ) {
   try {
     const { guildId } = await params;

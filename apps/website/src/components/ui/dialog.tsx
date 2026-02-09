@@ -29,6 +29,8 @@ const DialogOverlay = React.forwardRef<
 ));
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
+import { useGlitchSound } from "@/hooks/use-glitch-sound";
+
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
@@ -39,13 +41,53 @@ const DialogContent = React.forwardRef<
     typeof className === "string" &&
     className.includes("dialog-glitch-advanced");
 
+  const isGlitch =
+    typeof className === "string" &&
+    (className.includes("dialog-glitch-advanced") ||
+      className.includes("dialog-glitch-animation") ||
+      !isAdvanced);
+
+  const { playIn, playOut } = useGlitchSound();
+  const internalRef = React.useRef<HTMLDivElement>(null);
+
+  // Sync ref
+  React.useImperativeHandle(ref, () => internalRef.current!);
+
   return (
     <DialogPortal>
       <DialogOverlay />
       <DialogPrimitive.Content
-        ref={ref}
+        ref={internalRef}
+        onAnimationStart={(e) => {
+          if (isGlitch && e.target === e.currentTarget) {
+            const dataState = (e.target as HTMLElement).getAttribute(
+              "data-state"
+            );
+
+            // Trigger entry sound on opening animations
+            if (
+              dataState === "open" &&
+              (e.animationName.includes("dialogGlitchIn") ||
+                e.animationName.includes("rgbSplit"))
+            ) {
+              playIn();
+            }
+
+            // Trigger exit sound on closing animations
+            if (
+              dataState === "closed" &&
+              (e.animationName.includes("dialogGlitchOut") ||
+                e.animationName.includes("fade-out") ||
+                e.animationName.includes("glitch-explosion") ||
+                e.animationName.includes("rgbSplit"))
+            ) {
+              playOut();
+            }
+          }
+          props.onAnimationStart?.(e);
+        }}
         className={cn(
-          "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 rounded-2xl",
+          "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 rounded-3xl overflow-hidden",
           !isAdvanced &&
             "border bg-zinc-950/95 p-6 backdrop-blur-2xl border-white/10 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] ring-1 ring-white/5 dialog-glitch-animation",
           className

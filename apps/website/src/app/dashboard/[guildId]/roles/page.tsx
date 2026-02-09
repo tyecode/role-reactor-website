@@ -53,9 +53,11 @@ function RolesPageSkeleton() {
 function RolesContent() {
   const params = useParams();
   const guildId = params.guildId as string;
-  const { installedGuildIds, isLoading } = useServerStore();
+  const { installedGuildIds, isLoading: serverLoading } = useServerStore();
 
   const isInstalled = guildId ? installedGuildIds.includes(guildId) : false;
+  // Only show skeleton if we are loading AND don't have data yet
+  const isLoading = serverLoading && installedGuildIds.length === 0;
 
   if (isLoading) {
     return <RolesPageSkeleton />;

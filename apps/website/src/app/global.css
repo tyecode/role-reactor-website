@@ -856,6 +856,31 @@
   }
 }
 
+@keyframes glitchLineMove {
+  0% {
+    top: -10%;
+    opacity: 0;
+  }
+  1% {
+    opacity: 1;
+  }
+  10% {
+    top: 110%;
+    opacity: 1;
+  }
+  11% {
+    opacity: 0;
+  }
+  100% {
+    top: 110%;
+    opacity: 0;
+  }
+}
+
+.animate-glitch-line-move {
+  animation: glitchLineMove 5s linear infinite;
+}
+
 /* Glitch Scanlines Overlay - Cross-hatch CRT effect extending beyond dialog */
 .dialog-glitch-animation::before,
 .dialog-glitch-advanced::before {
@@ -962,6 +987,12 @@
 /* Advanced Glitch Dialog Overrides */
 .dialog-glitch-advanced {
   overflow: visible !important;
+  border-radius: 1.5rem; /* Match rounded-3xl */
+}
+
+.dialog-inner-content {
+  border-radius: inherit;
+  overflow: hidden;
 }
 
 /* Parent must stay mounted while child glitches out, but should be totally transparent */

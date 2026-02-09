@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { Audiowide } from "next/font/google";
+import { CyberpunkBackground } from "@/components/common/cyberpunk-background";
 
 const audiowide = Audiowide({
   subsets: ["latin"],
@@ -50,11 +51,12 @@ export function GuildHero({ guildName, guildIcon, guildId }: GuildHeroProps) {
         transition: "transform 0.15s ease-out",
       }}
     >
-      {/* Background Pattern - Cyberpunk gradient */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,255,255,0.08),transparent_50%),radial-gradient(circle_at_bottom_left,rgba(255,0,255,0.06),transparent_50%)]" />
-
-      {/* Tech Grid Pattern - Cyan tint */}
-      <div className="absolute inset-0 opacity-[0.025] pointer-events-none bg-[linear-gradient(to_right,#00ffff_1px,transparent_1px),linear-gradient(to_bottom,#00ffff_1px,transparent_1px)] bg-[size:48px_48px]" />
+      <CyberpunkBackground
+        gridSize={48}
+        gridOpacity={0.025}
+        gridColor="#00ffff"
+        showGlows={true}
+      />
 
       {/* Mouse-tracking Neon Spotlight - Cyan */}
       <div

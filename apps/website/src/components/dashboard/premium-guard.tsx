@@ -14,6 +14,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { Audiowide } from "next/font/google";
 import { cn } from "@/lib/utils";
+import { CyberpunkBackground } from "@/components/common/cyberpunk-background";
 
 const audiowide = Audiowide({
   subsets: ["latin"],
@@ -65,13 +66,15 @@ export function PremiumGuard({
 
           {/* Animated Background Effects */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(6,182,212,0.15),transparent_60%)]" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(6,182,212,0.1),transparent_60%)]" />
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent" />
-
-            {/* Grid Pattern Overlay */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,black,transparent)]" />
+            <CyberpunkBackground
+              gridSize={32}
+              gridOpacity={0.02}
+              gridColor="rgba(255,255,255,0.2)"
+              mask="radial-gradient(ellipse 60% 60% at 50% 50%, black, transparent)"
+              showGlows={true}
+              primaryGlow="rgba(6, 182, 212, 0.15)"
+              secondaryGlow="rgba(6, 182, 212, 0.1)"
+            />
           </div>
 
           <DialogHeader className="px-8 pt-8 pb-4 relative overflow-hidden">

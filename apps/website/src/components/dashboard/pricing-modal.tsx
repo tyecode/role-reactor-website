@@ -55,7 +55,7 @@ export function PricingModal({ trigger }: PricingModalProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className="max-w-[400px] bg-black border-zinc-800 p-0 shadow-3xl overflow-hidden gap-0 ring-1 ring-zinc-800/50">
+      <DialogContent className="max-w-[400px] bg-black border-zinc-800 p-0 shadow-3xl gap-0 ring-1 ring-zinc-800/50">
         <DialogTitle className="sr-only">Purchase Core Balance</DialogTitle>
         <DialogDescription className="sr-only">
           Choose a package to top up your server's core balance and unlock
