@@ -23,185 +23,234 @@ interface OnboardingViewProps {
 
 export function OnboardingView({ inviteUrl }: OnboardingViewProps) {
   return (
-    <div className="space-y-12 pb-20">
-      {/* Onboarding Hero */}
+    <div className="space-y-6 sm:space-y-10 pb-16 max-w-7xl mx-auto px-4 sm:px-6">
+      {/* Onboarding Hero - Fluid Mission Control */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.98 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="relative rounded-3xl overflow-hidden border border-white/5 bg-zinc-900/40 shadow-2xl min-h-[400px] md:min-h-[440px] flex items-center backdrop-blur-xl group"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="relative rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden border border-white/10 bg-zinc-950/50 shadow-2xl min-h-[380px] sm:min-h-[420px] flex items-center group"
       >
-        {/* Subtle Glow Background overlay */}
-        <div className="absolute inset-0 z-0">
+        {/* Cinematic Background Layer */}
+        <div className="absolute inset-0 z-0 select-none">
+          <div className="absolute inset-0 bg-linear-to-b from-zinc-950 via-transparent to-zinc-950/90 z-10" />
+          <div className="absolute inset-0 bg-linear-to-r from-zinc-950 via-zinc-950/40 to-transparent z-10" />
+
+          {/* Main Hero Illustration */}
+          <div
+            className="absolute inset-0 scale-100 opacity-60 group-hover:opacity-80 transition-all duration-1000 ease-in-out"
+            style={{
+              backgroundImage: `url('/images/onboarding-hero-v4.png')`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          />
+
           <CyberpunkBackground
-            gridSize={48}
-            gridOpacity={0.015}
+            gridSize={42}
+            gridOpacity={0.04}
             gridColor="#3b82f6"
             showGlows={true}
-            primaryGlow="rgba(59, 130, 246, 0.1)"
-            secondaryGlow="rgba(168, 85, 247, 0.05)"
+            showNoise={true}
+            showScanlines={true}
+            showGlitchLines={true}
+            showFlicker={true}
+            primaryGlow="rgba(59, 130, 246, 0.12)"
+            secondaryGlow="rgba(168, 85, 247, 0.08)"
           />
-          <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-blue-500/20 to-transparent" />
         </div>
 
-        <CardContent className="relative z-20 p-8 sm:p-12 md:p-14 flex flex-col items-center lg:items-start text-center lg:text-left max-w-4xl">
+        <CardContent className="relative z-50 p-6 sm:p-12 lg:p-16 flex flex-col items-center lg:items-start text-center lg:text-left w-full max-w-4xl">
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 }}
-            className="mb-6"
+            className="mb-6 flex items-center gap-4"
           >
             <Badge
-              variant="outline"
-              className="px-3 py-1 gap-2 font-bold uppercase tracking-[0.2em] text-[9px] bg-white/5 border-white/10 text-white backdrop-blur-md"
+              variant="pro"
+              className="px-4 py-1.5 gap-2 backdrop-blur-2xl border-white/10 ring-1 ring-blue-500/20"
             >
-              <div className="w-1 h-1 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.5)] animate-pulse" />
-              System Initialized
+              <div className="w-1.5 h-1.5 rounded-full bg-blue-400 shadow-[0_0_10px_rgba(96,165,250,1)] animate-pulse" />
+              SYSTEMS ONLINE
             </Badge>
+            <div className="h-[1px] w-12 bg-zinc-800 hidden sm:block" />
+            <span className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-500 hidden sm:block font-mono">
+              LINK_ACTIVE
+            </span>
           </motion.div>
 
-          <h1
-            className={cn(
-              "text-3xl sm:text-4xl md:text-6xl font-black leading-tight mb-4 text-white tracking-tighter",
-              audiowide.className
-            )}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="relative"
           >
-            Role{" "}
-            <span className="bg-linear-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(59,130,246,0.3)]">
-              Reactor
-            </span>
-          </h1>
+            <h1
+              className={cn(
+                "text-xl xs:text-2xl sm:text-5xl md:text-6xl font-black leading-[1.1] sm:leading-[0.9] mb-4 text-white tracking-tighter",
+                audiowide.className
+              )}
+            >
+              IGNITE THE <br />
+              <span className="relative inline-block bg-linear-to-r from-blue-400 via-cyan-300 to-indigo-400 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.4)] py-1">
+                COMMUNITY
+                <div className="absolute -bottom-1 left-0 w-full h-[1px] sm:h-[3px] bg-cyan-500/20 rounded-full blur-[2px]" />
+                <div className="absolute -bottom-1 left-0 w-2/3 h-[1px] sm:h-[3px] bg-cyan-400 shadow-[0_0_15px_#22d3ee] rounded-full" />
+              </span>
+            </h1>
+          </motion.div>
 
-          <p className="text-zinc-300 text-sm sm:text-base md:text-lg mb-8 max-w-xl leading-relaxed font-medium">
-            Welcome to your command center. Connect your server to unlock{" "}
-            <span className="text-white font-bold">automated role systems</span>{" "}
-            and advanced community tools.
+          <p className="text-zinc-400 text-xs sm:text-lg mb-8 max-w-xl leading-relaxed font-medium">
+            Elevate your Discord experience with advanced{" "}
+            <span className="text-blue-400 font-bold">role automation</span>.
+            Bridge the gap between your members and their identity.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+          <div className="flex flex-col xs:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 w-full sm:w-auto">
             <Button
               asChild
-              className="rounded-lg font-black px-8 h-12 text-sm bg-[#5865F2] hover:bg-[#4752C4] text-white shadow-xl shadow-[#5865F2]/20 transition-all group w-full sm:w-auto border-t border-white/20 active:scale-95"
+              variant="glitch"
+              className="rounded-lg px-4 sm:px-7 h-9 sm:h-11 text-[8px] sm:text-xs shadow-[0_0_20px_rgba(59,130,246,0.1)] border border-blue-400/20 group w-full xs:w-auto"
             >
               <a
                 href={inviteUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center"
+                className="inline-flex items-center gap-2 sm:gap-2.5"
               >
                 <FaDiscord
-                  size={20}
-                  className="mr-2.5 group-hover:rotate-12 transition-transform"
+                  size={14}
+                  className="group-hover:scale-110 transition-transform"
                 />
-                Connect Server
+                UNLEASH THE BOT
               </a>
             </Button>
+
             <Button
-              variant="outline"
+              variant="neon"
               asChild
-              className="rounded-lg font-black px-8 h-12 text-sm bg-white/5 border-white/10 hover:bg-white/10 text-white backdrop-blur-md transition-all w-full sm:w-auto active:scale-95"
+              className="rounded-lg px-4 sm:px-7 h-9 sm:h-11 text-[8px] sm:text-xs border-white/5 bg-white/5 hover:bg-white/10 w-full xs:w-auto"
             >
-              <Link href="/docs">View Guide</Link>
+              <Link href="/docs" className="flex items-center gap-2 sm:gap-2.5">
+                <Shield size={12} className="text-zinc-400" />
+                COMMANDS
+              </Link>
             </Button>
           </div>
 
-          {/* Horizontal Trust Indicators */}
-          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-8 gap-y-3 pt-12 text-[10px] text-zinc-500 font-black uppercase tracking-widest">
-            <div className="flex items-center gap-2 group/item">
-              <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] animate-pulse" />
-              <span className="group-hover/item:text-zinc-400 transition-colors">
-                Neural Link Active
-              </span>
-            </div>
-            <div className="flex items-center gap-2 group/item">
-              <Shield size={12} className="text-blue-500 shadow-blue-500/20" />
-              <span className="group-hover/item:text-zinc-400 transition-colors">
-                Encrypted
-              </span>
-            </div>
-            <div className="flex items-center gap-2 group/item">
-              <Zap size={12} className="text-yellow-500 fill-yellow-500/20" />
-              <span className="group-hover/item:text-zinc-400 transition-colors">
-                Zero-Latency
-              </span>
-            </div>
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 sm:gap-8 mt-8 sm:mt-10 pt-6 sm:pt-8 border-t border-white/5 w-full opacity-50">
+            {[
+              { icon: Shield, label: "Secure", color: "text-blue-500" },
+              { icon: Zap, label: "Instant", color: "text-yellow-500" },
+              { icon: Server, label: "Cloud", color: "text-emerald-500" },
+            ].map((item, i) => (
+              <div key={i} className="flex items-center gap-2 sm:gap-3">
+                <item.icon
+                  size={14}
+                  className={cn(
+                    item.color,
+                    "drop-shadow-[0_0_8px_currentColor]"
+                  )}
+                />
+                <span className="text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 font-mono">
+                  {item.label}
+                </span>
+              </div>
+            ))}
           </div>
         </CardContent>
-
-        {/* Hero Decorative Visual */}
-        <div className="absolute right-0 top-0 w-1/2 h-full hidden lg:block opacity-30 pointer-events-none">
-          <div className="absolute inset-0 bg-linear-to-r from-zinc-950 via-zinc-950/20 to-transparent z-10" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.15),transparent_70%)]" />
-        </div>
       </motion.div>
 
-      {/* Quick Actions Grid - Clean & Minimal */}
-      <section>
-        <div className="flex items-center justify-between mb-6 px-1">
-          <h2 className="text-lg font-bold flex items-center gap-2 text-white">
-            <Server className="text-blue-500 w-5 h-5" /> Quick Actions
+      {/* Grid - Mission Hub */}
+      <section className="space-y-8">
+        <div className="flex flex-col items-center lg:items-start gap-3">
+          <div className="w-10 h-1 bg-blue-600 rounded-full" />
+          <h2
+            className={cn(
+              "text-xl font-black text-white tracking-widest uppercase",
+              audiowide.className
+            )}
+          >
+            CORE MODULES
           </h2>
+          <p className="text-zinc-500 text-[10px] font-bold tracking-[0.3em] uppercase">
+            Initialize your server deployment
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {[
             {
-              title: "System Docs",
-              desc: "Deep dive into reactor logic",
+              title: "DATA CENTER",
+              desc: "Guides and technical specs.",
               icon: Server,
-              href: "/docs",
-              gradient: "from-blue-500/20 to-indigo-600/10",
               accent: "text-blue-400",
+              href: "/docs",
+              glow: "group-hover:shadow-blue-500/10",
             },
             {
-              title: "Support Hub",
-              desc: "Get engineer assistance",
+              title: "COMMAND HQ",
+              desc: "Discord support engineers.",
               icon: Shield,
-              href: "https://discord.gg/role-reactor",
-              gradient: "from-purple-500/20 to-fuchsia-600/10",
               accent: "text-purple-400",
+              href: "https://discord.gg/role-reactor",
+              glow: "group-hover:shadow-purple-500/10",
             },
             {
-              title: "Terminal",
-              desc: "Return to central portal",
+              title: "NEURAL GATE",
+              desc: "Switch between core links.",
               icon: Zap,
-              href: "/",
-              gradient: "from-emerald-500/20 to-teal-600/10",
               accent: "text-emerald-400",
+              href: "/",
+              glow: "group-hover:shadow-emerald-100/10",
             },
           ].map((action, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 * i }}
-              className="h-full"
+              transition={{ delay: 0.4 + 0.1 * i }}
+              className={cn(i === 2 && "sm:col-span-2 lg:col-span-1")}
             >
-              <Link href={action.href} className="h-full block">
-                <Card className="bg-zinc-900/40 border-white/5 shadow-2xl p-6 group hover:bg-zinc-800/60 hover:border-blue-500/20 transition-all duration-300 rounded-2xl relative overflow-hidden cursor-pointer h-full backdrop-blur-md">
-                  <div className="absolute inset-x-0 bottom-0 h-1 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="relative z-10 flex flex-col items-center text-center gap-4 h-full justify-center">
+              <Link href={action.href} className="group block h-full">
+                <Card
+                  className={cn(
+                    "h-full border-white/5 bg-zinc-950/40 hover:bg-zinc-900/60 transition-all duration-500 rounded-[1.2rem] sm:rounded-[1.5rem] relative overflow-hidden group shadow-2xl backdrop-blur-xl ring-1 ring-white/5",
+                    action.glow
+                  )}
+                >
+                  <CardContent className="p-5 sm:p-7 flex flex-col items-center text-center gap-4 sm:gap-5 h-full">
                     <div
                       className={cn(
-                        "w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 bg-zinc-950 border border-white/5 shadow-inner group-hover:scale-110 transition-transform duration-500",
+                        "w-12 h-12 rounded-xl flex items-center justify-center bg-zinc-950 border border-white/10 shadow-[inner_0_0_15px_rgba(0,0,0,0.8)] group-hover:scale-105 transition-all duration-500",
                         action.accent
                       )}
                     >
-                      <action.icon className="w-7 h-7" />
+                      <action.icon
+                        size={20}
+                        className="filter drop-shadow-[0_0_10px_currentColor]"
+                      />
                     </div>
-                    <div className="space-y-1">
+
+                    <div className="space-y-1 sm:space-y-2">
                       <h3
                         className={cn(
-                          "text-base font-black text-white tracking-widest uppercase",
+                          "text-xs sm:text-base font-black text-white tracking-widest uppercase",
                           audiowide.className
                         )}
                       >
                         {action.title}
                       </h3>
-                      <p className="text-zinc-500 text-[11px] leading-relaxed font-medium">
+                      <p className="text-zinc-500 text-[10px] sm:text-xs leading-relaxed font-semibold">
                         {action.desc}
                       </p>
                     </div>
-                  </div>
+
+                    <div className="mt-auto pt-4 sm:pt-6 flex items-center gap-2 text-[8px] sm:text-[9px] font-black text-blue-400 tracking-[0.3em] uppercase opacity-0 group-hover:opacity-100 transition-all transform translate-y-3 group-hover:translate-y-0">
+                      ACCESS{" "}
+                      <Zap size={8} className="text-blue-400 animate-pulse" />
+                    </div>
+                  </CardContent>
                 </Card>
               </Link>
             </motion.div>

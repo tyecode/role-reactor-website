@@ -20,6 +20,8 @@ const alertVariants = cva(
           "border-amber-500/20 bg-amber-500/5 text-white shadow-[0_0_15px_-4px_rgba(245,158,11,0.2)] [&>svg]:text-amber-400",
         error:
           "border-red-500/20 bg-red-500/5 text-white shadow-[0_0_15px_-4px_rgba(239,68,68,0.2)] [&>svg]:text-red-400",
+        glitch:
+          "border-cyan-500/20 bg-cyan-950/30 text-cyan-300 font-mono shadow-[0_0_15px_-4px_rgba(6,182,212,0.2)] [&>svg]:text-cyan-400",
       },
     },
     defaultVariants: {

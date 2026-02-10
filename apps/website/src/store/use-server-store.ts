@@ -29,7 +29,7 @@ export const useServerStore = create<ServerState>()(
     (set, get) => ({
       guilds: [],
       installedGuildIds: [],
-      isLoading: true, // Default to true so skeletons show up immediately on refresh
+      isLoading: true, // Default to true to prevent flickering during initial auth/fetch checks
       error: "none",
       lastFetched: null,
       lastActiveGuildId: null,

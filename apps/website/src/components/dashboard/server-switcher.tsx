@@ -16,6 +16,7 @@ import {
   useParams,
 } from "next/navigation";
 import Image from "next/image";
+import { links } from "@/constants/links";
 
 import {
   DropdownMenu,
@@ -75,9 +76,7 @@ export function ServerSwitcher() {
     }
   };
 
-  const clientId =
-    process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID || "1392714201558159431";
-  const inviteUrl = `https://discord.com/oauth2/authorize?client_id=${clientId}&permissions=8&scope=bot%20applications.commands`;
+  const inviteUrl = links.inviteBot;
 
   return (
     <SidebarMenu className="group-data-[collapsible=icon]:items-center">

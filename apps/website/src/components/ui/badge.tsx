@@ -21,6 +21,11 @@ const badgeVariants = cva(
         premium:
           "border-yellow-500/20 bg-yellow-500/10 text-yellow-400 shadow-[0_0_10px_-4px_rgba(234,179,8,0.5)] hover:bg-yellow-500/20 hover:shadow-[0_0_15px_-4px_rgba(234,179,8,0.6)] backdrop-blur-sm",
         pro: "border-cyan-400/20 bg-cyan-400/10 text-cyan-300 shadow-[0_0_10px_-4px_rgba(34,211,238,0.5)] hover:bg-cyan-400/20 hover:shadow-[0_0_15px_-4px_rgba(34,211,238,0.6)] backdrop-blur-sm font-black tracking-wider uppercase",
+        success:
+          "border-transparent bg-emerald-500/20 text-emerald-500 hover:bg-emerald-500/30",
+        warning:
+          "border-transparent bg-yellow-500/20 text-yellow-500 hover:bg-yellow-500/30",
+        info: "border-transparent bg-purple-500/20 text-purple-500 hover:bg-purple-500/30",
       },
     },
     defaultVariants: {

@@ -27,6 +27,8 @@ interface CyberpunkBackgroundProps {
   showScanlines?: boolean;
   /** Whether to show animated glitch lines. Default: false */
   showGlitchLines?: boolean;
+  /** Whether to show a failing TV flicker effect. Default: false */
+  showFlicker?: boolean;
   /** Additional class names for the container */
   className?: string;
 }
@@ -48,12 +50,14 @@ export function CyberpunkBackground({
   showNoise = false,
   showScanlines = false,
   showGlitchLines = false,
+  showFlicker = false,
   className,
 }: CyberpunkBackgroundProps) {
   return (
     <div
       className={cn(
         "absolute inset-0 pointer-events-none overflow-hidden",
+        showFlicker && "animate-tv-flicker",
         className
       )}
     >

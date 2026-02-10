@@ -7,7 +7,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./dropdown-menu";
 import { Avatar, AvatarImage, AvatarFallback } from "./avatar";
@@ -151,7 +150,10 @@ export function UserMenu({
         onClick={onLogin}
         aria-label="Login"
         title="Login"
-        className={cn("h-8", className)}
+        className={cn(
+          "h-8 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-300 hover:shadow-[0_0_15px_-4px_rgba(6,182,212,0.6)] font-mono uppercase tracking-wider",
+          className
+        )}
       >
         Login
       </Button>
@@ -164,33 +166,36 @@ export function UserMenu({
   const defaultTrigger = isSidebar ? (
     <Button
       variant="ghost"
-      className="w-full justify-start gap-2 px-2 py-6 data-[state=open]:bg-white/5 data-[state=open]:text-white"
+      className="w-full justify-start gap-3 px-3 py-6 relative overflow-hidden group border border-transparent hover:border-cyan-500/30 hover:bg-cyan-950/20 transition-all duration-300 data-[state=open]:border-cyan-500/50 data-[state=open]:bg-cyan-950/30"
     >
-      <Avatar className="h-8 w-8 rounded-lg shrink-0">
+      <div className="absolute inset-0 bg-linear-to-r from-transparent via-cyan-500/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+      <Avatar className="h-9 w-9 rounded-lg shrink-0 ring-2 ring-cyan-500/20 group-hover:ring-cyan-500/50 transition-all shadow-[0_0_10px_-2px_rgba(6,182,212,0.3)]">
         <AvatarImage src={avatarUrl} alt={user.name || "User"} />
-        <AvatarFallback className="rounded-lg bg-linear-to-br from-blue-500 to-purple-600 text-white text-xs">
+        <AvatarFallback className="rounded-lg bg-zinc-900 border border-white/10 text-xs font-mono text-cyan-400">
           {getInitials(user.name)}
         </AvatarFallback>
       </Avatar>
-      <div className="grid flex-1 text-left text-sm leading-tight min-w-0">
-        <span className="truncate font-semibold">{user.name}</span>
-        <span className="truncate text-xs text-muted-foreground">
+      <div className="grid flex-1 text-left text-sm leading-tight min-w-0 z-10">
+        <span className="truncate font-bold font-mono text-zinc-100 group-hover:text-cyan-300 transition-colors">
+          {user.name}
+        </span>
+        <span className="truncate text-xs text-zinc-500 group-hover:text-cyan-600/80 font-mono transition-colors">
           {user.email}
         </span>
       </div>
-      <ChevronUp className="ml-auto size-4 shrink-0" />
+      <ChevronUp className="ml-auto size-4 shrink-0 text-zinc-500 group-hover:text-cyan-400 transition-colors" />
     </Button>
   ) : (
     <Button
       variant="ghost"
       size="icon"
-      className="h-8 w-8 rounded-md cursor-pointer"
+      className="h-9 w-9 rounded-lg cursor-pointer border border-transparent hover:border-cyan-500/30 hover:bg-cyan-950/20 hover:shadow-[0_0_15px_-4px_rgba(6,182,212,0.4)] transition-all duration-300 group"
       aria-label="User menu"
       title={user.name || "User menu"}
     >
-      <Avatar className="h-8 w-8">
+      <Avatar className="h-7 w-7 ring-1 ring-white/10 group-hover:ring-cyan-500/50 transition-all">
         <AvatarImage src={avatarUrl} alt={user.name || "User avatar"} />
-        <AvatarFallback className="text-xs">
+        <AvatarFallback className="text-xs bg-zinc-900 text-cyan-400 font-mono">
           {getInitials(user.name)}
         </AvatarFallback>
       </Avatar>
@@ -219,33 +224,37 @@ export function UserMenu({
         <DropdownMenuContent
           align={align}
           side={side}
-          sideOffset={4}
+          sideOffset={8}
           portal={!isSidebar}
           className={cn(
-            "w-64 p-2 bg-zinc-950/95 backdrop-blur-sm border-zinc-800/60 shadow-xl rounded-lg",
-            isSidebar && "w-[--radix-dropdown-menu-trigger-width] min-w-56"
+            "w-72 p-0 bg-black/90 backdrop-blur-xl border border-cyan-500/20 shadow-[0_0_30px_-5px_rgba(6,182,212,0.15)] rounded-2xl overflow-hidden",
+            isSidebar && "w-[--radix-dropdown-menu-trigger-width] min-w-64"
           )}
         >
-          <DropdownMenuLabel className="font-normal p-0 mb-2">
+          {/* Cyberpunk Decorative Line */}
+          <div className="absolute top-0 left-0 w-full h-[1px] bg-linear-to-r from-transparent via-cyan-500/50 to-transparent" />
+
+          <DropdownMenuLabel className="font-normal p-0 bg-zinc-900/50">
             {!hideUserInfo && (
-              <div className="flex items-center gap-3 px-2 py-1.5">
-                <Avatar className="h-9 w-9 shrink-0 border border-border/50">
+              <div className="flex items-center gap-4 px-4 py-4 border-b border-white/5 relative overflow-hidden">
+                <div className="absolute inset-0 bg-linear-to-br from-cyan-500/5 to-purple-500/5 opacity-50" />
+                <Avatar className="h-10 w-10 shrink-0 ring-2 ring-cyan-500/20 shadow-[0_0_15px_-4px_rgba(6,182,212,0.4)] z-10">
                   <AvatarImage
                     src={avatarUrl}
                     alt={user.name || "User avatar"}
                     draggable={false}
                     className="select-none"
                   />
-                  <AvatarFallback className="text-sm">
+                  <AvatarFallback className="text-sm bg-black text-cyan-400 font-mono border border-cyan-500/30">
                     {getInitials(user.name)}
                   </AvatarFallback>
                 </Avatar>
-                <div className="flex flex-col min-w-0 flex-1 overflow-hidden">
-                  <span className="text-sm font-medium truncate leading-none mb-1">
+                <div className="flex flex-col min-w-0 flex-1 overflow-hidden z-10">
+                  <span className="text-sm font-bold truncate leading-none mb-1.5 text-white font-mono tracking-wide">
                     {user.name}
                   </span>
                   {user.email && (
-                    <span className="text-xs text-muted-foreground truncate leading-none">
+                    <span className="text-xs text-zinc-400 truncate leading-none font-mono">
                       {user.email}
                     </span>
                   )}
@@ -253,28 +262,30 @@ export function UserMenu({
               </div>
             )}
 
-            {/* Cores Section */}
+            {/* Cores Section - integrated better */}
             {showCoreBalance && (
-              <CoreBalance
-                variant="dropdown"
-                coreImageUrl={coreImageUrl}
-                onClick={onAddCredits}
-              />
+              <div className="px-2 pb-2 pt-2 bg-black/40">
+                <CoreBalance
+                  variant="dropdown"
+                  coreImageUrl={coreImageUrl}
+                  onClick={onAddCredits}
+                />
+              </div>
             )}
           </DropdownMenuLabel>
 
-          <div className="px-1">
-            <DropdownMenuSeparator className="-mx-1 my-1" />
-
+          <div className="p-2 space-y-1">
             {/* Dashboard Link */}
             {showDashboardLink && (
               <DropdownMenuItem asChild>
                 <a
                   href={dashboardUrl}
-                  className="cursor-pointer flex items-center py-2.5 px-2 rounded-md transition-colors hover:bg-accent/50"
+                  className="cursor-pointer flex items-center py-2.5 px-3 rounded-lg transition-all hover:bg-cyan-500/10 hover:text-cyan-300 group focus:bg-cyan-500/10 focus:text-cyan-300 border border-transparent hover:border-cyan-500/20"
                 >
-                  <LayoutDashboard className="mr-3 h-4 w-4 text-muted-foreground" />
-                  <span className="font-medium">Dashboard</span>
+                  <LayoutDashboard className="mr-3 h-4 w-4 text-zinc-400 group-hover:text-cyan-400 group-hover:drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] transition-all" />
+                  <span className="font-medium font-mono text-sm">
+                    Dashboard
+                  </span>
                 </a>
               </DropdownMenuItem>
             )}
@@ -284,27 +295,32 @@ export function UserMenu({
               <DropdownMenuItem asChild>
                 <a
                   href={settingsUrl}
-                  className="cursor-pointer flex items-center py-2.5 px-2 rounded-md transition-colors hover:bg-accent/50"
+                  className="cursor-pointer flex items-center py-2.5 px-3 rounded-lg transition-all hover:bg-purple-500/10 hover:text-purple-300 group focus:bg-purple-500/10 focus:text-purple-300 border border-transparent hover:border-purple-500/20"
                 >
-                  <Settings className="mr-3 h-4 w-4 text-muted-foreground" />
-                  <span className="font-medium">Settings</span>
+                  <Settings className="mr-3 h-4 w-4 text-zinc-400 group-hover:text-purple-400 group-hover:drop-shadow-[0_0_5px_rgba(168,85,247,0.5)] transition-all" />
+                  <span className="font-medium font-mono text-sm">
+                    Settings
+                  </span>
                 </a>
               </DropdownMenuItem>
             )}
 
             {(showDashboardLink || showSettingsLink) && (
-              <DropdownMenuSeparator className="-mx-1 my-1" />
+              <div className="h-px bg-white/5 my-1 mx-2" />
             )}
 
             {/* Logout */}
             <DropdownMenuItem
               onClick={onLogout}
-              className="cursor-pointer text-red-400 focus:text-red-400 focus:bg-red-500/10 flex items-center py-2.5 px-2 rounded-md"
+              className="cursor-pointer text-red-400 hover:text-red-300 hover:bg-red-500/10 focus:text-red-300 focus:bg-red-500/10 flex items-center py-2.5 px-3 rounded-lg border border-transparent hover:border-red-500/20 group transition-all"
             >
-              <LogOut className="mr-3 h-4 w-4" />
-              <span className="font-medium">Logout</span>
+              <LogOut className="mr-3 h-4 w-4 group-hover:drop-shadow-[0_0_5px_rgba(239,68,68,0.5)] transition-all" />
+              <span className="font-medium font-mono text-sm">LOGOUT</span>
             </DropdownMenuItem>
           </div>
+
+          {/* Bottom decorative border */}
+          <div className="h-0.5 w-full bg-linear-to-r from-cyan-500/0 via-cyan-500/20 to-cyan-500/0" />
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

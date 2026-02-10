@@ -31,22 +31,36 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
 import { useGlitchSound } from "@/hooks/use-glitch-sound";
 
+import { cva, type VariantProps } from "class-variance-authority";
+
+const dialogContentVariants = cva(
+  "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 rounded-3xl overflow-hidden shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
+  {
+    variants: {
+      variant: {
+        default:
+          "border bg-zinc-950/95 p-6 backdrop-blur-2xl border-white/10 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] ring-1 ring-white/5 dialog-glitch-animation",
+        glitch:
+          "p-0 bg-transparent shadow-none dialog-glitch-advanced border-none",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+);
+
+interface DialogContentProps
+  extends
+    React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>,
+    VariantProps<typeof dialogContentVariants> {
+  hideClose?: boolean;
+}
+
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
-    hideClose?: boolean;
-  }
->(({ className, children, hideClose, ...props }, ref) => {
-  const isAdvanced =
-    typeof className === "string" &&
-    className.includes("dialog-glitch-advanced");
-
-  const isGlitch =
-    typeof className === "string" &&
-    (className.includes("dialog-glitch-advanced") ||
-      className.includes("dialog-glitch-animation") ||
-      !isAdvanced);
-
+  DialogContentProps
+>(({ className, children, hideClose, variant, ...props }, ref) => {
   const { playIn, playOut } = useGlitchSound();
   const internalRef = React.useRef<HTMLDivElement>(null);
 
@@ -59,7 +73,7 @@ const DialogContent = React.forwardRef<
       <DialogPrimitive.Content
         ref={internalRef}
         onAnimationStart={(e) => {
-          if (isGlitch && e.target === e.currentTarget) {
+          if (e.target === e.currentTarget) {
             const dataState = (e.target as HTMLElement).getAttribute(
               "data-state"
             );
@@ -68,7 +82,10 @@ const DialogContent = React.forwardRef<
             if (
               dataState === "open" &&
               (e.animationName.includes("dialogGlitchIn") ||
-                e.animationName.includes("rgbSplit"))
+                e.animationName.includes("rgbSplit") ||
+                // Trigger for default animation if set
+                e.animationName.includes("fade-in") ||
+                e.animationName.includes("zoom-in"))
             ) {
               playIn();
             }
@@ -79,27 +96,37 @@ const DialogContent = React.forwardRef<
               (e.animationName.includes("dialogGlitchOut") ||
                 e.animationName.includes("fade-out") ||
                 e.animationName.includes("glitch-explosion") ||
-                e.animationName.includes("rgbSplit"))
+                e.animationName.includes("rgbSplit") ||
+                e.animationName.includes("zoom-out"))
             ) {
               playOut();
             }
           }
           props.onAnimationStart?.(e);
         }}
-        className={cn(
-          "fixed left-[50%] top-[50%] z-50 grid w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 rounded-3xl overflow-hidden",
-          !isAdvanced &&
-            "border bg-zinc-950/95 p-6 backdrop-blur-2xl border-white/10 shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] ring-1 ring-white/5 dialog-glitch-animation",
-          className
-        )}
+        className={cn(dialogContentVariants({ variant, className }))}
         {...props}
       >
-        {children}
-        {!hideClose && (
-          <DialogPrimitive.Close className="absolute right-4 top-4 rounded-xl p-2 opacity-70 bg-zinc-900 border border-white/10 transition-all hover:opacity-100 hover:bg-zinc-800 hover:border-cyan-500/30 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:ring-offset-2 focus:ring-offset-zinc-950 disabled:pointer-events-none text-zinc-400 hover:text-white hover:shadow-[0_0_10px_-2px_rgba(6,182,212,0.3)]">
-            <X className="h-4 w-4" />
-            <span className="sr-only">Close</span>
-          </DialogPrimitive.Close>
+        {variant === "glitch" ? (
+          <div className="dialog-inner-content relative h-full w-full bg-zinc-950/90 border-2 border-cyan-500/50 shadow-[0_0_30px_-5px_rgba(6,182,212,0.4)] p-6 rounded-3xl overflow-hidden backdrop-blur-2xl">
+            {children}
+            {!hideClose && (
+              <DialogPrimitive.Close className="absolute right-4 top-4 rounded-xl p-2 opacity-70 bg-zinc-900 border border-white/10 transition-all hover:opacity-100 hover:bg-zinc-800 hover:border-cyan-500/30 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:ring-offset-2 focus:ring-offset-zinc-950 disabled:pointer-events-none text-zinc-400 hover:text-white hover:shadow-[0_0_10px_-2px_rgba(6,182,212,0.3)] z-50">
+                <X className="h-4 w-4" />
+                <span className="sr-only">Close</span>
+              </DialogPrimitive.Close>
+            )}
+          </div>
+        ) : (
+          <>
+            {children}
+            {!hideClose && (
+              <DialogPrimitive.Close className="absolute right-4 top-4 rounded-xl p-2 opacity-70 bg-zinc-900 border border-white/10 transition-all hover:opacity-100 hover:bg-zinc-800 hover:border-cyan-500/30 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:ring-offset-2 focus:ring-offset-zinc-950 disabled:pointer-events-none text-zinc-400 hover:text-white hover:shadow-[0_0_10px_-2px_rgba(6,182,212,0.3)]">
+                <X className="h-4 w-4" />
+                <span className="sr-only">Close</span>
+              </DialogPrimitive.Close>
+            )}
+          </>
         )}
       </DialogPrimitive.Content>
     </DialogPortal>
@@ -135,28 +162,62 @@ const DialogFooter = ({
 );
 DialogFooter.displayName = "DialogFooter";
 
+const dialogTitleVariants = cva(
+  "text-lg font-semibold leading-none tracking-tight",
+  {
+    variants: {
+      variant: {
+        default: "",
+        glitch: "text-cyan-400 font-mono uppercase tracking-widest text-xl",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+);
+
+interface DialogTitleProps
+  extends
+    React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>,
+    VariantProps<typeof dialogTitleVariants> {}
+
 const DialogTitle = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Title>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
->(({ className, ...props }, ref) => (
+  DialogTitleProps
+>(({ className, variant, ...props }, ref) => (
   <DialogPrimitive.Title
     ref={ref}
-    className={cn(
-      "text-lg font-semibold leading-none tracking-tight",
-      className
-    )}
+    className={cn(dialogTitleVariants({ variant, className }))}
     {...props}
   />
 ));
 DialogTitle.displayName = DialogPrimitive.Title.displayName;
 
+const dialogDescriptionVariants = cva("text-sm text-muted-foreground", {
+  variants: {
+    variant: {
+      default: "",
+      glitch: "text-cyan-500/70 font-mono text-xs",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+
+interface DialogDescriptionProps
+  extends
+    React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>,
+    VariantProps<typeof dialogDescriptionVariants> {}
+
 const DialogDescription = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Description>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
->(({ className, ...props }, ref) => (
+  DialogDescriptionProps
+>(({ className, variant, ...props }, ref) => (
   <DialogPrimitive.Description
     ref={ref}
-    className={cn("text-sm text-muted-foreground", className)}
+    className={cn(dialogDescriptionVariants({ variant, className }))}
     {...props}
   />
 ));

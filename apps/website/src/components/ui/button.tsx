@@ -26,6 +26,8 @@ const buttonVariants = cva(
         neon: "border border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-300 hover:shadow-[0_0_15px_-4px_rgba(6,182,212,0.6)] hover:border-cyan-400 font-bold uppercase tracking-wider backdrop-blur-sm hover:cursor-pointer",
         "ghost-glow":
           "text-zinc-400 hover:text-white hover:bg-zinc-800/50 hover:shadow-[0_0_15px_-5px_rgba(255,255,255,0.2)] hover:cursor-pointer",
+        "destructive-glitch":
+          "text-red-400 hover:text-red-300 hover:bg-red-950/30 hover:shadow-[0_0_15px_-5px_rgba(239,68,68,0.3)] hover:cursor-pointer font-mono tracking-wider",
       },
       size: {
         default: "h-10 px-4 py-2",

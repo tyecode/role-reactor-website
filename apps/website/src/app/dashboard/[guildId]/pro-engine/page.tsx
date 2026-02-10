@@ -25,7 +25,7 @@ import { motion } from "motion/react";
 import { PremiumGuard } from "@/components/dashboard/premium-guard";
 import { Audiowide } from "next/font/google";
 import { useServerStore } from "@/store/use-server-store";
-import { useGuildStore, type PremiumStatus } from "@/store/use-guild-store";
+import { useGuildStore } from "@/store/use-guild-store";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const audiowide = Audiowide({

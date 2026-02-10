@@ -5,10 +5,10 @@ import { Plus, ShieldAlert, Server, ExternalLink } from "lucide-react";
 
 import { motion } from "motion/react";
 
+import { links } from "@/constants/links";
+
 export function NoServerState() {
-  const clientId =
-    process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID || "1392714201558159431";
-  const inviteUrl = `https://discord.com/oauth2/authorize?client_id=${clientId}&permissions=8&scope=bot%20applications.commands`;
+  const inviteUrl = links.inviteBot;
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] text-center px-4">

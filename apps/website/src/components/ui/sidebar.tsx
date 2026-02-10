@@ -24,6 +24,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state";
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
@@ -147,7 +148,7 @@ const SidebarProvider = React.forwardRef<
               } as React.CSSProperties
             }
             className={cn(
-              "group/sidebar-wrapper flex min-h-svh w-full text-zinc-100",
+              "group/sidebar-wrapper flex min-h-svh w-full text-zinc-100 selection:bg-cyan-500/30",
               className
             )}
             ref={ref}
@@ -299,14 +300,30 @@ const Sidebar = React.forwardRef<
           <div
             data-sidebar="sidebar"
             className={cn(
-              "flex h-full w-full flex-col bg-zinc-950/20 backdrop-blur-md",
+              "relative flex h-full w-full flex-col bg-zinc-950/40 backdrop-blur-xl transition-colors duration-500 group-hover:bg-zinc-950/60",
               variant === "floating" &&
-                "rounded-lg border border-white/10 shadow-lg",
+                "rounded-lg border border-white/10 shadow-[0_0_20px_rgba(0,0,0,0.5)]",
               variant === "inset" &&
-                "rounded-lg border border-white/10 shadow-lg"
+                "rounded-lg border border-white/10 shadow-[0_0_20px_rgba(0,0,0,0.5)]"
             )}
           >
-            {children}
+            {/* Cyberpunk Accents for Sidebar */}
+            {(variant === "floating" || variant === "inset") && (
+              <>
+                <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-cyan-500/40 rounded-tl-sm pointer-events-none" />
+                <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/10 rounded-tr-sm pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/10 rounded-bl-sm pointer-events-none" />
+                <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-purple-500/40 rounded-br-sm pointer-events-none" />
+
+                {/* Lateral glow */}
+                <div className="absolute inset-y-8 left-0 w-[1px] bg-linear-to-b from-transparent via-cyan-500/20 to-transparent pointer-events-none" />
+              </>
+            )}
+
+            {/* Subtle grid pattern */}
+            <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')] brightness-100" />
+
+            <div className="relative z-10 flex flex-col h-full">{children}</div>
           </div>
         </div>
       </div>
@@ -337,8 +354,10 @@ const SidebarTrigger = React.forwardRef<
       }}
       {...props}
     >
-      <PanelLeft />
+      <PanelLeft className="size-4 relative z-10" />
       <span className="sr-only">Toggle Sidebar</span>
+      {/* Visual Glitch on Hover */}
+      <div className="absolute inset-0 bg-cyan-500/0 group-hover:bg-cyan-500/5 transition-colors pointer-events-none" />
     </Button>
   );
 });
@@ -359,9 +378,10 @@ const SidebarRail = React.forwardRef<
       onClick={toggleSidebar}
       title="Toggle Sidebar"
       className={cn(
-        "hover:after:bg-cyan-500/50 absolute inset-y-0 z-20 hidden w-4 ltr:-translate-x-1/2 rtl:-translate-x-1/2 transition-all ease-linear group-data-[side=left]:-right-4 group-data-[side=right]:left-0 after:absolute after:inset-y-0 after:start-1/2 after:w-[2px] sm:flex",
+        "absolute inset-y-0 z-20 hidden w-4 ltr:-translate-x-1/2 rtl:-translate-x-1/2 transition-all ease-linear group-data-[side=left]:-right-4 group-data-[side=right]:left-0 after:absolute after:inset-y-0 after:start-1/2 after:w-[2px] after:bg-white/5 hover:after:bg-cyan-500 sm:flex",
         "[[data-side=left]_&]:cursor-w-resize [[data-side=right]_&]:cursor-e-resize",
         "[[data-side=left][data-state=collapsed]_&]:cursor-e-resize [[data-side=right][data-state=collapsed]_&]:cursor-w-resize",
+        "after:transition-colors after:duration-300",
         "group-data-[collapsible=offcanvas]:translate-x-0 group-data-[collapsible=offcanvas]:after:left-full group-data-[collapsible=offcanvas]:hover:bg-zinc-950/50",
         "[[data-side=left][data-collapsible=offcanvas]_&]:-right-2",
         "[[data-side=right][data-collapsible=offcanvas]_&]:-left-2",
@@ -461,17 +481,17 @@ SidebarSeparator.displayName = "SidebarSeparator";
 const SidebarContent = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div">
->(({ className, ...props }, ref) => {
+>(({ className, children, dir, ...props }, ref) => {
   return (
-    <div
+    <ScrollArea
       ref={ref}
-      data-sidebar="content"
-      className={cn(
-        "flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden custom-scrollbar",
-        className
-      )}
-      {...props}
-    />
+      dir={dir as "ltr" | "rtl" | undefined}
+      className={cn("flex min-h-0 flex-1 flex-col", className)}
+    >
+      <div data-sidebar="content" className="flex flex-col gap-2" {...props}>
+        {children}
+      </div>
+    </ScrollArea>
   );
 });
 SidebarContent.displayName = "SidebarContent";
@@ -502,8 +522,9 @@ const SidebarGroupLabel = React.forwardRef<
       ref={ref}
       data-sidebar="group-label"
       className={cn(
-        "flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-zinc-500 outline-none ring-cyan-500/50 transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0 uppercase tracking-wider",
+        "flex h-8 shrink-0 items-center rounded-md px-2 text-[10px] font-black tracking-[0.2em] text-zinc-500 outline-none ring-cyan-500/50 transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0 uppercase",
         "group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0",
+        "before:content-['//'] before:mr-2 before:text-zinc-800",
         className
       )}
       {...props}
@@ -575,13 +596,13 @@ const SidebarMenuItem = React.forwardRef<
 SidebarMenuItem.displayName = "SidebarMenuItem";
 
 const sidebarMenuButtonVariants = cva(
-  "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-none ring-cyan-500/50 transition-[width,height,padding,background-color] hover:bg-white/5 hover:text-white focus-visible:ring-2 active:bg-white/10 active:text-white disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-white/10 data-[active=true]:font-medium data-[active=true]:text-white data-[state=open]:hover:bg-white/5 data-[state=open]:hover:text-white group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
+  "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-none ring-cyan-500/50 transition-all duration-300 hover:bg-white/5 hover:text-white focus-visible:ring-2 active:bg-white/10 active:text-white active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-cyan-500/10 data-[active=true]:font-bold data-[active=true]:text-cyan-400 data-[state=open]:hover:bg-white/5 data-[state=open]:hover:text-white group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: "hover:bg-white/5 hover:text-white",
+        default: "hover:bg-cyan-500/5 hover:text-cyan-100",
         outline:
-          "bg-transparent shadow-[0_0_0_1px_rgba(255,255,255,0.1)] hover:bg-white/5 hover:text-white hover:shadow-[0_0_0_1px_rgba(255,255,255,0.2)]",
+          "bg-transparent shadow-[0_0_0_1px_rgba(255,255,255,0.05)] hover:bg-white/5 hover:text-white hover:shadow-[0_0_0_1px_rgba(255,255,255,0.15)]",
       },
       size: {
         default: "h-8 text-sm",

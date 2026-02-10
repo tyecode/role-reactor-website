@@ -11,6 +11,24 @@ import {
   BarChart3,
   Terminal,
   Zap,
+  Ghost,
+  Layers,
+  ListCollapse,
+  AlertTriangle,
+  UserCircle,
+  Tag,
+  MousePointerClick,
+  Square,
+  MessageSquare,
+  Menu,
+  TextCursor,
+  Type,
+  List,
+  Minus,
+  PanelRight,
+  ToggleRight,
+  HelpCircle,
+  User,
 } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
@@ -125,6 +143,99 @@ export function DashboardSidebar() {
         ]
       : [];
 
+  const getTestItems = () => [
+    {
+      title: "Accordion",
+      href: "/dashboard/test/accordion",
+      icon: ListCollapse,
+    },
+    {
+      title: "Alert",
+      href: "/dashboard/test/alert",
+      icon: AlertTriangle,
+    },
+    {
+      title: "Avatar",
+      href: "/dashboard/test/avatar",
+      icon: UserCircle,
+    },
+    {
+      title: "Badge",
+      href: "/dashboard/test/badge",
+      icon: Tag,
+    },
+    {
+      title: "Button",
+      href: "/dashboard/test/button",
+      icon: MousePointerClick,
+    },
+    {
+      title: "Card",
+      href: "/dashboard/test/card",
+      icon: Square,
+    },
+    {
+      title: "Dialog",
+      href: "/dashboard/test/dialog",
+      icon: MessageSquare,
+    },
+    {
+      title: "Dropdown Menu",
+      href: "/dashboard/test/dropdown-menu",
+      icon: Menu,
+    },
+    {
+      title: "Input",
+      href: "/dashboard/test/input",
+      icon: TextCursor,
+    },
+    {
+      title: "Label",
+      href: "/dashboard/test/label",
+      icon: Type,
+    },
+    {
+      title: "Select",
+      href: "/dashboard/test/select",
+      icon: List,
+    },
+    {
+      title: "Separator",
+      href: "/dashboard/test/separator",
+      icon: Minus,
+    },
+    {
+      title: "Sheet",
+      href: "/dashboard/test/sheet",
+      icon: PanelRight,
+    },
+    {
+      title: "Skeleton",
+      href: "/dashboard/test/skeleton",
+      icon: Ghost,
+    },
+    {
+      title: "Switch",
+      href: "/dashboard/test/switch",
+      icon: ToggleRight,
+    },
+    {
+      title: "Tabs",
+      href: "/dashboard/test/tabs",
+      icon: Layers,
+    },
+    {
+      title: "Tooltip",
+      href: "/dashboard/test/tooltip",
+      icon: HelpCircle,
+    },
+    {
+      title: "User Menu",
+      href: "/dashboard/test/user-menu",
+      icon: User,
+    },
+  ];
+
   const getCoreItems = () => [
     {
       title: "Overview",
@@ -199,9 +310,7 @@ export function DashboardSidebar() {
                     "h-10 transition-all duration-300 rounded-lg group/btn relative overflow-hidden",
                     item.isComingSoon
                       ? "opacity-30 cursor-not-allowed"
-                      : "hover:bg-white/5 active:scale-[0.98]",
-                    isActive(item.href) &&
-                      "bg-blue-500/10 text-blue-400 font-bold"
+                      : "hover:bg-white/5 active:scale-[0.98]"
                   )}
                 >
                   {item.isComingSoon ? (
@@ -225,7 +334,7 @@ export function DashboardSidebar() {
                       {isActive(item.href) && (
                         <motion.div
                           layoutId="active-nav"
-                          className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-4 bg-blue-500 rounded-full"
+                          className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-4 bg-cyan-500 rounded-full shadow-[0_0_8px_rgba(6,182,212,0.5)]"
                           transition={{
                             type: "spring",
                             stiffness: 300,
@@ -237,7 +346,7 @@ export function DashboardSidebar() {
                         className={cn(
                           "size-4 shrink-0 transition-transform group-hover/btn:scale-110",
                           isActive(item.href)
-                            ? "text-blue-400"
+                            ? "text-cyan-400"
                             : "text-zinc-500"
                         )}
                       />
@@ -245,7 +354,7 @@ export function DashboardSidebar() {
                         {item.title}
                       </span>
                       {item.badge && (
-                        <Badge className="ml-auto text-[9px] h-4 px-1.5 py-0 bg-blue-500/10 text-blue-400 hover:bg-blue-500/10 hover:text-blue-400 border-none group-data-[collapsible=icon]:hidden font-black uppercase">
+                        <Badge className="ml-auto text-[9px] h-4 px-1.5 py-0 bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-400 border-none group-data-[collapsible=icon]:hidden font-black uppercase">
                           {item.badge}
                         </Badge>
                       )}
@@ -265,38 +374,42 @@ export function DashboardSidebar() {
     status === "loading" ? (
       <SidebarMenuButton
         size="lg"
-        className="data-[state=open]:bg-white/5 data-[state=open]:text-white"
+        className="relative overflow-hidden border border-white/5 bg-zinc-900/20"
         disabled
       >
-        <Skeleton className="h-8 w-8 rounded-md shrink-0" />
+        <Skeleton className="h-8 w-8 rounded-lg shrink-0" />
         <div className="grid flex-1 text-left text-sm leading-tight min-w-0 group-data-[collapsible=icon]:hidden">
           <Skeleton className="h-4 w-24 mb-1" />
           <Skeleton className="h-3 w-32" />
         </div>
-        <Skeleton className="ml-auto size-4 shrink-0 group-data-[collapsible=icon]:hidden rounded-md" />
       </SidebarMenuButton>
     ) : (
       <SidebarMenuButton
         size="lg"
-        className="data-[state=open]:bg-white/5 data-[state=open]:text-white"
+        className="relative overflow-hidden group/user border border-transparent hover:border-cyan-500/30 hover:bg-cyan-950/20 transition-all duration-300 data-[state=open]:border-cyan-500/50 data-[state=open]:bg-cyan-950/30 rounded-xl"
         tooltip={session?.user?.name || "Account"}
       >
-        <Avatar className="h-8 w-8 rounded-md shrink-0">
+        {/* Sliding Scanline Effect */}
+        <div className="absolute inset-0 bg-linear-to-r from-transparent via-cyan-500/5 to-transparent -translate-x-full group-hover/user:translate-x-full transition-transform duration-1000 pointer-events-none" />
+
+        <Avatar className="h-8 w-8 rounded-lg shrink-0 ring-2 ring-cyan-500/20 group-hover/user:ring-cyan-500/50 transition-all shadow-[0_0_10px_-2px_rgba(6,182,212,0.3)]">
           <AvatarImage
             src={getAvatarUrl(session?.user || {})}
             alt={session?.user?.name || "User"}
           />
-          <AvatarFallback className="rounded-md bg-zinc-800 ring-1 ring-purple-500/40 text-zinc-400 text-xs font-bold">
+          <AvatarFallback className="rounded-lg bg-zinc-900 border border-white/10 text-cyan-400 text-xs font-mono">
             {session?.user?.name?.charAt(0).toUpperCase() || "U"}
           </AvatarFallback>
         </Avatar>
-        <div className="grid flex-1 text-left text-sm leading-tight min-w-0 group-data-[collapsible=icon]:hidden">
-          <span className="truncate font-semibold">{session?.user?.name}</span>
-          <span className="truncate text-xs text-muted-foreground">
+        <div className="grid flex-1 text-left text-sm leading-tight min-w-0 group-data-[collapsible=icon]:hidden z-10">
+          <span className="truncate font-bold font-mono text-zinc-100 group-hover/user:text-cyan-300 transition-colors">
+            {session?.user?.name}
+          </span>
+          <span className="truncate text-[10px] text-zinc-500 group-hover/user:text-cyan-600/80 font-mono transition-colors">
             {session?.user?.email}
           </span>
         </div>
-        <ChevronUp className="ml-auto size-4 shrink-0 group-data-[collapsible=icon]:hidden" />
+        <ChevronUp className="ml-auto size-4 shrink-0 text-zinc-500 group-hover/user:text-cyan-400 transition-colors group-data-[collapsible=icon]:hidden" />
       </SidebarMenuButton>
     );
 
@@ -313,9 +426,27 @@ export function DashboardSidebar() {
       </SidebarHeader>
 
       <SidebarContent>
-        <NavGroup label="Main" items={getCoreItems()} />
-        <NavGroup label="Engagement" items={getEngagementItems()} />
-        <NavGroup label="System" items={getSystemItems()} />
+        {pathname.startsWith("/dashboard/test") ? (
+          <>
+            <NavGroup label="UI Components" items={getTestItems()} />
+            <NavGroup
+              label="System"
+              items={[
+                {
+                  title: "Back to Dashboard",
+                  href: contextId ? `/dashboard/${contextId}` : "/dashboard",
+                  icon: LayoutDashboard,
+                },
+              ]}
+            />
+          </>
+        ) : (
+          <>
+            <NavGroup label="Main" items={getCoreItems()} />
+            <NavGroup label="Engagement" items={getEngagementItems()} />
+            <NavGroup label="System" items={getSystemItems()} />
+          </>
+        )}
       </SidebarContent>
 
       <SidebarFooter>
