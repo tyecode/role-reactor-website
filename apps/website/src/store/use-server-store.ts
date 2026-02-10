@@ -12,6 +12,7 @@ interface ServerState {
   guilds: DiscordGuild[];
   installedGuildIds: string[];
   isLoading: boolean;
+  isFetching: boolean;
   error: "none" | "re-login" | "error";
   lastFetched: number | null;
   lastActiveGuildId: string | null;
@@ -30,6 +31,7 @@ export const useServerStore = create<ServerState>()(
       guilds: [],
       installedGuildIds: [],
       isLoading: true, // Default to true to prevent flickering during initial auth/fetch checks
+      isFetching: false,
       error: "none",
       lastFetched: null,
       lastActiveGuildId: null,
@@ -47,16 +49,16 @@ export const useServerStore = create<ServerState>()(
         if (!force && lastFetched && now - lastFetched < CACHE_DURATION) {
           console.log("Server store: Using cached guilds");
           if (currentLoading !== false) {
-            set({ isLoading: false });
+            set({ isLoading: false, isFetching: false });
           }
           return;
         }
 
         // If we have guilds and are not forced, don't show loading even if fetching in background
         if (!force && currentGuilds.length > 0) {
-          set({ error: "none" }); // Just clear error
+          set({ error: "none", isFetching: true }); // Just clear error and show fetching
         } else {
-          set({ isLoading: true, error: "none" });
+          set({ isLoading: true, isFetching: true, error: "none" });
         }
 
         try {
@@ -66,7 +68,7 @@ export const useServerStore = create<ServerState>()(
           if (!res.ok) {
             console.error("Server store: Discord fetch failed", res.status);
             if (res.status === 401) {
-              set({ error: "re-login", isLoading: false });
+              set({ error: "re-login", isLoading: false, isFetching: false });
               return;
             }
             throw new Error("Failed to fetch guilds from Discord");
@@ -101,10 +103,10 @@ export const useServerStore = create<ServerState>()(
             }
           }
 
-          set({ lastFetched: Date.now(), isLoading: false });
+          set({ lastFetched: Date.now(), isLoading: false, isFetching: false });
         } catch (err) {
           console.error("Server store fetch error:", err);
-          set({ error: "error", isLoading: false });
+          set({ error: "error", isLoading: false, isFetching: false });
         }
       },
 

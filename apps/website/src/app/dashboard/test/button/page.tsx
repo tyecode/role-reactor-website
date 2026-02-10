@@ -10,82 +10,102 @@ export default function ButtonTestPage() {
   return (
     <div className="space-y-10 p-10 max-w-7xl mx-auto">
       <div className="space-y-4">
-        <h1 className="text-4xl font-black text-white tracking-widest uppercase italic">
-          Button
+        <h1 className="text-4xl font-black text-white tracking-widest uppercase italic font-audiowide">
+          Button Systems
         </h1>
         <p className="text-zinc-400 text-lg max-w-3xl">
-          Displays a button or a component that looks like a button.
+          Standardized tactical input modules for high-fidelity user
+          interaction.
         </p>
       </div>
 
       <Separator className="bg-white/10" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-        <Showcase title="Default Variants">
+        <Showcase title="Cyberpunk Core">
           <div className="flex flex-wrap gap-4 items-center justify-center">
-            <Button variant="default">Default</Button>
-            <Button variant="secondary">Secondary</Button>
-            <Button variant="destructive">Destructive</Button>
-            <Button variant="outline">Outline</Button>
-            <Button variant="ghost">Ghost</Button>
-            <Button variant="link">Link</Button>
-          </div>
-          <div className="flex flex-wrap gap-4 items-center justify-center mt-4">
-            <Button size="lg">Large</Button>
-            <Button size="default">Default</Button>
-            <Button size="sm">Small</Button>
-            <Button size="icon">
-              <Zap className="h-4 w-4" />
+            <Button variant="default" data-text="Default">
+              Default
+            </Button>
+            <Button variant="secondary" data-text="Secondary">
+              Secondary
+            </Button>
+            <Button variant="destructive" data-text="Destructive">
+              Destructive
+            </Button>
+            <Button variant="outline" data-text="Outline">
+              Outline
+            </Button>
+            <Button variant="ghost" data-text="Ghost">
+              Ghost
+            </Button>
+            <Button variant="link" data-text="Link">
+              Link
             </Button>
           </div>
         </Showcase>
 
-        <Showcase title="Cyberpunk Variants">
+        <Showcase title="Specialized FX">
           <div className="flex flex-col gap-6 w-full items-center">
-            <Button variant="glitch" className="w-full max-w-xs">
-              Glitch Effect
+            <Button
+              variant="glitch"
+              data-text="Glitch Protocol"
+              className="w-full max-w-xs"
+            >
+              Glitch Protocol
             </Button>
-            <Button variant="neon" className="w-full max-w-xs">
-              Neon Effect
+            <Button
+              variant="neon"
+              data-text="Neon Synthesis"
+              className="w-full max-w-xs"
+            >
+              Neon Synthesis
             </Button>
-            <Button variant="ghost-glow" className="w-full max-w-xs">
+            <Button
+              variant="destructive-glitch"
+              data-text="Destructive Glitch"
+              className="w-full max-w-xs"
+            >
+              <Trash2 className="mr-2 h-4 w-4" />
+              Destructive Glitch
+            </Button>
+            <Button
+              variant="ghost-glow"
+              data-text="Ghost Glow"
+              className="w-full max-w-xs"
+            >
               Ghost Glow
             </Button>
           </div>
         </Showcase>
 
-        <Showcase title="With Icons">
+        <Showcase title="Combat Sizing">
           <div className="flex flex-wrap gap-4 items-center justify-center">
-            <Button>
-              <Mail className="mr-2 h-4 w-4" /> Login with Email
+            <Button size="lg" variant="neon">
+              Large Output
             </Button>
-            <Button variant="secondary">
-              Subscribe <ArrowRight className="ml-2 h-4 w-4" />
+            <Button size="default">Standard Link</Button>
+            <Button size="sm" variant="outline">
+              Small Node
             </Button>
-            <Button variant="destructive" size="icon">
-              <Trash2 className="h-4 w-4" />
-            </Button>
-            <Button variant="outline">
-              <Send className="mr-2 h-4 w-4" /> Send Message
-            </Button>
-            <Button variant="neon">
-              <Zap className="mr-2 h-4 w-4" /> Activate Core
+            <Button size="icon" variant="glitch">
+              <Zap className="h-4 w-4" />
             </Button>
           </div>
         </Showcase>
 
-        <Showcase title="States">
+        <Showcase title="Interface States">
           <div className="flex flex-wrap gap-4 items-center justify-center">
-            <Button disabled>Disabled</Button>
-            <Button disabled>
+            <Button disabled>Offline Mode</Button>
+            <Button disabled variant="outline">
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Please wait
+              Syncing...
             </Button>
             <Button
-              variant="outline"
-              className="border-cyan-500/50 text-cyan-500 hover:bg-cyan-500/10"
+              variant="link"
+              className="text-emerald-500 hover:text-emerald-400"
             >
-              Active State
+              Uplink Active
             </Button>
           </div>
         </Showcase>

@@ -35,6 +35,7 @@ import { useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import { Badge } from "@/components/ui/badge";
+import { Audiowide } from "next/font/google";
 
 import {
   Sidebar,
@@ -55,6 +56,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ServerSwitcher } from "./server-switcher";
 import { useServerStore } from "@/store/use-server-store";
 import { Suspense, useEffect } from "react";
+
+const audiowide = Audiowide({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+});
 
 // Helper to get avatar URL
 function getAvatarUrl(user: { id?: string; image?: string | null }): string {
@@ -294,7 +301,13 @@ export function DashboardSidebar() {
     if (items.length === 0) return null;
     return (
       <SidebarGroup className="group-data-[collapsible=icon]:px-0">
-        <SidebarGroupLabel className="group-data-[collapsible=icon]:hidden text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-2 px-4">
+        <SidebarGroupLabel
+          className={cn(
+            "group-data-[collapsible=icon]:hidden text-[9px] font-black uppercase tracking-[0.3em] text-zinc-600/70 mb-2 px-4 flex items-center gap-2",
+            audiowide.className
+          )}
+        >
+          <div className="w-1 h-1 rounded-full bg-zinc-800" />
           {label}
         </SidebarGroupLabel>
         <SidebarGroupContent>
@@ -420,7 +433,11 @@ export function DashboardSidebar() {
       variant="inset"
     >
       <SidebarHeader>
-        <Suspense fallback={<Skeleton className="h-12 w-full rounded-md" />}>
+        <Suspense
+          fallback={
+            <Skeleton className="h-14 w-full rounded-2xl bg-zinc-900/50 border border-white/5" />
+          }
+        >
           <ServerSwitcher />
         </Suspense>
       </SidebarHeader>

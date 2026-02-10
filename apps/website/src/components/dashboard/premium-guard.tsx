@@ -122,17 +122,17 @@ export function PremiumGuard({
 
             {/* Activation Button */}
             <Button
+              variant="glitch"
               size="lg"
               disabled={isActivating}
               onClick={onActivate}
-              className="w-full bg-white text-zinc-950 hover:bg-zinc-200 h-14 rounded-xl text-xs font-black uppercase tracking-[0.2em] group transition-all active:scale-95 shadow-[0_0_20px_-5px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_-5px_rgba(6,182,212,0.4)] relative overflow-hidden ring-1 ring-white/20"
+              className="w-full h-12"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
               {isActivating ? (
                 <Loader2 className="w-5 h-5 animate-spin" />
               ) : (
                 <>
-                  <Zap className="w-5 h-5 mr-3 text-cyan-600 group-hover:scale-110 transition-transform fill-current" />
+                  <Zap className="w-5 h-5 mr-3 fill-current" />
                   {buttonText}
                 </>
               )}
