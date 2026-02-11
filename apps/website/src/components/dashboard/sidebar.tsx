@@ -403,7 +403,7 @@ export function DashboardSidebar() {
         tooltip={session?.user?.name || "Account"}
       >
         {/* Sliding Scanline Effect */}
-        <div className="absolute inset-0 bg-linear-to-r from-transparent via-cyan-500/5 to-transparent -translate-x-full group-hover/user:translate-x-full transition-transform duration-1000 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-500/5 to-transparent -translate-x-full group-hover/user:translate-x-full transition-transform duration-1000 pointer-events-none" />
 
         <Avatar className="h-8 w-8 rounded-lg shrink-0 ring-2 ring-cyan-500/20 group-hover/user:ring-cyan-500/50 transition-all shadow-[0_0_10px_-2px_rgba(6,182,212,0.3)]">
           <AvatarImage

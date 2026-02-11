@@ -56,11 +56,11 @@ export default function IndexesPage() {
   return (
     <div className="space-y-8 p-4">
       <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-black text-white tracking-tighter uppercase italic">
+        <h1 className="text-3xl font-bold text-white tracking-tighter uppercase italic font-audiowide">
           UI Component Laboratory
         </h1>
-        <p className="text-zinc-500 max-w-2xl">
-          Test and preview all UI components.
+        <p className="text-zinc-500 max-w-2xl font-mono text-xs uppercase tracking-widest">
+          {"//"} Neural Interface Testing Grounds
         </p>
       </div>
 
@@ -71,10 +71,11 @@ export default function IndexesPage() {
             <a
               key={item.href}
               href={item.href}
-              className="p-4 rounded-xl border border-white/5 bg-zinc-900/20 hover:bg-white/5 hover:border-cyan-500/30 transition-all group flex flex-col gap-3 items-center justify-center text-center h-32"
+              className="p-4 rounded-2xl border border-white/5 bg-zinc-950/40 backdrop-blur-md hover:bg-white/5 hover:border-cyan-500/30 transition-all group flex flex-col gap-3 items-center justify-center text-center h-32 relative overflow-hidden shadow-2xl"
             >
-              <item.icon className="w-8 h-8 text-zinc-500 group-hover:text-cyan-400 transition-colors" />
-              <span className="font-bold text-zinc-400 group-hover:text-white transition-colors">
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <item.icon className="w-8 h-8 text-zinc-500 group-hover:text-cyan-400 transition-all duration-500 z-10 group-hover:scale-110" />
+              <span className="font-bold text-zinc-400 group-hover:text-white transition-colors z-10 font-mono text-xs uppercase tracking-widest">
                 {item.title}
               </span>
             </a>

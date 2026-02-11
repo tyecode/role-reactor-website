@@ -223,7 +223,7 @@ export function GuildOverviewView({
           </Button>
 
           {/* Background Decorative */}
-          <div className="absolute top-0 right-0 w-64 h-full bg-linear-to-l from-purple-500/10 to-transparent pointer-events-none" />
+          <div className="absolute top-0 right-0 w-64 h-full bg-gradient-to-l from-purple-500/10 to-transparent pointer-events-none" />
         </motion.div>
       )}
 

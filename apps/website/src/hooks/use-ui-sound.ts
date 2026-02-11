@@ -5,7 +5,7 @@ import { useCallback, useRef } from "react";
 // Cyberpunk UI sound URLs
 const UI_BEEP_URL = "/sounds/ui-beep.mp3";
 const UI_CONFIRM_URL = "/sounds/ui-confirm.wav";
-const UI_SWITCH_URL = "/sounds/ui-switch.wav";
+const UI_SWITCH_URL = "/sounds/ui-switch.mp3";
 const UI_ERROR_URL = "/sounds/ui-error.wav";
 
 // Audio state singleton

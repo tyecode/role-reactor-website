@@ -2,14 +2,7 @@
 
 import { useEffect, useState, ReactNode } from "react";
 import { useSession, signIn } from "next-auth/react";
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-  DialogTitle,
-  DialogDescription,
-  DialogClose,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { usePricingStore } from "@/store/use-pricing-store";
 import { useUserStore } from "@/store/use-user-store";
@@ -17,7 +10,7 @@ import type { CorePackage } from "@/types/pricing";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useUiSound } from "@/hooks/use-ui-sound";
-import { X } from "lucide-react";
+import { toast } from "sonner";
 
 // Sub-components
 import { PackagesView } from "./packages-view";
@@ -154,7 +147,9 @@ export function PricingDialog({
       }
     } catch (err) {
       console.error("Payment error:", err);
-      alert(err instanceof Error ? err.message : "Failed to create payment");
+      toast.error(
+        err instanceof Error ? err.message : "Failed to create payment"
+      );
     } finally {
       setLoadingCryptoId(null);
     }
@@ -190,58 +185,45 @@ export function PricingDialog({
           </DialogTrigger>
         )}
         <DialogContent
-          hideClose={true}
-          className="max-w-[420px] bg-transparent! border-none shadow-none ring-0 p-0 overflow-visible dialog-glitch-advanced gap-0 rounded-3xl!"
+          variant="glitch"
+          className="max-w-[420px]"
+          innerClassName="flex flex-col"
+          hideClose={view !== "packages"}
         >
-          <div className="dialog-inner-content relative w-full bg-zinc-950 border border-white/10 shadow-[0_0_50px_rgba(0,0,0,1)] backdrop-blur-2xl ring-1 ring-white/5 overflow-hidden rounded-3xl! flex flex-col">
-            {view === "packages" && (
-              <DialogClose className="absolute right-4 top-4 rounded-xl p-2 opacity-70 bg-zinc-900 border border-white/10 transition-all hover:opacity-100 hover:bg-zinc-800 hover:border-cyan-500/30 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:ring-offset-2 focus:ring-offset-zinc-950 disabled:pointer-events-none text-zinc-400 hover:text-white hover:shadow-[0_0_10px_-2px_rgba(6,182,212,0.3)] z-50">
-                <X className="h-4 w-4" />
-                <span className="sr-only">Close</span>
-              </DialogClose>
-            )}
-            <DialogTitle className="sr-only">
-              {view === "packages" ? "Purchase Cores" : "Select Payment Method"}
-            </DialogTitle>
-            <DialogDescription className="sr-only">
-              Select a package to purchase Core energy for your Discord server.
-            </DialogDescription>
-
-            {view === "packages" ? (
-              <PackagesView
-                packages={packages}
-                pricingData={pricingData}
-                onPaymentInitiation={handlePaymentInitiation}
-                loadingPackageId={loadingPackageId}
-                loading={loading}
-              />
-            ) : view === "payment_pending" ? (
-              <PaymentPendingView
-                onReturn={() => {
-                  if (session?.user?.id) {
-                    fetchUser(session.user.id, true);
-                  }
-                  setOpen(false);
+          {view === "packages" ? (
+            <PackagesView
+              packages={packages}
+              pricingData={pricingData}
+              onPaymentInitiation={handlePaymentInitiation}
+              loadingPackageId={loadingPackageId}
+              loading={loading}
+            />
+          ) : view === "payment_pending" ? (
+            <PaymentPendingView
+              onReturn={() => {
+                if (session?.user?.id) {
+                  fetchUser(session.user.id, true);
+                }
+                setOpen(false);
+              }}
+            />
+          ) : (
+            selectedPackage && (
+              <PaymentMethodView
+                selectedPackage={selectedPackage}
+                onBack={() => {
+                  playSwitch();
+                  setView("packages");
                 }}
+                onStripePayment={handleStripePayment}
+                onCryptoPayment={handleCryptoPayment}
+                loadingStripe={loadingStripe}
+                loadingCryptoId={loadingCryptoId}
+                playBeep={playBeep}
+                playConfirm={playConfirm}
               />
-            ) : (
-              selectedPackage && (
-                <PaymentMethodView
-                  selectedPackage={selectedPackage}
-                  onBack={() => {
-                    playSwitch();
-                    setView("packages");
-                  }}
-                  onStripePayment={handleStripePayment}
-                  onCryptoPayment={handleCryptoPayment}
-                  loadingStripe={loadingStripe}
-                  loadingCryptoId={loadingCryptoId}
-                  playBeep={playBeep}
-                  playConfirm={playConfirm}
-                />
-              )
-            )}
-          </div>
+            )
+          )}
         </DialogContent>
       </Dialog>
     </>

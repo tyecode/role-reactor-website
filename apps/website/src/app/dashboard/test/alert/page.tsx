@@ -4,81 +4,74 @@ import React from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Showcase } from "@/components/ui/showcase";
 import { Separator } from "@/components/ui/separator";
-import {
-  AlertCircle,
-  AlertTriangle,
-  CheckCircle2,
-  Info,
-  Terminal,
-  Zap,
-} from "lucide-react";
+import { CheckCircle2, Info, Terminal, Zap, AlertTriangle } from "lucide-react";
 
 export default function AlertTestPage() {
   return (
     <div className="space-y-10 p-10 max-w-7xl mx-auto">
       <div className="space-y-4">
-        <h1 className="text-4xl font-black text-white tracking-widest uppercase italic">
-          Alert
+        <h1 className="text-4xl font-bold text-white tracking-widest uppercase italic font-audiowide">
+          Alert Systems
         </h1>
-        <p className="text-zinc-400 text-lg max-w-3xl">
-          Displays a callout for user attention.
+        <p className="text-zinc-400 max-w-3xl font-mono text-sm uppercase tracking-tight">
+          {"//"} High-priority telemetry broadcast modules.
         </p>
       </div>
 
       <Separator className="bg-white/10" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-        <Showcase title="Standard Variants">
+        <Showcase title="System Protocol">
           <div className="flex flex-col gap-6 w-full items-center">
             <Alert className="max-w-md w-full">
               <Terminal className="h-4 w-4" />
-              <AlertTitle>Heads up!</AlertTitle>
+              <AlertTitle>Normal Operation</AlertTitle>
               <AlertDescription>
-                You can add components to your app using the cli.
+                System heartbeats detected. Neural link stable.
               </AlertDescription>
             </Alert>
 
-            <Alert variant="destructive" className="max-w-md w-full">
-              <AlertCircle className="h-4 w-4" />
-              <AlertTitle>Error</AlertTitle>
+            <Alert variant="glitch" className="max-w-md w-full">
+              <Zap className="h-4 w-4" />
+              <AlertTitle>Anomaly Detected</AlertTitle>
               <AlertDescription>
-                Your session has expired. Please log in again.
+                Frequency drift in sector 7G. Initiating auto-sync.
               </AlertDescription>
             </Alert>
           </div>
         </Showcase>
 
-        <Showcase title="Cyberpunk Variants">
+        <Showcase title="Status Signatures">
           <div className="flex flex-col gap-6 w-full items-center">
             <Alert variant="info" className="max-w-md w-full">
               <Info className="h-4 w-4" />
-              <AlertTitle>Information</AlertTitle>
+              <AlertTitle>Telemetry Info</AlertTitle>
               <AlertDescription>
-                New features are available in the latest update.
+                New firmware version 2.4.0 is ready for uplink.
               </AlertDescription>
             </Alert>
 
             <Alert variant="success" className="max-w-md w-full">
               <CheckCircle2 className="h-4 w-4" />
-              <AlertTitle>Success</AlertTitle>
+              <AlertTitle>Uplink Success</AlertTitle>
               <AlertDescription>
-                Your changes have been saved successfully.
+                Data packet transmission confirmed by central node.
               </AlertDescription>
             </Alert>
 
             <Alert variant="warning" className="max-w-md w-full">
               <AlertTriangle className="h-4 w-4" />
-              <AlertTitle>Warning</AlertTitle>
+              <AlertTitle>Warning Signal</AlertTitle>
               <AlertDescription>
-                This action cannot be undone. Proceed with caution.
+                Power levels fluctuating. Switching to backup cells.
               </AlertDescription>
             </Alert>
 
             <Alert variant="error" className="max-w-md w-full">
               <Zap className="h-4 w-4" />
-              <AlertTitle>Critical Failure</AlertTitle>
+              <AlertTitle>Critical Fault</AlertTitle>
               <AlertDescription>
-                System override detected. Initiating lockdown protocol.
+                Core containment failure! Evacuate local terminal.
               </AlertDescription>
             </Alert>
           </div>

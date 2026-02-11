@@ -5,6 +5,8 @@ import { useParams } from "next/navigation";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+import { PageHeader } from "@/components/dashboard/page-header";
 import {
   Crown,
   Zap,
@@ -179,138 +181,115 @@ export default function ProEnginePage() {
   return (
     <>
       <div className="space-y-8 pb-12 animate-in fade-in duration-700 w-full min-w-0 overflow-x-hidden">
-        {/* Page Header - Matching Command Settings Style */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="space-y-2 flex-1">
-            <div className="flex items-center gap-2 text-yellow-400 font-bold text-xs uppercase tracking-widest">
-              <Crown className="w-4 h-4" />
-              Premium Features
-            </div>
-            <h1
-              className={cn(
-                "text-3xl md:text-5xl font-black text-white tracking-tight flex flex-wrap items-center gap-3 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]",
-                audiowide.className
-              )}
-            >
-              <span className="bg-linear-to-r from-white via-white to-zinc-500 bg-clip-text text-transparent">
-                Pro Engine
-              </span>
-              {isPremium && (
-                <Badge className="bg-yellow-500/10 text-yellow-500 border border-yellow-500/30 px-2 py-1 text-[10px] font-black items-center gap-1.5 shadow-[0_0_10px_rgba(234,179,8,0.2)]">
-                  <div className="w-1.5 h-1.5 rounded-full bg-yellow-500 animate-pulse" />
-                  STABLE LINK
-                </Badge>
-              )}
-            </h1>
-            <div className="flex flex-wrap items-center gap-6 text-sm text-zinc-400 font-medium">
-              <p className="max-w-xl leading-relaxed text-xs md:text-sm text-zinc-500">
-                {isPremium
-                  ? `PREMIUM_HANDSHAKE: ACTIVE // High-performance features successfully linked to ${activeGuild?.name || "Target Node"}.`
-                  : `UPLINK_REQUIRED: Premium capabilities restricted. Access Pro functionalities for ${activeGuild?.name || "Local Node"}.`}
-              </p>
-            </div>
-          </div>
-
+        <PageHeader
+          category="Premium Features"
+          categoryIcon={Crown}
+          title="Pro Engine"
+          badge={
+            isPremium
+              ? { icon: Zap, label: "STABLE LINK", variant: "yellow" }
+              : undefined
+          }
+          description={
+            isPremium
+              ? "High-performance features successfully linked to"
+              : "Premium capabilities restricted. Access Pro functionalities for"
+          }
+          serverName={activeGuild?.name || "Target Node"}
+        >
           {!isPremium && (
             <Button
               variant="glitch"
               size="lg"
+              data-text="Activate Pro Engine"
               onClick={() => setShowActivationModal(true)}
-              className="px-8"
+              className="px-8 shrink-0"
             >
               <Zap className="w-4 h-4 mr-2 fill-current" />
               Activate Pro Engine
             </Button>
           )}
-        </div>
+        </PageHeader>
 
-        {/* Status Banner */}
+        {/* Status Section */}
         {isPremium ? (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <Card className="relative overflow-hidden rounded-2xl bg-zinc-950/50 border-emerald-500/30 backdrop-blur-xl shadow-[0_0_30px_rgba(16,185,129,0.05)]">
-              <CardContent className="p-6">
-                <div className="absolute inset-0 bg-linear-to-r from-emerald-500/5 via-transparent to-emerald-500/5" />
-                <div className="absolute -top-px -left-px w-20 h-px bg-linear-to-r from-transparent via-emerald-500/50 to-transparent" />
-                <div className="flex items-center justify-between relative z-10">
-                  <div className="flex items-center gap-5">
-                    <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)]">
-                      <Shield className="w-7 h-7 text-emerald-400" />
-                    </div>
-                    <div>
-                      <h3
-                        className={cn(
-                          "text-base font-black text-emerald-400 tracking-wider",
-                          audiowide.className
-                        )}
-                      >
-                        UPLINK STABILIZED
-                      </h3>
-                      {premiumStatus?.subscription && (
-                        <div className="text-[10px] text-emerald-500/60 font-black uppercase tracking-widest flex items-center gap-3 mt-1.5">
-                          <span className="flex items-center gap-1.5">
-                            <Calendar className="w-3 h-3" />
-                            EXPIRY:{" "}
-                            {new Date(premiumStatus.subscription.expiresAt)
-                              .toLocaleDateString()
-                              .replace(/\//g, ".")}
-                          </span>
-                          <span className="w-1 h-1 rounded-full bg-zinc-800" />
-                          <span className="flex items-center gap-1.5 text-emerald-500/40">
-                            <Zap className="w-3 h-3" />
-                            SYNC_MODE: AUTO
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="flex flex-col items-end gap-1.5">
-                    <Badge className="bg-emerald-500 text-emerald-950 border-none font-black uppercase text-[10px] px-3 py-1 items-center gap-1.5 shadow-[0_0_15px_rgba(16,185,129,0.3)]">
-                      <div className="w-1.5 h-1.5 rounded-full bg-emerald-950 animate-pulse" />
-                      ACTIVE
-                    </Badge>
-                  </div>
+            <Alert
+              variant="success"
+              className="border-emerald-500/30 bg-emerald-500/5 py-6"
+            >
+              <Shield className="w-6 h-6" />
+              <div className="flex items-center justify-between w-full">
+                <div>
+                  <AlertTitle
+                    className={cn(
+                      "text-base font-black text-emerald-400 tracking-wider",
+                      audiowide.className
+                    )}
+                  >
+                    PRO ENGINE ACTIVE
+                  </AlertTitle>
+                  {premiumStatus?.subscription && (
+                    <AlertDescription className="text-[10px] text-emerald-500/60 font-black uppercase tracking-widest flex items-center gap-3 mt-1.5">
+                      <span className="flex items-center gap-1.5">
+                        <Calendar className="w-3 h-3 text-emerald-400/70" />
+                        Next Renewal:{" "}
+                        {new Date(
+                          premiumStatus.subscription.expiresAt
+                        ).toLocaleDateString()}
+                      </span>
+                      <span className="w-1 h-1 rounded-full bg-emerald-500/30" />
+                      <span className="flex items-center gap-1.5">
+                        <Zap className="w-3 h-3 text-emerald-400/70" />
+                        Auto-renewal: Active
+                      </span>
+                    </AlertDescription>
+                  )}
                 </div>
-              </CardContent>
-            </Card>
+                <Badge className="bg-emerald-500 text-emerald-950 border-none font-black uppercase text-[10px] px-3 py-1 shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+                  Enabled
+                </Badge>
+              </div>
+            </Alert>
           </motion.div>
         ) : (
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
           >
-            <Card
-              className="relative overflow-hidden rounded-2xl bg-zinc-950/20 border-amber-500/10 backdrop-blur-xl group cursor-pointer"
+            <Alert
+              variant="warning"
+              className="border-amber-500/20 bg-amber-500/5 group cursor-pointer py-6"
               onClick={() => setShowActivationModal(true)}
             >
-              <CardContent className="p-6">
-                <div className="absolute inset-0 bg-linear-to-r from-amber-500/2 via-transparent to-amber-500/2" />
-                <div className="flex items-center gap-5 relative z-10">
-                  <div className="w-14 h-14 rounded-2xl bg-zinc-900 flex items-center justify-center border border-white/5 shadow-inner group-hover:border-amber-500/30 transition-colors">
-                    <Lock className="w-6 h-6 text-zinc-600 group-hover:text-amber-500 transition-colors" />
-                  </div>
-                  <div className="flex-1">
-                    <h3
-                      className={cn(
-                        "text-base font-black text-zinc-400 uppercase tracking-wider group-hover:text-amber-500 transition-colors",
-                        audiowide.className
-                      )}
-                    >
-                      ACCESS_DENIED: PREMIUM_LOCKED
-                    </h3>
-                    <p className="text-[10px] text-zinc-600 font-black uppercase tracking-[0.2em] mt-1.5">
-                      CRITICAL: Establish Pro Uplink to authorize advanced
-                      capabilities
-                    </p>
-                  </div>
-                  <Button variant="neon" size="sm">
-                    Authorize
-                  </Button>
+              <Lock className="w-6 h-6" />
+              <div className="flex items-center justify-between w-full">
+                <div>
+                  <AlertTitle
+                    className={cn(
+                      "text-base font-black text-amber-500 tracking-wider",
+                      audiowide.className
+                    )}
+                  >
+                    PRO ENGINE LOCKED
+                  </AlertTitle>
+                  <AlertDescription className="text-[10px] text-zinc-500 font-bold uppercase tracking-wider mt-1">
+                    Enable Pro Engine to unlock advanced server management
+                    capabilities.
+                  </AlertDescription>
                 </div>
-              </CardContent>
-            </Card>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="bg-amber-500/10 border-amber-500/30 text-amber-500 hover:bg-amber-500 hover:text-amber-950 font-black uppercase text-[10px]"
+                >
+                  Unlock Now
+                </Button>
+              </div>
+            </Alert>
           </motion.div>
         )}
 
@@ -320,24 +299,24 @@ export default function ProEnginePage() {
             {[
               {
                 icon: Calendar,
-                label: "SYNC_START",
-                value: new Date(premiumStatus.subscription.activatedAt)
-                  .toLocaleDateString()
-                  .replace(/\//g, "."),
+                label: "Date Activated",
+                value: new Date(
+                  premiumStatus.subscription.activatedAt
+                ).toLocaleDateString(),
                 color: "blue",
                 glow: "rgba(59, 130, 246, 0.5)",
               },
               {
                 icon: Zap,
-                label: "FUEL_BURN",
-                value: "50 CORES / 30D",
+                label: "Subscription Cost",
+                value: "50 Cores / Month",
                 color: "purple",
                 glow: "rgba(168, 85, 247, 0.5)",
               },
               {
                 icon: CheckCircle2,
-                label: "UPLINK_STATUS",
-                value: "AUTO_RENEW",
+                label: "Auto-Renew",
+                value: "Enabled",
                 color: "green",
                 glow: "rgba(34, 197, 94, 0.5)",
               },
@@ -479,40 +458,45 @@ export default function ProEnginePage() {
         {isPremium && (
           <Card className="relative overflow-hidden rounded-2xl bg-zinc-950/40 border-white/5 backdrop-blur-xl">
             <CardContent className="p-6 space-y-6">
-              <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-zinc-800 to-transparent" />
+              <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-zinc-800 to-transparent" />
 
               <h3
                 className={cn(
-                  "text-xs font-black uppercase tracking-[0.3em] text-zinc-500 flex items-center gap-2.5",
+                  "text-xs font-black uppercase tracking-widest text-zinc-500 flex items-center gap-2.5",
                   audiowide.className
                 )}
               >
                 <Settings className="w-4 h-4 text-zinc-700" />
-                TERMINAL_MANAGEMENT
+                Management Settings
               </h3>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="flex flex-col gap-3 bg-cyan-500/5 border border-cyan-500/10 rounded-xl p-4 relative overflow-hidden group">
-                  <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
-                    <CheckCircle2 className="w-8 h-8 text-cyan-500" />
-                  </div>
-                  <h4 className="text-[10px] font-black text-cyan-500 uppercase tracking-widest flex items-center gap-1.5">
+                <Alert
+                  variant="info"
+                  className="py-2.5 bg-cyan-500/5 border-cyan-500/10"
+                >
+                  <CheckCircle2 className="w-4 h-4 text-cyan-500" />
+                  <AlertTitle className="text-[10px] font-black text-cyan-500 uppercase tracking-widest mb-0 flex items-center gap-2">
                     <div className="w-1 h-1 rounded-full bg-cyan-500 animate-pulse" />
-                    Subscription Policy
-                  </h4>
-                  <p className="text-[10px] text-cyan-500/60 font-medium leading-relaxed uppercase tracking-wider">
-                    Automatic data synchronization active. Node connection will
-                    persist until end of cycle.
-                  </p>
-                </div>
+                    Subscription Active
+                  </AlertTitle>
+                  <AlertDescription className="text-[10px] text-cyan-500/60 font-medium leading-relaxed uppercase tracking-wider">
+                    Your server connection will remain active until the end of
+                    the current billing cycle.
+                  </AlertDescription>
+                </Alert>
 
                 <div className="flex flex-col justify-center gap-3">
-                  <Button variant="destructive-glitch" className="w-full">
+                  <Button
+                    variant="destructive-glitch"
+                    data-text="Cancel Subscription"
+                    className="w-full"
+                  >
                     <XCircle className="w-4 h-4 mr-2" />
-                    Terminate Link
+                    Cancel Subscription
                   </Button>
                   <p className="text-[9px] text-zinc-700 text-center font-bold uppercase tracking-widest italic">
-                    * Action will disable premium node capabilities
+                    * Cancellation will disable premium features immediately
                   </p>
                 </div>
               </div>

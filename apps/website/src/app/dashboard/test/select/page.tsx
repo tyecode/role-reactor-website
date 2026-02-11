@@ -5,98 +5,98 @@ import {
   Select,
   SelectContent,
   SelectGroup,
-  SelectItem,
   SelectLabel,
+  SelectItem,
+  SelectSeparator,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Showcase } from "@/components/ui/showcase";
 import { Separator } from "@/components/ui/separator";
+import { Globe, Cpu, Database } from "lucide-react";
 
 export default function SelectTestPage() {
   return (
     <div className="space-y-10 p-10 max-w-7xl mx-auto">
       <div className="space-y-4">
-        <h1 className="text-4xl font-black text-white tracking-widest uppercase italic">
-          Select
+        <h1 className="text-4xl font-bold text-white tracking-widest uppercase italic font-audiowide">
+          Uplink Select
         </h1>
-        <p className="text-zinc-400 text-lg max-w-3xl">
-          Displays a list of options for the user to pick from—triggered by a
-          button.
+        <p className="text-zinc-400 max-w-3xl font-mono text-sm uppercase tracking-tight">
+          {"//"} Neural node targeting system.
         </p>
       </div>
 
       <Separator className="bg-white/10" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-        <div className="space-y-4">
-          <h3 className="text-xl font-bold text-white">Basic Usage</h3>
-          <div className="p-8 rounded-3xl border border-white/5 bg-black/20 backdrop-blur-xl flex flex-col items-center justify-center min-h-[300px]">
+        <Showcase title="Node Hub">
+          <div className="flex flex-col gap-6 w-full items-center">
             <Select>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select a fruit" />
+              <SelectTrigger className="w-full max-w-[240px] font-mono text-xs uppercase tracking-widest">
+                <div className="flex items-center gap-2">
+                  <Database className="h-3.5 w-3.5 text-cyan-500" />
+                  <SelectValue placeholder="Primary Source" />
+                </div>
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  <SelectLabel>Fruits</SelectLabel>
-                  <SelectItem value="apple">Apple</SelectItem>
-                  <SelectItem value="banana">Banana</SelectItem>
-                  <SelectItem value="blueberry">Blueberry</SelectItem>
-                  <SelectItem value="grapes">Grapes</SelectItem>
-                  <SelectItem value="pineapple">Pineapple</SelectItem>
+                  <SelectLabel className="font-mono text-xs uppercase text-zinc-500">
+                    Local Servers
+                  </SelectLabel>
+                  <SelectItem value="apple">Silicon_V1</SelectItem>
+                  <SelectItem value="banana">Carbon_X2</SelectItem>
+                  <SelectItem value="blueberry">Neon_Grid</SelectItem>
+                  <SelectItem value="grapes">Shadow_Host</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>
-          </div>
-        </div>
 
-        <div className="space-y-4">
-          <h3 className="text-xl font-bold text-white">Scrollable</h3>
-          <div className="p-8 rounded-3xl border border-white/5 bg-black/20 backdrop-blur-xl flex flex-col items-center justify-center min-h-[300px]">
-            <Select>
-              <SelectTrigger className="w-[280px]">
-                <SelectValue placeholder="Select a timezone" />
+            <Select defaultValue="cpu-core">
+              <SelectTrigger className="w-full max-w-[240px] font-mono text-xs uppercase tracking-widest border-purple-500/20 bg-purple-500/5 text-purple-300">
+                <div className="flex items-center gap-2">
+                  <Cpu className="h-3.5 w-3.5 text-purple-400" />
+                  <SelectValue placeholder="Target CPU" />
+                </div>
               </SelectTrigger>
               <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>North America</SelectLabel>
-                  <SelectItem value="est">
-                    Eastern Standard Time (EST)
-                  </SelectItem>
-                  <SelectItem value="cst">
-                    Central Standard Time (CST)
-                  </SelectItem>
-                  <SelectItem value="mst">
-                    Mountain Standard Time (MST)
-                  </SelectItem>
-                  <SelectItem value="pst">
-                    Pacific Standard Time (PST)
-                  </SelectItem>
-                  <SelectItem value="akst">
-                    Alaska Standard Time (AKST)
-                  </SelectItem>
-                  <SelectItem value="hst">
-                    Hawaii Standard Time (HST)
-                  </SelectItem>
-                </SelectGroup>
-                <SelectGroup>
-                  <SelectLabel>Europe</SelectLabel>
-                  <SelectItem value="gmt">Greenwich Mean Time (GMT)</SelectItem>
-                  <SelectItem value="cet">
-                    Central European Time (CET)
-                  </SelectItem>
-                  <SelectItem value="eet">
-                    Eastern European Time (EET)
-                  </SelectItem>
-                  <SelectItem value="west">
-                    Western European Summer Time (WEST)
-                  </SelectItem>
-                  <SelectItem value="cat">Central Africa Time (CAT)</SelectItem>
-                  <SelectItem value="eat">East Africa Time (EAT)</SelectItem>
-                </SelectGroup>
+                <SelectItem value="cpu-core">Kernel_Zero</SelectItem>
+                <SelectItem value="cpu-alpha">Alpha_Drive</SelectItem>
+                <SelectItem value="cpu-beta">Beta_Sync</SelectItem>
               </SelectContent>
             </Select>
           </div>
-        </div>
+        </Showcase>
+
+        <Showcase title="Global Relay">
+          <Select>
+            <SelectTrigger className="w-full max-w-[300px] font-mono text-xs uppercase tracking-widest">
+              <div className="flex items-center gap-2">
+                <Globe className="h-3.5 w-3.5 text-emerald-500" />
+                <SelectValue placeholder="Relay Zone" />
+              </div>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel className="font-mono text-[10px] uppercase text-zinc-500">
+                  Sector: West
+                </SelectLabel>
+                <SelectItem value="est">NYC_GRID (EST)</SelectItem>
+                <SelectItem value="cst">CHI_NODE (CST)</SelectItem>
+                <SelectItem value="pst">SF_RELAY (PST)</SelectItem>
+              </SelectGroup>
+              <SelectSeparator className="bg-white/5" />
+              <SelectGroup>
+                <SelectLabel className="font-mono text-[10px] uppercase text-zinc-500">
+                  Sector: East
+                </SelectLabel>
+                <SelectItem value="gmt">LDN_HUB (GMT)</SelectItem>
+                <SelectItem value="cet">PARIS_PX (CET)</SelectItem>
+                <SelectItem value="tokyo">TYO_SYNC (JST)</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </Showcase>
       </div>
     </div>
   );

@@ -132,7 +132,7 @@ export function UserMenu({
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8 rounded-md cursor-not-allowed opacity-50"
+          className="h-8 w-8 rounded-lg cursor-not-allowed opacity-50"
           disabled
         >
           <div className="h-8 w-8 rounded-full bg-zinc-800/50 animate-pulse" />
@@ -150,8 +150,9 @@ export function UserMenu({
         onClick={onLogin}
         aria-label="Login"
         title="Login"
+        data-text="LOGIN"
         className={cn(
-          "h-8 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-300 hover:shadow-[0_0_15px_-4px_rgba(6,182,212,0.6)] font-mono uppercase tracking-wider",
+          "h-8 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-300 hover:shadow-[0_0_15px_-4px_rgba(6,182,212,0.6)] font-mono uppercase tracking-wider hover-glitch",
           className
         )}
       >
@@ -168,7 +169,7 @@ export function UserMenu({
       variant="ghost"
       className="w-full justify-start gap-3 px-3 py-6 relative overflow-hidden group border border-transparent hover:border-cyan-500/30 hover:bg-cyan-950/20 transition-all duration-300 data-[state=open]:border-cyan-500/50 data-[state=open]:bg-cyan-950/30"
     >
-      <div className="absolute inset-0 bg-linear-to-r from-transparent via-cyan-500/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-500/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
       <Avatar className="h-9 w-9 rounded-lg shrink-0 ring-2 ring-cyan-500/20 group-hover:ring-cyan-500/50 transition-all shadow-[0_0_10px_-2px_rgba(6,182,212,0.3)]">
         <AvatarImage src={avatarUrl} alt={user.name || "User"} />
         <AvatarFallback className="rounded-lg bg-zinc-900 border border-white/10 text-xs font-mono text-cyan-400">
@@ -232,12 +233,12 @@ export function UserMenu({
           )}
         >
           {/* Cyberpunk Decorative Line */}
-          <div className="absolute top-0 left-0 w-full h-[1px] bg-linear-to-r from-transparent via-cyan-500/50 to-transparent" />
+          <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent" />
 
           <DropdownMenuLabel className="font-normal p-0 bg-zinc-900/50">
             {!hideUserInfo && (
               <div className="flex items-center gap-4 px-4 py-4 border-b border-white/5 relative overflow-hidden">
-                <div className="absolute inset-0 bg-linear-to-br from-cyan-500/5 to-purple-500/5 opacity-50" />
+                <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-purple-500/5 opacity-50" />
                 <Avatar className="h-10 w-10 shrink-0 ring-2 ring-cyan-500/20 shadow-[0_0_15px_-4px_rgba(6,182,212,0.4)] z-10">
                   <AvatarImage
                     src={avatarUrl}
@@ -320,7 +321,7 @@ export function UserMenu({
           </div>
 
           {/* Bottom decorative border */}
-          <div className="h-0.5 w-full bg-linear-to-r from-cyan-500/0 via-cyan-500/20 to-cyan-500/0" />
+          <div className="h-0.5 w-full bg-gradient-to-r from-cyan-500/0 via-cyan-500/20 to-cyan-500/0" />
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

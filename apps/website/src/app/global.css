@@ -1129,7 +1129,7 @@
 /* Advanced Glitch Dialog Overrides */
 .dialog-glitch-advanced {
   overflow: visible !important;
-  border-radius: 1.5rem; /* Match rounded-3xl */
+  border-radius: 1rem; /* Match rounded-2xl / --radius */
 }
 
 .dialog-inner-content {

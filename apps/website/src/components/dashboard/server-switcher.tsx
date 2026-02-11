@@ -99,12 +99,12 @@ export function ServerSwitcher() {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
-              className="data-[state=open]:bg-white/5 data-[state=open]:text-white transition-all hover:bg-white/5 rounded-2xl border border-transparent data-[state=open]:border-white/5 overflow-visible h-14"
+              className="data-[state=open]:bg-white/5 data-[state=open]:text-white transition-all hover:bg-white/5 rounded-lg border border-transparent data-[state=open]:border-white/5 overflow-visible h-14"
             >
-              <div className="flex aspect-square size-10 group-data-[collapsible=icon]:size-9 items-center justify-center rounded-xl group-data-[collapsible=icon]:rounded-lg bg-zinc-900 text-white shadow-[0_0_15px_rgba(6,182,212,0.15)] relative overflow-hidden group shrink-0 ring-1 ring-white/10 group-hover:ring-cyan-500/50 group-data-[state=open]:ring-cyan-500/50 transition-all duration-300">
+              <div className="flex aspect-square size-10 group-data-[collapsible=icon]:size-9 items-center justify-center rounded-lg group-data-[collapsible=icon]:rounded-md bg-zinc-900 text-white shadow-[0_0_15px_rgba(6,182,212,0.15)] relative overflow-hidden group shrink-0 ring-1 ring-white/10 group-hover:ring-cyan-500/50 group-data-[state=open]:ring-cyan-500/50 transition-all duration-300">
                 <div className="absolute inset-0 bg-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                 {isLoading ? (
-                  <Skeleton className="h-full w-full rounded-xl bg-white/5" />
+                  <Skeleton className="h-full w-full rounded-lg bg-white/5" />
                 ) : activeGuild ? (
                   <Avatar className="h-full w-full rounded-none">
                     <AvatarImage
@@ -131,17 +131,19 @@ export function ServerSwitcher() {
                   </div>
                 ) : (
                   <>
-                    <span className="truncate font-black text-white tracking-tight text-base flex items-center gap-2">
-                      {activeGuild?.name || "Select Terminal"}
+                    <div className="flex items-center gap-2 min-w-0">
+                      <span className="truncate font-bold text-white tracking-tight text-[15px] flex-1">
+                        {activeGuild?.name || "Select Terminal"}
+                      </span>
                       {isFetching && guilds.length > 0 && (
-                        <span className="flex items-center gap-1 overflow-visible">
+                        <span className="flex items-center gap-1 shrink-0">
                           <span className="size-1 rounded-full bg-cyan-400 animate-pulse" />
-                          <span className="text-[7px] text-cyan-400/70 font-black uppercase tracking-[0.2em] animate-pulse">
+                          <span className="text-[7px] text-cyan-400 font-bold uppercase tracking-widest animate-pulse">
                             SYNCING
                           </span>
                         </span>
                       )}
-                    </span>
+                    </div>
                     <span className="text-[10px] text-zinc-500 font-bold uppercase tracking-widest flex items-center gap-1.5 overflow-visible">
                       {isFetching && guilds.length === 0 ? (
                         <span className="animate-pulse">
@@ -154,8 +156,8 @@ export function ServerSwitcher() {
                               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                               <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
                             </span>
-                            <span className="truncate text-emerald-500/80">
-                              STABLE UPLINK
+                            <span className="truncate text-emerald-500/80 font-bold uppercase tracking-widest text-[9px]">
+                              Uplink Stable
                             </span>
                           </>
                         ) : (
@@ -222,9 +224,9 @@ export function ServerSwitcher() {
                   <DropdownMenuItem
                     key={guild.id}
                     onClick={() => handleServerSelect(guild.id)}
-                    className="gap-3 p-2.5 focus:bg-cyan-500/10 focus:text-cyan-400 group cursor-pointer rounded-xl transition-all duration-300"
+                    className="gap-3 p-2.5 focus:bg-cyan-500/10 focus:text-cyan-400 group cursor-pointer rounded-lg transition-all duration-300"
                   >
-                    <div className="flex size-9 items-center justify-center rounded-lg bg-zinc-900 ring-1 ring-white/10 shadow-[0_0_10px_rgba(0,0,0,0.3)] group-hover:ring-cyan-500/50 group-hover:shadow-[0_0_15px_rgba(6,182,212,0.2)] transition-all duration-300 overflow-hidden relative">
+                    <div className="flex size-9 items-center justify-center rounded-md bg-zinc-900 ring-1 ring-white/10 shadow-[0_0_10px_rgba(0,0,0,0.3)] group-hover:ring-cyan-500/50 group-hover:shadow-[0_0_15px_rgba(6,182,212,0.2)] transition-all duration-300 overflow-hidden relative">
                       <div className="absolute inset-0 bg-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                       {guild.icon ? (
                         <Image
@@ -241,14 +243,14 @@ export function ServerSwitcher() {
                       )}
                     </div>
                     <div className="flex flex-col min-w-0 flex-1 gap-0.5">
-                      <span className="truncate text-sm font-black tracking-tight text-white group-hover:text-cyan-300 transition-colors">
+                      <span className="truncate text-sm font-bold tracking-tight text-white group-hover:text-cyan-300 transition-colors">
                         {guild.name}
                       </span>
                       <span className="text-[9px] text-emerald-500/70 font-bold uppercase tracking-widest flex items-center gap-1">
-                        <ShieldCheck className="size-2.5" /> STABLE LINK
+                        <ShieldCheck className="size-2.5" /> Link Active
                       </span>
                     </div>
-                    <DropdownMenuShortcut className="font-mono text-[10px] text-zinc-600 group-hover:text-cyan-500/50 transition-colors">
+                    <DropdownMenuShortcut className="font-mono text-[10px] text-zinc-600 group-hover:text-cyan-500/50 transition-colors shrink-0">
                       [0{index + 1}]
                     </DropdownMenuShortcut>
                   </DropdownMenuItem>
@@ -257,10 +259,10 @@ export function ServerSwitcher() {
             )}
             <DropdownMenuSeparator className="bg-white/5 my-2" />
             <DropdownMenuItem
-              className="gap-3 p-2.5 cursor-pointer focus:bg-fuchsia-500/10 focus:text-fuchsia-400 group rounded-xl transition-all duration-300"
+              className="gap-3 p-2.5 cursor-pointer focus:bg-fuchsia-500/10 focus:text-fuchsia-400 group rounded-lg transition-all duration-300"
               onSelect={() => window.open(inviteUrl, "_blank")}
             >
-              <div className="flex size-9 items-center justify-center rounded-lg bg-zinc-900 ring-1 ring-white/10 shadow-[0_0_10px_rgba(0,0,0,0.3)] group-hover:ring-fuchsia-500/50 group-hover:shadow-[0_0_15px_rgba(217,70,239,0.2)] transition-all duration-300">
+              <div className="flex size-9 items-center justify-center rounded-md bg-zinc-900 ring-1 ring-white/10 shadow-[0_0_10px_rgba(0,0,0,0.3)] group-hover:ring-fuchsia-500/50 group-hover:shadow-[0_0_15px_rgba(217,70,239,0.2)] transition-all duration-300">
                 <Plus className="size-4 text-zinc-500 group-hover:text-fuchsia-400 transition-all duration-300 group-hover:scale-110" />
               </div>
               <span

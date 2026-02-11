@@ -12,15 +12,7 @@ import {
 import { Crown, CheckCircle2, Loader2, Zap, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { Audiowide } from "next/font/google";
-import { cn } from "@/lib/utils";
 import { CyberpunkBackground } from "@/components/common/cyberpunk-background";
-
-const audiowide = Audiowide({
-  subsets: ["latin"],
-  weight: "400",
-  display: "swap",
-});
 
 interface PremiumGuardProps {
   isPremium?: boolean;
@@ -57,103 +49,95 @@ export function PremiumGuard({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[420px] overflow-visible bg-transparent border-none shadow-none ring-0 p-0 dialog-glitch-advanced">
-        <div className="dialog-inner-content relative bg-zinc-950/90 border border-white/10 shadow-[0_0_50px_-12px_rgba(6,182,212,0.25)] backdrop-blur-xl ring-1 ring-white/5 overflow-hidden rounded-[inherit]">
-          <DialogTitle className="sr-only">{title}</DialogTitle>
-          <DialogDescription className="sr-only">
-            {description}
-          </DialogDescription>
+      <DialogContent variant="glitch" className="max-w-[460px]">
+        <DialogTitle className="sr-only">{title}</DialogTitle>
+        <DialogDescription className="sr-only">{description}</DialogDescription>
 
-          {/* Animated Background Effects */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <CyberpunkBackground
-              gridSize={32}
-              gridOpacity={0.02}
-              gridColor="rgba(255,255,255,0.2)"
-              mask="radial-gradient(ellipse 60% 60% at 50% 50%, black, transparent)"
-              showGlows={true}
-              primaryGlow="rgba(6, 182, 212, 0.15)"
-              secondaryGlow="rgba(6, 182, 212, 0.1)"
-            />
+        {/* Animated Background Effects */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <CyberpunkBackground
+            gridSize={32}
+            gridOpacity={0.02}
+            gridColor="rgba(255,255,255,0.2)"
+            mask="radial-gradient(ellipse 60% 60% at 50% 50%, black, transparent)"
+            showGlows={true}
+            primaryGlow="rgba(6, 182, 212, 0.15)"
+            secondaryGlow="rgba(6, 182, 212, 0.1)"
+          />
+        </div>
+
+        <DialogHeader className="px-8 pt-8 pb-4 relative overflow-hidden">
+          {/* Enhanced Background Crown Glow */}
+          <div className="absolute top-0 right-0 p-8 opacity-20 blur-2xl pointer-events-none animate-pulse">
+            <Crown className="w-32 h-32 text-cyan-500" />
+          </div>
+          <div className="absolute top-0 right-0 p-8 opacity-30 pointer-events-none">
+            <Crown className="w-24 h-24 text-cyan-500 drop-shadow-[0_0_15px_rgba(6,182,212,0.5)]" />
           </div>
 
-          <DialogHeader className="px-8 pt-8 pb-4 relative overflow-hidden">
-            {/* Enhanced Background Crown Glow */}
-            <div className="absolute top-0 right-0 p-8 opacity-20 blur-2xl pointer-events-none animate-pulse">
-              <Crown className="w-32 h-32 text-cyan-500" />
-            </div>
-            <div className="absolute top-0 right-0 p-8 opacity-30 pointer-events-none">
-              <Crown className="w-24 h-24 text-cyan-500 drop-shadow-[0_0_15px_rgba(6,182,212,0.5)]" />
-            </div>
+          <div className="flex flex-col relative z-10">
+            <DialogTitle variant="glitch" className="flex items-center gap-3">
+              <Zap className="w-5 h-5 text-cyan-500 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
+              {title}
+            </DialogTitle>
+            <DialogDescription variant="glitch" className="mt-3">
+              {description}
+            </DialogDescription>
+          </div>
+        </DialogHeader>
 
-            <div className="flex flex-col relative z-10">
-              <h3
-                className={cn(
-                  "text-xl font-black text-white tracking-widest leading-none flex items-center gap-3 drop-shadow-[0_0_8px_rgba(6,182,212,0.5)]",
-                  audiowide.className
-                )}
+        <div className="px-8 pb-8 space-y-6 relative z-10">
+          {/* Features Grid */}
+          <div className="grid grid-cols-2 gap-2">
+            {features.map((feature) => (
+              <div
+                key={feature}
+                className="bg-zinc-900/50 px-3 py-3 rounded-lg border border-white/5 flex items-center gap-2.5 hover:bg-zinc-800/50 hover:border-cyan-500/30 transition-all group/item backdrop-blur-sm"
               >
-                <Zap className="w-5 h-5 text-cyan-500 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
-                {title}
-              </h3>
-              <p className="text-[10px] text-zinc-400 mt-3 font-bold uppercase tracking-wider leading-relaxed">
-                {description}
-              </p>
-            </div>
-          </DialogHeader>
-
-          <div className="px-8 pb-8 space-y-6 relative z-10">
-            {/* Features Grid */}
-            <div className="grid grid-cols-2 gap-2">
-              {features.map((feature) => (
-                <div
-                  key={feature}
-                  className="bg-zinc-900/50 px-3 py-3 rounded-lg border border-white/5 flex items-center gap-2.5 hover:bg-zinc-800/50 hover:border-cyan-500/30 transition-all group/item backdrop-blur-sm"
-                >
-                  <div className="w-5 h-5 rounded-full bg-cyan-500/10 flex items-center justify-center shrink-0 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/20 group-hover/item:border-cyan-500/40">
-                    <CheckCircle2 className="w-3 h-3 text-cyan-400" />
-                  </div>
-                  <span className="text-[10px] text-zinc-300 font-bold uppercase tracking-wider truncate group-hover/item:text-white transition-colors">
-                    {feature}
-                  </span>
+                <div className="w-5 h-5 rounded-full bg-cyan-500/10 flex items-center justify-center shrink-0 group-hover/item:bg-cyan-500/20 transition-colors border border-cyan-500/20 group-hover/item:border-cyan-500/40">
+                  <CheckCircle2 className="w-3 h-3 text-cyan-400" />
                 </div>
-              ))}
-            </div>
-
-            {/* Activation Button */}
-            <Button
-              variant="glitch"
-              size="lg"
-              disabled={isActivating}
-              onClick={onActivate}
-              className="w-full h-12"
-            >
-              {isActivating ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
-              ) : (
-                <>
-                  <Zap className="w-5 h-5 mr-3 fill-current" />
-                  {buttonText}
-                </>
-              )}
-            </Button>
-
-            <p className="text-[9px] text-zinc-500 text-center tracking-[0.3em] uppercase font-black opacity-60">
-              {subText}
-            </p>
-
-            {/* Learn More Link */}
-            {guildId && (
-              <Link
-                href={`/dashboard/${guildId}/pro-engine`}
-                onClick={() => onOpenChange?.(false)}
-                className="flex items-center justify-center gap-2 text-[10px] text-cyan-500 hover:text-cyan-400 font-bold uppercase tracking-widest transition-colors group/link hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.5)]"
-              >
-                <span>Learn more about Pro Engine</span>
-                <ExternalLink className="w-3 h-3 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
-              </Link>
-            )}
+                <span className="text-[10px] text-zinc-300 font-bold uppercase tracking-wider truncate group-hover/item:text-white transition-colors">
+                  {feature}
+                </span>
+              </div>
+            ))}
           </div>
+
+          {/* Activation Button */}
+          <Button
+            variant="glitch"
+            size="lg"
+            data-text={buttonText}
+            disabled={isActivating}
+            onClick={onActivate}
+            className="w-full h-12"
+          >
+            {isActivating ? (
+              <Loader2 className="w-5 h-5 animate-spin" />
+            ) : (
+              <>
+                <Zap className="w-5 h-5 mr-3 fill-current" />
+                {buttonText}
+              </>
+            )}
+          </Button>
+
+          <p className="text-[9px] text-zinc-500 text-center tracking-[0.3em] uppercase font-black opacity-60">
+            {subText}
+          </p>
+
+          {/* Learn More Link */}
+          {guildId && (
+            <Link
+              href={`/dashboard/${guildId}/pro-engine`}
+              onClick={() => onOpenChange?.(false)}
+              className="flex items-center justify-center gap-2 text-[10px] text-cyan-500 hover:text-cyan-400 font-bold uppercase tracking-widest transition-colors group/link hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.5)]"
+            >
+              <span>Learn more about Pro Engine</span>
+              <ExternalLink className="w-3 h-3 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
+            </Link>
+          )}
         </div>
       </DialogContent>
     </Dialog>

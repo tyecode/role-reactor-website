@@ -9,35 +9,45 @@ export default function SkeletonTestPage() {
   return (
     <div className="space-y-10 p-10 max-w-7xl mx-auto">
       <div className="space-y-4">
-        <h1 className="text-4xl font-black text-white tracking-widest uppercase italic">
-          Skeleton
+        <h1 className="text-4xl font-bold text-white tracking-widest uppercase italic font-audiowide">
+          Neural Ghosting
         </h1>
-        <p className="text-zinc-400 text-lg max-w-3xl">
-          Use to show a placeholder while content is loading.
+        <p className="text-zinc-400 max-w-3xl font-mono text-sm uppercase tracking-tight">
+          {"//"} Structural pre-visualization modules.
         </p>
       </div>
 
       <Separator className="bg-white/10" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-        <Showcase title="Profile Example">
-          <div className="flex items-center space-x-4 w-full max-w-sm">
-            <Skeleton className="h-12 w-12 rounded-full" />
-            <div className="space-y-2 flex-1">
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-[80%]" />
+        <Showcase title="Data Profile">
+          <div className="flex items-center space-x-4 w-full justify-center">
+            <Skeleton className="h-12 w-12 rounded-full border border-white/5" />
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-[250px] border border-white/5" />
+              <Skeleton className="h-4 w-[200px] border border-white/5" />
             </div>
           </div>
         </Showcase>
 
-        <Showcase title="Content Card Example">
-          <div className="flex flex-col space-y-3 w-full max-w-sm">
-            <Skeleton className="h-[150px] w-full rounded-xl" />
+        <Showcase title="Information Shell">
+          <div className="flex flex-col space-y-3 w-full items-center">
+            <Skeleton className="h-[125px] w-[250px] rounded-2xl border border-white/5" />
             <div className="space-y-2">
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-[90%]" />
-              <Skeleton className="h-4 w-[60%]" />
+              <Skeleton className="h-4 w-[250px] border border-white/5" />
+              <Skeleton className="h-4 w-[200px] border border-white/5" />
             </div>
+          </div>
+        </Showcase>
+
+        <Showcase title="Grid Reconstruction">
+          <div className="grid grid-cols-3 gap-4 w-full max-w-md">
+            {[...Array(6)].map((_, i) => (
+              <Skeleton
+                key={i}
+                className="h-20 rounded-xl border border-white/5"
+              />
+            ))}
           </div>
         </Showcase>
       </div>

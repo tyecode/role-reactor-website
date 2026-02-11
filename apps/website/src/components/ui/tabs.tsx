@@ -2,36 +2,74 @@
 
 import * as React from "react";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
+import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
 const Tabs = TabsPrimitive.Root;
 
+const tabsListVariants = cva(
+  "flex items-center justify-center rounded-xl p-1 text-zinc-400 backdrop-blur-sm transition-all gap-1",
+  {
+    variants: {
+      variant: {
+        default: "h-10 bg-zinc-900/40 border border-white/5",
+        glitch:
+          "h-12 bg-zinc-900/50 border border-white/10 shadow-[0_0_20px_-12px_rgba(0,0,0,0.5)]",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+);
+
+interface TabsListProps
+  extends
+    React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>,
+    VariantProps<typeof tabsListVariants> {}
+
 const TabsList = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.List>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>
->(({ className, ...props }, ref) => (
+  TabsListProps
+>(({ className, variant, ...props }, ref) => (
   <TabsPrimitive.List
     ref={ref}
-    className={cn(
-      "inline-flex h-10 items-center justify-center rounded-xl bg-zinc-900/40 border border-white/5 p-1 text-zinc-400 backdrop-blur-sm",
-      className
-    )}
+    className={cn(tabsListVariants({ variant, className }))}
     {...props}
   />
 ));
 TabsList.displayName = TabsPrimitive.List.displayName;
 
+const tabsTriggerVariants = cva(
+  "inline-flex items-center justify-center whitespace-nowrap rounded-lg px-3 py-2.5 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ring-offset-zinc-950 flex-1",
+  {
+    variants: {
+      variant: {
+        default:
+          "text-sm font-medium data-[state=active]:bg-zinc-800 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:ring-1 data-[state=active]:ring-white/10 hover:text-white hover:bg-white/5",
+        glitch:
+          "text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-zinc-800 data-[state=active]:text-cyan-400 data-[state=active]:shadow-[0_0_15px_-5px_rgba(6,182,212,0.3)] data-[state=active]:ring-1 data-[state=active]:ring-cyan-500/20 hover:text-zinc-200 hover:bg-white/5",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+);
+
+interface TabsTriggerProps
+  extends
+    React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>,
+    VariantProps<typeof tabsTriggerVariants> {}
+
 const TabsTrigger = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Trigger>
->(({ className, ...props }, ref) => (
+  TabsTriggerProps
+>(({ className, variant, ...props }, ref) => (
   <TabsPrimitive.Trigger
     ref={ref}
-    className={cn(
-      "inline-flex items-center justify-center whitespace-nowrap rounded-lg px-3 py-1.5 text-sm font-medium ring-offset-zinc-950 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-zinc-800 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:ring-1 data-[state=active]:ring-white/10 hover:text-white hover:bg-white/5",
-      className
-    )}
+    className={cn(tabsTriggerVariants({ variant, className }))}
     {...props}
   />
 ));

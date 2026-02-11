@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-xl text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -23,7 +23,7 @@ const buttonVariants = cva(
         // Specialized Cyberpunk variants
         glitch:
           "bg-white text-zinc-950 hover:bg-zinc-200 shadow-[0_0_20px_-5px_rgba(255,255,255,0.3)] hover:shadow-[0_0_30px_-5px_rgba(6,182,212,0.4)] font-black uppercase tracking-wider overflow-hidden ring-1 ring-white/20 hover:cursor-pointer hover-glitch",
-        neon: "border border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-300 hover:shadow-[0_0_15px_-4px_rgba(6,182,212,0.6)] hover:border-cyan-400 font-bold uppercase tracking-wider backdrop-blur-sm hover:cursor-pointer",
+        neon: "border border-cyan-500/30 text-cyan-400/90 hover:bg-cyan-500/10 hover:text-cyan-300 hover:shadow-[0_0_15px_-4px_rgba(6,182,212,0.4)] hover:border-cyan-400/50 font-bold uppercase tracking-wider backdrop-blur-sm hover:cursor-pointer",
         "ghost-glow":
           "text-zinc-400 hover:text-white hover:bg-zinc-800/50 hover:shadow-[0_0_15px_-5px_rgba(255,255,255,0.2)] hover:cursor-pointer",
         "destructive-glitch":
@@ -31,8 +31,8 @@ const buttonVariants = cva(
       },
       size: {
         default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-lg px-3",
-        lg: "h-11 rounded-xl px-8",
+        sm: "h-9 rounded-md px-3",
+        lg: "h-11 rounded-lg px-8",
         icon: "h-10 w-10 rounded-lg",
       },
     },

@@ -302,9 +302,9 @@ const Sidebar = React.forwardRef<
             className={cn(
               "relative flex h-full w-full flex-col bg-zinc-950/40 backdrop-blur-xl transition-colors duration-500 group-hover:bg-zinc-950/60",
               variant === "floating" &&
-                "rounded-lg border border-white/10 shadow-[0_0_20px_rgba(0,0,0,0.5)]",
+                "rounded-2xl border border-white/10 shadow-[0_0_20px_rgba(0,0,0,0.5)]",
               variant === "inset" &&
-                "rounded-lg border border-white/10 shadow-[0_0_20px_rgba(0,0,0,0.5)]"
+                "rounded-2xl border border-white/10 shadow-[0_0_20px_rgba(0,0,0,0.5)]"
             )}
           >
             {/* Cyberpunk Accents for Sidebar */}
@@ -316,7 +316,7 @@ const Sidebar = React.forwardRef<
                 <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-purple-500/40 rounded-br-sm pointer-events-none" />
 
                 {/* Lateral glow */}
-                <div className="absolute inset-y-8 left-0 w-[1px] bg-linear-to-b from-transparent via-cyan-500/20 to-transparent pointer-events-none" />
+                <div className="absolute inset-y-8 left-0 w-[1px] bg-gradient-to-b from-transparent via-cyan-500/20 to-transparent pointer-events-none" />
               </>
             )}
 
@@ -522,7 +522,7 @@ const SidebarGroupLabel = React.forwardRef<
       ref={ref}
       data-sidebar="group-label"
       className={cn(
-        "flex h-8 shrink-0 items-center rounded-md px-2 text-[10px] font-black tracking-[0.2em] text-zinc-500 outline-none ring-cyan-500/50 transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0 uppercase",
+        "flex h-8 shrink-0 items-center rounded-md px-2 text-[10px] font-bold tracking-[0.2em] text-zinc-500 outline-none ring-cyan-500/50 transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0 uppercase",
         "group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0",
         "before:content-['//'] before:mr-2 before:text-zinc-800",
         className
@@ -596,7 +596,7 @@ const SidebarMenuItem = React.forwardRef<
 SidebarMenuItem.displayName = "SidebarMenuItem";
 
 const sidebarMenuButtonVariants = cva(
-  "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-xl p-2 text-left text-sm outline-none ring-cyan-500/50 transition-all duration-300 hover:bg-white/5 hover:text-white focus-visible:ring-2 active:bg-white/10 active:text-white active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-cyan-500/10 data-[active=true]:font-bold data-[active=true]:text-cyan-400 data-[state=open]:hover:bg-white/5 data-[state=open]:hover:text-white group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
+  "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-lg p-2 text-left text-sm outline-none ring-cyan-500/50 transition-all duration-300 hover:bg-white/5 hover:text-white focus-visible:ring-2 active:bg-white/10 active:text-white active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-cyan-500/10 data-[active=true]:font-bold data-[active=true]:text-cyan-400 data-[state=open]:hover:bg-white/5 data-[state=open]:hover:text-white group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
   {
     variants: {
       variant: {

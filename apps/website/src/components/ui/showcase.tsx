@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
@@ -13,14 +15,10 @@ export function Showcase({
   description,
   ...props
 }: ShowcaseProps) {
-  const [mounted, setMounted] = React.useState(false);
-  const id = React.useMemo(() => {
-    if (!mounted) return "";
-    return Math.random().toString(36).substring(2, 9).toUpperCase();
-  }, [mounted]);
+  const [displayId, setDisplayId] = React.useState("-------");
 
   React.useEffect(() => {
-    setMounted(true);
+    setDisplayId(Math.random().toString(36).substring(2, 9).toUpperCase());
   }, []);
 
   return (
@@ -39,7 +37,7 @@ export function Showcase({
           )}
         </div>
         <div className="text-[10px] font-mono text-zinc-700 hidden sm:block">
-          REF_ID: <span className="text-zinc-500">{id}</span>
+          REF_ID: <span className="text-zinc-500">{displayId}</span>
         </div>
       </div>
 
@@ -70,7 +68,7 @@ export function Showcase({
           />
 
           {/* Scanline Effect */}
-          <div className="absolute inset-0 pointer-events-none bg-linear-to-b from-transparent via-white/5 to-transparent h-2 w-full -translate-y-full group-hover:animate-scanline" />
+          <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-transparent via-white/5 to-transparent h-2 w-full -translate-y-full group-hover:animate-scanline" />
 
           <div className="relative z-20 w-full flex flex-col items-center justify-center">
             {children}

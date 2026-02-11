@@ -20,7 +20,7 @@ export default function UserMenuTestPage() {
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-500/5 blur-[120px] -z-10 pointer-events-none" />
 
       <div className="space-y-4 relative">
-        <div className="absolute -left-4 top-0 w-1 h-full bg-linear-to-b from-cyan-500 via-purple-500 to-transparent opacity-50" />
+        <div className="absolute -left-4 top-0 w-1 h-full bg-gradient-to-b from-cyan-500 via-purple-500 to-transparent opacity-50" />
         <h1 className="text-6xl font-black text-white tracking-[0.2em] uppercase italic drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
           User <span className="text-cyan-400">Menu</span>
         </h1>
@@ -39,7 +39,7 @@ export default function UserMenuTestPage() {
         >
           <div className="w-full bg-black/60 border border-white/5 p-4 flex justify-between items-center shadow-2xl relative group/header">
             {/* Tech scanline for the mock header */}
-            <div className="absolute inset-0 bg-linear-to-r from-cyan-500/5 to-transparent opacity-0 group-hover/header:opacity-100 transition-opacity duration-1000" />
+            <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 to-transparent opacity-0 group-hover/header:opacity-100 transition-opacity duration-1000" />
 
             {/* Mock Header Left */}
             <div className="flex items-center gap-6 z-10 transition-transform duration-500 group-hover/header:translate-x-1">
@@ -86,7 +86,7 @@ export default function UserMenuTestPage() {
                 <div className="h-4 w-4 rounded-sm bg-white/10 ring-1 ring-white/5" />
                 <div className="h-2 w-24 bg-white/10 rounded-full" />
               </div>
-              <div className="h-px bg-linear-to-r from-white/10 via-white/5 to-transparent my-4" />
+              <div className="h-px bg-gradient-to-r from-white/10 via-white/5 to-transparent my-4" />
               <div className="flex items-center gap-4">
                 <div className="h-4 w-4 rounded-sm bg-purple-500/20 ring-1 ring-purple-500/40" />
                 <div className="h-2 w-36 bg-purple-500/20 rounded-full" />
@@ -111,7 +111,7 @@ export default function UserMenuTestPage() {
         >
           <div className="flex flex-col gap-6 w-full max-w-md p-4">
             <div className="flex items-center justify-between w-full p-4 bg-zinc-900/40 border border-white/5 relative overflow-hidden group/item">
-              <div className="absolute inset-0 bg-linear-to-r from-cyan-500/5 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 to-transparent" />
               <div className="absolute top-0 left-0 w-[2px] h-full bg-cyan-500/40 animate-pulse" />
               <span className="text-[10px] text-cyan-500/60 font-mono uppercase tracking-[0.3em] font-bold">
                 SESSION // LOADING
@@ -140,7 +140,7 @@ export default function UserMenuTestPage() {
             <div className="absolute inset-0 bg-red-500/5 border border-red-500/10 group-hover/denied:bg-red-500/10 group-hover/denied:border-red-500/30 transition-all duration-700" />
 
             {/* Animated alert lines */}
-            <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-red-500/30 to-transparent group-hover/denied:animate-scanline" />
+            <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-red-500/30 to-transparent group-hover/denied:animate-scanline" />
 
             <div className="flex flex-col items-center gap-2 z-10">
               <div className="flex gap-1 mb-1">

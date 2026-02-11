@@ -68,7 +68,7 @@ export function Hero() {
           )}
         >
           Role{" "}
-          <span className="bg-linear-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">
             Reactor
           </span>
         </h1>

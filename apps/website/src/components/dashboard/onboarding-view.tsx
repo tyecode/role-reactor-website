@@ -32,8 +32,8 @@ export function OnboardingView({ inviteUrl }: OnboardingViewProps) {
       >
         {/* Cinematic Background Layer */}
         <div className="absolute inset-0 z-0 select-none">
-          <div className="absolute inset-0 bg-linear-to-b from-zinc-950 via-transparent to-zinc-950/90 z-10" />
-          <div className="absolute inset-0 bg-linear-to-r from-zinc-950 via-zinc-950/40 to-transparent z-10" />
+          <div className="absolute inset-0 bg-gradient-to-b from-zinc-950 via-transparent to-zinc-950/90 z-10" />
+          <div className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-950/40 to-transparent z-10" />
 
           {/* Main Hero Illustration */}
           <div
@@ -92,7 +92,7 @@ export function OnboardingView({ inviteUrl }: OnboardingViewProps) {
               )}
             >
               IGNITE THE <br />
-              <span className="relative inline-block bg-linear-to-r from-blue-400 via-cyan-300 to-indigo-400 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.4)] py-1">
+              <span className="relative inline-block bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-400 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.4)] py-1">
                 COMMUNITY
                 <div className="absolute -bottom-1 left-0 w-full h-[1px] sm:h-[3px] bg-cyan-500/20 rounded-full blur-[2px]" />
                 <div className="absolute -bottom-1 left-0 w-2/3 h-[1px] sm:h-[3px] bg-cyan-400 shadow-[0_0_15px_#22d3ee] rounded-full" />
@@ -110,6 +110,7 @@ export function OnboardingView({ inviteUrl }: OnboardingViewProps) {
             <Button
               asChild
               variant="glitch"
+              data-text="UNLEASH THE BOT"
               className="rounded-lg px-4 sm:px-7 h-9 sm:h-11 text-[8px] sm:text-xs shadow-[0_0_20px_rgba(59,130,246,0.1)] border border-blue-400/20 group w-full xs:w-auto"
             >
               <a

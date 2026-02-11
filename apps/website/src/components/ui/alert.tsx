@@ -4,24 +4,21 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const alertVariants = cva(
-  "relative w-full rounded-2xl border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 backdrop-blur-md",
+  "relative w-full rounded-2xl border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 backdrop-blur-md overflow-hidden transition-all duration-300",
   {
     variants: {
       variant: {
         default:
-          "bg-zinc-950/40 text-foreground border-white/10 [&>svg]:text-foreground",
-        destructive:
-          "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive",
-        // Cyberpunk variants
+          "bg-zinc-950/40 text-zinc-100 border-white/10 shadow-[0_0_15px_-5px_rgba(255,255,255,0.05)] [&>svg]:text-zinc-400",
         info: "border-cyan-500/20 bg-cyan-500/5 text-white shadow-[0_0_15px_-4px_rgba(6,182,212,0.2)] [&>svg]:text-cyan-400",
         success:
           "border-emerald-500/20 bg-emerald-500/5 text-white shadow-[0_0_15px_-4px_rgba(16,185,129,0.2)] [&>svg]:text-emerald-400",
         warning:
           "border-amber-500/20 bg-amber-500/5 text-white shadow-[0_0_15px_-4px_rgba(245,158,11,0.2)] [&>svg]:text-amber-400",
         error:
-          "border-red-500/20 bg-red-500/5 text-white shadow-[0_0_15px_-4px_rgba(239,68,68,0.2)] [&>svg]:text-red-400",
+          "border-red-500/30 bg-red-500/5 text-red-200 shadow-[0_0_15px_-4px_rgba(239,68,68,0.2)] [&>svg]:text-red-400",
         glitch:
-          "border-cyan-500/20 bg-cyan-950/30 text-cyan-300 font-mono shadow-[0_0_15px_-4px_rgba(6,182,212,0.2)] [&>svg]:text-cyan-400",
+          "border-cyan-500/20 bg-cyan-950/30 text-cyan-300 font-mono shadow-[0_0_15px_-4px_rgba(6,182,212,0.2)] [&>svg]:text-cyan-400 animate-glitch-flicker",
       },
     },
     defaultVariants: {

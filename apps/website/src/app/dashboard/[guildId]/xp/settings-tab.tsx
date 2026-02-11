@@ -165,7 +165,7 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
   if (isError && !settings) {
     return (
       <Alert
-        variant="destructive"
+        variant="error"
         className="bg-red-500/10 border-red-500/20 rounded-xl"
       >
         <AlertCircle className="h-4 w-4" />

@@ -355,7 +355,7 @@ export function XPView({ guildId }: XPViewProps) {
                                     className={cn(
                                       "h-full rounded-full transition-all duration-1000",
                                       isTop3
-                                        ? "bg-linear-to-r from-blue-500 to-purple-500"
+                                        ? "bg-gradient-to-r from-blue-500 to-purple-500"
                                         : "bg-blue-600 opacity-60"
                                     )}
                                     style={{ width: `${progress}%` }}
@@ -438,7 +438,7 @@ function XPDisabledState({ onEnable }: { onEnable: () => void }) {
 function ErrorState({ message }: { message: string }) {
   return (
     <Alert
-      variant="destructive"
+      variant="error"
       className="bg-red-500/10 border-red-500/20 text-red-400 rounded-xl"
     >
       <AlertTitle>Error loading leaderboard</AlertTitle>

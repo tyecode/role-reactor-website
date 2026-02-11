@@ -37,15 +37,15 @@ export function FooterCTA() {
         {/* Main CTA Card */}
         <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800/60 rounded-2xl p-6 md:p-8 shadow-xl relative overflow-hidden">
           {/* Card background pattern */}
-          <div className="absolute inset-0 bg-linear-to-br from-zinc-800/10 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-br from-zinc-800/10 to-transparent" />
 
           {/* Decorative elements */}
-          <div className="absolute top-4 right-4 w-20 h-20 bg-linear-to-r from-blue-400 to-purple-400 rounded-full blur-xl opacity-20" />
-          <div className="absolute bottom-4 left-4 w-16 h-16 bg-linear-to-r from-pink-400 to-red-400 rounded-full blur-xl opacity-20" />
+          <div className="absolute top-4 right-4 w-20 h-20 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full blur-xl opacity-20" />
+          <div className="absolute bottom-4 left-4 w-16 h-16 bg-gradient-to-r from-pink-400 to-red-400 rounded-full blur-xl opacity-20" />
 
           <div className="relative z-10 text-center">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-linear-to-r from-blue-500 to-purple-500 text-white rounded-full text-sm font-medium mb-6 shadow-lg">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full text-sm font-medium mb-6 shadow-lg">
               <Sparkles className="w-4 h-4" />
               <span>Transform Your Discord Server Today</span>
             </div>
@@ -66,7 +66,7 @@ export function FooterCTA() {
               <Button
                 asChild
                 size="lg"
-                className="group relative bg-linear-to-r from-[#5865F2]! to-[#4752C4]! text-white px-8 py-3 rounded-lg font-bold transition-all duration-300 shadow-2xl transform hover:scale-105 hover:-translate-y-1 focus:outline-none"
+                className="group relative bg-gradient-to-r from-[#5865F2]! to-[#4752C4]! text-white px-8 py-3 rounded-lg font-bold transition-all duration-300 shadow-2xl transform hover:scale-105 hover:-translate-y-1 focus:outline-none"
               >
                 <Link
                   href={links.inviteBot}

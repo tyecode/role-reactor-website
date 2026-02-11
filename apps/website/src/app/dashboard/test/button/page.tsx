@@ -10,12 +10,11 @@ export default function ButtonTestPage() {
   return (
     <div className="space-y-10 p-10 max-w-7xl mx-auto">
       <div className="space-y-4">
-        <h1 className="text-4xl font-black text-white tracking-widest uppercase italic font-audiowide">
-          Button Systems
+        <h1 className="text-4xl font-bold text-white tracking-widest uppercase italic font-audiowide">
+          User <span className="text-cyan-400">Interface</span>
         </h1>
-        <p className="text-zinc-400 text-lg max-w-3xl">
-          Standardized tactical input modules for high-fidelity user
-          interaction.
+        <p className="text-zinc-500 text-sm max-w-2xl font-mono leading-relaxed uppercase tracking-tight">
+          {"//"} Neural profile visualization and session hub.
         </p>
       </div>
 

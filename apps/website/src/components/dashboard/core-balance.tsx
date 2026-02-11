@@ -77,7 +77,7 @@ export function CoreBalance({
     return (
       <div
         className={cn(
-          "mt-2 p-3 bg-zinc-950 border border-white/10 rounded-xl flex items-center justify-between shadow-2xl group/card relative overflow-hidden",
+          "mt-2 p-3 bg-zinc-950 border border-white/10 rounded-lg flex items-center justify-between shadow-2xl group/card relative overflow-hidden",
           className
         )}
       >

@@ -4,6 +4,8 @@ import Image from "next/image";
 import * as React from "react";
 import { useParams } from "next/navigation";
 import { Check, SmilePlus } from "lucide-react";
+import { EmojiDisplay } from "@/components/ui/emoji-picker";
+import { DiscordEmoji as GlobalDiscordEmoji } from "@/types/discord";
 
 interface DiscordPreviewProps {
   title: string;
@@ -21,6 +23,7 @@ interface DiscordEmoji {
   id: string;
   url: string;
   identifier: string;
+  name?: string;
 }
 
 const PREVIEW_EMOJIS_CACHE = new Map<string, DiscordEmoji[]>();
@@ -165,22 +168,14 @@ export function DiscordPreview({
                               key={i}
                               className="flex items-center gap-2 group/role"
                             >
-                              <span className="text-base shrink-0 flex items-center justify-center w-5 h-5">
-                                {r.emoji?.startsWith("<") ? (
-                                  /* eslint-disable-next-line @next/next/no-img-element */
-                                  <img
-                                    src={
-                                      serverEmojis.find(
-                                        (e) => e.identifier === r.emoji
-                                      )?.url
-                                    }
-                                    alt=""
-                                    className="w-5 h-5 object-contain"
-                                  />
-                                ) : (
-                                  r.emoji || "❓"
-                                )}
-                              </span>
+                              <EmojiDisplay
+                                emoji={r.emoji}
+                                serverEmojis={
+                                  serverEmojis as unknown as GlobalDiscordEmoji[]
+                                }
+                                className="w-5 h-5 text-base"
+                                fallback="❓"
+                              />
                               <span
                                 className="px-1 rounded-[3px] font-medium transition-colors cursor-pointer text-[14px]"
                                 style={{
@@ -239,21 +234,13 @@ export function DiscordPreview({
                     key={i}
                     className="bg-[#2b2d31] hover:bg-[#3b3d42] border border-transparent hover:border-[#5865f2]/50 rounded-[4px] px-1.5 py-0.5 flex items-center gap-2 cursor-pointer transition-colors"
                   >
-                    <span className="text-base flex items-center justify-center w-5 h-5">
-                      {r.emoji?.startsWith("<") ? (
-                        /* eslint-disable-next-line @next/next/no-img-element */
-                        <img
-                          src={
-                            serverEmojis.find((e) => e.identifier === r.emoji)
-                              ?.url
-                          }
-                          alt=""
-                          className="w-5 h-5 object-contain"
-                        />
-                      ) : (
-                        r.emoji
-                      )}
-                    </span>
+                    <EmojiDisplay
+                      emoji={r.emoji}
+                      serverEmojis={
+                        serverEmojis as unknown as GlobalDiscordEmoji[]
+                      }
+                      className="w-5 h-5 text-base"
+                    />
                     <span className="text-[14px] font-semibold text-[#dbdee1]">
                       1
                     </span>
