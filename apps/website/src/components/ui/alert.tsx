@@ -28,64 +28,141 @@ const alertVariants = cva(
   }
 );
 
+const AlertContext = React.createContext<{
+  variant?: VariantProps<typeof alertVariants>["variant"];
+}>({});
+
 interface AlertProps
   extends
     React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof alertVariants> {
   onClose?: () => void;
+  autoClose?: number;
 }
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
-  ({ className, variant, onClose, children, ...props }, ref) => (
-    <div
-      ref={ref}
-      role="alert"
-      className={cn(alertVariants({ variant }), className)}
-      {...props}
-    >
-      {children}
-      {onClose && (
-        <button
-          onClick={onClose}
-          className="absolute right-3 top-3 p-1.5 rounded-lg opacity-40 hover:opacity-100 hover:bg-white/5 transition-all text-zinc-400 hover:text-white"
+  (
+    { className, variant = "default", onClose, autoClose, children, ...props },
+    ref
+  ) => {
+    const [isVisible, setIsVisible] = React.useState(true);
+    const [isClosing, setIsClosing] = React.useState(false);
+
+    const handleClose = React.useCallback(() => {
+      setIsClosing(true);
+      setTimeout(() => {
+        setIsVisible(false);
+        onClose?.();
+      }, 200);
+    }, [onClose]);
+
+    React.useEffect(() => {
+      if (autoClose) {
+        const timer = setTimeout(handleClose, autoClose);
+        return () => clearTimeout(timer);
+      }
+    }, [autoClose, handleClose]);
+
+    if (!isVisible) return null;
+
+    return (
+      <AlertContext.Provider value={{ variant }}>
+        <div
+          ref={ref}
+          role="alert"
+          className={cn(
+            alertVariants({ variant }),
+            isClosing &&
+              (variant === "glitch"
+                ? "animate-dialog-glitch-out"
+                : "animate-out fade-out slide-out-to-top-2 shadow-none"),
+            className
+          )}
+          {...props}
         >
-          <X className="h-3.5 w-3.5" />
-          <span className="sr-only">Close</span>
-        </button>
-      )}
-    </div>
-  )
+          {children}
+          {onClose && (
+            <button
+              onClick={handleClose}
+              className="absolute right-2.5 top-2.5 w-6 h-6 flex items-center justify-center rounded-md opacity-30 bg-zinc-900 border border-white/5 transition-all hover:opacity-100 hover:bg-zinc-800 hover:border-cyan-500/30 text-zinc-400 hover:text-white z-20"
+            >
+              <X className="h-3 w-3" />
+              <span className="sr-only">Close</span>
+            </button>
+          )}
+        </div>
+      </AlertContext.Provider>
+    );
+  }
 );
 Alert.displayName = "Alert";
 
+const alertTitleVariants = cva("mb-1 font-bold leading-none tracking-tight", {
+  variants: {
+    variant: {
+      default: "",
+      glitch: "text-cyan-400 font-mono uppercase tracking-widest px-0.5",
+      info: "text-cyan-400",
+      success: "text-emerald-400",
+      warning: "text-amber-400",
+      error: "text-red-400",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+
 const AlertTitle = React.forwardRef<
   HTMLParagraphElement,
-  React.HTMLAttributes<HTMLHeadingElement>
->(({ className, ...props }, ref) => (
-  <h5
-    ref={ref}
-    className={cn(
-      "mb-1 font-bold leading-none tracking-wider uppercase",
-      className
-    )}
-    {...props}
-  />
-));
+  React.HTMLAttributes<HTMLHeadingElement> &
+    VariantProps<typeof alertTitleVariants>
+>(({ className, variant: propsVariant, ...props }, ref) => {
+  const { variant: contextVariant } = React.useContext(AlertContext);
+  const variant = propsVariant || contextVariant;
+
+  return (
+    <h5
+      ref={ref}
+      className={cn(alertTitleVariants({ variant, className }))}
+      {...props}
+    />
+  );
+});
 AlertTitle.displayName = "AlertTitle";
+
+const alertDescriptionVariants = cva("text-sm [&_p]:leading-relaxed", {
+  variants: {
+    variant: {
+      default: "opacity-80",
+      glitch: "text-cyan-500/70 font-mono text-[10px] uppercase leading-tight",
+      info: "opacity-90",
+      success: "opacity-90",
+      warning: "opacity-90",
+      error: "opacity-90",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
 
 const AlertDescription = React.forwardRef<
   HTMLParagraphElement,
-  React.HTMLAttributes<HTMLParagraphElement>
->(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn(
-      "text-[11px] sm:text-xs [&_p]:leading-relaxed font-medium opacity-80",
-      className
-    )}
-    {...props}
-  />
-));
+  React.HTMLAttributes<HTMLParagraphElement> &
+    VariantProps<typeof alertDescriptionVariants>
+>(({ className, variant: propsVariant, ...props }, ref) => {
+  const { variant: contextVariant } = React.useContext(AlertContext);
+  const variant = propsVariant || contextVariant;
+
+  return (
+    <div
+      ref={ref}
+      className={cn(alertDescriptionVariants({ variant, className }))}
+      {...props}
+    />
+  );
+});
 AlertDescription.displayName = "AlertDescription";
 
 export { Alert, AlertTitle, AlertDescription };
