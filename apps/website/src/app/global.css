@@ -563,7 +563,42 @@
       forwards;
   }
 
-  /* Glitch jitter effect - subtle horizontal shake */
+  /* Alert Glitch Jitter - No centering transform */
+  @keyframes alertGlitchJitter {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    10% {
+      transform: translateX(-2px);
+    }
+    20% {
+      transform: translateX(2px);
+    }
+    30% {
+      transform: translateX(-1px);
+    }
+    40% {
+      transform: translateX(1px);
+    }
+    50% {
+      transform: translateX(0);
+    }
+  }
+
+  .animate-alert-glitch-in {
+    animation:
+      dialogGlitchIn 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards,
+      alertGlitchJitter 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  }
+
+  .animate-alert-glitch-out {
+    animation:
+      dialogGlitchOut 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards,
+      alertGlitchJitter 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards;
+  }
+
+  /* Glitch jitter effect - subtle horizontal shake for centered dialogs */
   @keyframes glitchJitter {
     0%,
     100% {

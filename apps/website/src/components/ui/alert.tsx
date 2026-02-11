@@ -19,7 +19,7 @@ const alertVariants = cva(
         error:
           "border-red-500/30 bg-red-500/5 text-red-200 shadow-[0_0_15px_-4px_rgba(239,68,68,0.2)] [&>svg]:text-red-400 animate-tv-flicker",
         glitch:
-          "border-cyan-500/20 bg-cyan-950/30 text-cyan-300 font-mono shadow-[0_0_15px_-4px_rgba(6,182,212,0.2)] [&>svg]:text-cyan-400 animate-dialog-glitch-in sm:dialog-scanlines",
+          "border-cyan-500/20 bg-cyan-950/30 text-cyan-300 font-mono shadow-[0_0_15px_-4px_rgba(6,182,212,0.2)] [&>svg]:text-cyan-400 animate-alert-glitch-in sm:dialog-scanlines",
       },
     },
     defaultVariants: {
@@ -74,7 +74,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
             alertVariants({ variant }),
             isClosing &&
               (variant === "glitch"
-                ? "animate-dialog-glitch-out"
+                ? "animate-alert-glitch-out"
                 : "animate-out fade-out slide-out-to-top-2 shadow-none"),
             className
           )}
