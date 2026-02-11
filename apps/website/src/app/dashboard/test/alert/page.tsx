@@ -1,12 +1,22 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Showcase } from "@/components/ui/showcase";
 import { Separator } from "@/components/ui/separator";
-import { CheckCircle2, Info, Terminal, Zap, AlertTriangle } from "lucide-react";
+import {
+  CheckCircle2,
+  Info,
+  Terminal,
+  Zap,
+  AlertTriangle,
+  RefreshCcw,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function AlertTestPage() {
+  const [showAlert, setShowAlert] = useState(true);
+
   return (
     <div className="space-y-10 p-10 max-w-7xl mx-auto">
       <div className="space-y-4">
@@ -21,15 +31,33 @@ export default function AlertTestPage() {
       <Separator className="bg-white/10" />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-        <Showcase title="System Protocol">
+        <Showcase
+          title="System Protocol"
+          description="Standard and Glitch variants."
+        >
           <div className="flex flex-col gap-6 w-full items-center">
-            <Alert className="max-w-md w-full">
-              <Terminal className="h-4 w-4" />
-              <AlertTitle>Normal Operation</AlertTitle>
-              <AlertDescription>
-                System heartbeats detected. Neural link stable.
-              </AlertDescription>
-            </Alert>
+            {showAlert ? (
+              <Alert
+                className="max-w-md w-full"
+                onClose={() => setShowAlert(false)}
+              >
+                <Terminal className="h-4 w-4" />
+                <AlertTitle>Normal Operation</AlertTitle>
+                <AlertDescription>
+                  System heartbeats detected. Neural link stable. This alert is
+                  closeable.
+                </AlertDescription>
+              </Alert>
+            ) : (
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowAlert(true)}
+                className="font-mono text-[10px] uppercase"
+              >
+                <RefreshCcw className="w-3 h-3 mr-2" /> Reboot Alert Module
+              </Button>
+            )}
 
             <Alert variant="glitch" className="max-w-md w-full">
               <Zap className="h-4 w-4" />
@@ -41,7 +69,10 @@ export default function AlertTestPage() {
           </div>
         </Showcase>
 
-        <Showcase title="Status Signatures">
+        <Showcase
+          title="Status Signatures"
+          description="Thematic color-coding."
+        >
           <div className="flex flex-col gap-6 w-full items-center">
             <Alert variant="info" className="max-w-md w-full">
               <Info className="h-4 w-4" />
