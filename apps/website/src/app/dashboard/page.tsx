@@ -14,6 +14,8 @@ import { BarChart3, Zap, Terminal, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { PageHeader } from "@/components/dashboard/page-header";
+import { ShieldAlert } from "lucide-react";
 
 // Types for fast-pass redirect
 interface DiscordGuild {
@@ -34,14 +36,12 @@ export default async function DashboardPage() {
   if (isDeveloper(session.user)) {
     return (
       <div className="space-y-8 animate-in fade-in duration-1000">
-        <div className="flex flex-col gap-2">
-          <h1 className="text-3xl font-black tracking-tighter uppercase italic text-cyan-500 shadow-cyan-500/20 drop-shadow-[0_0_10px_rgba(6,182,212,0.3)]">
-            Developer Command Center
-          </h1>
-          <p className="text-zinc-500 text-xs font-mono tracking-widest uppercase">
-            Mission Control // Unauthorized access will be terminated
-          </p>
-        </div>
+        <PageHeader
+          category="Secure Uplink"
+          categoryIcon={ShieldAlert}
+          title="Command Center"
+          description="Mission Control // Unauthorized access will be terminated"
+        />
 
         {/* Hero Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
