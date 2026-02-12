@@ -18,7 +18,7 @@ interface GuildResponse {
 async function getGuildStats(guildId: string) {
   try {
     return await botFetchJson<GuildResponse>(`/guilds/${guildId}/settings`, {
-      next: { revalidate: 0 }, // Disable cache for live updates
+      next: { revalidate: 60 }, // Cache for 1 minute for better navigation performance
     });
   } catch (error) {
     console.error("Failed to fetch guild stats:", error);

@@ -111,6 +111,19 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  /* Optimize page transitions for app-like feel */
+  * {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  /* Smooth transitions for all interactive elements */
+  a,
+  button,
+  [role="button"] {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
   /* Respect user's motion preferences */
   @media (prefers-reduced-motion: reduce) {
     *,
@@ -752,6 +765,85 @@
   .animate-tv-flicker {
     animation: tvFlicker 0.2s infinite;
   }
+
+  /* Alert-specific RGB Split Animation - Chromatic aberration effect */
+  @keyframes alertRgbSplit {
+    0%,
+    100% {
+      box-shadow: none;
+    }
+    10% {
+      box-shadow:
+        -3px 0 0 rgba(255, 0, 80, 0.4),
+        3px 0 0 rgba(0, 255, 255, 0.4);
+    }
+    20% {
+      box-shadow:
+        4px 0 0 rgba(255, 0, 80, 0.5),
+        -4px 0 0 rgba(0, 255, 255, 0.5);
+    }
+    30% {
+      box-shadow:
+        -2px 0 0 rgba(255, 0, 80, 0.6),
+        2px 0 0 rgba(0, 255, 255, 0.6);
+    }
+    40% {
+      box-shadow:
+        5px 0 0 rgba(255, 0, 80, 0.4),
+        -5px 0 0 rgba(0, 255, 255, 0.4);
+    }
+    50% {
+      box-shadow:
+        -2px 0 0 rgba(255, 0, 80, 0.3),
+        2px 0 0 rgba(0, 255, 255, 0.3);
+    }
+  }
+
+  .animate-alert-rgb-split {
+    animation: alertRgbSplit 0.2s steps(6) forwards;
+  }
+
+  /* Noise/Grain overlay for alerts */
+  .alert-noise-overlay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.05"/></svg>');
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.4;
+    mix-blend-mode: overlay;
+  }
+
+  /* Intensified error variant glitch */
+  @keyframes errorIntenseGlitch {
+    0%,
+    100% {
+      transform: translateX(0) skew(0deg);
+    }
+    10% {
+      transform: translateX(-2px) skew(-1deg);
+      filter: hue-rotate(5deg);
+    }
+    20% {
+      transform: translateX(2px) skew(1deg);
+      filter: hue-rotate(-5deg);
+    }
+    30% {
+      transform: translateX(-1px) skew(-0.5deg);
+    }
+    40% {
+      transform: translateX(1px) skew(0.5deg);
+      filter: hue-rotate(3deg);
+    }
+    50% {
+      transform: translateX(0) skew(0deg);
+    }
+  }
+
+  .alert-error-intense {
+    animation: errorIntenseGlitch 0.15s infinite;
+  }
 }
 
 /* Dialog Glitch Animation - More Intense */
@@ -1346,4 +1438,17 @@
   animation: buttonGlitch 0.2s infinite linear;
   z-index: 20;
   left: 2px;
+}
+
+/* Cyberpunk Geometric Utilities */
+.clip-path-chamfer {
+  clip-path: polygon(0 0, 100% 0, 100% 70%, 90% 100%, 0 100%);
+}
+
+.clip-path-chamfer-lg {
+  clip-path: polygon(0 0, 100% 0, 100% 60%, 85% 100%, 0 100%);
+}
+
+.clip-path-slant {
+  clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
 }

@@ -1,6 +1,4 @@
 import type { ReactNode } from "react";
-import { auth } from "@/auth";
-import { notFound } from "next/navigation";
 
 export default async function GuildLayout({
   children,
@@ -10,12 +8,9 @@ export default async function GuildLayout({
   params: Promise<{ guildId: string }>;
 }) {
   await params;
-  const session = await auth();
 
-  // Basic auth check (main layout handles !session, but we check user here for safety)
-  if (!session?.user) {
-    notFound();
-  }
+  // Auth is already validated by parent /dashboard/layout.tsx
+  // Removing redundant auth check for better performance
 
   return <>{children}</>;
 }

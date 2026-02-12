@@ -1,5 +1,7 @@
+import { PageHeader } from "@/components/dashboard/page-header";
 import {
   AlertTriangle,
+  Beaker,
   Ghost,
   HelpCircle,
   Layers,
@@ -54,15 +56,13 @@ export default function IndexesPage() {
   ];
 
   return (
-    <div className="space-y-8 p-4">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-bold text-white tracking-tighter uppercase italic font-audiowide">
-          UI Component Laboratory
-        </h1>
-        <p className="text-zinc-500 max-w-2xl font-mono text-xs uppercase tracking-widest">
-          {"//"} Neural Interface Testing Grounds
-        </p>
-      </div>
+    <div className="space-y-8 pb-12 animate-in fade-in duration-700 w-full min-w-0 overflow-x-hidden">
+      <PageHeader
+        category="Development"
+        categoryIcon={Beaker}
+        title="Component Lab"
+        description="Neural interface testing grounds for experimental UI modules"
+      />
 
       <div className="space-y-4">
         <h2 className="text-xl font-bold text-white">Components</h2>
@@ -73,7 +73,7 @@ export default function IndexesPage() {
               href={item.href}
               className="p-4 rounded-2xl border border-white/5 bg-zinc-950/40 backdrop-blur-md hover:bg-white/5 hover:border-cyan-500/30 transition-all group flex flex-col gap-3 items-center justify-center text-center h-32 relative overflow-hidden shadow-2xl"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute inset-0 bg-linear-to-br from-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <item.icon className="w-8 h-8 text-zinc-500 group-hover:text-cyan-400 transition-all duration-500 z-10 group-hover:scale-110" />
               <span className="font-bold text-zinc-400 group-hover:text-white transition-colors z-10 font-mono text-xs uppercase tracking-widest">
                 {item.title}

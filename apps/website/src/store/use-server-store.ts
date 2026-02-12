@@ -25,6 +25,9 @@ interface ServerState {
   clearServers: () => void;
 }
 
+// Request deduplication: prevent multiple simultaneous fetches
+let fetchPromise: Promise<void> | null = null;
+
 export const useServerStore = create<ServerState>()(
   persist(
     (set, get) => ({
@@ -37,14 +40,20 @@ export const useServerStore = create<ServerState>()(
       lastActiveGuildId: null,
 
       fetchServers: async (force = false) => {
+        // If already fetching and not forced, return the existing promise
+        if (fetchPromise && !force) {
+          console.log("Server store: Deduplicating fetch request");
+          return fetchPromise;
+        }
+
         const {
           lastFetched,
           guilds: currentGuilds,
           isLoading: currentLoading,
         } = get();
 
-        // Cache duration: 2 minutes
-        const CACHE_DURATION = 2 * 60 * 1000;
+        // Cache duration: 5 minutes (increased from 2 for better performance)
+        const CACHE_DURATION = 5 * 60 * 1000;
         const now = Date.now();
         if (!force && lastFetched && now - lastFetched < CACHE_DURATION) {
           console.log("Server store: Using cached guilds");
@@ -61,53 +70,67 @@ export const useServerStore = create<ServerState>()(
           set({ isLoading: true, isFetching: true, error: "none" });
         }
 
-        try {
-          console.log("Server store: Fetching Discord guilds...");
-          const res = await fetch("/api/discord/guilds");
+        // Create and store the fetch promise for deduplication
+        fetchPromise = (async () => {
+          try {
+            console.log("Server store: Fetching Discord guilds...");
+            const res = await fetch("/api/discord/guilds");
 
-          if (!res.ok) {
-            console.error("Server store: Discord fetch failed", res.status);
-            if (res.status === 401) {
-              set({ error: "re-login", isLoading: false, isFetching: false });
-              return;
+            if (!res.ok) {
+              console.error("Server store: Discord fetch failed", res.status);
+              if (res.status === 401) {
+                set({ error: "re-login", isLoading: false, isFetching: false });
+                return;
+              }
+              throw new Error("Failed to fetch guilds from Discord");
             }
-            throw new Error("Failed to fetch guilds from Discord");
-          }
 
-          const manageableGuilds: DiscordGuild[] = await res.json();
-          set({ guilds: manageableGuilds });
-          console.log(
-            `Server store: Found ${manageableGuilds.length} manageable guilds`
-          );
+            const manageableGuilds: DiscordGuild[] = await res.json();
+            set({ guilds: manageableGuilds });
+            console.log(
+              `Server store: Found ${manageableGuilds.length} manageable guilds`
+            );
 
-          if (manageableGuilds.length > 0) {
-            console.log("Server store: Checking bot installation status...");
-            const botRes = await fetch("/api/guilds/check", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                guildIds: manageableGuilds.map((g) => g.id),
-              }),
+            if (manageableGuilds.length > 0) {
+              console.log("Server store: Checking bot installation status...");
+              const botRes = await fetch("/api/guilds/check", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  guildIds: manageableGuilds.map((g) => g.id),
+                }),
+              });
+
+              if (botRes.ok) {
+                const botData = await botRes.json();
+                const ids =
+                  botData.installedGuilds ||
+                  (botData.data && botData.data.installedGuilds) ||
+                  [];
+                set({ installedGuildIds: ids });
+                console.log(
+                  `Server store: Found ${ids.length} installed guilds`
+                );
+              } else {
+                console.warn("Server store: Bot check failed", botRes.status);
+              }
+            }
+
+            set({
+              lastFetched: Date.now(),
+              isLoading: false,
+              isFetching: false,
             });
-
-            if (botRes.ok) {
-              const botData = await botRes.json();
-              const ids =
-                botData.installedGuilds ||
-                (botData.data && botData.data.installedGuilds) ||
-                [];
-              set({ installedGuildIds: ids });
-              console.log(`Server store: Found ${ids.length} installed guilds`);
-            } else {
-              console.warn("Server store: Bot check failed", botRes.status);
-            }
+          } catch (err) {
+            console.error("Server store fetch error:", err);
+            set({ error: "error", isLoading: false, isFetching: false });
+          } finally {
+            // Clear the promise after completion
+            fetchPromise = null;
           }
+        })();
 
-          set({ lastFetched: Date.now(), isLoading: false, isFetching: false });
-        } catch (err) {
-          console.error("Server store fetch error:", err);
-          set({ error: "error", isLoading: false, isFetching: false });
-        }
+        return fetchPromise;
       },
 
       setGuilds: (guilds) => set({ guilds }),

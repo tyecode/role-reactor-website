@@ -5,21 +5,21 @@ import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const alertVariants = cva(
-  "relative w-full rounded-2xl border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 backdrop-blur-md overflow-hidden transition-all duration-500 animate-in fade-in slide-in-from-top-4",
+  "relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 backdrop-blur-md overflow-hidden transition-all duration-500 animate-alert-glitch-in dialog-scanlines",
   {
     variants: {
       variant: {
         default:
-          "bg-zinc-950/40 text-zinc-100 border-white/10 shadow-[0_0_15px_-5px_rgba(255,255,255,0.05)] [&>svg]:text-zinc-400",
-        info: "border-cyan-500/20 bg-cyan-500/5 text-white shadow-[0_0_15px_-4px_rgba(6,182,212,0.2)] [&>svg]:text-cyan-400",
+          "bg-zinc-950/40 text-zinc-100 border-white/10 shadow-[0_0_15px_-5px_rgba(255,255,255,0.05)] [&>svg]:text-zinc-400 alert-noise-overlay",
+        info: "border-cyan-500/20 bg-cyan-500/5 text-white shadow-[0_0_15px_-4px_rgba(6,182,212,0.2)] [&>svg]:text-cyan-400 alert-noise-overlay",
         success:
-          "border-emerald-500/20 bg-emerald-500/5 text-white shadow-[0_0_15px_-4px_rgba(16,185,129,0.2)] [&>svg]:text-emerald-400",
+          "border-emerald-500/20 bg-emerald-500/5 text-white shadow-[0_0_15px_-4px_rgba(16,185,129,0.2)] [&>svg]:text-emerald-400 alert-noise-overlay",
         warning:
-          "border-amber-500/20 bg-amber-500/5 text-white shadow-[0_0_15px_-4px_rgba(245,158,11,0.2)] [&>svg]:text-amber-400",
+          "border-amber-500/20 bg-amber-500/5 text-white shadow-[0_0_15px_-4px_rgba(245,158,11,0.2)] [&>svg]:text-amber-400 alert-noise-overlay",
         error:
-          "border-red-500/30 bg-red-500/5 text-red-200 shadow-[0_0_15px_-4px_rgba(239,68,68,0.2)] [&>svg]:text-red-400 animate-tv-flicker",
+          "border-red-500/30 bg-red-500/5 text-red-200 shadow-[0_0_15px_-4px_rgba(239,68,68,0.2)] [&>svg]:text-red-400 animate-tv-flicker alert-error-intense alert-noise-overlay",
         glitch:
-          "border-cyan-500/20 bg-cyan-950/30 text-cyan-300 font-mono shadow-[0_0_15px_-4px_rgba(6,182,212,0.2)] [&>svg]:text-cyan-400 animate-alert-glitch-in sm:dialog-scanlines",
+          "border-cyan-500/20 bg-cyan-950/30 text-cyan-300 font-mono shadow-[0_0_15px_-4px_rgba(6,182,212,0.2)] [&>svg]:text-cyan-400 alert-noise-overlay",
       },
     },
     defaultVariants: {
@@ -73,9 +73,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
           className={cn(
             alertVariants({ variant }),
             isClosing &&
-              (variant === "glitch"
-                ? "animate-alert-glitch-out"
-                : "animate-out fade-out slide-out-to-top-2 shadow-none"),
+              "animate-alert-glitch-out animate-alert-rgb-split shadow-none",
             className
           )}
           {...props}
@@ -84,7 +82,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
           {onClose && (
             <button
               onClick={handleClose}
-              className="absolute right-2.5 top-2.5 w-6 h-6 flex items-center justify-center rounded-md opacity-30 bg-zinc-900 border border-white/5 transition-all hover:opacity-100 hover:bg-zinc-800 hover:border-cyan-500/30 text-zinc-400 hover:text-white z-20"
+              className="absolute right-2.5 top-2.5 w-6 h-6 flex items-center justify-center rounded-sm opacity-30 bg-zinc-900 border border-white/5 transition-all hover:opacity-100 hover:bg-zinc-800 hover:border-cyan-500/30 text-zinc-400 hover:text-white z-20"
             >
               <X className="h-3 w-3" />
               <span className="sr-only">Close</span>

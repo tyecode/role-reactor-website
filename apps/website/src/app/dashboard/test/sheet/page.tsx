@@ -130,7 +130,7 @@ export default function SheetTestPage() {
           description="Persistent sidebar UI examples."
         >
           <div className="w-full h-40 bg-zinc-950/40 border border-white/5 rounded-2xl flex items-center justify-center relative overflow-hidden group">
-            <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-cyan-500/0 via-cyan-500/40 to-cyan-500/0 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="absolute inset-x-0 bottom-0 h-1 bg-linear-to-r from-cyan-500/0 via-cyan-500/40 to-cyan-500/0 opacity-0 group-hover:opacity-100 transition-opacity" />
             <Settings className="h-8 w-8 text-zinc-700 group-hover:text-cyan-500/50 transition-all duration-700 group-hover:scale-110 group-hover:rotate-90" />
             <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
               <span className="font-mono text-[10px] uppercase tracking-[0.5em] text-cyan-400 mt-16 ml-2">

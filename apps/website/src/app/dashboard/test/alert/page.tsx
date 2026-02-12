@@ -165,7 +165,7 @@ export default function AlertTestPage() {
                   key={alert.id}
                   variant={alert.variant}
                   onClose={() => removeAlert(alert.id)}
-                  autoClose={alert.variant === "glitch" ? 8000 : 5000}
+                  autoClose={3000}
                 >
                   <alert.icon className="h-4 w-4" />
                   <AlertTitle>{alert.title}</AlertTitle>

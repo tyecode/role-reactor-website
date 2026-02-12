@@ -1,0 +1,309 @@
+import { botFetchJson } from "@/lib/bot-fetch";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  DollarSign,
+  CreditCard,
+  Users,
+  History,
+  TrendingUp,
+  ArrowUpRight,
+  Bitcoin,
+} from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+import { RevenueAreaChart } from "./revenue-chart";
+import { Suspense } from "react";
+import { NodeLoader } from "@/components/common/node-loader";
+
+function formatTimeAgo(date: Date) {
+  const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
+  if (seconds < 60) return `${seconds}s`;
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return `${minutes}m`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `${hours}h`;
+  const days = Math.floor(hours / 24);
+  return `${days}d`;
+}
+
+interface PaymentStats {
+  overview: {
+    totalPayments: number;
+    totalRevenue: number;
+    totalCoresGranted: number;
+    uniqueCustomers: number;
+  };
+  recentPayments: Array<{
+    paymentId: string;
+    discordId: string;
+    provider: "paypal" | "plisio";
+    amount: number;
+    coresGranted: number;
+    createdAt: string;
+  }>;
+}
+
+async function getPaymentStats() {
+  try {
+    return await botFetchJson<PaymentStats>("/payments/stats");
+  } catch (error) {
+    console.error("Failed to fetch payment stats:", error);
+    return null;
+  }
+}
+
+function RevenueLoader() {
+  return (
+    <NodeLoader
+      title="Financial Uplink"
+      subtitle="Processing_Transaction_Matrix..."
+    />
+  );
+}
+
+async function RevenueContent() {
+  const stats = await getPaymentStats();
+
+  if (!stats) {
+    return (
+      <Card variant="cyberpunk" className="border-red-500/50 bg-red-500/5">
+        <CardContent className="pt-6">
+          <p className="font-mono text-sm text-red-500 font-bold uppercase">
+            Payment Data Stream Interrupted // Check Repository Status
+          </p>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  const { overview, recentPayments } = stats;
+
+  return (
+    <>
+      {/* Revenue Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <RevenueStatCard
+          title="Total Earnings"
+          value={`$${overview.totalRevenue.toLocaleString()}`}
+          icon={DollarSign}
+          description="Cumulative system revenue"
+          color="emerald"
+        />
+        <RevenueStatCard
+          title="Core Flow"
+          value={overview.totalCoresGranted.toLocaleString()}
+          icon={TrendingUp}
+          description="Total credits minted"
+          color="cyan"
+        />
+        <RevenueStatCard
+          title="Unique Payers"
+          value={overview.uniqueCustomers.toLocaleString()}
+          icon={Users}
+          description="Distinct funding identities"
+          color="fuchsia"
+        />
+        <RevenueStatCard
+          title="Transfers"
+          value={overview.totalPayments.toLocaleString()}
+          icon={History}
+          description="Total validated transactions"
+          color="amber"
+        />
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Revenue Projection Card */}
+        <Card
+          showGrid
+          className="lg:col-span-2 overflow-hidden border-cyan-500/20"
+        >
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <div>
+              <CardTitle>Cashflow matrix</CardTitle>
+              <CardDescription>Temporal revenue distribution</CardDescription>
+            </div>
+            <div className="flex gap-2">
+              <Badge
+                variant="outline"
+                className="text-[10px] border-emerald-500/20 text-emerald-400"
+              >
+                PAYPAL
+              </Badge>
+              <Badge
+                variant="outline"
+                className="text-[10px] border-fuchsia-500/20 text-fuchsia-400"
+              >
+                CRYPTO
+              </Badge>
+            </div>
+          </CardHeader>
+          <CardContent className="h-[350px] pt-4">
+            <RevenueAreaChart data={recentPayments} />
+          </CardContent>
+        </Card>
+
+        {/* Recent Financial Bursts */}
+        <Card
+          variant="cyberpunk"
+          className="flex flex-col h-full bg-zinc-950/40 border-white/5"
+        >
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-lg">Recent Flux</CardTitle>
+              <History className="size-4 text-zinc-500" />
+            </div>
+            <CardDescription>Latest system transactions</CardDescription>
+          </CardHeader>
+          <CardContent className="flex-1 overflow-y-auto space-y-4 pr-2">
+            {recentPayments.length === 0 ? (
+              <div className="flex flex-col items-center justify-center h-40 opacity-30 italic font-mono text-sm uppercase tracking-widest">
+                No transations tracked
+              </div>
+            ) : (
+              recentPayments.map((payment) => (
+                <div
+                  key={payment.paymentId}
+                  className="group relative p-3 bg-zinc-900/40 border border-white/5 rounded-xl hover:bg-zinc-900/60 hover:border-cyan-500/30 transition-all duration-300"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={cn(
+                          "p-2 rounded-lg text-xs font-black",
+                          payment.provider === "paypal"
+                            ? "bg-blue-500/10 text-blue-400"
+                            : "bg-amber-500/10 text-amber-400"
+                        )}
+                      >
+                        {payment.provider === "paypal" ? (
+                          <CreditCard className="size-3" />
+                        ) : (
+                          <Bitcoin className="size-3" />
+                        )}
+                      </div>
+                      <div>
+                        <p className="font-mono text-[11px] font-bold text-zinc-100 group-hover:text-cyan-400 transition-colors uppercase">
+                          {payment.paymentId.slice(0, 8)}...
+                        </p>
+                        <p className="text-[9px] text-zinc-500 font-medium">
+                          User ID: {payment.discordId}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-black text-white font-mono leading-none tracking-tighter">
+                        +${payment.amount}
+                      </p>
+                      <p className="text-[8px] text-zinc-600 font-mono italic uppercase">
+                        {payment.coresGranted} Cores
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mt-2 text-[8px] text-zinc-600 font-mono tracking-widest uppercase">
+                    {formatTimeAgo(new Date(payment.createdAt))} ago
+                  </div>
+                </div>
+              ))
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    </>
+  );
+}
+
+export default async function AdminRevenuePage() {
+  return (
+    <div className="space-y-8">
+      <div className="flex flex-col gap-2">
+        <h1 className="text-3xl font-black tracking-tighter uppercase italic text-emerald-500 shadow-emerald-500/20 drop-shadow-[0_0_10px_rgba(16,185,129,0.3)] flex items-center gap-3">
+          <DollarSign className="size-8" />
+          Financial Intelligence
+        </h1>
+        <p className="text-zinc-500 text-xs font-mono tracking-widest uppercase ml-1">
+          Revenue Streams & Transaction Logs
+        </p>
+      </div>
+
+      <Suspense fallback={<RevenueLoader />}>
+        <RevenueContent />
+      </Suspense>
+    </div>
+  );
+}
+
+function RevenueStatCard({
+  title,
+  value,
+  icon: Icon,
+  description,
+  color = "emerald",
+}: {
+  title: string;
+  value: string;
+  icon: React.ComponentType<{ className?: string }>;
+  description: string;
+  color?: "cyan" | "fuchsia" | "emerald" | "amber";
+}) {
+  const colorMap = {
+    cyan: "text-cyan-400 bg-cyan-400/10 border-cyan-400/20",
+    fuchsia: "text-fuchsia-400 bg-fuchsia-400/10 border-fuchsia-400/20",
+    emerald: "text-emerald-400 bg-emerald-400/10 border-emerald-400/20",
+    amber: "text-amber-400 bg-amber-400/10 border-amber-400/20",
+  };
+
+  return (
+    <Card
+      variant="cyberpunk"
+      className="group relative isolate h-full border-white/5 hover:border-white/10 transition-all duration-300 overflow-hidden"
+    >
+      <CardContent className="pt-6 relative">
+        {/* Glow effect */}
+        <div
+          className={cn(
+            "absolute -top-10 -right-10 w-24 h-24 rounded-full blur-[50px] opacity-20 transition-opacity group-hover:opacity-40",
+            color === "cyan"
+              ? "bg-cyan-500"
+              : color === "fuchsia"
+                ? "bg-fuchsia-500"
+                : color === "emerald"
+                  ? "bg-emerald-500"
+                  : "bg-amber-500"
+          )}
+        />
+
+        <div className="flex items-center gap-3 mb-4">
+          <div
+            className={cn(
+              "p-2 rounded mt-1 border transition-all group-hover:scale-110",
+              colorMap[color]
+            )}
+          >
+            <Icon className="size-4" />
+          </div>
+          <span className="text-[10px] font-mono tracking-[0.2em] text-zinc-500 uppercase font-black">
+            {title}
+          </span>
+        </div>
+
+        <div className="relative">
+          <h2 className="text-3xl font-black tracking-tighter text-white font-mono italic shadow-white/5">
+            {value}
+          </h2>
+        </div>
+
+        <p className="text-[10px] text-zinc-500 font-medium leading-relaxed italic border-t border-white/5 mt-4 pt-3 flex items-center justify-between">
+          {description}
+          <ArrowUpRight className="size-3 text-zinc-700 group-hover:text-zinc-300 transition-colors" />
+        </p>
+      </CardContent>
+    </Card>
+  );
+}

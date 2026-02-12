@@ -20,20 +20,14 @@ import { Button } from "@/components/ui/button";
 import { Showcase } from "@/components/ui/showcase";
 import { Separator } from "@/components/ui/separator";
 import {
-  Cloud,
   CreditCard,
-  Github,
-  Keyboard,
-  LifeBuoy,
   LogOut,
   Mail,
   MessageSquare,
-  Plus,
   PlusCircle,
   Settings,
   User,
   UserPlus,
-  Users,
 } from "lucide-react";
 
 export default function DropdownMenuTestPage() {

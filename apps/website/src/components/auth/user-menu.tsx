@@ -53,12 +53,10 @@ export function UserMenu(props: Partial<Props>) {
         }}
         onLogout={() => signOut({ callbackUrl: "/" })}
         onAddCredits={() => setIsPricingOpen(true)}
-        dashboardUrl="/dashboard"
-        showDashboardLink={true}
-        showSettingsLink={false}
-        showCoreBalance={true}
-        variant="header"
         hideUserInfo={props.hideUserInfo}
+        dashboardUrl="/dashboard"
+        variant="header"
+        showCoreBalance={true}
         {...props}
       />
     </>

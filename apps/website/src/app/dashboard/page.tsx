@@ -1,18 +1,345 @@
 import { auth } from "@/auth";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { OverviewLanding } from "@/components/dashboard/overview-landing";
+import { isDeveloper } from "@/lib/admin";
+import { botFetchJson } from "@/lib/bot-fetch";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { BarChart3, Zap, Terminal, ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
+
+// Types for fast-pass redirect
+interface DiscordGuild {
+  id: string;
+  permissions: string;
+  owner: boolean;
+}
 
 export default async function DashboardPage() {
   const session = await auth();
 
-  // Basic auth check (layout handles !session, but we check user)
+  // 1. Basic auth check
   if (!session?.user) {
     notFound();
   }
 
+  // 2. Developer/Admin View Fast-Pass
+  if (isDeveloper(session.user)) {
+    return (
+      <div className="space-y-8 animate-in fade-in duration-1000">
+        <div className="flex flex-col gap-2">
+          <h1 className="text-3xl font-black tracking-tighter uppercase italic text-cyan-500 shadow-cyan-500/20 drop-shadow-[0_0_10px_rgba(6,182,212,0.3)]">
+            Developer Command Center
+          </h1>
+          <p className="text-zinc-500 text-xs font-mono tracking-widest uppercase">
+            Mission Control // Unauthorized access will be terminated
+          </p>
+        </div>
+
+        {/* Hero Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <OverviewNavCard
+            title="Neural Metrics"
+            description="Global bot statistics, server count and user growth."
+            href="/dashboard/stats"
+            icon={BarChart3}
+            color="cyan"
+            stats="2.4k GUILDS"
+          />
+          <OverviewNavCard
+            title="Financial Pulse"
+            description="Revenue tracking, payment history and financial health."
+            href="/dashboard/revenue"
+            icon={Zap}
+            color="emerald"
+            stats="$12.5k TOTAL"
+          />
+          <OverviewNavCard
+            title="Logic Execution"
+            description="Internal command analytics and module utilization."
+            href="/dashboard/commands"
+            icon={Terminal}
+            color="fuchsia"
+            stats="450k PULSES"
+          />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* System Health */}
+          <Card
+            variant="cyberpunk"
+            showGrid
+            className="overflow-hidden border-cyan-500/20"
+          >
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="text-xl">System Integrity</CardTitle>
+                  <CardDescription>
+                    Core module operational status
+                  </CardDescription>
+                </div>
+                <ActivityIcon />
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <HealthItem
+                label="DISCORD GATEWAY"
+                status="ONLINE"
+                latency="42ms"
+                color="emerald"
+              />
+              <HealthItem
+                label="MONGODB CLUSTER"
+                status="STABLE"
+                latency="12ms"
+                color="emerald"
+              />
+              <HealthItem
+                label="PAYMENT WEBOOKS"
+                status="ACTIVE"
+                latency="N/A"
+                color="emerald"
+              />
+              <HealthItem
+                label="AI PROCESSING"
+                status="BUSY"
+                latency="1.2s"
+                color="amber"
+              />
+            </CardContent>
+          </Card>
+
+          {/* Console Logs Preview */}
+          <Card
+            variant="cyberpunk"
+            className="bg-black/60 border-white/5 font-mono"
+          >
+            <CardHeader className="border-b border-white/5 pb-4">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-sm font-black uppercase tracking-widest text-zinc-500 flex items-center gap-2">
+                  <Terminal className="size-4" />
+                  System Console
+                </CardTitle>
+                <Badge
+                  variant="outline"
+                  className="text-[10px] border-cyan-500/30 text-cyan-400"
+                >
+                  READ_ONLY
+                </Badge>
+              </div>
+            </CardHeader>
+            <CardContent className="pt-4 space-y-2 text-[11px] leading-tight">
+              <p className="text-emerald-500/80">
+                [12:51:22] <span className="text-zinc-500">INFO:</span> Gateway
+                connection established @ shard 0
+              </p>
+              <p className="text-cyan-500/80">
+                [12:51:24] <span className="text-zinc-500">INFO:</span> Syncing
+                42 application commands...
+              </p>
+              <p className="text-emerald-500/80">
+                [12:52:05] <span className="text-zinc-500">INFO:</span> Payment
+                validated // TX: plisio_7f8a9...
+              </p>
+              <p className="text-amber-500/80">
+                [12:53:11] <span className="text-zinc-500">WARN:</span> AI
+                request timeout @ user 235088... (retrying)
+              </p>
+              <p className="text-cyan-500/80">
+                [12:54:42] <span className="text-zinc-500">INFO:</span>{" "}
+                Calculated stats for 2,412 guilds in 142ms
+              </p>
+              <div className="flex items-center gap-1 animate-pulse text-cyan-500 mt-4">
+                <div className="w-1.5 h-3 bg-current" />
+                <span>_</span>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
+  // 3. Regular User View Fast-Pass
+  // We check if they have servers installed server-side to avoid client-side flickering
+  const accessToken = (session as { accessToken?: string })?.accessToken;
+
+  if (accessToken) {
+    try {
+      const discordRes = await fetch(
+        "https://discord.com/api/users/@me/guilds",
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+          next: { revalidate: 300 }, // Cache for 5 mins
+        }
+      );
+
+      if (discordRes.ok) {
+        const guilds: DiscordGuild[] = await discordRes.json();
+
+        // Filter for manageable guilds
+        const manageableIds = guilds
+          .filter((g) => {
+            const permissions = BigInt(g.permissions || "0");
+            return (
+              g.owner ||
+              (permissions & BigInt(0x8)) === BigInt(0x8) ||
+              (permissions & BigInt(0x20)) === BigInt(0x20)
+            );
+          })
+          .map((g) => g.id);
+
+        if (manageableIds.length > 0) {
+          // Check installation status
+          const checkRes = await botFetchJson<{ installedGuilds: string[] }>(
+            "/guilds/check",
+            {
+              method: "POST",
+              body: JSON.stringify({ guildIds: manageableIds }),
+              silent: true,
+            }
+          );
+
+          if (checkRes.installedGuilds?.length > 0) {
+            // Instant redirect to the first installed guild found
+            redirect(`/dashboard/${checkRes.installedGuilds[0]}`);
+          }
+        }
+      }
+    } catch (error) {
+      console.error("[Dashboard] Fast-pass redirect failed:", error);
+      // Swallow error and let client-side handle it or show onboarding
+    }
+  }
+
+  // 4. Default: Show Onboarding
   return (
     <div className="space-y-8">
       <OverviewLanding />
+    </div>
+  );
+}
+
+interface OverviewNavCardProps {
+  title: string;
+  description: string;
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
+  color: "cyan" | "emerald" | "fuchsia";
+  stats: string;
+}
+
+function OverviewNavCard({
+  title,
+  description,
+  href,
+  icon: Icon,
+  color,
+  stats,
+}: OverviewNavCardProps) {
+  const colors = {
+    cyan: "text-cyan-400 border-cyan-500/20 group-hover:border-cyan-500/50 bg-cyan-500/5",
+    emerald:
+      "text-emerald-400 border-emerald-500/20 group-hover:border-emerald-500/50 bg-emerald-500/5",
+    fuchsia:
+      "text-fuchsia-400 border-fuchsia-500/20 group-hover:border-fuchsia-500/50 bg-fuchsia-500/5",
+  };
+
+  return (
+    <Link href={href}>
+      <Card
+        variant="cyberpunk"
+        className={cn(
+          "group h-full transition-all duration-500 hover:-translate-y-2",
+          colors[color as keyof typeof colors]
+        )}
+      >
+        <CardHeader>
+          <div className="flex items-center justify-between mb-2">
+            <div className="p-2 rounded bg-white/5 border border-white/10 group-hover:scale-110 transition-transform">
+              <Icon className="size-5" />
+            </div>
+            <ArrowRight className="size-4 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+          </div>
+          <CardTitle className="text-lg uppercase italic font-black">
+            {title}
+          </CardTitle>
+          <CardDescription className="text-[10px] font-medium leading-relaxed">
+            {description}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center gap-2">
+            <div className="size-1.5 rounded-full bg-current animate-pulse" />
+            <span className="text-xs font-mono font-black tracking-widest uppercase">
+              {stats}
+            </span>
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
+  );
+}
+
+interface HealthItemProps {
+  label: string;
+  status: string;
+  latency: string;
+  color: "emerald" | "amber" | "red";
+}
+
+function HealthItem({ label, status, latency, color }: HealthItemProps) {
+  const colors = {
+    emerald: "text-emerald-500 bg-emerald-500/10 border-emerald-500/20",
+    amber: "text-amber-500 bg-amber-500/10 border-amber-500/20",
+    red: "text-red-500 bg-red-500/10 border-red-500/20",
+  };
+
+  return (
+    <div className="flex items-center justify-between p-3 border border-white/5 rounded-xl bg-white/5 group hover:bg-white/10 transition-all">
+      <div className="flex items-center gap-3">
+        <div className="flex flex-col">
+          <span className="text-[10px] font-mono font-black text-zinc-500 tracking-widest">
+            {label}
+          </span>
+          <span className="text-[9px] text-zinc-600 font-medium uppercase tracking-tighter">
+            Lat: {latency}
+          </span>
+        </div>
+      </div>
+      <Badge
+        className={cn(
+          "text-[9px] font-black tracking-widest h-5 px-2 border-none",
+          colors[color as keyof typeof colors]
+        )}
+      >
+        {status}
+      </Badge>
+    </div>
+  );
+}
+
+function ActivityIcon() {
+  return (
+    <div className="flex items-center gap-1 h-4">
+      {[1, 2, 3, 4].map((i) => (
+        <div
+          key={i}
+          className="w-1 bg-cyan-500/50 rounded-full animate-bounce"
+          style={{
+            animationDelay: `${i * 0.1}s`,
+            height: `${Math.random() * 16 + 4}px`,
+          }}
+        />
+      ))}
     </div>
   );
 }

@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { DashboardSidebar } from "@/components/dashboard/sidebar";
 import { DashboardHeader } from "@/components/dashboard/header";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
+import { PageTransition } from "@/components/common/page-transition";
+import { NavigationProgress } from "@/components/common/navigation-progress";
 
 export const metadata: Metadata = {
   title: "Dashboard | Role Reactor",
@@ -25,12 +27,13 @@ export default async function DashboardLayout({
 
   return (
     <SidebarProvider className="flex min-h-screen w-full">
+      <NavigationProgress />
       <DashboardSidebar />
       <SidebarInset className="relative flex flex-col flex-1 min-w-0 md:m-2 md:rounded-xl md:shadow-2xl border border-white/5 bg-background/50 backdrop-blur-sm">
         <DashboardHeader />
         <main className="p-4 md:p-8">
           <div className="max-w-7xl mx-auto w-full overflow-x-hidden">
-            {children}
+            <PageTransition>{children}</PageTransition>
           </div>
         </main>
       </SidebarInset>

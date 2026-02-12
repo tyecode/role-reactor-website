@@ -133,7 +133,7 @@ export function ServerSwitcher() {
                   <>
                     <div className="flex items-center gap-2 min-w-0">
                       <span className="truncate font-bold text-white tracking-tight text-[15px] flex-1">
-                        {activeGuild?.name || "Select Terminal"}
+                        {activeGuild?.name || "Select Node"}
                       </span>
                       {isFetching && guilds.length > 0 && (
                         <span className="flex items-center gap-1 shrink-0">
@@ -190,7 +190,7 @@ export function ServerSwitcher() {
                 audiowide.className
               )}
             >
-              ACTIVE UPLINKS
+              ACTIVE NODES
             </DropdownMenuLabel>
             {isLoading ? (
               <div className="flex items-center justify-center py-8">

@@ -29,7 +29,11 @@ import {
   ToggleRight,
   HelpCircle,
   User,
+  Users,
+  Activity,
 } from "lucide-react";
+import { isDeveloper } from "@/lib/admin";
+
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
@@ -243,9 +247,42 @@ export function DashboardSidebar() {
     },
   ];
 
+  const getDeveloperItems = () => [
+    {
+      title: "Bot Statistics",
+      href: "/dashboard/stats",
+      icon: BarChart3,
+    },
+    {
+      title: "Revenue",
+      href: "/dashboard/revenue",
+      icon: Zap,
+    },
+    {
+      title: "Usage",
+      href: "/dashboard/commands",
+      icon: Terminal,
+    },
+    {
+      title: "User Management",
+      href: "/dashboard/users",
+      icon: Users,
+    },
+    {
+      title: "System Logs",
+      href: "/dashboard/logs",
+      icon: List,
+    },
+    {
+      title: "System Health",
+      href: "/dashboard/config",
+      icon: Activity,
+    },
+  ];
+
   const getCoreItems = () => [
     {
-      title: "Overview",
+      title: contextId ? "Overview" : "Dashboard",
       href: contextId ? `/dashboard/${contextId}` : "/dashboard",
       icon: LayoutDashboard,
     },
@@ -342,16 +379,19 @@ export function DashboardSidebar() {
                   ) : (
                     <Link
                       href={item.href}
+                      prefetch={true}
                       className="flex items-center gap-3 w-full px-2 relative z-10 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:px-0"
                     >
                       {isActive(item.href) && (
                         <motion.div
                           layoutId="active-nav"
                           className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-4 bg-cyan-500 rounded-full shadow-[0_0_8px_rgba(6,182,212,0.5)]"
+                          style={{ willChange: "transform" }}
                           transition={{
                             type: "spring",
-                            stiffness: 300,
-                            damping: 30,
+                            stiffness: 380,
+                            damping: 35,
+                            mass: 0.8,
                           }}
                         />
                       )}
@@ -459,9 +499,12 @@ export function DashboardSidebar() {
           </>
         ) : (
           <>
-            <NavGroup label="Main" items={getCoreItems()} />
+            <NavGroup label="Core" items={getCoreItems()} />
             <NavGroup label="Engagement" items={getEngagementItems()} />
             <NavGroup label="System" items={getSystemItems()} />
+            {isDeveloper(session?.user) && !contextId && (
+              <NavGroup label="Developer" items={getDeveloperItems()} />
+            )}
           </>
         )}
       </SidebarContent>
@@ -475,7 +518,8 @@ export function DashboardSidebar() {
               coreImageUrl="/images/cores/core_energy.png"
               dashboardUrl="/dashboard"
               settingsUrl="/dashboard/settings"
-              showDashboardLink={false}
+              showDashboardLink={isDeveloper(session?.user)}
+              dashboardLabel={contextId ? "Command Center" : "Dashboard"}
               showSettingsLink={true}
               showCoreBalance={true}
               variant="sidebar"

@@ -85,7 +85,7 @@ export function GuildOverviewView({
   const { guilds } = useServerStore();
   const activeGuild = guilds.find((g) => g.id === guildId);
 
-  const guildName = activeGuild?.name || settings?.name || "Server Overview";
+  const guildName = activeGuild?.name || settings?.name || "Node Hub";
   const guildIcon = activeGuild?.icon || settings?.icon;
 
   const growthData =
@@ -240,95 +240,98 @@ export function GuildOverviewView({
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.1 }}
-          className="rounded-3xl bg-zinc-900/40 border border-white/5 p-6 backdrop-blur-xl flex flex-col shadow-xl relative overflow-hidden"
+          className="h-full"
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent pointer-events-none" />
-          <div className="relative z-10 flex flex-col h-full">
-            <h3 className="text-zinc-500 text-[10px] font-black uppercase tracking-widest mb-6 flex items-center gap-2">
-              <Users className="w-3 h-3 text-cyan-400" /> Recent Arrivals
-            </h3>
+          <Card variant="glass" className="h-full flex flex-col p-6">
+            {/* Gradient Overlay removed as Card handles effects, or kept if distinct */}
+            <div className="absolute inset-0 bg-linear-to-br from-emerald-500/5 to-transparent pointer-events-none" />
+            <div className="relative z-10 flex flex-col h-full">
+              <h3 className="text-zinc-500 text-[10px] font-black uppercase tracking-widest mb-6 flex items-center gap-2">
+                <Users className="w-3 h-3 text-cyan-400" /> Recent Arrivals
+              </h3>
 
-            <div className="space-y-2 pb-2 flex-1 overflow-y-auto pr-1 custom-scrollbar">
-              {guildStats?.recentMembers?.length > 0 ? (
-                guildStats.recentMembers.map(
-                  (member: {
-                    userId: string;
-                    username: string;
-                    avatar: string;
-                    joinedAt: string;
-                  }) => (
-                    <Link
-                      key={member.userId}
-                      href={`https://discord.com/users/${member.userId}`}
-                      target="_blank"
-                      className="flex items-center gap-3 p-2.5 rounded-2xl bg-zinc-950/40 border border-white/5 hover:border-white/15 hover:bg-zinc-900/60 transition-all group cursor-pointer"
-                    >
-                      <Avatar className="h-9 w-9 border border-white/10 group-hover:border-cyan-500/30 group-hover:scale-110 transition-transform duration-300">
-                        <AvatarImage src={member.avatar} />
-                        <AvatarFallback className="bg-zinc-800 text-[10px] font-bold text-zinc-400">
-                          {member.username.substring(0, 2).toUpperCase()}
-                        </AvatarFallback>
-                      </Avatar>
-                      <div className="flex flex-col min-w-0">
-                        <span className="text-sm font-bold text-white truncate group-hover:text-emerald-400 transition-colors">
-                          {member.username}
-                        </span>
-                        <span className="text-[10px] text-zinc-500 font-mono">
-                          Joined{" "}
-                          {new Date(member.joinedAt).toLocaleDateString([], {
-                            month: "short",
-                            day: "numeric",
-                            year: "numeric",
-                          })}{" "}
-                          •{" "}
-                          {new Date(member.joinedAt).toLocaleTimeString([], {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}
-                        </span>
-                      </div>
-                    </Link>
+              <div className="space-y-2 pb-2 flex-1 overflow-y-auto pr-1 custom-scrollbar">
+                {guildStats?.recentMembers?.length > 0 ? (
+                  guildStats.recentMembers.map(
+                    (member: {
+                      userId: string;
+                      username: string;
+                      avatar: string;
+                      joinedAt: string;
+                    }) => (
+                      <Link
+                        key={member.userId}
+                        href={`https://discord.com/users/${member.userId}`}
+                        target="_blank"
+                        className="flex items-center gap-3 p-2.5 rounded-md bg-zinc-950/40 border border-white/5 hover:border-white/15 hover:bg-zinc-900/60 transition-all group cursor-pointer"
+                      >
+                        <Avatar className="h-9 w-9 border border-white/10 group-hover:border-cyan-500/30 group-hover:scale-110 transition-transform duration-300">
+                          <AvatarImage src={member.avatar} />
+                          <AvatarFallback className="bg-zinc-800 text-[10px] font-bold text-zinc-400">
+                            {member.username.substring(0, 2).toUpperCase()}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="flex flex-col min-w-0">
+                          <span className="text-sm font-bold text-white truncate group-hover:text-emerald-400 transition-colors">
+                            {member.username}
+                          </span>
+                          <span className="text-[10px] text-zinc-500 font-mono">
+                            Joined{" "}
+                            {new Date(member.joinedAt).toLocaleDateString([], {
+                              month: "short",
+                              day: "numeric",
+                              year: "numeric",
+                            })}{" "}
+                            •{" "}
+                            {new Date(member.joinedAt).toLocaleTimeString([], {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
+                          </span>
+                        </div>
+                      </Link>
+                    )
                   )
-                )
-              ) : (
-                <div className="flex flex-col items-center justify-center py-12 opacity-40">
-                  <div className="w-12 h-12 rounded-full border-2 border-dashed border-zinc-700 flex items-center justify-center mb-4">
-                    <Users className="w-5 h-5 text-zinc-600" />
+                ) : (
+                  <div className="flex flex-col items-center justify-center py-12 opacity-40">
+                    <div className="w-12 h-12 rounded-full border-2 border-dashed border-zinc-700 flex items-center justify-center mb-4">
+                      <Users className="w-5 h-5 text-zinc-600" />
+                    </div>
+                    <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">
+                      No Recent Joins
+                    </p>
                   </div>
-                  <p className="text-[10px] font-black text-zinc-500 uppercase tracking-widest">
-                    No Recent Joins
-                  </p>
-                </div>
-              )}
-            </div>
+                )}
+              </div>
 
-            <div className="mt-auto pt-5 space-y-3 border-t border-white/5">
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] text-zinc-600 font-black uppercase tracking-widest">
-                  Population Split
-                </span>
-                <div className="flex items-center gap-2">
-                  <span className="text-cyan-400 text-[10px] font-black">
-                    {guildStats?.humanCount || 0}H
+              <div className="mt-auto pt-5 space-y-3 border-t border-white/5">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] text-zinc-600 font-black uppercase tracking-widest">
+                    Population Split
                   </span>
-                  <span className="text-zinc-700 text-[10px] font-black">
-                    /
+                  <div className="flex items-center gap-2">
+                    <span className="text-cyan-400 text-[10px] font-black">
+                      {guildStats?.humanCount || 0}H
+                    </span>
+                    <span className="text-zinc-700 text-[10px] font-black">
+                      /
+                    </span>
+                    <span className="text-fuchsia-400 text-[10px] font-black">
+                      {guildStats?.botCount || 0}B
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] text-zinc-600 font-black uppercase tracking-widest">
+                    Growth Trend
                   </span>
-                  <span className="text-fuchsia-400 text-[10px] font-black">
-                    {guildStats?.botCount || 0}B
-                  </span>
+                  <Badge className="bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 border-none text-[10px] font-black py-1 transition-colors">
+                    +{guildStats?.growth?.new24h || 0} TODAY
+                  </Badge>
                 </div>
               </div>
-              <div className="flex items-center justify-between">
-                <span className="text-[10px] text-zinc-600 font-black uppercase tracking-widest">
-                  Growth Trend
-                </span>
-                <Badge className="bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 border-none text-[10px] font-black py-1 transition-colors">
-                  +{guildStats?.growth?.new24h || 0} TODAY
-                </Badge>
-              </div>
             </div>
-          </div>
+          </Card>
         </motion.div>
       </div>
 
@@ -341,7 +344,7 @@ export function GuildOverviewView({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 + i * 0.1 }}
           >
-            <Card className="bg-zinc-900/40 border-white/5 group hover:bg-zinc-800/40 hover:border-white/10 transition-all duration-300 overflow-hidden relative">
+            <Card variant="stat" className="group transition-all duration-300">
               <div
                 className={cn(
                   "absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity",
@@ -361,7 +364,7 @@ export function GuildOverviewView({
                 <div className="flex items-center justify-between mb-4">
                   <div
                     className={cn(
-                      "p-2.5 rounded-xl bg-gradient-to-br border border-white/5 shadow-inner",
+                      "p-2.5 rounded-md bg-linear-to-br border border-white/5 shadow-inner",
                       stat.color === "cyan"
                         ? "from-cyan-500/20 to-blue-500/20 text-cyan-400"
                         : stat.color === "fuchsia"
@@ -425,7 +428,7 @@ export function GuildOverviewView({
             </h2>
           </div>
 
-          <Card className="bg-zinc-900/40 border-white/5 rounded-2xl overflow-hidden shadow-xl backdrop-blur-xl relative">
+          <Card variant="glass">
             <CyberpunkBackground
               gridSize={24}
               gridOpacity={0.02}
@@ -443,7 +446,7 @@ export function GuildOverviewView({
                     Last 14 Days • Joins vs Leaves
                   </p>
                 </div>
-                <div className="flex items-center gap-6 bg-zinc-950/40 px-4 py-2 rounded-xl border border-white/5">
+                <div className="flex items-center gap-6 bg-zinc-950/40 px-4 py-2 rounded-md border border-white/5">
                   <div className="flex items-center gap-2">
                     <div className="w-2.5 h-2.5 rounded-full bg-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.4)]" />
                     <span className="text-[11px] text-zinc-300 font-black uppercase tracking-wider">
@@ -603,39 +606,43 @@ export function GuildOverviewView({
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.1 * i }}
+                className="relative hover:z-10"
               >
-                <Link
-                  href={module.href}
-                  className={cn(
-                    "block p-6 rounded-2xl bg-zinc-900/40 border border-white/5 hover:border-white/15 transition-all group relative overflow-hidden",
-                    !module.active && "opacity-60 grayscale cursor-not-allowed"
-                  )}
-                >
-                  <div className="flex items-center gap-4 relative z-10">
-                    <div
-                      className={cn(
-                        "w-10 h-10 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform",
-                        module.color === "amber"
-                          ? "bg-amber-500/10 text-amber-500"
-                          : module.color === "cyan"
-                            ? "bg-cyan-500/10 text-cyan-500"
-                            : module.color === "emerald"
-                              ? "bg-emerald-500/10 text-emerald-500"
-                              : "bg-fuchsia-500/10 text-fuchsia-500"
-                      )}
-                    >
-                      <module.icon className="w-5 h-5" />
+                <Link href={module.href} className="block h-full">
+                  <Card
+                    variant="feature"
+                    className={cn(
+                      "h-full p-6 hover:scale-[1.02] transition-transform",
+                      !module.active &&
+                        "opacity-60 grayscale cursor-not-allowed"
+                    )}
+                  >
+                    <div className="flex items-center gap-4 relative z-10">
+                      <div
+                        className={cn(
+                          "w-10 h-10 rounded-md flex items-center justify-center group-hover:scale-110 transition-transform",
+                          module.color === "amber"
+                            ? "bg-amber-500/10 text-amber-500"
+                            : module.color === "cyan"
+                              ? "bg-cyan-500/10 text-cyan-500"
+                              : module.color === "emerald"
+                                ? "bg-emerald-500/10 text-emerald-500"
+                                : "bg-fuchsia-500/10 text-fuchsia-500"
+                        )}
+                      >
+                        <module.icon className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-bold text-white">
+                          {module.name}
+                        </h4>
+                        <p className="text-[10px] text-zinc-500 font-medium">
+                          {module.status}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="text-sm font-bold text-white">
-                        {module.name}
-                      </h4>
-                      <p className="text-[10px] text-zinc-500 font-medium">
-                        {module.status}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                    {/* Overlay handled by Card now */}
+                  </Card>
                 </Link>
               </motion.div>
             ))}

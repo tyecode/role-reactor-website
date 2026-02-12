@@ -43,6 +43,8 @@ export interface UserMenuProps {
   showDashboardLink?: boolean;
   /** Whether to show settings link */
   showSettingsLink?: boolean;
+  /** Custom label for dashboard link */
+  dashboardLabel?: string;
   /** Whether to show core balance */
   showCoreBalance?: boolean;
   /** Variant for different layouts */
@@ -89,6 +91,7 @@ export function UserMenu({
   settingsUrl = "/dashboard/settings",
   showDashboardLink = true,
   showSettingsLink = false,
+  dashboardLabel = "Dashboard",
   showCoreBalance = true,
   variant = "header",
   customTrigger,
@@ -285,7 +288,7 @@ export function UserMenu({
                 >
                   <LayoutDashboard className="mr-3 h-4 w-4 text-zinc-400 group-hover:text-cyan-400 group-hover:drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] transition-all" />
                   <span className="font-medium font-mono text-sm">
-                    Dashboard
+                    {dashboardLabel}
                   </span>
                 </a>
               </DropdownMenuItem>

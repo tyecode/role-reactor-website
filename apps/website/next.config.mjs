@@ -41,6 +41,11 @@ const config = {
   // Optimize package imports
   experimental: {
     optimizePackageImports: ["lucide-react", "react-icons"],
+    // Enable client-side caching for better navigation performance
+    staleTimes: {
+      dynamic: 300, // Cache dynamic routes for 5 minutes
+      static: 300, // Cache static routes for 5 minutes
+    },
   },
 
   // Security and performance headers

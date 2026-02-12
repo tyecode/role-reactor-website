@@ -1,22 +1,20 @@
 "use client";
 
-import React from "react";
+import { PageHeader } from "@/components/dashboard/page-header";
+import { MousePointerClick, Loader2, Trash2, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Showcase } from "@/components/ui/showcase";
 import { Separator } from "@/components/ui/separator";
-import { ArrowRight, Loader2, Mail, Send, Trash2, Zap } from "lucide-react";
 
 export default function ButtonTestPage() {
   return (
-    <div className="space-y-10 p-10 max-w-7xl mx-auto">
-      <div className="space-y-4">
-        <h1 className="text-4xl font-bold text-white tracking-widest uppercase italic font-audiowide">
-          User <span className="text-cyan-400">Interface</span>
-        </h1>
-        <p className="text-zinc-500 text-sm max-w-2xl font-mono leading-relaxed uppercase tracking-tight">
-          {"//"} Neural profile visualization and session hub.
-        </p>
-      </div>
+    <div className="space-y-10 pb-12 animate-in fade-in duration-700 w-full min-w-0 overflow-x-hidden">
+      <PageHeader
+        category="Atomic Modules"
+        categoryIcon={MousePointerClick}
+        title="Button System"
+        description="Core interaction primitive with multiple visual states and glitch effects"
+      />
 
       <Separator className="bg-white/10" />
 

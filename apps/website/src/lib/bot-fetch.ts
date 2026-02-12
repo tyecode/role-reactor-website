@@ -44,9 +44,10 @@ export async function botFetch(path: string, options: RequestInit = {}) {
  */
 export async function botFetchJson<T>(
   path: string,
-  options: RequestInit = {}
+  options: RequestInit & { silent?: boolean } = {}
 ): Promise<T> {
-  const response = await botFetch(path, options);
+  const { silent, ...fetchOptions } = options;
+  const response = await botFetch(path, fetchOptions);
 
   if (!response.ok) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -62,7 +63,7 @@ export async function botFetchJson<T>(
       errorData.error ||
       `Bot API returned ${response.status} for ${path}`;
 
-    if (process.env.NODE_ENV !== "test") {
+    if (!silent && process.env.NODE_ENV !== "test") {
       console.error(`[botFetchJson Error] ${message}`, {
         status: response.status,
         path,
