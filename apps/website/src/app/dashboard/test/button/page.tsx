@@ -1,6 +1,6 @@
 "use client";
 
-import { PageHeader } from "@/components/dashboard/page-header";
+import { PageHeader } from "@/app/dashboard/_components/page-header";
 import { MousePointerClick, Loader2, Trash2, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Showcase } from "@/components/ui/showcase";

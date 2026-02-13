@@ -19,7 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { cn } from "@/lib/utils";
 import { useLeaderboard } from "@/hooks/use-leaderboard";
-import { XPSettingsTab } from "@/app/dashboard/[guildId]/xp/settings-tab";
+import { XPSettingsTab } from "./settings-tab";
 import { LeaderboardEntry } from "@/types/discord";
 import { NodeLoader } from "@/components/common/node-loader";
 

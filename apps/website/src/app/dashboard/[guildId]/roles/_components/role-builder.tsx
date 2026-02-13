@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { DiscordPreview } from "./discord-preview";
-import { PremiumGuard } from "../premium-guard";
+import { PremiumGuard } from "../../../_components/premium-guard";
 import { useRoleBuilder, type ReactionMapping } from "@/hooks/use-role-builder";
 import {
   EmojiPicker,
@@ -56,7 +56,7 @@ function toHex(decimal: number) {
   return `#${decimal.toString(16).padStart(6, "0")}`;
 }
 
-export function RoleBuilder() {
+export function RoleBuilder({ guildId: propGuildId }: { guildId?: string }) {
   const [showPremiumModal, setShowPremiumModal] = useState(false);
   const {
     guildId,
@@ -93,7 +93,9 @@ export function RoleBuilder() {
     isPremium,
     isActivatingPremium,
     handleActivatePremium,
-  } = useRoleBuilder();
+    isDeploying,
+    handleDeploy,
+  } = useRoleBuilder(propGuildId);
 
   if (isLoadingRoles) {
     return <RoleBuilderSkeleton />;
@@ -177,12 +179,15 @@ export function RoleBuilder() {
 
           <div className="space-y-3">
             <Button
-              disabled={!validation.isReady}
+              disabled={!validation.isReady || isDeploying}
               size="lg"
               className="w-full font-bold"
+              onClick={handleDeploy}
             >
-              <Rocket className="w-4 h-4 mr-2" />
-              Deploy to Discord
+              <Rocket
+                className={cn("w-4 h-4 mr-2", isDeploying && "animate-bounce")}
+              />
+              {isDeploying ? "Deploying_Assets..." : "Deploy to Discord"}
             </Button>
           </div>
         </div>

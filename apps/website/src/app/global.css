@@ -7,8 +7,7 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  /* shadcn-ui colors mapped to catppuccin (dark mode - Mocha) */
-  /* Using CSS variable references for shadcn-ui compatibility */
+  /* shadcn-ui colors mapped to Zinc/Black palette */
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
   --color-card: hsl(var(--card));
@@ -28,7 +27,176 @@
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
-  --radius: 1rem;
+
+  /* Modern Sleek Tech Style */
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  /* Custom Animations and Keyframes */
+  --animate-fade-in-up: fadeInUp 0.8s ease-out forwards;
+  --animate-tv-flicker: tvFlicker 0.2s infinite;
+  --animate-skeleton-glitch: skeletonGlitch 0.6s steps(8) infinite;
+  --animate-bg-move-1: bgMove1 12s ease-in-out infinite;
+  --animate-bg-move-2: bgMove2 14s ease-in-out infinite;
+  --animate-bg-move-3: bgMove3 16s ease-in-out infinite;
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes tvFlicker {
+    0%,
+    100% {
+      opacity: 0.95;
+      filter: contrast(1) brightness(1);
+    }
+    5% {
+      opacity: 0.85;
+      filter: contrast(1.1) brightness(1.1);
+    }
+    25% {
+      opacity: 0.4;
+      filter: contrast(1.5) brightness(1.5);
+    }
+    55% {
+      opacity: 0.3;
+      filter: contrast(1.8) brightness(2);
+    }
+    90% {
+      opacity: 0.2;
+      filter: contrast(2) brightness(2.5);
+    }
+  }
+
+  @keyframes skeletonGlitch {
+    0%,
+    100% {
+      opacity: 0.35;
+      transform: translateX(0);
+    }
+    15% {
+      opacity: 0.5;
+      transform: translateX(-1px);
+    }
+    30% {
+      opacity: 0.25;
+      transform: translateX(2px);
+    }
+    45% {
+      opacity: 0.6;
+      transform: translateX(-2px);
+    }
+  }
+
+  @keyframes bgMove1 {
+    0%,
+    100% {
+      transform: translate(-80px, -80px) scale(1);
+    }
+    25% {
+      transform: translate(40px, 40px) scale(1.1);
+    }
+    50% {
+      transform: translate(120px, 120px) scale(0.95);
+    }
+  }
+
+  @keyframes bgMove2 {
+    0%,
+    100% {
+      transform: translate(100px, 100px) scale(1);
+    }
+    50% {
+      transform: translate(-120px, -120px) scale(0.95);
+    }
+  }
+
+  @keyframes bgMove3 {
+    0%,
+    100% {
+      transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+      transform: translate(-30%, -30%) scale(0.95);
+    }
+  }
+
+  @keyframes glitchJitter {
+    0%,
+    100% {
+      transform: translate(-50%, -50%) translateX(0);
+    }
+    20% {
+      transform: translate(-50%, -50%) translateX(2px);
+    }
+    40% {
+      transform: translate(-50%, -50%) translateX(1px);
+    }
+  }
+
+  @keyframes scanlines {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 0 4px;
+    }
+  }
+
+  /* Optimized Glitch In/Out for v4 Engine */
+  @keyframes dialogGlitchIn {
+    0% {
+      opacity: 0;
+      clip-path: inset(0 0 100% 0);
+      filter: brightness(2) saturate(0);
+    }
+    25% {
+      opacity: 1;
+      clip-path: inset(25% 0 50% 0);
+    }
+    100% {
+      opacity: 1;
+      clip-path: none;
+      filter: brightness(1) hue-rotate(0deg);
+    }
+  }
+
+  @keyframes dialogGlitchOut {
+    0% {
+      opacity: 1;
+      clip-path: none;
+      filter: brightness(1);
+    }
+    100% {
+      opacity: 0;
+      clip-path: inset(0 0 100% 0);
+      filter: brightness(3) saturate(0);
+    }
+  }
+
+  @keyframes alertGlitchJitter {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    20% {
+      transform: translateX(-2px);
+    }
+    60% {
+      transform: translateX(2px);
+    }
+  }
 }
 
 :root {
@@ -58,7 +226,7 @@
   --border: 240 3.7% 15.9%; /* Zinc-800 - The common "base" border color */
   --input: 240 3.7% 15.9%; /* Zinc-800 */
   --ring: 240 4.9% 83.9%;
-  --radius: 1rem;
+  --radius: 0.5rem;
   --sidebar-ring: hsl(217.2 91.2% 59.8%);
 }
 
@@ -244,81 +412,6 @@
   }
 
   /* HomePage custom styles */
-  @keyframes bgMove1 {
-    0% {
-      transform: translate(-80px, -80px) scale(1);
-    }
-    25% {
-      transform: translate(40px, 40px) scale(1.1);
-    }
-    50% {
-      transform: translate(120px, 120px) scale(0.95);
-    }
-    75% {
-      transform: translate(40px, 40px) scale(1.05);
-    }
-    100% {
-      transform: translate(-80px, -80px) scale(1);
-    }
-  }
-
-  @keyframes bgMove2 {
-    0% {
-      transform: translate(100px, 100px) scale(1);
-    }
-    25% {
-      transform: translate(-40px, -40px) scale(1.1);
-    }
-    50% {
-      transform: translate(-120px, -120px) scale(0.95);
-    }
-    75% {
-      transform: translate(-40px, -40px) scale(1.05);
-    }
-    100% {
-      transform: translate(100px, 100px) scale(1);
-    }
-  }
-
-  @keyframes bgMove3 {
-    0% {
-      transform: translate(-50%, -50%) scale(1);
-    }
-    25% {
-      transform: translate(-40%, -40%) scale(1.1);
-    }
-    50% {
-      transform: translate(-30%, -30%) scale(0.95);
-    }
-    75% {
-      transform: translate(-40%, -40%) scale(1.05);
-    }
-    100% {
-      transform: translate(-50%, -50%) scale(1);
-    }
-  }
-
-  .animate-bg-move-1 {
-    animation: bgMove1 12s ease-in-out infinite;
-    top: -80px;
-    left: -80px;
-    background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
-    will-change: transform;
-  }
-
-  .animate-bg-move-2 {
-    animation: bgMove2 14s ease-in-out infinite;
-    bottom: -100px;
-    right: -100px;
-    background: linear-gradient(135deg, #818cf8 0%, #38bdf8 100%);
-    will-change: transform;
-  }
-
-  .animate-bg-move-3 {
-    animation: bgMove3 16s ease-in-out infinite;
-    background: linear-gradient(135deg, #a78bfa 0%, #818cf8 100%);
-    will-change: transform;
-  }
 
   .typewriter-cursor {
     display: inline-block;
@@ -444,43 +537,6 @@
   }
 
   /* Skeleton Glitch Animation - For thematic loading states */
-  @keyframes skeletonGlitch {
-    0%,
-    100% {
-      opacity: 0.35;
-      transform: translateX(0) scale(1);
-      filter: brightness(1);
-    }
-    15% {
-      opacity: 0.5;
-      transform: translateX(-1px) scaleX(1.01);
-      filter: brightness(1.3) hue-rotate(5deg);
-    }
-    30% {
-      opacity: 0.25;
-      transform: translateX(2px) scaleY(1.02);
-      filter: brightness(0.8) hue-rotate(-5deg);
-    }
-    45% {
-      opacity: 0.6;
-      transform: translateX(-2px) scaleX(0.99);
-      filter: contrast(1.3);
-    }
-    60% {
-      opacity: 0.4;
-      transform: translateX(1px);
-      filter: brightness(1.1);
-    }
-    75% {
-      opacity: 0.7;
-      transform: translateX(0) scale(1.01);
-      filter: saturate(1.5);
-    }
-    90% {
-      opacity: 0.3;
-      transform: translateX(-1px);
-    }
-  }
 
   .animate-skeleton-glitch {
     animation: skeletonGlitch 0.6s steps(8) infinite;
@@ -493,278 +549,10 @@
   }
 
   /* Glitch Animation for Dialogs */
-  @keyframes dialogGlitchIn {
-    0% {
-      opacity: 0;
-      clip-path: inset(0 0 100% 0);
-      filter: brightness(2) saturate(0);
-    }
-    8% {
-      opacity: 1;
-      clip-path: inset(0 0 70% 0);
-      filter: brightness(1.5) hue-rotate(10deg);
-    }
-    16% {
-      clip-path: inset(25% 0 50% 0);
-      filter: brightness(1) hue-rotate(-10deg);
-    }
-    24% {
-      clip-path: inset(50% 0 25% 0);
-      filter: brightness(1.2) hue-rotate(5deg);
-    }
-    32% {
-      clip-path: inset(75% 0 0 0);
-      filter: brightness(1) hue-rotate(-5deg);
-    }
-    40% {
-      clip-path: inset(0 0 0 0);
-      filter: brightness(1.1) hue-rotate(3deg);
-    }
-    50% {
-      filter: brightness(0.9) hue-rotate(-3deg);
-    }
-    60% {
-      filter: brightness(1.1) hue-rotate(2deg);
-    }
-    70% {
-      filter: brightness(1) hue-rotate(0deg);
-    }
-    100% {
-      opacity: 1;
-      clip-path: none;
-      filter: brightness(1) hue-rotate(0deg);
-    }
-  }
-
-  @keyframes dialogGlitchOut {
-    0% {
-      opacity: 1;
-      clip-path: none;
-      filter: brightness(1);
-    }
-    20% {
-      filter: brightness(1.3) hue-rotate(-15deg);
-    }
-    40% {
-      clip-path: inset(75% 0 0 0);
-      filter: brightness(1.5) hue-rotate(15deg);
-      opacity: 0.7;
-    }
-    60% {
-      clip-path: inset(50% 0 25% 0);
-      filter: brightness(2);
-      opacity: 0.4;
-    }
-    80% {
-      clip-path: inset(25% 0 50% 0);
-      opacity: 0.2;
-    }
-    100% {
-      opacity: 0;
-      clip-path: inset(0 0 100% 0);
-      filter: brightness(3) saturate(0);
-    }
-  }
-
-  .animate-dialog-glitch-in {
-    animation: dialogGlitchIn 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94)
-      forwards;
-  }
-
-  .animate-dialog-glitch-out {
-    animation: dialogGlitchOut 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53)
-      forwards;
-  }
-
-  /* Alert Glitch Jitter - No centering transform */
-  @keyframes alertGlitchJitter {
-    0%,
-    100% {
-      transform: translateX(0);
-    }
-    10% {
-      transform: translateX(-2px);
-    }
-    20% {
-      transform: translateX(2px);
-    }
-    30% {
-      transform: translateX(-1px);
-    }
-    40% {
-      transform: translateX(1px);
-    }
-    50% {
-      transform: translateX(0);
-    }
-  }
-
-  .animate-alert-glitch-in {
-    animation:
-      dialogGlitchIn 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards,
-      alertGlitchJitter 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  }
-
-  .animate-alert-glitch-out {
-    animation:
-      dialogGlitchOut 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards,
-      alertGlitchJitter 0.2s cubic-bezier(0.55, 0.085, 0.68, 0.53) forwards;
-  }
 
   /* Glitch jitter effect - subtle horizontal shake for centered dialogs */
-  @keyframes glitchJitter {
-    0%,
-    100% {
-      transform: translate(-50%, -50%) translateX(0);
-    }
-    10% {
-      transform: translate(-50%, -50%) translateX(-2px);
-    }
-    20% {
-      transform: translate(-50%, -50%) translateX(2px);
-    }
-    30% {
-      transform: translate(-50%, -50%) translateX(-1px);
-    }
-    40% {
-      transform: translate(-50%, -50%) translateX(1px);
-    }
-    50% {
-      transform: translate(-50%, -50%) translateX(0);
-    }
-  }
-
-  .animate-dialog-glitch-in {
-    animation:
-      dialogGlitchIn 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards,
-      glitchJitter 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-  }
-
-  /* Scanline overlay effect for glitch */
-  @keyframes scanlines {
-    0% {
-      background-position: 0 0;
-    }
-    100% {
-      background-position: 0 4px;
-    }
-  }
-
-  .dialog-scanlines::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0, 255, 255, 0.03) 2px,
-      rgba(0, 255, 255, 0.03) 4px
-    );
-    pointer-events: none;
-    z-index: 100;
-    animation: scanlines 0.1s linear infinite;
-  }
 
   /* TV screen failing / short-circuit animation */
-  @keyframes tvFlicker {
-    0% {
-      opacity: 0.95;
-      filter: contrast(1) brightness(1);
-    }
-    5% {
-      opacity: 0.85;
-      filter: contrast(1.1) brightness(1.1);
-    }
-    10% {
-      opacity: 0.9;
-      filter: contrast(1) brightness(1);
-    }
-    15% {
-      opacity: 0.7;
-      filter: contrast(1.2) brightness(1.2);
-    }
-    20% {
-      opacity: 0.95;
-      filter: contrast(1) brightness(1);
-    }
-    25% {
-      opacity: 0.4;
-      filter: contrast(1.5) brightness(1.5);
-    }
-    26% {
-      opacity: 0.95;
-      filter: contrast(1) brightness(1);
-    }
-    30% {
-      opacity: 0.9;
-      filter: contrast(1.1) brightness(1.1);
-    }
-    35% {
-      opacity: 0.95;
-      filter: contrast(1) brightness(1);
-    }
-    40% {
-      opacity: 0.6;
-      filter: contrast(1.3) brightness(1.3);
-    }
-    45% {
-      opacity: 0.9;
-      filter: contrast(1) brightness(1);
-    }
-    50% {
-      opacity: 0.95;
-      filter: contrast(1.1) brightness(1.1);
-    }
-    55% {
-      opacity: 0.3;
-      filter: contrast(1.8) brightness(2);
-    }
-    56% {
-      opacity: 0.95;
-      filter: contrast(1) brightness(1);
-    }
-    60% {
-      opacity: 0.9;
-      filter: contrast(1.1) brightness(1.1);
-    }
-    70% {
-      opacity: 0.95;
-      filter: contrast(1) brightness(1);
-    }
-    75% {
-      opacity: 0.5;
-      filter: contrast(1.4) brightness(1.4);
-    }
-    80% {
-      opacity: 0.9;
-      filter: contrast(1.1) brightness(1.1);
-    }
-    85% {
-      opacity: 0.95;
-      filter: contrast(1) brightness(1);
-    }
-    90% {
-      opacity: 0.2;
-      filter: contrast(2) brightness(2.5);
-    }
-    91% {
-      opacity: 0.95;
-      filter: contrast(1) brightness(1);
-    }
-    95% {
-      opacity: 0.8;
-      filter: contrast(1.2) brightness(1.2);
-    }
-    100% {
-      opacity: 0.95;
-      filter: contrast(1) brightness(1);
-    }
-  }
-
-  .animate-tv-flicker {
-    animation: tvFlicker 0.2s infinite;
-  }
 
   /* Alert-specific RGB Split Animation - Chromatic aberration effect */
   @keyframes alertRgbSplit {

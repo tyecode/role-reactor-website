@@ -11,7 +11,7 @@ const audiowide = Audiowide({
 });
 
 const cardVariants = cva(
-  "rounded-md border text-card-foreground shadow-lg transition-all flex flex-col",
+  "rounded-xl border text-card-foreground shadow-lg transition-all flex flex-col",
   {
     variants: {
       variant: {
@@ -21,9 +21,9 @@ const cardVariants = cva(
         feature:
           "bg-black/40 backdrop-blur-sm border-white/10 hover:border-white/20 transition-all duration-300 relative group overflow-hidden shadow-none",
         glass:
-          "rounded-md bg-black/40 border-white/10 backdrop-blur-xl shadow-none relative group overflow-hidden hover:border-white/20 transition-all duration-300",
+          "rounded-xl bg-black/40 border-white/10 backdrop-blur-xl shadow-none relative group overflow-hidden hover:border-white/20 transition-all duration-300",
         cyberpunk:
-          "bg-black/40 backdrop-blur-sm border-white/10 hover:border-white/20 transition-all duration-300 relative group overflow-hidden shadow-none",
+          "bg-black/60 backdrop-blur-md border-white/10 hover:border-cyan-500/50 hover:shadow-[0_0_20px_-5px_rgba(6,182,212,0.3)] transition-all duration-300 relative group overflow-hidden rounded-2xl",
       },
     },
     defaultVariants: {
@@ -67,10 +67,6 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
       </div>
 
       {/* Corner Accent Lines */}
-      <div className="absolute top-0 left-0 w-6 h-6 border-t border-l border-cyan-500/20 rounded-tl-md pointer-events-none z-10 transition-all duration-300 group-hover:border-cyan-400" />
-      <div className="absolute top-0 right-0 w-6 h-6 border-t border-r border-cyan-500/20 rounded-tr-md pointer-events-none z-10 transition-all duration-300 group-hover:border-cyan-400" />
-      <div className="absolute bottom-0 left-0 w-6 h-6 border-b border-l border-cyan-500/20 rounded-bl-md pointer-events-none z-10 transition-all duration-300 group-hover:border-cyan-400" />
-      <div className="absolute bottom-0 right-0 w-6 h-6 border-b border-r border-cyan-500/20 rounded-br-md pointer-events-none z-10 transition-all duration-300 group-hover:border-cyan-400" />
 
       <div className="relative z-20 h-full w-full flex flex-col">
         {children}

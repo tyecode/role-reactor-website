@@ -1,7 +1,7 @@
-import type { ReactNode } from "react";
+import { type ReactNode, Suspense } from "react";
 import type { Metadata } from "next";
-import { DashboardSidebar } from "@/components/dashboard/sidebar";
-import { DashboardHeader } from "@/components/dashboard/header";
+import { DashboardSidebar } from "@/app/dashboard/_components/sidebar";
+import { DashboardHeader } from "@/app/dashboard/_components/header";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { PageTransition } from "@/components/common/page-transition";
 import { NavigationProgress } from "@/components/common/navigation-progress";
@@ -13,6 +13,15 @@ export const metadata: Metadata = {
 
 import { auth } from "@/auth";
 import { notFound } from "next/navigation";
+import { getManageableGuilds } from "@/lib/server/guilds";
+import { StoreHydrator } from "./_components/store-hydrator";
+
+async function ServerStoreData() {
+  const { guilds, installedGuildIds } = await getManageableGuilds();
+  return (
+    <StoreHydrator guilds={guilds} installedGuildIds={installedGuildIds} />
+  );
+}
 
 export default async function DashboardLayout({
   children,
@@ -27,6 +36,9 @@ export default async function DashboardLayout({
 
   return (
     <SidebarProvider className="flex min-h-screen w-full">
+      <Suspense fallback={null}>
+        <ServerStoreData />
+      </Suspense>
       <NavigationProgress />
       <DashboardSidebar />
       <SidebarInset className="relative flex flex-col flex-1 min-w-0 md:m-2 md:rounded-xl md:shadow-2xl border border-white/5 bg-background/50 backdrop-blur-sm">

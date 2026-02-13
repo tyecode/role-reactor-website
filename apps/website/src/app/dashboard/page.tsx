@@ -1,8 +1,8 @@
 import { auth } from "@/auth";
 import { notFound, redirect } from "next/navigation";
-import { OverviewLanding } from "@/components/dashboard/overview-landing";
+import { OverviewLanding } from "@/app/dashboard/_components/overview-landing";
 import { isDeveloper } from "@/lib/admin";
-import { botFetchJson } from "@/lib/bot-fetch";
+import { getManageableGuilds } from "@/lib/server/guilds";
 import {
   Card,
   CardContent,
@@ -14,15 +14,8 @@ import { BarChart3, Zap, Terminal, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { PageHeader } from "@/components/dashboard/page-header";
+import { PageHeader } from "@/app/dashboard/_components/page-header";
 import { ShieldAlert } from "lucide-react";
-
-// Types for fast-pass redirect
-interface DiscordGuild {
-  id: string;
-  permissions: string;
-  owner: boolean;
-}
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -169,55 +162,12 @@ export default async function DashboardPage() {
   }
 
   // 3. Regular User View Fast-Pass
-  // We check if they have servers installed server-side to avoid client-side flickering
-  const accessToken = (session as { accessToken?: string })?.accessToken;
+  // We check if they have guilds with the bot installed on the server
+  const { installedGuildIds } = await getManageableGuilds();
 
-  if (accessToken) {
-    try {
-      const discordRes = await fetch(
-        "https://discord.com/api/users/@me/guilds",
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-          next: { revalidate: 300 }, // Cache for 5 mins
-        }
-      );
-
-      if (discordRes.ok) {
-        const guilds: DiscordGuild[] = await discordRes.json();
-
-        // Filter for manageable guilds
-        const manageableIds = guilds
-          .filter((g) => {
-            const permissions = BigInt(g.permissions || "0");
-            return (
-              g.owner ||
-              (permissions & BigInt(0x8)) === BigInt(0x8) ||
-              (permissions & BigInt(0x20)) === BigInt(0x20)
-            );
-          })
-          .map((g) => g.id);
-
-        if (manageableIds.length > 0) {
-          // Check installation status
-          const checkRes = await botFetchJson<{ installedGuilds: string[] }>(
-            "/guilds/check",
-            {
-              method: "POST",
-              body: JSON.stringify({ guildIds: manageableIds }),
-              silent: true,
-            }
-          );
-
-          if (checkRes.installedGuilds?.length > 0) {
-            // Instant redirect to the first installed guild found
-            redirect(`/dashboard/${checkRes.installedGuilds[0]}`);
-          }
-        }
-      }
-    } catch (error) {
-      console.error("[Dashboard] Fast-pass redirect failed:", error);
-      // Swallow error and let client-side handle it or show onboarding
-    }
+  if (installedGuildIds.length > 0) {
+    // Instant redirect to the first installed guild found
+    redirect(`/dashboard/${installedGuildIds[0]}`);
   }
 
   // 4. Default: Show Onboarding

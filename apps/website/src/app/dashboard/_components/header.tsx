@@ -1,7 +1,7 @@
 "use client";
 
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { CoreBalance } from "./core-balance";
+import { CoreBalance } from "@/components/common/core-balance";
 
 export function DashboardHeader() {
   return (

@@ -17,7 +17,7 @@ import {
 } from "next/navigation";
 import Image from "next/image";
 import { links } from "@/constants/links";
-import { Audiowide } from "next/font/google";
+
 import { cn } from "@/lib/utils";
 
 import {
@@ -40,11 +40,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useServerStore } from "@/store/use-server-store";
 
-const audiowide = Audiowide({
-  subsets: ["latin"],
-  weight: "400",
-  display: "swap",
-});
+import { audiowide } from "@/lib/fonts";
 
 export function ServerSwitcher() {
   const { isMobile } = useSidebar();

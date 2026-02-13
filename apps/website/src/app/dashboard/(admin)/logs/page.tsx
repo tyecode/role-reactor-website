@@ -1,6 +1,12 @@
+import type { Metadata } from "next";
 import { botFetchJson } from "@/lib/bot-fetch";
+
+export const metadata: Metadata = {
+  title: "System Logs | Admin Console",
+  description: "Real-time system logs and diagnostic data",
+};
 import { Card, CardContent } from "@/components/ui/card";
-import { SystemLogsTerminal } from "./logs-terminal";
+import { SystemLogsTerminal } from "./_components/logs-terminal";
 import { Terminal, AlertTriangle } from "lucide-react";
 import { Suspense } from "react";
 import { NodeLoader } from "@/components/common/node-loader";

@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+
 import { RootProvider } from "fumadocs-ui/provider";
 import { Analytics } from "@vercel/analytics/next";
 
@@ -10,12 +10,7 @@ import { Toaster } from "sonner";
 
 import "@/app/global.css";
 
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  preload: true,
-  fallback: ["system-ui", "arial"],
-});
+import { inter } from "@/lib/fonts";
 
 export const viewport: Viewport = {
   width: "device-width",

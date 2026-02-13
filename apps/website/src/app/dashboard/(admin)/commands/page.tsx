@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
 import { botFetchJson } from "@/lib/bot-fetch";
+
+export const metadata: Metadata = {
+  title: "Command Intelligence | Admin Console",
+  description: "Configure global system commands and responses",
+};
 import {
   Card,
   CardContent,
@@ -17,7 +23,7 @@ import {
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { CommandUsageChart } from "./command-chart";
+import { CommandUsageChart } from "./_components/command-chart";
 import { Suspense } from "react";
 import { NodeLoader } from "@/components/common/node-loader";
 

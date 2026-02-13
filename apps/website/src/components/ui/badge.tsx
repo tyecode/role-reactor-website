@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const badgeVariants = cva(
-  "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  "inline-flex items-center rounded-lg border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
   {
     variants: {
       variant: {
@@ -20,7 +20,7 @@ const badgeVariants = cva(
           "border-cyan-500/20 bg-cyan-500/10 text-cyan-400 shadow-[0_0_10px_-4px_rgba(6,182,212,0.5)] hover:bg-cyan-500/20 hover:shadow-[0_0_15px_-4px_rgba(6,182,212,0.6)] backdrop-blur-sm",
         premium:
           "border-yellow-500/20 bg-yellow-500/10 text-yellow-400 shadow-[0_0_10px_-4px_rgba(234,179,8,0.5)] hover:bg-yellow-500/20 hover:shadow-[0_0_15px_-4px_rgba(234,179,8,0.6)] backdrop-blur-sm",
-        pro: "border-cyan-400/20 bg-cyan-400/10 text-cyan-300 shadow-[0_0_10px_-4px_rgba(34,211,238,0.5)] hover:bg-cyan-400/20 hover:shadow-[0_0_15px_-4px_rgba(34,211,238,0.6)] backdrop-blur-sm font-black tracking-wider uppercase",
+        pro: "border-cyan-400/20 bg-cyan-400/10 text-cyan-300 shadow-[0_0_10px_-4px_rgba(34,211,238,0.5)] hover:bg-cyan-400/20 hover:shadow-[0_0_15px_-4px_rgba(34,211,238,0.6)] backdrop-blur-sm font-bold tracking-wide uppercase",
         success:
           "border-transparent bg-emerald-500/20 text-emerald-500 hover:bg-emerald-500/30",
         warning:

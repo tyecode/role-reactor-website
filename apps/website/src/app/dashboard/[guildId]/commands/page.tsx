@@ -1,13 +1,8 @@
-"use client";
-
-import { CommandList } from "@/components/dashboard/commands/command-list";
-import { PageHeader } from "@/components/dashboard/page-header";
-import { BotInviteCard } from "@/components/dashboard/bot-invite-card";
-import { useParams } from "next/navigation";
+import { CommandList } from "./_components/command-list";
+import { PageHeader } from "@/app/dashboard/_components/page-header";
+import { BotInviteCard } from "@/app/dashboard/_components/bot-invite-card";
 import { Suspense } from "react";
 import { Terminal } from "lucide-react";
-import { useServerStore } from "@/store/use-server-store";
-
 import { NodeLoader } from "@/components/common/node-loader";
 
 function CommandsPageSkeleton() {
@@ -19,30 +14,36 @@ function CommandsPageSkeleton() {
   );
 }
 
-function CommandsContent() {
-  const params = useParams();
-  const guildId = params.guildId as string;
-  const { installedGuildIds, isLoading } = useServerStore();
+import { getManageableGuilds } from "@/lib/server/guilds";
 
-  const isInstalled = guildId ? installedGuildIds.includes(guildId) : false;
+export default async function CommandsPage({
+  params,
+}: {
+  params: Promise<{ guildId: string }>;
+}) {
+  const { guildId } = await params;
 
-  // Show skeletons immediately if loading
-  if (isLoading) {
-    return <CommandsPageSkeleton />;
-  }
-
-  if (!guildId || !isInstalled) {
-    return <BotInviteCard guildId={guildId} />;
-  }
-
-  return <CommandList guildId={guildId} />;
-}
-
-export default function CommandsPage() {
-  const params = useParams();
-  const guildId = params.guildId as string;
-  const { guilds } = useServerStore();
+  // Reuse the optimized server utility for guild data
+  const { guilds, installedGuildIds } = await getManageableGuilds();
   const activeGuild = guilds.find((g) => g.id === guildId);
+
+  const guildName = activeGuild?.name || "this server";
+  const isInstalled = installedGuildIds.includes(guildId);
+
+  if (!isInstalled) {
+    return (
+      <div className="min-h-screen pb-20 space-y-8 w-full min-w-0 overflow-x-hidden">
+        <PageHeader
+          category="Control Center"
+          categoryIcon={Terminal}
+          title="Command Settings"
+          description="Enable or disable specific bot commands for"
+          serverName={guildName}
+        />
+        <BotInviteCard guildId={guildId} />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen pb-20 space-y-8 animate-in fade-in duration-700 w-full min-w-0 overflow-x-hidden">
@@ -51,11 +52,11 @@ export default function CommandsPage() {
         categoryIcon={Terminal}
         title="Command Settings"
         description="Enable or disable specific bot commands for"
-        serverName={activeGuild?.name || "this server"}
+        serverName={guildName}
       />
 
       <Suspense fallback={<CommandsPageSkeleton />}>
-        <CommandsContent />
+        <CommandList guildId={guildId} />
       </Suspense>
     </div>
   );

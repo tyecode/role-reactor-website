@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { PremiumGuard } from "../premium-guard";
+import { PremiumGuard } from "../../../_components/premium-guard";
 
 import { useState } from "react";
 import useSWR from "swr";

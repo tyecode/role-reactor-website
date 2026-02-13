@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { botFetchJson } from "@/lib/bot-fetch";
-import { BotInviteCard } from "@/components/dashboard/bot-invite-card";
-import { GuildOverviewView } from "@/components/dashboard/guild-overview-view";
+import { BotInviteCard } from "@/app/dashboard/_components/bot-invite-card";
+import { GuildOverviewView } from "@/app/dashboard/[guildId]/_components/guild-overview-view";
 import { notFound } from "next/navigation";
 import pkg from "../../../../package.json";
 

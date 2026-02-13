@@ -7,6 +7,7 @@ import { useEmojiStore } from "@/store/use-emoji-store";
 import { useGuildStore } from "@/store/use-guild-store";
 import { DiscordRole, DiscordEmoji, DiscordChannel } from "@/types/discord";
 import { toast } from "sonner";
+import { deployReactionRoles } from "@/app/dashboard/_actions/roles";
 
 const EMPTY_EMOJIS: DiscordEmoji[] = [];
 
@@ -17,9 +18,9 @@ export interface ReactionMapping {
   roleColor: number;
 }
 
-export function useRoleBuilder() {
+export function useRoleBuilder(propGuildId?: string) {
   const params = useParams();
-  const guildId = params.guildId as string;
+  const guildId = propGuildId || (params.guildId as string);
   const { guilds } = useServerStore();
 
   const fetchEmojis = useEmojiStore((state) => state.fetchEmojis);
@@ -210,6 +211,53 @@ export function useRoleBuilder() {
     }
   }, [guildId, isActivatingPremium, fetchSettings]);
 
+  const [isDeploying, setIsDeploying] = useState(false);
+
+  const handleDeploy = useCallback(async () => {
+    if (!validation.isReady || isDeploying) return;
+
+    setIsDeploying(true);
+    const deployToastId = toast.loading("Deploying system links...");
+
+    try {
+      const result = await deployReactionRoles(guildId, {
+        title,
+        description,
+        color,
+        channelId: selectedChannel,
+        selectionMode,
+        reactions,
+      });
+
+      if (result.success) {
+        toast.success(result.message, { id: deployToastId });
+        return true;
+      } else {
+        toast.error(result.message || "Deployment failed", {
+          id: deployToastId,
+        });
+        return false;
+      }
+    } catch {
+      toast.error("An unexpected error occurred during deployment", {
+        id: deployToastId,
+      });
+      return false;
+    } finally {
+      setIsDeploying(false);
+    }
+  }, [
+    guildId,
+    title,
+    description,
+    color,
+    selectedChannel,
+    selectionMode,
+    reactions,
+    validation.isReady,
+    isDeploying,
+  ]);
+
   return {
     guildId,
     currentGuild,
@@ -247,5 +295,7 @@ export function useRoleBuilder() {
     isPremium,
     isActivatingPremium,
     handleActivatePremium,
+    isDeploying,
+    handleDeploy,
   };
 }

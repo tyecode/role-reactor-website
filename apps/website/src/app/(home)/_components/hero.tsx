@@ -63,12 +63,12 @@ export function Hero() {
         {/* Main Title */}
         <h1
           className={cn(
-            "text-6xl md:text-8xl font-bold tracking-tight text-white drop-shadow-[0_0_30px_rgba(59,130,246,0.5)]",
+            "text-6xl md:text-8xl font-bold tracking-tight text-white drop-shadow-[0_0_15px_rgba(6,182,212,0.3)]",
             audiowide.className
           )}
         >
           Role{" "}
-          <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">
+          <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
             Reactor
           </span>
         </h1>
@@ -87,7 +87,8 @@ export function Hero() {
           <Button
             asChild
             size="lg"
-            className="w-full sm:w-auto gap-2 text-base h-12 px-8 min-w-[200px] bg-[#5865F2] hover:bg-[#4752C4] text-white shadow-[0_0_30px_rgba(88,101,242,0.4)] hover:shadow-[0_0_50px_rgba(88,101,242,0.6)] transition-all duration-300 rounded-full group"
+            variant="discord"
+            className="w-full sm:w-auto gap-2 h-12 px-8 min-w-[200px] group"
           >
             <Link
               href={links.inviteBot}
@@ -104,7 +105,7 @@ export function Hero() {
             asChild
             variant="outline"
             size="lg"
-            className="w-full sm:w-auto gap-2 text-base h-12 px-8 min-w-[200px] bg-zinc-900/50 hover:bg-zinc-800/80 border-zinc-800 text-white backdrop-blur-sm rounded-full group transition-all"
+            className="w-full sm:w-auto gap-2 h-12 px-8 min-w-[200px] group rounded-xl border-zinc-800 bg-zinc-950/50 hover:bg-zinc-900/80 hover:text-white"
           >
             <Link href="/docs">
               <FaRocket className="w-4 h-4 group-hover:-rotate-12 transition-transform" />

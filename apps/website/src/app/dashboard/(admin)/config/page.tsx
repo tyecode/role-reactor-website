@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import {
   Card,
   CardContent,
@@ -5,16 +6,16 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
+
+export const metadata: Metadata = {
+  title: "System Health | Admin Console",
+  description: "Monitor system health and core operations",
+};
 import { Activity } from "lucide-react";
-import { SystemHealthViewer } from "./health-viewer";
+import { SystemHealthViewer } from "./_components/health-viewer";
 
 import { Suspense } from "react";
 import { NodeLoader } from "@/components/common/node-loader";
-
-export const metadata = {
-  title: "System Health // Role Reactor",
-  description: "Real-time system health and performance metrics.",
-};
 
 function HealthLoader() {
   return (

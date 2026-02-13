@@ -1,3 +1,4 @@
+import "server-only";
 import { getBotApiUrl } from "./api-config";
 
 /**

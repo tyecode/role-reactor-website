@@ -41,6 +41,9 @@ const config = {
   // Optimize package imports
   experimental: {
     optimizePackageImports: ["lucide-react", "react-icons"],
+    // Enable Next.js 15 Cache Components and PPR (Requires Canary)
+    // ppr: "incremental",
+    // dynamicIO: true,
     // Enable client-side caching for better navigation performance
     staleTimes: {
       dynamic: 300, // Cache dynamic routes for 5 minutes

@@ -1,4 +1,4 @@
-import { PageHeader } from "@/components/dashboard/page-header";
+import { PageHeader } from "@/app/dashboard/_components/page-header";
 import { Settings as SettingsIcon } from "lucide-react";
 
 export default function SettingsPage() {

@@ -35,7 +35,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { UserRoles } from "@/lib/admin";
-import { botFetchJson } from "@/lib/bot-fetch";
+import { updateUserRole } from "../actions";
 
 interface UserData {
   id: string;
@@ -92,10 +92,9 @@ export function UserTable({ initialData }: UserTableProps) {
     setStatus("idle");
 
     try {
-      await botFetchJson(`/user/${selectedUser.id}/role`, {
-        method: "PATCH",
-        body: JSON.stringify({ role: updateRole }),
-      });
+      const result = await updateUserRole(selectedUser.id, updateRole);
+
+      if (!result.success) throw new Error(result.error);
 
       setStatus("success");
       setTimeout(() => {
@@ -301,7 +300,7 @@ function UserRow({
     <tr
       className={cn(
         "group transition-all",
-        isRootOwner ? "bg-cyan-500/[0.02]" : "hover:bg-white/5"
+        isRootOwner ? "bg-cyan-500/2" : "hover:bg-white/5"
       )}
     >
       <td className="p-4 px-6">

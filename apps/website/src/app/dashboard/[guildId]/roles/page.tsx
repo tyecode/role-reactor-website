@@ -1,14 +1,8 @@
-"use client";
-
-import { RoleBuilder } from "@/components/dashboard/roles/role-builder";
-import { BotInviteCard } from "@/components/dashboard/bot-invite-card";
-import { useParams } from "next/navigation";
+import { RoleBuilder } from "./_components/role-builder";
+import { BotInviteCard } from "@/app/dashboard/_components/bot-invite-card";
 import { Suspense } from "react";
 import { ShieldCheck } from "lucide-react";
-
-import { useServerStore } from "@/store/use-server-store";
-import { PageHeader } from "@/components/dashboard/page-header";
-
+import { PageHeader } from "@/app/dashboard/_components/page-header";
 import { NodeLoader } from "@/components/common/node-loader";
 
 function RolesPageSkeleton() {
@@ -20,31 +14,50 @@ function RolesPageSkeleton() {
   );
 }
 
-function RolesContent() {
-  const params = useParams();
-  const guildId = params.guildId as string;
-  const { installedGuildIds, isLoading: serverLoading } = useServerStore();
+import { getManageableGuilds } from "@/lib/server/guilds";
 
-  const isInstalled = guildId ? installedGuildIds.includes(guildId) : false;
-  // Only show skeleton if we are loading AND don't have data yet
-  const isLoading = serverLoading && installedGuildIds.length === 0;
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ guildId: string }>;
+}) {
+  const { guildId } = await params;
+  const { guilds } = await getManageableGuilds();
+  const guild = guilds.find((g) => g.id === guildId);
 
-  if (isLoading) {
-    return <RolesPageSkeleton />;
-  }
-
-  if (!guildId || !isInstalled) {
-    return <BotInviteCard guildId={guildId} />;
-  }
-
-  return <RoleBuilder key={guildId} />;
+  return {
+    title: guild ? `${guild.name} | Reaction Roles` : "Reaction Roles",
+  };
 }
 
-export default function RolesPage() {
-  const params = useParams();
-  const guildId = params.guildId as string;
-  const { guilds } = useServerStore();
+export default async function RolesPage({
+  params,
+}: {
+  params: Promise<{ guildId: string }>;
+}) {
+  const { guildId } = await params;
+
+  // Reuse the optimized server utility for guild data
+  const { guilds, installedGuildIds } = await getManageableGuilds();
   const activeGuild = guilds.find((g) => g.id === guildId);
+
+  const guildName = activeGuild?.name || "Target Node";
+  const isInstalled = installedGuildIds.includes(guildId);
+
+  if (!isInstalled) {
+    return (
+      <div className="space-y-8 pb-12 w-full min-w-0 overflow-x-hidden">
+        <PageHeader
+          category="Interactive Role System"
+          categoryIcon={ShieldCheck}
+          title="Reaction Roles"
+          description="Interactive role assignment system configured for"
+          serverName={guildName}
+        />
+        <BotInviteCard guildId={guildId} />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8 pb-12 animate-in fade-in duration-700 w-full min-w-0 overflow-x-hidden">
@@ -53,11 +66,11 @@ export default function RolesPage() {
         categoryIcon={ShieldCheck}
         title="Reaction Roles"
         description="Interactive role assignment system configured for"
-        serverName={activeGuild?.name || "Target Node"}
+        serverName={guildName}
       />
 
       <Suspense fallback={<RolesPageSkeleton />}>
-        <RolesContent />
+        <RoleBuilder guildId={guildId} />
       </Suspense>
     </div>
   );

@@ -1,7 +1,7 @@
-import { Hero } from "@/app/(home)/components/hero";
-import { Features } from "@/app/(home)/components/features";
-import { SocialProof } from "@/app/(home)/components/social-proof";
-import { FooterCTA } from "@/app/(home)/components/footer-cta";
+import { Hero } from "@/app/(home)/_components/hero";
+import { Features } from "@/app/(home)/_components/features";
+import { SocialProof } from "@/app/(home)/_components/social-proof";
+import { FooterCTA } from "@/app/(home)/_components/footer-cta";
 import { links } from "@/constants/links";
 import { botFetchJson } from "@/lib/bot-fetch";
 

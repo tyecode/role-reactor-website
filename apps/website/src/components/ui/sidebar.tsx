@@ -302,18 +302,18 @@ const Sidebar = React.forwardRef<
             className={cn(
               "relative flex h-full w-full flex-col bg-zinc-950/40 backdrop-blur-xl transition-colors duration-500 group-hover:bg-zinc-950/60",
               variant === "floating" &&
-                "rounded-2xl border border-white/10 shadow-[0_0_20px_rgba(0,0,0,0.5)]",
+                "rounded-2xl border border-white/10 shadow-[0_0_40px_-5px_rgba(0,0,0,0.6)]",
               variant === "inset" &&
-                "rounded-2xl border border-white/10 shadow-[0_0_20px_rgba(0,0,0,0.5)]"
+                "rounded-2xl border border-white/10 shadow-[0_0_40px_-5px_rgba(0,0,0,0.6)]"
             )}
           >
             {/* Cyberpunk Accents for Sidebar */}
             {(variant === "floating" || variant === "inset") && (
               <>
-                <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-cyan-500/40 rounded-tl-sm pointer-events-none" />
-                <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/10 rounded-tr-sm pointer-events-none" />
-                <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/10 rounded-bl-sm pointer-events-none" />
-                <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-purple-500/40 rounded-br-sm pointer-events-none" />
+                <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-cyan-500/40 rounded-tl-md pointer-events-none" />
+                <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/10 rounded-tr-md pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/10 rounded-bl-md pointer-events-none" />
+                <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-purple-500/40 rounded-br-md pointer-events-none" />
 
                 {/* Lateral glow */}
                 <div className="absolute inset-y-8 left-0 w-[1px] bg-gradient-to-b from-transparent via-cyan-500/20 to-transparent pointer-events-none" />
@@ -345,7 +345,7 @@ const SidebarTrigger = React.forwardRef<
       variant="ghost"
       size="icon"
       className={cn(
-        "h-8 w-8 text-zinc-400 hover:text-cyan-400 hover:bg-cyan-500/5 border border-white/5 hover:border-cyan-500/30 transition-all duration-300 hover:shadow-[0_0_10px_-2px_rgba(6,182,212,0.3)]",
+        "h-8 w-8 text-zinc-400 hover:text-cyan-400 hover:bg-cyan-500/5 border border-white/5 hover:border-cyan-500/30 transition-all duration-300 hover:shadow-[0_0_10px_-2px_rgba(6,182,212,0.3)] rounded-xl",
         className
       )}
       onClick={(event) => {
@@ -424,7 +424,7 @@ const SidebarInput = React.forwardRef<
       ref={ref}
       data-sidebar="input"
       className={cn(
-        "h-8 w-full bg-zinc-900/50 border-white/5 shadow-none focus-visible:ring-2 focus-visible:ring-cyan-500/50 text-zinc-100 placeholder:text-zinc-500",
+        "h-8 w-full bg-zinc-900/50 border-white/5 shadow-none focus-visible:ring-2 focus-visible:ring-cyan-500/50 text-zinc-100 placeholder:text-zinc-500 rounded-xl focus:shadow-[0_0_15px_-3px_rgba(6,182,212,0.3)]",
         className
       )}
       {...props}
@@ -522,7 +522,7 @@ const SidebarGroupLabel = React.forwardRef<
       ref={ref}
       data-sidebar="group-label"
       className={cn(
-        "flex h-8 shrink-0 items-center rounded-md px-2 text-[10px] font-bold tracking-[0.2em] text-zinc-500 outline-none ring-cyan-500/50 transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0 uppercase",
+        "flex h-8 shrink-0 items-center rounded-lg px-2 text-[10px] font-bold tracking-[0.2em] text-zinc-500 outline-none ring-cyan-500/50 transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0 uppercase",
         "group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0",
         "before:content-['//'] before:mr-2 before:text-zinc-800",
         className
@@ -544,7 +544,7 @@ const SidebarGroupAction = React.forwardRef<
       ref={ref}
       data-sidebar="group-action"
       className={cn(
-        "absolute right-3 top-3.5 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-zinc-400 outline-none ring-cyan-500/50 transition-transform hover:bg-white/5 hover:text-white focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
+        "absolute right-3 top-3.5 flex aspect-square w-5 items-center justify-center rounded-lg p-0 text-zinc-400 outline-none ring-cyan-500/50 transition-transform hover:bg-white/5 hover:text-white focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
         // Increases the hit area of the button on mobile.
         "after:absolute after:-inset-2 after:md:hidden",
         "group-data-[collapsible=icon]:hidden",
@@ -596,7 +596,7 @@ const SidebarMenuItem = React.forwardRef<
 SidebarMenuItem.displayName = "SidebarMenuItem";
 
 const sidebarMenuButtonVariants = cva(
-  "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-lg p-2 text-left text-sm outline-none ring-cyan-500/50 transition-all duration-300 hover:bg-white/5 hover:text-white focus-visible:ring-2 active:bg-white/10 active:text-white active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-cyan-500/10 data-[active=true]:font-bold data-[active=true]:text-cyan-400 data-[state=open]:hover:bg-white/5 data-[state=open]:hover:text-white group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
+  "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-xl p-2 text-left text-sm outline-none ring-cyan-500/50 transition-all duration-300 hover:bg-white/5 hover:text-white focus-visible:ring-2 active:bg-white/10 active:text-white active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-cyan-500/10 data-[active=true]:font-bold data-[active=true]:text-cyan-400 data-[state=open]:hover:bg-white/5 data-[state=open]:hover:text-white group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
   {
     variants: {
       variant: {
@@ -690,7 +690,7 @@ const SidebarMenuAction = React.forwardRef<
       ref={ref}
       data-sidebar="menu-action"
       className={cn(
-        "absolute right-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-zinc-400 outline-none ring-cyan-500/50 transition-transform hover:bg-white/5 hover:text-white focus-visible:ring-2 peer-hover/menu-button:text-white [&>svg]:size-4 [&>svg]:shrink-0",
+        "absolute right-1 top-1.5 flex aspect-square w-5 items-center justify-center rounded-lg p-0 text-zinc-400 outline-none ring-cyan-500/50 transition-transform hover:bg-white/5 hover:text-white focus-visible:ring-2 peer-hover/menu-button:text-white [&>svg]:size-4 [&>svg]:shrink-0",
         // Increases the hit area of the button on mobile.
         "after:absolute after:-inset-2 after:md:hidden",
         "peer-data-[size=sm]/menu-button:top-1",
@@ -715,7 +715,7 @@ const SidebarMenuBadge = React.forwardRef<
     ref={ref}
     data-sidebar="menu-badge"
     className={cn(
-      "pointer-events-none absolute right-1 flex h-5 min-w-5 select-none items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums text-zinc-400",
+      "pointer-events-none absolute right-1 flex h-5 min-w-5 select-none items-center justify-center rounded-lg px-1 text-xs font-medium tabular-nums text-zinc-400",
       "peer-hover/menu-button:text-white peer-data-[active=true]/menu-button:text-white",
       "peer-data-[size=sm]/menu-button:top-1",
       "peer-data-[size=default]/menu-button:top-1.5",
@@ -806,7 +806,7 @@ const SidebarMenuSubButton = React.forwardRef<
       data-size={size}
       data-active={isActive}
       className={cn(
-        "flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 text-zinc-400 outline-none ring-cyan-500/50 hover:bg-white/5 hover:text-white focus-visible:ring-2 active:bg-white/5 active:text-white disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-zinc-400",
+        "flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-lg px-2 text-zinc-400 outline-none ring-cyan-500/50 hover:bg-white/5 hover:text-white focus-visible:ring-2 active:bg-white/5 active:text-white disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-zinc-400",
         "data-[active=true]:bg-white/5 data-[active=true]:text-white",
         size === "sm" && "text-xs",
         size === "md" && "text-sm",

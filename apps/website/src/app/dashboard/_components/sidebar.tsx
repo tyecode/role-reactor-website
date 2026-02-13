@@ -39,7 +39,6 @@ import { useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import { Badge } from "@/components/ui/badge";
-import { Audiowide } from "next/font/google";
 
 import {
   Sidebar,
@@ -61,11 +60,7 @@ import { ServerSwitcher } from "./server-switcher";
 import { useServerStore } from "@/store/use-server-store";
 import { Suspense, useEffect } from "react";
 
-const audiowide = Audiowide({
-  subsets: ["latin"],
-  weight: "400",
-  display: "swap",
-});
+import { audiowide } from "@/lib/fonts";
 
 // Helper to get avatar URL
 function getAvatarUrl(user: { id?: string; image?: string | null }): string {

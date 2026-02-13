@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
 import { botFetchJson } from "@/lib/bot-fetch";
+
+export const metadata: Metadata = {
+  title: "Financial Intelligence | Admin Console",
+  description: "Monitor revenue streams and transaction logs",
+};
 import {
   Card,
   CardContent,
@@ -16,8 +22,8 @@ import {
   Bitcoin,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
-import { RevenueAreaChart } from "./revenue-chart";
+import { cn, formatCurrency, formatCompactNumber } from "@/lib/utils";
+import { RevenueAreaChart } from "./_components/revenue-chart";
 import { Suspense } from "react";
 import { NodeLoader } from "@/components/common/node-loader";
 
@@ -90,28 +96,28 @@ async function RevenueContent() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <RevenueStatCard
           title="Total Earnings"
-          value={`$${overview.totalRevenue.toLocaleString()}`}
+          value={formatCurrency(overview.totalRevenue)}
           icon={DollarSign}
           description="Cumulative system revenue"
           color="emerald"
         />
         <RevenueStatCard
           title="Core Flow"
-          value={overview.totalCoresGranted.toLocaleString()}
+          value={formatCompactNumber(overview.totalCoresGranted)}
           icon={TrendingUp}
           description="Total credits minted"
           color="cyan"
         />
         <RevenueStatCard
           title="Unique Payers"
-          value={overview.uniqueCustomers.toLocaleString()}
+          value={formatCompactNumber(overview.uniqueCustomers)}
           icon={Users}
           description="Distinct funding identities"
           color="fuchsia"
         />
         <RevenueStatCard
           title="Transfers"
-          value={overview.totalPayments.toLocaleString()}
+          value={formatCompactNumber(overview.totalPayments)}
           icon={History}
           description="Total validated transactions"
           color="amber"
@@ -199,10 +205,10 @@ async function RevenueContent() {
                     </div>
                     <div className="text-right">
                       <p className="text-sm font-black text-white font-mono leading-none tracking-tighter">
-                        +${payment.amount}
+                        +{formatCurrency(payment.amount)}
                       </p>
                       <p className="text-[8px] text-zinc-600 font-mono italic uppercase">
-                        {payment.coresGranted} Cores
+                        {formatCompactNumber(payment.coresGranted)} Cores
                       </p>
                     </div>
                   </div>

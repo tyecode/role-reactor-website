@@ -2,6 +2,8 @@ import Link from "next/link";
 import { FaDiscord, FaRocket } from "react-icons/fa";
 import { Sparkles, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import { BubbleBackground } from "@/components/common/bubble-background";
 
 import { links } from "@/constants/links";
@@ -35,7 +37,10 @@ export function FooterCTA() {
 
       <div className="max-w-4xl mx-auto relative z-10">
         {/* Main CTA Card */}
-        <div className="bg-zinc-900/50 backdrop-blur-xl border border-zinc-800/60 rounded-2xl p-6 md:p-8 shadow-xl relative overflow-hidden">
+        <Card
+          variant="glass"
+          className="rounded-2xl p-6 md:p-8 shadow-xl relative overflow-hidden border-zinc-800/60"
+        >
           {/* Card background pattern */}
           <div className="absolute inset-0 bg-gradient-to-br from-zinc-800/10 to-transparent" />
 
@@ -45,10 +50,10 @@ export function FooterCTA() {
 
           <div className="relative z-10 text-center">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full text-sm font-medium mb-6 shadow-lg">
+            <Badge className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full text-sm font-medium mb-6 shadow-lg hover:from-blue-600 hover:to-purple-600 border-none">
               <Sparkles className="w-4 h-4" />
               <span>Transform Your Discord Server Today</span>
-            </div>
+            </Badge>
 
             {/* Main heading */}
             <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
@@ -66,7 +71,8 @@ export function FooterCTA() {
               <Button
                 asChild
                 size="lg"
-                className="group relative bg-gradient-to-r from-[#5865F2]! to-[#4752C4]! text-white px-8 py-3 rounded-lg font-bold transition-all duration-300 shadow-2xl transform hover:scale-105 hover:-translate-y-1 focus:outline-none"
+                variant="discord"
+                className="group relative px-8 py-3 h-12"
               >
                 <Link
                   href={links.inviteBot}
@@ -74,10 +80,7 @@ export function FooterCTA() {
                   rel="noopener noreferrer"
                   aria-label="Add Role Reactor Discord Bot to Server - Free Discord Bot"
                 >
-                  <FaDiscord
-                    size={20}
-                    className="relative z-10 group-hover:animate-pulse mr-2"
-                  />
+                  <FaDiscord size={20} className="relative z-10 mr-2" />
                   <span className="relative z-10">Add Bot Free</span>
                   <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform ml-2" />
                 </Link>
@@ -87,7 +90,7 @@ export function FooterCTA() {
                 asChild
                 variant="outline"
                 size="lg"
-                className="group px-8 py-3 rounded-lg hover:scale-105 hover:-translate-y-1 duration-300 transition-all"
+                className="group px-8 py-3 h-12 rounded-xl border-zinc-700 bg-zinc-900/50 hover:bg-zinc-800 hover:text-white"
               >
                 <Link
                   href="/docs"
@@ -99,7 +102,7 @@ export function FooterCTA() {
               </Button>
             </div>
           </div>
-        </div>
+        </Card>
 
         {/* Trust Indicators */}
         <div className="mt-8 text-center">

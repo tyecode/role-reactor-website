@@ -49,7 +49,7 @@ const tabsTriggerVariants = cva(
         default:
           "text-sm font-medium data-[state=active]:bg-zinc-800 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:ring-1 data-[state=active]:ring-white/10 hover:text-white hover:bg-white/5",
         glitch:
-          "text-[10px] font-black uppercase tracking-widest data-[state=active]:bg-zinc-800 data-[state=active]:text-cyan-400 data-[state=active]:shadow-[0_0_15px_-5px_rgba(6,182,212,0.3)] data-[state=active]:ring-1 data-[state=active]:ring-cyan-500/20 hover:text-zinc-200 hover:bg-white/5",
+          "text-[10px] font-bold uppercase tracking-wide data-[state=active]:bg-zinc-800 data-[state=active]:text-cyan-400 data-[state=active]:shadow-[0_0_15px_-5px_rgba(6,182,212,0.3)] data-[state=active]:ring-1 data-[state=active]:ring-cyan-500/20 hover:text-zinc-200 hover:bg-white/5",
       },
     },
     defaultVariants: {

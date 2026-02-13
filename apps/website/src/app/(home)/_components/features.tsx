@@ -141,7 +141,8 @@ export function Features() {
           {features.map((feature, index) => (
             <Card
               key={feature.title}
-              className="group relative bg-zinc-900/40 backdrop-blur-sm border-zinc-800/60 hover:border-zinc-700 transition-all duration-300 hover:shadow-xl overflow-hidden"
+              variant="glass"
+              className="group relative hover:border-cyan-500/30 transition-all duration-300 hover:shadow-[0_0_30px_-10px_rgba(6,182,212,0.15)] overflow-hidden animate-fade-in-up opacity-0"
               style={{ animationDelay: `${index * 100}ms` }}
             >
               {/* Gradient background */}
@@ -153,7 +154,7 @@ export function Features() {
                 {/* Icon */}
                 <div className="relative mb-4">
                   <div
-                    className={`w-12 h-12 bg-gradient-to-br ${feature.gradient} rounded-xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-all duration-300`}
+                    className={`w-12 h-12 bg-gradient-to-br ${feature.gradient} rounded-lg flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-all duration-300`}
                   >
                     <feature.icon className="w-6 h-6" />
                   </div>
@@ -170,7 +171,7 @@ export function Features() {
                     </h3>
                     <Badge
                       variant="secondary"
-                      className="bg-zinc-800/50 text-zinc-500 hover:bg-zinc-800 transition-colors border-zinc-700/50"
+                      className="bg-zinc-800/50 text-zinc-500 group-hover:bg-zinc-800 group-hover:text-zinc-300 transition-all border-zinc-700/30"
                     >
                       {feature.stats}
                     </Badge>

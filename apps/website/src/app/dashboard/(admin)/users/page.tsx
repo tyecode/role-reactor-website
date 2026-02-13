@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
 import { botFetchJson } from "@/lib/bot-fetch";
+
+export const metadata: Metadata = {
+  title: "Identity Manager | Admin Console",
+  description: "Manage system users and access levels",
+};
 import {
   Card,
   CardContent,
@@ -6,7 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { UserTable } from "./user-table";
+import { UserTable } from "./_components/user-table";
 import { Suspense } from "react";
 import { NodeLoader } from "@/components/common/node-loader";
 

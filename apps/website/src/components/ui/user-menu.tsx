@@ -13,7 +13,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "./avatar";
 import { Button } from "./button";
 import { Skeleton } from "./skeleton";
 import { cn } from "@/lib/utils";
-import { CoreBalance } from "@/components/dashboard/core-balance";
+import { CoreBalance } from "@/components/common/core-balance";
 
 export interface UserMenuUser {
   id?: string;
@@ -155,7 +155,7 @@ export function UserMenu({
         title="Login"
         data-text="LOGIN"
         className={cn(
-          "h-8 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-300 hover:shadow-[0_0_15px_-4px_rgba(6,182,212,0.6)] font-mono uppercase tracking-wider hover-glitch",
+          "h-8 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-300 hover:shadow-[0_0_15px_-4px_rgba(6,182,212,0.6)] font-mono uppercase tracking-wider hover-glitch rounded-lg",
           className
         )}
       >
@@ -193,7 +193,7 @@ export function UserMenu({
     <Button
       variant="ghost"
       size="icon"
-      className="h-9 w-9 rounded-lg cursor-pointer border border-transparent hover:border-cyan-500/30 hover:bg-cyan-950/20 hover:shadow-[0_0_15px_-4px_rgba(6,182,212,0.4)] transition-all duration-300 group"
+      className="h-9 w-9 rounded-lg cursor-pointer border border-transparent hover:border-cyan-500/30 hover:bg-cyan-950/20 hover:shadow-[0_0_15px_-3px_rgba(6,182,212,0.4)] transition-all duration-300 group"
       aria-label="User menu"
       title={user.name || "User menu"}
     >
@@ -231,7 +231,7 @@ export function UserMenu({
           sideOffset={8}
           portal={!isSidebar}
           className={cn(
-            "w-72 p-0 bg-black/90 backdrop-blur-xl border border-cyan-500/20 shadow-[0_0_30px_-5px_rgba(6,182,212,0.15)] rounded-2xl overflow-hidden",
+            "w-72 p-0 bg-black/90 backdrop-blur-xl border border-white/10 shadow-[0_0_40px_-10px_rgba(6,182,212,0.2)] rounded-2xl overflow-hidden",
             isSidebar && "w-[--radix-dropdown-menu-trigger-width] min-w-64"
           )}
         >

@@ -7,13 +7,8 @@ import { useSession } from "next-auth/react";
 import { useCoreBalance } from "@/hooks/use-core-balance";
 import { PricingDialog } from "@/components/pricing/pricing-dialog";
 import { Button } from "@/components/ui/button";
-import { Audiowide } from "next/font/google";
 
-const audiowide = Audiowide({
-  subsets: ["latin"],
-  weight: "400",
-  display: "swap",
-});
+import { audiowide } from "@/lib/fonts";
 
 export interface CoreBalanceProps {
   /** Visual variant */

@@ -1,11 +1,7 @@
-"use client";
-
-import { useParams } from "next/navigation";
-import { XPView } from "@/components/dashboard/xp/xp-view";
+import { XPView } from "./_components/xp-view";
 import { Suspense } from "react";
 import { Trophy } from "lucide-react";
-import { useServerStore } from "@/store/use-server-store";
-import { PageHeader } from "@/components/dashboard/page-header";
+import { PageHeader } from "@/app/dashboard/_components/page-header";
 import { NodeLoader } from "@/components/common/node-loader";
 
 function XPPageSkeleton() {
@@ -17,11 +13,33 @@ function XPPageSkeleton() {
   );
 }
 
-export default function XPPage() {
-  const params = useParams();
-  const guildId = params.guildId as string;
-  const { guilds } = useServerStore();
+import { getManageableGuilds } from "@/lib/server/guilds";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ guildId: string }>;
+}) {
+  const { guildId } = await params;
+  const { guilds } = await getManageableGuilds();
+  const guild = guilds.find((g) => g.id === guildId);
+
+  return {
+    title: guild ? `${guild.name} | XP System` : "XP System",
+  };
+}
+
+export default async function XPPage({
+  params,
+}: {
+  params: Promise<{ guildId: string }>;
+}) {
+  const { guildId } = await params;
+
+  // Reuse the optimized server utility for guild data
+  const { guilds } = await getManageableGuilds();
   const activeGuild = guilds.find((g) => g.id === guildId);
+  const guildName = activeGuild?.name || "Target Node";
 
   return (
     <div className="space-y-8 pb-12 animate-in fade-in duration-700 w-full min-w-0 overflow-x-hidden">
@@ -30,7 +48,7 @@ export default function XPPage() {
         categoryIcon={Trophy}
         title="XP System"
         description="Track community engagement and manage leveling rewards for"
-        serverName={activeGuild?.name || "Target Node"}
+        serverName={guildName}
       />
 
       <Suspense fallback={<XPPageSkeleton />}>

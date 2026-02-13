@@ -1,4 +1,10 @@
+import type { Metadata } from "next";
 import { botFetchJson } from "@/lib/bot-fetch";
+
+export const metadata: Metadata = {
+  title: "Neural Stats | Admin Console",
+  description: "Global system performance and metrics",
+};
 import {
   Card,
   CardContent,
@@ -14,8 +20,8 @@ import {
   ArrowUpRight,
   ShieldCheck,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
-import { StatsChart } from "./stats-chart";
+import { cn, formatCompactNumber } from "@/lib/utils";
+import { StatsChart } from "./_components/stats-chart";
 import { Suspense } from "react";
 import { NodeLoader } from "@/components/common/node-loader";
 
@@ -45,7 +51,9 @@ interface CommandUsage {
 
 async function getStats() {
   try {
-    return await botFetchJson<BotStats>("/stats");
+    return await botFetchJson<BotStats>("/stats", {
+      next: { revalidate: 300 }, // Cache for 5 minutes
+    });
   } catch (error) {
     console.error("Failed to fetch bot stats:", error);
     return null;
@@ -54,7 +62,9 @@ async function getStats() {
 
 async function getCommandUsage() {
   try {
-    return await botFetchJson<CommandUsage>("/commands/usage?limit=5");
+    return await botFetchJson<CommandUsage>("/commands/usage?limit=5", {
+      next: { revalidate: 300 }, // Cache for 5 minutes
+    });
   } catch (error) {
     console.error("Failed to fetch command usage:", error);
     return null;
@@ -94,7 +104,7 @@ async function StatsContent() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
           title="Active Guilds"
-          value={stats.statistics.guilds.toLocaleString()}
+          value={formatCompactNumber(stats.statistics.guilds)}
           icon={Server}
           description="Total Discord installations"
           trend="+2.4%"
@@ -102,7 +112,7 @@ async function StatsContent() {
         />
         <StatCard
           title="Total Users"
-          value={stats.statistics.users.toLocaleString()}
+          value={formatCompactNumber(stats.statistics.users)}
           icon={Users}
           description="Unique users across all servers"
           trend="+5.1%"
@@ -110,7 +120,7 @@ async function StatsContent() {
         />
         <StatCard
           title="Executions"
-          value={usage?.summary.totalExecutions.toLocaleString() || "0"}
+          value={formatCompactNumber(usage?.summary.totalExecutions || 0)}
           icon={Terminal}
           description="Total commands processed"
           trend="+12%"
@@ -172,7 +182,7 @@ async function StatsContent() {
                 </div>
                 <div className="text-right">
                   <p className="font-bold text-cyan-400 font-mono">
-                    {cmd.count.toLocaleString()}
+                    {formatCompactNumber(cmd.count)}
                   </p>
                   <p className="text-[9px] text-zinc-600 font-mono tracking-widest uppercase">
                     PULSES
