@@ -141,27 +141,12 @@ export default function Layout({ children }: { children: ReactNode }) {
             <Toaster
               position="top-center"
               expand={false}
-              richColors={false}
               theme="dark"
               className="toaster group"
               toastOptions={{
+                unstyled: true,
                 classNames: {
-                  toast:
-                    "group toast group-[.toaster]:bg-zinc-950/90 group-[.toaster]:text-zinc-50 group-[.toaster]:border-white/5 group-[.toaster]:shadow-[0_0_40px_rgba(0,0,0,0.5)] group-[.toaster]:backdrop-blur-xl group-[.toaster]:rounded-2xl group-[.toaster]:p-4 group-[.toaster]:border",
-                  description:
-                    "group-[.toast]:text-zinc-400 group-[.toast]:text-xs group-[.toast]:font-medium",
-                  actionButton:
-                    "group-[.toast]:bg-zinc-50 group-[.toast]:text-zinc-950 group-[.toast]:font-bold",
-                  cancelButton:
-                    "group-[.toast]:bg-zinc-800 group-[.toast]:text-zinc-400",
-                  title: "group-[.toast]:font-bold group-[.toast]:text-sm",
-                  error:
-                    "group-[.toaster]:!bg-red-500/5 group-[.toaster]:!border-red-500/10 group-[.toaster]:!text-red-200",
-                  success:
-                    "group-[.toaster]:!bg-green-500/5 group-[.toaster]:!border-green-500/10 group-[.toaster]:!text-green-200",
-                  warning:
-                    "group-[.toaster]:!bg-yellow-500/5 group-[.toaster]:!border-yellow-500/10 group-[.toaster]:!text-yellow-200",
-                  info: "group-[.toaster]:!bg-blue-500/5 group-[.toaster]:!border-blue-500/10 group-[.toaster]:!text-blue-200",
+                  toast: "w-full flex justify-center",
                 },
               }}
             />

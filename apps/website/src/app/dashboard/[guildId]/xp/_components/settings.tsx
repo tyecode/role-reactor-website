@@ -1,8 +1,33 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import { useSWRConfig } from "swr";
-import { Switch } from "@/components/ui/switch";
+import { Audiowide } from "next/font/google";
+import {
+  Save,
+  Loader2,
+  Settings2,
+  Bell,
+  MessageSquare,
+  Zap,
+  Mic,
+  Shield,
+  Clock,
+  Hash,
+  AlertCircle,
+  ChevronRight,
+} from "lucide-react";
+
+import { cn } from "@/lib/utils";
+import { useXPSettings } from "@/hooks/use-xp-settings";
+import { useGuildChannels } from "@/hooks/use-guild-channels";
+
+import { toast } from "@/lib/toast";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Skeleton } from "@/components/ui/skeleton";
+import { ErrorView } from "@/components/common/error-view";
 import {
   Card,
   CardContent,
@@ -10,9 +35,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { ErrorView } from "@/components/common/error-view";
 import {
   Select,
   SelectContent,
@@ -20,26 +42,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Loader2,
-  Save,
-  MessageSquare,
-  Mic,
-  Shield,
-  Zap,
-  Clock,
-  Bell,
-  Settings2,
-  AlertCircle,
-  Hash,
-  ChevronRight,
-} from "lucide-react";
-import { toast } from "sonner";
-import { cn } from "@/lib/utils";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useXPSettings } from "@/hooks/use-xp-settings";
-import { useGuildChannels } from "@/hooks/use-guild-channels";
-import { Audiowide } from "next/font/google";
 
 const audiowide = Audiowide({
   subsets: ["latin"],
@@ -129,7 +131,7 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
 
       const data = await response.json();
       if (data.status === "success") {
-        toast.success("✨ Configuration synchronized!");
+        toast.success("Configuration synchronized successfully!");
         // Update the SWR cache with the new values
         mutate();
         // Force refresh leaderboard as well
@@ -211,10 +213,10 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
           </p>
         </div>
         <Button
+          size={"lg"}
           variant="cyber"
           onClick={handleSave}
           disabled={saving}
-          className="h-14 px-8 tracking-widest"
         >
           {saving ? (
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />

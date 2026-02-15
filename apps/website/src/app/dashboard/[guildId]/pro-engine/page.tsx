@@ -28,6 +28,11 @@ interface GuildSettings {
   subscription?: {
     expiresAt: string;
     activatedAt: string;
+    cancelled?: boolean;
+    cancelledAt?: string;
+    autoRenew?: boolean;
+    cost?: number;
+    period?: string;
   };
 }
 

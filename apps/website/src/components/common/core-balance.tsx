@@ -190,6 +190,7 @@ export function CoreBalance({
           src={coreImageUrl}
           alt="Cores"
           fill
+          sizes="20px"
           className="object-contain drop-shadow-[0_0_8px_rgba(0,255,255,0.6)] group-hover:scale-110 transition-transform"
         />
       </div>

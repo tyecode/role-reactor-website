@@ -17,9 +17,10 @@ import {
   CheckCircle2,
   Lock,
   XCircle,
+  AlertTriangle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { toast } from "sonner";
+import { toast } from "@/lib/toast";
 import { motion } from "motion/react";
 import { PremiumGuard } from "../../../_components/premium-guard";
 import { Audiowide } from "next/font/google";
@@ -48,9 +49,12 @@ export function ProEngineView({
     showActivationInitially
   );
   const [isActivating, setIsActivating] = useState(false);
+  const [isCancelling, setIsCancelling] = useState(false);
+  const [showCancelConfirm, setShowCancelConfirm] = useState(false);
 
   const isPremium = initialPremiumStatus?.isPremium?.pro || false;
   const premiumStatus = initialPremiumStatus;
+  const isCancelled = premiumStatus?.subscription?.cancelled || false;
 
   const handleActivate = async () => {
     setIsActivating(true);
@@ -73,6 +77,40 @@ export function ProEngineView({
       toast.error("An unexpected error occurred");
     } finally {
       setIsActivating(false);
+    }
+  };
+
+  const handleCancel = async () => {
+    setIsCancelling(true);
+    try {
+      const res = await fetch(`/api/guilds/${guildId}/premium/cancel`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          featureId: "pro_engine",
+          userId: premiumStatus?.subscription?.payerUserId,
+        }),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        toast.success(
+          data.data?.message ||
+            "Subscription cancelled. Pro Engine will remain active until the end of the billing cycle."
+        );
+        setShowCancelConfirm(false);
+        startTransition(() => {
+          router.refresh();
+        });
+      } else {
+        const error = await res.json();
+        toast.error(error.error || "Failed to cancel subscription");
+      }
+    } catch (error) {
+      console.error("Cancellation error:", error);
+      toast.error("An unexpected error occurred");
+    } finally {
+      setIsCancelling(false);
     }
   };
 
@@ -131,42 +169,67 @@ export function ProEngineView({
             animate={{ opacity: 1, y: 0 }}
           >
             <Alert
-              variant="success"
-              className="border-emerald-500/30 bg-emerald-500/5 py-6"
+              variant={isCancelled ? "warning" : "success"}
+              className={cn(
+                "py-6",
+                isCancelled
+                  ? "border-amber-500/20 bg-amber-500/5"
+                  : "border-emerald-500/30 bg-emerald-500/5"
+              )}
             >
               <Shield className="w-6 h-6" />
               <div className="flex items-center justify-between w-full">
                 <div>
                   <AlertTitle
                     className={cn(
-                      "text-base font-black text-emerald-400 tracking-wider",
-                      audiowide.className
+                      "text-base font-black tracking-wider",
+                      audiowide.className,
+                      isCancelled ? "text-amber-500" : "text-emerald-400"
                     )}
                   >
-                    PRO ENGINE ACTIVE
+                    {isCancelled
+                      ? "PRO ENGINE — CANCELLING"
+                      : "PRO ENGINE ACTIVE"}
                   </AlertTitle>
                   {premiumStatus?.subscription && (
-                    <AlertDescription className="text-[10px] text-emerald-500/60 font-black uppercase tracking-widest flex items-center gap-3 mt-1.5">
+                    <AlertDescription
+                      className={cn(
+                        "text-[10px] font-black uppercase tracking-widest flex items-center gap-3 mt-1.5",
+                        isCancelled
+                          ? "text-amber-500/60"
+                          : "text-emerald-500/60"
+                      )}
+                    >
                       <span className="flex items-center gap-1.5">
-                        <Calendar className="w-3 h-3 text-emerald-400/70" />
-                        Next Renewal:{" "}
+                        <Calendar className="w-3 h-3 opacity-70" />
+                        {isCancelled ? "Expires" : "Next Renewal"}:{" "}
                         {new Date(
                           premiumStatus.subscription.expiresAt
                         ).toLocaleDateString()}
                       </span>
-                      <span className="w-1 h-1 rounded-full bg-emerald-500/30" />
+                      <span
+                        className={cn(
+                          "w-1 h-1 rounded-full",
+                          isCancelled ? "bg-amber-500/30" : "bg-emerald-500/30"
+                        )}
+                      />
                       <span className="flex items-center gap-1.5">
-                        <Zap className="w-3 h-3 text-emerald-400/70" />
-                        Auto-renewal: Active
+                        <Zap className="w-3 h-3 opacity-70" />
+                        Auto-renewal: {isCancelled ? "Cancelled" : "Active"}
                       </span>
                     </AlertDescription>
                   )}
                 </div>
                 <Badge
-                  variant="pro"
-                  className="px-3 py-1 shadow-[0_0_15px_rgba(16,185,129,0.3)]"
+                  variant={isCancelled ? "outline" : "pro"}
+                  className={cn(
+                    "px-3 py-1",
+                    isCancelled
+                      ? "border-amber-500/30 text-amber-400"
+                      : "shadow-[0_0_15px_rgba(16,185,129,0.3)]"
+                  )}
                 >
-                  Enabled
+                  {isCancelled ? "Expiring" : "Enabled"}
                 </Badge>
               </div>
             </Alert>
@@ -209,6 +272,43 @@ export function ProEngineView({
           </motion.div>
         )}
 
+        {/* Cancellation Notice */}
+        {isPremium && isCancelled && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <Alert
+              variant="info"
+              className="bg-blue-500/5 border-blue-500/10 py-4"
+            >
+              <AlertTriangle className="w-4 h-4 text-blue-400" />
+              <div className="flex items-center justify-between w-full">
+                <div>
+                  <AlertTitle className="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-0">
+                    Subscription Cancelled
+                  </AlertTitle>
+                  <AlertDescription className="text-[10px] text-blue-400/60 font-medium leading-relaxed uppercase tracking-wider">
+                    All features remain active until{" "}
+                    {new Date(
+                      premiumStatus?.subscription?.expiresAt || ""
+                    ).toLocaleDateString()}
+                    . You can re-activate at any time.
+                  </AlertDescription>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="font-black uppercase text-[10px] border-blue-500/30 text-blue-400 hover:bg-blue-500/10"
+                  onClick={() => setShowActivationModal(true)}
+                >
+                  Re-activate
+                </Button>
+              </div>
+            </Alert>
+          </motion.div>
+        )}
+
         {/* Subscription Details (Premium Only) */}
         {isPremium && premiumStatus?.subscription && (
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -220,21 +320,18 @@ export function ProEngineView({
                   premiumStatus.subscription.activatedAt
                 ).toLocaleDateString(),
                 color: "blue",
-                glow: "rgba(59, 130, 246, 0.5)",
               },
               {
                 icon: Zap,
                 label: "Subscription Cost",
-                value: "50 Cores / Month",
+                value: `${premiumStatus.subscription.cost || 50} Cores / ${(premiumStatus.subscription.period || "month").charAt(0).toUpperCase() + (premiumStatus.subscription.period || "month").slice(1)}`,
                 color: "purple",
-                glow: "rgba(168, 85, 247, 0.5)",
               },
               {
-                icon: CheckCircle2,
+                icon: isCancelled ? AlertTriangle : CheckCircle2,
                 label: "Auto-Renew",
-                value: "Enabled",
-                color: "green",
-                glow: "rgba(34, 197, 94, 0.5)",
+                value: isCancelled ? "Cancelled" : "Enabled",
+                color: isCancelled ? "amber" : "green",
               },
             ].map((stat, i) => (
               <motion.div
@@ -260,7 +357,9 @@ export function ProEngineView({
                           stat.color === "purple" &&
                             "bg-purple-500/10 border-purple-500/20 text-purple-400 group-hover:shadow-[0_0_15px_rgba(168,85,247,0.3)]",
                           stat.color === "green" &&
-                            "bg-green-500/10 border-green-500/20 text-green-400 group-hover:shadow-[0_0_15px_rgba(34,197,94,0.3)]"
+                            "bg-green-500/10 border-green-500/20 text-green-400 group-hover:shadow-[0_0_15px_rgba(34,197,94,0.3)]",
+                          stat.color === "amber" &&
+                            "bg-amber-500/10 border-amber-500/20 text-amber-400 group-hover:shadow-[0_0_15px_rgba(245,158,11,0.3)]"
                         )}
                       >
                         <stat.icon className="w-5 h-5" />
@@ -374,7 +473,7 @@ export function ProEngineView({
         </div>
 
         {/* Management Section (Premium Only) */}
-        {isPremium && (
+        {isPremium && !isCancelled && (
           <Card variant="cyberpunk" className="overflow-hidden relative">
             <CardContent className="p-6 space-y-6">
               <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-zinc-800 to-transparent" />
@@ -406,17 +505,54 @@ export function ProEngineView({
                 </Alert>
 
                 <div className="flex flex-col justify-center gap-3">
-                  <Button
-                    variant="destructive-glitch"
-                    data-text="Cancel Subscription"
-                    className="w-full"
-                  >
-                    <XCircle className="w-4 h-4 mr-2" />
-                    Cancel Subscription
-                  </Button>
-                  <p className="text-[9px] text-zinc-700 text-center font-bold uppercase tracking-widest italic">
-                    * Cancellation will disable premium features immediately
-                  </p>
+                  {showCancelConfirm ? (
+                    <div className="space-y-3">
+                      <p className="text-[10px] text-zinc-400 font-bold uppercase tracking-wider">
+                        Are you sure? Features will stay active until{" "}
+                        {new Date(
+                          premiumStatus?.subscription?.expiresAt || ""
+                        ).toLocaleDateString()}
+                        .
+                      </p>
+                      <div className="flex gap-2">
+                        <Button
+                          variant="destructive-glitch"
+                          data-text="Confirm Cancel"
+                          className="flex-1"
+                          onClick={handleCancel}
+                          disabled={isCancelling || isPending}
+                        >
+                          <XCircle className="w-4 h-4 mr-2" />
+                          {isCancelling ? "Cancelling..." : "Confirm Cancel"}
+                        </Button>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="font-black uppercase text-[10px]"
+                          onClick={() => setShowCancelConfirm(false)}
+                          disabled={isCancelling}
+                        >
+                          Keep
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <Button
+                        variant="destructive-glitch"
+                        data-text="Cancel Subscription"
+                        className="w-full"
+                        onClick={() => setShowCancelConfirm(true)}
+                      >
+                        <XCircle className="w-4 h-4 mr-2" />
+                        Cancel Subscription
+                      </Button>
+                      <p className="text-[9px] text-zinc-700 text-center font-bold uppercase tracking-widest italic">
+                        * Features remain active until the end of the billing
+                        cycle
+                      </p>
+                    </>
+                  )}
                 </div>
               </div>
             </CardContent>

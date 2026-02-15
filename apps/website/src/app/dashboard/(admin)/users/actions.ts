@@ -17,3 +17,26 @@ export async function updateUserRole(userId: string, role: string) {
     return { success: false, error: "Failed to update role" };
   }
 }
+
+export async function manageUserCores(
+  userId: string,
+  action: "add" | "remove" | "set",
+  amount: number,
+  reason: string
+) {
+  try {
+    const result = await botFetchJson<{ message: string; newBalance: number }>(
+      `/user/${userId}/cores/manage`,
+      {
+        method: "POST",
+        body: JSON.stringify({ action, amount, reason }),
+      }
+    );
+
+    revalidatePath("/dashboard/users");
+    return { success: true, newBalance: result.newBalance };
+  } catch (error) {
+    console.error("Failed to manage user cores:", error);
+    return { success: false, error: "Failed to update balance" };
+  }
+}

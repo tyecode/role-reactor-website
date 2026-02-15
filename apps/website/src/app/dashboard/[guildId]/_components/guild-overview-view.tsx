@@ -23,7 +23,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { motion } from "motion/react";
 
 import { cn } from "@/lib/utils";
-import { Audiowide } from "next/font/google";
+import { audiowide } from "@/lib/fonts";
 import { CyberpunkBackground } from "@/components/common/cyberpunk-background";
 
 import {
@@ -35,12 +35,6 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-
-const audiowide = Audiowide({
-  subsets: ["latin"],
-  weight: "400",
-  display: "swap",
-});
 
 const DEFAULT_GROWTH_DATA = [
   { label: "Day 1", joins: 0, leaves: 0 },

@@ -61,7 +61,7 @@ export function PageHeader({
             audiowide.className
           )}
         >
-          <span className="bg-gradient-to-r from-white via-white to-zinc-500 bg-clip-text text-transparent">
+          <span className="bg-linear-to-r from-white via-white to-zinc-500 bg-clip-text text-transparent">
             {title}
           </span>
           {badge && (

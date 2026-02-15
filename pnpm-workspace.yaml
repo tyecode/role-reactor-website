@@ -1,2 +1,10 @@
 packages:
-  - "apps/*"
+  - apps/*
+
+onlyBuiltDependencies:
+  - '@tsparticles/engine'
+  - esbuild
+  - react-particles
+  - sharp
+  - tsparticles-engine
+  - unrs-resolver

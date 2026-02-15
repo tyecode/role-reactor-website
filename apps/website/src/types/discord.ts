@@ -39,4 +39,10 @@ export interface LeaderboardEntry {
     avatar: string | null;
     bot: boolean;
   };
+  rankInfo?: {
+    title: string;
+    emoji: string;
+    color: number;
+    minLevel: number;
+  };
 }

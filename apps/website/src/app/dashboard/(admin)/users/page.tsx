@@ -18,6 +18,7 @@ interface UserData {
   globalName: string;
   avatar: string | null;
   role: string;
+  credits: number;
   lastLogin: string;
   createdAt: string;
 }

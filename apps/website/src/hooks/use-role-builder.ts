@@ -6,7 +6,7 @@ import { useServerStore } from "@/store/use-server-store";
 import { useEmojiStore } from "@/store/use-emoji-store";
 import { useGuildStore } from "@/store/use-guild-store";
 import { DiscordRole, DiscordEmoji, DiscordChannel } from "@/types/discord";
-import { toast } from "sonner";
+import { toast } from "@/lib/toast";
 import { deployReactionRoles } from "@/app/dashboard/_actions/roles";
 
 const EMPTY_EMOJIS: DiscordEmoji[] = [];

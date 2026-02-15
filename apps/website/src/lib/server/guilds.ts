@@ -20,6 +20,12 @@ async function fetchDiscordGuildsInternal(accessToken: string) {
 
   if (!response.ok) {
     if (response.status === 401) return [];
+    if (response.status === 429) {
+      console.warn(
+        "[Discord API] Rate limited (429) on guild fetch. Returning empty list."
+      );
+      return [];
+    }
     throw new Error(`Discord API Error: ${response.status}`);
   }
 

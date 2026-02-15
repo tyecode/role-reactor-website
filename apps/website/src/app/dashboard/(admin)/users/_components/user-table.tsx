@@ -12,6 +12,7 @@ import {
   Loader2,
   Check,
   AlertCircle,
+  Coins,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -36,6 +37,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { UserRoles } from "@/lib/admin";
 import { updateUserRole } from "../actions";
+import { ManageCoresDialog } from "./manage-cores-dialog";
 
 interface UserData {
   id: string;
@@ -43,6 +45,7 @@ interface UserData {
   globalName: string;
   avatar: string | null;
   role: string;
+  credits: number;
   lastLogin: string;
   createdAt: string;
 }
@@ -71,6 +74,11 @@ export function UserTable({ initialData }: UserTableProps) {
   const [updateRole, setUpdateRole] = useState<string>("");
   const [isUpdating, setIsUpdating] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+
+  // Core Management State
+  const [selectedCoreUser, setSelectedCoreUser] = useState<UserData | null>(
+    null
+  );
 
   const handleSearch = (val: string) => {
     setSearchTerm(val);
@@ -150,6 +158,9 @@ export function UserTable({ initialData }: UserTableProps) {
               <th className="p-4 font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
                 Role
               </th>
+              <th className="p-4 font-mono text-[10px] text-zinc-500 uppercase tracking-widest text-right">
+                Credits
+              </th>
               <th className="p-4 font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
                 Last Login
               </th>
@@ -170,6 +181,7 @@ export function UserTable({ initialData }: UserTableProps) {
                   setSelectedUser(user);
                   setUpdateRole(role);
                 }}
+                onManageCores={() => setSelectedCoreUser(user)}
               />
             ))}
           </tbody>
@@ -249,6 +261,12 @@ export function UserTable({ initialData }: UserTableProps) {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      <ManageCoresDialog
+        user={selectedCoreUser}
+        open={!!selectedCoreUser}
+        onOpenChange={(open) => !open && setSelectedCoreUser(null)}
+      />
     </>
   );
 }
@@ -256,9 +274,11 @@ export function UserTable({ initialData }: UserTableProps) {
 function UserRow({
   user,
   onEditRole,
+  onManageCores,
 }: {
   user: UserData;
   onEditRole: (role: string) => void;
+  onManageCores: () => void;
 }) {
   const rootIds = (process.env.NEXT_PUBLIC_DISCORD_DEVELOPERS || "")
     .split(",")
@@ -358,6 +378,14 @@ function UserRow({
           )}
         </div>
       </td>
+      <td className="p-4 text-right">
+        <div className="flex items-center justify-end gap-1 font-mono text-zinc-300">
+          <Coins className="size-3 text-yellow-500" />
+          <span className="text-xs font-bold">
+            {user.credits?.toLocaleString() || 0}
+          </span>
+        </div>
+      </td>
       <td className="p-4">
         <p className="text-[11px] font-mono text-zinc-400 uppercase">
           {user.lastLogin
@@ -379,41 +407,55 @@ function UserRow({
         </p>
       </td>
       <td className="p-4 px-6 text-right">
-        {!isRootOwner ? (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button className="p-2 hover:bg-zinc-800 rounded-lg text-zinc-500 hover:text-white transition-all border border-transparent hover:border-white/5 group/btn">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button className="p-2 hover:bg-zinc-800 rounded-lg text-zinc-500 hover:text-white transition-all border border-transparent hover:border-white/5 group/btn">
+              {isRootOwner ? (
+                <ShieldAlert className="size-4 text-cyan-500/50 group-hover/btn:text-cyan-400" />
+              ) : (
                 <Key className="size-4 group-hover/btn:scale-110 transition-transform" />
-              </button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              align="end"
-              className="w-56 border-white/5 bg-zinc-950/95 backdrop-blur-xl"
-            >
-              <DropdownMenuLabel className="font-mono text-[10px] uppercase text-zinc-500 tracking-widest">
-                User Options
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator className="bg-white/5" />
+              )}
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            align="end"
+            className="w-56 border-white/5 bg-zinc-950/95 backdrop-blur-xl"
+          >
+            <DropdownMenuLabel className="font-mono text-[10px] uppercase text-zinc-500 tracking-widest">
+              User Options
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator className="bg-white/5" />
+
+            {!isRootOwner && (
               <DropdownMenuItem
                 className="text-xs font-mono uppercase cursor-pointer focus:bg-cyan-500/10 focus:text-cyan-400"
                 onClick={() => onEditRole(user.role)}
               >
                 Change Role
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-xs font-mono uppercase cursor-pointer focus:bg-zinc-800">
-                View Audit Log
-              </DropdownMenuItem>
-              <DropdownMenuSeparator className="bg-white/5" />
-              <DropdownMenuItem className="text-xs font-mono uppercase cursor-pointer text-red-500 focus:bg-red-500/10 focus:text-red-400">
-                Blacklist ID
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        ) : (
-          <div className="p-2 text-cyan-500/20">
-            <ShieldAlert className="size-4" />
-          </div>
-        )}
+            )}
+
+            <DropdownMenuItem
+              className="text-xs font-mono uppercase cursor-pointer focus:bg-cyan-500/10 focus:text-cyan-400"
+              onClick={onManageCores}
+            >
+              Manage Cores
+            </DropdownMenuItem>
+
+            <DropdownMenuItem className="text-xs font-mono uppercase cursor-pointer focus:bg-zinc-800">
+              View Audit Log
+            </DropdownMenuItem>
+
+            {!isRootOwner && (
+              <>
+                <DropdownMenuSeparator className="bg-white/5" />
+                <DropdownMenuItem className="text-xs font-mono uppercase cursor-pointer text-red-500 focus:bg-red-500/10 focus:text-red-400">
+                  Blacklist ID
+                </DropdownMenuItem>
+              </>
+            )}
+          </DropdownMenuContent>
+        </DropdownMenu>
       </td>
     </tr>
   );
