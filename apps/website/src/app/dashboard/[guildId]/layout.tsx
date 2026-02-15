@@ -9,8 +9,5 @@ export default async function GuildLayout({
 }) {
   await params;
 
-  // Auth is already validated by parent /dashboard/layout.tsx
-  // Removing redundant auth check for better performance
-
   return <>{children}</>;
 }

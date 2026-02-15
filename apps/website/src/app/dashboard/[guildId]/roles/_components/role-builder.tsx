@@ -23,6 +23,7 @@ import {
   EmojiPickerContent,
   EmojiDisplay,
 } from "@/components/ui/emoji-picker";
+import { NodeLoader } from "@/components/common/node-loader";
 import {
   Plus,
   Trash2,
@@ -98,18 +99,20 @@ export function RoleBuilder({ guildId: propGuildId }: { guildId?: string }) {
   } = useRoleBuilder(propGuildId);
 
   if (isLoadingRoles) {
-    return <RoleBuilderSkeleton />;
+    return (
+      <NodeLoader title="Loading Roles" subtitle="Synchronizing role data..." />
+    );
   }
 
   return (
     <>
-      <div className="grid grid-cols-1 xl:grid-cols-[1fr_520px] gap-6 items-start animate-in fade-in duration-700 pb-10">
+      <div className="grid grid-cols-1 xl:grid-cols-[1fr_520px] gap-6 items-start">
         {/* Configuration Form */}
 
-        <div className="space-y-4 order-2 xl:order-1">
+        <div className="space-y-8 order-2 xl:order-1">
           <div className="space-y-2">
             <h3 className="text-lg font-medium">Configuration</h3>
-            <Card>
+            <Card variant="cyberpunk" showGrid>
               <CardContent className="p-6 space-y-6">
                 <ConfigurationFields
                   title={title}
@@ -148,7 +151,7 @@ export function RoleBuilder({ guildId: propGuildId }: { guildId?: string }) {
               </Button>
             </div>
 
-            <Card>
+            <Card variant="cyberpunk">
               <CardContent className="p-4 space-y-2">
                 <RoleMappingList
                   reactions={reactions}
@@ -180,14 +183,15 @@ export function RoleBuilder({ guildId: propGuildId }: { guildId?: string }) {
           <div className="space-y-3">
             <Button
               disabled={!validation.isReady || isDeploying}
+              variant="cyber"
               size="lg"
-              className="w-full font-bold"
+              className="w-full h-14 px-10 tracking-widest"
               onClick={handleDeploy}
             >
               <Rocket
                 className={cn("w-4 h-4 mr-2", isDeploying && "animate-bounce")}
               />
-              {isDeploying ? "Deploying_Assets..." : "Deploy to Discord"}
+              {isDeploying ? "Synchronizing..." : "Update Discord Message"}
             </Button>
           </div>
         </div>
@@ -470,7 +474,7 @@ function SelectionModePicker({
               {isActive && (
                 <div
                   className={cn(
-                    "absolute inset-0 bg-gradient-to-tr from-transparent via-current to-transparent opacity-[0.03]"
+                    "absolute inset-0 bg-linear-to-tr from-transparent via-current to-transparent opacity-[0.03]"
                   )}
                 />
               )}
@@ -554,9 +558,11 @@ function RoleMappingList({
   return (
     <>
       {reactions.map((r: ReactionMapping, i: number) => (
-        <div
+        <Card
           key={i}
-          className="flex gap-3 items-center group p-3 rounded-lg hover:bg-white/[0.03] transition-colors"
+          variant="glass"
+          className="group p-3 rounded-lg hover:bg-white/5 border-transparent hover:border-white/10 transition-colors"
+          contentClassName="flex-row gap-3 items-center"
         >
           <EmojiPicker
             open={openEmojiPicker === i}
@@ -659,36 +665,9 @@ function RoleMappingList({
           >
             <Trash2 className="w-4 h-4 text-muted-foreground hover:text-destructive" />
           </Button>
-        </div>
+        </Card>
       ))}
     </>
-  );
-}
-
-function RoleBuilderSkeleton() {
-  return (
-    <div className="grid grid-cols-1 xl:grid-cols-[1fr_520px] gap-6 items-start animate-in fade-in duration-700 pb-10">
-      <div className="space-y-4 order-2 xl:order-1">
-        <div className="space-y-4">
-          <div className="h-6 w-32 bg-muted rounded animate-pulse" />
-          <div className="bg-muted/10 border border-border rounded-lg p-6 space-y-6">
-            <div className="space-y-2">
-              <div className="h-4 w-20 bg-muted rounded" />
-              <div className="h-10 w-full bg-muted rounded" />
-            </div>
-            <div className="space-y-2">
-              <div className="h-4 w-20 bg-muted rounded" />
-              <div className="h-24 w-full bg-muted rounded" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="space-y-4 order-1 xl:order-2 sticky top-24">
-        <div className="h-6 w-32 bg-muted rounded animate-pulse" />
-        <div className="bg-muted/10 border border-border rounded-lg h-[500px] w-full animate-pulse" />
-      </div>
-    </div>
   );
 }
 

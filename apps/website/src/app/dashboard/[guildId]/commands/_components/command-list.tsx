@@ -4,11 +4,12 @@
 import { PremiumGuard } from "../../../_components/premium-guard";
 
 import { useState } from "react";
+import { ErrorView } from "@/components/common/error-view";
 import useSWR from "swr";
-import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Card } from "@/components/ui/card";
+import { NodeLoader } from "@/components/common/node-loader";
 import {
   Search,
   CircleHelp,
@@ -27,7 +28,6 @@ import {
   LifeBuoy,
   User,
   Split,
-  AlertCircle,
   Terminal,
   Lock,
   Crown,
@@ -180,10 +180,14 @@ export function CommandList({ guildId }: CommandListProps) {
     }
   };
 
-  // No early return for isLoading - we render the structure normally
-  // and only skeletonize the results and status.
-
-  // We handle error/loading inline below
+  if (isLoading) {
+    return (
+      <NodeLoader
+        title="Fetching Commands"
+        subtitle="Synchronizing system settings..."
+      />
+    );
+  }
 
   const commands = data?.availableCommands || [];
   const disabledCommands = data?.settings?.disabledCommands || [];
@@ -217,7 +221,7 @@ export function CommandList({ guildId }: CommandListProps) {
         onActivate={handleActivatePremium}
         isActivating={isActivating}
         title="ACTIVATE PRO ENGINE"
-        description="Take full control of your server's slash commands. Hide what you don't need and keep your menu clean."
+        description="Take full control of your server's slash commands. Manage command visibility to maintain a streamlined interface."
         features={[
           "Toggle Any Command",
           "Declutter Slash Menu",
@@ -226,11 +230,11 @@ export function CommandList({ guildId }: CommandListProps) {
         ]}
       />
 
-      <div className="space-y-8 relative animate-in fade-in slide-in-from-bottom-2 duration-700 pb-20">
+      <div className="space-y-6 relative">
         {/* Search & Status Bar */}
         <div className="sticky top-4 z-40 flex flex-col md:flex-row gap-4 items-center justify-between bg-zinc-950/80 p-4 rounded-2xl border border-white/10 backdrop-blur-xl shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] overflow-hidden group/search">
-          <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-transparent to-purple-500/5 pointer-events-none opacity-50" />
-          <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-cyan-500/20 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-r from-cyan-500/5 via-transparent to-purple-500/5 pointer-events-none opacity-50" />
+          <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-cyan-500/20 to-transparent" />
 
           <div className="relative w-full md:max-w-md">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 group-focus-within/search:text-cyan-400 transition-colors" />
@@ -246,12 +250,7 @@ export function CommandList({ guildId }: CommandListProps) {
           </div>
 
           <div className="flex items-center gap-3 text-sm whitespace-nowrap overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-hide">
-            {isLoading ? (
-              <div className="flex gap-3">
-                <Skeleton className="h-8 w-24 rounded-lg border border-white/5" />
-                <Skeleton className="h-8 w-24 rounded-lg border border-white/5" />
-              </div>
-            ) : isPremium ? (
+            {isPremium ? (
               <>
                 <div className="flex items-center gap-2 bg-emerald-500/5 border border-emerald-500/20 px-4 py-1.5 rounded-lg shadow-[0_0_15px_-5px_rgba(16,185,129,0.3)] backdrop-blur-md">
                   <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_10px_#34d399]" />
@@ -317,74 +316,14 @@ export function CommandList({ guildId }: CommandListProps) {
         </div>
 
         <div className="relative space-y-16">
-          {isLoading ? (
-            <div className="space-y-12">
-              {[...Array(2)].map((_, sectionIdx) => (
-                <div key={sectionIdx} className="space-y-6">
-                  <div className="flex items-center gap-3">
-                    <Skeleton className="h-8 w-8 rounded-lg border border-white/5" />
-                    <Skeleton className="h-8 w-48 border border-white/5" />
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                    {Array.from({ length: 4 }).map((_, i) => (
-                      <div
-                        key={i}
-                        className="h-32 rounded-2xl bg-zinc-900/20 border border-white/5 p-5 space-y-4 overflow-hidden relative group/item"
-                      >
-                        <div className="flex items-start justify-between relative z-10">
-                          <Skeleton className="h-10 w-10 rounded-xl border border-white/5" />
-                          <Skeleton className="h-5 w-10 rounded-full border border-white/5" />
-                        </div>
-                        <div className="space-y-2 relative z-10">
-                          <Skeleton className="h-4 w-24 border border-white/5" />
-                          <Skeleton className="h-3 w-full border border-white/5" />
-                        </div>
-
-                        {/* Background subtle pulse for depth */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent opacity-0 group-hover/item:opacity-100 transition-opacity" />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : error || data?.status !== "success" ? (
+          {error || data?.status !== "success" ? (
             <div className="space-y-8 animate-in fade-in duration-500">
-              <Card className="bg-red-950/10 border-red-500/30 backdrop-blur-xl rounded-2xl overflow-hidden relative group">
-                <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-10" />
-                <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent opacity-50" />
-
-                <CardContent className="p-16 text-center space-y-8 relative z-10">
-                  <div className="w-24 h-24 bg-red-500/10 rounded-3xl border border-red-500/30 flex items-center justify-center mx-auto shadow-[0_0_30px_rgba(239,68,68,0.2)] animate-pulse">
-                    <AlertCircle className="w-12 h-12 text-red-500" />
-                  </div>
-
-                  <div className="space-y-3">
-                    <h3
-                      className={cn(
-                        "text-3xl font-black text-white tracking-tight uppercase",
-                        audiowide.className
-                      )}
-                    >
-                      Connection Error
-                    </h3>
-                    <p className="text-zinc-400 max-w-lg mx-auto leading-relaxed text-sm font-medium tracking-wide">
-                      We couldn't connect to the bot instance. Please ensure the
-                      bot is online and try again.
-                    </p>
-                  </div>
-
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <Button
-                      onClick={() => mutate()}
-                      className="bg-red-600 hover:bg-red-500 text-white font-black uppercase tracking-widest h-11 px-8 rounded-lg shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:shadow-[0_0_30px_rgba(239,68,68,0.5)] transition-all"
-                    >
-                      <Zap className="w-4 h-4 mr-2" />
-                      Retry Connection
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+              <ErrorView
+                title="Search Failed"
+                message="We were unable to load the command settings. Please try again."
+                onRetry={() => mutate()}
+                showHome={false}
+              />
             </div>
           ) : (
             <>
@@ -407,7 +346,7 @@ export function CommandList({ guildId }: CommandListProps) {
                       >
                         {category}
                       </h3>
-                      <div className="h-px bg-gradient-to-r from-cyan-500/50 via-zinc-800 to-transparent flex-1 opacity-30 group-hover/cat:opacity-100 transition-opacity duration-500" />
+                      <div className="h-px bg-linear-to-r from-cyan-500/50 via-zinc-800 to-transparent flex-1 opacity-30 group-hover/cat:opacity-100 transition-opacity duration-500" />
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -416,13 +355,14 @@ export function CommandList({ guildId }: CommandListProps) {
                         const isDisabled = disabledCommands.includes(cmd.name);
 
                         return (
-                          <div
+                          <Card
                             key={cmd.name}
+                            variant={isDisabled ? "default" : "cyberpunk"}
                             className={cn(
-                              "group relative p-5 rounded-2xl border transition-all duration-300 backdrop-blur-sm overflow-hidden",
+                              "p-5 transition-all duration-300 relative overflow-hidden",
                               isDisabled
-                                ? "bg-zinc-950/40 border-white/5 opacity-60 grayscale-[0.8]"
-                                : "bg-zinc-900/40 border-white/10 hover:border-cyan-500/30 hover:bg-zinc-900/60 hover:shadow-[0_8px_30px_-5px_rgba(0,0,0,0.5)] hover:-translate-y-1"
+                                ? "opacity-60 grayscale-[0.8] border-white/5 bg-zinc-950/40"
+                                : "hover:-translate-y-1 hover:shadow-[0_8px_30px_-5px_rgba(0,0,0,0.5)]"
                             )}
                           >
                             <div className="flex flex-row items-start justify-between gap-4 mb-4">
@@ -440,7 +380,7 @@ export function CommandList({ guildId }: CommandListProps) {
                               <button
                                 onClick={() => toggleCommand(cmd.name)}
                                 className={cn(
-                                  "w-12 h-6 rounded-full relative transition-all duration-300 p-0.5 border",
+                                  "w-12 h-6 rounded-full relative transition-all duration-300 p-0.5 border cursor-pointer",
                                   isDisabled
                                     ? "bg-zinc-950 border-zinc-700"
                                     : "bg-cyan-950/50 border-cyan-500/50 shadow-[0_0_10px_rgba(6,182,212,0.2)]"
@@ -481,11 +421,11 @@ export function CommandList({ guildId }: CommandListProps) {
                             {/* Hover Effects */}
                             {!isDisabled && (
                               <>
-                                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-linear-to-r from-transparent via-cyan-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                                 <div className="absolute -right-10 -bottom-10 w-32 h-32 bg-cyan-500/10 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                               </>
                             )}
-                          </div>
+                          </Card>
                         );
                       })}
                     </div>

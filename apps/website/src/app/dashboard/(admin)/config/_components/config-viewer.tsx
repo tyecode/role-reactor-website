@@ -4,7 +4,6 @@ import { useEffect, useState, useTransition, useCallback } from "react";
 import {
   RefreshCw,
   Terminal,
-  AlertTriangle,
   Shield,
   Check,
   X,
@@ -16,6 +15,7 @@ import {
   Wallet,
   Server,
 } from "lucide-react";
+import { ErrorView } from "@/components/common/error-view";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -138,25 +138,12 @@ export function ConfigViewer() {
 
   if (error) {
     return (
-      <Card className="border-red-500/50 bg-red-500/5">
-        <CardContent className="pt-6 flex items-center gap-4">
-          <AlertTriangle className="size-8 text-red-500" />
-          <div>
-            <h3 className="text-lg font-bold text-red-500">
-              Configuration Access Denied
-            </h3>
-            <p className="text-zinc-400 text-sm">{error}</p>
-            <Button
-              onClick={fetchConfig}
-              variant="outline"
-              size="sm"
-              className="mt-2 border-red-500/20 hover:bg-red-500/10 text-red-400"
-            >
-              Retry Connection
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+      <ErrorView
+        title="Access Failed"
+        message={error}
+        onRetry={fetchConfig}
+        showHome={false}
+      />
     );
   }
 

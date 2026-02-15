@@ -3,9 +3,6 @@ import { botFetchJson } from "@/lib/bot-fetch";
 import { BotInviteCard } from "@/app/dashboard/_components/bot-invite-card";
 import { GuildOverviewView } from "@/app/dashboard/[guildId]/_components/guild-overview-view";
 import { notFound } from "next/navigation";
-import pkg from "../../../../package.json";
-
-const userAgent = `${pkg.name} (${pkg.homepage || "https://rolereactor.app"}, ${pkg.version})`;
 
 interface GuildResponse {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -14,6 +11,8 @@ interface GuildResponse {
   guildStats: any;
   isPremium: boolean;
 }
+
+import { getManageableGuilds } from "@/lib/server/guilds";
 
 async function getGuildStats(guildId: string) {
   try {
@@ -24,39 +23,6 @@ async function getGuildStats(guildId: string) {
     console.error("Failed to fetch guild stats:", error);
     return null;
   }
-}
-
-async function checkGuildAuthorization(
-  accessToken: string | undefined,
-  guildId: string
-): Promise<boolean> {
-  if (!accessToken) return false;
-
-  try {
-    const discordRes = await fetch("https://discord.com/api/users/@me/guilds", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        Accept: "application/json",
-        "User-Agent": userAgent,
-      },
-      next: { revalidate: 300 }, // Cache owned guilds for 5 mins
-    });
-
-    if (discordRes.ok) {
-      const userGuilds = await discordRes.json();
-      return userGuilds.some(
-        (g: { id: string; permissions: string; owner: boolean }) => {
-          const permissions = BigInt(g.permissions || "0");
-          const isAdmin = (permissions & BigInt(0x8)) === BigInt(0x8);
-          const canManage = (permissions & BigInt(0x20)) === BigInt(0x20);
-          return g.id === guildId && (g.owner === true || isAdmin || canManage);
-        }
-      );
-    }
-  } catch (error) {
-    console.error("Ownership verification failed:", error);
-  }
-  return false;
 }
 
 export default async function GuildOverviewPage({
@@ -72,20 +38,17 @@ export default async function GuildOverviewPage({
     notFound();
   }
 
-  const accessToken = (
-    session as unknown as { accessToken: string | undefined }
-  ).accessToken;
-
-  // 2. Performance Optimization: Parallel Fetching
-  // We start both the Authorization Check and the Data Fetch simultaneously
-  // instead of waiting for one to finish before starting the other.
-  const authPromise = checkGuildAuthorization(accessToken, guildId);
+  // 2. Data Fetching
+  const guildsPromise = getManageableGuilds();
   const dataPromise = getGuildStats(guildId);
 
-  const [isAuthorized, guildResponse] = await Promise.all([
-    authPromise,
+  const [{ guilds }, guildResponse] = await Promise.all([
+    guildsPromise,
     dataPromise,
   ]);
+
+  const activeGuild = guilds.find((g) => g.id === guildId);
+  const isAuthorized = !!activeGuild;
 
   // 3. Authorization Result Handling
   if (!isAuthorized) {

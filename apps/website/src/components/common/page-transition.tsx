@@ -1,5 +1,5 @@
 "use client";
 
 export function PageTransition({ children }: { children: React.ReactNode }) {
-  return <div className="w-full">{children}</div>;
+  return <div className="w-full h-full">{children}</div>;
 }

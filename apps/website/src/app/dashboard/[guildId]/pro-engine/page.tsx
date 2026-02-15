@@ -44,7 +44,7 @@ export default async function ProEnginePage({
   // Optimized server-side fetching
   const { guilds } = await getManageableGuilds();
   const activeGuild = guilds.find((g) => g.id === guildId);
-  const guildName = activeGuild?.name || "Target Node";
+  const guildName = activeGuild?.name || "this server";
 
   let premiumStatus: GuildSettings | null = null;
   try {
@@ -63,18 +63,18 @@ export default async function ProEnginePage({
   return (
     <div className="space-y-8 pb-12 animate-in fade-in duration-700 w-full min-w-0 overflow-x-hidden">
       <PageHeader
-        category="Premium Features"
+        category="System Configuration"
         categoryIcon={Crown}
         title="Pro Engine"
         badge={
           isPremium
-            ? { icon: Zap, label: "STABLE LINK", variant: "yellow" }
+            ? { icon: Zap, label: "PRO STATUS", variant: "yellow" }
             : undefined
         }
         description={
           isPremium
-            ? "High-performance features successfully linked to"
-            : "Premium capabilities restricted. Access Pro functionalities for"
+            ? "Advanced system capabilities active for"
+            : "Unlock premium capabilities and granular control for"
         }
         serverName={guildName}
       />
@@ -82,8 +82,8 @@ export default async function ProEnginePage({
       <Suspense
         fallback={
           <NodeLoader
-            title="Initializing Pro Engine"
-            subtitle="Configuring_Neural_Systems..."
+            title="Loading Pro Engine"
+            subtitle="Synchronizing system capabilities..."
           />
         }
       >

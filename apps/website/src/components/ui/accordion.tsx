@@ -4,17 +4,33 @@ import * as React from "react";
 import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import { ChevronDown } from "lucide-react";
 
+import { cva, type VariantProps } from "class-variance-authority";
+
 import { cn } from "@/lib/utils";
 
 const Accordion = AccordionPrimitive.Root;
 
+const accordionItemVariants = cva("border-b transition-all", {
+  variants: {
+    variant: {
+      default: "border-white/10",
+      cyber:
+        "border-cyan-500/20 my-2 rounded-xl bg-zinc-900/30 border data-[state=open]:border-cyan-500/50 data-[state=open]:bg-zinc-900/60 data-[state=open]:shadow-[0_0_15px_-5px_rgba(6,182,212,0.2)] border-b-0 first:mt-0 last:mb-0",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+});
+
 const AccordionItem = React.forwardRef<
   React.ElementRef<typeof AccordionPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>
->(({ className, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item> &
+    VariantProps<typeof accordionItemVariants>
+>(({ className, variant, ...props }, ref) => (
   <AccordionPrimitive.Item
     ref={ref}
-    className={cn("border-b border-white/10", className)}
+    className={cn(accordionItemVariants({ variant, className }))}
     {...props}
   />
 ));

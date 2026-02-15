@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { botFetchJson } from "@/lib/bot-fetch";
+import { PageHeader } from "@/app/dashboard/_components/page-header";
 
 export const metadata: Metadata = {
-  title: "Neural Stats | Admin Console",
+  title: "Global Stats | Admin Console",
   description: "Global system performance and metrics",
 };
 import {
@@ -74,8 +75,8 @@ async function getCommandUsage() {
 function StatsLoader() {
   return (
     <NodeLoader
-      title="Retrieving Metrics"
-      subtitle="Analyzing_System_Growth..."
+      title="Fetching Statistics"
+      subtitle="Synchronizing system analytics..."
     />
   );
 }
@@ -90,7 +91,7 @@ async function StatsContent() {
           <div className="flex items-center gap-3 text-red-500">
             <Activity className="size-5 animate-pulse" />
             <p className="font-mono text-sm uppercase font-bold">
-              Bot API Connection Failure // Data Stream Offline
+              Service Unavailable // Unable to fetch data
             </p>
           </div>
         </CardContent>
@@ -142,7 +143,7 @@ async function StatsContent() {
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle>Command engagement</CardTitle>
+                <CardTitle>Usage Trends</CardTitle>
                 <CardDescription>
                   Most utilized features in the last 24h
                 </CardDescription>
@@ -158,8 +159,8 @@ async function StatsContent() {
         {/* Top Commands List */}
         <Card variant="cyberpunk">
           <CardHeader>
-            <CardTitle className="text-lg">Top Capabilities</CardTitle>
-            <CardDescription>Highest priority modules</CardDescription>
+            <CardTitle className="text-lg">Popular Features</CardTitle>
+            <CardDescription>Most active modules</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             {usage?.commands.map((cmd) => (
@@ -176,7 +177,7 @@ async function StatsContent() {
                       {cmd.name}
                     </p>
                     <p className="text-[10px] text-zinc-500 italic uppercase tracking-tighter">
-                      System call priority: high
+                      High usage
                     </p>
                   </div>
                 </div>
@@ -185,7 +186,7 @@ async function StatsContent() {
                     {formatCompactNumber(cmd.count)}
                   </p>
                   <p className="text-[9px] text-zinc-600 font-mono tracking-widest uppercase">
-                    PULSES
+                    USES
                   </p>
                 </div>
               </div>
@@ -200,15 +201,12 @@ async function StatsContent() {
 export default async function AdminStatsPage() {
   return (
     <div className="space-y-8">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-black tracking-tighter uppercase italic text-fuchsia-500 shadow-fuchsia-500/20 drop-shadow-[0_0_10px_rgba(217,70,239,0.3)] flex items-center gap-3">
-          <Activity className="size-8" />
-          Neural Statistics
-        </h1>
-        <p className="text-zinc-500 text-xs font-mono tracking-widest uppercase ml-1">
-          Bot Performance & Growth Metrics
-        </p>
-      </div>
+      <PageHeader
+        category="Admin Monitoring"
+        categoryIcon={Activity}
+        title="Global Statistics"
+        description="Monitor system-wide bot performance and user growth metrics."
+      />
 
       <Suspense fallback={<StatsLoader />}>
         <StatsContent />

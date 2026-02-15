@@ -33,7 +33,7 @@ export async function GET(
     }
 
     const data = await response.json();
-    return NextResponse.json(data.channels || []);
+    return NextResponse.json(data);
   } catch (error) {
     console.error("Guild channels proxy error:", error);
     return NextResponse.json(

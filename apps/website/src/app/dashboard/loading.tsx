@@ -4,8 +4,8 @@ export default function DashboardLoading() {
   return (
     <div className="flex items-center justify-center min-h-[60vh]">
       <NodeLoader
-        title="Initializing Dashboard"
-        subtitle="Preparing_System_Environment..."
+        title="Loading Dashboard"
+        subtitle="Synchronizing your preferences..."
       />
     </div>
   );

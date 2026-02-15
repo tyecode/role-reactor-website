@@ -10,12 +10,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { BarChart3, Zap, Terminal, ArrowRight } from "lucide-react";
+import { BarChart3, Zap, Terminal, ArrowRight, Shield } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { PageHeader } from "@/app/dashboard/_components/page-header";
-import { ShieldAlert } from "lucide-react";
 
 export default async function DashboardPage() {
   const session = await auth();
@@ -30,37 +29,37 @@ export default async function DashboardPage() {
     return (
       <div className="space-y-8 animate-in fade-in duration-1000">
         <PageHeader
-          category="Secure Uplink"
-          categoryIcon={ShieldAlert}
+          category="Admin Monitoring"
+          categoryIcon={Shield}
           title="Command Center"
-          description="Mission Control // Unauthorized access will be terminated"
+          description="Manage global system infrastructure and monitor real-time performance."
         />
 
         {/* Hero Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <OverviewNavCard
-            title="Neural Metrics"
-            description="Global bot statistics, server count and user growth."
+            title="Global Statistics"
+            description="Global bot statistics, server count and user growth metrics."
             href="/dashboard/stats"
             icon={BarChart3}
             color="cyan"
             stats="2.4k GUILDS"
           />
           <OverviewNavCard
-            title="Financial Pulse"
-            description="Revenue tracking, payment history and financial health."
+            title="Revenue & Billing"
+            description="Revenue tracking, payment history and system financial health."
             href="/dashboard/revenue"
             icon={Zap}
             color="emerald"
             stats="$12.5k TOTAL"
           />
           <OverviewNavCard
-            title="Logic Execution"
-            description="Internal command analytics and module utilization."
+            title="System Analytics"
+            description="Internal command analytics and module utilization logs."
             href="/dashboard/commands"
             icon={Terminal}
             color="fuchsia"
-            stats="450k PULSES"
+            stats="450k USES"
           />
         </div>
 
@@ -74,9 +73,11 @@ export default async function DashboardPage() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>
-                  <CardTitle className="text-xl">System Integrity</CardTitle>
+                  <CardTitle className="text-xl">
+                    Infrastructure Health
+                  </CardTitle>
                   <CardDescription>
-                    Core module operational status
+                    Real-time operational status of core services
                   </CardDescription>
                 </div>
                 <ActivityIcon />
@@ -90,7 +91,7 @@ export default async function DashboardPage() {
                 color="emerald"
               />
               <HealthItem
-                label="MONGODB CLUSTER"
+                label="DATABASE CLUSTER"
                 status="STABLE"
                 latency="12ms"
                 color="emerald"
@@ -103,9 +104,9 @@ export default async function DashboardPage() {
               />
               <HealthItem
                 label="AI PROCESSING"
-                status="BUSY"
+                status="NORMAL"
                 latency="1.2s"
-                color="amber"
+                color="emerald"
               />
             </CardContent>
           </Card>
@@ -119,13 +120,13 @@ export default async function DashboardPage() {
               <div className="flex items-center justify-between">
                 <CardTitle className="text-sm font-black uppercase tracking-widest text-zinc-500 flex items-center gap-2">
                   <Terminal className="size-4" />
-                  System Console
+                  Terminal Logs
                 </CardTitle>
                 <Badge
                   variant="outline"
                   className="text-[10px] border-cyan-500/30 text-cyan-400"
                 >
-                  READ_ONLY
+                  LIVE_FEED
                 </Badge>
               </div>
             </CardHeader>
@@ -140,11 +141,11 @@ export default async function DashboardPage() {
               </p>
               <p className="text-emerald-500/80">
                 [12:52:05] <span className="text-zinc-500">INFO:</span> Payment
-                validated // TX: plisio_7f8a9...
+                validated // TX: paypal_7f8a9...
               </p>
-              <p className="text-amber-500/80">
-                [12:53:11] <span className="text-zinc-500">WARN:</span> AI
-                request timeout @ user 235088... (retrying)
+              <p className="text-cyan-500/80">
+                [12:53:11] <span className="text-zinc-500">INFO:</span> AI
+                processing complete for request ID 235088...
               </p>
               <p className="text-cyan-500/80">
                 [12:54:42] <span className="text-zinc-500">INFO:</span>{" "}

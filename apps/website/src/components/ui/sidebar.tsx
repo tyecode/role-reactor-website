@@ -345,7 +345,7 @@ const SidebarTrigger = React.forwardRef<
       variant="ghost"
       size="icon"
       className={cn(
-        "h-8 w-8 text-zinc-400 hover:text-cyan-400 hover:bg-cyan-500/5 border border-white/5 hover:border-cyan-500/30 transition-all duration-300 hover:shadow-[0_0_10px_-2px_rgba(6,182,212,0.3)] rounded-xl",
+        "h-8 w-8 text-zinc-400 hover:text-cyan-400 hover:bg-cyan-500/5 border border-white/5 hover:border-cyan-500/30 transition-all duration-300 hover:shadow-[0_0_10px_-2px_rgba(6,182,212,0.3)] rounded-lg",
         className
       )}
       onClick={(event) => {
@@ -424,7 +424,7 @@ const SidebarInput = React.forwardRef<
       ref={ref}
       data-sidebar="input"
       className={cn(
-        "h-8 w-full bg-zinc-900/50 border-white/5 shadow-none focus-visible:ring-2 focus-visible:ring-cyan-500/50 text-zinc-100 placeholder:text-zinc-500 rounded-xl focus:shadow-[0_0_15px_-3px_rgba(6,182,212,0.3)]",
+        "h-8 w-full bg-zinc-900/50 border-white/5 shadow-none focus-visible:ring-2 focus-visible:ring-cyan-500/50 text-zinc-100 placeholder:text-zinc-500 rounded-lg focus:shadow-[0_0_15px_-3px_rgba(6,182,212,0.3)]",
         className
       )}
       {...props}
@@ -596,7 +596,7 @@ const SidebarMenuItem = React.forwardRef<
 SidebarMenuItem.displayName = "SidebarMenuItem";
 
 const sidebarMenuButtonVariants = cva(
-  "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-xl p-2 text-left text-sm outline-none ring-cyan-500/50 transition-all duration-300 hover:bg-white/5 hover:text-white focus-visible:ring-2 active:bg-white/10 active:text-white active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-cyan-500/10 data-[active=true]:font-bold data-[active=true]:text-cyan-400 data-[state=open]:hover:bg-white/5 data-[state=open]:hover:text-white group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
+  "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-lg p-2 text-left text-sm outline-none ring-cyan-500/50 transition-all duration-300 hover:bg-white/5 hover:text-white focus-visible:ring-2 active:bg-white/10 active:text-white active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 group-has-[[data-sidebar=menu-action]]/menu-item:pr-8 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-cyan-500/10 data-[active=true]:font-bold data-[active=true]:text-cyan-400 data-[state=open]:hover:bg-white/5 data-[state=open]:hover:text-white group-data-[collapsible=icon]:!size-8 group-data-[collapsible=icon]:!p-2 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0",
   {
     variants: {
       variant: {

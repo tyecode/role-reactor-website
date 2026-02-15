@@ -145,19 +145,19 @@ export function UserTable({ initialData }: UserTableProps) {
           <thead>
             <tr className="border-b border-white/5 bg-white/5">
               <th className="p-4 font-mono text-[10px] text-zinc-500 uppercase tracking-widest px-6">
-                Subject
+                User
               </th>
               <th className="p-4 font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
-                Clearance Level
+                Role
               </th>
               <th className="p-4 font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
-                Last Access
+                Last Login
               </th>
               <th className="p-4 font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
-                Registration
+                Joined
               </th>
               <th className="p-4 font-mono text-[10px] text-zinc-500 uppercase tracking-widest text-right px-6">
-                Action
+                Actions
               </th>
             </tr>
           </thead>
@@ -178,7 +178,7 @@ export function UserTable({ initialData }: UserTableProps) {
         {initialData.users.length === 0 && (
           <div className="p-12 text-center">
             <p className="font-mono text-xs text-zinc-600 uppercase tracking-widest">
-              No subjects found matching current query
+              No users found matching current query
             </p>
           </div>
         )}
@@ -193,10 +193,10 @@ export function UserTable({ initialData }: UserTableProps) {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 italic">
               <Key className="size-4 text-cyan-500" />
-              Clearance Override
+              Update Role
             </DialogTitle>
             <DialogDescription className="font-mono text-[10px] uppercase tracking-wider">
-              Updating access level for subject:{" "}
+              Updating access level for:{" "}
               <span className="text-cyan-500">{selectedUser?.username}</span>
             </DialogDescription>
           </DialogHeader>
@@ -204,7 +204,7 @@ export function UserTable({ initialData }: UserTableProps) {
           <div className="grid gap-4 py-4">
             <div className="space-y-2">
               <label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest ml-1">
-                Select New Level
+                Select New Role
               </label>
               <div className="grid grid-cols-2 gap-2">
                 {Object.values(UserRoles).map((role) => (
@@ -241,10 +241,10 @@ export function UserTable({ initialData }: UserTableProps) {
                 <AlertCircle className="size-4 mr-2" />
               ) : null}
               {status === "success"
-                ? "Access Updated"
+                ? "Role Updated"
                 : status === "error"
                   ? "Update Failed"
-                  : "Confirm Override"}
+                  : "Confirm Changes"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -391,14 +391,14 @@ function UserRow({
               className="w-56 border-white/5 bg-zinc-950/95 backdrop-blur-xl"
             >
               <DropdownMenuLabel className="font-mono text-[10px] uppercase text-zinc-500 tracking-widest">
-                Subject Options
+                User Options
               </DropdownMenuLabel>
               <DropdownMenuSeparator className="bg-white/5" />
               <DropdownMenuItem
                 className="text-xs font-mono uppercase cursor-pointer focus:bg-cyan-500/10 focus:text-cyan-400"
                 onClick={() => onEditRole(user.role)}
               >
-                Update Clearance
+                Change Role
               </DropdownMenuItem>
               <DropdownMenuItem className="text-xs font-mono uppercase cursor-pointer focus:bg-zinc-800">
                 View Audit Log

@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import * as SelectPrimitive from "@radix-ui/react-select";
+import { cva, type VariantProps } from "class-variance-authority";
 import { Check, ChevronDown, ChevronUp } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -12,16 +13,31 @@ const SelectGroup = SelectPrimitive.Group;
 
 const SelectValue = SelectPrimitive.Value;
 
+const selectTriggerVariants = cva(
+  "flex h-10 w-full items-center justify-between rounded-xl border border-white/10 bg-zinc-900/40 px-3 py-2 text-sm ring-offset-zinc-950 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 transition-all",
+  {
+    variants: {
+      variant: {
+        default:
+          "text-white focus:ring-cyan-500/50 focus:border-cyan-500/50 focus:shadow-[0_0_15px_-3px_rgba(6,182,212,0.3)] hover:bg-zinc-900/60 hover:border-white/20",
+        cyber:
+          "h-14 bg-zinc-950/80 border-white/5 rounded-2xl focus:ring-cyan-500/10 focus:border-cyan-500/40 text-white font-black uppercase tracking-widest hover:bg-zinc-950 px-6",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+);
+
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger> &
+    VariantProps<typeof selectTriggerVariants>
+>(({ className, children, variant, ...props }, ref) => (
   <SelectPrimitive.Trigger
     ref={ref}
-    className={cn(
-      "flex h-10 w-full items-center justify-between rounded-xl border border-white/10 bg-zinc-900/40 px-3 py-2 text-sm text-white ring-offset-zinc-950 placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:ring-offset-2 focus:border-cyan-500/50 focus:shadow-[0_0_15px_-3px_rgba(6,182,212,0.3)] disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 transition-all hover:bg-zinc-900/60 hover:border-white/20",
-      className
-    )}
+    className={cn(selectTriggerVariants({ variant, className }))}
     {...props}
   >
     {children}
@@ -67,19 +83,37 @@ const SelectScrollDownButton = React.forwardRef<
 SelectScrollDownButton.displayName =
   SelectPrimitive.ScrollDownButton.displayName;
 
+const selectContentVariants = cva(
+  "relative z-50 max-h-[--radix-select-content-available-height] min-w-[8rem] overflow-y-auto overflow-x-hidden rounded-2xl border p-1 text-zinc-100 shadow-2xl backdrop-blur-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 origin-[--radix-select-content-transform-origin]",
+  {
+    variants: {
+      variant: {
+        default: "bg-zinc-950/95 border-white/10",
+        cyber:
+          "bg-zinc-950/80 border-cyan-500/20 shadow-[0_0_30px_-5px_rgba(6,182,212,0.15)] ring-1 ring-cyan-500/10",
+      },
+      position: {
+        popper:
+          "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
+        "item-aligned": "",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      position: "popper",
+    },
+  }
+);
+
 const SelectContent = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
->(({ className, children, position = "popper", ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content> &
+    VariantProps<typeof selectContentVariants>
+>(({ className, children, position = "popper", variant, ...props }, ref) => (
   <SelectPrimitive.Portal>
     <SelectPrimitive.Content
       ref={ref}
-      className={cn(
-        "relative z-50 max-h-[--radix-select-content-available-height] min-w-[8rem] overflow-y-auto overflow-x-hidden rounded-2xl border border-white/10 bg-zinc-950/95 text-zinc-100 shadow-2xl backdrop-blur-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 origin-[--radix-select-content-transform-origin]",
-        position === "popper" &&
-          "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
-        className
-      )}
+      className={cn(selectContentVariants({ variant, position, className }))}
       position={position}
       {...props}
     >

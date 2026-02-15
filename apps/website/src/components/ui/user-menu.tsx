@@ -148,16 +148,13 @@ export function UserMenu({
   if (status === "unauthenticated" || !user) {
     return (
       <Button
-        variant="ghost"
+        variant="neon"
         size="sm"
         onClick={onLogin}
         aria-label="Login"
         title="Login"
         data-text="LOGIN"
-        className={cn(
-          "h-8 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-300 hover:shadow-[0_0_15px_-4px_rgba(6,182,212,0.6)] font-mono uppercase tracking-wider hover-glitch rounded-lg",
-          className
-        )}
+        className={cn("h-8 font-mono tracking-wider", className)}
       >
         Login
       </Button>
@@ -230,8 +227,9 @@ export function UserMenu({
           side={side}
           sideOffset={8}
           portal={!isSidebar}
+          variant="cyber"
           className={cn(
-            "w-72 p-0 bg-black/90 backdrop-blur-xl border border-white/10 shadow-[0_0_40px_-10px_rgba(6,182,212,0.2)] rounded-2xl overflow-hidden",
+            "w-72 p-0 rounded-2xl overflow-hidden",
             isSidebar && "w-[--radix-dropdown-menu-trigger-width] min-w-64"
           )}
         >

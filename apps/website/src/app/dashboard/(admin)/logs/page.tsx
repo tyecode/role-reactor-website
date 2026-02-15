@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { botFetchJson } from "@/lib/bot-fetch";
+import { PageHeader } from "@/app/dashboard/_components/page-header";
 
 export const metadata: Metadata = {
   title: "System Logs | Admin Console",
@@ -28,7 +29,10 @@ async function getLogs() {
 
 function LogsLoader() {
   return (
-    <NodeLoader title="Terminal Uplink" subtitle="Streaming_System_Logs..." />
+    <NodeLoader
+      title="Fetching Logs"
+      subtitle="Synchronizing diagnostic feed..."
+    />
   );
 }
 
@@ -68,13 +72,13 @@ async function LogsContent() {
 
 export default async function AdminLogsPage() {
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-black tracking-tighter uppercase italic text-cyan-500 shadow-cyan-500/20 drop-shadow-[0_0_10px_rgba(6,182,212,0.3)] flex items-center gap-3">
-          <Terminal className="size-8" />
-          System Logs
-        </h1>
-      </div>
+    <div className="space-y-8">
+      <PageHeader
+        category="Admin Monitoring"
+        categoryIcon={Terminal}
+        title="System Logs"
+        description="Monitor real-time system events and diagnostic output from the bot instance."
+      />
 
       <Suspense fallback={<LogsLoader />}>
         <LogsContent />

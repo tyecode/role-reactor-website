@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { botFetchJson } from "@/lib/bot-fetch";
+import { PageHeader } from "@/app/dashboard/_components/page-header";
 
 export const metadata: Metadata = {
-  title: "Command Intelligence | Admin Console",
+  title: "Command Analytics | Admin Console",
   description: "Configure global system commands and responses",
 };
 import {
@@ -51,8 +52,8 @@ async function getCommandUsage() {
 function CommandsLoader() {
   return (
     <NodeLoader
-      title="Syncing Logic Nodes"
-      subtitle="Retrieving_Global_Usage_Stats..."
+      title="Fetching Analytics"
+      subtitle="Loading usage statistics..."
     />
   );
 }
@@ -66,7 +67,7 @@ async function CommandsContent() {
         <CardContent className="pt-6">
           <div className="flex items-center gap-3 text-red-500 font-mono text-sm font-black uppercase">
             <Activity className="size-5 animate-pulse" />
-            <span>Process monitoring disrupted // API down</span>
+            <span>Unable to load data // Service Unavailable</span>
           </div>
         </CardContent>
       </Card>
@@ -78,24 +79,24 @@ async function CommandsContent() {
       {/* Metrics Row */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <MetricCard
-          title="Module Executions"
+          title="Total Executions"
           value={usage.summary.totalExecutions.toLocaleString()}
           icon={Cpu}
-          description="Total logical operations processed"
+          description="Total commands processed by the bot system"
           color="cyan"
         />
         <MetricCard
-          title="Active Modules"
+          title="Active Commands"
           value={usage.summary.totalCommands.toString()}
           icon={Layers}
-          description="Registered system capabilities"
+          description="Available system command modules"
           color="fuchsia"
         />
         <MetricCard
-          title="Avg Priority"
-          value="LEVEL-01"
+          title="System Status"
+          value="STABLE"
           icon={Activity}
-          description="Global system response priority"
+          description="Current operational status"
           color="emerald"
         />
       </div>
@@ -104,9 +105,9 @@ async function CommandsContent() {
         {/* Full Usage Chart */}
         <Card showGrid className="h-fit">
           <CardHeader>
-            <CardTitle>Temporal Execution Matrix</CardTitle>
+            <CardTitle>Usage Trends</CardTitle>
             <CardDescription>
-              Global module utilization across all sectors
+              Command usage distribution across the platform
             </CardDescription>
           </CardHeader>
           <CardContent className="h-[450px] pt-4">
@@ -120,10 +121,10 @@ async function CommandsContent() {
             <CardHeader className="flex flex-row items-center justify-between">
               <div>
                 <CardTitle className="text-xl italic">
-                  Capability Feed
+                  Command Breakdown
                 </CardTitle>
                 <CardDescription>
-                  Real-time module utilization stats
+                  Usage statistics per specific command
                 </CardDescription>
               </div>
               <ListFilter className="size-4 text-zinc-600" />
@@ -148,12 +149,12 @@ async function CommandsContent() {
                       <div className="flex items-center gap-2 mt-1">
                         <Badge
                           variant="outline"
-                          className="text-[8px] h-3 px-1 border-zinc-800 text-zinc-600 font-black tracking-widest uppercase"
+                          className="text-[8px] h-3 px-1 border-emerald-500/20 text-emerald-500 font-black tracking-widest uppercase"
                         >
-                          STABLE
+                          ACTIVE
                         </Badge>
                         <span className="text-[9px] text-zinc-700 font-mono italic">
-                          Sector {100 + idx}
+                          Default Category
                         </span>
                       </div>
                     </div>
@@ -182,12 +183,12 @@ async function CommandsContent() {
               </div>
               <div className="space-y-1">
                 <p className="text-xs font-bold text-cyan-300 uppercase tracking-wide">
-                  Developer Tip
+                  System Note
                 </p>
                 <p className="text-[11px] text-zinc-400 leading-relaxed font-medium">
-                  Module performance is currently within optimal parameters.
-                  High-usage modules (/{usage.commands[0]?.name}) should be
-                  monitored for rate limit threshold breaches in Tier 2 sectors.
+                  Command performance is currently within expected parameters.
+                  High-usage modules should be monitored for latency or rate
+                  limit issues.
                 </p>
               </div>
             </CardContent>
@@ -201,15 +202,12 @@ async function CommandsContent() {
 export default async function AdminCommandsPage() {
   return (
     <div className="space-y-8">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-black tracking-tighter uppercase italic text-cyan-500 shadow-cyan-500/20 drop-shadow-[0_0_10px_rgba(6,182,212,0.3)] flex items-center gap-3">
-          <Activity className="size-8" />
-          Command Analytics
-        </h1>
-        <p className="text-zinc-500 text-xs font-mono tracking-widest uppercase ml-1">
-          Logic Execution Matrix // Global Scope
-        </p>
-      </div>
+      <PageHeader
+        category="Admin Analytics"
+        categoryIcon={Activity}
+        title="Command Usage"
+        description="Monitor global command execution and performance analytics across all Discord servers."
+      />
 
       <Suspense fallback={<CommandsLoader />}>
         <CommandsContent />

@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback } from "react";
 import { motion } from "motion/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { Audiowide } from "next/font/google";
 import { CyberpunkBackground } from "@/components/common/cyberpunk-background";
@@ -99,10 +100,10 @@ export function GuildHero({ guildName, guildIcon, guildId }: GuildHeroProps) {
       {/* Left: Avatar */}
       <div className="relative shrink-0">
         {/* Cyberpunk Glow Behind Avatar */}
-        <div className="absolute -inset-2 bg-gradient-to-br from-cyan-500/20 via-transparent to-fuchsia-500/20 blur-xl rounded-[25%] sm:rounded-[2.5rem]" />
+        <div className="absolute -inset-2 bg-linear-to-br from-cyan-500/20 via-transparent to-fuchsia-500/20 blur-xl rounded-3xl" />
         {/* Neon Border Ring */}
-        <div className="absolute -inset-[2px] rounded-[1.6rem] sm:rounded-[2.1rem] xl:rounded-[2.6rem] bg-gradient-to-br from-cyan-500/35 via-transparent to-fuchsia-500/35 z-0" />
-        <Avatar className="h-20 w-20 sm:h-28 sm:w-28 md:h-32 md:w-32 xl:h-40 xl:w-40 rounded-[1.5rem] sm:rounded-[2rem] xl:rounded-[2.5rem] border-2 border-zinc-950 shadow-2xl z-10 relative ring-1 ring-cyan-500/50 shadow-cyan-500/20">
+        <div className="absolute -inset-[2px] rounded-3xl bg-linear-to-br from-cyan-500/35 via-transparent to-fuchsia-500/35 z-0" />
+        <Avatar className="h-20 w-20 sm:h-28 sm:w-28 md:h-32 md:w-32 xl:h-40 xl:w-40 rounded-3xl border-2 border-zinc-950 shadow-2xl z-10 relative ring-1 ring-cyan-500/50 shadow-cyan-500/20">
           <AvatarImage
             src={
               guildIcon
@@ -110,9 +111,9 @@ export function GuildHero({ guildName, guildIcon, guildId }: GuildHeroProps) {
                 : undefined
             }
             alt={guildName}
-            className="rounded-none object-cover"
+            className="object-cover"
           />
-          <AvatarFallback className="rounded-none bg-zinc-800 text-zinc-400 text-4xl font-bold">
+          <AvatarFallback className="bg-zinc-800 text-zinc-400 text-4xl font-bold">
             {guildName.charAt(0) || "S"}
           </AvatarFallback>
         </Avatar>
@@ -132,16 +133,22 @@ export function GuildHero({ guildName, guildIcon, guildId }: GuildHeroProps) {
         </div>
 
         <div className="flex flex-col sm:flex-row items-center gap-3 flex-wrap">
-          <span className="flex items-center gap-2.5 bg-zinc-950/60 px-4 py-1.5 rounded-xl border border-white/5 text-[10px] font-bold text-zinc-300 backdrop-blur-md">
+          <Badge
+            variant="outline"
+            className="gap-2.5 px-4 py-1.5 h-auto bg-zinc-950/60 backdrop-blur-md border-white/5 text-zinc-300"
+          >
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]"></span>
             </span>
-            Active System
-          </span>
-          <span className="flex items-center gap-2 bg-zinc-950/60 px-3 py-1.5 rounded-xl border border-white/5 font-mono text-[10px] text-zinc-600 uppercase tracking-widest backdrop-blur-md">
-            NODE: {guildId.slice(0, 10)}
-          </span>
+            Active Server
+          </Badge>
+          <Badge
+            variant="outline"
+            className="gap-2 px-3 py-1.5 h-auto bg-zinc-950/60 backdrop-blur-md border-white/5 font-mono text-[10px] text-zinc-600 uppercase tracking-widest"
+          >
+            ID: {guildId.slice(0, 10)}
+          </Badge>
         </div>
       </div>
     </motion.div>

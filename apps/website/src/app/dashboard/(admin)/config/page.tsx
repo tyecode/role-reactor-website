@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { PageHeader } from "@/app/dashboard/_components/page-header";
 import {
   Card,
   CardContent,
@@ -20,24 +21,21 @@ import { NodeLoader } from "@/components/common/node-loader";
 function HealthLoader() {
   return (
     <NodeLoader
-      title="Health Check-up"
-      subtitle="Scanning_System_Vitality..."
+      title="System Diagnosis"
+      subtitle="Analyzing operational status..."
     />
   );
 }
 
 export default function SystemHealthPage() {
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-black tracking-tighter uppercase italic text-cyan-500 shadow-cyan-500/20 drop-shadow-[0_0_10px_rgba(6,182,212,0.3)] flex items-center gap-3">
-          <Activity className="size-8" />
-          System Health
-        </h1>
-        <p className="text-zinc-500 text-xs font-mono tracking-widest uppercase ml-1">
-          Real-Time Monitoring // Performance Metrics
-        </p>
-      </div>
+    <div className="space-y-8">
+      <PageHeader
+        category="Admin Monitoring"
+        categoryIcon={Activity}
+        title="System Health"
+        description="Monitor real-time system performance, resource utilization, and operational status."
+      />
 
       <Card
         variant="cyberpunk"

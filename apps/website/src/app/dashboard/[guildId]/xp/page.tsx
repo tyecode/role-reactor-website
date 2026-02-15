@@ -7,8 +7,8 @@ import { NodeLoader } from "@/components/common/node-loader";
 function XPPageSkeleton() {
   return (
     <NodeLoader
-      title="Syncing XP Nodes"
-      subtitle="Retrieving_Leaderboard_Data..."
+      title="Loading XP Data"
+      subtitle="Synchronizing leaderboard..."
     />
   );
 }
@@ -39,15 +39,15 @@ export default async function XPPage({
   // Reuse the optimized server utility for guild data
   const { guilds } = await getManageableGuilds();
   const activeGuild = guilds.find((g) => g.id === guildId);
-  const guildName = activeGuild?.name || "Target Node";
+  const guildName = activeGuild?.name || "this server";
 
   return (
     <div className="space-y-8 pb-12 animate-in fade-in duration-700 w-full min-w-0 overflow-x-hidden">
       <PageHeader
-        category="Rankings & Rewards"
+        category="Engagement Management"
         categoryIcon={Trophy}
         title="XP System"
-        description="Track community engagement and manage leveling rewards for"
+        description="Monitor community activity and manage leveling rewards for"
         serverName={guildName}
       />
 

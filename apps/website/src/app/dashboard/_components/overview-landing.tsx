@@ -23,8 +23,8 @@ export function OverviewLanding() {
     return (
       <div className="flex items-center justify-center min-h-[60vh]">
         <NodeLoader
-          title="Authenticating Uplink"
-          subtitle="Synchronizing_Guild_Neural_Net..."
+          title="Verifying Access"
+          subtitle="Synchronizing server data..."
         />
       </div>
     );

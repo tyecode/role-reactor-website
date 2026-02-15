@@ -240,10 +240,10 @@ export function SystemLogsTerminal({ initialLogs }: SystemLogsTerminalProps) {
         <div className="flex flex-col gap-1">
           <CardTitle className="text-lg italic font-mono flex items-center gap-2">
             <Terminal className="size-4 text-cyan-500" />
-            CONSOLE_OUTPUT
+            Terminal Output
           </CardTitle>
           <CardDescription className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">
-            Scanning internal processes...
+            Monitoring system events...
           </CardDescription>
         </div>
 
@@ -312,7 +312,7 @@ export function SystemLogsTerminal({ initialLogs }: SystemLogsTerminalProps) {
             <div className="h-full flex flex-col items-center justify-center text-zinc-600 gap-2 opacity-50 py-12">
               <Terminal className="size-8" />
               <p className="tracking-widest uppercase text-[10px]">
-                No signal detected
+                No logs available
               </p>
             </div>
           ) : (

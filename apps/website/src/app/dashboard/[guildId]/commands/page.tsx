@@ -8,8 +8,8 @@ import { NodeLoader } from "@/components/common/node-loader";
 function CommandsPageSkeleton() {
   return (
     <NodeLoader
-      title="Terminal Uplink"
-      subtitle="Loading_Command_Manifest..."
+      title="Fetching Commands"
+      subtitle="Synchronizing system settings..."
     />
   );
 }
@@ -34,10 +34,10 @@ export default async function CommandsPage({
     return (
       <div className="min-h-screen pb-20 space-y-8 w-full min-w-0 overflow-x-hidden">
         <PageHeader
-          category="Control Center"
+          category="System Configuration"
           categoryIcon={Terminal}
           title="Command Settings"
-          description="Enable or disable specific bot commands for"
+          description="Manage availability and access for all bot commands in"
           serverName={guildName}
         />
         <BotInviteCard guildId={guildId} />
@@ -46,12 +46,12 @@ export default async function CommandsPage({
   }
 
   return (
-    <div className="min-h-screen pb-20 space-y-8 animate-in fade-in duration-700 w-full min-w-0 overflow-x-hidden">
+    <div className="space-y-8 pb-12 animate-in fade-in duration-700 w-full min-w-0 overflow-x-hidden">
       <PageHeader
-        category="Control Center"
+        category="System Configuration"
         categoryIcon={Terminal}
         title="Command Settings"
-        description="Enable or disable specific bot commands for"
+        description="Manage availability and access for all bot commands in"
         serverName={guildName}
       />
 

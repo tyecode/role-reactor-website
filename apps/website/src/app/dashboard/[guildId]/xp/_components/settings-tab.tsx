@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { ErrorView } from "@/components/common/error-view";
 import {
   Select,
   SelectContent,
@@ -32,12 +32,20 @@ import {
   Settings2,
   AlertCircle,
   Hash,
+  ChevronRight,
 } from "lucide-react";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useXPSettings } from "@/hooks/use-xp-settings";
 import { useGuildChannels } from "@/hooks/use-guild-channels";
+import { Audiowide } from "next/font/google";
+
+const audiowide = Audiowide({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+});
 
 interface XPSettings {
   enabled: boolean;
@@ -121,7 +129,7 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
 
       const data = await response.json();
       if (data.status === "success") {
-        toast.success("Settings saved successfully");
+        toast.success("✨ Configuration synchronized!");
         // Update the SWR cache with the new values
         mutate();
         // Force refresh leaderboard as well
@@ -164,17 +172,14 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
 
   if (isError && !settings) {
     return (
-      <Alert
-        variant="error"
-        className="bg-red-500/10 border-red-500/20 rounded-xl"
-      >
-        <AlertCircle className="h-4 w-4" />
-        <AlertTitle>Error</AlertTitle>
-        <AlertDescription>
-          {isError.message ||
-            "Failed to load settings. Please try again later."}
-        </AlertDescription>
-      </Alert>
+      <ErrorView
+        title="CORE SYNC FAILED"
+        message={
+          isError.message || "Failed to load settings. Please try again later."
+        }
+        onRetry={() => mutate()}
+        showHome={false}
+      />
     );
   }
 
@@ -183,62 +188,79 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
   }
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-700 pb-10">
+    <div className="space-y-8 animate-in fade-in duration-700 pb-20 relative">
+      <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 blur-[120px] pointer-events-none" />
+
       {/* Header Section */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="space-y-1">
-          <h2 className="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
-            <div className="p-1.5 rounded-lg bg-blue-500/10 border border-blue-500/20">
-              <Settings2 className="w-5 h-5 text-blue-400" />
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 relative z-10">
+        <div className="space-y-2">
+          <h2
+            className={cn(
+              "text-2xl sm:text-3xl font-black text-white flex items-center gap-3 uppercase tracking-wider",
+              audiowide.className
+            )}
+          >
+            <div className="p-2 rounded-xl bg-cyan-500/10 border border-cyan-500/20 shadow-[0_0_20px_rgba(6,182,212,0.25)]">
+              <Settings2 className="w-6 h-6 text-cyan-400" />
             </div>
             System Configuration
           </h2>
-          <p className="text-sm text-zinc-500 font-medium">
-            Fine-tune how your community interacts with the leveling system.
+          <p className="text-sm text-zinc-500 font-bold uppercase tracking-widest flex items-center gap-2">
+            Configure how users earn experience
+            <ChevronRight className="w-3 h-3 text-cyan-500/50" />
           </p>
         </div>
         <Button
+          variant="cyber"
           onClick={handleSave}
           disabled={saving}
-          className="bg-blue-600 hover:bg-blue-500 text-white font-bold h-10 px-6 rounded-lg border-t border-white/20 shadow-lg shadow-blue-500/20 transition-all active:scale-95 disabled:opacity-50"
+          className="h-14 px-8 tracking-widest"
         >
           {saving ? (
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
           ) : (
             <Save className="mr-2 h-4 w-4" />
           )}
-          Update Configuration
+          Push Settings
         </Button>
       </div>
 
       {/* Main Feature Toggle */}
       <Card
+        variant="cyberpunk"
+        showGrid
         className={cn(
-          "border-white/5 bg-zinc-900/40 backdrop-blur-xl relative overflow-hidden transition-all duration-500",
+          "transition-all duration-500",
           settings.enabled
-            ? "border-blue-500/20 shadow-[0_0_20px_rgba(59,130,246,0.05)]"
-            : "opacity-70"
+            ? "border-cyan-500/30 shadow-[0_0_40px_rgba(6,182,212,0.05)]"
+            : "opacity-60"
         )}
       >
+        <div className="absolute -right-20 -top-20 w-60 h-60 bg-cyan-500/5 blur-[80px] rounded-full pointer-events-none" />
         <CardContent className="p-6">
-          <div className="flex items-center justify-between gap-6">
-            <div className="space-y-1">
+          <div className="flex items-center justify-between gap-8">
+            <div className="space-y-2">
               <Label
                 htmlFor="xp-enabled"
-                className="text-lg font-bold text-white cursor-pointer"
+                className={cn(
+                  "text-xl font-black text-white uppercase tracking-widest",
+                  audiowide.className
+                )}
               >
-                XP & Leveling System
+                XP System Core
               </Label>
-              <p className="text-sm text-zinc-500 max-w-xl">
-                Enabling this will allow users to earn experience, gain levels,
-                and unlock rewards across the server.
+              <p className="text-sm text-zinc-500 font-medium max-w-xl leading-relaxed">
+                Enable the XP system to start tracking activity across your
+                community. Users will earn experience, gain levels, and unlock
+                rewards.
               </p>
             </div>
             <Switch
               id="xp-enabled"
               checked={settings.enabled}
               onCheckedChange={(checked) => updateSetting("enabled", checked)}
-              className="data-[state=checked]:bg-blue-500 scale-110"
+              variant="cyan"
+              className="scale-125 shadow-lg"
             />
           </div>
         </CardContent>
@@ -246,66 +268,73 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
 
       <div
         className={cn(
-          "grid gap-8 transition-all duration-500",
+          "grid gap-8 transition-all duration-700",
           !settings.enabled &&
-            "opacity-40 grayscale pointer-events-none translate-y-2"
+            "opacity-30 grayscale pointer-events-none translate-y-4"
         )}
       >
         {/* XP Sources Grid */}
-        <div className="space-y-4">
-          <h3 className="text-xs font-black text-zinc-500 uppercase tracking-widest flex items-center gap-2 px-1">
-            <Zap className="w-3.5 h-3.5" />
+        <div className="space-y-6">
+          <h3
+            className={cn(
+              "text-xs font-black text-zinc-600 uppercase tracking-[0.3em] flex items-center gap-3 px-1",
+              audiowide.className
+            )}
+          >
+            <div className="h-px bg-zinc-800 flex-1" />
             Experience Sources
+            <div className="h-px bg-zinc-800 flex-1" />
           </h3>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {[
               {
                 id: "messageXP",
-                label: "Message Activity",
+                label: "Chat Messages",
                 icon: MessageSquare,
-                color: "blue",
-                desc: "Earn XP via chat",
+                color: "cyan",
+                desc: "Earn XP from chat messages",
               },
               {
                 id: "commandXP",
                 label: "Bot Commands",
                 icon: Zap,
-                color: "yellow",
-                desc: "Earn XP via commands",
+                color: "amber",
+                desc: "Earn XP from direct bot commands",
               },
               {
                 id: "voiceXP",
                 label: "Voice Channels",
                 icon: Mic,
-                color: "green",
-                desc: "Earn XP while talking",
+                color: "emerald",
+                desc: "Earn XP from voice interactions",
               },
               {
                 id: "roleXP",
                 label: "Passive Roles",
                 icon: Shield,
                 color: "purple",
-                desc: "Earn XP periodically",
+                desc: "Earn XP periodically for specific roles",
               },
             ].map((source) => (
               <Card
                 key={source.id}
-                className="group bg-zinc-900/50 border-white/5 hover:border-white/10 transition-all duration-300 rounded-xl overflow-hidden relative"
+                variant="glass"
+                className="hover:border-white/20"
               >
                 <CardContent className="p-5">
-                  <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-5">
                     <div className="flex items-start justify-between">
                       <div
                         className={cn(
-                          "p-2.5 rounded-xl transition-all duration-300 group-hover:scale-110",
-                          source.color === "blue" &&
-                            "bg-blue-500/10 text-blue-400 border border-blue-500/20",
-                          source.color === "yellow" &&
-                            "bg-yellow-500/10 text-yellow-400 border border-yellow-500/20",
-                          source.color === "green" &&
-                            "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20",
+                          "p-3 rounded-xl transition-all duration-500 group-hover:scale-110",
+                          source.color === "cyan" &&
+                            "bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 shadow-[0_0_15px_rgba(6,182,212,0.15)]",
+                          source.color === "amber" &&
+                            "bg-amber-500/10 text-amber-400 border border-amber-500/20 shadow-[0_0_15px_rgba(245,158,11,0.15)]",
+                          source.color === "emerald" &&
+                            "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-[0_0_15_rgba(16,185,129,0.15)]",
                           source.color === "purple" &&
-                            "bg-purple-500/10 text-purple-400 border border-purple-500/20"
+                            "bg-purple-500/10 text-purple-400 border border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.15)]"
                         )}
                       >
                         <source.icon className="w-5 h-5" />
@@ -318,17 +347,27 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
                         onCheckedChange={(checked) =>
                           updateSetting(source.id as any, checked)
                         }
-                        className="scale-90"
+                        variant={
+                          source.color as
+                            | "cyan"
+                            | "amber"
+                            | "emerald"
+                            | "purple"
+                        }
+                        className="scale-90 shadow-sm"
                       />
                     </div>
                     <div className="space-y-1">
                       <Label
                         htmlFor={source.id}
-                        className="text-sm font-bold text-white cursor-pointer"
+                        className={cn(
+                          "text-[13px] font-black text-white cursor-pointer uppercase tracking-widest transition-colors group-hover:text-cyan-400",
+                          audiowide.className
+                        )}
                       >
                         {source.label}
                       </Label>
-                      <p className="text-[11px] text-zinc-500 font-medium">
+                      <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-tighter">
                         {source.desc}
                       </p>
                     </div>
@@ -341,34 +380,45 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
 
         <div className="grid gap-6 lg:grid-cols-2">
           {/* XP Rates */}
-          <Card className="bg-zinc-900/40 border-white/5 backdrop-blur-sm shadow-xl rounded-2xl">
-            <CardHeader className="pb-4">
-              <CardTitle className="text-base flex items-center gap-2 font-bold">
-                <Hash className="w-4 h-4 text-blue-400" />
-                Experience Scaling
+          <Card variant="cyberpunk" className="overflow-hidden relative">
+            <div className="absolute top-0 right-0 p-8 opacity-5">
+              <Hash className="w-32 h-32 rotate-12" />
+            </div>
+            <CardHeader className="p-6 pb-4">
+              <CardTitle
+                className={cn(
+                  "text-lg flex items-center gap-3 font-black uppercase tracking-widest text-white",
+                  audiowide.className
+                )}
+              >
+                <div className="p-2 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+                  <Hash className="w-4 h-4 text-blue-400" />
+                </div>
+                XP Rates
               </CardTitle>
-              <CardDescription className="text-xs">
-                Control the density of experience points awarded.
+              <CardDescription className="text-xs font-bold text-zinc-500 uppercase tracking-tighter">
+                Control the amount of experience points awarded.
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-3">
-                <Label className="text-[10px] uppercase text-zinc-500 font-black tracking-widest">
-                  Chat Message Range (Randomized)
+            <CardContent className="p-6 pt-4 space-y-8">
+              <div className="space-y-4">
+                <Label className="text-[10px] uppercase text-zinc-600 font-black tracking-[0.2em]">
+                  Chat XP Range (Randomized)
                 </Label>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label
                       htmlFor="min-xp"
-                      className="text-[11px] text-zinc-400 font-medium"
+                      className="text-[10px] text-zinc-500 font-black uppercase tracking-widest"
                     >
-                      Minimum
+                      Threshold MIN
                     </Label>
                     <div className="relative group">
                       <Input
                         id="min-xp"
                         type="number"
-                        className="bg-zinc-950/50 border-white/10 h-10 px-4 rounded-xl focus:border-blue-500/50 focus:ring-blue-500/20 transition-all font-mono"
+                        variant="cyber"
+                        className={cn("text-cyan-400", audiowide.className)}
                         value={settings.messageXPAmount.min}
                         onChange={(e) =>
                           updateNestedSetting(
@@ -378,23 +428,24 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
                           )
                         }
                       />
-                      <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-black text-zinc-600 uppercase tracking-tighter">
-                        MIN
+                      <div className="absolute right-4 top-1/2 -translate-y-1/2 text-[9px] font-black text-cyan-500/30 uppercase tracking-tighter">
+                        VAL
                       </div>
                     </div>
                   </div>
                   <div className="space-y-2">
                     <Label
                       htmlFor="max-xp"
-                      className="text-[11px] text-zinc-400 font-medium"
+                      className="text-[10px] text-zinc-500 font-black uppercase tracking-widest"
                     >
-                      Maximum
+                      Threshold MAX
                     </Label>
                     <div className="relative group">
                       <Input
                         id="max-xp"
                         type="number"
-                        className="bg-zinc-950/50 border-white/10 h-10 px-4 rounded-xl focus:border-blue-500/50 focus:ring-blue-500/20 transition-all font-mono"
+                        variant="cyber"
+                        className={cn("text-cyan-400", audiowide.className)}
                         value={settings.messageXPAmount.max}
                         onChange={(e) =>
                           updateNestedSetting(
@@ -404,8 +455,8 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
                           )
                         }
                       />
-                      <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-black text-zinc-600 uppercase tracking-tighter">
-                        MAX
+                      <div className="absolute right-4 top-1/2 -translate-y-1/2 text-[9px] font-black text-cyan-500/30 uppercase tracking-tighter">
+                        VAL
                       </div>
                     </div>
                   </div>
@@ -416,22 +467,43 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
                 {[
                   {
                     id: "commandXPAmount",
-                    label: "Command",
+                    label: "Network",
                     parent: true,
                     icon: Zap,
+                    color: "amber",
                   },
-                  { id: "voiceXPAmount", label: "Voice/Min", icon: Mic },
-                  { id: "roleXPAmount", label: "Role/Hr", icon: Shield },
+                  {
+                    id: "voiceXPAmount",
+                    label: "Sonic",
+                    icon: Mic,
+                    color: "emerald",
+                  },
+                  {
+                    id: "roleXPAmount",
+                    label: "Status",
+                    icon: Shield,
+                    color: "purple",
+                  },
                 ].map((item) => (
                   <div key={item.id} className="space-y-2">
-                    <Label className="text-[11px] text-zinc-400 font-medium flex items-center gap-1.5">
+                    <Label className="text-[10px] text-zinc-600 font-black flex items-center gap-2 uppercase tracking-tighter">
                       <item.icon className="w-3 h-3" />
                       {item.label}
                     </Label>
                     <Input
                       id={item.id}
                       type="number"
-                      className="bg-zinc-950/50 border-white/10 h-10 rounded-xl focus:border-blue-500/50 font-mono text-center"
+                      variant="cyber"
+                      className={cn(
+                        "text-center text-sm",
+                        item.color === "amber" &&
+                          "focus-visible:border-amber-500/40 focus-visible:ring-amber-500/10 text-amber-400",
+                        item.color === "emerald" &&
+                          "focus-visible:border-emerald-500/40 focus-visible:ring-emerald-500/10 text-emerald-400",
+                        item.color === "purple" &&
+                          "focus-visible:border-purple-500/40 focus-visible:ring-purple-500/10 text-purple-400",
+                        audiowide.className
+                      )}
                       value={
                         item.parent
                           ? ((settings as any)[item.id]?.base ?? 0)
@@ -458,32 +530,46 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
           </Card>
 
           {/* Cooldowns */}
-          <Card className="bg-zinc-900/40 border-white/5 backdrop-blur-sm shadow-xl rounded-2xl">
-            <CardHeader className="pb-4">
-              <CardTitle className="text-base flex items-center gap-2 font-bold">
-                <Clock className="w-4 h-4 text-orange-400" />
+          <Card variant="cyberpunk" className="overflow-hidden relative">
+            <div className="absolute top-0 right-0 p-8 opacity-5">
+              <Clock className="w-32 h-32 -rotate-12" />
+            </div>
+            <CardHeader className="p-6 pb-4">
+              <CardTitle
+                className={cn(
+                  "text-lg flex items-center gap-3 font-black uppercase tracking-widest text-white",
+                  audiowide.className
+                )}
+              >
+                <div className="p-2 bg-orange-500/10 border border-orange-500/20 rounded-lg">
+                  <Clock className="w-4 h-4 text-orange-400" />
+                </div>
                 Rate Limiting
               </CardTitle>
-              <CardDescription className="text-xs">
-                Prevent automated experience farming.
+              <CardDescription className="text-xs font-bold text-zinc-500 uppercase tracking-tighter">
+                Protect against automated experience farming.
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-4">
+            <CardContent className="p-6 pt-4 space-y-8">
+              <div className="space-y-6">
                 <div className="space-y-2">
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between px-1">
                     <Label
                       htmlFor="msg-cooldown"
-                      className="text-[11px] text-zinc-400 font-medium"
+                      className="text-[10px] text-zinc-500 font-black uppercase tracking-widest"
                     >
-                      Chat Message Cooldown
+                      Chat Buffer Cooldown
                     </Label>
                   </div>
                   <div className="relative group">
                     <Input
                       id="msg-cooldown"
                       type="number"
-                      className="bg-zinc-950/50 border-white/10 h-10 px-4 rounded-xl focus:border-orange-500/50 font-mono"
+                      variant="cyber"
+                      className={cn(
+                        "text-orange-400 focus-visible:border-orange-500/40 focus-visible:ring-orange-500/10",
+                        audiowide.className
+                      )}
                       value={settings.messageCooldown}
                       onChange={(e) =>
                         updateSetting(
@@ -492,26 +578,30 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
                         )
                       }
                     />
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-black text-zinc-600 uppercase tracking-widest">
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 text-[9px] font-black text-orange-500/30 uppercase tracking-tighter">
                       SEC
                     </div>
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between px-1">
                     <Label
                       htmlFor="cmd-cooldown"
-                      className="text-[11px] text-zinc-400 font-medium"
+                      className="text-[10px] text-zinc-500 font-black uppercase tracking-widest"
                     >
-                      Command Usage Cooldown
+                      Command Pulse Threshold
                     </Label>
                   </div>
                   <div className="relative group">
                     <Input
                       id="cmd-cooldown"
                       type="number"
-                      className="bg-zinc-950/50 border-white/10 h-10 px-4 rounded-xl focus:border-orange-500/50 font-mono"
+                      variant="cyber"
+                      className={cn(
+                        "text-orange-400 focus-visible:border-orange-500/40 focus-visible:ring-orange-500/10",
+                        audiowide.className
+                      )}
                       value={settings.commandCooldown}
                       onChange={(e) =>
                         updateSetting(
@@ -520,18 +610,19 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
                         )
                       }
                     />
-                    <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-black text-zinc-600 uppercase tracking-widest">
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 text-[9px] font-black text-orange-500/30 uppercase tracking-tighter">
                       SEC
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-orange-500/5 border border-orange-500/20 flex gap-3">
-                <AlertCircle className="w-4 h-4 text-orange-400 shrink-0" />
-                <p className="text-[11px] text-orange-200/70 leading-relaxed font-medium">
-                  Optimizing cooldowns helps maintain server health. High
-                  traffic servers benefit from 60-90s message cooldowns.
+              <div className="p-4 rounded-2xl bg-orange-500/5 border border-orange-500/20 flex gap-4 backdrop-blur-md relative group overflow-hidden">
+                <div className="absolute inset-0 bg-orange-500/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                <AlertCircle className="w-5 h-5 text-orange-400 shrink-0" />
+                <p className="text-[11px] text-orange-200/60 leading-relaxed font-bold uppercase tracking-tight relative z-10">
+                  Buffer optimization recommended for high-load environments.
+                  60s+ message thresholds ensure neural stability.
                 </p>
               </div>
             </CardContent>
@@ -539,30 +630,40 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
         </div>
 
         {/* Notifications */}
-        <Card className="bg-zinc-900/40 border-white/5 backdrop-blur-sm shadow-xl rounded-2xl overflow-hidden relative">
-          <div className="absolute top-0 right-0 p-8 opacity-5">
-            <Bell className="w-24 h-24 rotate-12" />
+        <Card variant="cyberpunk" className="overflow-hidden relative">
+          <div className="absolute -right-10 -bottom-10 p-8 opacity-[0.03]">
+            <Bell className="w-64 h-64 rotate-12" />
           </div>
-          <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2 font-bold">
-              <Bell className="w-4 h-4 text-pink-400" />
-              Announcements
+          <CardHeader className="p-8 pb-4">
+            <CardTitle
+              className={cn(
+                "text-xl flex items-center gap-4 font-black uppercase tracking-widest text-white",
+                audiowide.className
+              )}
+            >
+              <div className="p-2.5 bg-pink-500/10 border border-pink-500/20 rounded-xl shadow-[0_0_15px_rgba(236,72,153,0.15)]">
+                <Bell className="w-5 h-5 text-pink-400" />
+              </div>
+              Level Up Notifications
             </CardTitle>
-            <CardDescription className="text-xs">
-              Manage how and where level-up notifications are delivered.
+            <CardDescription className="text-[11px] font-bold text-zinc-500 uppercase tracking-widest mt-1">
+              Configure server-wide level up announcements.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="flex items-center justify-between p-5 rounded-2xl bg-white/2 border border-white/5 hover:bg-white/4 transition-colors">
-              <div className="space-y-1">
+          <CardContent className="p-8 pt-4 space-y-8">
+            <div className="flex items-center justify-between p-6 rounded-2xl bg-white/2 border border-white/5 hover:bg-white/4 transition-all duration-500 group">
+              <div className="space-y-1.5">
                 <Label
                   htmlFor="levelup-msg"
-                  className="text-sm font-bold text-white"
+                  className={cn(
+                    "text-base font-black text-white uppercase tracking-wider group-hover:text-pink-400 transition-colors",
+                    audiowide.className
+                  )}
                 >
-                  Level Up Broadcasts
+                  Enable Notifications
                 </Label>
-                <p className="text-[11px] text-zinc-500 font-medium">
-                  Trigger an automated celebratory message on level advancement.
+                <p className="text-[11px] text-zinc-500 font-bold uppercase tracking-tighter">
+                  Send a celebratory message when a user levels up.
                 </p>
               </div>
               <Switch
@@ -571,18 +672,19 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
                 onCheckedChange={(checked) =>
                   updateSetting("levelUpMessages", checked)
                 }
-                className="data-[state=checked]:bg-pink-500"
+                variant="pink"
+                className="scale-110"
               />
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-4">
               <Label
                 htmlFor="levelup-channel"
-                className="text-[11px] text-zinc-400 font-medium px-1"
+                className="text-[11px] text-zinc-500 font-black uppercase tracking-[0.2em] px-1"
               >
-                Delivery Destination
+                Announcement Channel
               </Label>
-              <div className="w-full">
+              <div className="w-full relative group">
                 <Select
                   value={settings.levelUpChannel || "none"}
                   onValueChange={(value) =>
@@ -594,28 +696,33 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
                 >
                   <SelectTrigger
                     id="levelup-channel"
-                    className="w-full h-11 bg-zinc-950/50 border-white/10 rounded-xl focus:ring-pink-500/20 focus:border-pink-500/50 transition-all text-white font-medium hover:bg-zinc-950/80"
+                    variant="cyber"
+                    className={cn(
+                      "w-full focus:ring-pink-500/10 focus:border-pink-500/40",
+                      audiowide.className
+                    )}
                   >
                     <SelectValue placeholder="Select a channel" />
                   </SelectTrigger>
-                  <SelectContent className="bg-zinc-900 border-white/10 text-white rounded-xl shadow-2xl backdrop-blur-xl">
+                  <SelectContent className="bg-zinc-950/95 border-white/10 text-white rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] backdrop-blur-2xl">
                     <SelectItem
                       value="none"
-                      className="focus:bg-white/5 focus:text-white cursor-pointer py-2.5"
+                      className="focus:bg-white/5 focus:text-pink-400 cursor-pointer py-3.5 font-bold uppercase tracking-widest text-[11px]"
                     >
-                      Context (Current Channel)
+                      Current Channel (Context)
                     </SelectItem>
                     {channels.map((channel) => (
                       <SelectItem
                         key={channel.id}
                         value={channel.id}
-                        className="focus:bg-white/5 focus:text-white cursor-pointer py-2.5"
+                        className="focus:bg-white/5 focus:text-pink-400 cursor-pointer py-3.5 font-bold uppercase tracking-widest text-[11px]"
                       >
-                        # {channel.name}
+                        # {channel.name.toUpperCase()}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
+                <div className="absolute -inset-0.5 bg-linear-to-r from-pink-500/20 to-purple-500/20 rounded-2xl blur-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
               </div>
             </div>
           </CardContent>
@@ -627,30 +734,26 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
 
 function SettingsSkeleton() {
   return (
-    <div className="space-y-8 animate-pulse">
-      {/* Header Skeleton */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/5 pb-6">
-        <div className="space-y-2">
-          <Skeleton className="h-8 w-48 bg-zinc-900" />
-          <Skeleton className="h-4 w-64 bg-zinc-900" />
+    <div className="space-y-8 animate-pulse pb-20">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div className="space-y-3">
+          <Skeleton className="h-10 w-64 bg-zinc-900 rounded-xl" />
+          <Skeleton className="h-4 w-80 bg-zinc-900 rounded-lg" />
         </div>
-        <Skeleton className="h-10 w-32 rounded-md bg-zinc-900" />
+        <Skeleton className="h-14 w-44 rounded-2xl bg-zinc-900" />
       </div>
 
-      {/* Main Feature Toggle Skeleton */}
-      <div className="h-20 w-full rounded-xl bg-zinc-900/40 border border-white/5" />
+      <Skeleton className="h-32 w-full rounded-3xl bg-zinc-900/50 border border-white/5" />
 
-      {/* Grid Skeleton */}
-      <div className="grid gap-6 md:grid-cols-3">
-        {[1, 2, 3].map((i) => (
-          <Skeleton key={i} className="h-32 rounded-xl bg-zinc-900/40" />
+      <div className="grid gap-4 md:grid-cols-4">
+        {[1, 2, 3, 4].map((i) => (
+          <Skeleton key={i} className="h-44 rounded-2xl bg-zinc-900/50" />
         ))}
       </div>
 
-      {/* Settings Sections Skeleton */}
       <div className="grid gap-6 md:grid-cols-2">
-        <Skeleton className="h-64 rounded-xl bg-zinc-900/40" />
-        <Skeleton className="h-64 rounded-xl bg-zinc-900/40" />
+        <Skeleton className="h-[400px] rounded-3xl bg-zinc-900/50" />
+        <Skeleton className="h-[400px] rounded-3xl bg-zinc-900/50" />
       </div>
     </div>
   );

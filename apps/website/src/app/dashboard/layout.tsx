@@ -16,6 +16,8 @@ import { notFound } from "next/navigation";
 import { getManageableGuilds } from "@/lib/server/guilds";
 import { StoreHydrator } from "./_components/store-hydrator";
 
+import { ScrollArea } from "@/components/ui/scroll-area";
+
 async function ServerStoreData() {
   const { guilds, installedGuildIds } = await getManageableGuilds();
   return (
@@ -35,18 +37,20 @@ export default async function DashboardLayout({
   }
 
   return (
-    <SidebarProvider className="flex min-h-screen w-full">
+    <SidebarProvider className="flex h-dvh w-full overflow-hidden bg-background">
       <Suspense fallback={null}>
         <ServerStoreData />
       </Suspense>
       <NavigationProgress />
       <DashboardSidebar />
-      <SidebarInset className="relative flex flex-col flex-1 min-w-0 md:m-2 md:rounded-xl md:shadow-2xl border border-white/5 bg-background/50 backdrop-blur-sm">
+      <SidebarInset className="relative flex flex-col flex-1 min-w-0 md:my-2 md:mr-2 md:rounded-xl md:shadow-2xl border border-white/5 bg-background/50 backdrop-blur-sm overflow-hidden h-dvh">
         <DashboardHeader />
-        <main className="p-4 md:p-8">
-          <div className="max-w-7xl mx-auto w-full overflow-x-hidden">
-            <PageTransition>{children}</PageTransition>
-          </div>
+        <main className="flex-1 overflow-hidden relative">
+          <ScrollArea className="h-full">
+            <div className="max-w-7xl mx-auto w-full p-4 md:p-8">
+              <PageTransition>{children}</PageTransition>
+            </div>
+          </ScrollArea>
         </main>
       </SidebarInset>
     </SidebarProvider>

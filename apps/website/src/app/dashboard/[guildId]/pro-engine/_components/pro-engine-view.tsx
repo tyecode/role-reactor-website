@@ -123,7 +123,7 @@ export function ProEngineView({
 
   return (
     <>
-      <div className="space-y-8 pb-12 w-full min-w-0">
+      <div className="space-y-8 w-full min-w-0">
         {/* Status Section */}
         {isPremium ? (
           <motion.div
@@ -162,7 +162,10 @@ export function ProEngineView({
                     </AlertDescription>
                   )}
                 </div>
-                <Badge className="bg-emerald-500 text-emerald-950 border-none font-black uppercase text-[10px] px-3 py-1 shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+                <Badge
+                  variant="pro"
+                  className="px-3 py-1 shadow-[0_0_15px_rgba(16,185,129,0.3)]"
+                >
                   Enabled
                 </Badge>
               </div>
@@ -197,7 +200,7 @@ export function ProEngineView({
                 <Button
                   variant="outline"
                   size="sm"
-                  className="bg-amber-500/10 border-amber-500/30 text-amber-500 hover:bg-amber-500 hover:text-amber-950 font-black uppercase text-[10px]"
+                  className="font-black uppercase text-[10px]"
                 >
                   Unlock Now
                 </Button>
@@ -240,8 +243,11 @@ export function ProEngineView({
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 + i * 0.05 }}
               >
-                <Card className="group relative overflow-hidden rounded-2xl bg-zinc-950/40 border-white/5 backdrop-blur-xl transition-all hover:bg-zinc-900/60 hover:border-white/10">
-                  <CardContent className="p-4">
+                <Card
+                  variant="stat"
+                  className="hover:bg-zinc-900/60 hover:border-white/10"
+                >
+                  <CardContent className="p-6">
                     <div className="absolute top-0 right-0 p-2 opacity-5 transition-opacity group-hover:opacity-10">
                       <stat.icon className="w-12 h-12" />
                     </div>
@@ -281,7 +287,7 @@ export function ProEngineView({
         )}
 
         {/* Features Grid */}
-        <div className="space-y-6">
+        <div className="space-y-8">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-bold text-white flex items-center gap-2">
               <Sparkles className="text-purple-500 w-5 h-5" />
@@ -307,11 +313,11 @@ export function ProEngineView({
                 className="h-full"
               >
                 <Card
+                  variant="cyberpunk"
                   className={cn(
-                    "group relative h-full transition-all duration-500 backdrop-blur-xl rounded-2xl overflow-hidden border",
-                    feature.status === "active"
-                      ? "border-white/5 bg-zinc-900/40 hover:bg-zinc-900/60 hover:border-cyan-500/30 hover:shadow-[0_0_30px_rgba(6,182,212,0.1)]"
-                      : "border-white/5 bg-zinc-950/20 opacity-40 cursor-not-allowed border-dashed"
+                    "group relative h-full transition-all duration-500",
+                    feature.status !== "active" &&
+                      "opacity-40 cursor-not-allowed border-dashed"
                   )}
                 >
                   <CardContent className="p-5 flex items-start gap-4">
@@ -369,7 +375,7 @@ export function ProEngineView({
 
         {/* Management Section (Premium Only) */}
         {isPremium && (
-          <Card className="relative overflow-hidden rounded-2xl bg-zinc-950/40 border-white/5 backdrop-blur-xl">
+          <Card variant="cyberpunk" className="overflow-hidden relative">
             <CardContent className="p-6 space-y-6">
               <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-zinc-800 to-transparent" />
 

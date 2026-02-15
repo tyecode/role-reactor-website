@@ -7,10 +7,7 @@ import { NodeLoader } from "@/components/common/node-loader";
 
 function RolesPageSkeleton() {
   return (
-    <NodeLoader
-      title="Scanning Access Nodes"
-      subtitle="Fetching_Role_Definitions..."
-    />
+    <NodeLoader title="Loading Roles" subtitle="Synchronizing role data..." />
   );
 }
 
@@ -41,17 +38,17 @@ export default async function RolesPage({
   const { guilds, installedGuildIds } = await getManageableGuilds();
   const activeGuild = guilds.find((g) => g.id === guildId);
 
-  const guildName = activeGuild?.name || "Target Node";
+  const guildName = activeGuild?.name || "this server";
   const isInstalled = installedGuildIds.includes(guildId);
 
   if (!isInstalled) {
     return (
       <div className="space-y-8 pb-12 w-full min-w-0 overflow-x-hidden">
         <PageHeader
-          category="Interactive Role System"
+          category="Engagement Management"
           categoryIcon={ShieldCheck}
           title="Reaction Roles"
-          description="Interactive role assignment system configured for"
+          description="Configure interactive role assignment systems for"
           serverName={guildName}
         />
         <BotInviteCard guildId={guildId} />
@@ -62,10 +59,10 @@ export default async function RolesPage({
   return (
     <div className="space-y-8 pb-12 animate-in fade-in duration-700 w-full min-w-0 overflow-x-hidden">
       <PageHeader
-        category="Interactive Role System"
+        category="Engagement Management"
         categoryIcon={ShieldCheck}
         title="Reaction Roles"
-        description="Interactive role assignment system configured for"
+        description="Configure interactive role assignment systems for"
         serverName={guildName}
       />
 

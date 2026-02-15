@@ -16,14 +16,14 @@ const cardVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-black/40 backdrop-blur-sm border-white/10 hover:border-white/20 transition-all duration-300 relative group overflow-hidden shadow-none",
-        stat: "bg-black/40 backdrop-blur-sm border-white/10 hover:border-white/20 transition-all duration-300 relative group overflow-hidden shadow-none",
+          "bg-black/40 backdrop-blur-sm border-white/10 hover:border-white/20 transition-all duration-300 relative overflow-hidden shadow-none",
+        stat: "bg-black/40 backdrop-blur-sm border-white/10 hover:border-white/20 transition-all duration-300 relative overflow-hidden shadow-none",
         feature:
-          "bg-black/40 backdrop-blur-sm border-white/10 hover:border-white/20 transition-all duration-300 relative group overflow-hidden shadow-none",
+          "bg-black/40 backdrop-blur-sm border-white/10 hover:border-white/20 transition-all duration-300 relative overflow-hidden shadow-none",
         glass:
-          "rounded-xl bg-black/40 border-white/10 backdrop-blur-xl shadow-none relative group overflow-hidden hover:border-white/20 transition-all duration-300",
+          "rounded-xl bg-black/40 border-white/10 backdrop-blur-xl shadow-none relative overflow-hidden hover:border-white/20 transition-all duration-300",
         cyberpunk:
-          "bg-black/60 backdrop-blur-md border-white/10 hover:border-cyan-500/50 hover:shadow-[0_0_20px_-5px_rgba(6,182,212,0.3)] transition-all duration-300 relative group overflow-hidden rounded-2xl",
+          "bg-black/60 backdrop-blur-md border-white/10 hover:border-cyan-500/50 hover:shadow-[0_0_20px_-5px_rgba(6,182,212,0.3)] transition-all duration-300 relative overflow-hidden rounded-2xl",
       },
     },
     defaultVariants: {
@@ -37,10 +37,14 @@ export interface CardProps
     React.HTMLAttributes<HTMLDivElement>,
     VariantProps<typeof cardVariants> {
   showGrid?: boolean;
+  contentClassName?: string;
 }
 
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ className, variant, showGrid, children, ...props }, ref) => (
+  (
+    { className, variant, showGrid, contentClassName, children, ...props },
+    ref
+  ) => (
     <div
       ref={ref}
       className={cn(cardVariants({ variant }), className)}
@@ -68,7 +72,12 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
 
       {/* Corner Accent Lines */}
 
-      <div className="relative z-20 h-full w-full flex flex-col">
+      <div
+        className={cn(
+          "relative z-20 h-full w-full flex flex-col",
+          contentClassName
+        )}
+      >
         {children}
       </div>
     </div>

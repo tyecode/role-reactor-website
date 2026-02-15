@@ -24,16 +24,16 @@ interface OnboardingViewProps {
 export function OnboardingView({ inviteUrl }: OnboardingViewProps) {
   return (
     <div className="space-y-6 sm:space-y-10 pb-16 max-w-7xl mx-auto px-4 sm:px-6">
-      {/* Onboarding Hero - Fluid Mission Control */}
+      {/* Onboarding Hero - Fluid Dashboard */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative rounded-[1.5rem] sm:rounded-[2rem] overflow-hidden border border-white/10 bg-zinc-950/50 shadow-2xl min-h-[380px] sm:min-h-[420px] flex items-center group"
+        className="relative rounded-[1.5rem] sm:rounded-4xl overflow-hidden border border-white/10 bg-zinc-950/50 shadow-2xl min-h-[380px] sm:min-h-[420px] flex items-center group"
       >
         {/* Cinematic Background Layer */}
         <div className="absolute inset-0 z-0 select-none">
-          <div className="absolute inset-0 bg-gradient-to-b from-zinc-950 via-transparent to-zinc-950/90 z-10" />
-          <div className="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-950/40 to-transparent z-10" />
+          <div className="absolute inset-0 bg-linear-to-b from-zinc-950 via-transparent to-zinc-950/90 z-10" />
+          <div className="absolute inset-0 bg-linear-to-r from-zinc-950 via-zinc-950/40 to-transparent z-10" />
 
           {/* Main Hero Illustration */}
           <div
@@ -73,9 +73,9 @@ export function OnboardingView({ inviteUrl }: OnboardingViewProps) {
               <div className="w-1.5 h-1.5 rounded-full bg-blue-400 shadow-[0_0_10px_rgba(96,165,250,1)] animate-pulse" />
               SYSTEMS ONLINE
             </Badge>
-            <div className="h-[1px] w-12 bg-zinc-800 hidden sm:block" />
+            <div className="h-px w-12 bg-zinc-800 hidden sm:block" />
             <span className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-500 hidden sm:block font-mono">
-              LINK_ACTIVE
+              CONNECTION_ESTABLISHED
             </span>
           </motion.div>
 
@@ -92,10 +92,10 @@ export function OnboardingView({ inviteUrl }: OnboardingViewProps) {
               )}
             >
               IGNITE THE <br />
-              <span className="relative inline-block bg-gradient-to-r from-blue-400 via-cyan-300 to-indigo-400 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.4)] py-1">
+              <span className="relative inline-block bg-linear-to-r from-blue-400 via-cyan-300 to-indigo-400 bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(34,211,238,0.4)] py-1">
                 COMMUNITY
-                <div className="absolute -bottom-1 left-0 w-full h-[1px] sm:h-[3px] bg-cyan-500/20 rounded-full blur-[2px]" />
-                <div className="absolute -bottom-1 left-0 w-2/3 h-[1px] sm:h-[3px] bg-cyan-400 shadow-[0_0_15px_#22d3ee] rounded-full" />
+                <div className="absolute -bottom-1 left-0 w-full h-px sm:h-[3px] bg-cyan-500/20 rounded-full blur-[2px]" />
+                <div className="absolute -bottom-1 left-0 w-2/3 h-px sm:h-[3px] bg-cyan-400 shadow-[0_0_15px_#22d3ee] rounded-full" />
               </span>
             </h1>
           </motion.div>
@@ -110,7 +110,7 @@ export function OnboardingView({ inviteUrl }: OnboardingViewProps) {
             <Button
               asChild
               variant="glitch"
-              data-text="UNLEASH THE BOT"
+              data-text="ADD TO SERVER"
               className="rounded-lg px-4 sm:px-7 h-9 sm:h-11 text-[8px] sm:text-xs shadow-[0_0_20px_rgba(59,130,246,0.1)] border border-blue-400/20 group w-full xs:w-auto"
             >
               <a
@@ -123,7 +123,7 @@ export function OnboardingView({ inviteUrl }: OnboardingViewProps) {
                   size={14}
                   className="group-hover:scale-110 transition-transform"
                 />
-                UNLEASH THE BOT
+                ADD TO SERVER
               </a>
             </Button>
 
@@ -134,7 +134,7 @@ export function OnboardingView({ inviteUrl }: OnboardingViewProps) {
             >
               <Link href="/docs" className="flex items-center gap-2 sm:gap-2.5">
                 <Shield size={12} className="text-zinc-400" />
-                COMMANDS
+                COMMAND LIST
               </Link>
             </Button>
           </div>
@@ -172,34 +172,34 @@ export function OnboardingView({ inviteUrl }: OnboardingViewProps) {
               audiowide.className
             )}
           >
-            CORE MODULES
+            CORE SERVICES
           </h2>
           <p className="text-zinc-500 text-[10px] font-bold tracking-[0.3em] uppercase">
-            Initialize your server deployment
+            Initialize your server configuration
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {[
             {
-              title: "DATA CENTER",
-              desc: "Guides and technical specs.",
+              title: "DOCUMENTATION",
+              desc: "Guides and technical specifications.",
               icon: Server,
               accent: "text-blue-400",
               href: "/docs",
               glow: "group-hover:shadow-blue-500/10",
             },
             {
-              title: "COMMAND HQ",
-              desc: "Discord support engineers.",
+              title: "SUPPORT CENTER",
+              desc: "Join our community support server.",
               icon: Shield,
               accent: "text-purple-400",
               href: "https://discord.gg/role-reactor",
               glow: "group-hover:shadow-purple-500/10",
             },
             {
-              title: "NEURAL GATE",
-              desc: "Switch between core links.",
+              title: "DASHBOARD",
+              desc: "Manage your connected servers.",
               icon: Zap,
               accent: "text-emerald-400",
               href: "/",

@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { botFetchJson } from "@/lib/bot-fetch";
+import { PageHeader } from "@/app/dashboard/_components/page-header";
 
 export const metadata: Metadata = {
-  title: "Financial Intelligence | Admin Console",
+  title: "Revenue & Billing | Admin Console",
   description: "Monitor revenue streams and transaction logs",
 };
 import {
@@ -67,8 +68,8 @@ async function getPaymentStats() {
 function RevenueLoader() {
   return (
     <NodeLoader
-      title="Financial Uplink"
-      subtitle="Processing_Transaction_Matrix..."
+      title="Fetching Revenue Data"
+      subtitle="Synchronizing transaction logs..."
     />
   );
 }
@@ -81,7 +82,7 @@ async function RevenueContent() {
       <Card variant="cyberpunk" className="border-red-500/50 bg-red-500/5">
         <CardContent className="pt-6">
           <p className="font-mono text-sm text-red-500 font-bold uppercase">
-            Payment Data Stream Interrupted // Check Repository Status
+            Payment Data Unavailable // Connection Error
           </p>
         </CardContent>
       </Card>
@@ -102,7 +103,7 @@ async function RevenueContent() {
           color="emerald"
         />
         <RevenueStatCard
-          title="Core Flow"
+          title="Cores Issued"
           value={formatCompactNumber(overview.totalCoresGranted)}
           icon={TrendingUp}
           description="Total credits minted"
@@ -112,7 +113,7 @@ async function RevenueContent() {
           title="Unique Payers"
           value={formatCompactNumber(overview.uniqueCustomers)}
           icon={Users}
-          description="Distinct funding identities"
+          description="Distinct customers"
           color="fuchsia"
         />
         <RevenueStatCard
@@ -132,8 +133,8 @@ async function RevenueContent() {
         >
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <div>
-              <CardTitle>Cashflow matrix</CardTitle>
-              <CardDescription>Temporal revenue distribution</CardDescription>
+              <CardTitle>Revenue Distribution</CardTitle>
+              <CardDescription>Revenue over time</CardDescription>
             </div>
             <div className="flex gap-2">
               <Badge
@@ -162,7 +163,7 @@ async function RevenueContent() {
         >
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardTitle className="text-lg">Recent Flux</CardTitle>
+              <CardTitle className="text-lg">Recent Transactions</CardTitle>
               <History className="size-4 text-zinc-500" />
             </div>
             <CardDescription>Latest system transactions</CardDescription>
@@ -228,15 +229,12 @@ async function RevenueContent() {
 export default async function AdminRevenuePage() {
   return (
     <div className="space-y-8">
-      <div className="flex flex-col gap-2">
-        <h1 className="text-3xl font-black tracking-tighter uppercase italic text-emerald-500 shadow-emerald-500/20 drop-shadow-[0_0_10px_rgba(16,185,129,0.3)] flex items-center gap-3">
-          <DollarSign className="size-8" />
-          Financial Intelligence
-        </h1>
-        <p className="text-zinc-500 text-xs font-mono tracking-widest uppercase ml-1">
-          Revenue Streams & Transaction Logs
-        </p>
-      </div>
+      <PageHeader
+        category="Admin Monitoring"
+        categoryIcon={DollarSign}
+        title="Revenue & Billing"
+        description="Monitor revenue streams and transaction logs for the entire system."
+      />
 
       <Suspense fallback={<RevenueLoader />}>
         <RevenueContent />

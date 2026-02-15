@@ -8,7 +8,7 @@ export default function SettingsPage() {
         category="System Preferences"
         categoryIcon={SettingsIcon}
         title="Account Settings"
-        description="Manage your personal preferences and dashboard configuration"
+        description="Manage your global preferences and dashboard configuration"
       />
 
       <div className="flex flex-col items-center justify-center min-h-[40vh] text-center border border-white/5 bg-zinc-950/20 rounded-3xl backdrop-blur-xl p-8">
@@ -16,11 +16,12 @@ export default function SettingsPage() {
           <SettingsIcon className="size-8 text-zinc-500 animate-spin-slow" />
         </div>
         <h2 className="text-xl font-black italic mb-2 uppercase tracking-tighter">
-          Under Construction
+          Coming Soon
         </h2>
         <p className="text-zinc-500 text-sm font-medium max-w-sm">
-          The settings interface is currently being optimized for neural
-          compatibility. Check back soon for advanced customization options.
+          The settings interface is currently being updated to provide a more
+          streamlined experience. Check back soon for advanced customization
+          options.
         </p>
       </div>
     </div>

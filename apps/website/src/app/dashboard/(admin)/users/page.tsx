@@ -1,17 +1,13 @@
 import type { Metadata } from "next";
 import { botFetchJson } from "@/lib/bot-fetch";
+import { PageHeader } from "@/app/dashboard/_components/page-header";
+import { Users } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Identity Manager | Admin Console",
+  title: "User Management | Admin Console",
   description: "Manage system users and access levels",
 };
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { UserTable } from "./_components/user-table";
 import { Suspense } from "react";
 import { NodeLoader } from "@/components/common/node-loader";
@@ -50,7 +46,10 @@ async function getUsers(search?: string) {
 
 function UsersLoader() {
   return (
-    <NodeLoader title="Identity Scanner" subtitle="Accessing_User_Base..." />
+    <NodeLoader
+      title="Fetching Users"
+      subtitle="Synchronizing user directory..."
+    />
   );
 }
 
@@ -62,7 +61,7 @@ async function UsersContent({ search }: { search?: string }) {
       <Card variant="cyberpunk" className="border-red-500/50 bg-red-500/5">
         <CardContent className="pt-6">
           <p className="font-mono text-sm text-red-500 font-bold uppercase">
-            Identity Cache Offline // Failed to connect to User Repository
+            Service Unavailable // Unable to load user data
           </p>
         </CardContent>
       </Card>
@@ -80,14 +79,15 @@ export default async function AdminUsersPage({
   const { search } = await searchParams;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
+      <PageHeader
+        category="Admin Monitoring"
+        categoryIcon={Users}
+        title="User Management"
+        description="Manage user roles and system access for the entire bot infrastructure."
+      />
+
       <Card variant="cyberpunk" className="border-white/5 bg-zinc-950/40">
-        <CardHeader className="border-b border-white/5 pb-6">
-          <CardTitle className="text-xl italic">Identity Manager</CardTitle>
-          <CardDescription>
-            Configure system access levels and operational clearance
-          </CardDescription>
-        </CardHeader>
         <CardContent className="p-0">
           <Suspense fallback={<UsersLoader />}>
             <UsersContent search={search} />
