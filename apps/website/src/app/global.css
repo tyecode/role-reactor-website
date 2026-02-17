@@ -1240,3 +1240,16 @@
 .clip-path-slant {
   clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
 }
+
+/* Alert Glitch Animation - Matching Dialog System */
+.alert-glitch-animation[data-state="open"] {
+  animation:
+    dialogGlitchIn 0.5s steps(10) forwards,
+    rgbSplit 0.5s steps(8) forwards !important;
+}
+
+.alert-glitch-animation[data-state="closed"] {
+  animation:
+    dialogGlitchOut 0.3s steps(6) forwards,
+    rgbSplit 0.3s steps(5) forwards !important;
+}

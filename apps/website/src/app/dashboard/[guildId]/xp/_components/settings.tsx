@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
-import { useSWRConfig } from "swr";
 import { Audiowide } from "next/font/google";
 import {
   Save,
@@ -18,7 +17,7 @@ import {
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { useXPSettings } from "@/hooks/use-xp-settings";
+import { useXPStore } from "@/store/use-xp-store";
 import { useGuildChannels } from "@/hooks/use-guild-channels";
 
 import { toast } from "@/lib/toast";
@@ -71,50 +70,31 @@ interface SettingsTabProps {
 
 export function XPSettingsTab({ guildId }: SettingsTabProps) {
   const {
-    settings: initialSettings,
+    settings: globalSettings,
     isLoading,
     isError,
-    mutate,
-  } = useXPSettings(guildId);
-  const { mutate: globalMutate } = useSWRConfig();
+    fetchXPData,
+    updateSettings,
+  } = useXPStore();
+
   const { channels } = useGuildChannels(guildId);
   const [saving, setSaving] = useState(false);
-  const [settings, setSettings] = useState<XPSettings | null>(null);
+  const [localSettings, setLocalSettings] = useState<XPSettings | null>(null);
 
-  // Sync internal state with cached SWR data
+  // Sync internal state with global store
   useEffect(() => {
-    if (initialSettings && !settings) {
-      const defaults: XPSettings = {
-        enabled: false,
-        messageXP: true,
-        commandXP: true,
-        roleXP: true,
-        voiceXP: true,
-        messageXPAmount: { min: 15, max: 25 },
-        roleXPAmount: 50,
-        commandXPAmount: { base: 8 },
-        voiceXPAmount: 5,
-        messageCooldown: 60,
-        commandCooldown: 30,
-        levelUpMessages: true,
-      };
-
-      // Merge current settings with defaults to ensure new fields are populated
-      const xpSettings = initialSettings.experienceSystem
-        ? { ...defaults, ...initialSettings.experienceSystem }
-        : defaults;
-
-      setSettings(xpSettings);
+    if (globalSettings && !localSettings) {
+      setLocalSettings(globalSettings);
     }
-  }, [initialSettings, settings]);
+  }, [globalSettings, localSettings]);
 
   const handleSave = async () => {
-    if (!guildId || !settings) return;
+    if (!guildId || !localSettings) return;
 
     setSaving(true);
     try {
       const payload = {
-        experienceSystem: settings,
+        experienceSystem: localSettings,
       };
 
       const response = await fetch(`/api/guilds/${guildId}/settings`, {
@@ -132,10 +112,10 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
       const data = await response.json();
       if (data.status === "success") {
         toast.success("Configuration synchronized successfully!");
-        // Update the SWR cache with the new values
-        mutate();
-        // Force refresh leaderboard as well
-        globalMutate(`/api/guilds/${guildId}/leaderboard?limit=100`);
+        // Update the global store with the new values
+        updateSettings(guildId, localSettings);
+        // Force refresh data to be sure
+        fetchXPData(guildId, true);
       } else {
         throw new Error(data.message || "Failed to save settings");
       }
@@ -147,45 +127,47 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
     }
   };
 
-  const updateSetting = <T extends keyof XPSettings>(
+  const updateLocalSetting = <T extends keyof XPSettings>(
     key: T,
     value: XPSettings[T]
   ) => {
-    if (!settings) return;
-    setSettings({ ...settings, [key]: value });
+    if (!localSettings) return;
+    setLocalSettings({ ...localSettings, [key]: value });
   };
 
-  const updateNestedSetting = <T extends "messageXPAmount" | "commandXPAmount">(
+  const updateNestedLocalSetting = <
+    T extends "messageXPAmount" | "commandXPAmount",
+  >(
     parent: T,
     key: string,
     value: number
   ) => {
-    if (!settings) return;
-    const parentObj = settings[parent] as any;
-    setSettings({
-      ...settings,
+    if (!localSettings) return;
+    const parentObj = localSettings[parent] as any;
+    setLocalSettings({
+      ...localSettings,
       [parent]: { ...parentObj, [key]: value },
     });
   };
 
-  if (isLoading && !settings) {
+  if (isLoading && !localSettings) {
     return <SettingsSkeleton />;
   }
 
-  if (isError && !settings) {
+  if (isError && !localSettings) {
     return (
       <ErrorView
         title="CORE SYNC FAILED"
         message={
           isError.message || "Failed to load settings. Please try again later."
         }
-        onRetry={() => mutate()}
+        onRetry={() => fetchXPData(guildId, true)}
         showHome={false}
       />
     );
   }
 
-  if (!settings) {
+  if (!localSettings) {
     return null;
   }
 
@@ -233,7 +215,7 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
         showGrid
         className={cn(
           "transition-all duration-500",
-          settings.enabled
+          localSettings.enabled
             ? "border-cyan-500/30 shadow-[0_0_40px_rgba(6,182,212,0.05)]"
             : "opacity-60"
         )}
@@ -259,8 +241,10 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
             </div>
             <Switch
               id="xp-enabled"
-              checked={settings.enabled}
-              onCheckedChange={(checked) => updateSetting("enabled", checked)}
+              checked={localSettings.enabled}
+              onCheckedChange={(checked) =>
+                updateLocalSetting("enabled", checked)
+              }
               variant="cyan"
               className="scale-125 shadow-lg"
             />
@@ -271,7 +255,7 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
       <div
         className={cn(
           "grid gap-8 transition-all duration-700",
-          !settings.enabled &&
+          !localSettings.enabled &&
             "opacity-30 grayscale pointer-events-none translate-y-4"
         )}
       >
@@ -344,10 +328,12 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
                       <Switch
                         id={source.id}
                         checked={
-                          settings[source.id as keyof XPSettings] as boolean
+                          localSettings[
+                            source.id as keyof XPSettings
+                          ] as boolean
                         }
                         onCheckedChange={(checked) =>
-                          updateSetting(source.id as any, checked)
+                          updateLocalSetting(source.id as any, checked)
                         }
                         variant={
                           source.color as
@@ -421,9 +407,9 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
                         type="number"
                         variant="cyber"
                         className={cn("text-cyan-400", audiowide.className)}
-                        value={settings.messageXPAmount.min}
+                        value={localSettings.messageXPAmount.min}
                         onChange={(e) =>
-                          updateNestedSetting(
+                          updateNestedLocalSetting(
                             "messageXPAmount",
                             "min",
                             parseInt(e.target.value) || 0
@@ -448,9 +434,9 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
                         type="number"
                         variant="cyber"
                         className={cn("text-cyan-400", audiowide.className)}
-                        value={settings.messageXPAmount.max}
+                        value={localSettings.messageXPAmount.max}
                         onChange={(e) =>
-                          updateNestedSetting(
+                          updateNestedLocalSetting(
                             "messageXPAmount",
                             "max",
                             parseInt(e.target.value) || 0
@@ -508,18 +494,18 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
                       )}
                       value={
                         item.parent
-                          ? ((settings as any)[item.id]?.base ?? 0)
-                          : ((settings as any)[item.id] ?? 0)
+                          ? ((localSettings as any)[item.id]?.base ?? 0)
+                          : ((localSettings as any)[item.id] ?? 0)
                       }
                       onChange={(e) => {
                         if (item.parent)
-                          updateNestedSetting(
+                          updateNestedLocalSetting(
                             item.id as any,
                             "base",
                             parseInt(e.target.value) || 0
                           );
                         else
-                          updateSetting(
+                          updateLocalSetting(
                             item.id as any,
                             parseInt(e.target.value) || 0
                           );
@@ -572,9 +558,9 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
                         "text-orange-400 focus-visible:border-orange-500/40 focus-visible:ring-orange-500/10",
                         audiowide.className
                       )}
-                      value={settings.messageCooldown}
+                      value={localSettings.messageCooldown}
                       onChange={(e) =>
-                        updateSetting(
+                        updateLocalSetting(
                           "messageCooldown",
                           parseInt(e.target.value) || 0
                         )
@@ -604,9 +590,9 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
                         "text-orange-400 focus-visible:border-orange-500/40 focus-visible:ring-orange-500/10",
                         audiowide.className
                       )}
-                      value={settings.commandCooldown}
+                      value={localSettings.commandCooldown}
                       onChange={(e) =>
-                        updateSetting(
+                        updateLocalSetting(
                           "commandCooldown",
                           parseInt(e.target.value) || 0
                         )
@@ -670,9 +656,9 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
               </div>
               <Switch
                 id="levelup-msg"
-                checked={settings.levelUpMessages}
+                checked={localSettings.levelUpMessages}
                 onCheckedChange={(checked) =>
-                  updateSetting("levelUpMessages", checked)
+                  updateLocalSetting("levelUpMessages", checked)
                 }
                 variant="pink"
                 className="scale-110"
@@ -688,9 +674,9 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
               </Label>
               <div className="w-full relative group">
                 <Select
-                  value={settings.levelUpChannel || "none"}
+                  value={localSettings.levelUpChannel || "none"}
                   onValueChange={(value) =>
-                    updateSetting(
+                    updateLocalSetting(
                       "levelUpChannel",
                       value === "none" ? "" : value
                     )

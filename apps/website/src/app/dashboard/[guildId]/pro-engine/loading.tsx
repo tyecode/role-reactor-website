@@ -4,7 +4,7 @@ export default function ProEngineLoading() {
   return (
     <NodeLoader
       title="Loading Pro Engine"
-      subtitle="Synchronizing system capabilities..."
+      subtitle="Synchronizing Pro Engine settings..."
     />
   );
 }

@@ -17,10 +17,18 @@ export async function POST(
       );
     }
 
-    const body = await request.json();
+    let body = {};
+    try {
+      body = await request.json();
+    } catch {
+      // Body might be empty, which is fine as we handle defaults in backend
+    }
 
     const response = await botFetch(`/guilds/${guildId}/premium/cancel`, {
       method: "POST",
+      headers: {
+        "x-user-id": session.user?.id || "",
+      },
       body: JSON.stringify(body),
     });
 

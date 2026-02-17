@@ -34,14 +34,29 @@ export function PageHeader({
   className,
   children,
 }: PageHeaderProps) {
-  const badgeColors = {
-    default: "bg-zinc-500/10 text-zinc-400 border-zinc-500/30",
-    cyan: "bg-cyan-500/10 text-cyan-400 border-cyan-500/30 shadow-[0_0_10px_rgba(6,182,212,0.2)]",
-    yellow:
-      "bg-yellow-500/10 text-yellow-500 border-yellow-500/30 shadow-[0_0_10px_rgba(234,179,8,0.2)]",
-    emerald:
-      "bg-emerald-500/10 text-emerald-400 border-emerald-500/30 shadow-[0_0_10px_rgba(16,185,129,0.2)]",
+  // Map legacy colors to Badge variants
+  const variantMap: Record<
+    string,
+    | "default"
+    | "secondary"
+    | "destructive"
+    | "outline"
+    | "accent"
+    | "premium"
+    | "pro"
+    | "success"
+    | "warning"
+    | "info"
+  > = {
+    cyan: "accent",
+    yellow: "premium",
+    emerald: "success",
+    default: "default",
   };
+
+  const badgeVariant = badge?.variant
+    ? (variantMap[badge.variant] ?? (badge.variant as any))
+    : "default";
 
   return (
     <div
@@ -66,10 +81,8 @@ export function PageHeader({
           </span>
           {badge && (
             <Badge
-              className={cn(
-                "px-2 py-1 text-[10px] font-black items-center gap-1.5",
-                badgeColors[badge.variant || "default"]
-              )}
+              variant={badgeVariant}
+              className="px-2 py-1 text-[10px] items-center gap-1.5"
             >
               <badge.icon className="w-3 h-3" />
               {badge.label}

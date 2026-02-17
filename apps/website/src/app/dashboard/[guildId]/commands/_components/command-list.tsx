@@ -92,7 +92,7 @@ export function CommandList({ guildId }: CommandListProps) {
   const [isActivating, setIsActivating] = useState(false);
   const [showPremiumModal, setShowPremiumModal] = useState(false);
   const { data, error, mutate, isLoading } = useSWR(
-    `/api/guilds/${guildId}/settings`,
+    guildId ? `/api/guilds/${guildId}/settings` : null,
     fetcher,
     {
       revalidateOnFocus: false,
@@ -281,25 +281,6 @@ export function CommandList({ guildId }: CommandListProps) {
                     {disabledCommands.length}
                   </span>
                 </div>
-
-                {subscription?.nextDeductionDate && (
-                  <div className="flex items-center gap-2 bg-blue-500/5 border border-blue-500/20 px-4 py-1.5 rounded-lg shadow-[0_0_15px_-5px_rgba(59,130,246,0.3)] backdrop-blur-md">
-                    <Clock className="w-3 h-3 text-blue-400" />
-                    <span className="text-[10px] uppercase font-bold text-blue-400 tracking-wider">
-                      Renews:
-                    </span>
-                    <span
-                      className={cn(
-                        "text-blue-300 font-bold text-[10px]",
-                        audiowide.className
-                      )}
-                    >
-                      {new Date(
-                        subscription.nextDeductionDate
-                      ).toLocaleDateString()}
-                    </span>
-                  </div>
-                )}
               </>
             ) : (
               <Button
@@ -316,11 +297,11 @@ export function CommandList({ guildId }: CommandListProps) {
         </div>
 
         <div className="relative space-y-16">
-          {error || data?.status !== "success" ? (
+          {(error && !data) || (data && data.status !== "success") ? (
             <div className="space-y-8 animate-in fade-in duration-500">
               <ErrorView
-                title="Search Failed"
-                message="We were unable to load the command settings. Please try again."
+                title="System Alert"
+                message="We were unable to synchronize command settings. Please try again."
                 onRetry={() => mutate()}
                 showHome={false}
               />

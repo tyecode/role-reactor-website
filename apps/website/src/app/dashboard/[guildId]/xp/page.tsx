@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, use } from "react";
+import { useState, use, useEffect } from "react";
 import { Audiowide } from "next/font/google";
 import { Trophy, Settings as SettingsIcon, Search } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { useLeaderboard } from "@/hooks/use-leaderboard";
+import { useXPStore } from "@/store/use-xp-store";
 import { useServerStore } from "@/store/use-server-store";
 import type { LeaderboardEntry } from "@/types/discord";
 
@@ -14,7 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PageHeader } from "@/app/dashboard/_components/page-header";
 import { ErrorView } from "@/components/common/error-view";
 
-import { LeaderboardSkeleton } from "./loading";
+import XPLoading from "./loading";
 import { StatsGrid } from "./_components/stats";
 import { LeaderboardList } from "./_components/leaderboard";
 import { XPSettingsTab } from "./_components/settings";
@@ -35,12 +35,26 @@ export default function XPPage({ params }: XPPageProps) {
   const [activeTab, setActiveTab] = useState("leaderboard");
   const [searchQuery, setSearchQuery] = useState("");
 
+  const {
+    leaderboard,
+    settings,
+    isLoading,
+    isError,
+    isXpDisabled,
+    fetchXPData,
+    clearCache,
+  } = useXPStore();
+
   const { guilds } = useServerStore();
   const activeGuild = guilds.find((g) => g.id === guildId);
   const guildName = activeGuild?.name || "this server";
 
-  const { leaderboard, isLoading, isError, isXpDisabled, mutate } =
-    useLeaderboard(guildId);
+  // Handle Initial Fetch
+  useEffect(() => {
+    if (guildId) {
+      fetchXPData(guildId);
+    }
+  }, [guildId, fetchXPData]);
 
   const filteredLeaderboard = leaderboard.filter((entry: LeaderboardEntry) =>
     entry.user.username.toLowerCase().includes(searchQuery.toLowerCase())
@@ -49,10 +63,39 @@ export default function XPPage({ params }: XPPageProps) {
   const averageLevel =
     leaderboard.length > 0
       ? Math.round(
-          leaderboard.reduce((acc, curr) => acc + curr.level, 0) /
-            leaderboard.length
+          leaderboard.reduce(
+            (acc: number, curr: LeaderboardEntry) => acc + curr.level,
+            0
+          ) / leaderboard.length
         )
       : 0;
+
+  // We only show the full page loader if we have NO data at all
+  const isInitialLoading = isLoading && !leaderboard.length && !settings;
+
+  if (isInitialLoading) {
+    return <XPLoading />;
+  }
+
+  if (isError && !leaderboard.length && !isXpDisabled) {
+    return (
+      <div className="space-y-8 pb-12 w-full min-w-0 overflow-x-hidden">
+        <PageHeader
+          category="Engagement Management"
+          categoryIcon={Trophy}
+          title="XP System"
+          description="Monitor community activity and manage leveling rewards for"
+          serverName={guildName}
+        />
+        <ErrorView
+          title="System Alert"
+          message={isError.message || "Failed to load XP data."}
+          onRetry={() => fetchXPData(guildId, true)}
+          showHome={false}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8 pb-12 animate-in fade-in duration-700 w-full min-w-0 overflow-x-hidden">
@@ -113,17 +156,8 @@ export default function XPPage({ params }: XPPageProps) {
           value="leaderboard"
           className="mt-0 focus-visible:outline-none min-h-[500px] w-full overflow-hidden"
         >
-          {isLoading ? (
-            <LeaderboardSkeleton />
-          ) : isXpDisabled ? (
+          {isXpDisabled ? (
             <XPDisabledState onEnable={() => setActiveTab("settings")} />
-          ) : isError ? (
-            <ErrorView
-              title="Update Failed"
-              message={isError.message}
-              onRetry={() => mutate()}
-              showHome={false}
-            />
           ) : leaderboard.length === 0 ? (
             <EmptyState />
           ) : (

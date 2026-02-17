@@ -1,11 +1,17 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { AlertCircle, RefreshCcw, Home, Terminal } from "lucide-react";
-import { audiowide } from "@/lib/fonts";
+import { Audiowide } from "next/font/google"; // Using direct import for consistency
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+
+const audiowide = Audiowide({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+});
 
 interface ErrorViewProps {
   title?: string;
@@ -13,111 +19,107 @@ interface ErrorViewProps {
   errorId?: string;
   onRetry?: () => void;
   showHome?: boolean;
-  className?: string;
+  className?: string; // Additional classes for positioning if needed
 }
 
 export function ErrorView({
   title = "Unexpected Error",
-  message = "The dashboard encountered an unexpected issue. Please try again.",
+  message = "The dashboard encountered an unexpected issue. Please try reloading the page or return to the main dashboard.",
   errorId,
   onRetry,
   showHome = true,
   className,
 }: ErrorViewProps) {
   return (
-    <Card
-      variant="cyberpunk"
+    <div
       className={cn(
-        "max-w-2xl w-full border-red-500/30 bg-black/60 backdrop-blur-xl relative overflow-hidden group mx-auto",
-        "animate-in fade-in zoom-in-95 duration-500",
+        "flex min-h-[400px] w-full items-center justify-center p-4",
         className
       )}
     >
-      {/* Cinematic Background Elements */}
-      <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-[0.03]" />
-      <div className="absolute top-0 left-0 w-full h-[2px] bg-linear-to-r from-transparent via-red-500/50 to-transparent" />
-      <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-red-500/10 rounded-full blur-3xl group-hover:bg-red-500/20 transition-all duration-1000" />
+      <div className="relative w-full max-w-lg group">
+        {/* Glow Effects */}
+        <div className="absolute -inset-1 rounded-2xl bg-gradient-to-br from-red-500/20 via-transparent to-purple-500/20 blur-2xl opacity-50 group-hover:opacity-75 transition-opacity duration-1000" />
 
-      {/* Corner Accents */}
-      <div className="absolute top-0 left-0 w-8 h-8 border-t border-l border-red-500/30 rounded-tl-xl" />
-      <div className="absolute bottom-0 right-0 w-8 h-8 border-b border-r border-red-500/30 rounded-br-xl" />
+        <Card className="relative overflow-hidden border-white/5 bg-black/80 backdrop-blur-xl">
+          {/* Cyberpunk Grid */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none opacity-20" />
+          <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-red-500/50 to-transparent opacity-30" />
 
-      <CardContent className="p-8 md:p-14 text-center space-y-10 relative z-10">
-        <div className="relative inline-block">
-          {/* Pulse Effect */}
-          <div className="absolute inset-0 rounded-full bg-red-500/20 blur-2xl animate-pulse" />
-          <div className="w-20 h-20 md:w-24 md:h-24 bg-linear-to-br from-red-500/20 to-transparent rounded-3xl border border-red-500/30 flex items-center justify-center mx-auto shadow-[0_0_40px_-10px_rgba(239,68,68,0.3)] relative z-10">
-            <AlertCircle className="w-10 h-10 md:w-12 md:h-12 text-red-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.5)]" />
-          </div>
-          <div className="absolute -top-2 -right-2 w-8 h-8 bg-zinc-950 border border-red-500/50 rounded-lg flex items-center justify-center shadow-[0_0_20px_rgba(0,0,0,0.5)] z-20">
-            <Terminal className="w-4 h-4 text-red-400" />
-          </div>
-        </div>
-
-        <div className="space-y-4">
-          <h2
-            className={cn(
-              "text-2xl md:text-4xl font-black text-white tracking-tighter uppercase italic",
-              audiowide.className
-            )}
-          >
-            {title}
-          </h2>
-          <div className="space-y-4">
-            <p className="text-zinc-400 text-sm md:text-base font-medium tracking-wide max-w-md mx-auto leading-relaxed">
-              {message}
-            </p>
-            {errorId && (
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-500/5 border border-red-500/10">
-                <span className="text-[10px] font-mono text-red-500/60 uppercase tracking-widest">
-                  Error Code:
-                </span>
-                <span className="text-[10px] font-mono text-red-400 font-bold uppercase transition-colors group-hover:text-red-300">
-                  {errorId}
-                </span>
+          <div className="relative z-10 flex flex-col items-center p-8 sm:p-12 text-center space-y-8">
+            {/* Icon Group */}
+            <div className="relative">
+              <div className="absolute -inset-4 bg-red-500/20 blur-xl rounded-full animate-pulse" />
+              <div className="relative h-20 w-20 rounded-2xl bg-gradient-to-br from-red-500/10 to-transparent border border-red-500/20 flex items-center justify-center shadow-[0_0_30px_-5px_rgba(220,38,38,0.3)]">
+                <AlertCircle className="w-10 h-10 text-red-500" />
+                <div className="absolute -top-2 -right-2 h-6 w-6 rounded-md bg-zinc-900 border border-red-500/30 flex items-center justify-center">
+                  <Terminal className="w-3.5 h-3.5 text-red-500 animate-pulse" />
+                </div>
               </div>
-            )}
+            </div>
+
+            {/* Content */}
+            <div className="space-y-4 max-w-sm">
+              <h2
+                className={cn(
+                  "text-2xl font-black text-white uppercase tracking-widest",
+                  audiowide.className
+                )}
+              >
+                {title}
+              </h2>
+              <p className="text-xs sm:text-sm text-zinc-400 font-medium leading-relaxed">
+                {message}
+              </p>
+              {errorId && (
+                <div className="inline-flex items-center gap-2 px-3 py-1 bg-red-500/5 rounded-full border border-red-500/10">
+                  <span className="text-[10px] text-red-500/50 font-mono uppercase tracking-widest">
+                    CODE:
+                  </span>
+                  <span className="text-[10px] text-red-400 font-mono">
+                    {errorId}
+                  </span>
+                </div>
+              )}
+            </div>
+
+            {/* Actions */}
+            <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+              {showHome && (
+                <Button
+                  asChild
+                  variant="outline"
+                  className="h-11 px-8 border-white/5 hover:bg-white/5 text-zinc-400 font-black uppercase tracking-widest text-[10px]"
+                >
+                  <Link href="/dashboard">
+                    <Home className="w-3.5 h-3.5 mr-2" />
+                    Return
+                  </Link>
+                </Button>
+              )}
+              {onRetry && (
+                <Button
+                  variant="destructive"
+                  className="h-11 px-8 bg-red-600 hover:bg-red-500 text-white font-black uppercase tracking-widest text-[10px] shadow-[0_0_20px_-5px_rgba(220,38,38,0.4)]"
+                  onClick={onRetry}
+                >
+                  <RefreshCcw className="w-3.5 h-3.5 mr-2" />
+                  Try Again
+                </Button>
+              )}
+            </div>
+
+            {/* Footer */}
+            <div className="pt-4 flex items-center gap-3 opacity-50">
+              <div className="h-px w-12 bg-gradient-to-r from-transparent to-red-500/30" />
+              <span className="text-[9px] text-red-500/70 font-mono uppercase tracking-[0.3em]">
+                System Alert
+              </span>
+              <div className="h-px w-12 bg-gradient-to-l from-transparent to-red-500/30" />
+            </div>
           </div>
-        </div>
-
-        <div
-          className={cn(
-            "flex flex-col sm:flex-row items-center justify-center gap-4 pt-4",
-            onRetry && showHome ? "max-w-md mx-auto" : "w-auto"
-          )}
-        >
-          {onRetry && (
-            <Button
-              onClick={onRetry}
-              className="w-full sm:w-auto px-8 bg-red-600 hover:bg-red-500 text-white font-black uppercase tracking-widest h-12 rounded-xl shadow-[0_0_30px_-5px_rgba(239,68,68,0.4)] hover:shadow-[0_0_40px_-5px_rgba(239,68,68,0.6)] transition-all order-1 sm:order-2 active:scale-95"
-            >
-              <RefreshCcw className="w-4 h-4 mr-2" />
-              Try Again
-            </Button>
-          )}
-          {showHome && (
-            <Button
-              asChild
-              variant="outline"
-              className="w-full sm:w-auto px-8 border-white/10 hover:bg-white/5 text-zinc-400 font-black uppercase tracking-widest h-12 rounded-xl order-2 sm:order-1 active:scale-95"
-            >
-              <Link href="/dashboard">
-                <Home className="w-4 h-4 mr-2" />
-                Return
-              </Link>
-            </Button>
-          )}
-        </div>
-
-        <div className="pt-10 flex flex-col items-center gap-4">
-          <div className="h-px w-24 bg-linear-to-r from-transparent via-zinc-800 to-transparent" />
-          <p className="text-[10px] font-mono text-zinc-700 uppercase tracking-[0.4em] flex items-center gap-3">
-            <span className="w-1 h-1 rounded-full bg-red-500/50" />
-            System Alert
-            <span className="w-1 h-1 rounded-full bg-red-500/50" />
-          </p>
-        </div>
-      </CardContent>
-    </Card>
+        </Card>
+      </div>
+    </div>
   );
 }
