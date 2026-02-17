@@ -147,6 +147,8 @@ export function ProEngineCancelledAlert({
   );
 }
 
+import { CyberpunkBackground } from "@/components/common/cyberpunk-background";
+
 interface LockedStateProps {
   onActivate: () => void;
 }
@@ -155,38 +157,99 @@ export function LockedState({ onActivate }: LockedStateProps) {
   return (
     <Card
       variant="cyberpunk"
-      showGrid
-      className="flex flex-col items-center justify-center text-center border-dashed animate-in fade-in zoom-in-95 duration-500"
+      className="relative overflow-hidden min-h-[450px] w-full group flex flex-col items-center justify-center"
     >
-      <div className="absolute inset-0 bg-linear-to-b from-amber-500/5 to-transparent pointer-events-none" />
-      <div className="relative z-10 py-24 w-full flex flex-col items-center justify-center">
-        <div className="p-8 bg-zinc-900 rounded-2xl border border-white/5 shadow-2xl relative group">
-          <div className="absolute -inset-4 bg-amber-500/10 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
-          <Lock className="w-16 h-16 text-zinc-700 group-hover:text-amber-500 transition-colors" />
+      <CyberpunkBackground
+        showGrid={true}
+        gridColor="#f59e0b"
+        gridOpacity={0.03}
+        showScanlines={true}
+        showNoise={true}
+        primaryGlow="rgba(245, 158, 11, 0.12)"
+        secondaryGlow="rgba(245, 158, 11, 0.05)"
+      />
+
+      {/* Main Content Container */}
+      <div className="relative z-10 flex flex-col items-center justify-center w-full px-6 py-12">
+        {/* Status Badge */}
+        <div className="mb-12">
+          <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 backdrop-blur-md shadow-[0_0_20px_rgba(245,158,11,0.1)]">
+            <div className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse shadow-[0_0_8px_#f59e0b]" />
+            <span
+              className={cn(
+                "text-[10px] font-black text-amber-500 uppercase tracking-[0.2em] whitespace-nowrap",
+                audiowide.className
+              )}
+            >
+              System Status: Locked
+            </span>
+          </div>
         </div>
-        <div className="max-w-md space-y-3 mt-6">
-          <h3
-            className={cn(
-              "text-3xl font-black text-white uppercase tracking-widest",
-              audiowide.className
-            )}
-          >
-            Pro Engine Locked
-          </h3>
-          <p className="text-zinc-500 font-bold text-sm leading-relaxed">
-            No active subscription found. Activate Pro Engine to manage premium
-            settings for this server.
+
+        {/* Hexagon/Icon Container */}
+        <div className="relative mb-8 group-hover:scale-110 transition-transform duration-700">
+          <div className="absolute -inset-10 bg-amber-600/20 blur-[60px] rounded-full opacity-50 animate-pulse" />
+          <div className="relative w-24 h-24 flex items-center justify-center">
+            {/* Layered Borders */}
+            <div className="absolute inset-0 border-2 border-amber-500/20 rounded-3xl rotate-45 group-hover:rotate-90 transition-transform duration-1000" />
+            <div className="absolute inset-2 border border-amber-500/30 rounded-2xl -rotate-12 group-hover:rotate-0 transition-transform duration-700" />
+
+            <div className="relative w-16 h-16 rounded-2xl bg-zinc-950 border border-amber-500/40 flex items-center justify-center shadow-2xl overflow-hidden">
+              <div className="absolute inset-0 bg-linear-to-br from-amber-500/10 via-transparent to-transparent" />
+              <Lock className="w-7 h-7 text-amber-500 drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]" />
+            </div>
+          </div>
+        </div>
+
+        {/* Narrative Section */}
+        <div className="space-y-4 mb-10 w-full flex flex-col items-center text-center">
+          <div className="flex items-center justify-center gap-6 w-full max-w-lg relative">
+            {/* Balanced Decorative Lines */}
+            <div className="h-px flex-1 bg-linear-to-r from-transparent via-amber-500/40 to-amber-500/10" />
+            <h3
+              className={cn(
+                "text-2xl sm:text-3xl font-black text-white uppercase tracking-[0.1em] drop-shadow-sm whitespace-nowrap px-4",
+                audiowide.className
+              )}
+            >
+              Pro Engine Locked
+            </h3>
+            <div className="h-px flex-1 bg-linear-to-l from-transparent via-amber-500/40 to-amber-500/10" />
+          </div>
+          <p className="text-zinc-400 font-medium text-sm leading-relaxed max-w-md mx-auto">
+            Advanced system modules are currently dormant. Activate Pro Engine
+            to synchronize historical analytics and unlock modular command
+            control.
           </p>
         </div>
-        <Button
-          variant="cyber"
-          onClick={onActivate}
-          className="h-14 px-10 tracking-widest mt-6"
-        >
-          Activate Now
-          <Zap className="ml-2 w-4 h-4 fill-black group-hover:animate-pulse" />
-        </Button>
+
+        {/* Action Button */}
+        <div className="relative group/btn">
+          <div className="absolute -inset-4 bg-amber-500/20 blur-xl rounded-full opacity-0 group-hover/btn:opacity-100 transition-opacity" />
+          <Button
+            variant="neon"
+            size="lg"
+            onClick={onActivate}
+            className="h-14 px-10 relative z-10 bg-amber-500 hover:bg-amber-400 text-black border-none"
+          >
+            <div className="flex items-center gap-3">
+              <Zap className="w-5 h-5 fill-black" />
+              <span
+                className={cn(
+                  "text-sm font-black uppercase tracking-[0.2em]",
+                  audiowide.className
+                )}
+              >
+                Sync Pro Engine
+              </span>
+            </div>
+          </Button>
+        </div>
       </div>
+
+      {/* Background Decorative */}
+      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-linear-to-r from-transparent via-amber-500/20 to-amber-500/10" />
+      <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-amber-600/5 blur-3xl pointer-events-none" />
     </Card>
   );
 }

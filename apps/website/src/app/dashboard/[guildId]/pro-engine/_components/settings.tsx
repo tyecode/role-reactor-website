@@ -15,6 +15,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/lib/toast";
 import { cn } from "@/lib/utils";
+import { useProEngineStore } from "@/store/use-pro-engine-store";
 
 const audiowide = Audiowide({
   subsets: ["latin"],
@@ -37,9 +38,9 @@ export function ProEngineSettings({
 }: ProEngineSettingsProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const { settings, fetchSettings, updateLocalSettings } = useProEngineStore();
   const [isCancelling, setIsCancelling] = useState(false);
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
-  const [localIsCancelled, setLocalIsCancelled] = useState(false);
 
   // Calculate days remaining
   const expiresAt = premiumStatus?.subscription?.expiresAt
@@ -49,7 +50,7 @@ export function ProEngineSettings({
   const timeDiff = expiresAt.getTime() - today.getTime();
   const daysRemaining = Math.max(0, Math.ceil(timeDiff / (1000 * 3600 * 24)));
 
-  // Calculate progress bar width (assuming 30 day cycle for visualization)
+  // Calculate progress bar width
   const progressPercent = Math.min(
     100,
     Math.max(0, (daysRemaining / 30) * 100)
@@ -69,36 +70,27 @@ export function ProEngineSettings({
 
       if (res.ok) {
         const data = await res.json();
-        toast.success(
-          data.data?.message ||
-            "Subscription cancelled. Pro Engine will remain active until the end of the billing cycle."
-        );
+        toast.success(data.data?.message || "Subscription cancelled.");
         setShowCancelConfirm(false);
-        onSubscriptionCancelled(); // Notify parent to refresh data immediately
 
-        // Optimistic update: Update local state to reflect cancellation immediately
-        // In a real app with SWR/React Query, we would mutate the cache here.
-        // For now, we rely on the parent or a refresh for deep state, but UI feedback should be instant.
+        // Optimistic update
+        if (settings) {
+          updateLocalSettings({
+            subscription: {
+              ...settings.subscription!,
+              cancelled: true,
+            },
+          });
+        }
+
+        // Notify parent if needed (the page might need to trigger router.refresh)
+        onSubscriptionCancelled();
+
+        // Refresh from server
+        await fetchSettings(guildId, true);
         startTransition(() => {
           router.refresh();
         });
-
-        // Find the parent component or context that holds the state if possible,
-        // but since we are props-driven, we might need a full refresh if we can't update local state.
-        // actually, let's just use router.refresh() which re-runs server components
-        // and if we want instant feedback, we should specific props or state.
-
-        // Ideally we would set a local "cancelled" state to hide the danger zone immediately
-        // But since this component is unmounted/swapped by the parent page based on prop?
-        // Wait, this component is `ProEngineSettings`, which IS the active view.
-
-        // Let's force a reload for now as requested, but if "without refresh" means "without full browser reload",
-        // then router.refresh() IS the way.
-        // It seems router.refresh() was NOT enough before.
-
-        // To truly fix "without refresh", we need to locally track the "cancelled" state
-        // and override the prop.
-        setLocalIsCancelled(true);
       } else {
         const error = await res.json();
         toast.error(error.error || "Failed to cancel subscription");
@@ -111,8 +103,8 @@ export function ProEngineSettings({
     }
   };
 
-  // Determine if cancelled (either from prop or local optimistic update)
-  const showCancelledState = isCancelled || localIsCancelled;
+  // Determine if cancelled
+  const showCancelledState = isCancelled;
 
   if (showCancelledState) {
     return null;
