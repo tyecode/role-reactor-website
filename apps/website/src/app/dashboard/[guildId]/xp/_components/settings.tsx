@@ -69,13 +69,10 @@ interface SettingsTabProps {
 }
 
 export function XPSettingsTab({ guildId }: SettingsTabProps) {
-  const {
-    settings: globalSettings,
-    isLoading,
-    isError,
-    fetchXPData,
-    updateSettings,
-  } = useXPStore();
+  const { getGuildData, isLoading, isError, fetchXPData, updateSettings } =
+    useXPStore();
+
+  const { settings: globalSettings } = getGuildData(guildId);
 
   const { channels } = useGuildChannels(guildId);
   const [saving, setSaving] = useState(false);

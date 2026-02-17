@@ -1122,6 +1122,16 @@
   animation: scanline 8s linear infinite;
 }
 
+@keyframes scan {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4rem);
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

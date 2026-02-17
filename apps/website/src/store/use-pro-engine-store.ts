@@ -12,18 +12,19 @@ export interface ProSubscription {
   payerUserId?: string;
 }
 
-export interface ProEngineSettings {
-  isPremium: {
-    pro: boolean;
-  };
-  subscription?: ProSubscription;
-}
+// ProEngineSettings now reflects the full response from the settings endpoint
+export type ProEngineSettings = any;
 
 interface ProEngineState {
-  settings: ProEngineSettings | null;
+  // Per-guild settings cache
+  settingsCache: Record<string, ProEngineSettings>;
+  currentGuildId: string | null;
   isLoading: boolean;
   isError: Error | null;
   lastFetched: Record<string, number>; // guildId -> timestamp
+
+  // Computed getter — returns settings for the current guild
+  settings: ProEngineSettings | null;
 
   // Actions
   fetchSettings: (guildId: string, force?: boolean) => Promise<void>;
@@ -36,17 +37,32 @@ const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 export const useProEngineStore = create<ProEngineState>()(
   persist(
     (set, get) => ({
-      settings: null,
+      settingsCache: {},
+      currentGuildId: null,
       isLoading: false,
       isError: null,
       lastFetched: {},
+
+      // Derived: returns settings for the current guild
+      get settings() {
+        const state = get();
+        if (!state.currentGuildId) return null;
+        return state.settingsCache[state.currentGuildId] ?? null;
+      },
 
       fetchSettings: async (guildId: string, force = false) => {
         const state = get();
         const now = Date.now();
         const lastFetch = state.lastFetched[guildId] || 0;
+        const cachedSettings = state.settingsCache[guildId];
 
-        if (!force && state.settings && now - lastFetch < CACHE_DURATION) {
+        // Always update currentGuildId so UI knows which guild we're viewing
+        if (state.currentGuildId !== guildId) {
+          set({ currentGuildId: guildId });
+        }
+
+        // Skip fetch if cache is still fresh
+        if (!force && cachedSettings && now - lastFetch < CACHE_DURATION) {
           return;
         }
 
@@ -66,12 +82,11 @@ export const useProEngineStore = create<ProEngineState>()(
           }
 
           const data = await res.json();
-          // Extract settings from response wrapper if needed (bot API usually returns { status, settings })
-          const settingsData = data.settings || data;
 
           set({
-            settings: settingsData,
-            lastFetched: { ...state.lastFetched, [guildId]: now },
+            settingsCache: { ...get().settingsCache, [guildId]: data },
+            lastFetched: { ...get().lastFetched, [guildId]: now },
+            currentGuildId: guildId,
             isLoading: false,
           });
         } catch (error) {
@@ -87,20 +102,27 @@ export const useProEngineStore = create<ProEngineState>()(
       },
 
       updateLocalSettings: (newSettings) => {
-        const currentData = get().settings;
+        const state = get();
+        const guildId = state.currentGuildId;
+        if (!guildId) return;
+
+        const currentData = state.settingsCache[guildId];
         if (!currentData) return;
 
         set({
-          settings: {
-            ...currentData,
-            ...newSettings,
-            isPremium: {
-              ...currentData.isPremium,
-              ...(newSettings.isPremium || {}),
+          settingsCache: {
+            ...state.settingsCache,
+            [guildId]: {
+              ...currentData,
+              ...newSettings,
+              isPremium: {
+                ...currentData.isPremium,
+                ...(newSettings.isPremium || {}),
+              },
+              subscription: newSettings.subscription
+                ? { ...currentData.subscription!, ...newSettings.subscription }
+                : currentData.subscription,
             },
-            subscription: newSettings.subscription
-              ? { ...currentData.subscription!, ...newSettings.subscription }
-              : currentData.subscription,
           },
         });
       },
@@ -108,10 +130,22 @@ export const useProEngineStore = create<ProEngineState>()(
       clearCache: (guildId) => {
         if (guildId) {
           const newLastFetched = { ...get().lastFetched };
+          const newSettingsCache = { ...get().settingsCache };
           delete newLastFetched[guildId];
-          set({ lastFetched: newLastFetched, settings: null });
+          delete newSettingsCache[guildId];
+          set({
+            lastFetched: newLastFetched,
+            settingsCache: newSettingsCache,
+            ...(get().currentGuildId === guildId
+              ? { currentGuildId: null }
+              : {}),
+          });
         } else {
-          set({ lastFetched: {}, settings: null });
+          set({
+            lastFetched: {},
+            settingsCache: {},
+            currentGuildId: null,
+          });
         }
       },
     }),
@@ -119,8 +153,9 @@ export const useProEngineStore = create<ProEngineState>()(
       name: "pro-engine-storage",
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
-        settings: state.settings,
+        settingsCache: state.settingsCache,
         lastFetched: state.lastFetched,
+        currentGuildId: state.currentGuildId,
       }),
     }
   )

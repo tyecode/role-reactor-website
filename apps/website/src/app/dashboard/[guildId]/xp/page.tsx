@@ -36,23 +36,26 @@ export default function XPPage({ params }: XPPageProps) {
   const [searchQuery, setSearchQuery] = useState("");
 
   const {
-    leaderboard,
-    settings,
+    getGuildData,
+    dataCache,
     isLoading,
     isError,
-    isXpDisabled,
     fetchXPData,
     clearCache,
   } = useXPStore();
+
+  // Get data for THIS specific guild
+  const hasGuildData = guildId in dataCache;
+  const { leaderboard, settings, isXpDisabled } = getGuildData(guildId);
 
   const { guilds } = useServerStore();
   const activeGuild = guilds.find((g) => g.id === guildId);
   const guildName = activeGuild?.name || "this server";
 
-  // Handle Initial Fetch
+  // Handle Initial Fetch — force refresh on guild change
   useEffect(() => {
     if (guildId) {
-      fetchXPData(guildId);
+      fetchXPData(guildId, true);
     }
   }, [guildId, fetchXPData]);
 
@@ -70,8 +73,9 @@ export default function XPPage({ params }: XPPageProps) {
         )
       : 0;
 
-  // We only show the full page loader if we have NO data at all
-  const isInitialLoading = isLoading && !leaderboard.length && !settings;
+  // Show loader if this guild has never been fetched, or if actively loading with no data
+  const isInitialLoading =
+    !hasGuildData || (isLoading && !leaderboard.length && !settings);
 
   if (isInitialLoading) {
     return <XPLoading />;

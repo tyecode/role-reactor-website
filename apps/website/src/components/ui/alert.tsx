@@ -13,7 +13,7 @@ const audiowide = Audiowide({
 });
 
 const alertVariants = cva(
-  "relative w-full border p-4 [&>svg~*]:pl-7 [&>svg+h5]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 backdrop-blur-xl overflow-hidden transition-all duration-500 rounded-xl",
+  "relative w-full border p-4 [&>svg~*]:pl-7 [&>svg+h5]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 backdrop-blur-xl overflow-hidden transition-all duration-500 rounded-lg",
   {
     variants: {
       variant: {
@@ -95,18 +95,6 @@ const TechDecorations = ({ variant }: { variant?: string | null }) => {
       <div
         className={`absolute -bottom-[1px] -left-[1px] w-3 h-3 border-b border-l ${activeStyle.corner}`}
       />
-
-      {/* System Label */}
-      <div
-        className={cn(
-          "absolute top-1 right-2 text-[8px] opacity-40 uppercase pointer-events-none select-none tracking-widest",
-          audiowide.className
-        )}
-      >
-        {variant === "glitch"
-          ? "ERR_FATAL"
-          : `SYS_0${Math.floor(Math.random() * 9)}`}
-      </div>
     </>
   );
 };
@@ -118,7 +106,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
   ) => {
     const [isVisible, setIsVisible] = React.useState(true);
     const [isClosing, setIsClosing] = React.useState(false);
-    const { playSwitch, playUiSwitch } = useUiSound();
+    const { play, playSwitch } = useUiSound();
 
     const handleClose = React.useCallback(() => {
       setIsClosing(true);
@@ -154,8 +142,24 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(
                 (e.animationName.includes("dialogGlitchIn") ||
                   e.animationName.includes("rgbSplit"))
               ) {
-                // Play new switch sound for all variants
-                playUiSwitch();
+                // Dynamic sound based on variant
+                switch (variant) {
+                  case "error":
+                    play("beep-electric-4", 0.5); // Harsh error tone
+                    break;
+                  case "glitch":
+                    play("glitch-in", 0.5);
+                    break;
+                  case "warning":
+                    play("beep-electric-2", 0.4);
+                    break;
+                  case "success":
+                    play("confirm", 0.4);
+                    break;
+                  default:
+                    play("readout-beep", 0.2); // Subtle readout for info/default
+                    break;
+                }
               }
 
               if (dataState === "closed") {

@@ -47,17 +47,39 @@ export function XPDisabledState({ onEnable }: { onEnable: () => void }) {
           </div>
         </div>
 
-        {/* Hexagon/Icon Container */}
-        <div className="relative mb-8 group-hover:scale-110 transition-transform duration-700">
-          <div className="absolute -inset-10 bg-red-600/20 blur-[60px] rounded-full opacity-50 animate-pulse" />
-          <div className="relative w-24 h-24 flex items-center justify-center">
-            {/* Layered Borders */}
-            <div className="absolute inset-0 border-2 border-red-500/20 rounded-3xl rotate-45 group-hover:rotate-90 transition-transform duration-1000" />
-            <div className="absolute inset-2 border border-red-500/30 rounded-2xl -rotate-12 group-hover:rotate-0 transition-transform duration-700" />
+        {/* Power-Off Icon Container */}
+        <div className="relative mb-8 group-hover:scale-105 transition-transform duration-700">
+          {/* Outermost pulsing glow */}
+          <div className="absolute -inset-12 bg-red-500/15 blur-[80px] rounded-full animate-pulse" />
 
-            <div className="relative w-16 h-16 rounded-2xl bg-zinc-950 border border-red-500/40 flex items-center justify-center shadow-2xl overflow-hidden">
-              <div className="absolute inset-0 bg-linear-to-br from-red-500/10 via-transparent to-transparent" />
-              <Lock className="w-7 h-7 text-red-500 drop-shadow-[0_0_10px_rgba(239,68,68,0.5)]" />
+          {/* Orbiting ring - slow rotation */}
+          <div className="absolute -inset-6 animate-[spin_12s_linear_infinite]">
+            <div className="w-full h-full rounded-full border border-dashed border-red-500/15" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-red-500/60 shadow-[0_0_8px_rgba(239,68,68,0.6)]" />
+          </div>
+
+          {/* Middle orbiting ring - reverse */}
+          <div className="absolute -inset-3 animate-[spin_8s_linear_infinite_reverse]">
+            <div className="w-full h-full rounded-full border border-red-500/10" />
+            <div className="absolute bottom-0 right-0 w-1 h-1 rounded-full bg-red-400/50 shadow-[0_0_6px_rgba(239,68,68,0.4)]" />
+          </div>
+
+          <div className="relative w-28 h-28 flex items-center justify-center">
+            {/* Concentric rings */}
+            <div className="absolute inset-0 rounded-full border border-red-500/10 group-hover:border-red-500/25 transition-colors duration-700" />
+            <div className="absolute inset-3 rounded-full border border-red-500/15 group-hover:border-red-500/30 transition-colors duration-500" />
+
+            {/* Core icon */}
+            <div className="relative w-16 h-16 rounded-full bg-zinc-950 border-2 border-red-500/30 flex items-center justify-center shadow-[0_0_30px_rgba(239,68,68,0.15),inset_0_0_20px_rgba(239,68,68,0.05)] group-hover:border-red-500/50 group-hover:shadow-[0_0_40px_rgba(239,68,68,0.25),inset_0_0_25px_rgba(239,68,68,0.1)] transition-all duration-700">
+              {/* Inner gradient overlay */}
+              <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_30%_30%,rgba(239,68,68,0.1)_0%,transparent_70%)]" />
+
+              {/* Scan-line effect */}
+              <div className="absolute inset-0 rounded-full overflow-hidden">
+                <div className="w-full h-[2px] bg-red-500/20 animate-[scan_3s_ease-in-out_infinite]" />
+              </div>
+
+              <Lock className="w-6 h-6 text-red-500 drop-shadow-[0_0_12px_rgba(239,68,68,0.6)] relative z-10" />
             </div>
           </div>
         </div>
@@ -69,7 +91,7 @@ export function XPDisabledState({ onEnable }: { onEnable: () => void }) {
             <div className="h-px flex-1 bg-linear-to-r from-transparent via-red-500/40 to-red-500/10" />
             <h3
               className={cn(
-                "text-2xl sm:text-3xl font-black text-white uppercase tracking-[0.1em] drop-shadow-sm whitespace-nowrap px-4",
+                "text-2xl sm:text-3xl font-black text-white uppercase tracking-widest drop-shadow-sm whitespace-nowrap px-4",
                 audiowide.className
               )}
             >
@@ -88,10 +110,10 @@ export function XPDisabledState({ onEnable }: { onEnable: () => void }) {
         <div className="relative group/btn">
           <div className="absolute -inset-4 bg-cyan-500/20 blur-xl rounded-full opacity-0 group-hover/btn:opacity-100 transition-opacity" />
           <Button
-            variant="neon"
+            variant="cyber"
             size="lg"
             onClick={onEnable}
-            className="h-14 px-10 relative z-10 bg-cyan-500 hover:bg-cyan-400 text-black border-none"
+            className="h-14 px-10 relative z-10"
           >
             <div className="flex items-center gap-3">
               <Zap className="w-5 h-5 fill-black" />
@@ -109,7 +131,7 @@ export function XPDisabledState({ onEnable }: { onEnable: () => void }) {
       </div>
 
       {/* Background Decorative */}
-      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-linear-to-r from-transparent via-red-500/20 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-red-500/20 to-transparent" />
       <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-red-600/5 blur-3xl pointer-events-none" />
     </Card>
   );
@@ -119,21 +141,15 @@ export function EmptyState() {
   return (
     <Card
       variant="cyberpunk"
-      className="relative overflow-hidden min-h-[450px] flex flex-col items-center justify-center p-8 text-center group"
+      className="relative overflow-hidden min-h-[450px] group"
+      contentClassName="flex flex-col items-center justify-center p-8 text-center grow"
+      showGrid={true}
     >
-      <CyberpunkBackground
-        showGrid={true}
-        gridColor="#06b6d4"
-        gridOpacity={0.03}
-        primaryGlow="rgba(6, 182, 212, 0.1)"
-        secondaryGlow="rgba(168, 85, 247, 0.05)"
-      />
-
       <div className="relative z-10 flex flex-col items-center">
         <div className="relative mb-8">
           <div className="absolute -inset-10 bg-cyan-500/10 blur-[60px] rounded-full" />
           <div className="relative w-24 h-24 rounded-3xl bg-zinc-950/80 border border-white/10 flex items-center justify-center shadow-2xl group-hover:border-cyan-500/30 transition-colors duration-500">
-            <Trophy className="w-10 h-10 text-cyan-500 animate-bounce-slow" />
+            <Trophy className="w-10 h-10 text-cyan-500" />
           </div>
         </div>
 

@@ -216,41 +216,65 @@ export function ServerSwitcher() {
               </div>
             ) : (
               <div className="space-y-1">
-                {installedGuilds.map((guild, index) => (
-                  <DropdownMenuItem
-                    key={guild.id}
-                    onClick={() => handleServerSelect(guild.id)}
-                    className="gap-3 p-2.5 focus:bg-cyan-500/10 focus:text-cyan-400 group cursor-pointer rounded-lg transition-all duration-300"
-                  >
-                    <div className="flex size-9 items-center justify-center rounded-md bg-zinc-900 ring-1 ring-white/10 shadow-[0_0_10px_rgba(0,0,0,0.3)] group-hover:ring-cyan-500/50 group-hover:shadow-[0_0_15px_rgba(6,182,212,0.2)] transition-all duration-300 overflow-hidden relative">
-                      <div className="absolute inset-0 bg-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                      {guild.icon ? (
-                        <Image
-                          src={`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`}
-                          width={36}
-                          height={36}
-                          className="size-full object-cover"
-                          alt={guild.name}
-                        />
-                      ) : (
-                        <span className="text-xs font-black text-zinc-500 group-hover:text-cyan-400 transition-colors">
-                          {guild.name.charAt(0).toUpperCase()}
-                        </span>
+                {installedGuilds.map((guild, index) => {
+                  const isActive = guild.id === activeGuildId;
+                  return (
+                    <DropdownMenuItem
+                      key={guild.id}
+                      onClick={() => handleServerSelect(guild.id)}
+                      className={cn(
+                        "gap-3 p-2.5 focus:bg-cyan-500/10 focus:text-cyan-400 group cursor-pointer rounded-lg transition-all duration-300",
+                        isActive &&
+                          "bg-cyan-500/5 border border-cyan-500/20 shadow-[0_0_15px_-5px_rgba(6,182,212,0.2)]"
                       )}
-                    </div>
-                    <div className="flex flex-col min-w-0 flex-1 gap-0.5">
-                      <span className="truncate text-sm font-bold tracking-tight text-white group-hover:text-cyan-300 transition-colors">
-                        {guild.name}
-                      </span>
-                      <span className="text-[9px] text-emerald-500/70 font-bold uppercase tracking-widest flex items-center gap-1">
-                        <ShieldCheck className="size-2.5" /> Link Active
-                      </span>
-                    </div>
-                    <DropdownMenuShortcut className="font-mono text-[10px] text-zinc-600 group-hover:text-cyan-500/50 transition-colors shrink-0">
-                      [0{index + 1}]
-                    </DropdownMenuShortcut>
-                  </DropdownMenuItem>
-                ))}
+                    >
+                      <div
+                        className={cn(
+                          "flex size-9 items-center justify-center rounded-md bg-zinc-900 ring-1 shadow-[0_0_10px_rgba(0,0,0,0.3)] group-hover:ring-cyan-500/50 group-hover:shadow-[0_0_15px_rgba(6,182,212,0.2)] transition-all duration-300 overflow-hidden relative",
+                          isActive
+                            ? "ring-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.2)]"
+                            : "ring-white/10"
+                        )}
+                      >
+                        <div className="absolute inset-0 bg-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        {guild.icon ? (
+                          <Image
+                            src={`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`}
+                            width={36}
+                            height={36}
+                            className="size-full object-cover"
+                            alt={guild.name}
+                          />
+                        ) : (
+                          <span className="text-xs font-black text-zinc-500 group-hover:text-cyan-400 transition-colors">
+                            {guild.name.charAt(0).toUpperCase()}
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex flex-col min-w-0 flex-1 gap-0.5">
+                        <span
+                          className={cn(
+                            "truncate text-sm font-bold tracking-tight group-hover:text-cyan-300 transition-colors",
+                            isActive ? "text-cyan-300" : "text-white"
+                          )}
+                        >
+                          {guild.name}
+                        </span>
+                        <span className="text-[9px] text-emerald-500/70 font-bold uppercase tracking-widest flex items-center gap-1">
+                          <ShieldCheck className="size-2.5" /> Link Active
+                        </span>
+                      </div>
+                      <DropdownMenuShortcut
+                        className={cn(
+                          "font-mono text-[10px] group-hover:text-cyan-500/50 transition-colors shrink-0",
+                          isActive ? "text-cyan-500/50" : "text-zinc-600"
+                        )}
+                      >
+                        [0{index + 1}]
+                      </DropdownMenuShortcut>
+                    </DropdownMenuItem>
+                  );
+                })}
               </div>
             )}
             <DropdownMenuSeparator className="bg-white/5 my-2" />

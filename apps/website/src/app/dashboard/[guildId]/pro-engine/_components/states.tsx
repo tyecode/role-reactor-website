@@ -5,6 +5,7 @@ import { Audiowide } from "next/font/google";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { CyberpunkBackground } from "@/components/common/cyberpunk-background";
 
 const audiowide = Audiowide({
   subsets: ["latin"],
@@ -15,11 +16,13 @@ const audiowide = Audiowide({
 interface ProEngineActiveAlertProps {
   isCancelled: boolean;
   premiumStatus: any;
+  expiresAt?: string;
 }
 
 export function ProEngineActiveAlert({
   isCancelled,
   premiumStatus,
+  expiresAt,
 }: ProEngineActiveAlertProps) {
   return (
     <Card className="relative overflow-hidden border-white/5 bg-zinc-950">
@@ -37,20 +40,37 @@ export function ProEngineActiveAlert({
             PRO ENGINE CORE
           </h3>
           <p className="text-sm font-medium text-zinc-500 leading-relaxed wrap-break-word">
-            Pro Engine system is active and tracking activity across your
-            community. Advanced automation and premium features are fully
-            operational.
+            {isCancelled ? (
+              <>
+                Your Pro Engine features are still active. You have full access
+                to all premium capabilities until your current period ends on{" "}
+                <span className="text-white">
+                  {expiresAt ? new Date(expiresAt).toLocaleDateString() : "TBD"}
+                </span>
+                .
+              </>
+            ) : (
+              "The Pro Engine is active. All premium automated tools and server management features are currently available."
+            )}
           </p>
         </div>
 
-        <div className="px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 flex items-center gap-3 shadow-[0_0_20px_rgba(6,182,212,0.15)] shrink-0">
-          <div className="relative flex h-2.5 w-2.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-500 shadow-[0_0_10px_cyan]"></span>
+        <div className="flex flex-col items-end gap-3 shrink-0">
+          <div className="px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 flex items-center gap-3 shadow-[0_0_20px_rgba(6,182,212,0.15)]">
+            <div className="relative flex h-2.5 w-2.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-cyan-500 shadow-[0_0_10px_cyan]"></span>
+            </div>
+            <span className="text-xs font-black text-cyan-400 uppercase tracking-widest">
+              PRO ACTIVE
+            </span>
           </div>
-          <span className="text-xs font-black text-cyan-400 uppercase tracking-widest">
-            SYSTEM ONLINE
-          </span>
+          {isCancelled && (
+            <div className="flex items-center gap-2 text-[10px] font-black text-amber-500/80 uppercase tracking-wider bg-amber-500/5 px-3 py-1 rounded-full border border-amber-500/10">
+              <div className="w-1 h-1 rounded-full bg-amber-500 animate-pulse" />
+              Ending Soon
+            </div>
+          )}
         </div>
       </div>
     </Card>
@@ -105,49 +125,95 @@ export function ProEngineLockedAlert({ onUnlock }: ProEngineLockedAlertProps) {
 interface ProEngineCancelledAlertProps {
   expiresAt: string;
   cost?: number;
+  period?: string;
+  newCost?: number;
+  newPeriod?: string;
+  progress?: number;
   onReactivate: () => void;
 }
 
 export function ProEngineCancelledAlert({
   expiresAt,
   cost,
+  period,
+  newCost,
+  newPeriod,
+  progress = 100,
   onReactivate,
 }: ProEngineCancelledAlertProps) {
   return (
-    <div className="animate-in fade-in slide-in-from-bottom-2 duration-500 delay-100">
-      <Card
-        variant="default"
-        className="bg-blue-500/5 border-blue-500/10 relative overflow-hidden group hover:border-blue-500/30 hover:bg-blue-500/10 transition-all duration-500"
-      >
-        <div className="flex items-center gap-5 relative z-10 py-5 px-6">
-          <div className="p-2.5 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 shrink-0 group-hover:shadow-[0_0_15px_rgba(59,130,246,0.2)] transition-all">
-            <AlertTriangle className="w-5 h-5" />
+    <div className="animate-in fade-in slide-in-from-bottom-2 duration-700">
+      <div className="relative overflow-hidden rounded-2xl border border-cyan-500/20 bg-black/40 backdrop-blur-md group/cancelled transition-all duration-500 hover:border-cyan-400/40 hover:shadow-[0_0_30px_-5px_rgba(6,182,212,0.2)]">
+        {/* HQ HUD Background */}
+        <CyberpunkBackground
+          gridSize={24}
+          gridOpacity={0.05}
+          primaryGlow="rgba(6, 182, 212, 0.05)"
+          secondaryGlow="rgba(59, 130, 246, 0.05)"
+          glowOpacity={0.4}
+          className="z-0"
+        />
+
+        {/* Scanline Effect */}
+        <div className="absolute inset-0 pointer-events-none z-10 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] bg-[length:100%_4px,3px_100%] opacity-20" />
+
+        <div className="relative z-20 flex flex-col sm:flex-row items-center justify-between gap-6 p-6 sm:p-8">
+          <div className="flex items-center gap-6 flex-1 min-w-0">
+            <div className="relative shrink-0 group-hover/cancelled:scale-105 transition-transform duration-500">
+              <div className="absolute -inset-3 bg-cyan-500/20 blur-xl opacity-0 group-hover/cancelled:opacity-100 transition-opacity" />
+              <div className="p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 relative">
+                <AlertTriangle className="w-6 h-6" />
+              </div>
+            </div>
+
+            <div className="space-y-1.5 flex-1 min-w-0">
+              <div className="flex items-center gap-2">
+                <h3
+                  className={cn(
+                    "text-sm font-black text-cyan-400 uppercase tracking-[0.2em]",
+                    audiowide.className
+                  )}
+                >
+                  Cancellation Pending
+                </h3>
+                <div className="h-[1px] flex-1 bg-linear-to-r from-cyan-500/40 to-transparent" />
+              </div>
+              <p className="text-[11px] font-bold text-zinc-400 leading-relaxed uppercase tracking-wider max-w-2xl">
+                You will keep all Pro features until{" "}
+                <span className="text-white">
+                  {new Date(expiresAt).toLocaleDateString()}
+                </span>
+                . If you change your mind, you can re-enable auto-renew for{" "}
+                <span className="text-cyan-400">
+                  {newCost || cost || 15} Cores/{newPeriod || period || "week"}
+                </span>
+                .
+              </p>
+            </div>
           </div>
-          <div className="flex-1 min-w-0">
-            <h3 className="text-[11px] font-black text-blue-400 uppercase tracking-widest mb-1">
-              Subscription Cancelled
-            </h3>
-            <p className="text-[10px] text-blue-400/60 font-medium leading-relaxed uppercase tracking-wider">
-              All features remain active until{" "}
-              {new Date(expiresAt).toLocaleDateString()}. Auto-renewal will cost{" "}
-              {cost || 50} Cores/month starting then.
-            </p>
-          </div>
+
           <Button
-            variant="outline"
-            size="sm"
-            className="font-black uppercase text-[10px] border-blue-500/30 text-blue-400 hover:bg-blue-500 hover:text-white hover:border-blue-500 hover:shadow-[0_0_15px_rgba(59,130,246,0.4)] transition-all"
+            variant="cyber"
             onClick={onReactivate}
+            className="h-12 px-8 shrink-0 group-hover/cancelled:shadow-[0_0_20px_rgba(6,182,212,0.4)]"
           >
-            Re-activate
+            <Zap className="mr-2 w-4 h-4" />
+            Keep Pro Engine
           </Button>
         </div>
-      </Card>
+
+        {/* Bottom Status Bar - Functional Progress */}
+        <div className="h-1 w-full bg-zinc-900 overflow-hidden relative">
+          <div className="absolute inset-0 bg-cyan-500/20 animate-[shimmer_2s_infinite]" />
+          <div
+            className="absolute top-0 left-0 h-full bg-cyan-500 shadow-[0_0_10px_#06b6d4] transition-all duration-1000 ease-out"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+      </div>
     </div>
   );
 }
-
-import { CyberpunkBackground } from "@/components/common/cyberpunk-background";
 
 interface LockedStateProps {
   onActivate: () => void;
@@ -157,99 +223,38 @@ export function LockedState({ onActivate }: LockedStateProps) {
   return (
     <Card
       variant="cyberpunk"
-      className="relative overflow-hidden min-h-[450px] w-full group flex flex-col items-center justify-center"
+      showGrid
+      className="flex flex-col items-center justify-center text-center border-dashed animate-in fade-in zoom-in-95 duration-500"
     >
-      <CyberpunkBackground
-        showGrid={true}
-        gridColor="#f59e0b"
-        gridOpacity={0.03}
-        showScanlines={true}
-        showNoise={true}
-        primaryGlow="rgba(245, 158, 11, 0.12)"
-        secondaryGlow="rgba(245, 158, 11, 0.05)"
-      />
-
-      {/* Main Content Container */}
-      <div className="relative z-10 flex flex-col items-center justify-center w-full px-6 py-12">
-        {/* Status Badge */}
-        <div className="mb-12">
-          <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 backdrop-blur-md shadow-[0_0_20px_rgba(245,158,11,0.1)]">
-            <div className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse shadow-[0_0_8px_#f59e0b]" />
-            <span
-              className={cn(
-                "text-[10px] font-black text-amber-500 uppercase tracking-[0.2em] whitespace-nowrap",
-                audiowide.className
-              )}
-            >
-              System Status: Locked
-            </span>
-          </div>
+      <div className="absolute inset-0 bg-linear-to-b from-amber-500/5 to-transparent pointer-events-none" />
+      <div className="relative z-10 py-24 w-full flex flex-col items-center justify-center">
+        <div className="p-8 bg-zinc-900 rounded-2xl border border-white/5 shadow-2xl relative group">
+          <div className="absolute -inset-4 bg-amber-500/10 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
+          <Lock className="w-16 h-16 text-zinc-700 group-hover:text-amber-500 transition-colors" />
         </div>
-
-        {/* Hexagon/Icon Container */}
-        <div className="relative mb-8 group-hover:scale-110 transition-transform duration-700">
-          <div className="absolute -inset-10 bg-amber-600/20 blur-[60px] rounded-full opacity-50 animate-pulse" />
-          <div className="relative w-24 h-24 flex items-center justify-center">
-            {/* Layered Borders */}
-            <div className="absolute inset-0 border-2 border-amber-500/20 rounded-3xl rotate-45 group-hover:rotate-90 transition-transform duration-1000" />
-            <div className="absolute inset-2 border border-amber-500/30 rounded-2xl -rotate-12 group-hover:rotate-0 transition-transform duration-700" />
-
-            <div className="relative w-16 h-16 rounded-2xl bg-zinc-950 border border-amber-500/40 flex items-center justify-center shadow-2xl overflow-hidden">
-              <div className="absolute inset-0 bg-linear-to-br from-amber-500/10 via-transparent to-transparent" />
-              <Lock className="w-7 h-7 text-amber-500 drop-shadow-[0_0_10px_rgba(245,158,11,0.5)]" />
-            </div>
-          </div>
-        </div>
-
-        {/* Narrative Section */}
-        <div className="space-y-4 mb-10 w-full flex flex-col items-center text-center">
-          <div className="flex items-center justify-center gap-6 w-full max-w-lg relative">
-            {/* Balanced Decorative Lines */}
-            <div className="h-px flex-1 bg-linear-to-r from-transparent via-amber-500/40 to-amber-500/10" />
-            <h3
-              className={cn(
-                "text-2xl sm:text-3xl font-black text-white uppercase tracking-[0.1em] drop-shadow-sm whitespace-nowrap px-4",
-                audiowide.className
-              )}
-            >
-              Pro Engine Locked
-            </h3>
-            <div className="h-px flex-1 bg-linear-to-l from-transparent via-amber-500/40 to-amber-500/10" />
-          </div>
-          <p className="text-zinc-400 font-medium text-sm leading-relaxed max-w-md mx-auto">
-            Advanced system modules are currently dormant. Activate Pro Engine
-            to synchronize historical analytics and unlock modular command
-            control.
+        <div className="max-w-md space-y-3 mt-6">
+          <h3
+            className={cn(
+              "text-3xl font-black text-white uppercase tracking-widest",
+              audiowide.className
+            )}
+          >
+            Pro Engine Locked
+          </h3>
+          <p className="text-zinc-500 font-bold text-sm leading-relaxed">
+            No active subscription found. Activate Pro Engine to manage premium
+            settings for this server.
           </p>
         </div>
-
-        {/* Action Button */}
-        <div className="relative group/btn">
-          <div className="absolute -inset-4 bg-amber-500/20 blur-xl rounded-full opacity-0 group-hover/btn:opacity-100 transition-opacity" />
-          <Button
-            variant="neon"
-            size="lg"
-            onClick={onActivate}
-            className="h-14 px-10 relative z-10 bg-amber-500 hover:bg-amber-400 text-black border-none"
-          >
-            <div className="flex items-center gap-3">
-              <Zap className="w-5 h-5 fill-black" />
-              <span
-                className={cn(
-                  "text-sm font-black uppercase tracking-[0.2em]",
-                  audiowide.className
-                )}
-              >
-                Sync Pro Engine
-              </span>
-            </div>
-          </Button>
-        </div>
+        <Button
+          variant="cyber"
+          onClick={onActivate}
+          className="h-14 px-10 tracking-widest mt-6"
+        >
+          Activate Now
+          <Zap className="ml-2 w-4 h-4 fill-black group-hover:animate-pulse" />
+        </Button>
       </div>
-
-      {/* Background Decorative */}
-      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-linear-to-r from-transparent via-amber-500/20 to-amber-500/10" />
-      <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-amber-600/5 blur-3xl pointer-events-none" />
     </Card>
   );
 }

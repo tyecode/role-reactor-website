@@ -34,8 +34,8 @@ export function SubscriptionStats({
     {
       icon: Zap,
       label: "Plan Cost",
-      value: `${premiumStatus.subscription.cost || 50} Cores`,
-      sub: `/${premiumStatus.subscription.period || "month"}`,
+      value: `${premiumStatus.premiumConfig?.PRO?.cost ?? premiumStatus.subscription.cost ?? 15} Cores`,
+      sub: `/${premiumStatus.premiumConfig?.PRO?.period ?? premiumStatus.subscription.period ?? "week"}`,
       color: "purple",
     },
     {

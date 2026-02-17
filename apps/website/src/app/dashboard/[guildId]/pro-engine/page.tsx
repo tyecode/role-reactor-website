@@ -4,6 +4,7 @@ import { useState, useTransition, useEffect } from "react";
 import { useSearchParams, useRouter, useParams } from "next/navigation";
 import { Crown, Zap } from "lucide-react";
 import { toast } from "@/lib/toast";
+import { useSWRConfig } from "swr";
 
 import { PageHeader } from "@/app/dashboard/_components/page-header";
 import { useServerStore } from "@/store/use-server-store";
@@ -19,13 +20,13 @@ import {
   ProEngineActiveAlert,
   ProEngineLockedAlert,
   ProEngineCancelledAlert,
-  LockedState,
 } from "./_components/states";
 
 // Re-using SubscriptionStats component if it exists.
 // Note: In previous file views, it was imported from "./stats".
 import { SubscriptionStats } from "./_components/stats";
 import ProEngineLoading from "./loading";
+import { calculateSubscriptionProgress } from "@/lib/premium-utils";
 
 export default function ProEnginePage() {
   const params = useParams();
@@ -38,8 +39,18 @@ export default function ProEnginePage() {
   const activeGuild = guilds.find((g) => g.id === guildId);
   const guildName = activeGuild?.name || "this server";
 
-  const { settings, isLoading, isError, fetchSettings, updateLocalSettings } =
-    useProEngineStore();
+  const { data: session } = useSession();
+  const { user, fetchUser, isLoading: isUserLoading } = useUserStore();
+  const {
+    settingsCache,
+    isLoading,
+    isError,
+    fetchSettings,
+    updateLocalSettings,
+  } = useProEngineStore();
+
+  // Get settings for THIS specific guild (not a stale previous guild)
+  const settings = settingsCache[guildId] ?? null;
 
   const [isPending, startTransition] = useTransition();
   const [showActivationModal, setShowActivationModal] = useState(
@@ -47,19 +58,25 @@ export default function ProEnginePage() {
   );
   const [isActivating, setIsActivating] = useState(false);
 
-  // Handle Initial Fetch
-  useEffect(() => {
-    if (guildId) {
-      fetchSettings(guildId);
-    }
-  }, [guildId, fetchSettings]);
-
+  // Derived State
   const premiumStatus = settings;
   const isPremium = premiumStatus?.isPremium?.pro || false;
   const isCancelled = premiumStatus?.subscription?.cancelled || false;
 
-  const { data: session } = useSession();
-  const { fetchUser } = useUserStore();
+  // Show loading when no cached data for THIS guild, or user not loaded yet
+  const isGlobalLoading = !settings || (!user && isUserLoading);
+
+  // Fetch fresh data on mount or when guildId changes (server switch).
+  // If we have cached data for this guild, UI renders instantly while
+  // the background refresh completes silently.
+  useEffect(() => {
+    if (guildId && session?.user?.id) {
+      fetchSettings(guildId, true); // force refresh in background
+      fetchUser(session.user.id);
+    }
+  }, [guildId, session?.user?.id, fetchSettings, fetchUser]);
+
+  const { mutate } = useSWRConfig();
 
   const handleActivate = async () => {
     setIsActivating(true);
@@ -71,13 +88,14 @@ export default function ProEnginePage() {
         toast.success("Pro Engine activated successfully!");
         setShowActivationModal(false);
 
-        // Refresh settings in store
-        await fetchSettings(guildId, true);
-
-        // Refresh user balance immediately
-        if (session?.user?.id) {
-          await fetchUser(session.user.id, true);
-        }
+        // Refresh settings and user balance in parallel
+        await Promise.all([
+          fetchSettings(guildId, true),
+          session?.user?.id
+            ? fetchUser(session.user.id, true)
+            : Promise.resolve(),
+          mutate("/api/user/balance"), // Force SWR balance components to update
+        ]);
 
         router.refresh();
       } else {
@@ -92,7 +110,7 @@ export default function ProEnginePage() {
     }
   };
 
-  if (isLoading && !settings) {
+  if (isGlobalLoading) {
     return <ProEngineLoading />;
   }
 
@@ -136,58 +154,64 @@ export default function ProEnginePage() {
       />
 
       <div className="space-y-8">
-        {!isPremium ? (
-          <LockedState onActivate={() => setShowActivationModal(true)} />
+        {/* Status Alerts */}
+        {isPremium ? (
+          <ProEngineActiveAlert
+            isCancelled={isCancelled}
+            premiumStatus={premiumStatus}
+            expiresAt={premiumStatus.subscription.expiresAt}
+          />
         ) : (
+          <ProEngineLockedAlert onUnlock={() => setShowActivationModal(true)} />
+        )}
+        {isPremium && isCancelled && premiumStatus?.subscription?.expiresAt && (
+          <ProEngineCancelledAlert
+            expiresAt={premiumStatus.subscription.expiresAt}
+            cost={premiumStatus.subscription.cost}
+            period={premiumStatus.subscription.period}
+            newCost={premiumStatus?.premiumConfig?.PRO?.cost}
+            newPeriod={premiumStatus?.premiumConfig?.PRO?.period}
+            progress={
+              calculateSubscriptionProgress(
+                premiumStatus.subscription.expiresAt,
+                premiumStatus.subscription.lastDeductionDate,
+                premiumStatus?.premiumConfig?.PRO?.periodDays ?? 7
+              ).progress
+            }
+            onReactivate={() => setShowActivationModal(true)}
+          />
+        )}
+        {/* Premium Management & Stats */}
+        {isPremium && premiumStatus?.subscription && (
           <>
-            {/* Status Alerts */}
-            <ProEngineActiveAlert
-              isCancelled={isCancelled}
+            <SubscriptionStats
               premiumStatus={premiumStatus}
+              isCancelled={isCancelled}
             />
+            <ProEngineSettings
+              guildId={guildId}
+              premiumStatus={premiumStatus}
+              isCancelled={isCancelled}
+              onSubscriptionCancelled={() => {
+                // Optimistically update local data
+                if (settings) {
+                  updateLocalSettings({
+                    subscription: {
+                      ...settings.subscription!,
+                      cancelled: true,
+                    },
+                  });
+                }
 
-            {isCancelled && premiumStatus?.subscription?.expiresAt && (
-              <ProEngineCancelledAlert
-                expiresAt={premiumStatus.subscription.expiresAt}
-                cost={premiumStatus.subscription.cost}
-                onReactivate={() => setShowActivationModal(true)}
-              />
-            )}
-
-            {/* Premium Management & Stats */}
-            {premiumStatus?.subscription && (
-              <>
-                <SubscriptionStats
-                  premiumStatus={premiumStatus}
-                  isCancelled={isCancelled}
-                />
-                <ProEngineSettings
-                  guildId={guildId}
-                  premiumStatus={premiumStatus}
-                  isCancelled={isCancelled}
-                  onSubscriptionCancelled={() => {
-                    // Optimistically update local data
-                    if (settings) {
-                      updateLocalSettings({
-                        subscription: {
-                          ...settings.subscription!,
-                          cancelled: true,
-                        },
-                      });
-                    }
-
-                    // Refresh from server
-                    fetchSettings(guildId, true);
-                    router.refresh();
-                  }}
-                />
-              </>
-            )}
-
-            {/* Features List */}
-            <FeaturesGrid isPremium={isPremium} />
+                // Refresh from server
+                fetchSettings(guildId, true);
+                router.refresh();
+              }}
+            />
           </>
         )}
+        {/* Features List */}
+        <FeaturesGrid isPremium={isPremium} />
       </div>
 
       <PremiumGuard
@@ -206,12 +230,14 @@ export default function ProEnginePage() {
             : "Unlock all premium features for this server with a single click."
         }
         buttonText={
-          isPremium && isCancelled ? "ENABLE AUTO-RENEW" : "UNLOCK FOR 50 CORES"
+          isPremium && isCancelled
+            ? "ENABLE AUTO-RENEW"
+            : `UNLOCK FOR ${premiumStatus?.premiumConfig?.PRO?.cost ?? 15} CORES`
         }
         subText={
           isPremium && isCancelled
-            ? `Auto-renewal: ${premiumStatus?.subscription?.cost || 50} Cores/month`
-            : "Deducts 50 Cores every 30 days"
+            ? `New terms: ${premiumStatus?.premiumConfig?.PRO?.cost ?? 15} Cores/${premiumStatus?.premiumConfig?.PRO?.period ?? "week"}`
+            : `Deducts ${premiumStatus?.premiumConfig?.PRO?.cost ?? 15} Cores every ${premiumStatus?.premiumConfig?.PRO?.periodDays ?? 7} days`
         }
       />
     </div>

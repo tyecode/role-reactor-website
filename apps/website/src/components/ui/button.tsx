@@ -5,7 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 active:scale-95",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-semibold ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500/50 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 active:scale-95",
   {
     variants: {
       variant: {
@@ -22,22 +22,22 @@ const buttonVariants = cva(
         link: "text-cyan-400 underline-offset-4 hover:underline hover:text-cyan-300 hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.5)] uppercase tracking-wide font-bold text-xs",
         // Specialized Cyberpunk variants
         glitch:
-          "bg-white text-black hover:bg-cyan-50 font-bold uppercase tracking-wide text-xs border border-white/20 hover-glitch shadow-[0_0_15px_-5px_rgba(6,182,212,0.5)] rounded-xl",
-        neon: "border border-cyan-500 text-cyan-500 hover:bg-cyan-500/10 hover:shadow-[0_0_20px_-5px_rgba(6,182,212,0.4)] font-bold uppercase tracking-wide text-xs backdrop-blur-sm hover:text-cyan-400 rounded-xl",
+          "bg-white text-black hover:bg-cyan-50 font-bold uppercase tracking-wide text-xs border border-white/20 hover-glitch shadow-[0_0_15px_-5px_rgba(6,182,212,0.5)] rounded-lg",
+        neon: "border border-cyan-500 text-cyan-500 hover:bg-cyan-500/10 hover:shadow-[0_0_20px_-5px_rgba(6,182,212,0.4)] font-bold uppercase tracking-wide text-xs backdrop-blur-sm hover:text-cyan-400 rounded-lg",
         "ghost-glow":
-          "text-zinc-400 hover:text-white hover:bg-zinc-800/50 hover:shadow-[0_0_15px_-5px_rgba(255,255,255,0.2)] rounded-xl text-xs uppercase tracking-wide font-semibold",
+          "text-zinc-400 hover:text-white hover:bg-zinc-800/50 hover:shadow-[0_0_15px_-5px_rgba(255,255,255,0.2)] rounded-lg text-xs uppercase tracking-wide font-semibold",
         "destructive-glitch":
-          "text-red-500 hover:text-red-400 hover:bg-red-950/30 hover:shadow-[0_0_15px_-5px_rgba(239,68,68,0.4)] font-mono tracking-wide hover-glitch border border-red-900/0 hover:border-red-500/30 rounded-xl text-xs uppercase",
+          "text-red-500 hover:text-red-400 hover:bg-red-950/30 hover:shadow-[0_0_15px_-5px_rgba(239,68,68,0.4)] font-mono tracking-wide hover-glitch border border-red-900/0 hover:border-red-500/30 rounded-lg text-xs uppercase",
         cyber:
-          "bg-cyan-500 text-black font-bold uppercase tracking-wide text-xs hover:bg-cyan-400 hover:shadow-[0_0_25px_-5px_rgba(6,182,212,0.6)] rounded-xl shadow-[0_0_15px_-3px_rgba(6,182,212,0.4)]",
+          "bg-cyan-500 text-black font-bold uppercase tracking-wide text-xs hover:bg-cyan-400 hover:shadow-[0_0_25px_-5px_rgba(6,182,212,0.6)] rounded-lg shadow-[0_0_15px_-3px_rgba(6,182,212,0.4)]",
         discord:
-          "bg-[#5865F2] text-white font-bold uppercase tracking-wide text-xs hover:bg-[#4752C4] hover:shadow-[0_0_25px_-5px_rgba(88,101,242,0.6)] rounded-xl shadow-[0_0_15px_-3px_rgba(88,101,242,0.4)]",
+          "bg-[#5865F2] text-white font-bold uppercase tracking-wide text-xs hover:bg-[#4752C4] hover:shadow-[0_0_25px_-5px_rgba(88,101,242,0.6)] rounded-lg shadow-[0_0_15px_-3px_rgba(88,101,242,0.4)]",
       },
       size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-lg px-3",
-        lg: "h-11 rounded-xl px-8",
-        icon: "h-10 w-10 rounded-xl",
+        default: "h-9 md:h-10 px-3 md:px-4 py-2",
+        sm: "h-8 md:h-9 rounded-md px-2 md:px-3",
+        lg: "h-10 md:h-11 rounded-lg px-6 md:px-8",
+        icon: "h-9 w-9 md:h-10 md:w-10 rounded-lg",
       },
     },
     defaultVariants: {

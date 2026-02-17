@@ -18,51 +18,68 @@ interface XPSettings {
   levelUpChannel?: string;
 }
 
-interface XPState {
-  // Data
+interface GuildXPData {
   leaderboard: LeaderboardEntry[];
   settings: XPSettings | null;
+  isXpDisabled: boolean;
+}
+
+interface XPState {
+  // Per-guild data cache
+  dataCache: Record<string, GuildXPData>;
 
   // Status
   isLoading: boolean;
   isError: Error | null;
-  isXpDisabled: boolean;
   lastFetched: Record<string, number>; // guildId -> timestamp
 
   // Actions
   fetchXPData: (guildId: string, force?: boolean) => Promise<void>;
   updateSettings: (guildId: string, settings: Partial<XPSettings>) => void;
   clearCache: (guildId?: string) => void;
+
+  // Helpers
+  getGuildData: (guildId: string) => GuildXPData;
 }
 
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
+const DEFAULT_GUILD_DATA: GuildXPData = {
+  leaderboard: [],
+  settings: null,
+  isXpDisabled: false,
+};
+
 export const useXPStore = create<XPState>()(
   persist(
     (set, get) => ({
-      leaderboard: [],
-      settings: null,
+      dataCache: {},
       isLoading: false,
       isError: null,
-      isXpDisabled: false,
       lastFetched: {},
+
+      getGuildData: (guildId: string) => {
+        return get().dataCache[guildId] ?? DEFAULT_GUILD_DATA;
+      },
 
       fetchXPData: async (guildId: string, force = false) => {
         const state = get();
         const now = Date.now();
         const lastFetch = state.lastFetched[guildId] || 0;
+        const cached = state.dataCache[guildId];
 
         // Return if data is fresh and not forced
         if (
           !force &&
-          state.leaderboard.length > 0 &&
-          state.settings &&
+          cached &&
+          cached.leaderboard.length > 0 &&
+          cached.settings &&
           now - lastFetch < CACHE_DURATION
         ) {
           return;
         }
 
-        set({ isLoading: true, isError: null, isXpDisabled: false });
+        set({ isLoading: true, isError: null });
 
         try {
           // Parallel fetching of leaderboard and settings
@@ -73,6 +90,7 @@ export const useXPStore = create<XPState>()(
 
           // Handle Leaderboard Response
           let leaderboardData: LeaderboardEntry[] = [];
+          let xpDisabled = false;
           if (leaderboardRes.ok) {
             const data = await leaderboardRes.json();
             if (data.status === "success") {
@@ -82,7 +100,7 @@ export const useXPStore = create<XPState>()(
           } else if (leaderboardRes.status === 403) {
             const errorData = await leaderboardRes.json().catch(() => ({}));
             if (errorData.hint === "XP_DISABLED") {
-              set({ isXpDisabled: true });
+              xpDisabled = true;
             }
           }
 
@@ -96,9 +114,15 @@ export const useXPStore = create<XPState>()(
           }
 
           set({
-            leaderboard: leaderboardData,
-            settings: settingsData,
-            lastFetched: { ...state.lastFetched, [guildId]: now },
+            dataCache: {
+              ...get().dataCache,
+              [guildId]: {
+                leaderboard: leaderboardData,
+                settings: settingsData,
+                isXpDisabled: xpDisabled,
+              },
+            },
+            lastFetched: { ...get().lastFetched, [guildId]: now },
             isLoading: false,
           });
         } catch (error) {
@@ -114,21 +138,29 @@ export const useXPStore = create<XPState>()(
       },
 
       updateSettings: (guildId, newSettings) => {
-        const currentSettings = get().settings;
-        if (!currentSettings) return;
+        const cached = get().dataCache[guildId];
+        if (!cached?.settings) return;
 
         set({
-          settings: { ...currentSettings, ...newSettings },
+          dataCache: {
+            ...get().dataCache,
+            [guildId]: {
+              ...cached,
+              settings: { ...cached.settings, ...newSettings },
+            },
+          },
         });
       },
 
       clearCache: (guildId) => {
         if (guildId) {
           const newLastFetched = { ...get().lastFetched };
+          const newDataCache = { ...get().dataCache };
           delete newLastFetched[guildId];
-          set({ lastFetched: newLastFetched });
+          delete newDataCache[guildId];
+          set({ lastFetched: newLastFetched, dataCache: newDataCache });
         } else {
-          set({ lastFetched: {}, leaderboard: [], settings: null });
+          set({ lastFetched: {}, dataCache: {} });
         }
       },
     }),
@@ -136,10 +168,8 @@ export const useXPStore = create<XPState>()(
       name: "xp-storage",
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
-        leaderboard: state.leaderboard,
-        settings: state.settings,
+        dataCache: state.dataCache,
         lastFetched: state.lastFetched,
-        isXpDisabled: state.isXpDisabled,
       }),
     }
   )

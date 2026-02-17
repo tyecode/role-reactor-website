@@ -3,13 +3,13 @@
 
 import { PremiumGuard } from "../../../_components/premium-guard";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ErrorView } from "@/components/common/error-view";
-import useSWR from "swr";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { NodeLoader } from "@/components/common/node-loader";
+import { useProEngineStore } from "@/store/use-pro-engine-store";
 import {
   Search,
   CircleHelp,
@@ -69,17 +69,6 @@ const categoryIconMap: Record<string, any> = {
   General: HelpCircle,
 };
 
-const fetcher = async (url: string) => {
-  const res = await fetch(url);
-  if (!res.ok) {
-    const error: any = new Error("An error occurred while fetching the data.");
-    error.info = await res.json();
-    error.status = res.status;
-    throw error;
-  }
-  return res.json();
-};
-
 interface CommandListProps {
   guildId: string;
   title?: React.ReactNode;
@@ -91,14 +80,22 @@ export function CommandList({ guildId }: CommandListProps) {
   const [search, setSearch] = useState("");
   const [isActivating, setIsActivating] = useState(false);
   const [showPremiumModal, setShowPremiumModal] = useState(false);
-  const { data, error, mutate, isLoading } = useSWR(
-    guildId ? `/api/guilds/${guildId}/settings` : null,
-    fetcher,
-    {
-      revalidateOnFocus: false,
-      shouldRetryOnError: false,
+  const {
+    settingsCache,
+    isLoading,
+    isError,
+    fetchSettings,
+    updateLocalSettings,
+  } = useProEngineStore();
+
+  const data = settingsCache[guildId] ?? null;
+
+  // Handle Initial Fetch
+  useEffect(() => {
+    if (guildId) {
+      fetchSettings(guildId);
     }
-  );
+  }, [guildId, fetchSettings]);
 
   const toggleCommand = async (commandName: string) => {
     if (!data || data.status !== "success") return;
@@ -122,16 +119,14 @@ export function CommandList({ guildId }: CommandListProps) {
     }
 
     // Optimistic update
-    mutate(
-      {
-        ...data,
+    if (data) {
+      updateLocalSettings({
         settings: {
           ...data.settings,
           disabledCommands: newDisabled,
         },
-      },
-      false
-    );
+      });
+    }
 
     try {
       const res = await fetch(`/api/guilds/${guildId}/settings`, {
@@ -145,11 +140,11 @@ export function CommandList({ guildId }: CommandListProps) {
         throw new Error(errData.message || "Update failed");
       }
 
-      mutate(); // Revalidate
+      await fetchSettings(guildId, true); // Revalidate
     } catch (err: any) {
       console.error("Failed to update settings:", err);
       toast.error(err.message || "Failed to update command status");
-      mutate(); // Revert on error
+      await fetchSettings(guildId, true); // Revert on error
     }
   };
 
@@ -171,7 +166,7 @@ export function CommandList({ guildId }: CommandListProps) {
       if (!res.ok) throw new Error(resData.message || "Activation failed");
 
       toast.success("✨ Pro Engine unlocked!");
-      mutate(); // Refresh status
+      await fetchSettings(guildId, true); // Refresh status
     } catch (err: any) {
       console.error("Failed to activate premium:", err);
       toast.error(err.message || "Insufficient Cores or activation error");
@@ -297,12 +292,12 @@ export function CommandList({ guildId }: CommandListProps) {
         </div>
 
         <div className="relative space-y-16">
-          {(error && !data) || (data && data.status !== "success") ? (
+          {(isError && !data) || (data && data.status !== "success") ? (
             <div className="space-y-8 animate-in fade-in duration-500">
               <ErrorView
                 title="System Alert"
                 message="We were unable to synchronize command settings. Please try again."
-                onRetry={() => mutate()}
+                onRetry={() => fetchSettings(guildId, true)}
                 showHome={false}
               />
             </div>
