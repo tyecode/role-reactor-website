@@ -35,14 +35,8 @@ export default function XPPage({ params }: XPPageProps) {
   const [activeTab, setActiveTab] = useState("leaderboard");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const {
-    getGuildData,
-    dataCache,
-    isLoading,
-    isError,
-    fetchXPData,
-    clearCache,
-  } = useXPStore();
+  const { getGuildData, dataCache, isLoading, isError, fetchXPData } =
+    useXPStore();
 
   // Get data for THIS specific guild
   const hasGuildData = guildId in dataCache;

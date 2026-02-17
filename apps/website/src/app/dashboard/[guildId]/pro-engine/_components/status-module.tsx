@@ -2,7 +2,7 @@
 
 import { Audiowide } from "next/font/google";
 import { cn } from "@/lib/utils";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 
 const audiowide = Audiowide({
   subsets: ["latin"],

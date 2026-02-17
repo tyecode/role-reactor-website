@@ -1,6 +1,6 @@
 "use client";
 
-import { Shield, Calendar, Zap, Lock, AlertTriangle } from "lucide-react";
+import { Zap, Lock, AlertTriangle } from "lucide-react";
 import { Audiowide } from "next/font/google";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -15,13 +15,11 @@ const audiowide = Audiowide({
 
 interface ProEngineActiveAlertProps {
   isCancelled: boolean;
-  premiumStatus: any;
   expiresAt?: string;
 }
 
 export function ProEngineActiveAlert({
   isCancelled,
-  premiumStatus,
   expiresAt,
 }: ProEngineActiveAlertProps) {
   return (

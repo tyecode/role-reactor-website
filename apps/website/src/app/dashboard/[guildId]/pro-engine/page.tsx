@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams, useRouter, useParams } from "next/navigation";
 import { Crown, Zap } from "lucide-react";
 import { toast } from "@/lib/toast";
@@ -41,18 +41,12 @@ export default function ProEnginePage() {
 
   const { data: session } = useSession();
   const { user, fetchUser, isLoading: isUserLoading } = useUserStore();
-  const {
-    settingsCache,
-    isLoading,
-    isError,
-    fetchSettings,
-    updateLocalSettings,
-  } = useProEngineStore();
+  const { settingsCache, isError, fetchSettings, updateLocalSettings } =
+    useProEngineStore();
 
   // Get settings for THIS specific guild (not a stale previous guild)
   const settings = settingsCache[guildId] ?? null;
 
-  const [isPending, startTransition] = useTransition();
   const [showActivationModal, setShowActivationModal] = useState(
     activateQuery === "true"
   );
@@ -158,7 +152,6 @@ export default function ProEnginePage() {
         {isPremium ? (
           <ProEngineActiveAlert
             isCancelled={isCancelled}
-            premiumStatus={premiumStatus}
             expiresAt={premiumStatus.subscription.expiresAt}
           />
         ) : (
@@ -217,7 +210,7 @@ export default function ProEnginePage() {
       <PremiumGuard
         open={showActivationModal}
         onOpenChange={setShowActivationModal}
-        isActivating={isActivating || isPending}
+        isActivating={isActivating}
         onActivate={handleActivate}
         title={
           isPremium && isCancelled

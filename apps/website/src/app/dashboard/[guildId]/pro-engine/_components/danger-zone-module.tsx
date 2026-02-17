@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useTransition } from "react";
+import { useState, useEffect, useTransition, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { XCircle } from "lucide-react";
 import { Audiowide } from "next/font/google";
@@ -37,31 +37,10 @@ export function DangerZoneModule({
   const [showCancelConfirm, setShowCancelConfirm] = useState(false);
   const [countdown, setCountdown] = useState(0);
   const [isCounting, setIsCounting] = useState(false);
-  const { play, playBeep, playConfirm, playSwitch, playError, playUiSwitch } =
+  const { play, playConfirm, playSwitch, playError, playUiSwitch } =
     useUiSound();
 
-  // Countdown logic for cancellation
-  useEffect(() => {
-    let interval: NodeJS.Timeout;
-    if (isCounting) {
-      interval = setInterval(() => {
-        setCountdown((prev) => {
-          if (prev <= 1) {
-            clearInterval(interval);
-            setIsCounting(false);
-            handleCancel();
-            return 0;
-          }
-          // Play a high-pitched beep for each second
-          play("beep-electric-3", 0.4);
-          return prev - 1;
-        });
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [isCounting, play]);
-
-  const handleCancel = async () => {
+  const handleCancel = useCallback(async () => {
     setIsCancelling(true);
     play("glitch-in", 0.6); // Final action sound
     try {
@@ -110,7 +89,39 @@ export function DangerZoneModule({
     } finally {
       setIsCancelling(false);
     }
-  };
+  }, [
+    guildId,
+    premiumStatus,
+    settings,
+    updateLocalSettings,
+    onSubscriptionCancelled,
+    fetchSettings,
+    router,
+    play,
+    playConfirm,
+    playError,
+  ]);
+
+  // Countdown logic for cancellation
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (isCounting) {
+      interval = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            setIsCounting(false);
+            handleCancel();
+            return 0;
+          }
+          // Play a high-pitched beep for each second
+          play("beep-electric-3", 0.4);
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [isCounting, play, handleCancel]);
 
   const expiresAt = premiumStatus?.subscription?.expiresAt
     ? new Date(premiumStatus.subscription.expiresAt)

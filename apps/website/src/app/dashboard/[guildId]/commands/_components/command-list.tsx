@@ -31,7 +31,6 @@ import {
   Terminal,
   Lock,
   Crown,
-  Clock,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useSession } from "next-auth/react";
@@ -187,7 +186,6 @@ export function CommandList({ guildId }: CommandListProps) {
   const commands = data?.availableCommands || [];
   const disabledCommands = data?.settings?.disabledCommands || [];
   const isPremium = data?.isPremium?.pro;
-  const subscription = data?.premiumFeatures?.pro_engine;
 
   const filteredCommands = commands.filter(
     (cmd: any) =>
