@@ -109,7 +109,10 @@ export function ManageCoresDialog({
             <Label className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
               Action
             </Label>
-            <Select value={action} onValueChange={(v: any) => setAction(v)}>
+            <Select
+              value={action}
+              onValueChange={(v: "add" | "remove" | "set") => setAction(v)}
+            >
               <SelectTrigger className="bg-zinc-900/50 border-white/10 font-mono text-xs uppercase">
                 <SelectValue />
               </SelectTrigger>

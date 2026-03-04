@@ -1,22 +1,14 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import type { LeaderboardEntry } from "@/types/discord";
+import {
+  XPSettings,
+  LeaderboardEntry,
+  XPSettingsSchema,
+  LeaderboardEntrySchema,
+} from "@/types/settings";
 
-interface XPSettings {
-  enabled: boolean;
-  messageXP: boolean;
-  commandXP: boolean;
-  roleXP: boolean;
-  voiceXP: boolean;
-  messageXPAmount: { min: number; max: number };
-  roleXPAmount: number;
-  commandXPAmount: { base: number };
-  voiceXPAmount: number;
-  messageCooldown: number;
-  commandCooldown: number;
-  levelUpMessages: boolean;
-  levelUpChannel?: string;
-}
+export type { XPSettings, LeaderboardEntry };
+import { z } from "zod";
 
 interface GuildXPData {
   leaderboard: LeaderboardEntry[];
@@ -93,9 +85,22 @@ export const useXPStore = create<XPState>()(
           let xpDisabled = false;
           if (leaderboardRes.ok) {
             const data = await leaderboardRes.json();
-            if (data.status === "success") {
-              leaderboardData =
-                data.data?.leaderboard || data.leaderboard || [];
+            const leaderboardJson =
+              data.status === "success"
+                ? data.data?.leaderboard || data.leaderboard
+                : data.leaderboard || data;
+
+            const result = z
+              .array(LeaderboardEntrySchema)
+              .safeParse(leaderboardJson);
+            if (result.success) {
+              leaderboardData = result.data;
+            } else {
+              console.warn(
+                "XP Store: Leaderboard validation failed",
+                result.error.format()
+              );
+              // Fallback to empty instead of crashing if possible
             }
           } else if (leaderboardRes.status === 403) {
             const errorData = await leaderboardRes.json().catch(() => ({}));
@@ -109,7 +114,17 @@ export const useXPStore = create<XPState>()(
           if (settingsRes.ok) {
             const data = await settingsRes.json();
             if (data.status === "success" && data.settings?.experienceSystem) {
-              settingsData = data.settings.experienceSystem;
+              const result = XPSettingsSchema.safeParse(
+                data.settings.experienceSystem
+              );
+              if (result.success) {
+                settingsData = result.data;
+              } else {
+                console.warn(
+                  "XP Store: Settings validation failed",
+                  result.error.format()
+                );
+              }
             }
           }
 

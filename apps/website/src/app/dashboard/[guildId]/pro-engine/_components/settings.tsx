@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { calculateSubscriptionProgress } from "@/lib/premium-utils";
 import { StatusModule } from "./status-module";
 import { DangerZoneModule } from "./danger-zone-module";
+import type { ProEngineSettings as ProEngineSettingsType } from "@/store/use-pro-engine-store";
 
 const audiowide = Audiowide({
   subsets: ["latin"],
@@ -17,7 +18,7 @@ const audiowide = Audiowide({
 
 interface ProEngineSettingsProps {
   guildId: string;
-  premiumStatus: any;
+  premiumStatus: ProEngineSettingsType;
   isCancelled: boolean;
   onSubscriptionCancelled: () => void;
 }

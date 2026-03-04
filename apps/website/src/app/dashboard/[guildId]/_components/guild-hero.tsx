@@ -4,7 +4,7 @@ import { useState, useRef, useCallback } from "react";
 import { motion } from "motion/react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
+import { cn, getDiscordImageUrl } from "@/lib/utils";
 import { Audiowide } from "next/font/google";
 import { CyberpunkBackground } from "@/components/common/cyberpunk-background";
 
@@ -106,12 +106,11 @@ export function GuildHero({ guildName, guildIcon, guildId }: GuildHeroProps) {
         <Avatar className="h-20 w-20 sm:h-28 sm:w-28 md:h-32 md:w-32 xl:h-40 xl:w-40 rounded-3xl border-2 border-zinc-950 shadow-2xl z-10 relative ring-1 ring-cyan-500/50 shadow-cyan-500/20">
           <AvatarImage
             src={
-              guildIcon
-                ? `https://cdn.discordapp.com/icons/${guildId}/${guildIcon}.png`
-                : undefined
+              getDiscordImageUrl("icons", guildId, guildIcon, 160) || undefined
             }
             alt={guildName}
-            className="object-cover"
+            width={160}
+            height={160}
           />
           <AvatarFallback className="bg-zinc-800 text-zinc-400 text-4xl font-bold">
             {guildName.charAt(0) || "S"}

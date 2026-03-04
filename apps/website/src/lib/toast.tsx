@@ -82,39 +82,45 @@ const CustomToast = ({ title, description, type = "info" }: ToastProps) => {
   );
 };
 
+interface ToastOptions {
+  id?: string | number;
+  duration?: number;
+  onDismiss?: () => void;
+}
+
 export const toast = {
-  success: (message: string, options?: any) => {
+  success: (message: string, options?: ToastOptions) => {
     return sonnerToast.custom(
       () => <CustomToast type="success" description={message} />,
       options
     );
   },
-  error: (message: string, options?: any) => {
+  error: (message: string, options?: ToastOptions) => {
     return sonnerToast.custom(
       () => <CustomToast type="error" description={message} />,
       options
     );
   },
-  info: (message: string, options?: any) => {
+  info: (message: string, options?: ToastOptions) => {
     return sonnerToast.custom(
       () => <CustomToast type="info" description={message} />,
       options
     );
   },
-  warning: (message: string, options?: any) => {
+  warning: (message: string, options?: ToastOptions) => {
     return sonnerToast.custom(
       () => <CustomToast type="warning" description={message} />,
       options
     );
   },
-  loading: (message: string, options?: any) => {
+  loading: (message: string, options?: ToastOptions) => {
     return sonnerToast.custom(
       () => <CustomToast type="loading" description={message} />,
       options
     );
   },
   // Allow custom titles/descriptions
-  custom: (props: ToastProps, options?: any) => {
+  custom: (props: ToastProps, options?: ToastOptions) => {
     return sonnerToast.custom(() => <CustomToast {...props} />, options);
   },
   dismiss: (id?: string | number) => sonnerToast.dismiss(id),

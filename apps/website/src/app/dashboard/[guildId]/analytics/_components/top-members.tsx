@@ -2,7 +2,7 @@
 
 import { Audiowide } from "next/font/google";
 import { MessageSquare, Mic, Crown } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn, getDiscordImageUrl } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { CyberpunkBackground } from "@/components/common/cyberpunk-background";
@@ -165,7 +165,19 @@ function MemberList({
                       rank.ring
                     )}
                   >
-                    <AvatarImage src={member.avatar || undefined} />
+                    <AvatarImage
+                      src={
+                        getDiscordImageUrl(
+                          "avatars",
+                          member.userId,
+                          member.avatar,
+                          64
+                        ) || undefined
+                      }
+                      alt={member.username}
+                      width={32}
+                      height={32}
+                    />
                     <AvatarFallback className="bg-zinc-800 text-zinc-400 text-[10px] font-black rounded-lg">
                       {member.username.slice(0, 2).toUpperCase()}
                     </AvatarFallback>
@@ -213,7 +225,7 @@ export function TopMembers({
     <div className="relative">
       {/* Premium blur overlay */}
       {!isPremium && (
-        <div className="absolute inset-0 z-20 flex items-center justify-center bg-zinc-950/40 backdrop-blur-[8px] rounded-2xl">
+        <div className="absolute inset-0 z-20 flex items-center justify-center bg-zinc-950/40 backdrop-blur-sm rounded-2xl">
           <button
             onClick={onUpgrade}
             className="flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 rounded-xl px-5 py-3 hover:bg-amber-500/20 hover:border-amber-500/40 transition-all cursor-pointer group"

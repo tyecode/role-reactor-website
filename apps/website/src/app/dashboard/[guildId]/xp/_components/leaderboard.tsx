@@ -3,8 +3,8 @@
 import { audiowide } from "@/lib/fonts";
 import { Search } from "lucide-react";
 
-import { cn } from "@/lib/utils";
-import type { LeaderboardEntry } from "@/types/discord";
+import { cn, getDiscordImageUrl } from "@/lib/utils";
+import { type LeaderboardEntry } from "@/store/use-xp-store";
 
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -125,7 +125,19 @@ export function LeaderboardList({
                             : "border border-white/10"
                         )}
                       >
-                        <AvatarImage src={entry.user.avatar || undefined} />
+                        <AvatarImage
+                          src={
+                            getDiscordImageUrl(
+                              "avatars",
+                              entry.userId,
+                              entry.user.avatar,
+                              64
+                            ) || undefined
+                          }
+                          alt={entry.user.username}
+                          width={44}
+                          height={44}
+                        />
                         <AvatarFallback className="bg-zinc-900 font-black text-[10px] text-zinc-500">
                           {entry.user.username.slice(0, 2).toUpperCase()}
                         </AvatarFallback>

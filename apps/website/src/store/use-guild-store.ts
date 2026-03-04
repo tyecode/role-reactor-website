@@ -1,17 +1,16 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import { DiscordRole, DiscordChannel } from "@/types/discord";
+import {
+  DiscordRole,
+  DiscordChannel,
+  PremiumStatus,
+  DiscordRoleSchema,
+  DiscordChannelSchema,
+  PremiumStatusSchema,
+} from "@/types/settings";
 
-export interface PremiumStatus {
-  isPremium: {
-    pro: boolean;
-  };
-  subscription?: {
-    activatedAt: string;
-    expiresAt: string;
-    autoRenew: boolean;
-  };
-}
+export type { DiscordRole, DiscordChannel, PremiumStatus };
+import { z } from "zod";
 
 interface GuildData {
   roles: DiscordRole[] | null;
@@ -97,6 +96,16 @@ export const useGuildStore = create<GuildState>()(
           const res = await fetch(`/api/guilds/${guildId}/roles`);
           if (res.ok) {
             const data = await res.json();
+            const result = z.array(DiscordRoleSchema).safeParse(data);
+
+            if (!result.success) {
+              console.error(
+                "Guild Store: Roles validation failed",
+                result.error.format()
+              );
+              throw new Error("Invalid roles data");
+            }
+
             set((s) => ({
               guildData: {
                 ...s.guildData,
@@ -107,7 +116,7 @@ export const useGuildStore = create<GuildState>()(
                     settings: null,
                     lastFetched: {},
                   }),
-                  roles: Array.isArray(data) ? data : [],
+                  roles: result.data,
                   lastFetched: {
                     ...(s.guildData[guildId]?.lastFetched || {}),
                     roles: Date.now(),
@@ -192,6 +201,16 @@ export const useGuildStore = create<GuildState>()(
           const res = await fetch(`/api/guilds/${guildId}/channels`);
           if (res.ok) {
             const data = await res.json();
+            const result = z.array(DiscordChannelSchema).safeParse(data);
+
+            if (!result.success) {
+              console.error(
+                "Guild Store: Channels validation failed",
+                result.error.format()
+              );
+              throw new Error("Invalid channels data");
+            }
+
             set((s) => ({
               guildData: {
                 ...s.guildData,
@@ -202,7 +221,7 @@ export const useGuildStore = create<GuildState>()(
                     settings: null,
                     lastFetched: {},
                   }),
-                  channels: Array.isArray(data) ? data : [],
+                  channels: result.data,
                   lastFetched: {
                     ...(s.guildData[guildId]?.lastFetched || {}),
                     channels: Date.now(),
@@ -287,6 +306,17 @@ export const useGuildStore = create<GuildState>()(
           const res = await fetch(`/api/guilds/${guildId}/settings`);
           if (res.ok) {
             const data = await res.json();
+            const settingsJson = data.settings || data;
+            const result = PremiumStatusSchema.safeParse(settingsJson);
+
+            if (!result.success) {
+              console.error(
+                "Guild Store: Settings validation failed",
+                result.error.format()
+              );
+              throw new Error("Invalid settings data");
+            }
+
             set((s) => ({
               guildData: {
                 ...s.guildData,
@@ -297,7 +327,7 @@ export const useGuildStore = create<GuildState>()(
                     settings: null,
                     lastFetched: {},
                   }),
-                  settings: data,
+                  settings: result.data,
                   lastFetched: {
                     ...(s.guildData[guildId]?.lastFetched || {}),
                     settings: Date.now(),

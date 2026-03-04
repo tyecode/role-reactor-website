@@ -1,0 +1,179 @@
+import { z } from "zod";
+
+/**
+ * Discord API Schemas
+ */
+
+export const DiscordGuildSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  icon: z.string().nullable().optional(),
+  permissions: z.string().optional().default("0"),
+});
+
+export const DiscordChannelSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  type: z.number(),
+});
+
+export const DiscordRoleSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  color: z.number(),
+  managed: z.boolean(),
+  position: z.number().optional(),
+  permissions: z.string().optional(),
+});
+
+/**
+ * XP & Leaderboard Schemas
+ */
+
+export const LeaderboardEntrySchema = z.object({
+  userId: z.string(),
+  totalXP: z.number(),
+  level: z.number(),
+  user: z.object({
+    username: z.string(),
+    discriminator: z.string(),
+    avatar: z.string().nullable(),
+    bot: z.boolean(),
+  }),
+  rankInfo: z
+    .object({
+      title: z.string(),
+      emoji: z.string(),
+      color: z.number(),
+      minLevel: z.number(),
+    })
+    .optional(),
+});
+
+export const XPSettingsSchema = z.object({
+  enabled: z.boolean(),
+  messageXP: z.boolean(),
+  commandXP: z.boolean(),
+  roleXP: z.boolean(),
+  voiceXP: z.boolean(),
+  messageXPAmount: z.object({ min: z.number(), max: z.number() }),
+  roleXPAmount: z.number(),
+  commandXPAmount: z.object({ base: z.number() }),
+  voiceXPAmount: z.number(),
+  messageCooldown: z.number(),
+  commandCooldown: z.number(),
+  levelUpMessages: z.boolean(),
+  levelUpChannel: z.string().optional(),
+});
+
+/**
+ * Pro Engine & Subscription Schemas
+ */
+
+export const ProSubscriptionSchema = z.object({
+  expiresAt: z.string(),
+  activatedAt: z.string(),
+  cancelled: z.boolean().optional(),
+  cancelledAt: z.string().optional(),
+  autoRenew: z.boolean().optional(),
+  cost: z.number().optional(),
+  period: z.string().optional(),
+  payerUserId: z.string().optional(),
+  lastDeductionDate: z.string().optional(),
+});
+
+export const ProEngineSettingsSchema = z
+  .object({
+    status: z.string().optional(),
+    isPremium: z
+      .object({
+        pro: z.boolean(),
+      })
+      .catchall(z.boolean().optional()),
+    subscription: ProSubscriptionSchema.optional(),
+    premiumConfig: z
+      .record(
+        z.string(),
+        z.object({
+          cost: z.number(),
+          period: z.string(),
+          periodDays: z.number(),
+        })
+      )
+      .optional(),
+    settings: z
+      .object({
+        disabledCommands: z.array(z.string()).optional(),
+      })
+      .catchall(z.unknown()),
+    availableCommands: z
+      .array(
+        z
+          .object({
+            name: z.string(),
+            description: z.string(),
+            category: z.string().optional(),
+          })
+          .catchall(z.unknown())
+      )
+      .optional(),
+  })
+  .catchall(z.unknown());
+
+/**
+ * Pricing & User Schemas
+ */
+
+export const UserPricingInfoSchema = z.object({
+  userId: z.string(),
+  isFirstPurchase: z.boolean(),
+  currentCredits: z.number(),
+  eligibleForFirstPurchaseBonus: z.boolean(),
+});
+
+/**
+ * Admin Config Schemas
+ */
+
+export const BotConfigSchema = z.object({
+  config: z
+    .object({
+      botInfo: z
+        .object({
+          name: z.string().optional(),
+        })
+        .catchall(z.unknown())
+        .optional(),
+    })
+    .catchall(z.unknown()),
+  environment: z.string(),
+  isProduction: z.boolean(),
+});
+
+export const PremiumStatusSchema = z.object({
+  isPremium: z.object({
+    pro: z.boolean(),
+  }),
+  subscription: z
+    .object({
+      activatedAt: z.string(),
+      expiresAt: z.string(),
+      autoRenew: z.boolean(),
+    })
+    .optional(),
+});
+
+/**
+ * TypeScript Types
+ */
+
+export type DiscordGuild = z.infer<typeof DiscordGuildSchema>;
+export type DiscordChannel = z.infer<typeof DiscordChannelSchema>;
+export type DiscordRole = z.infer<typeof DiscordRoleSchema>;
+export type LeaderboardEntry = z.infer<typeof LeaderboardEntrySchema>;
+export type XPSettings = z.infer<typeof XPSettingsSchema>;
+export type ProSubscription = z.infer<typeof ProSubscriptionSchema>;
+export type ProEngineSettings = z.infer<typeof ProEngineSettingsSchema>;
+export type UserPricingInfo = z.infer<typeof UserPricingInfoSchema>;
+export type BotConfig = z.infer<typeof BotConfigSchema>;
+export type PremiumStatus = z.infer<typeof PremiumStatusSchema>;

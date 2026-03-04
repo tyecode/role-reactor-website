@@ -1,9 +1,9 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Audiowide } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { CyberpunkBackground } from "@/components/common/cyberpunk-background";
 
 import {
@@ -36,6 +36,11 @@ interface GrowthChartProps {
 }
 
 export function GrowthChart({ history, days }: GrowthChartProps) {
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const hasData = history.some((d) => d.joins > 0 || d.leaves > 0);
 
   // Custom tooltip
@@ -117,7 +122,9 @@ export function GrowthChart({ history, days }: GrowthChartProps) {
           </div>
         </div>
 
-        {!hasData ? (
+        {!isMounted ? (
+          <div className="h-[300px] w-full bg-zinc-900/10 animate-pulse rounded-xl" />
+        ) : !hasData ? (
           <div className="h-[300px] flex items-center justify-center">
             <div className="text-center">
               <p

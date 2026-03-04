@@ -34,28 +34,14 @@ export function PageHeader({
   className,
   children,
 }: PageHeaderProps) {
-  // Map legacy colors to Badge variants
-  const variantMap: Record<
-    string,
-    | "default"
-    | "secondary"
-    | "destructive"
-    | "outline"
-    | "accent"
-    | "premium"
-    | "pro"
-    | "success"
-    | "warning"
-    | "info"
-  > = {
-    cyan: "accent",
-    yellow: "premium",
-    emerald: "success",
-    default: "default",
-  };
-
   const badgeVariant = badge?.variant
-    ? (variantMap[badge.variant] ?? (badge.variant as any))
+    ? ((badge.variant === "cyan"
+        ? "accent"
+        : badge.variant === "yellow"
+          ? "premium"
+          : badge.variant === "emerald"
+            ? "success"
+            : "default") as React.ComponentProps<typeof Badge>["variant"])
     : "default";
 
   return (

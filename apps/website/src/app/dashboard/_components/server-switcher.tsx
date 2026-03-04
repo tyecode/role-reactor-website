@@ -15,10 +15,9 @@ import {
   usePathname,
   useParams,
 } from "next/navigation";
-import Image from "next/image";
 import { links } from "@/constants/links";
 
-import { cn } from "@/lib/utils";
+import { cn, getDiscordImageUrl } from "@/lib/utils";
 
 import {
   DropdownMenu,
@@ -105,11 +104,16 @@ export function ServerSwitcher() {
                   <Avatar className="h-full w-full rounded-none">
                     <AvatarImage
                       src={
-                        activeGuild.icon
-                          ? `https://cdn.discordapp.com/icons/${activeGuild.id}/${activeGuild.icon}.png`
-                          : undefined
+                        getDiscordImageUrl(
+                          "icons",
+                          activeGuild.id,
+                          activeGuild.icon,
+                          64
+                        ) || undefined
                       }
-                      className="object-cover"
+                      alt={activeGuild.name}
+                      width={40}
+                      height={40}
                     />
                     <AvatarFallback className="bg-transparent text-zinc-400 font-bold text-base">
                       {activeGuild.name.charAt(0)}
@@ -131,11 +135,19 @@ export function ServerSwitcher() {
                       <span className="truncate font-bold text-white tracking-tight text-[15px] flex-1">
                         {activeGuild?.name || "Select Node"}
                       </span>
-                      {isFetching && guilds.length > 0 && (
+                      {isFetching && (
                         <span className="flex items-center gap-1 shrink-0">
                           <span className="size-1 rounded-full bg-cyan-400 animate-pulse" />
                           <span className="text-[7px] text-cyan-400 font-bold uppercase tracking-widest animate-pulse">
                             SYNCING
+                          </span>
+                        </span>
+                      )}
+                      {!isFetching && error === "error" && (
+                        <span className="flex items-center gap-1 shrink-0">
+                          <span className="size-1 rounded-full bg-red-500" />
+                          <span className="text-[7px] text-red-500 font-bold uppercase tracking-widest">
+                            SYNC_FAILED
                           </span>
                         </span>
                       )}
@@ -206,11 +218,11 @@ export function ServerSwitcher() {
                   RE-AUTHORIZE TERMINAL
                 </Button>
               </div>
-            ) : error === "error" ? (
+            ) : error === "error" && guilds.length === 0 ? (
               <div className="px-2 py-6 text-[10px] text-red-400 text-center font-bold uppercase tracking-widest">
                 LINK_FAILURE: DATA_SYNC_ERROR
               </div>
-            ) : installedGuilds.length === 0 ? (
+            ) : guilds.length === 0 ? (
               <div className="px-2 py-6 text-[10px] text-zinc-600 text-center font-bold uppercase tracking-widest">
                 NO_ACTIVE_NODES_FOUND
               </div>
@@ -237,19 +249,24 @@ export function ServerSwitcher() {
                         )}
                       >
                         <div className="absolute inset-0 bg-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        {guild.icon ? (
-                          <Image
-                            src={`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png`}
+                        <Avatar className="size-full rounded-none">
+                          <AvatarImage
+                            src={
+                              getDiscordImageUrl(
+                                "icons",
+                                guild.id,
+                                guild.icon,
+                                64
+                              ) || undefined
+                            }
                             width={36}
                             height={36}
-                            className="size-full object-cover"
                             alt={guild.name}
                           />
-                        ) : (
-                          <span className="text-xs font-black text-zinc-500 group-hover:text-cyan-400 transition-colors">
+                          <AvatarFallback className="bg-transparent text-xs font-black text-zinc-500 group-hover:text-cyan-400 transition-colors">
                             {guild.name.charAt(0).toUpperCase()}
-                          </span>
-                        )}
+                          </AvatarFallback>
+                        </Avatar>
                       </div>
                       <div className="flex flex-col min-w-0 flex-1 gap-0.5">
                         <span

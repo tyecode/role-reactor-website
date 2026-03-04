@@ -1,5 +1,6 @@
 import { createMDX } from "fumadocs-mdx/next";
 import bundleAnalyzer from "@next/bundle-analyzer";
+import { withSentryConfig } from "@sentry/nextjs";
 
 const withMDX = createMDX();
 
@@ -15,6 +16,9 @@ const config = {
   compress: true,
   poweredByHeader: false,
   generateEtags: false,
+
+  // Output standalone for Docker deployment
+  output: "standalone",
 
   // Image optimization
   images: {
@@ -77,6 +81,22 @@ const config = {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=()",
           },
+          {
+            key: "Content-Security-Policy",
+            value: [
+              "default-src 'self'",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://vercel.live https://assets.vercel.com",
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+              "img-src 'self' data: https: blob:",
+              "font-src 'self' https://fonts.gstatic.com",
+              "connect-src 'self' https://api.rolereactor.app https://discord.com https://cdn.discordapp.com https://media.discordapp.net https://vercel.live https://analytics.vercel.com",
+              "frame-src 'self' https://www.paypal.com https://www.sandbox.paypal.com",
+              "frame-ancestors 'none'",
+              "base-uri 'self'",
+              "form-action 'self'",
+              "upgrade-insecure-requests",
+            ].join("; "),
+          },
         ],
       },
       {
@@ -92,4 +112,15 @@ const config = {
   },
 };
 
-export default withBundleAnalyzer(withMDX(config));
+// Sentry configuration
+const sentryWebpackPluginOptions = {
+  silent: true,
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT,
+  authToken: process.env.SENTRY_AUTH_TOKEN,
+};
+
+export default withSentryConfig(
+  withBundleAnalyzer(withMDX(config)),
+  sentryWebpackPluginOptions
+);

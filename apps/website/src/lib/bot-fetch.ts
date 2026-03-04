@@ -1,12 +1,19 @@
 import "server-only";
 import { getBotApiUrl } from "./api-config";
 
+interface BotFetchOptions extends RequestInit {
+  silent?: boolean;
+}
+
 /**
  * Bot API Fetcher
  * Centralized utility to handle authorized requests from website to bot.
  * Returns the raw Response object.
  */
-export async function botFetch(path: string, options: RequestInit = {}) {
+export async function botFetch(
+  path: string,
+  options: BotFetchOptions = {}
+): Promise<Response> {
   const botApiUrl = process.env.BOT_API_URL;
   const internalKey = process.env.INTERNAL_API_KEY;
 
@@ -24,11 +31,11 @@ export async function botFetch(path: string, options: RequestInit = {}) {
   const versionedPath = getBotApiUrl(path);
   const url = `${botApiUrl}${versionedPath}`;
 
-  const headers = {
+  const headers: Record<string, string> = {
     "Content-Type": "application/json",
     ...(internalKey && { Authorization: `Bearer ${internalKey}` }),
-    ...(options.headers || {}),
-  } as Record<string, string>;
+    ...(options.headers as Record<string, string>),
+  };
 
   return fetch(url, {
     ...options,
@@ -45,14 +52,13 @@ export async function botFetch(path: string, options: RequestInit = {}) {
  */
 export async function botFetchJson<T>(
   path: string,
-  options: RequestInit & { silent?: boolean } = {}
+  options: BotFetchOptions = {}
 ): Promise<T> {
   const { silent, ...fetchOptions } = options;
   const response = await botFetch(path, fetchOptions);
 
   if (!response.ok) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let errorData: any = {};
+    let errorData: Record<string, unknown> = {};
     try {
       errorData = await response.json();
     } catch {
@@ -60,8 +66,8 @@ export async function botFetchJson<T>(
     }
 
     const message =
-      errorData.message ||
-      errorData.error ||
+      (errorData.message as string) ||
+      (errorData.error as string) ||
       `Bot API returned ${response.status} for ${path}`;
 
     if (!silent && process.env.NODE_ENV !== "test") {

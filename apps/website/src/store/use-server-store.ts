@@ -1,12 +1,9 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { DiscordGuild, DiscordGuildSchema } from "@/types/settings";
 
-export interface DiscordGuild {
-  id: string;
-  name: string;
-  icon: string | null;
-  permissions: string;
-}
+export type { DiscordGuild };
+import { z } from "zod";
 
 interface ServerState {
   guilds: DiscordGuild[];
@@ -85,7 +82,18 @@ export const useServerStore = create<ServerState>()(
               throw new Error("Failed to fetch guilds from Discord");
             }
 
-            const manageableGuilds: DiscordGuild[] = await res.json();
+            const json = await res.json();
+            const result = z.array(DiscordGuildSchema).safeParse(json);
+
+            if (!result.success) {
+              console.error(
+                "Server store: Guild validation failed",
+                result.error.format()
+              );
+              throw new Error("Invalid guild data received from Discord API");
+            }
+
+            const manageableGuilds = result.data;
             set({ guilds: manageableGuilds });
             console.log(
               `Server store: Found ${manageableGuilds.length} manageable guilds`
@@ -103,10 +111,21 @@ export const useServerStore = create<ServerState>()(
 
               if (botRes.ok) {
                 const botData = await botRes.json();
+                const BotInstallationSchema = z.object({
+                  installedGuilds: z.array(z.string()).optional(),
+                  data: z
+                    .object({ installedGuilds: z.array(z.string()).optional() })
+                    .optional(),
+                });
+
+                const botResult = BotInstallationSchema.safeParse(botData);
                 const ids =
-                  botData.installedGuilds ||
-                  (botData.data && botData.data.installedGuilds) ||
+                  (botResult.success ? botResult.data.installedGuilds : null) ||
+                  (botResult.success && botResult.data.data
+                    ? botResult.data.data.installedGuilds
+                    : null) ||
                   [];
+
                 set({ installedGuildIds: ids });
                 console.log(
                   `Server store: Found ${ids.length} installed guilds`

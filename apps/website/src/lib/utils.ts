@@ -68,3 +68,24 @@ export function formatCurrency(amount: number) {
     currency: "USD",
   }).format(amount);
 }
+/**
+ * Resolves a Discord image URL.
+ * Handles both full URLs and hashes.
+ */
+export function getDiscordImageUrl(
+  type: "avatars" | "icons" | "splashes" | "banners",
+  id: string,
+  hash: string | null | undefined,
+  size: number = 128
+) {
+  if (!hash) return null;
+
+  // If it's already a full URL, return it as is
+  if (hash.startsWith("http")) return hash;
+
+  // Split out extension if present in the hash itself
+  const [cleanHash, ext] = hash.split(".");
+  const format = ext || (cleanHash.startsWith("a_") ? "gif" : "png");
+
+  return `https://cdn.discordapp.com/${type}/${id}/${cleanHash}.${format}?size=${size}`;
+}

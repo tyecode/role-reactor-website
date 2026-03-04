@@ -8,7 +8,10 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/lib/toast";
 import { cn } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
-import { useProEngineStore } from "@/store/use-pro-engine-store";
+import {
+  useProEngineStore,
+  type ProEngineSettings,
+} from "@/store/use-pro-engine-store";
 import { useUiSound } from "@/hooks/use-ui-sound";
 
 const audiowide = Audiowide({
@@ -19,7 +22,7 @@ const audiowide = Audiowide({
 
 interface DangerZoneModuleProps {
   guildId: string;
-  premiumStatus: any;
+  premiumStatus: ProEngineSettings;
   onSubscriptionCancelled: () => void;
 }
 
@@ -49,7 +52,7 @@ export function DangerZoneModule({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           featureId: "pro_engine",
-          userId: premiumStatus?.subscription?.payerUserId,
+          userId: premiumStatus?.subscription?.payerUserId || "",
         }),
       });
 

@@ -130,20 +130,31 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
       "Automated Roles",
     ];
 
-    const rows = history.map((day: any) => [
-      day.date || day.label || "",
-      day.joins || 0,
-      day.leaves || 0,
-      (day.joins || 0) - (day.leaves || 0),
-      day.messages || 0,
-      day.voiceMinutes || 0,
-      day.commands || 0,
-      day.roleReactions || 0,
+    interface AnalyticsDay {
+      date?: string;
+      label?: string;
+      joins?: number;
+      leaves?: number;
+      messages?: number;
+      voiceMinutes?: number;
+      commands?: number;
+      roleReactions?: number;
+    }
+
+    const rows = history.map((day: AnalyticsDay) => [
+      day.date ?? day.label ?? "",
+      day.joins ?? 0,
+      day.leaves ?? 0,
+      (day.joins ?? 0) - (day.leaves ?? 0),
+      day.messages ?? 0,
+      day.voiceMinutes ?? 0,
+      day.commands ?? 0,
+      day.roleReactions ?? 0,
     ]);
 
     const csvContent = [
       headers.join(","),
-      ...rows.map((row: any) => row.join(",")),
+      ...rows.map((row: (string | number)[]) => row.join(",")),
     ].join("\n");
 
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });

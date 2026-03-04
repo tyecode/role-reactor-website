@@ -21,15 +21,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-interface ConfigData {
-  config: any;
-  environment: string;
-  isProduction: boolean;
-}
+import { BotConfig, BotConfigSchema } from "@/types/settings";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const renderValue = (value: any) => {
+const renderValue = (value: unknown) => {
   if (value === null || value === undefined)
     return <span className="text-zinc-600">null</span>;
   if (typeof value === "boolean") {
@@ -59,16 +53,13 @@ const renderValue = (value: any) => {
   return <span className="text-zinc-400">{String(value)}</span>;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ConfigSection = ({
-  title,
-  icon: Icon,
-  data,
-}: {
+interface ConfigSectionProps {
   title: string;
   icon: React.ComponentType<{ className?: string }>;
-  data: any;
-}) => {
+  data: Record<string, unknown>;
+}
+
+const ConfigSection = ({ title, icon: Icon, data }: ConfigSectionProps) => {
   if (!data) return null;
 
   return (
@@ -99,7 +90,7 @@ const ConfigSection = ({
 };
 
 export function ConfigViewer() {
-  const [data, setData] = useState<ConfigData | null>(null);
+  const [data, setData] = useState<BotConfig | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isRefreshing, startTransition] = useTransition();
 
@@ -111,15 +102,13 @@ export function ConfigViewer() {
         const json = await res.json();
 
         // The API returns { status, config, environment, isProduction }
-        // not wrapped in a data property
-        if (json.config && json.environment !== undefined) {
-          setData({
-            config: json.config,
-            environment: json.environment,
-            isProduction: json.isProduction,
-          });
+        const result = BotConfigSchema.safeParse(json);
+
+        if (result.success) {
+          setData(result.data);
         } else {
-          throw new Error("Invalid response format");
+          console.error("Config validation failure:", result.error.format());
+          throw new Error("Invalid response format from config API");
         }
         setError(null);
       } catch (err: unknown) {
@@ -245,21 +234,21 @@ export function ConfigViewer() {
               <ConfigSection
                 title="Discord Configuration"
                 icon={Terminal}
-                data={config.discord}
+                data={config.discord as Record<string, unknown>}
               />
             )}
             {config.database && (
               <ConfigSection
                 title="Database Settings"
                 icon={Database}
-                data={config.database}
+                data={config.database as Record<string, unknown>}
               />
             )}
             {config.logging && (
               <ConfigSection
                 title="Logging Configuration"
                 icon={Activity}
-                data={config.logging}
+                data={config.logging as Record<string, unknown>}
               />
             )}
           </div>
@@ -271,14 +260,14 @@ export function ConfigViewer() {
               <ConfigSection
                 title="Feature Flags"
                 icon={Zap}
-                data={config.features}
+                data={config.features as Record<string, unknown>}
               />
             )}
             {config.aiSettings && (
               <ConfigSection
                 title="AI Settings"
                 icon={Cpu}
-                data={config.aiSettings}
+                data={config.aiSettings as Record<string, unknown>}
               />
             )}
           </div>
@@ -286,18 +275,18 @@ export function ConfigViewer() {
 
         <TabsContent value="limits" className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {config.rateLimits?.rest && (
+            {(config.rateLimits as any)?.rest && (
               <ConfigSection
                 title="REST Rate Limits"
                 icon={Shield}
-                data={config.rateLimits.rest}
+                data={(config.rateLimits as any).rest}
               />
             )}
             {config.cacheLimits && (
               <ConfigSection
                 title="Cache Limits"
                 icon={Database}
-                data={config.cacheLimits}
+                data={config.cacheLimits as Record<string, unknown>}
               />
             )}
           </div>
@@ -311,14 +300,20 @@ export function ConfigViewer() {
                   title="PayPal Integration"
                   icon={Wallet}
                   data={
-                    (config.payments.paypal || {}) as Record<string, unknown>
+                    ((config.payments as any).paypal || {}) as Record<
+                      string,
+                      unknown
+                    >
                   }
                 />
                 <ConfigSection
                   title="Plisio (Crypto)"
                   icon={Lock}
                   data={
-                    (config.payments.plisio || {}) as Record<string, unknown>
+                    ((config.payments as any).plisio || {}) as Record<
+                      string,
+                      unknown
+                    >
                   }
                 />
               </>

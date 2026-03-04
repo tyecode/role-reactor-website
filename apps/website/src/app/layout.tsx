@@ -7,10 +7,17 @@ import { Analytics } from "@vercel/analytics/next";
 import { links } from "@/constants/links";
 import { SessionProvider } from "@/components/auth/session-provider";
 import { Toaster } from "sonner";
+import { PWAMeta, PWAProvider } from "@/components/pwa/pwa-provider";
+import { initPerformanceMonitoring } from "@/lib/web-vitals";
 
 import "@/app/global.css";
 
 import { inter } from "@/lib/fonts";
+
+// Initialize performance monitoring
+if (typeof window !== "undefined") {
+  initPerformanceMonitoring();
+}
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -128,6 +135,8 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={inter.className} suppressHydrationWarning>
       <body className="flex flex-col min-h-screen antialiased">
+        <PWAMeta />
+        <PWAProvider />
         <SessionProvider>
           <RootProvider
             theme={{

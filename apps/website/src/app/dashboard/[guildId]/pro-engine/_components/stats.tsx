@@ -4,6 +4,7 @@ import { Calendar, Zap, AlertTriangle, CheckCircle2 } from "lucide-react";
 import { Audiowide } from "next/font/google";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import type { ProEngineSettings } from "@/store/use-pro-engine-store";
 
 const audiowide = Audiowide({
   subsets: ["latin"],
@@ -12,7 +13,7 @@ const audiowide = Audiowide({
 });
 
 interface SubscriptionStatsProps {
-  premiumStatus: any;
+  premiumStatus: ProEngineSettings;
   isCancelled: boolean;
 }
 

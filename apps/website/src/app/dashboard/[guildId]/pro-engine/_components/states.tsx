@@ -24,7 +24,7 @@ export function ProEngineActiveAlert({
 }: ProEngineActiveAlertProps) {
   return (
     <Card className="relative overflow-hidden border-white/5 bg-zinc-950">
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px] pointer-events-none" />
       <div className="absolute right-0 top-1/2 -translate-y-1/2 h-full w-1/3 bg-cyan-500/5 blur-[80px] pointer-events-none" />
 
       <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-6 p-6 sm:p-8">
@@ -153,7 +153,7 @@ export function ProEngineCancelledAlert({
         />
 
         {/* Scanline Effect */}
-        <div className="absolute inset-0 pointer-events-none z-10 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] bg-[length:100%_4px,3px_100%] opacity-20" />
+        <div className="absolute inset-0 pointer-events-none z-10 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] bg-size-[100%_4px,3px_100%] opacity-20" />
 
         <div className="relative z-20 flex flex-col sm:flex-row items-center justify-between gap-6 p-6 sm:p-8">
           <div className="flex items-center gap-6 flex-1 min-w-0">
@@ -174,7 +174,7 @@ export function ProEngineCancelledAlert({
                 >
                   Cancellation Pending
                 </h3>
-                <div className="h-[1px] flex-1 bg-linear-to-r from-cyan-500/40 to-transparent" />
+                <div className="h-px flex-1 bg-linear-to-r from-cyan-500/40 to-transparent" />
               </div>
               <p className="text-[11px] font-bold text-zinc-400 leading-relaxed uppercase tracking-wider max-w-2xl">
                 You will keep all Pro features until{" "}

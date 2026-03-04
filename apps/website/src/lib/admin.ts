@@ -2,6 +2,20 @@
  * Admin utility functions
  */
 
+import type { User } from "next-auth";
+
+/**
+ * Extended user type with role information
+ */
+export interface ExtendedUser extends Omit<User, "id"> {
+  id: string | null;
+  role?: string;
+}
+
+export interface ExtendedSession {
+  user?: ExtendedUser;
+}
+
 /**
  * User Roles constants matching the bot backend
  */
@@ -10,13 +24,9 @@ export const UserRoles = {
   SUPPORT: "support", // Access to stats and logs
   ADMIN: "admin", // Partial management
   OWNER: "owner", // Full system access
-};
+} as const;
 
-/**
- * List of developer Discord IDs (root owners)
- * Historically hardcoded, now managed via environment variables for security.
- */
-// Root IDs are now strictly managed via DISCORD_DEVELOPERS env var
+export type UserRole = (typeof UserRoles)[keyof typeof UserRoles];
 
 /**
  * Checks if a user has administrative access to the global bot dashboard.
@@ -24,16 +34,14 @@ export const UserRoles = {
  * @param user The user object from the session (must include id and role)
  * @returns true if the user is a developer/admin
  */
-export function isDeveloper(
-  user?: { id?: string | null; role?: string } | null
-): boolean {
-  if (!user || !user.id) return false;
+export function isDeveloper(user?: ExtendedUser | null): boolean {
+  if (!user?.id) return false;
 
   // 1. Root IDs always have access
-  const envDevIds = process.env.NEXT_PUBLIC_DEVELOPER_IDS || "";
+  const envDevIds = process.env.NEXT_PUBLIC_DEVELOPER_IDS ?? "";
   const botDevIds =
-    process.env.DISCORD_DEVELOPERS ||
-    process.env.NEXT_PUBLIC_DISCORD_DEVELOPERS ||
+    process.env.DISCORD_DEVELOPERS ??
+    process.env.NEXT_PUBLIC_DISCORD_DEVELOPERS ??
     "";
 
   const rootIds = [
@@ -50,9 +58,12 @@ export function isDeveloper(
   if (rootIds.includes(user.id)) return true;
 
   // 2. Roles: Support, Admin, and Owner roles count as developers in the UI
-  // although they may have different visibility levels inside.
-  const devRoles = [UserRoles.SUPPORT, UserRoles.ADMIN, UserRoles.OWNER];
-  if (user.role && devRoles.includes(user.role)) return true;
+  const devRoles: UserRole[] = [
+    UserRoles.SUPPORT,
+    UserRoles.ADMIN,
+    UserRoles.OWNER,
+  ];
+  if (user.role && devRoles.includes(user.role as UserRole)) return true;
 
   return false;
 }
@@ -61,20 +72,20 @@ export function isDeveloper(
  * Higher-level role check
  */
 export function hasRole(
-  userRole: string | undefined,
-  requiredRole: string
+  userRole: UserRole | undefined,
+  requiredRole: UserRole
 ): boolean {
   if (!userRole) return false;
 
-  const roleHierarchy: Record<string, number> = {
+  const roleHierarchy: Record<UserRole, number> = {
     [UserRoles.USER]: 0,
     [UserRoles.SUPPORT]: 1,
     [UserRoles.ADMIN]: 2,
     [UserRoles.OWNER]: 3,
   };
 
-  const userLevel = roleHierarchy[userRole] || 0;
-  const requiredLevel = roleHierarchy[requiredRole] || 0;
+  const userLevel = roleHierarchy[userRole] ?? 0;
+  const requiredLevel = roleHierarchy[requiredRole] ?? 0;
 
   return userLevel >= requiredLevel;
 }

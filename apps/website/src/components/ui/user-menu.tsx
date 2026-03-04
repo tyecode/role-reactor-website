@@ -9,7 +9,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "./dropdown-menu";
-import { Avatar, AvatarImage, AvatarFallback } from "./avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import { Button } from "./button";
 import { Skeleton } from "./skeleton";
 import { cn } from "@/lib/utils";
@@ -171,7 +171,12 @@ export function UserMenu({
     >
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-cyan-500/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
       <Avatar className="h-9 w-9 rounded-lg shrink-0 ring-2 ring-cyan-500/20 group-hover:ring-cyan-500/50 transition-all shadow-[0_0_10px_-2px_rgba(6,182,212,0.3)]">
-        <AvatarImage src={avatarUrl} alt={user.name || "User"} />
+        <AvatarImage
+          src={avatarUrl}
+          alt={user.name || "User"}
+          width={36}
+          height={36}
+        />
         <AvatarFallback className="rounded-lg bg-zinc-900 border border-white/10 text-xs font-mono text-cyan-400">
           {getInitials(user.name)}
         </AvatarFallback>
@@ -195,7 +200,12 @@ export function UserMenu({
       title={user.name || "User menu"}
     >
       <Avatar className="h-7 w-7 ring-1 ring-white/10 group-hover:ring-cyan-500/50 transition-all">
-        <AvatarImage src={avatarUrl} alt={user.name || "User avatar"} />
+        <AvatarImage
+          src={avatarUrl}
+          alt={user.name || "User avatar"}
+          width={28}
+          height={28}
+        />
         <AvatarFallback className="text-xs bg-zinc-900 text-cyan-400 font-mono">
           {getInitials(user.name)}
         </AvatarFallback>
@@ -244,8 +254,8 @@ export function UserMenu({
                   <AvatarImage
                     src={avatarUrl}
                     alt={user.name || "User avatar"}
-                    draggable={false}
-                    className="select-none"
+                    width={40}
+                    height={40}
                   />
                   <AvatarFallback className="text-sm bg-black text-cyan-400 font-mono border border-cyan-500/30">
                     {getInitials(user.name)}

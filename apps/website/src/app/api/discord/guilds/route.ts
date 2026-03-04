@@ -2,6 +2,8 @@ import { auth } from "@/auth";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from "next/server";
 
+const GUILD_CACHE = new Map<string, { data: any[]; expires: number }>();
+
 export async function GET() {
   const session = await auth();
 
@@ -13,21 +15,24 @@ export async function GET() {
     );
   }
 
-  if (!(session as any).accessToken) {
+  const accessToken = (session as any).accessToken;
+  if (!accessToken) {
     console.warn(
-      `[API] No access token found in session for user: ${session.user?.id}. This usually means the user needs to re-login to refresh their token.`
+      `[API] No access token found in session for user: ${session.user?.id}.`
     );
-    // Return empty list instead of 401 to prevent client-side "Permissions missing" crash
-    // if we actually have a session but just not the token (e.g. old session)
     return NextResponse.json([]);
   }
 
-  try {
-    const accessToken = (session as any).accessToken;
+  const now = Date.now();
+  const cached = GUILD_CACHE.get(accessToken);
+  if (cached && cached.expires > now) {
+    return NextResponse.json(cached.data);
+  }
 
+  try {
     // Log diagnostic info (safely)
     console.log(
-      `Making Discord API request for user ${session.user?.id} with token: ${accessToken?.substring(0, 5)}... (Length: ${accessToken?.length})`
+      `Making Discord API request for user ${session.user?.id} with token: ${accessToken?.substring(0, 5)}...`
     );
 
     const response = await fetch("https://discord.com/api/users/@me/guilds", {
@@ -36,12 +41,18 @@ export async function GET() {
         Accept: "application/json",
         "User-Agent": "RoleReactorWebsite (https://rolereactor.app, 1.0.0)",
       },
-      next: { revalidate: 300 }, // Cache for 5 minutes
+      next: { revalidate: 60 }, // Reduce next cache to favor our in-memory cache for debugging
     });
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      console.error(`Discord API Error Status: ${response.status}`, errorData);
+      const errorText = await response.text().catch(() => "No body");
+      console.error(
+        `[Discord API Error] Status: ${response.status} | User: ${session.user?.id} | Body: ${errorText}`
+      );
+
+      if (response.status === 429) {
+        return NextResponse.json(cached?.data || []);
+      }
 
       // If we get a 401, it means the token is invalid or missing scope
       return NextResponse.json(
@@ -49,7 +60,7 @@ export async function GET() {
           error: "Unauthorized access to Discord guilds",
           code: "DISCORD_UNAUTHORIZED",
           status: response.status,
-          details: errorData,
+          details: errorText,
         },
         { status: response.status }
       );
@@ -66,12 +77,18 @@ export async function GET() {
       return guild.owner === true || isAdmin || canManage;
     });
 
+    // Populate in-memory cache for 2 minutes
+    GUILD_CACHE.set(accessToken, {
+      data: manageableGuilds,
+      expires: Date.now() + 120000,
+    });
+
     console.log(
-      `Filtered ${allGuilds.length} guilds down to ${manageableGuilds.length} manageable servers`
+      `[Discord API] Success: Fetched ${manageableGuilds.length} manageable guilds for ${session.user?.id}`
     );
     return NextResponse.json(manageableGuilds);
   } catch (error: any) {
-    console.error("Internal Server Error in Guilds API:", error);
+    console.error("[Discord API Exception] Internal Server Error:", error);
     return NextResponse.json(
       { error: "Internal Server Error", message: error.message },
       { status: 500 }

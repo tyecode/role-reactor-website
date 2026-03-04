@@ -262,7 +262,7 @@ export function useRoleBuilder(
       if (result.success) {
         toast.success(result.message, { id: deployToastId });
         mutate(
-          (key: any) =>
+          (key: unknown) =>
             typeof key === "string" &&
             key.startsWith(`/api/guilds/${guildId}/role-reactions`),
           undefined,
@@ -316,7 +316,7 @@ export function useRoleBuilder(
       if (result.success) {
         toast.success(result.message, { id: updateToastId });
         mutate(
-          (key: any) =>
+          (key: unknown) =>
             typeof key === "string" &&
             key.startsWith(`/api/guilds/${guildId}/role-reactions`),
           undefined,

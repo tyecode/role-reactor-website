@@ -443,6 +443,8 @@ export function DashboardSidebar() {
           <AvatarImage
             src={getAvatarUrl(session?.user || {})}
             alt={session?.user?.name || "User"}
+            width={32}
+            height={32}
           />
           <AvatarFallback className="rounded-lg bg-zinc-900 border border-white/10 text-cyan-400 text-xs font-mono">
             {session?.user?.name?.charAt(0).toUpperCase() || "U"}

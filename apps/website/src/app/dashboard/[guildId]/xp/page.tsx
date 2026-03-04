@@ -5,9 +5,8 @@ import { Audiowide } from "next/font/google";
 import { Trophy, Settings as SettingsIcon, Search } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { useXPStore } from "@/store/use-xp-store";
+import { useXPStore, type LeaderboardEntry } from "@/store/use-xp-store";
 import { useServerStore } from "@/store/use-server-store";
-import type { LeaderboardEntry } from "@/types/discord";
 
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";

@@ -34,7 +34,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, getDiscordImageUrl } from "@/lib/utils";
 import { UserRoles } from "@/lib/admin";
 import { updateUserRole } from "../actions";
 import { ManageCoresDialog } from "./manage-cores-dialog";
@@ -312,9 +312,9 @@ function UserRow({
   const style = roleStyles[user.role] || roleStyles[UserRoles.USER];
   const RoleIcon = style.icon;
 
-  const avatarUrl = user.avatar
-    ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
-    : `https://cdn.discordapp.com/embed/avatars/${Number(user.id) % 5}.png`;
+  const avatarUrl =
+    getDiscordImageUrl("avatars", user.id, user.avatar, 64) ||
+    `https://cdn.discordapp.com/embed/avatars/${Number(user.id) % 5}.png`;
 
   return (
     <tr
@@ -333,7 +333,12 @@ function UserRow({
                 : "border-white/10 ring-2 ring-transparent group-hover:ring-cyan-500/20"
             )}
           >
-            <AvatarImage src={avatarUrl} alt={user.username} />
+            <AvatarImage
+              src={avatarUrl}
+              alt={user.username}
+              width={36}
+              height={36}
+            />
             <AvatarFallback className="rounded-lg bg-zinc-900 border border-white/5 text-[10px] text-zinc-500">
               {user.username.charAt(0).toUpperCase()}
             </AvatarFallback>

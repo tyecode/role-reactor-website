@@ -3,8 +3,8 @@
 import { Audiowide } from "next/font/google";
 import { Crown, Users, Zap, Trophy } from "lucide-react";
 
-import { cn } from "@/lib/utils";
-import type { LeaderboardEntry } from "@/types/discord";
+import { cn, getDiscordImageUrl } from "@/lib/utils";
+import { type LeaderboardEntry } from "@/store/use-xp-store";
 
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -38,7 +38,19 @@ export function StatsGrid({ leaderboard, averageLevel }: StatsGridProps) {
           <div className="relative shrink-0">
             <div className="absolute -inset-2 bg-amber-500/20 blur-xl rounded-full animate-pulse" />
             <Avatar className="h-12 w-12 border-2 border-amber-500/30 shadow-[0_0_15px_rgba(245,158,11,0.2)] relative z-10 rounded-xl">
-              <AvatarImage src={topMember?.user.avatar || undefined} />
+              <AvatarImage
+                src={
+                  getDiscordImageUrl(
+                    "avatars",
+                    topMember.userId,
+                    topMember.user.avatar,
+                    64
+                  ) || undefined
+                }
+                alt={topMember.user.username}
+                width={48}
+                height={48}
+              />
               <AvatarFallback className="bg-amber-950 text-amber-500 font-black text-xs">
                 {(topMember?.user.username || "?").slice(0, 2).toUpperCase()}
               </AvatarFallback>

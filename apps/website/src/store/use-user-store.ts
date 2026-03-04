@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-import type { UserPricingInfo } from "@/types/pricing";
+import { UserPricingInfo, UserPricingInfoSchema } from "@/types/settings";
 
 interface UserState {
   user: UserPricingInfo | null;
@@ -8,20 +8,8 @@ interface UserState {
   error: string | null;
   lastFetched: number | null;
 
-  /**
-   * Fetches user data (credits, status) from the pricing API.
-   * Can be expanded to other endpoints later.
-   */
   fetchUser: (userId: string, force?: boolean) => Promise<void>;
-
-  /**
-   * Updates only the credit balance (e.g. after a purchase).
-   */
   updateBalance: (newBalance: number) => void;
-
-  /**
-   * Clears user data (on logout).
-   */
   clearUser: () => void;
 }
 
@@ -55,13 +43,24 @@ export const useUserStore = create<UserState>()(
           const result = await response.json();
 
           if (result.success && result.data?.user) {
-            set({
-              user: result.data.user,
-              lastFetched: Date.now(),
-              isLoading: false,
-            });
+            const validation = UserPricingInfoSchema.safeParse(
+              result.data.user
+            );
+
+            if (validation.success) {
+              set({
+                user: validation.data,
+                lastFetched: Date.now(),
+                isLoading: false,
+              });
+            } else {
+              console.error(
+                "User store: Validation failed",
+                validation.error.format()
+              );
+              set({ isLoading: false, error: "Invalid user data format" });
+            }
           } else {
-            // If success but no user object, maybe handle gracefully?
             set({ isLoading: false });
           }
         } catch (error) {

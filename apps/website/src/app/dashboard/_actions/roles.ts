@@ -57,13 +57,16 @@ export async function deployReactionRoles(guildId: string, data: DeployData) {
     revalidatePath(`/dashboard/${guildId}/roles`);
 
     return { success: true, message: "System deployed successfully!" };
-  } catch (error: any) {
+  } catch (error) {
     console.error("[DeployAction] Failed:", error);
+    const message =
+      error instanceof Error
+        ? error.message
+        : "An unexpected error occurred during link deployment.";
     return {
       success: false,
       error: "DEPLOYMENT_FAILURE",
-      message:
-        error.message || "An unexpected error occurred during link deployment.",
+      message,
     };
   }
 }
@@ -100,12 +103,16 @@ export async function updateReactionRoles(
     revalidatePath(`/dashboard/${guildId}/roles`);
 
     return { success: true, message: "Setup updated successfully!" };
-  } catch (error: any) {
+  } catch (error) {
     console.error("[UpdateAction] Failed:", error);
+    const message =
+      error instanceof Error
+        ? error.message
+        : "An unexpected error occurred during update.";
     return {
       success: false,
       error: "UPDATE_FAILURE",
-      message: error.message || "An unexpected error occurred during update.",
+      message,
     };
   }
 }

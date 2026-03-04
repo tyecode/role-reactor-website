@@ -467,11 +467,14 @@ export function ActiveMenus({
                         if (!onEdit) return;
                         const roles = menu.roles || {};
                         const reactions = Object.entries(roles).map(
-                          ([emoji, config]: [string, any]) => ({
+                          ([emoji, config]) => ({
                             emoji,
-                            roleId: config.roleId || "",
-                            roleName: config.roleName || "",
-                            roleColor: config.roleColor || 0,
+                            roleId:
+                              (config as { roleId?: string }).roleId ?? "",
+                            roleName:
+                              (config as { roleName?: string }).roleName ?? "",
+                            roleColor:
+                              (config as { roleColor?: number }).roleColor ?? 0,
                           })
                         );
                         onEdit({

@@ -7,7 +7,6 @@ import {
   Terminal,
   TrendingUp,
   TrendingDown,
-  Lock,
   Crown,
 } from "lucide-react";
 

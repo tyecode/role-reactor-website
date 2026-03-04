@@ -1,19 +1,8 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
-
-export interface ProSubscription {
-  expiresAt: string;
-  activatedAt: string;
-  cancelled?: boolean;
-  cancelledAt?: string;
-  autoRenew?: boolean;
-  cost?: number;
-  period?: string;
-  payerUserId?: string;
-}
-
-// ProEngineSettings now reflects the full response from the settings endpoint
-export type ProEngineSettings = any;
+import { ProEngineSettingsSchema } from "@/types/settings";
+export type { ProEngineSettings, ProSubscription } from "@/types/settings";
+import type { ProEngineSettings } from "@/types/settings";
 
 interface ProEngineState {
   // Per-guild settings cache
@@ -81,7 +70,18 @@ export const useProEngineStore = create<ProEngineState>()(
             throw new Error(errorMsg);
           }
 
-          const data = await res.json();
+          const json = await res.json();
+          const result = ProEngineSettingsSchema.safeParse(json);
+
+          if (!result.success) {
+            console.error(
+              "Pro Engine Store: Validation failed",
+              result.error.format()
+            );
+            throw new Error("Invalid settings data received from server");
+          }
+
+          const data = result.data;
 
           set({
             settingsCache: { ...get().settingsCache, [guildId]: data },
@@ -115,13 +115,20 @@ export const useProEngineStore = create<ProEngineState>()(
             [guildId]: {
               ...currentData,
               ...newSettings,
-              isPremium: {
-                ...currentData.isPremium,
-                ...(newSettings.isPremium || {}),
-              },
-              subscription: newSettings.subscription
-                ? { ...currentData.subscription!, ...newSettings.subscription }
-                : currentData.subscription,
+              isPremium:
+                typeof currentData?.isPremium === "object"
+                  ? {
+                      ...currentData.isPremium,
+                      ...((newSettings.isPremium as object) || {}),
+                    }
+                  : {
+                      pro: false,
+                      ...((newSettings.isPremium as object) || {}),
+                    },
+              subscription:
+                newSettings.subscription && currentData?.subscription
+                  ? { ...currentData.subscription, ...newSettings.subscription }
+                  : newSettings.subscription || currentData?.subscription,
             },
           },
         });

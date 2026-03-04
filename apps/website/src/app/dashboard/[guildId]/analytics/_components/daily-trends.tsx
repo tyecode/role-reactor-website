@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { Audiowide } from "next/font/google";
 import {
   MessageSquare,
@@ -49,6 +49,11 @@ export function DailyTrends({
   isPremium,
   onUpgrade,
 }: DailyTrendsProps) {
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   const [activeTab, setActiveTab] = useState<TabType>("messages");
 
   // Ensure 'label' (e.g. "Mar 1") exists for the X-axis mapping
@@ -142,7 +147,7 @@ export function DailyTrends({
     <div className="relative">
       {/* Premium blur overlay */}
       {!isPremium && (
-        <div className="absolute inset-0 z-20 flex items-center justify-center bg-zinc-950/40 backdrop-blur-[8px] rounded-2xl">
+        <div className="absolute inset-0 z-20 flex items-center justify-center bg-zinc-950/40 backdrop-blur-sm rounded-2xl">
           <button
             onClick={onUpgrade}
             className="flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 rounded-xl px-5 py-3 hover:bg-amber-500/20 hover:border-amber-500/40 transition-all cursor-pointer group"
@@ -176,7 +181,7 @@ export function DailyTrends({
                     "flex items-center gap-3 px-4 md:px-3 py-3 rounded-xl transition-all w-full text-left shrink-0 md:mb-1 last:mb-0",
                     isActive
                       ? "bg-white/5 shadow-inner border border-white/10"
-                      : "hover:bg-white/[0.02] border border-transparent"
+                      : "hover:bg-white/2 border border-transparent"
                   )}
                   style={
                     isActive
@@ -223,7 +228,9 @@ export function DailyTrends({
             </div>
 
             <div className="flex-1 min-h-0 relative">
-              {!hasData ? (
+              {!isMounted ? (
+                <div className="flex-1 w-full bg-zinc-900/10 animate-pulse rounded-xl h-full" />
+              ) : !hasData ? (
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
                   <p
                     className={cn(
