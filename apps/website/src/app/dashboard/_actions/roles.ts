@@ -10,6 +10,7 @@ export type DeployData = {
   color: string;
   channelId: string;
   selectionMode: string;
+  hideList: boolean;
   reactions: Array<{
     emoji: string;
     roleId: string;
@@ -63,6 +64,48 @@ export async function deployReactionRoles(guildId: string, data: DeployData) {
       error: "DEPLOYMENT_FAILURE",
       message:
         error.message || "An unexpected error occurred during link deployment.",
+    };
+  }
+}
+
+export type UpdateData = Omit<DeployData, "channelId">;
+
+export async function updateReactionRoles(
+  guildId: string,
+  messageId: string,
+  data: UpdateData
+) {
+  const session = await auth();
+
+  if (!session?.user) {
+    return {
+      error: "AUTH_REQUIRED",
+      message: "You must be logged in to update.",
+    };
+  }
+
+  try {
+    if (data.reactions.length === 0) {
+      return {
+        error: "NO_MAPPINGS",
+        message: "At least one role mapping is required.",
+      };
+    }
+
+    await botFetchJson(`/guilds/${guildId}/role-reactions/${messageId}`, {
+      method: "PATCH",
+      body: JSON.stringify(data),
+    });
+
+    revalidatePath(`/dashboard/${guildId}/roles`);
+
+    return { success: true, message: "Setup updated successfully!" };
+  } catch (error: any) {
+    console.error("[UpdateAction] Failed:", error);
+    return {
+      success: false,
+      error: "UPDATE_FAILURE",
+      message: error.message || "An unexpected error occurred during update.",
     };
   }
 }

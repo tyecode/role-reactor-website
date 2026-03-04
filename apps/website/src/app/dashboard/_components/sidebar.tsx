@@ -133,7 +133,6 @@ export function DashboardSidebar() {
             title: "Analytics",
             href: getHref("/dashboard/analytics", true),
             icon: BarChart3,
-            isComingSoon: true,
           },
         ]
       : [];

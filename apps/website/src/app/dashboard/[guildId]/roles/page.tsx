@@ -1,15 +1,7 @@
-import { RoleBuilder } from "./_components/role-builder";
 import { BotInviteCard } from "@/app/dashboard/_components/bot-invite-card";
-import { Suspense } from "react";
 import { ShieldCheck } from "lucide-react";
 import { PageHeader } from "@/app/dashboard/_components/page-header";
-import { NodeLoader } from "@/components/common/node-loader";
-
-function RolesPageSkeleton() {
-  return (
-    <NodeLoader title="Loading Roles" subtitle="Synchronizing role data..." />
-  );
-}
+import { RolesTabs } from "./_components/roles-tabs";
 
 import { getManageableGuilds } from "@/lib/server/guilds";
 
@@ -66,9 +58,7 @@ export default async function RolesPage({
         serverName={guildName}
       />
 
-      <Suspense fallback={<RolesPageSkeleton />}>
-        <RoleBuilder guildId={guildId} />
-      </Suspense>
+      <RolesTabs guildId={guildId} />
     </div>
   );
 }

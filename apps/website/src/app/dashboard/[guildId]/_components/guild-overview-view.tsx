@@ -171,11 +171,11 @@ export function GuildOverviewView({
     {
       name: "Analytics",
       desc: "Server growth and insights",
-      status: "Premium",
-      active: false,
+      status: "Active",
+      active: true,
       icon: BarChart3,
       color: "fuchsia",
-      href: "#",
+      href: `/dashboard/${guildId}/analytics`,
     },
   ];
 

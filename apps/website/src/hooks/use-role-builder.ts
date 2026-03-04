@@ -7,7 +7,12 @@ import { useEmojiStore } from "@/store/use-emoji-store";
 import { useGuildStore } from "@/store/use-guild-store";
 import { DiscordRole, DiscordEmoji, DiscordChannel } from "@/types/discord";
 import { toast } from "@/lib/toast";
-import { deployReactionRoles } from "@/app/dashboard/_actions/roles";
+import {
+  deployReactionRoles,
+  updateReactionRoles,
+} from "@/app/dashboard/_actions/roles";
+import { mutate } from "swr";
+import type { EditData } from "@/app/dashboard/[guildId]/roles/_components/roles-tabs";
 
 const EMPTY_EMOJIS: DiscordEmoji[] = [];
 
@@ -18,7 +23,10 @@ export interface ReactionMapping {
   roleColor: number;
 }
 
-export function useRoleBuilder(propGuildId?: string) {
+export function useRoleBuilder(
+  propGuildId?: string,
+  editData?: EditData | null
+) {
   const params = useParams();
   const guildId = propGuildId || (params.guildId as string);
   const { guilds } = useServerStore();
@@ -47,15 +55,36 @@ export function useRoleBuilder(propGuildId?: string) {
     return null;
   }, [currentGuild, guildId]);
 
-  const [title, setTitle] = useState("Role Reactions");
+  const [title, setTitle] = useState(editData?.title || "Role Reactions");
   const [description, setDescription] = useState(
-    "Choose which updates you'd like to receive by reacting below. You can toggle these roles at any time!"
+    editData?.description ||
+      "Choose which updates you'd like to receive by reacting below. You can toggle these roles at any time!"
   );
-  const [color, setColor] = useState("#9b8bf0");
-  const [reactions, setReactions] = useState<ReactionMapping[]>([]);
-  const [selectedChannel, setSelectedChannel] = useState("");
-  const [selectionMode, setSelectionMode] = useState("standard");
+  const [color, setColor] = useState(editData?.color || "#9b8bf0");
+  const [reactions, setReactions] = useState<ReactionMapping[]>(
+    editData?.reactions || []
+  );
+  const [selectedChannel, setSelectedChannel] = useState(
+    editData?.channelId || ""
+  );
+  const [selectionMode, setSelectionMode] = useState(
+    editData?.selectionMode || "standard"
+  );
+  const [hideList, setHideList] = useState(editData?.hideList || false);
   const [isActivatingPremium, setIsActivatingPremium] = useState(false);
+
+  // Re-populate form when editData changes (e.g., clicking edit on a different card)
+  useEffect(() => {
+    if (editData) {
+      setTitle(editData.title);
+      setDescription(editData.description);
+      setColor(editData.color);
+      setReactions(editData.reactions);
+      setSelectedChannel(editData.channelId);
+      setSelectionMode(editData.selectionMode);
+      setHideList(editData.hideList);
+    }
+  }, [editData]);
 
   const [debouncedTitle, setDebouncedTitle] = useState(title);
   const [debouncedDescription, setDebouncedDescription] = useState(description);
@@ -226,11 +255,19 @@ export function useRoleBuilder(propGuildId?: string) {
         color,
         channelId: selectedChannel,
         selectionMode,
+        hideList,
         reactions,
       });
 
       if (result.success) {
         toast.success(result.message, { id: deployToastId });
+        mutate(
+          (key: any) =>
+            typeof key === "string" &&
+            key.startsWith(`/api/guilds/${guildId}/role-reactions`),
+          undefined,
+          { revalidate: true }
+        );
         return true;
       } else {
         toast.error(result.message || "Deployment failed", {
@@ -253,6 +290,61 @@ export function useRoleBuilder(propGuildId?: string) {
     color,
     selectedChannel,
     selectionMode,
+    hideList,
+    reactions,
+    validation.isReady,
+    isDeploying,
+  ]);
+
+  const handleUpdate = useCallback(async () => {
+    if (!editData?.messageId || !validation.isReady || isDeploying)
+      return false;
+
+    setIsDeploying(true);
+    const updateToastId = toast.loading("Updating setup...");
+
+    try {
+      const result = await updateReactionRoles(guildId, editData.messageId, {
+        title,
+        description,
+        color,
+        selectionMode,
+        hideList,
+        reactions,
+      });
+
+      if (result.success) {
+        toast.success(result.message, { id: updateToastId });
+        mutate(
+          (key: any) =>
+            typeof key === "string" &&
+            key.startsWith(`/api/guilds/${guildId}/role-reactions`),
+          undefined,
+          { revalidate: true }
+        );
+        return true;
+      } else {
+        toast.error(result.message || "Update failed", {
+          id: updateToastId,
+        });
+        return false;
+      }
+    } catch {
+      toast.error("An unexpected error occurred during update", {
+        id: updateToastId,
+      });
+      return false;
+    } finally {
+      setIsDeploying(false);
+    }
+  }, [
+    guildId,
+    editData?.messageId,
+    title,
+    description,
+    color,
+    selectionMode,
+    hideList,
     reactions,
     validation.isReady,
     isDeploying,
@@ -278,6 +370,8 @@ export function useRoleBuilder(propGuildId?: string) {
     isLoadingChannels,
     selectionMode,
     setSelectionMode,
+    hideList,
+    setHideList,
     debouncedTitle,
     debouncedDescription,
     debouncedColor,
@@ -297,5 +391,6 @@ export function useRoleBuilder(propGuildId?: string) {
     handleActivatePremium,
     isDeploying,
     handleDeploy,
+    handleUpdate,
   };
 }

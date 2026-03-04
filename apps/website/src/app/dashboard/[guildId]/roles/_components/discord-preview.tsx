@@ -11,6 +11,7 @@ interface DiscordPreviewProps {
   title: string;
   description: string;
   color?: string;
+  hideList?: boolean;
   reactions: {
     emoji: string;
     roleName: string;
@@ -44,6 +45,7 @@ export function DiscordPreview({
   title,
   description,
   color = "#3b82f6",
+  hideList = false,
   reactions,
   serverEmojis: propEmojis,
 }: DiscordPreviewProps) {
@@ -151,7 +153,7 @@ export function DiscordPreview({
                 )}
 
                 {/* Automatically Generated Available Roles Section */}
-                {reactions.some((r) => r.roleName) && (
+                {!hideList && reactions.some((r) => r.roleName) && (
                   <div className="mt-3 space-y-1">
                     <div className="text-white font-bold text-[14px]">
                       Available Roles

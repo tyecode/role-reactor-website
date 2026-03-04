@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import {
@@ -32,7 +33,6 @@ import {
   Info,
   Layers,
   MousePointer2,
-  ShieldCheck,
   Zap,
   Hash,
 } from "lucide-react";
@@ -57,7 +57,21 @@ function toHex(decimal: number) {
   return `#${decimal.toString(16).padStart(6, "0")}`;
 }
 
-export function RoleBuilder({ guildId: propGuildId }: { guildId?: string }) {
+import type { EditData } from "./roles-tabs";
+
+interface RoleBuilderProps {
+  guildId?: string;
+  editData?: EditData | null;
+  onCancelEdit?: () => void;
+  onSaveComplete?: () => void;
+}
+
+export function RoleBuilder({
+  guildId: propGuildId,
+  editData,
+  onCancelEdit,
+  onSaveComplete,
+}: RoleBuilderProps) {
   const [showPremiumModal, setShowPremiumModal] = useState(false);
   const {
     guildId,
@@ -77,6 +91,8 @@ export function RoleBuilder({ guildId: propGuildId }: { guildId?: string }) {
     isLoadingChannels,
     selectionMode,
     setSelectionMode,
+    hideList,
+    setHideList,
     debouncedTitle,
     debouncedDescription,
     debouncedColor,
@@ -96,7 +112,8 @@ export function RoleBuilder({ guildId: propGuildId }: { guildId?: string }) {
     handleActivatePremium,
     isDeploying,
     handleDeploy,
-  } = useRoleBuilder(propGuildId);
+    handleUpdate,
+  } = useRoleBuilder(propGuildId, editData);
 
   if (isLoadingRoles) {
     return (
@@ -129,6 +146,7 @@ export function RoleBuilder({ guildId: propGuildId }: { guildId?: string }) {
                   selectedChannel={selectedChannel}
                   setSelectedChannel={setSelectedChannel}
                   isLoadingChannels={isLoadingChannels}
+                  disabled={!!editData}
                 />
 
                 <SelectionModePicker
@@ -137,6 +155,19 @@ export function RoleBuilder({ guildId: propGuildId }: { guildId?: string }) {
                   isPremium={isPremium}
                   setShowPremiumModal={setShowPremiumModal}
                 />
+
+                {/* Hide Role List Toggle */}
+                <div className="flex items-center justify-between pt-2">
+                  <div className="space-y-0.5">
+                    <Label className="text-sm">Hide Role List</Label>
+                    <p className="text-[10px] text-zinc-500 leading-relaxed">
+                      When enabled, the embed won&apos;t show the "Available
+                      Roles" field. Useful if you describe roles in the
+                      description.
+                    </p>
+                  </div>
+                  <Switch checked={hideList} onCheckedChange={setHideList} />
+                </div>
               </CardContent>
             </Card>
           </div>
@@ -186,13 +217,37 @@ export function RoleBuilder({ guildId: propGuildId }: { guildId?: string }) {
               variant="cyber"
               size="lg"
               className="w-full h-14 px-10 tracking-widest"
-              onClick={handleDeploy}
+              onClick={async () => {
+                let success;
+                if (editData) {
+                  success = await handleUpdate();
+                } else {
+                  success = await handleDeploy();
+                }
+                if (success && onSaveComplete) {
+                  onSaveComplete();
+                }
+              }}
             >
               <Rocket
                 className={cn("w-4 h-4 mr-2", isDeploying && "animate-bounce")}
               />
-              {isDeploying ? "Synchronizing..." : "Update Discord Message"}
+              {isDeploying
+                ? "Synchronizing..."
+                : editData
+                  ? "Update Discord Message"
+                  : "Create Discord Message"}
             </Button>
+            {editData && onCancelEdit && (
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-full border-white/10"
+                onClick={onCancelEdit}
+              >
+                Cancel Edit
+              </Button>
+            )}
           </div>
         </div>
 
@@ -205,6 +260,7 @@ export function RoleBuilder({ guildId: propGuildId }: { guildId?: string }) {
               title={debouncedTitle}
               description={debouncedDescription}
               color={debouncedColor}
+              hideList={hideList}
               reactions={reactions}
               serverEmojis={serverEmojis}
             />
@@ -351,6 +407,7 @@ interface ChannelSelectorProps {
   selectedChannel: string;
   setSelectedChannel: (val: string) => void;
   isLoadingChannels: boolean;
+  disabled?: boolean;
 }
 
 function ChannelSelector({
@@ -358,11 +415,16 @@ function ChannelSelector({
   selectedChannel,
   setSelectedChannel,
   isLoadingChannels,
+  disabled,
 }: ChannelSelectorProps) {
   return (
     <div className="space-y-3">
       <Label>Target Channel</Label>
-      <Select value={selectedChannel} onValueChange={setSelectedChannel}>
+      <Select
+        value={selectedChannel}
+        onValueChange={setSelectedChannel}
+        disabled={disabled}
+      >
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Select a channel..." />
         </SelectTrigger>
@@ -418,14 +480,6 @@ function SelectionModePicker({
       color: "amber",
       premium: true,
     },
-    {
-      id: "verify",
-      label: "Verify",
-      icon: ShieldCheck,
-      desc: "Opt-out mode. Click to remove role.",
-      color: "purple",
-      premium: true,
-    },
   ];
 
   return (
@@ -442,14 +496,16 @@ function SelectionModePicker({
         )}
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div className="grid grid-cols-2 gap-3">
         {modes.map((m) => {
           const isActive = mode === m.id;
+          const isToggle = m.id === "standard";
+          const isUnique = m.id === "unique";
+
           return (
-            <Button
+            <button
               key={m.id}
-              variant={isActive ? "secondary" : "outline"}
-              size={"lg"}
+              type="button"
               onClick={() => {
                 if (m.premium && !isPremium) {
                   setShowPremiumModal(true);
@@ -458,44 +514,78 @@ function SelectionModePicker({
                 setMode(m.id);
               }}
               className={cn(
-                "h-20 flex-col gap-2 transition-all duration-500 relative overflow-hidden group/btn",
-                isActive && "border-opacity-100 ring-2 ring-white/5",
+                "relative h-20 rounded-xl border flex flex-col items-center justify-center gap-1.5 transition-all duration-200 overflow-hidden group/btn cursor-pointer",
+                // Default (inactive)
+                !isActive && "border-white/8 bg-white/3 hover:bg-white/6",
+                // Toggle active
                 isActive &&
-                  m.id === "standard" &&
-                  "border-cyan-500 bg-cyan-500/10 text-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.2)]",
+                  isToggle && [
+                    "border-cyan-500/60 bg-cyan-500/10",
+                    "shadow-[0_0_24px_rgba(6,182,212,0.18)]",
+                  ],
+                // Toggle hover (inactive)
+                !isActive &&
+                  isToggle &&
+                  "hover:border-cyan-500/30 hover:bg-cyan-500/5",
+                // Unique active
                 isActive &&
-                  m.id === "unique" &&
-                  "border-amber-500 bg-amber-500/10 text-amber-400 shadow-[0_0_20px_rgba(245,158,11,0.2)]",
-                isActive &&
-                  m.id === "verify" &&
-                  "border-purple-500 bg-purple-500/10 text-purple-400 shadow-[0_0_20px_rgba(168,85,247,0.2)]"
+                  isUnique && [
+                    "border-amber-500/60 bg-amber-500/10",
+                    "shadow-[0_0_24px_rgba(245,158,11,0.18)]",
+                  ],
+                // Unique hover (inactive)
+                !isActive &&
+                  isUnique &&
+                  "hover:border-amber-500/30 hover:bg-amber-500/5"
               )}
             >
+              {/* Active glow overlay */}
               {isActive && (
                 <div
                   className={cn(
-                    "absolute inset-0 bg-linear-to-tr from-transparent via-current to-transparent opacity-[0.03]"
+                    "absolute inset-0 opacity-[0.06] bg-radial-[ellipse_at_center]",
+                    isToggle && "from-cyan-400 to-transparent",
+                    isUnique && "from-amber-400 to-transparent"
                   )}
                 />
               )}
+
+              {/* Icon */}
               <m.icon
                 className={cn(
-                  "w-6 h-6 transition-all duration-500",
-                  isActive
-                    ? "scale-110 drop-shadow-[0_0_8px_currentColor]"
-                    : "opacity-40 group-hover/btn:opacity-100"
+                  "w-5 h-5 transition-all duration-200",
+                  isActive &&
+                    isToggle &&
+                    "text-cyan-400 drop-shadow-[0_0_6px_rgba(6,182,212,0.8)]",
+                  isActive &&
+                    isUnique &&
+                    "text-amber-400 drop-shadow-[0_0_6px_rgba(245,158,11,0.8)]",
+                  !isActive &&
+                    isToggle &&
+                    "text-zinc-500 group-hover/btn:text-cyan-400/70 transition-colors",
+                  !isActive &&
+                    isUnique &&
+                    "text-zinc-500 group-hover/btn:text-amber-400/70 transition-colors"
                 )}
               />
+
+              {/* Label */}
               <span
                 className={cn(
-                  "text-[10px] font-black uppercase tracking-[0.2em]",
+                  "text-[10px] font-black uppercase tracking-[0.18em] transition-colors duration-200",
+                  isActive && isToggle && "text-cyan-400",
+                  isActive && isUnique && "text-amber-400",
                   !isActive &&
-                    "text-zinc-500 group-hover/btn:text-zinc-300 transition-colors"
+                    isToggle &&
+                    "text-zinc-500 group-hover/btn:text-cyan-400/70",
+                  !isActive &&
+                    isUnique &&
+                    "text-zinc-500 group-hover/btn:text-amber-400/70"
                 )}
               >
                 {m.label}
               </span>
-            </Button>
+            </button>
           );
         })}
       </div>
@@ -504,8 +594,6 @@ function SelectionModePicker({
           "Standard behavior: Reacting to an emoji adds the role, reacting again removes it."}
         {mode === "unique" &&
           "Users can only have one role from this group. Selecting a new one cancels the previous selection."}
-        {mode === "verify" &&
-          "Inverse mode: Useful for staff-only verification or roles that users should only be able to remove."}
       </p>
     </div>
   );

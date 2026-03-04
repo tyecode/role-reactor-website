@@ -3,7 +3,7 @@ import { auth } from "@/auth";
 import { botFetch } from "@/lib/bot-fetch";
 
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ guildId: string }> }
 ) {
   try {
@@ -17,25 +17,32 @@ export async function GET(
       );
     }
 
-    const response = await botFetch(`/guilds/${guildId}/channels`, {
-      cache: "no-store",
-    });
+    const { searchParams } = new URL(request.url);
+    const page = searchParams.get("page") || "1";
+    const limit = searchParams.get("limit") || "6";
+
+    const response = await botFetch(
+      `/guilds/${guildId}/role-reactions?page=${page}&limit=${limit}`,
+      {
+        cache: "no-store",
+      }
+    );
 
     if (!response.ok) {
-      const errorData = await response.json();
+      const errorData = await response.json().catch(() => ({}));
       return NextResponse.json(
         {
           success: false,
-          error: errorData.message || "Failed to fetch channels from bot",
+          error: errorData.message || "Failed to fetch role mappings from bot",
         },
         { status: response.status }
       );
     }
 
     const data = await response.json();
-    return NextResponse.json(data.channels || []);
+    return NextResponse.json(data || { roleMappings: [] });
   } catch (error) {
-    console.error("Guild channels proxy error:", error);
+    console.error("Guild role mappings proxy error:", error);
     return NextResponse.json(
       { success: false, error: "Internal server error" },
       { status: 500 }
