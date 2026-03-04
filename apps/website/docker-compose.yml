@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+  website:
+    build:
+      context: ../../
+      dockerfile: apps/website/Dockerfile
+      args:
+        DISCORD_CLIENT_ID: ${DISCORD_CLIENT_ID}
+        DISCORD_CLIENT_SECRET: ${DISCORD_CLIENT_SECRET}
+        AUTH_SECRET: ${AUTH_SECRET}
+        BOT_API_URL: ${BOT_API_URL}
+        INTERNAL_API_KEY: ${INTERNAL_API_KEY}
+        NEXT_PUBLIC_BASE_URL: ${NEXT_PUBLIC_BASE_URL}
+    container_name: role-reactor-website
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - DISCORD_CLIENT_ID=${DISCORD_CLIENT_ID}
+      - DISCORD_CLIENT_SECRET=${DISCORD_CLIENT_SECRET}
+      - AUTH_SECRET=${AUTH_SECRET}
+      - BOT_API_URL=${BOT_API_URL}
+      - INTERNAL_API_KEY=${INTERNAL_API_KEY}
+      - NEXT_PUBLIC_BASE_URL=${NEXT_PUBLIC_BASE_URL}
+      - NEXT_PUBLIC_DASHBOARD_URL=${NEXT_PUBLIC_DASHBOARD_URL}
+      - NEXT_PUBLIC_DEVELOPER_IDS=${NEXT_PUBLIC_DEVELOPER_IDS}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - role-reactor-network
+    # Optional: Add resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+          memory: 2G
+        reservations:
+          cpus: "0.5"
+          memory: 512M
+
+networks:
+  role-reactor-network:
+    driver: bridge

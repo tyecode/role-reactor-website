@@ -4,6 +4,7 @@
     "Bingbot",
     "catppuccin",
     "Ccircle",
+    "cpus",
     "Csvg",
     "customise",
     "discordapp",
@@ -12,8 +13,10 @@
     "Googlebot",
     "grayscale",
     "gstatic",
+    "healthcheck",
     "Kofi",
     "kofiwidget",
+    "longtask",
     "metaball",
     "nosniff",
     "overscroll",
@@ -22,6 +25,7 @@
     "rgba",
     "rolereactor",
     "shadcn",
+    "ttfb",
     "Valorant",
     "vercel"
   ]

@@ -2,6 +2,21 @@
   "extends": ["next/core-web-vitals", "next/typescript"],
   "rules": {
     "react/no-unescaped-entities": "off",
-    "@typescript-eslint/no-explicit-any": "off"
-  }
+    "@typescript-eslint/no-explicit-any": "warn",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_"
+      }
+    ],
+    "prefer-const": "error",
+    "no-var": "error"
+  },
+  "ignorePatterns": [
+    "src/app/dashboard/(admin)/**",
+    "src/app/dashboard/[guildId]/pro-engine/**",
+    "src/app/dashboard/[guildId]/commands/**",
+    "src/app/dashboard/[guildId]/analytics/**"
+  ]
 }
