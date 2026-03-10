@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useState, useEffect } from "react";
+import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
 import { Audiowide } from "next/font/google";
 import {
   Save,
@@ -67,9 +67,11 @@ interface XPSettings {
 
 interface SettingsTabProps {
   guildId: string;
+  onSavingChange?: (saving: boolean) => void;
 }
 
-export function XPSettingsTab({ guildId }: SettingsTabProps) {
+export const XPSettingsTab = forwardRef<{ handleSave: () => Promise<void>; saving: boolean }, SettingsTabProps>(
+  ({ guildId, onSavingChange }, ref) => {
   const { getGuildData, isLoading, isError, fetchXPData, updateSettings } =
     useXPStore();
 
@@ -78,6 +80,10 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
   const { channels } = useGuildChannels(guildId);
   const [saving, setSaving] = useState(false);
   const [localSettings, setLocalSettings] = useState<XPSettings | null>(null);
+
+  useEffect(() => {
+    onSavingChange?.(saving);
+  }, [saving, onSavingChange]);
 
   // Sync internal state with global store
   useEffect(() => {
@@ -125,6 +131,11 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
     }
   };
 
+  useImperativeHandle(ref, () => ({
+    handleSave,
+    saving
+  }));
+
   const updateLocalSetting = <T extends keyof XPSettings>(
     key: T,
     value: XPSettings[T]
@@ -170,42 +181,8 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
   }
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-700 pb-20 relative">
-      <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 blur-[120px] pointer-events-none" />
-
-      {/* Header Section */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 relative z-10">
-        <div className="space-y-2">
-          <h2
-            className={cn(
-              "text-2xl sm:text-3xl font-black text-white flex items-center gap-3 uppercase tracking-wider",
-              audiowide.className
-            )}
-          >
-            <div className="p-2 rounded-xl bg-cyan-500/10 border border-cyan-500/20 shadow-[0_0_20px_rgba(6,182,212,0.25)]">
-              <Settings2 className="w-6 h-6 text-cyan-400" />
-            </div>
-            System Configuration
-          </h2>
-          <p className="text-sm text-zinc-500 font-bold uppercase tracking-widest flex items-center gap-2">
-            Configure how users earn experience
-            <ChevronRight className="w-3 h-3 text-cyan-500/50" />
-          </p>
-        </div>
-        <Button
-          size={"lg"}
-          variant="cyber"
-          onClick={handleSave}
-          disabled={saving}
-        >
-          {saving ? (
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-          ) : (
-            <Save className="mr-2 h-4 w-4" />
-          )}
-          Push Settings
-        </Button>
-      </div>
+    <div className="space-y-6 animate-in fade-in duration-700 pb-20 relative">
+      <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 blur-[120px] pointer-events-none" />
 
       {/* Main Feature Toggle */}
       <Card
@@ -717,7 +694,8 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
       </div>
     </div>
   );
-}
+  }
+);
 
 function SettingsSkeleton() {
   return (

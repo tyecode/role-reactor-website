@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, use, useEffect } from "react";
+import { useState, use, useEffect, useRef } from "react";
 import { Audiowide } from "next/font/google";
-import { Trophy, Settings as SettingsIcon, Search } from "lucide-react";
+import { Trophy, Settings as SettingsIcon, Search, Save, Loader2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { useXPStore, type LeaderboardEntry } from "@/store/use-xp-store";
@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PageHeader } from "@/app/dashboard/_components/page-header";
 import { ErrorView } from "@/components/common/error-view";
+import { Button } from "@/components/ui/button";
 
 import XPLoading from "./loading";
 import { StatsGrid } from "./_components/stats";
@@ -33,6 +34,8 @@ export default function XPPage({ params }: XPPageProps) {
   const { guildId } = use(params);
   const [activeTab, setActiveTab] = useState("leaderboard");
   const [searchQuery, setSearchQuery] = useState("");
+  const [isSaving, setIsSaving] = useState(false);
+  const settingsRef = useRef<{ handleSave: () => Promise<void>; saving: boolean }>(null);
 
   const { getGuildData, dataCache, isLoading, isError, fetchXPData } =
     useXPStore();
@@ -109,7 +112,7 @@ export default function XPPage({ params }: XPPageProps) {
         onValueChange={setActiveTab}
         className="w-full min-w-0"
       >
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-4 min-w-0">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6 min-w-0">
           <TabsList variant="neon" className="w-full sm:w-auto flex min-w-0">
             <TabsTrigger
               value="leaderboard"
@@ -139,12 +142,31 @@ export default function XPPage({ params }: XPPageProps) {
             <div className="relative w-full sm:w-72 min-w-0 group/search">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 group-focus-within/search:text-cyan-400 transition-colors" />
               <Input
-                placeholder="Search operators..."
+                placeholder="Search players..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 variant="search"
                 className={cn("pl-11 w-full", audiowide.className)}
               />
+            </div>
+          )}
+
+          {activeTab === "settings" && (
+            <div className="flex items-center gap-3 w-full sm:w-auto">
+              <Button
+                variant="cyber"
+                size="lg"
+                className="w-full sm:w-auto h-10 px-6 font-black uppercase tracking-widest text-[11px]"
+                onClick={() => settingsRef.current?.handleSave()}
+                disabled={isSaving}
+              >
+                {isSaving ? (
+                  <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
+                ) : (
+                  <Save className="mr-2 h-3.5 w-3.5" />
+                )}
+                Push Settings
+              </Button>
             </div>
           )}
         </div>
@@ -176,7 +198,11 @@ export default function XPPage({ params }: XPPageProps) {
           value="settings"
           className="mt-0 focus-visible:outline-none"
         >
-          <XPSettingsTab guildId={guildId} />
+          <XPSettingsTab
+            ref={settingsRef}
+            guildId={guildId}
+            onSavingChange={setIsSaving}
+          />
         </TabsContent>
       </Tabs>
     </div>
