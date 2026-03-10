@@ -137,8 +137,8 @@ export function AnalyticsStats({
 
             {/* Premium blur overlay */}
             {isLocked && (
-              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-zinc-950/60 backdrop-blur-[6px] rounded-xl">
-                <div className="flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 rounded-lg px-3 py-1.5">
+              <div className="absolute inset-0 z-30 flex flex-col items-center justify-center bg-zinc-950/80 backdrop-blur-md rounded-xl">
+                <div className="flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 rounded-lg px-3 py-1.5 shadow-[0_0_15px_rgba(245,158,11,0.15)]">
                   <Crown className="w-3.5 h-3.5 text-amber-500" />
                   <span
                     className={cn(
@@ -170,15 +170,19 @@ export function AnalyticsStats({
               <div
                 className={cn(
                   "text-3xl font-black text-white tabular-nums",
-                  audiowide.className
+                  audiowide.className,
+                  isLocked && "opacity-20 blur-[2px] select-none"
                 )}
               >
-                {stat.value}
+                {isLocked ? "???" : stat.value}
               </div>
 
               {/* Subtitle */}
-              <div className="text-[10px] text-zinc-500 font-bold font-mono mt-1">
-                {stat.subtitle}
+              <div className={cn(
+                "text-[10px] text-zinc-500 font-bold font-mono mt-1",
+                isLocked && "opacity-30 blur-[1px] select-none"
+              )}>
+                {isLocked ? "Unlock to view data" : stat.subtitle}
               </div>
             </div>
 
