@@ -76,7 +76,7 @@ export default function XPPage({ params }: XPPageProps) {
 
   if (isError && !leaderboard.length && !isXpDisabled) {
     return (
-      <div className="space-y-8 pb-12 w-full min-w-0 overflow-x-hidden">
+      <div className="space-y-6 w-full">
         <PageHeader
           category="Engagement Management"
           categoryIcon={Trophy}
@@ -95,7 +95,7 @@ export default function XPPage({ params }: XPPageProps) {
   }
 
   return (
-    <div className="space-y-8 pb-12 animate-in fade-in duration-700 w-full min-w-0 overflow-x-hidden">
+    <div className="space-y-6 w-full">
       <PageHeader
         category="Engagement Management"
         categoryIcon={Trophy}
@@ -109,7 +109,7 @@ export default function XPPage({ params }: XPPageProps) {
         onValueChange={setActiveTab}
         className="w-full min-w-0"
       >
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8 min-w-0">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-4 min-w-0">
           <TabsList variant="neon" className="w-full sm:w-auto flex min-w-0">
             <TabsTrigger
               value="leaderboard"
@@ -158,7 +158,7 @@ export default function XPPage({ params }: XPPageProps) {
           ) : leaderboard.length === 0 ? (
             <EmptyState />
           ) : (
-            <div className="space-y-8">
+            <div className="space-y-6">
               <StatsGrid
                 leaderboard={leaderboard}
                 averageLevel={averageLevel}

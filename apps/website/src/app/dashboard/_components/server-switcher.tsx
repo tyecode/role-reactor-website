@@ -8,7 +8,7 @@ import {
   Loader2,
   Server,
 } from "lucide-react";
-import { useSession, signOut } from "next-auth/react";
+import { useSession, signOut, signIn } from "next-auth/react";
 import {
   useSearchParams,
   useRouter,
@@ -71,6 +71,12 @@ export function ServerSwitcher() {
     }
   }, [status, fetchServers]);
 
+  React.useEffect(() => {
+    if (error === "re-login") {
+      signIn("discord");
+    }
+  }, [error]);
+
   const activeGuild = guilds.find((g) => g.id === activeGuildId);
 
   const handleServerSelect = (guildId: string) => {
@@ -96,7 +102,7 @@ export function ServerSwitcher() {
               size="lg"
               className="data-[state=open]:bg-white/5 data-[state=open]:text-white transition-all hover:bg-white/5 rounded-lg border border-transparent data-[state=open]:border-white/5 overflow-visible h-14"
             >
-              <div className="flex aspect-square size-10 group-data-[collapsible=icon]:size-9 items-center justify-center rounded-lg group-data-[collapsible=icon]:rounded-md bg-zinc-900 text-white shadow-[0_0_15px_rgba(6,182,212,0.15)] relative overflow-hidden group shrink-0 ring-1 ring-white/10 group-hover:ring-cyan-500/50 group-data-[state=open]:ring-cyan-500/50 transition-all duration-300">
+              <div className="flex aspect-square size-10 group-data-[collapsible=icon]:size-8! items-center justify-center rounded-lg group-data-[collapsible=icon]:rounded-md bg-zinc-900 text-white shadow-[0_0_15px_rgba(6,182,212,0.15)] relative overflow-hidden group shrink-0 ring-1 ring-white/10 group-hover:ring-cyan-500/50 group-data-[state=open]:ring-cyan-500/50 transition-all duration-300">
                 <div className="absolute inset-0 bg-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                 {isLoading ? (
                   <Skeleton className="h-full w-full rounded-lg bg-white/5" />
@@ -213,7 +219,7 @@ export function ServerSwitcher() {
                   size="sm"
                   variant="outline"
                   className="h-8 text-[10px] w-full font-black uppercase tracking-widest border-red-500/20 bg-red-500/5 text-red-400 hover:bg-red-500/10 hover:text-red-300"
-                  onClick={() => signOut({ callbackUrl: "/" })}
+                  onClick={() => signIn("discord")}
                 >
                   RE-AUTHORIZE TERMINAL
                 </Button>

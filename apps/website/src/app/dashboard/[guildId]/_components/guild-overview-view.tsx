@@ -185,7 +185,7 @@ export function GuildOverviewView({
   ];
 
   return (
-    <div className="space-y-8 pb-12 w-full min-w-0 overflow-x-hidden animate-in fade-in duration-700">
+    <div className="space-y-6">
       {/* Premium Banner (if visible) */}
       {!isPremium && (
         <motion.div
@@ -253,7 +253,7 @@ export function GuildOverviewView({
         >
           <Card
             variant="glass"
-            className="h-full flex flex-col p-6 relative overflow-hidden"
+            className="h-full flex flex-col relative overflow-hidden"
           >
             <CyberpunkBackground
               gridSize={24}
@@ -262,12 +262,12 @@ export function GuildOverviewView({
               showGlows={true}
               glowOpacity={0.3}
             />
-            <div className="relative z-10 flex flex-col h-full">
+            <div className="relative z-10 flex flex-col h-full p-6">
               <h3 className="text-zinc-500 text-[10px] font-black uppercase tracking-widest mb-6 flex items-center gap-2">
                 <Users className="w-3 h-3 text-cyan-400" /> Recent Arrivals
               </h3>
 
-              <div className="space-y-2 pb-2 flex-1 overflow-y-auto pr-1 custom-scrollbar min-h-[300px] xl:min-h-0">
+              <div className="space-y-2 pb-2 flex-1 overflow-y-auto pr-1 custom-scrollbar max-h-[300px] xl:max-h-none">
                 {guildStats?.recentMembers?.length > 0 ? (
                   guildStats.recentMembers.map(
                     (member: {
@@ -384,8 +384,12 @@ export function GuildOverviewView({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 + i * 0.1 }}
+            className={cn(i === 2 ? "sm:col-span-2 xl:col-span-1" : "")}
           >
-            <Card variant="stat" className="group transition-all duration-300">
+            <Card
+              variant="stat"
+              className="group transition-all duration-300 h-full"
+            >
               <div
                 className={cn(
                   "absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity",
@@ -458,7 +462,7 @@ export function GuildOverviewView({
       </div>
 
       {/* Main Content Area */}
-      <div className="space-y-8">
+      <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-bold text-white flex items-center gap-2">
             <TrendingUp className="text-emerald-500 w-5 h-5" /> Server Growth
@@ -636,7 +640,7 @@ export function GuildOverviewView({
       </div>
 
       {/* Feature Grid */}
-      <div className="space-y-8">
+      <div className="space-y-4">
         <h2 className="text-lg font-bold text-white flex items-center gap-2">
           <BarChart3 className="text-blue-500 w-5 h-5" /> Module Quick Access
         </h2>
@@ -653,7 +657,7 @@ export function GuildOverviewView({
                 <Card
                   variant="feature"
                   className={cn(
-                    "h-full p-6 hover:scale-[1.02] transition-transform group",
+                    "h-full p-5 transition-transform group",
                     !module.active && "opacity-60 grayscale cursor-not-allowed"
                   )}
                 >

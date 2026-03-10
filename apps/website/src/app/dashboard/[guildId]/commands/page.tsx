@@ -32,7 +32,7 @@ export default async function CommandsPage({
 
   if (!isInstalled) {
     return (
-      <div className="min-h-screen pb-20 space-y-8 w-full min-w-0 overflow-x-hidden">
+      <div className="space-y-6 w-full">
         <PageHeader
           category="System Configuration"
           categoryIcon={Terminal}
@@ -46,7 +46,7 @@ export default async function CommandsPage({
   }
 
   return (
-    <div className="space-y-8 pb-12 animate-in fade-in duration-700 w-full min-w-0 overflow-x-hidden">
+    <div className="space-y-6 w-full">
       <PageHeader
         category="System Configuration"
         categoryIcon={Terminal}

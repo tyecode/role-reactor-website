@@ -228,6 +228,21 @@
   --ring: 240 4.9% 83.9%;
   --radius: 0.5rem;
   --sidebar-ring: hsl(217.2 91.2% 59.8%);
+
+  /* Global Page Layout Variables */
+  --page-max-w: 96rem; /* max-w-screen-2xl */
+  --page-px: 1rem; /* Mobile X padding */
+  --page-py: 1rem; /* Mobile Y padding */
+  --page-pb: 3rem; /* Mobile Bottom padding */
+}
+
+/* Desktop Page Layout Padding overrides */
+@media (min-width: 768px) {
+  :root {
+    --page-px: 1rem; /* Desktop X padding */
+    --page-py: 1rem; /* Desktop Y padding */
+    --page-pb: 3rem; /* Desktop Bottom padding */
+  }
 }
 
 /* Tailwind 4 compatibility fixes for sidebar group-data-* selectors */
@@ -267,6 +282,19 @@
 
 .group[data-collapsible="offcanvas"] .sidebar-rail:hover {
   background-color: rgba(255, 255, 255, 0.05);
+}
+
+@layer components {
+  .page-container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: var(--page-max-w);
+    padding-left: var(--page-px);
+    padding-right: var(--page-px);
+    padding-top: var(--page-py);
+    padding-bottom: var(--page-pb);
+  }
 }
 
 @layer utilities {

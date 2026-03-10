@@ -102,7 +102,7 @@ async function StatsContent() {
   return (
     <>
       {/* Overview Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           title="Active Guilds"
           value={formatCompactNumber(stats.statistics.guilds)}
@@ -137,7 +137,7 @@ async function StatsContent() {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Command Usage Chart */}
         <Card showGrid className="lg:col-span-2">
           <CardHeader>
@@ -162,7 +162,7 @@ async function StatsContent() {
             <CardTitle className="text-lg">Popular Features</CardTitle>
             <CardDescription>Most active modules</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-3">
             {usage?.commands.map((cmd) => (
               <div
                 key={cmd.name}
@@ -200,7 +200,7 @@ async function StatsContent() {
 
 export default async function AdminStatsPage() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 w-full">
       <PageHeader
         category="Admin Monitoring"
         categoryIcon={Activity}

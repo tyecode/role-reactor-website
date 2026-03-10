@@ -62,7 +62,7 @@ async function LogsContent() {
 
   return (
     <>
-      <p className="text-zinc-500 text-xs font-mono tracking-widest uppercase ml-1 mb-6">
+      <p className="text-zinc-500 text-xs font-mono tracking-widest uppercase ml-1 mb-3">
         Live Feed // {data.path}
       </p>
       <SystemLogsTerminal initialLogs={data.logs} />
@@ -72,7 +72,7 @@ async function LogsContent() {
 
 export default async function AdminLogsPage() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 w-full">
       <PageHeader
         category="Admin Monitoring"
         categoryIcon={Terminal}

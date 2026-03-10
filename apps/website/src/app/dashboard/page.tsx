@@ -27,16 +27,9 @@ export default async function DashboardPage() {
   // 2. Developer/Admin View Fast-Pass
   if (isDeveloper(session.user)) {
     return (
-      <div className="space-y-8 animate-in fade-in duration-1000">
-        <PageHeader
-          category="Admin Monitoring"
-          categoryIcon={Shield}
-          title="Command Center"
-          description="Manage global system infrastructure and monitor real-time performance."
-        />
-
+      <div className="space-y-6 w-full">
         {/* Hero Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <OverviewNavCard
             title="Global Statistics"
             description="Global bot statistics, server count and user growth metrics."
@@ -63,7 +56,7 @@ export default async function DashboardPage() {
           />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {/* System Health */}
           <Card
             variant="cyberpunk"
@@ -173,7 +166,7 @@ export default async function DashboardPage() {
 
   // 4. Default: Show Onboarding
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 w-full">
       <OverviewLanding />
     </div>
   );
@@ -209,7 +202,7 @@ function OverviewNavCard({
       <Card
         variant="cyberpunk"
         className={cn(
-          "group h-full transition-all duration-500 hover:-translate-y-2",
+          "group h-full transition-all duration-500",
           colors[color as keyof typeof colors]
         )}
       >

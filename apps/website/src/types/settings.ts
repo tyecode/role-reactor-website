@@ -152,18 +152,18 @@ export const BotConfigSchema = z.object({
   isProduction: z.boolean(),
 });
 
-export const PremiumStatusSchema = z.object({
-  isPremium: z.object({
-    pro: z.boolean(),
-  }),
-  subscription: z
-    .object({
-      activatedAt: z.string(),
-      expiresAt: z.string(),
-      autoRenew: z.boolean(),
-    })
-    .optional(),
-});
+export const PremiumStatusSchema = z
+  .object({
+    isPremium: z.any().optional(),
+    subscription: z
+      .object({
+        activatedAt: z.string(),
+        expiresAt: z.string(),
+        autoRenew: z.boolean(),
+      })
+      .optional(),
+  })
+  .catchall(z.unknown());
 
 /**
  * TypeScript Types

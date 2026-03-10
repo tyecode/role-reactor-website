@@ -23,7 +23,7 @@ interface OnboardingViewProps {
 
 export function OnboardingView({ inviteUrl }: OnboardingViewProps) {
   return (
-    <div className="space-y-6 sm:space-y-10 pb-16 max-w-7xl mx-auto px-4 sm:px-6">
+    <div className="space-y-6 sm:space-y-10">
       {/* Onboarding Hero - Fluid Dashboard */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -59,7 +59,7 @@ export function OnboardingView({ inviteUrl }: OnboardingViewProps) {
           />
         </div>
 
-        <CardContent className="relative z-50 p-6 sm:p-12 lg:p-16 flex flex-col items-center lg:items-start text-center lg:text-left w-full max-w-4xl">
+        <CardContent className="relative z-50 p-6 sm:p-12 flex flex-col items-center lg:items-start text-center lg:text-left w-full max-w-4xl">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -68,13 +68,13 @@ export function OnboardingView({ inviteUrl }: OnboardingViewProps) {
           >
             <Badge
               variant="pro"
-              className="px-4 py-1.5 gap-2 backdrop-blur-2xl border-white/10 ring-1 ring-blue-500/20"
+              className="px-3 py-1 sm:px-4 sm:py-1.5 gap-1.5 sm:gap-2 text-[10px] sm:text-xs backdrop-blur-2xl border-white/10 ring-1 ring-blue-500/20"
             >
-              <div className="w-1.5 h-1.5 rounded-full bg-blue-400 shadow-[0_0_10px_rgba(96,165,250,1)] animate-pulse" />
+              <div className="w-1 sm:w-1.5 h-1 sm:h-1.5 rounded-full bg-blue-400 shadow-[0_0_10px_rgba(96,165,250,1)] animate-pulse" />
               SYSTEMS ONLINE
             </Badge>
-            <div className="h-px w-12 bg-zinc-800 hidden sm:block" />
-            <span className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-500 hidden sm:block font-mono">
+            <div className="h-px w-12 bg-zinc-800 hidden lg:block" />
+            <span className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-500 hidden lg:block font-mono">
               CONNECTION_ESTABLISHED
             </span>
           </motion.div>
@@ -179,7 +179,7 @@ export function OnboardingView({ inviteUrl }: OnboardingViewProps) {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {[
             {
               title: "DOCUMENTATION",

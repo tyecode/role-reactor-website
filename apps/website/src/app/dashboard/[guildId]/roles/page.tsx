@@ -35,7 +35,7 @@ export default async function RolesPage({
 
   if (!isInstalled) {
     return (
-      <div className="space-y-8 pb-12 w-full min-w-0 overflow-x-hidden">
+      <div className="space-y-6 w-full">
         <PageHeader
           category="Engagement Management"
           categoryIcon={ShieldCheck}
@@ -49,7 +49,7 @@ export default async function RolesPage({
   }
 
   return (
-    <div className="space-y-8 pb-12 animate-in fade-in duration-700 w-full min-w-0 overflow-x-hidden">
+    <div className="space-y-6 w-full">
       <PageHeader
         category="Engagement Management"
         categoryIcon={ShieldCheck}

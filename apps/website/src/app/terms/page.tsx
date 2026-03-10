@@ -4,7 +4,7 @@ import { links } from "@/constants/links";
 
 export default function TermsPage() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-950 via-black to-blue-950">
+    <main className="min-h-screen bg-linear-to-br from-gray-950 via-black to-blue-950">
       <div className="max-w-4xl mx-auto px-6 py-16">
         {/* Header */}
         <div className="mb-12">

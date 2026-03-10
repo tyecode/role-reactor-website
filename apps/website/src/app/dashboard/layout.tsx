@@ -5,6 +5,7 @@ import { DashboardHeader } from "@/app/dashboard/_components/header";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { PageTransition } from "@/components/common/page-transition";
 import { NavigationProgress } from "@/components/common/navigation-progress";
+import { GlobalStateLoader } from "@/components/common/global-state-loader";
 
 export const metadata: Metadata = {
   title: "Dashboard | Role Reactor",
@@ -42,12 +43,13 @@ export default async function DashboardLayout({
         <ServerStoreData />
       </Suspense>
       <NavigationProgress />
+      <GlobalStateLoader />
       <DashboardSidebar />
       <SidebarInset className="relative flex flex-col flex-1 min-w-0 md:my-2 md:mr-2 md:rounded-xl md:shadow-2xl border border-white/5 bg-background/50 backdrop-blur-sm overflow-hidden h-dvh">
         <DashboardHeader />
         <main className="flex-1 overflow-hidden relative">
           <ScrollArea className="h-full">
-            <div className="max-w-7xl mx-auto w-full p-4 md:p-8">
+            <div className="page-container">
               <PageTransition>{children}</PageTransition>
             </div>
           </ScrollArea>

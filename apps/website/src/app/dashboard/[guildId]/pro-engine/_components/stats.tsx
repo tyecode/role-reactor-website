@@ -53,7 +53,10 @@ export function SubscriptionStats({
       {stats.map((stat, i) => (
         <div
           key={i}
-          className="animate-in fade-in slide-in-from-bottom-4 duration-500 min-w-0"
+          className={cn(
+            "animate-in fade-in slide-in-from-bottom-4 duration-500 min-w-0 h-full",
+            i === 2 && "md:col-span-2 lg:col-span-1"
+          )}
           style={{ animationDelay: `${i * 100}ms`, animationFillMode: "both" }}
         >
           <Card

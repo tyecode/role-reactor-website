@@ -353,7 +353,7 @@ const SidebarTrigger = forwardRef<
       variant="ghost"
       size="icon"
       className={cn(
-        "h-8 w-8 text-zinc-400 hover:text-cyan-400 hover:bg-cyan-500/5 border border-white/5 hover:border-cyan-500/30 transition-all duration-300 hover:shadow-[0_0_10px_-2px_rgba(6,182,212,0.3)] rounded-lg",
+        "text-zinc-400 hover:text-cyan-400 hover:bg-cyan-500/5 border border-white/5 hover:border-cyan-500/30 transition-all duration-300 hover:shadow-[0_0_10px_-2px_rgba(6,182,212,0.3)] rounded-lg",
         className
       )}
       onClick={(event) => {

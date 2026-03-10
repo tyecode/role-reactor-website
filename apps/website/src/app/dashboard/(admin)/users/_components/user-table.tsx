@@ -120,7 +120,7 @@ export function UserTable({ initialData }: UserTableProps) {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between mb-6">
+      <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between mb-4">
         <div className="relative w-full md:w-96 group">
           <Search
             className={cn(

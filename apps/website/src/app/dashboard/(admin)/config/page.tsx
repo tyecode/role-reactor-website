@@ -29,7 +29,7 @@ function HealthLoader() {
 
 export default function SystemHealthPage() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 w-full">
       <PageHeader
         category="Admin Monitoring"
         categoryIcon={Activity}

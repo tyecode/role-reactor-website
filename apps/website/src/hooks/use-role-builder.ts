@@ -12,6 +12,7 @@ import {
   updateReactionRoles,
 } from "@/app/dashboard/_actions/roles";
 import { mutate } from "swr";
+import { useProEngineStore } from "@/store/use-pro-engine-store";
 import type { EditData } from "@/app/dashboard/[guildId]/roles/_components/roles-tabs";
 
 const EMPTY_EMOJIS: DiscordEmoji[] = [];
@@ -111,9 +112,11 @@ export function useRoleBuilder(
     guildData,
     fetchRoles,
     fetchChannels,
-    fetchSettings,
     isLoading: storeLoading,
   } = useGuildStore();
+
+  const { settings: proSettings, fetchSettings: fetchProSettings } =
+    useProEngineStore();
 
   const serverRoles = useMemo(() => {
     const roles = guildData[guildId]?.roles || [];
@@ -127,7 +130,7 @@ export function useRoleBuilder(
     return channels.filter((ch: DiscordChannel) => ch.type === 0);
   }, [guildData, guildId]);
 
-  const isPremium = guildData[guildId]?.settings?.isPremium?.pro || false;
+  const isPremium = proSettings?.isPremium?.pro || false;
 
   const isLoadingRoles =
     (storeLoading[guildId]?.roles ?? true) &&
@@ -167,9 +170,9 @@ export function useRoleBuilder(
 
     fetchRoles(guildId);
     fetchChannels(guildId);
-    fetchSettings(guildId);
+    fetchProSettings(guildId);
     fetchEmojis(guildId);
-  }, [guildId, fetchRoles, fetchChannels, fetchSettings, fetchEmojis]);
+  }, [guildId, fetchRoles, fetchChannels, fetchProSettings, fetchEmojis]);
 
   useEffect(() => {
     if (serverRoles.length > 0) {
@@ -225,7 +228,7 @@ export function useRoleBuilder(
       });
       if (res.ok) {
         toast.success("Pro Engine activated successfully!");
-        await fetchSettings(guildId, true);
+        await fetchProSettings(guildId, true);
         return true;
       } else {
         const error = await res.json();
@@ -238,7 +241,7 @@ export function useRoleBuilder(
     } finally {
       setIsActivatingPremium(false);
     }
-  }, [guildId, isActivatingPremium, fetchSettings]);
+  }, [guildId, isActivatingPremium, fetchProSettings]);
 
   const [isDeploying, setIsDeploying] = useState(false);
 
@@ -387,6 +390,7 @@ export function useRoleBuilder(
     removeReaction,
     updateReaction,
     isPremium,
+    proSettings,
     isActivatingPremium,
     handleActivatePremium,
     isDeploying,

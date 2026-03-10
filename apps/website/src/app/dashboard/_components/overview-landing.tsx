@@ -4,13 +4,13 @@ import { links } from "@/constants/links";
 import { useServerStore } from "@/store/use-server-store";
 import { useEffect } from "react";
 import { OnboardingView } from "./onboarding-view";
-import { NodeLoader } from "@/components/common/node-loader";
 
 export function OverviewLanding() {
   const {
     isLoading: isServersLoading,
     fetchServers,
     installedGuildIds,
+    error,
   } = useServerStore();
 
   useEffect(() => {
@@ -19,15 +19,9 @@ export function OverviewLanding() {
 
   const inviteUrl = links.inviteBot;
 
-  if (isServersLoading || installedGuildIds.length > 0) {
-    return (
-      <div className="flex items-center justify-center min-h-[60vh]">
-        <NodeLoader
-          title="Verifying Access"
-          subtitle="Synchronizing server data..."
-        />
-      </div>
-    );
+  // Let the global loader handle re-login error cases or loading state
+  if (error === "re-login" || isServersLoading) {
+    return null; // Will be obscured by GlobalStateLoader in Layout anyway
   }
 
   // If no servers are found or redirect is off, show the onboarding experience

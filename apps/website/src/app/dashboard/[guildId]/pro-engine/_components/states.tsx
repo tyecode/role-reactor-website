@@ -53,7 +53,7 @@ export function ProEngineActiveAlert({
           </p>
         </div>
 
-        <div className="flex flex-col items-end gap-3 shrink-0">
+        <div className="flex flex-row sm:flex-col items-center sm:items-end gap-3 shrink-0 mt-4 sm:mt-0 w-full sm:w-auto">
           <div className="px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 flex items-center gap-3 shadow-[0_0_20px_rgba(6,182,212,0.15)]">
             <div className="relative flex h-2.5 w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
@@ -155,8 +155,8 @@ export function ProEngineCancelledAlert({
         {/* Scanline Effect */}
         <div className="absolute inset-0 pointer-events-none z-10 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] bg-size-[100%_4px,3px_100%] opacity-20" />
 
-        <div className="relative z-20 flex flex-col sm:flex-row items-center justify-between gap-6 p-6 sm:p-8">
-          <div className="flex items-center gap-6 flex-1 min-w-0">
+        <div className="relative z-20 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-6 p-6 sm:p-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 flex-1 min-w-0">
             <div className="relative shrink-0 group-hover/cancelled:scale-105 transition-transform duration-500">
               <div className="absolute -inset-3 bg-cyan-500/20 blur-xl opacity-0 group-hover/cancelled:opacity-100 transition-opacity" />
               <div className="p-4 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 relative">
@@ -193,7 +193,7 @@ export function ProEngineCancelledAlert({
           <Button
             variant="cyber"
             onClick={onReactivate}
-            className="h-12 px-8 shrink-0 group-hover/cancelled:shadow-[0_0_20px_rgba(6,182,212,0.4)]"
+            className="h-12 px-8 shrink-0 w-full sm:w-auto group-hover/cancelled:shadow-[0_0_20px_rgba(6,182,212,0.4)]"
           >
             <Zap className="mr-2 w-4 h-4" />
             Keep Pro Engine

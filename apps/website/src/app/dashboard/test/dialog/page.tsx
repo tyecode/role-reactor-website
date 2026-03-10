@@ -19,7 +19,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 
 export default function DialogTestPage() {
   return (
-    <div className="space-y-10 p-10 max-w-7xl mx-auto">
+    <div className="space-y-6 w-full">
       <div className="space-y-4">
         <h1 className="text-4xl font-bold text-white tracking-widest uppercase italic font-audiowide">
           Neural Shells

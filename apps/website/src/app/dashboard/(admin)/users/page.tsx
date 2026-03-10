@@ -80,7 +80,7 @@ export default async function AdminUsersPage({
   const { search } = await searchParams;
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 w-full">
       <PageHeader
         category="Admin Monitoring"
         categoryIcon={Users}

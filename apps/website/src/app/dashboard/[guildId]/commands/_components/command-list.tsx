@@ -289,9 +289,9 @@ export function CommandList({ guildId }: CommandListProps) {
           </div>
         </div>
 
-        <div className="relative space-y-16">
+        <div className="relative space-y-8">
           {(isError && !data) || (data && data.status !== "success") ? (
-            <div className="space-y-8 animate-in fade-in duration-500">
+            <div className="space-y-6 animate-in fade-in duration-500">
               <ErrorView
                 title="System Alert"
                 message="We were unable to synchronize command settings. Please try again."

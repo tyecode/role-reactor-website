@@ -110,7 +110,7 @@ export default function ProEnginePage() {
 
   if (isError && !settings) {
     return (
-      <div className="space-y-8 pb-12 w-full min-w-0 overflow-x-hidden">
+      <div className="space-y-6 w-full">
         <PageHeader
           category="System Configuration"
           categoryIcon={Crown}
@@ -129,7 +129,7 @@ export default function ProEnginePage() {
   }
 
   return (
-    <div className="space-y-8 pb-12 animate-in fade-in duration-700 w-full min-w-0 overflow-x-hidden">
+    <div className="space-y-6 w-full">
       <PageHeader
         category="System Configuration"
         categoryIcon={Crown}
@@ -147,7 +147,7 @@ export default function ProEnginePage() {
         serverName={guildName}
       />
 
-      <div className="space-y-8">
+      <div className="space-y-4">
         {/* Status Alerts */}
         {isPremium ? (
           <ProEngineActiveAlert

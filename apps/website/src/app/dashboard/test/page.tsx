@@ -56,7 +56,7 @@ export default function IndexesPage() {
   ];
 
   return (
-    <div className="space-y-8 pb-12 animate-in fade-in duration-700 w-full min-w-0 overflow-x-hidden">
+    <div className="space-y-6 w-full">
       <PageHeader
         category="Development"
         categoryIcon={Beaker}

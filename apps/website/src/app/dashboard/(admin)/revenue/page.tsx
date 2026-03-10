@@ -94,7 +94,7 @@ async function RevenueContent() {
   return (
     <>
       {/* Revenue Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <RevenueStatCard
           title="Total Earnings"
           value={formatCurrency(overview.totalRevenue)}
@@ -125,7 +125,7 @@ async function RevenueContent() {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Revenue Projection Card */}
         <Card
           showGrid
@@ -168,10 +168,10 @@ async function RevenueContent() {
             </div>
             <CardDescription>Latest system transactions</CardDescription>
           </CardHeader>
-          <CardContent className="flex-1 overflow-y-auto space-y-4 pr-2">
+          <CardContent className="flex-1 overflow-y-auto space-y-3">
             {recentPayments.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-40 opacity-30 italic font-mono text-sm uppercase tracking-widest">
-                No transations tracked
+                No transactions tracked
               </div>
             ) : (
               recentPayments.map((payment) => (
@@ -228,7 +228,7 @@ async function RevenueContent() {
 
 export default async function AdminRevenuePage() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 w-full">
       <PageHeader
         category="Admin Monitoring"
         categoryIcon={DollarSign}

@@ -179,7 +179,7 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
 
   if (error && !data) {
     return (
-      <div className="space-y-8 pb-12 w-full min-w-0 overflow-x-hidden">
+      <div className="space-y-6 w-full">
         <PageHeader
           category="Server Insights"
           categoryIcon={BarChart3}
@@ -220,7 +220,7 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
         ]}
       />
 
-      <div className="space-y-8 pb-12 animate-in fade-in duration-700 w-full min-w-0 overflow-x-hidden">
+      <div className="space-y-6 w-full">
         <PageHeader
           category="Server Insights"
           categoryIcon={BarChart3}
@@ -324,10 +324,10 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
         {/* Pro Upsell Banner — only for free users */}
         {!isPremium && (
           <div className="relative overflow-hidden rounded-2xl border border-amber-500/20 bg-zinc-900/50 p-6">
-            <div className="absolute inset-0 bg-gradient-to-r from-amber-500/5 via-transparent to-cyan-500/5" />
+            <div className="absolute inset-0 bg-linear-to-r from-amber-500/5 via-transparent to-cyan-500/5" />
             <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-amber-500/20 to-cyan-500/20 flex items-center justify-center border border-amber-500/20">
+                <div className="w-12 h-12 rounded-xl bg-linear-to-br from-amber-500/20 to-cyan-500/20 flex items-center justify-center border border-amber-500/20">
                   <Crown className="w-6 h-6 text-amber-500" />
                 </div>
                 <div>

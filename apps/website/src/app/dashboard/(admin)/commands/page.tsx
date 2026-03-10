@@ -27,6 +27,7 @@ import { cn } from "@/lib/utils";
 import { CommandUsageChart } from "./_components/command-chart";
 import { Suspense } from "react";
 import { NodeLoader } from "@/components/common/node-loader";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface CommandUsage {
   commands: Array<{
@@ -77,7 +78,7 @@ async function CommandsContent() {
   return (
     <>
       {/* Metrics Row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <MetricCard
           title="Total Executions"
           value={usage.summary.totalExecutions.toLocaleString()}
@@ -101,7 +102,7 @@ async function CommandsContent() {
         />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Full Usage Chart */}
         <Card showGrid className="h-fit">
           <CardHeader>
@@ -110,7 +111,7 @@ async function CommandsContent() {
               Command usage distribution across the platform
             </CardDescription>
           </CardHeader>
-          <CardContent className="h-[450px] pt-4">
+          <CardContent className="h-[460px] pt-4">
             <CommandUsageChart data={usage.commands} />
           </CardContent>
         </Card>
@@ -129,49 +130,51 @@ async function CommandsContent() {
               </div>
               <ListFilter className="size-4 text-zinc-600" />
             </CardHeader>
-            <CardContent className="max-h-[500px] overflow-y-auto space-y-2 pr-2 custom-scrollbar">
-              {usage.commands.map((cmd, idx) => (
-                <div
-                  key={cmd.name}
-                  className="group flex items-center justify-between p-3 bg-white/5 hover:bg-white/10 border border-white/5 hover:border-cyan-500/20 rounded-xl transition-all duration-300"
-                >
-                  <div className="flex items-center gap-4">
-                    <span className="font-mono text-[10px] text-zinc-600 font-black w-4">
-                      {(idx + 1).toString().padStart(2, "0")}
-                    </span>
-                    <div className="p-2 bg-zinc-900 rounded group-hover:scale-110 transition-transform">
-                      <Terminal className="size-4 text-cyan-500" />
-                    </div>
-                    <div>
-                      <p className="font-mono text-sm font-bold text-zinc-100 uppercase tracking-tighter group-hover:text-cyan-400 transition-colors">
-                        /{cmd.name}
-                      </p>
-                      <div className="flex items-center gap-2 mt-1">
-                        <Badge
-                          variant="outline"
-                          className="text-[8px] h-3 px-1 border-emerald-500/20 text-emerald-500 font-black tracking-widest uppercase"
-                        >
-                          ACTIVE
-                        </Badge>
-                        <span className="text-[9px] text-zinc-700 font-mono italic">
-                          Default Category
-                        </span>
+            <CardContent className="overflow-hidden">
+              <ScrollArea className="h-[430px] pr-4">
+                {usage.commands.map((cmd, idx) => (
+                  <div
+                    key={cmd.name}
+                    className="group flex items-center justify-between p-3 mb-3 bg-white/5 hover:bg-white/10 border border-white/5 hover:border-cyan-500/20 rounded-xl transition-all duration-300"
+                  >
+                    <div className="flex items-center gap-4">
+                      <span className="font-mono text-[10px] text-zinc-600 font-black w-4">
+                        {(idx + 1).toString().padStart(2, "0")}
+                      </span>
+                      <div className="p-2 bg-zinc-900 rounded group-hover:scale-110 transition-transform">
+                        <Terminal className="size-4 text-cyan-500" />
+                      </div>
+                      <div>
+                        <p className="font-mono text-sm font-bold text-zinc-100 uppercase tracking-tighter group-hover:text-cyan-400 transition-colors">
+                          /{cmd.name}
+                        </p>
+                        <div className="flex items-center gap-2 mt-1">
+                          <Badge
+                            variant="outline"
+                            className="text-[8px] h-3 px-1 border-emerald-500/20 text-emerald-500 font-black tracking-widest uppercase"
+                          >
+                            ACTIVE
+                          </Badge>
+                          <span className="text-[9px] text-zinc-700 font-mono italic">
+                            Default Category
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="flex items-baseline gap-1 justify-end">
-                      <span className="text-lg font-black font-mono text-white tracking-tighter">
-                        {cmd.count.toLocaleString()}
-                      </span>
-                      <Zap className="size-3 text-amber-500 animate-pulse" />
+                    <div className="text-right">
+                      <div className="flex items-baseline gap-1 justify-end">
+                        <span className="text-lg font-black font-mono text-white tracking-tighter">
+                          {cmd.count.toLocaleString()}
+                        </span>
+                        <Zap className="size-3 text-amber-500 animate-pulse" />
+                      </div>
+                      <p className="text-[8px] text-zinc-600 font-black uppercase tracking-widest">
+                        Invocations
+                      </p>
                     </div>
-                    <p className="text-[8px] text-zinc-600 font-black uppercase tracking-widest">
-                      Invocations
-                    </p>
                   </div>
-                </div>
-              ))}
+                ))}
+              </ScrollArea>
             </CardContent>
           </Card>
 
@@ -201,7 +204,7 @@ async function CommandsContent() {
 
 export default async function AdminCommandsPage() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 w-full">
       <PageHeader
         category="Admin Analytics"
         categoryIcon={Activity}

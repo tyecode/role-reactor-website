@@ -3,7 +3,7 @@ import { Settings as SettingsIcon } from "lucide-react";
 
 export default function SettingsPage() {
   return (
-    <div className="space-y-8 pb-12 animate-in fade-in duration-700 w-full min-w-0 overflow-x-hidden">
+    <div className="space-y-6 w-full">
       <PageHeader
         category="System Preferences"
         categoryIcon={SettingsIcon}

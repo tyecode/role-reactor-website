@@ -53,7 +53,7 @@ export function RolesTabs({ guildId }: { guildId: string }) {
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-      <TabsList variant="neon" className="mb-8 w-full md:w-auto">
+      <TabsList variant="neon" className="mb-4 w-full md:w-auto">
         <TabsTrigger
           variant="neon"
           value="active"
