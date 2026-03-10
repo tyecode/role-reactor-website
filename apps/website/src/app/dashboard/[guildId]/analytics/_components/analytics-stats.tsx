@@ -122,7 +122,7 @@ export function AnalyticsStats({
             key={stat.label}
             variant="stat"
             className={cn(
-              "p-5 flex flex-col justify-center min-h-[100px] relative overflow-hidden",
+              "min-h-[100px] relative overflow-hidden",
               colorMap[stat.color],
               isLocked && "cursor-pointer"
             )}
@@ -152,32 +152,34 @@ export function AnalyticsStats({
               </div>
             )}
 
-            {/* Label */}
-            <div className="flex items-center gap-2 text-zinc-500 mb-2 relative z-10">
-              <stat.icon className={cn("w-4 h-4", iconColorMap[stat.color])} />
-              <span
+            <div className="relative z-10 flex flex-col justify-center p-5 w-full h-full">
+              {/* Label */}
+              <div className="flex items-center gap-2 text-zinc-500 mb-2">
+                <stat.icon className={cn("w-4 h-4", iconColorMap[stat.color])} />
+                <span
+                  className={cn(
+                    "text-[10px] font-black uppercase tracking-widest",
+                    audiowide.className
+                  )}
+                >
+                  {stat.label}
+                </span>
+              </div>
+
+              {/* Value */}
+              <div
                 className={cn(
-                  "text-[10px] font-black uppercase tracking-widest",
+                  "text-3xl font-black text-white tabular-nums",
                   audiowide.className
                 )}
               >
-                {stat.label}
-              </span>
-            </div>
+                {stat.value}
+              </div>
 
-            {/* Value */}
-            <div
-              className={cn(
-                "text-3xl font-black text-white relative z-10 tabular-nums",
-                audiowide.className
-              )}
-            >
-              {stat.value}
-            </div>
-
-            {/* Subtitle */}
-            <div className="text-[10px] text-zinc-500 font-bold font-mono mt-1 relative z-10">
-              {stat.subtitle}
+              {/* Subtitle */}
+              <div className="text-[10px] text-zinc-500 font-bold font-mono mt-1">
+                {stat.subtitle}
+              </div>
             </div>
 
             {/* Bottom line */}
