@@ -4,12 +4,14 @@ import { z } from "zod";
  * Discord API Schemas
  */
 
-export const DiscordGuildSchema = z.object({
-  id: z.string(),
-  name: z.string(),
-  icon: z.string().nullable().optional(),
-  permissions: z.string().optional().default("0"),
-});
+export const DiscordGuildSchema = z
+  .object({
+    id: z.string(),
+    name: z.string().nullable().optional().default("Unknown Server"),
+    icon: z.string().nullable().optional(),
+    permissions: z.union([z.string(), z.number(), z.null()]).optional(),
+  })
+  .catchall(z.unknown());
 
 export const DiscordChannelSchema = z.object({
   id: z.string(),
