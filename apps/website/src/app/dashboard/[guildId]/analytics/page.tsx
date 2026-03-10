@@ -227,66 +227,58 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
           title="Analytics"
           description="Track server growth and activity for"
           serverName={guildName}
-        >
-          <div className="flex items-center gap-1 bg-zinc-900/50 border border-white/5 rounded-xl p-1">
-            {timeRanges.map((range) => {
-              const locked = !range.free && !isPremium;
-              return (
-                <Button
-                  key={range.value}
-                  variant={
-                    effectiveDays === range.value ? "secondary" : "ghost"
+        />
+
+        <div className="flex flex-wrap items-center gap-1 bg-zinc-900/50 border border-white/5 rounded-xl p-1 w-fit">
+          {timeRanges.map((range) => {
+            const locked = !range.free && !isPremium;
+            return (
+              <Button
+                key={range.value}
+                variant={effectiveDays === range.value ? "secondary" : "ghost"}
+                size="sm"
+                onClick={() => {
+                  if (locked) {
+                    setShowPremiumModal(true);
+                  } else {
+                    setDays(range.value);
                   }
-                  size="sm"
-                  onClick={() => {
-                    if (locked) {
-                      setShowPremiumModal(true);
-                    } else {
-                      setDays(range.value);
-                    }
-                  }}
-                  className={cn(
-                    "h-8 px-3 text-xs font-black uppercase tracking-wider rounded-lg transition-all relative",
-                    audiowide.className,
-                    effectiveDays === range.value
-                      ? "bg-cyan-500/15 text-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.15)] border border-cyan-500/20"
-                      : locked
-                        ? "text-zinc-500 hover:text-amber-400/80 hover:bg-amber-500/10 border border-transparent cursor-pointer"
-                        : "text-zinc-400 hover:text-cyan-400 hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 cursor-pointer"
-                  )}
-                >
-                  {locked && (
-                    <Lock className="w-2.5 h-2.5 mr-1 text-amber-500" />
-                  )}
-                  {range.label}
-                </Button>
-              );
-            })}
+                }}
+                className={cn(
+                  "h-8 px-3 text-xs font-black uppercase tracking-wider rounded-lg transition-all relative",
+                  audiowide.className,
+                  effectiveDays === range.value
+                    ? "bg-cyan-500/15 text-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.15)] border border-cyan-500/20"
+                    : locked
+                      ? "text-zinc-500 hover:text-amber-400/80 hover:bg-amber-500/10 border border-transparent cursor-pointer"
+                      : "text-zinc-400 hover:text-cyan-400 hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 cursor-pointer"
+                )}
+              >
+                {locked && <Lock className="w-2.5 h-2.5 mr-1 text-amber-500" />}
+                {range.label}
+              </Button>
+            );
+          })}
 
-            <div className="w-px h-6 bg-white/10 mx-1" />
+          <div className="w-px h-6 bg-white/10 mx-1" />
 
-            <Button
-              variant="default"
-              size="sm"
-              onClick={handleExportCSV}
-              className={cn(
-                "h-8 px-3 text-xs font-black uppercase tracking-wider rounded-lg transition-all",
-                audiowide.className,
-                isPremium
-                  ? "bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 border border-cyan-500/20"
-                  : "bg-zinc-800/30 text-zinc-500 hover:text-amber-400/80 hover:bg-amber-500/10 border border-transparent hover:border-amber-500/20"
-              )}
-            >
-              {!isPremium && (
-                <Lock className="w-2.5 h-2.5 mr-1.5 text-amber-500" />
-              )}
-              <Download
-                className="w-3.5 h-3.5 mr-1.5"
-              />
-              {isPremium ? "Export CSV" : "Export"}
-            </Button>
-          </div>
-        </PageHeader>
+          <Button
+            variant="default"
+            size="sm"
+            onClick={handleExportCSV}
+            className={cn(
+              "h-8 px-3 text-xs font-black uppercase tracking-wider rounded-lg transition-all",
+              audiowide.className,
+              isPremium
+                ? "bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 border border-cyan-500/20"
+                : "bg-zinc-800/30 text-zinc-500 hover:text-amber-400/80 hover:bg-amber-500/10 border border-transparent hover:border-amber-500/20"
+            )}
+          >
+            {!isPremium && <Lock className="w-2.5 h-2.5 mr-1.5 text-amber-500" />}
+            <Download className="w-3.5 h-3.5 mr-1.5" />
+            {isPremium ? "Export CSV" : "Export"}
+          </Button>
+        </div>
 
         {/* Stats Overview — Net Growth free, rest gated */}
         <AnalyticsStats
