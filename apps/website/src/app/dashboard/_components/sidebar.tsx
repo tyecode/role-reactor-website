@@ -124,12 +124,6 @@ export function DashboardSidebar() {
             isComingSoon: true,
           },
           {
-            title: "Polls",
-            href: getHref("/dashboard/polls", true),
-            icon: Vote,
-            isComingSoon: true,
-          },
-          {
             title: "Analytics",
             href: getHref("/dashboard/analytics", true),
             icon: BarChart3,
@@ -346,7 +340,7 @@ export function DashboardSidebar() {
             {items.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton
-                  asChild={!item.isComingSoon}
+                  asChild
                   isActive={isActive(item.href)}
                   tooltip={item.title}
                   disabled={item.isComingSoon}
