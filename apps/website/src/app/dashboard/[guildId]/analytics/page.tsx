@@ -251,12 +251,12 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
                     effectiveDays === range.value
                       ? "bg-cyan-500/15 text-cyan-400 shadow-[0_0_10px_rgba(6,182,212,0.15)] border border-cyan-500/20"
                       : locked
-                        ? "text-zinc-600 hover:text-zinc-500 border border-transparent cursor-pointer"
-                        : "text-zinc-500 hover:text-zinc-300 border border-transparent"
+                        ? "text-zinc-500 hover:text-amber-400/80 hover:bg-amber-500/10 border border-transparent cursor-pointer"
+                        : "text-zinc-400 hover:text-cyan-400 hover:bg-cyan-500/10 border border-transparent hover:border-cyan-500/20 cursor-pointer"
                   )}
                 >
                   {locked && (
-                    <Lock className="w-2.5 h-2.5 mr-1 text-amber-500/60" />
+                    <Lock className="w-2.5 h-2.5 mr-1 text-amber-500" />
                   )}
                   {range.label}
                 </Button>
@@ -274,16 +274,16 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
                 audiowide.className,
                 isPremium
                   ? "bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 border border-cyan-500/20"
-                  : "bg-zinc-800/50 text-zinc-500 hover:text-zinc-400 border border-transparent"
+                  : "bg-zinc-800/30 text-zinc-500 hover:text-amber-400/80 hover:bg-amber-500/10 border border-transparent hover:border-amber-500/20"
               )}
             >
               {!isPremium && (
-                <Lock className="w-2.5 h-2.5 mr-1.5 text-amber-500/60" />
+                <Lock className="w-2.5 h-2.5 mr-1.5 text-amber-500" />
               )}
               <Download
-                className={cn("w-3.5 h-3.5", isPremium ? "mr-1.5" : "")}
+                className="w-3.5 h-3.5 mr-1.5"
               />
-              {isPremium && "Export CSV"}
+              {isPremium ? "Export CSV" : "Export"}
             </Button>
           </div>
         </PageHeader>
