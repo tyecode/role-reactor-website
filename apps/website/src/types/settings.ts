@@ -73,15 +73,15 @@ export const XPSettingsSchema = z.object({
  */
 
 export const ProSubscriptionSchema = z.object({
-  expiresAt: z.string(),
-  activatedAt: z.string(),
-  cancelled: z.boolean().optional(),
-  cancelledAt: z.string().optional(),
-  autoRenew: z.boolean().optional(),
-  cost: z.number().optional(),
-  period: z.string().optional(),
-  payerUserId: z.string().optional(),
-  lastDeductionDate: z.string().optional(),
+  expiresAt: z.string().nullable().optional(),
+  activatedAt: z.string().nullable().optional(),
+  cancelled: z.boolean().nullable().optional(),
+  cancelledAt: z.string().nullable().optional(),
+  autoRenew: z.boolean().nullable().optional(),
+  cost: z.number().nullable().optional(),
+  period: z.string().nullable().optional(),
+  payerUserId: z.string().nullable().optional(),
+  lastDeductionDate: z.string().nullable().optional(),
 });
 
 export const ProEngineSettingsSchema = z
@@ -92,7 +92,7 @@ export const ProEngineSettingsSchema = z
         pro: z.boolean(),
       })
       .catchall(z.boolean().optional()),
-    subscription: ProSubscriptionSchema.optional(),
+    subscription: ProSubscriptionSchema.nullable().optional(),
     premiumConfig: z
       .record(
         z.string(),
@@ -157,10 +157,11 @@ export const PremiumStatusSchema = z
     isPremium: z.any().optional(),
     subscription: z
       .object({
-        activatedAt: z.string(),
-        expiresAt: z.string(),
-        autoRenew: z.boolean(),
+        activatedAt: z.string().nullable().optional(),
+        expiresAt: z.string().nullable().optional(),
+        autoRenew: z.boolean().nullable().optional(),
       })
+      .nullable()
       .optional(),
   })
   .catchall(z.unknown());
