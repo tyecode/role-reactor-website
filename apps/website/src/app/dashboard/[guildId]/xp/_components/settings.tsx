@@ -54,14 +54,15 @@ interface XPSettings {
   commandXP: boolean;
   roleXP: boolean;
   voiceXP: boolean;
-  messageXPAmount: { min: number; max: number };
-  roleXPAmount: number;
-  commandXPAmount: { base: number };
-  voiceXPAmount: number;
-  messageCooldown: number;
-  commandCooldown: number;
+  messageXPAmount?: any;
+  roleXPAmount?: number;
+  commandXPAmount?: any;
+  voiceXPAmount?: any;
+  messageCooldown?: number;
+  commandCooldown?: number;
   levelUpMessages: boolean;
-  levelUpChannel?: string;
+  levelUpChannel?: string | null;
+  [key: string]: any;
 }
 
 interface SettingsTabProps {
@@ -460,6 +461,7 @@ export function XPSettingsTab({ guildId }: SettingsTabProps) {
                   {
                     id: "voiceXPAmount",
                     label: "Sonic",
+                    parent: true,
                     icon: Mic,
                     color: "emerald",
                   },

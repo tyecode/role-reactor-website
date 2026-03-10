@@ -58,15 +58,15 @@ export const XPSettingsSchema = z.object({
   commandXP: z.boolean(),
   roleXP: z.boolean(),
   voiceXP: z.boolean(),
-  messageXPAmount: z.object({ min: z.number(), max: z.number() }),
-  roleXPAmount: z.number(),
-  commandXPAmount: z.object({ base: z.number() }),
-  voiceXPAmount: z.number(),
-  messageCooldown: z.number(),
-  commandCooldown: z.number(),
+  messageXPAmount: z.any().optional(),
+  roleXPAmount: z.number().optional().catch(0),
+  commandXPAmount: z.any().optional(),
+  voiceXPAmount: z.any().optional(),
+  messageCooldown: z.number().optional().catch(60),
+  commandCooldown: z.number().optional().catch(60),
   levelUpMessages: z.boolean(),
-  levelUpChannel: z.string().optional(),
-});
+  levelUpChannel: z.string().nullable().optional(),
+}).catchall(z.unknown());
 
 /**
  * Pro Engine & Subscription Schemas
