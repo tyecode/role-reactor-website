@@ -11,11 +11,11 @@ const inputVariants = cva(
     variants: {
       variant: {
         default:
-          "h-10 rounded-xl border-white/10 px-3 py-2 focus-visible:ring-cyan-500/50 focus-visible:border-cyan-500/50 focus-visible:shadow-[0_0_15px_-3px_rgba(6,182,212,0.3)] hover:bg-zinc-900/60 hover:border-white/20",
+          "h-10 rounded-lg border-white/10 px-3 py-2 focus-visible:ring-cyan-500/50 focus-visible:border-cyan-500/50 focus-visible:shadow-[0_0_15px_-3px_rgba(6,182,212,0.3)] hover:bg-zinc-900/60 hover:border-white/20",
         cyber:
-          "bg-zinc-950/80 border-white/5 h-12 px-4 rounded-xl focus-visible:border-cyan-500/40 focus-visible:ring-cyan-500/10 hover:bg-zinc-900/80 font-black tabular-nums placeholder:text-zinc-700",
+          "bg-zinc-950/80 border-white/5 h-10 px-4 rounded-lg focus-visible:border-cyan-500/40 focus-visible:ring-cyan-500/10 hover:bg-zinc-900/80 font-black tabular-nums placeholder:text-zinc-700",
         search:
-          "bg-zinc-950/50 border-white/10 rounded-2xl focus-visible:border-cyan-500/50 focus-visible:ring-cyan-500/20 h-12 px-4 font-bold placeholder:text-zinc-700 backdrop-blur-md hover:bg-zinc-900/60",
+          "bg-zinc-950/50 border-white/10 rounded-lg focus-visible:border-cyan-500/50 focus-visible:ring-cyan-500/20 h-10 px-4 font-bold placeholder:text-zinc-700 backdrop-blur-md hover:bg-zinc-900/60",
       },
     },
     defaultVariants: {

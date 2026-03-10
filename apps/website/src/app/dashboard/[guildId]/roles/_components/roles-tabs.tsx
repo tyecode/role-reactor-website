@@ -61,7 +61,7 @@ export function RolesTabs({ guildId }: { guildId: string }) {
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-4 min-w-0">
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-5 min-w-0">
         <TabsList variant="neon" className="w-full sm:w-auto flex min-w-0">
           <TabsTrigger
             variant="neon"

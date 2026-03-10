@@ -236,7 +236,7 @@ export function CommandList({ guildId }: CommandListProps) {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className={cn(
-                "pl-11 bg-zinc-900/50 border-white/5 h-12 focus:border-cyan-500/50 focus:ring-cyan-500/20 transition-all rounded-xl font-bold placeholder:text-zinc-700 tracking-wide text-zinc-300",
+                "pl-11 bg-zinc-900/50 border-white/5 h-10 focus:border-cyan-500/50 focus:ring-cyan-500/20 transition-all rounded-lg font-bold placeholder:text-zinc-700 tracking-wide text-zinc-300",
                 audiowide.className
               )}
             />

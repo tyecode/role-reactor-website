@@ -18,7 +18,6 @@ import {
   Activity,
   Clock,
   MessageSquareText,
-  Shield,
   Trash2,
   AlertTriangle,
   Loader2,
@@ -215,13 +214,13 @@ export function ActiveMenus({
                 <div>
                   <DialogTitle
                     variant="glitch"
-                    className="!text-red-400 !text-sm"
+                    className="text-red-400! text-sm!"
                   >
                     Delete Setup
                   </DialogTitle>
                   <DialogDescription
                     variant="glitch"
-                    className="!text-zinc-500 !text-[11px]"
+                    className="text-zinc-500! text-[11px]!"
                   >
                     This action cannot be undone
                   </DialogDescription>
@@ -322,15 +321,7 @@ export function ActiveMenus({
       </Dialog>
 
       {/* Setup Grid */}
-      <div className="space-y-4">
-        <div className="flex items-center gap-3 px-1 text-zinc-400 text-xs">
-          <Shield className="w-4 h-4 text-cyan-400" />
-          <span>
-            <strong className="text-white">{total}</strong> active setup
-            {total !== 1 ? "s" : ""} across your server
-          </span>
-        </div>
-
+      <div className="space-y-4 pt-2">
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
           {roleMappings.map((menu) => {
             const roleEntries = Object.values(menu.roles || {});

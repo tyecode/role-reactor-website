@@ -11,9 +11,9 @@ const textareaVariants = cva(
     variants: {
       variant: {
         default:
-          "rounded-xl border-white/10 px-3 py-2 focus-visible:ring-cyan-500/50 focus-visible:border-cyan-500/50 hover:border-white/20 hover:bg-zinc-900/60",
+          "rounded-lg border-white/10 px-3 py-2 focus-visible:ring-cyan-500/50 focus-visible:border-cyan-500/50 hover:border-white/20 hover:bg-zinc-900/60",
         cyber:
-          "rounded-xl border-white/5 bg-zinc-950/80 px-4 py-3 focus-visible:border-cyan-500/40 focus-visible:ring-cyan-500/10 hover:bg-zinc-900/80 font-mono tracking-tight",
+          "rounded-lg border-white/5 bg-zinc-950/80 px-4 py-3 focus-visible:border-cyan-500/40 focus-visible:ring-cyan-500/10 hover:bg-zinc-900/80 font-mono tracking-tight",
       },
     },
     defaultVariants: {
