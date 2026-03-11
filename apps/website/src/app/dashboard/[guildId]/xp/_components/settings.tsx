@@ -181,7 +181,7 @@ export const XPSettingsTab = forwardRef<{ handleSave: () => Promise<void>; savin
   }
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-700 pb-20 relative">
+    <div className="space-y-6 pb-20 relative">
       <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 blur-[120px] pointer-events-none" />
 
       {/* Main Feature Toggle */}

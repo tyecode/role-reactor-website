@@ -2,7 +2,13 @@
 
 import { useState, use, useEffect, useRef } from "react";
 import { Audiowide } from "next/font/google";
-import { Trophy, Settings as SettingsIcon, Search, Save, Loader2 } from "lucide-react";
+import {
+  Trophy,
+  Settings as SettingsIcon,
+  Search,
+  Save,
+  Loader2,
+} from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { useXPStore, type LeaderboardEntry } from "@/store/use-xp-store";
@@ -35,7 +41,10 @@ export default function XPPage({ params }: XPPageProps) {
   const [activeTab, setActiveTab] = useState("leaderboard");
   const [searchQuery, setSearchQuery] = useState("");
   const [isSaving, setIsSaving] = useState(false);
-  const settingsRef = useRef<{ handleSave: () => Promise<void>; saving: boolean }>(null);
+  const settingsRef = useRef<{
+    handleSave: () => Promise<void>;
+    saving: boolean;
+  }>(null);
 
   const { getGuildData, dataCache, isLoading, isError, fetchXPData } =
     useXPStore();
@@ -112,13 +121,13 @@ export default function XPPage({ params }: XPPageProps) {
         onValueChange={setActiveTab}
         className="w-full min-w-0"
       >
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-6 min-w-0">
-          <TabsList variant="neon" className="w-full sm:w-auto flex min-w-0">
+        <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr] items-center gap-4 mb-6 min-w-0 px-1">
+          <TabsList variant="neon" className="w-full lg:w-auto flex min-w-0">
             <TabsTrigger
               value="leaderboard"
               variant="neon"
               className={cn(
-                "flex-1 sm:flex-none gap-2 min-w-0",
+                "flex-1 lg:flex-none gap-2 min-w-0",
                 audiowide.className
               )}
             >
@@ -129,7 +138,7 @@ export default function XPPage({ params }: XPPageProps) {
               value="settings"
               variant="neon-purple"
               className={cn(
-                "flex-1 sm:flex-none gap-2 min-w-0",
+                "flex-1 lg:flex-none gap-2 min-w-0",
                 audiowide.className
               )}
             >
@@ -139,7 +148,7 @@ export default function XPPage({ params }: XPPageProps) {
           </TabsList>
 
           {activeTab === "leaderboard" && (
-            <div className="relative w-full sm:w-72 min-w-0 group/search">
+            <div className="relative w-full lg:max-w-md lg:justify-self-end group/search">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 group-focus-within/search:text-cyan-400 transition-colors" />
               <Input
                 placeholder="Search players..."
@@ -152,7 +161,7 @@ export default function XPPage({ params }: XPPageProps) {
           )}
 
           {activeTab === "settings" && (
-            <div className="flex items-center gap-3 w-full sm:w-auto">
+            <div className="flex items-center gap-3 w-full sm:w-auto lg:justify-self-end">
               <Button
                 variant="cyber"
                 size="lg"

@@ -2,13 +2,19 @@
 
 import { useState, use, useEffect } from "react";
 import { Audiowide } from "next/font/google";
-import { BarChart3, Crown, Lock, Zap, Download } from "lucide-react";
+import { BarChart3, Crown, Lock, Zap, Download, Loader2, ChevronDown, FileSpreadsheet, FileJson } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useServerStore } from "@/store/use-server-store";
 import { useProEngineStore } from "@/store/use-pro-engine-store";
 import { useSession } from "next-auth/react";
 
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { PageHeader } from "@/app/dashboard/_components/page-header";
 import { ErrorView } from "@/components/common/error-view";
 import { NodeLoader } from "@/components/common/node-loader";
@@ -42,6 +48,7 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
   const [days, setDays] = useState(FREE_MAX_DAYS);
   const [showPremiumModal, setShowPremiumModal] = useState(false);
   const [isActivating, setIsActivating] = useState(false);
+  const [isExporting, setIsExporting] = useState(false);
   const { data: session } = useSession();
 
   const { guilds } = useServerStore();
@@ -107,7 +114,7 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
     }
   };
 
-  const handleExportCSV = () => {
+  const handleExport = async (format: "csv" | "json") => {
     if (!isPremium) {
       setShowPremiumModal(true);
       return;
@@ -118,54 +125,113 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
       return;
     }
 
-    // Build CSV content
-    const headers = [
-      "Date",
-      "Joins",
-      "Leaves",
-      "Net Growth",
-      "Messages",
-      "Voice Minutes",
-      "Commands",
-      "Automated Roles",
-    ];
+    setIsExporting(true);
 
-    interface AnalyticsDay {
-      date?: string;
-      label?: string;
-      joins?: number;
-      leaves?: number;
-      messages?: number;
-      voiceMinutes?: number;
-      commands?: number;
-      roleReactions?: number;
+    try {
+      // Create professional artificial delay to mimic database pooling
+      await new Promise((resolve) => setTimeout(resolve, 600));
+
+      const safeGuildName = guildName.replace(/[^a-z0-9]/gi, "_").toLowerCase();
+      const dateStr = new Date().toISOString().split("T")[0];
+      const fileName = `${safeGuildName}_analytics_${effectiveDays}d_${dateStr}.${format}`;
+
+      interface AnalyticsDay {
+        date?: string;
+        label?: string;
+        members?: number;
+        joins?: number;
+        leaves?: number;
+        messages?: number;
+        voiceMinutes?: number;
+        commands?: number;
+        roleReactions?: number;
+      }
+
+      let content = "";
+      let type = "";
+
+      if (format === "csv") {
+        const headers = [
+          "Date",
+          "Total Members",
+          "Joins",
+          "Leaves",
+          "Net Growth",
+          "Messages",
+          "Voice Minutes",
+          "Commands",
+          "Role Reactions",
+        ];
+
+        const rows = history.map((day: AnalyticsDay) => {
+          // Keep strict dates if available, fallback to label string with current year assumption if missing date field
+          const resolvedDate = day.date || `${new Date().getFullYear()}-${day.label?.replace(" ", "-")}`;
+          
+          return [
+            resolvedDate,
+            day.members ?? 0,
+            day.joins ?? 0,
+            day.leaves ?? 0,
+            (day.joins ?? 0) - (day.leaves ?? 0),
+            day.messages ?? 0,
+            day.voiceMinutes ?? 0,
+            day.commands ?? 0,
+            day.roleReactions ?? 0,
+          ];
+        });
+
+        content = [
+          headers.join(","),
+          ...rows.map((row: (string | number)[]) => row.join(",")),
+        ].join("\n");
+        type = "text/csv;charset=utf-8;";
+
+      } else if (format === "json") {
+        const payload = {
+          guildId,
+          guildName,
+          exportDate: new Date().toISOString(),
+          periodDays: effectiveDays,
+          aggregatedStats: activityStats,
+          history: history.map((day: AnalyticsDay) => ({
+            date: day.date || `${new Date().getFullYear()}-${day.label?.replace(" ", "-")}`,
+            label: day.label,
+            metrics: {
+              totalMembers: day.members ?? 0,
+              joins: day.joins ?? 0,
+              leaves: day.leaves ?? 0,
+              netGrowth: (day.joins ?? 0) - (day.leaves ?? 0),
+              messages: day.messages ?? 0,
+              voiceMinutes: day.voiceMinutes ?? 0,
+              commands: day.commands ?? 0,
+              roleReactions: day.roleReactions ?? 0,
+            }
+          })),
+        };
+        content = JSON.stringify(payload, null, 2);
+        type = "application/json;charset=utf-8;";
+      }
+
+      const blob = new Blob([content], { type });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", fileName);
+      link.setAttribute("target", "_blank"); // Prevents Next.js from intercepting as a page navigation
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      // Free up memory and prevent the browser from hanging
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+      toast.success(`${format.toUpperCase()} export compiled and downloaded!`);
+    } catch (err) {
+      console.error("Failed to build export payload:", err);
+      toast.error("Export failed. Please try again.");
+    } finally {
+      setIsExporting(false);
     }
-
-    const rows = history.map((day: AnalyticsDay) => [
-      day.date ?? day.label ?? "",
-      day.joins ?? 0,
-      day.leaves ?? 0,
-      (day.joins ?? 0) - (day.leaves ?? 0),
-      day.messages ?? 0,
-      day.voiceMinutes ?? 0,
-      day.commands ?? 0,
-      day.roleReactions ?? 0,
-    ]);
-
-    const csvContent = [
-      headers.join(","),
-      ...rows.map((row: (string | number)[]) => row.join(",")),
-    ].join("\n");
-
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.setAttribute("href", url);
-    link.setAttribute("download", `analytics_${guildId}_${effectiveDays}d.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    toast.success("CSV export downloaded successfully!");
   };
 
   if (isLoading && !data) {
@@ -235,7 +301,7 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
             return (
               <Button
                 key={range.value}
-                variant={effectiveDays === range.value ? "secondary" : "ghost"}
+                variant="ghost"
                 size="sm"
                 onClick={() => {
                   if (locked) {
@@ -262,22 +328,67 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
 
           <div className="w-px h-6 bg-white/10 mx-1" />
 
-          <Button
-            variant="default"
-            size="sm"
-            onClick={handleExportCSV}
-            className={cn(
-              "h-8 px-3 text-xs font-black uppercase tracking-wider rounded-lg transition-all",
-              audiowide.className,
-              isPremium
-                ? "bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 border border-cyan-500/20"
-                : "bg-zinc-800/30 text-zinc-500 hover:text-amber-400/80 hover:bg-amber-500/10 border border-transparent hover:border-amber-500/20"
-            )}
-          >
-            {!isPremium && <Lock className="w-2.5 h-2.5 mr-1.5 text-amber-500" />}
-            <Download className="w-3.5 h-3.5 mr-1.5" />
-            {isPremium ? "Export CSV" : "Export"}
-          </Button>
+          {isPremium ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  disabled={isExporting}
+                  className={cn(
+                    "h-8 px-3 text-xs font-black uppercase tracking-wider rounded-lg transition-all",
+                    audiowide.className,
+                    "bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 border border-cyan-500/20 shadow-[0_0_10px_-2px_rgba(6,182,212,0.2)] hover:shadow-[0_0_15px_-2px_rgba(6,182,212,0.4)]"
+                  )}
+                >
+                  {isExporting ? (
+                    <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" />
+                  ) : (
+                    <Download className="w-3.5 h-3.5 mr-1.5" />
+                  )}
+                  {isExporting ? "Compiling..." : "Export Data"}
+                  <ChevronDown className="w-3.5 h-3.5 ml-1 opacity-50" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem
+                  className="cursor-pointer font-medium p-3"
+                  onClick={() => handleExport("csv")}
+                >
+                  <FileSpreadsheet className="w-4 h-4 mr-2 text-cyan-400" />
+                  <div className="flex flex-col gap-0.5">
+                    <span className="text-sm">CSV File</span>
+                    <span className="text-[10px] text-zinc-500 font-normal">For Excel & Sheets</span>
+                  </div>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="cursor-pointer font-medium p-3"
+                  onClick={() => handleExport("json")}
+                >
+                  <FileJson className="w-4 h-4 mr-2 text-purple-400" />
+                  <div className="flex flex-col gap-0.5">
+                    <span className="text-sm">JSON Payload</span>
+                    <span className="text-[10px] text-zinc-500 font-normal">For API & Developers</span>
+                  </div>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button
+              variant="default"
+              size="sm"
+              onClick={() => setShowPremiumModal(true)}
+              className={cn(
+                "h-8 px-3 text-xs font-black uppercase tracking-wider rounded-lg transition-all",
+                audiowide.className,
+                "bg-zinc-800/30 text-zinc-500 hover:text-amber-400/80 hover:bg-amber-500/10 border border-transparent hover:border-amber-500/20"
+              )}
+            >
+              <Lock className="w-2.5 h-2.5 mr-1.5 text-amber-500" />
+              <Download className="w-3.5 h-3.5 mr-1.5" />
+              Export
+            </Button>
+          )}
         </div>
 
         {/* Stats Overview — Net Growth free, rest gated */}

@@ -12,6 +12,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { CyberpunkBackground } from "@/components/common/cyberpunk-background";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 import {
   Area,
@@ -167,47 +168,46 @@ export function DailyTrends({
 
       <Card variant="cyberpunk" className="overflow-hidden">
         <CyberpunkBackground />
-        <CardContent className="p-0 relative z-10 flex flex-col md:flex-row h-[350px]">
-          {/* Sidebar Tabs */}
-          <div className="w-full md:w-48 bg-zinc-900/50 border-b md:border-b-0 md:border-r border-white/5 flex md:flex-col overflow-x-auto md:overflow-hidden p-2">
-            {tabs.map((tab) => {
-              const isActive = activeTab === tab.id;
-              const Icon = tab.icon;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={cn(
-                    "flex items-center gap-3 px-4 md:px-3 py-3 rounded-xl transition-all w-full text-left shrink-0 md:mb-1 last:mb-0",
-                    isActive
-                      ? "bg-white/5 shadow-inner border border-white/10"
-                      : "hover:bg-white/2 border border-transparent"
-                  )}
-                  style={
-                    isActive
-                      ? { borderLeftColor: tab.color, borderLeftWidth: "3px" }
-                      : {}
-                  }
-                >
-                  <Icon
-                    className="w-4 h-4"
-                    style={{ color: isActive ? tab.color : "#71717a" }} // text-zinc-500 when inactive
-                  />
-                  <span
+        <CardContent className="p-0 relative z-10 flex flex-col lg:flex-row h-auto lg:h-[350px]">
+          <ScrollArea type="auto" className="w-full max-w-full lg:w-64 bg-zinc-900/50 border-b lg:border-b-0 lg:border-r border-white/5 shrink-0">
+            <div className="flex lg:flex-col gap-2 p-2 w-max lg:w-full">
+              {tabs.map((tab) => {
+                const isActive = activeTab === tab.id;
+                const Icon = tab.icon;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
                     className={cn(
-                      "text-[10px] font-black uppercase tracking-wider",
-                      audiowide.className,
+                      "flex items-center gap-3 px-4 lg:px-3 py-3 rounded-lg transition-all w-auto lg:w-full text-left shrink-0",
+                      "border-b-[3px] lg:border-b-0 lg:border-l-[3px]",
                       isActive
-                        ? "text-white"
-                        : "text-zinc-500 group-hover:text-zinc-300"
+                        ? "bg-white/5 shadow-inner"
+                        : "hover:bg-white/2 border-transparent lg:border-transparent"
                     )}
+                    style={isActive ? { borderColor: tab.color } : {}}
                   >
-                    {tab.label}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
+                    <Icon
+                      className="w-4 h-4"
+                      style={{ color: isActive ? tab.color : "#71717a" }}
+                    />
+                    <span
+                      className={cn(
+                        "text-[10px] font-black uppercase tracking-wider",
+                        audiowide.className,
+                        isActive
+                          ? "text-white"
+                          : "text-zinc-500 group-hover:text-zinc-300"
+                      )}
+                    >
+                      {tab.label}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+            <ScrollBar orientation="horizontal" className="lg:hidden" />
+          </ScrollArea>
 
           {/* Chart Area */}
           <div className="flex-1 p-6 flex flex-col min-w-0">
@@ -227,9 +227,9 @@ export function DailyTrends({
               </div>
             </div>
 
-            <div className="flex-1 min-h-0 relative">
+            <div className="flex-1 min-h-[300px] lg:min-h-0 relative">
               {!isMounted ? (
-                <div className="flex-1 w-full bg-zinc-900/10 animate-pulse rounded-xl h-full" />
+                <div className="absolute inset-0 bg-zinc-900/10 animate-pulse rounded-xl" />
               ) : !hasData ? (
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
                   <p
@@ -245,69 +245,79 @@ export function DailyTrends({
                   </p>
                 </div>
               ) : (
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart
-                    data={data}
-                    margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
-                  >
-                    <defs>
-                      <linearGradient
-                        id={`gradient-${activeConfig.id}`}
-                        x1="0"
-                        y1="0"
-                        x2="0"
-                        y2="1"
-                      >
-                        <stop
-                          offset="5%"
-                          stopColor={activeConfig.color}
-                          stopOpacity={0.3}
-                        />
-                        <stop
-                          offset="95%"
-                          stopColor={activeConfig.color}
-                          stopOpacity={0}
-                        />
-                      </linearGradient>
-                    </defs>
-                    <CartesianGrid
-                      strokeDasharray="3 3"
-                      vertical={false}
-                      className="stroke-zinc-800/50"
-                    />
-                    <XAxis
-                      dataKey="label"
-                      axisLine={false}
-                      tickLine={false}
-                      tick={{ fill: "#71717a", fontSize: 10, fontWeight: 700 }}
-                      dy={10}
-                    />
-                    <YAxis
-                      axisLine={false}
-                      tickLine={false}
-                      tick={{ fill: "#71717a", fontSize: 10, fontWeight: 700 }}
-                      tickFormatter={(v) =>
-                        v >= 1000 ? `${(v / 1000).toFixed(1)}k` : v
-                      }
-                    />
-                    <Tooltip
-                      content={<CustomTooltip />}
-                      cursor={{
-                        stroke: activeConfig.color,
-                        strokeWidth: 1,
-                        strokeDasharray: "3 3",
-                      }}
-                    />
-                    <Area
-                      type="monotone"
-                      dataKey={activeConfig.dataKey}
-                      stroke={activeConfig.color}
-                      strokeWidth={2}
-                      fillOpacity={1}
-                      fill={`url(#gradient-${activeConfig.id})`}
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
+                <div className="absolute inset-0">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart
+                      data={data}
+                      margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
+                    >
+                      <defs>
+                        <linearGradient
+                          id={`gradient-${activeConfig.id}`}
+                          x1="0"
+                          y1="0"
+                          x2="0"
+                          y2="1"
+                        >
+                          <stop
+                            offset="5%"
+                            stopColor={activeConfig.color}
+                            stopOpacity={0.3}
+                          />
+                          <stop
+                            offset="95%"
+                            stopColor={activeConfig.color}
+                            stopOpacity={0}
+                          />
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        vertical={false}
+                        className="stroke-zinc-800/50"
+                      />
+                      <XAxis
+                        dataKey="label"
+                        axisLine={false}
+                        tickLine={false}
+                        tick={{
+                          fill: "#71717a",
+                          fontSize: 10,
+                          fontWeight: 700,
+                        }}
+                        dy={10}
+                      />
+                      <YAxis
+                        axisLine={false}
+                        tickLine={false}
+                        tick={{
+                          fill: "#71717a",
+                          fontSize: 10,
+                          fontWeight: 700,
+                        }}
+                        tickFormatter={(v) =>
+                          v >= 1000 ? `${(v / 1000).toFixed(1)}k` : v
+                        }
+                      />
+                      <Tooltip
+                        content={<CustomTooltip />}
+                        cursor={{
+                          stroke: activeConfig.color,
+                          strokeWidth: 1,
+                          strokeDasharray: "3 3",
+                        }}
+                      />
+                      <Area
+                        type="monotone"
+                        dataKey={activeConfig.dataKey}
+                        stroke={activeConfig.color}
+                        strokeWidth={2}
+                        fillOpacity={1}
+                        fill={`url(#gradient-${activeConfig.id})`}
+                      />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </div>
               )}
             </div>
           </div>

@@ -225,11 +225,11 @@ export function CommandList({ guildId }: CommandListProps) {
 
       <div className="space-y-6 relative">
         {/* Search & Status Bar */}
-        <div className="sticky top-4 z-40 flex flex-col md:flex-row gap-4 items-center justify-between bg-zinc-950/80 p-4 rounded-2xl border border-white/10 backdrop-blur-xl shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] overflow-hidden group/search">
+        <div className="sticky top-4 z-40 flex flex-wrap flex-col md:flex-row gap-4 items-center justify-between bg-zinc-950/80 p-4 rounded-2xl border border-white/10 backdrop-blur-xl shadow-[0_0_50px_-12px_rgba(0,0,0,0.5)] overflow-hidden group/search">
           <div className="absolute inset-0 bg-linear-to-r from-cyan-500/5 via-transparent to-purple-500/5 pointer-events-none opacity-50" />
           <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-cyan-500/20 to-transparent" />
 
-          <div className="relative w-full md:max-w-md">
+          <div className="relative w-full flex-1 min-w-3xs">
             <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500 group-focus-within/search:text-cyan-400 transition-colors" />
             <Input
               placeholder="Search commands..."
@@ -291,7 +291,7 @@ export function CommandList({ guildId }: CommandListProps) {
 
         <div className="relative space-y-8">
           {(isError && !data) || (data && data.status !== "success") ? (
-            <div className="space-y-6 animate-in fade-in duration-500">
+            <div className="space-y-6">
               <ErrorView
                 title="System Alert"
                 message="We were unable to synchronize command settings. Please try again."
@@ -306,7 +306,7 @@ export function CommandList({ guildId }: CommandListProps) {
                 return (
                   <div
                     key={category}
-                    className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700 fill-mode-both"
+                    className="space-y-6"
                   >
                     <div className="flex items-center gap-4 group/cat">
                       <div className="p-2.5 bg-zinc-900 rounded-xl border border-white/10 text-cyan-500 group-hover/cat:border-cyan-500/50 group-hover/cat:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all duration-300">

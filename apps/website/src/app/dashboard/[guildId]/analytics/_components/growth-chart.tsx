@@ -108,13 +108,13 @@ export function GrowthChart({ history, days }: GrowthChartProps) {
           </div>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.5)]" />
+              <div className="w-2.5 h-2.5 rounded-full bg-cyan-500 shadow-[0_0_6px_rgba(6,182,212,0.5)]" />
               <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">
                 Joins
               </span>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-[0_0_6px_rgba(244,63,94,0.5)]" />
+              <div className="w-2.5 h-2.5 rounded-full bg-fuchsia-500 shadow-[0_0_6px_rgba(217,70,239,0.5)]" />
               <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">
                 Leaves
               </span>
@@ -167,8 +167,8 @@ export function GrowthChart({ history, days }: GrowthChartProps) {
                   content={<CustomTooltip />}
                   cursor={{ fill: "rgba(255,255,255,0.02)" }}
                 />
-                <Bar dataKey="joins" fill="#10b981" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="leaves" fill="#f43f5e" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="joins" fill="#06b6d4" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="leaves" fill="#d946ef" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -178,12 +178,12 @@ export function GrowthChart({ history, days }: GrowthChartProps) {
               <AreaChart data={history}>
                 <defs>
                   <linearGradient id="joinsGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.25} />
-                    <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                    <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.25} />
+                    <stop offset="95%" stopColor="#06b6d4" stopOpacity={0} />
                   </linearGradient>
                   <linearGradient id="leavesGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#f43f5e" stopOpacity={0.2} />
-                    <stop offset="95%" stopColor="#f43f5e" stopOpacity={0} />
+                    <stop offset="5%" stopColor="#d946ef" stopOpacity={0.2} />
+                    <stop offset="95%" stopColor="#d946ef" stopOpacity={0} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid
@@ -209,28 +209,29 @@ export function GrowthChart({ history, days }: GrowthChartProps) {
                 <Area
                   type="monotone"
                   dataKey="joins"
-                  stroke="#10b981"
-                  strokeWidth={2}
+                  stroke="#06b6d4"
+                  strokeWidth={4}
                   fill="url(#joinsGrad)"
                   dot={false}
                   activeDot={{
                     r: 4,
-                    fill: "#10b981",
-                    stroke: "#064e3b",
+                    fill: "#06b6d4",
+                    stroke: "#164e63",
                     strokeWidth: 2,
                   }}
                 />
                 <Area
                   type="monotone"
                   dataKey="leaves"
-                  stroke="#f43f5e"
+                  stroke="#d946ef"
                   strokeWidth={2}
+                  strokeDasharray="5 5"
                   fill="url(#leavesGrad)"
                   dot={false}
                   activeDot={{
                     r: 4,
-                    fill: "#f43f5e",
-                    stroke: "#4c0519",
+                    fill: "#d946ef",
+                    stroke: "#701a75",
                     strokeWidth: 2,
                   }}
                 />

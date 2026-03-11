@@ -53,7 +53,7 @@ export function ProEngineActiveAlert({
           </p>
         </div>
 
-        <div className="flex flex-row sm:flex-col items-center sm:items-end gap-3 shrink-0 mt-4 sm:mt-0 w-full sm:w-auto">
+        <div className="flex flex-row sm:flex-col items-center sm:items-end gap-3 shrink-0 w-full sm:w-auto">
           <div className="px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/20 flex items-center gap-3 shadow-[0_0_20px_rgba(6,182,212,0.15)]">
             <div className="relative flex h-2.5 w-2.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>

@@ -93,13 +93,14 @@ export function StatsGrid({ leaderboard, averageLevel }: StatsGridProps) {
         <div className="absolute -right-4 -top-4 opacity-5 group-hover:opacity-10 transition-opacity">
           <Users className="w-20 h-20 rotate-12 text-cyan-500" />
         </div>
-        <div className="flex items-center gap-2 text-zinc-500 mb-2 relative z-10">
-          <Users className="w-4 h-4 text-cyan-500" />
+        <div className="flex items-center gap-2 text-zinc-500 mb-2 relative z-10 min-w-0">
+          <Users className="w-4 h-4 text-cyan-500 shrink-0" />
           <span
             className={cn(
-              "text-[10px] font-black uppercase tracking-widest",
+              "text-[10px] font-black uppercase tracking-wider truncate",
               audiowide.className
             )}
+            title="Total Members"
           >
             Total Members
           </span>
@@ -123,13 +124,14 @@ export function StatsGrid({ leaderboard, averageLevel }: StatsGridProps) {
         <div className="absolute -right-4 -top-4 opacity-5 group-hover:opacity-10 transition-opacity">
           <Zap className="w-20 h-20 rotate-12 text-purple-500" />
         </div>
-        <div className="flex items-center gap-2 text-zinc-500 mb-2 relative z-10">
-          <Zap className="w-4 h-4 text-purple-500" />
+        <div className="flex items-center gap-2 text-zinc-500 mb-2 relative z-10 min-w-0">
+          <Zap className="w-4 h-4 text-purple-500 shrink-0" />
           <span
             className={cn(
-              "text-[10px] font-black uppercase tracking-widest",
+              "text-[10px] font-black uppercase tracking-wider truncate",
               audiowide.className
             )}
+            title="Average Level"
           >
             Average Level
           </span>
@@ -153,13 +155,14 @@ export function StatsGrid({ leaderboard, averageLevel }: StatsGridProps) {
         <div className="absolute -right-4 -top-4 opacity-5 group-hover:opacity-10 transition-opacity">
           <Trophy className="w-20 h-20 rotate-12 text-emerald-500" />
         </div>
-        <div className="flex items-center gap-2 text-zinc-500 mb-2 relative z-10">
-          <Trophy className="w-4 h-4 text-emerald-500" />
+        <div className="flex items-center gap-2 text-zinc-500 mb-2 relative z-10 min-w-0">
+          <Trophy className="w-4 h-4 text-emerald-500 shrink-0" />
           <span
             className={cn(
-              "text-[10px] font-black uppercase tracking-widest",
+              "text-[10px] font-black uppercase tracking-wider truncate",
               audiowide.className
             )}
+            title="System Energy"
           >
             System Energy
           </span>

@@ -61,13 +61,13 @@ export function RolesTabs({ guildId }: { guildId: string }) {
 
   return (
     <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-5 min-w-0">
-        <TabsList variant="neon" className="w-full sm:w-auto flex min-w-0">
+      <div className="flex flex-col lg:flex-row items-center justify-between gap-4 mb-5 min-w-0 px-1">
+        <TabsList variant="neon" className="w-full lg:w-auto flex min-w-0">
           <TabsTrigger
             variant="neon"
             value="active"
             className={cn(
-              "flex-1 sm:flex-none flex items-center gap-2",
+              "flex-1 lg:flex-none flex items-center gap-2",
               audiowide.className
             )}
           >
@@ -78,7 +78,7 @@ export function RolesTabs({ guildId }: { guildId: string }) {
             variant="neon-purple"
             value="create"
             className={cn(
-              "flex-1 sm:flex-none flex items-center gap-2",
+              "flex-1 lg:flex-none flex items-center gap-2",
               audiowide.className
             )}
           >
