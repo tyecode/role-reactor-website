@@ -14,6 +14,9 @@ import {
   Hash,
   AlertCircle,
   ChevronRight,
+  Globe,
+  ExternalLink,
+  Copy,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -62,6 +65,7 @@ interface XPSettings {
   commandCooldown?: number;
   levelUpMessages: boolean;
   levelUpChannel?: string | null;
+  publicLeaderboard?: boolean;
   [key: string]: any;
 }
 
@@ -689,6 +693,66 @@ export const XPSettingsTab = forwardRef<{ handleSave: () => Promise<void>; savin
                 <div className="absolute -inset-0.5 bg-linear-to-r from-pink-500/20 to-purple-500/20 rounded-2xl blur-md opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
               </div>
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Public Leaderboard Link */}
+        <Card variant="cyberpunk" className="overflow-hidden relative border-cyan-500/30">
+          <div className="absolute -right-10 -bottom-10 p-8 opacity-[0.05]">
+            <Globe className="w-64 h-64 rotate-12" />
+          </div>
+          <CardHeader className="p-8 pb-4">
+            <CardTitle
+              className={cn(
+                "text-xl flex items-center gap-4 font-black uppercase tracking-widest text-white",
+                audiowide.className
+              )}
+            >
+              <div className="p-2.5 bg-cyan-500/10 border border-cyan-500/20 rounded-xl shadow-[0_0_15px_rgba(6,182,212,0.15)]">
+                <Globe className="w-5 h-5 text-cyan-400" />
+              </div>
+              <div className="flex-1">Public Leaderboard</div>
+              <Switch
+                id="public-leaderboard"
+                checked={localSettings.publicLeaderboard ?? true}
+                onCheckedChange={(checked) =>
+                  updateLocalSetting("publicLeaderboard", checked)
+                }
+                variant="cyan"
+              />
+            </CardTitle>
+            <CardDescription className="text-[11px] font-bold text-zinc-500 uppercase tracking-widest mt-1">
+              Enable the public website link so your community can view their rankings. If disabled, the page will remain private.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="p-8 pt-4 space-y-8">
+             <div className="flex items-center gap-4 p-4 rounded-xl bg-zinc-900/50 border border-white/5 relative group">
+                <Input
+                  readOnly
+                  value={`https://rolereactor.app/leaderboard/${guildId}`}
+                  className="bg-transparent border-none font-mono text-zinc-400 focus-visible:ring-0 shadow-none px-0"
+                />
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="shrink-0 bg-white/5 border-white/10 hover:bg-white/10 hover:text-white transition-colors"
+                  onClick={() => {
+                    navigator.clipboard.writeText(`https://rolereactor.app/leaderboard/${guildId}`);
+                    toast.success("Leaderboard link copied to clipboard!");
+                  }}
+                >
+                  <Copy className="w-4 h-4 mr-2" />
+                  Copy Link
+                </Button>
+                <Button 
+                   variant="cyber" 
+                   size="sm" 
+                   className="shrink-0"
+                   onClick={() => window.open(`/leaderboard/${guildId}`, "_blank")}
+                >
+                  <ExternalLink className="w-4 h-4" />
+                </Button>
+             </div>
           </CardContent>
         </Card>
       </div>

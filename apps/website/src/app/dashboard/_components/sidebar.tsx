@@ -31,6 +31,7 @@ import {
   User,
   Users,
   Activity,
+  Lock,
 } from "lucide-react";
 import { isDeveloper } from "@/lib/admin";
 
@@ -58,7 +59,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ServerSwitcher } from "./server-switcher";
 import { useServerStore } from "@/store/use-server-store";
-import { Suspense, useEffect } from "react";
+import { useProEngineStore } from "@/store/use-pro-engine-store";
+import { Suspense, useEffect, useState } from "react";
 
 import { audiowide } from "@/lib/fonts";
 
@@ -79,12 +81,23 @@ export function DashboardSidebar() {
   const { lastActiveGuildId, setLastActiveGuildId } = useServerStore();
 
   // Fix hydration mismatch: use a state for mounted to avoid using localStorage-based store values on server
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // The "Truth" of what server is currently being viewed (URL source)
   const activeGuildId = (params.guildId as string) || searchParams.get("guild");
 
   // Context ID should only be active if we are on a guild-specific route or if explicitly forced
   const contextId = activeGuildId;
+
+  const proSettings = useProEngineStore((state) =>
+    contextId ? state.settingsCache[contextId] : null
+  );
+  // Only use the real premium status if mounted to avoid hydration errors
+  const isPremium = mounted ? (proSettings?.isPremium?.pro ?? false) : false;
 
   // Sync current selection to store ONLY if we have an explicit one from the URL
   useEffect(() => {
@@ -281,6 +294,7 @@ export function DashboardSidebar() {
             href: getHref("/dashboard/pro-engine", true),
             icon: Zap,
             badge: "PRO",
+            badgeActive: isPremium,
           },
           {
             title: "Reaction Roles",
@@ -321,6 +335,7 @@ export function DashboardSidebar() {
       icon: React.ElementType;
       isComingSoon?: boolean;
       badge?: string;
+      badgeActive?: boolean;
     }[];
   }) => {
     if (items.length === 0) return null;
@@ -395,7 +410,15 @@ export function DashboardSidebar() {
                         {item.title}
                       </span>
                       {item.badge && (
-                        <Badge className="ml-auto text-[9px] h-4 px-1.5 py-0 bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-400 border-none group-data-[collapsible=icon]:hidden font-black uppercase">
+                        <Badge
+                          className={cn(
+                            "ml-auto text-[9px] h-4 px-1.5 py-0 border-none group-data-[collapsible=icon]:hidden font-black uppercase flex items-center justify-center gap-1",
+                            item.badgeActive
+                              ? "bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/10 hover:text-cyan-400"
+                              : "bg-zinc-800/50 text-zinc-500 hover:bg-zinc-800/50 hover:text-zinc-500 ring-1 ring-inset ring-zinc-700/50"
+                          )}
+                        >
+                          {!item.badgeActive && <Lock className="size-2.5 -ml-0.5 opacity-80" />}
                           {item.badge}
                         </Badge>
                       )}

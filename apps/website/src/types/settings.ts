@@ -66,6 +66,7 @@ export const XPSettingsSchema = z.object({
   commandCooldown: z.number().optional().catch(60),
   levelUpMessages: z.boolean(),
   levelUpChannel: z.string().nullable().optional(),
+  publicLeaderboard: z.boolean().optional().catch(true),
 }).catchall(z.unknown());
 
 /**
