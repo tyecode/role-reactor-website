@@ -134,7 +134,7 @@ export default async function DashboardPage() {
               </p>
               <p className="text-emerald-500/80">
                 [12:52:05] <span className="text-zinc-500">INFO:</span> Payment
-                validated // TX: paypal_7f8a9...
+                validated // TX: knot_7f8a9...
               </p>
               <p className="text-cyan-500/80">
                 [12:53:11] <span className="text-zinc-500">INFO:</span> AI

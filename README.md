@@ -9,7 +9,7 @@ This project is a Next.js application that includes:
 - **Landing Page**: Marketing and feature showcase.
 - **Documentation**: Powered by [Fumadocs](https://fumadocs.vercel.app).
 - **Dashboard**: User dashboard for managing bot settings and AI generation.
-- **Payments**: Integrated PayPal checkout flow.
+- **Payments**: 100% Crypto-Native checkout flow (KnotEngine / Plisio).
 
 ## 🛠 Tech Stack
 
@@ -88,10 +88,6 @@ DISCORD_CLIENT_SECRET=your-client-secret
 # Database & API
 DATABASE_URL=your-database-url
 BOT_API_URL=http://localhost:8080
-
-# Payments (PayPal)
-PAYPAL_CLIENT_ID=your-paypal-client-id
-PAYPAL_CLIENT_SECRET=your-paypal-secret
 ```
 
 ## 📄 License

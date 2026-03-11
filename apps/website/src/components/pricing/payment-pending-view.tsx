@@ -38,7 +38,7 @@ export function PaymentPendingView({ onReturn }: PaymentPendingViewProps) {
         </p>
       </div>
       <Button
-        className="w-full max-w-[180px] mt-6 bg-zinc-900 hover:bg-zinc-800 text-white border border-white/10 rounded-xl h-12 font-black uppercase tracking-widest text-xs relative z-10 transition-all hover:border-cyan-500/30"
+        className="w-full max-w-[240px] mt-6 bg-zinc-900 hover:bg-zinc-800 text-white border border-white/10 rounded-xl h-12 font-black uppercase tracking-widest text-xs relative z-10 transition-all hover:border-cyan-500/30"
         onClick={onReturn}
       >
         Return to Dashboard

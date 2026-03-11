@@ -1,6 +1,19 @@
 module.exports = {
   extends: ["@commitlint/config-conventional"],
+  plugins: [
+    {
+      rules: {
+        "no-multiple-empty-lines": ({ raw }) => {
+          return [
+            !/\n{3,}/.test(raw),
+            "commit message must not contain multiple consecutive empty lines",
+          ];
+        },
+      },
+    },
+  ],
   rules: {
+    "no-multiple-empty-lines": [2, "always"],
     "type-enum": [
       2,
       "always",

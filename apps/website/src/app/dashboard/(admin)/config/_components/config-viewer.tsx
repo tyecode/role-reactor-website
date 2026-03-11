@@ -297,16 +297,6 @@ export function ConfigViewer() {
             {config.payments && (
               <>
                 <ConfigSection
-                  title="PayPal Integration"
-                  icon={Wallet}
-                  data={
-                    ((config.payments as any).paypal || {}) as Record<
-                      string,
-                      unknown
-                    >
-                  }
-                />
-                <ConfigSection
                   title="Plisio (Crypto)"
                   icon={Lock}
                   data={

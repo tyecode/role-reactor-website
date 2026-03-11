@@ -56,8 +56,9 @@ export interface PricingData {
   minimumPayment: number;
   currency: string;
   paymentMethods: {
-    paypal: boolean;
     crypto: boolean;
+    knotengine?: boolean;
+    plisio?: boolean;
   };
   promotions: Promotion[];
   referralSystem: ReferralSystem;

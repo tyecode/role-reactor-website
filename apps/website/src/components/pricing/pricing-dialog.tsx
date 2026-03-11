@@ -63,8 +63,6 @@ export function PricingDialog({
   );
   const [loadingPackageId] = useState<string | null>(null);
   const [loadingCryptoId, setLoadingCryptoId] = useState<string | null>(null);
-  const [loadingStripe, setLoadingStripe] = useState(false);
-
   useEffect(() => {
     if (isOpen) {
       fetchPricing(session?.user?.id);
@@ -86,26 +84,7 @@ export function PricingDialog({
     }
   };
 
-  const handleStripePayment = async () => {
-    if (!selectedPackage) return;
-    try {
-      playConfirm();
-      setLoadingStripe(true);
-      const params = new URLSearchParams({
-        package: selectedPackage.id,
-        amount: selectedPackage.price.toString(),
-        cores: selectedPackage.totalCores.toString(),
-        name: selectedPackage.name,
-      });
-      router.push(`/checkout?${params.toString()}`);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoadingStripe(false);
-    }
-  };
-
-  const handleCryptoPayment = async (currency: string) => {
+  const handleCryptoPayment = async (currency: string, provider: string) => {
     if (!selectedPackage) return;
 
     setLoadingCryptoId(currency);
@@ -118,6 +97,7 @@ export function PricingDialog({
           amount: selectedPackage.price,
           packageId: selectedPackage.id,
           currency,
+          provider // Pass the selected provider to our backend
         }),
       });
 
@@ -215,9 +195,7 @@ export function PricingDialog({
                   playSwitch();
                   setView("packages");
                 }}
-                onStripePayment={handleStripePayment}
                 onCryptoPayment={handleCryptoPayment}
-                loadingStripe={loadingStripe}
                 loadingCryptoId={loadingCryptoId}
                 playBeep={playBeep}
                 playConfirm={playConfirm}
