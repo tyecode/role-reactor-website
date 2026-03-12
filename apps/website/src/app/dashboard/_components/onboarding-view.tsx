@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { Audiowide } from "next/font/google";
 import { FaDiscord } from "react-icons/fa";
 import { CyberpunkBackground } from "@/components/common/cyberpunk-background";
+import { links } from "@/constants/links";
 
 const audiowide = Audiowide({
   subsets: ["latin"],
@@ -139,7 +140,7 @@ export function OnboardingView({ inviteUrl }: OnboardingViewProps) {
             </Button>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 sm:gap-8 mt-8 sm:mt-10 pt-6 sm:pt-8 border-t border-white/5 w-full opacity-50">
+          <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 sm:gap-8 mt-8 sm:mt-10 pt-6 sm:pt-8 border-t border-white/5 w-full">
             {[
               { icon: Shield, label: "Secure", color: "text-blue-500" },
               { icon: Zap, label: "Instant", color: "text-yellow-500" },
@@ -194,15 +195,15 @@ export function OnboardingView({ inviteUrl }: OnboardingViewProps) {
               desc: "Join our community support server.",
               icon: Shield,
               accent: "text-purple-400",
-              href: "https://discord.gg/role-reactor",
+              href: links.support,
               glow: "group-hover:shadow-purple-500/10",
             },
             {
-              title: "DASHBOARD",
-              desc: "Manage your connected servers.",
+              title: "UPGRADE TO PRO",
+              desc: "Unlock advanced features & limits.",
               icon: Zap,
               accent: "text-emerald-400",
-              href: "/",
+              href: "/dashboard/billing",
               glow: "group-hover:shadow-emerald-100/10",
             },
           ].map((action, i) => (

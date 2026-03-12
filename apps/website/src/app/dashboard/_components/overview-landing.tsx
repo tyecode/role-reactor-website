@@ -6,11 +6,7 @@ import { useEffect } from "react";
 import { OnboardingView } from "./onboarding-view";
 
 export function OverviewLanding() {
-  const {
-    isLoading: isServersLoading,
-    fetchServers,
-    error,
-  } = useServerStore();
+  const { isLoading: isServersLoading, fetchServers, error } = useServerStore();
 
   useEffect(() => {
     fetchServers();

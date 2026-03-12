@@ -283,7 +283,7 @@ export function DashboardSidebar() {
 
   const getCoreItems = () => [
     {
-      title: contextId ? "Overview" : "Dashboard",
+      title: contextId ? "Overview" : "System Overview",
       href: contextId ? `/dashboard/${contextId}` : "/dashboard",
       icon: LayoutDashboard,
     },
@@ -418,7 +418,9 @@ export function DashboardSidebar() {
                               : "bg-zinc-800/50 text-zinc-500 hover:bg-zinc-800/50 hover:text-zinc-500 ring-1 ring-inset ring-zinc-700/50"
                           )}
                         >
-                          {!item.badgeActive && <Lock className="size-2.5 -ml-0.5 opacity-80" />}
+                          {!item.badgeActive && (
+                            <Lock className="size-2.5 -ml-0.5 opacity-80" />
+                          )}
                           {item.badge}
                         </Badge>
                       )}
@@ -432,6 +434,9 @@ export function DashboardSidebar() {
       </SidebarGroup>
     );
   };
+
+  const isAccountPage =
+    pathname === "/dashboard/profile" || pathname === "/dashboard/billing";
 
   // Custom trigger following shadcn sidebar pattern
   const sidebarUserTrigger =
@@ -450,7 +455,13 @@ export function DashboardSidebar() {
     ) : (
       <SidebarMenuButton
         size="lg"
-        className="relative overflow-hidden group/user border border-transparent hover:border-cyan-500/30 hover:bg-cyan-950/20 transition-all duration-300 data-[state=open]:border-cyan-500/50 data-[state=open]:bg-cyan-950/30 rounded-xl"
+        isActive={isAccountPage}
+        className={cn(
+          "relative overflow-hidden group/user transition-all duration-300 rounded-xl",
+          isAccountPage
+            ? "bg-cyan-950/30 border border-cyan-500/50 shadow-[0_0_15px_-3px_rgba(6,182,212,0.3)] ring-1 ring-cyan-500/50"
+            : "border border-transparent hover:border-cyan-500/30 hover:bg-cyan-950/20 data-[state=open]:border-cyan-500/50 data-[state=open]:bg-cyan-950/30"
+        )}
         tooltip={session?.user?.name || "Account"}
       >
         {/* Sliding Scanline Effect */}
@@ -524,9 +535,9 @@ export function DashboardSidebar() {
         {/* Sidebar Native Ad Zone */}
         {!isPremium && mounted && (
           <div className="mt-auto px-4 py-6 group-data-[collapsible=icon]:hidden">
-            <AdBlock 
-              slot="dashboard_sidebar_bottom" 
-              variant="sidebar" 
+            <AdBlock
+              slot="dashboard_sidebar_bottom"
+              variant="sidebar"
               className="border-white/10 hover:border-cyan-500/30 transition-colors"
             />
           </div>
@@ -541,11 +552,9 @@ export function DashboardSidebar() {
               status={status}
               coreImageUrl="/images/cores/core_energy.png"
               dashboardUrl="/dashboard"
-              settingsUrl="/dashboard/settings"
               showDashboardLink={isDeveloper(session?.user)}
               dashboardLabel={contextId ? "System Overview" : "Dashboard"}
-              showSettingsLink={true}
-              showCoreBalance={true}
+              showCoreBalance={false}
               variant="sidebar"
               side="top"
               align="end"

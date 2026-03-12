@@ -72,7 +72,7 @@ export function CoreBalance({
     return (
       <div
         className={cn(
-          "mt-2 p-3 bg-zinc-950 border border-white/10 rounded-lg flex items-center justify-between shadow-2xl group/card relative overflow-hidden",
+          "mt-2 p-3 bg-zinc-950 border border-white/10 rounded-lg flex items-center justify-between shadow-2xl group/card relative overflow-hidden transition-all hover:border-cyan-500/40 hover:bg-zinc-900/80 cursor-pointer",
           className
         )}
       >
@@ -110,9 +110,10 @@ export function CoreBalance({
           <Button
             size="sm"
             variant="secondary"
-            className="h-8 w-8 p-0 bg-zinc-900 hover:bg-zinc-800 text-white border border-white/5 hover:border-cyan-500/50 hover:text-cyan-400 rounded-lg shrink-0 transition-all active:scale-95 group/btn shadow-lg"
+            className="h-8 w-8 p-0 bg-zinc-900 hover:bg-zinc-800 text-white border border-white/5 hover:border-cyan-500/50 hover:text-cyan-400 rounded-lg shrink-0 transition-all active:scale-95 group/btn shadow-lg relative z-20"
             onClick={(e) => {
               e.preventDefault();
+              e.stopPropagation();
               onClick?.();
             }}
             title="Add Cores"

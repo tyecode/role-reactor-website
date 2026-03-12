@@ -52,22 +52,24 @@ export const LeaderboardEntrySchema = z.object({
     .optional(),
 });
 
-export const XPSettingsSchema = z.object({
-  enabled: z.boolean(),
-  messageXP: z.boolean(),
-  commandXP: z.boolean(),
-  roleXP: z.boolean(),
-  voiceXP: z.boolean(),
-  messageXPAmount: z.any().optional(),
-  roleXPAmount: z.number().optional().catch(0),
-  commandXPAmount: z.any().optional(),
-  voiceXPAmount: z.any().optional(),
-  messageCooldown: z.number().optional().catch(60),
-  commandCooldown: z.number().optional().catch(60),
-  levelUpMessages: z.boolean(),
-  levelUpChannel: z.string().nullable().optional(),
-  publicLeaderboard: z.boolean().optional().catch(true),
-}).catchall(z.unknown());
+export const XPSettingsSchema = z
+  .object({
+    enabled: z.boolean(),
+    messageXP: z.boolean(),
+    commandXP: z.boolean(),
+    roleXP: z.boolean(),
+    voiceXP: z.boolean(),
+    messageXPAmount: z.any().optional(),
+    roleXPAmount: z.number().optional().catch(0),
+    commandXPAmount: z.any().optional(),
+    voiceXPAmount: z.any().optional(),
+    messageCooldown: z.number().optional().catch(60),
+    commandCooldown: z.number().optional().catch(60),
+    levelUpMessages: z.boolean(),
+    levelUpChannel: z.string().nullable().optional(),
+    publicLeaderboard: z.boolean().optional().catch(true),
+  })
+  .catchall(z.unknown());
 
 /**
  * Pro Engine & Subscription Schemas

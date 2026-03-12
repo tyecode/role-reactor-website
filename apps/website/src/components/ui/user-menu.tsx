@@ -1,7 +1,16 @@
 "use client";
 
 import * as React from "react";
-import { LogOut, LayoutDashboard, Settings, ChevronUp } from "lucide-react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
+import {
+  LogOut,
+  LayoutDashboard,
+  User,
+  Zap,
+  ChevronUp,
+  Home,
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -37,12 +46,16 @@ export interface UserMenuProps {
   onAddCredits?: () => void;
   /** Dashboard URL */
   dashboardUrl?: string;
-  /** Settings URL */
-  settingsUrl?: string;
+  /** Profile URL */
+  profileUrl?: string;
+  /** Billing URL */
+  billingUrl?: string;
   /** Whether to show dashboard link */
   showDashboardLink?: boolean;
-  /** Whether to show settings link */
-  showSettingsLink?: boolean;
+  /** Whether to show profile link */
+  showProfileLink?: boolean;
+  /** Whether to show billing link */
+  showBillingLink?: boolean;
   /** Custom label for dashboard link */
   dashboardLabel?: string;
   /** Whether to show core balance */
@@ -87,10 +100,12 @@ export function UserMenu({
   onLogin,
   onLogout,
   onAddCredits,
-  dashboardUrl = "http://localhost:8888",
-  settingsUrl = "/dashboard/settings",
+  dashboardUrl = "/dashboard",
+  profileUrl = "/dashboard/profile",
+  billingUrl = "/dashboard/billing",
   showDashboardLink = true,
-  showSettingsLink = false,
+  showProfileLink = true,
+  showBillingLink = true,
   dashboardLabel = "Dashboard",
   showCoreBalance = true,
   variant = "header",
@@ -100,6 +115,10 @@ export function UserMenu({
   align = "end",
   hideUserInfo = false,
 }: UserMenuProps) {
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  const isGlobalDashboard = pathname === "/dashboard";
+
   // Loading state
   if (status === "loading") {
     // Prefer custom trigger if provided
@@ -273,22 +292,11 @@ export function UserMenu({
                 </div>
               </div>
             )}
-
-            {/* Cores Section - integrated better */}
-            {showCoreBalance && (
-              <div className="px-2 pb-2 pt-2 bg-black/40">
-                <CoreBalance
-                  variant="dropdown"
-                  coreImageUrl={coreImageUrl}
-                  onClick={onAddCredits}
-                />
-              </div>
-            )}
           </DropdownMenuLabel>
 
           <div className="p-2 space-y-1">
-            {/* Dashboard Link */}
-            {showDashboardLink && (
+            {/* Dashboard Link - Hidden only if we are already on the global admin dashboard */}
+            {showDashboardLink && !(isSidebar && isGlobalDashboard) && (
               <DropdownMenuItem asChild>
                 <a
                   href={dashboardUrl}
@@ -302,24 +310,54 @@ export function UserMenu({
               </DropdownMenuItem>
             )}
 
-            {/* Settings Link */}
-            {showSettingsLink && (
+            {/* Profile Link */}
+            {showProfileLink && (
               <DropdownMenuItem asChild>
                 <a
-                  href={settingsUrl}
-                  className="cursor-pointer flex items-center py-2.5 px-3 rounded-lg transition-all hover:bg-purple-500/10 hover:text-purple-300 group focus:bg-purple-500/10 focus:text-purple-300 border border-transparent hover:border-purple-500/20"
+                  href={profileUrl}
+                  className="cursor-pointer flex items-center py-2.5 px-3 rounded-lg transition-all hover:bg-cyan-500/10 hover:text-cyan-300 group focus:bg-cyan-500/10 focus:text-cyan-300 border border-transparent hover:border-cyan-500/20"
                 >
-                  <Settings className="mr-3 h-4 w-4 text-zinc-400 group-hover:text-purple-400 group-hover:drop-shadow-[0_0_5px_rgba(168,85,247,0.5)] transition-all" />
+                  <User className="mr-3 h-4 w-4 text-zinc-400 group-hover:text-cyan-400 group-hover:drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] transition-all" />
+                  <span className="font-medium font-mono text-sm">Profile</span>
+                </a>
+              </DropdownMenuItem>
+            )}
+
+            {/* Billing Link */}
+            {showBillingLink && (
+              <DropdownMenuItem asChild>
+                <a
+                  href={billingUrl}
+                  className="cursor-pointer flex items-center py-2.5 px-3 rounded-lg transition-all hover:bg-cyan-500/10 hover:text-cyan-300 group focus:bg-cyan-500/10 focus:text-cyan-300 border border-transparent hover:border-cyan-500/20"
+                >
+                  <Zap className="mr-3 h-4 w-4 text-zinc-400 group-hover:text-cyan-400 group-hover:drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] transition-all" />
                   <span className="font-medium font-mono text-sm">
-                    Settings
+                    Core Energy
                   </span>
                 </a>
               </DropdownMenuItem>
             )}
 
-            {(showDashboardLink || showSettingsLink) && (
+            {(showDashboardLink || showProfileLink || showBillingLink) && (
               <div className="h-px bg-white/5 my-1 mx-2" />
             )}
+
+            {/* Return to Website - Hidden on home page */}
+            {!isHome && (
+              <DropdownMenuItem asChild>
+                <Link
+                  href="/"
+                  className="cursor-pointer flex items-center py-2.5 px-3 rounded-lg transition-all hover:bg-cyan-500/10 hover:text-cyan-300 group focus:bg-cyan-500/10 focus:text-cyan-300 border border-transparent hover:border-cyan-500/20"
+                >
+                  <Home className="mr-3 h-4 w-4 text-zinc-400 group-hover:text-cyan-400 group-hover:drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] transition-all" />
+                  <span className="font-medium font-mono text-sm">
+                    Return Home
+                  </span>
+                </Link>
+              </DropdownMenuItem>
+            )}
+
+            {!isHome && <div className="h-px bg-white/5 my-1 mx-2" />}
 
             {/* Logout */}
             <DropdownMenuItem
