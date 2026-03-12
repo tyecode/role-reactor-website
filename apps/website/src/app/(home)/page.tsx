@@ -2,6 +2,7 @@ import { Hero } from "@/app/(home)/_components/hero";
 import { Features } from "@/app/(home)/_components/features";
 import { SocialProof } from "@/app/(home)/_components/social-proof";
 import { FooterCTA } from "@/app/(home)/_components/footer-cta";
+import { AdBlock } from "@/components/adsense/ad-block";
 import { links } from "@/constants/links";
 import { botFetchJson } from "@/lib/bot-fetch";
 
@@ -75,6 +76,9 @@ export default async function HomePage() {
       <main className="min-h-screen">
         <Hero />
         <Features />
+        <div className="max-w-fd-container mx-auto px-4">
+          <AdBlock slot="home_between_sections" className="mb-8" />
+        </div>
         <SocialProof totalExecutions={totalExecutions} />
         <FooterCTA />
       </main>

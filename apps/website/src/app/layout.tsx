@@ -9,6 +9,7 @@ import { SessionProvider } from "@/components/auth/session-provider";
 import { Toaster } from "sonner";
 import { PWAMeta, PWAProvider } from "@/components/pwa/pwa-provider";
 import { initPerformanceMonitoring } from "@/lib/web-vitals";
+import { AdsenseScript } from "@/components/adsense/adsense-script";
 
 import "@/app/global.css";
 
@@ -138,6 +139,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         className="flex flex-col min-h-screen antialiased"
         suppressHydrationWarning
       >
+        <AdsenseScript />
         <PWAMeta />
         <PWAProvider />
         <SessionProvider>
