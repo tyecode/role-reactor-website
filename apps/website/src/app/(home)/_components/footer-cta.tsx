@@ -1,10 +1,21 @@
+"use client";
+
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { FaDiscord, FaRocket } from "react-icons/fa";
 import { Sparkles, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { BubbleBackground } from "@/components/common/bubble-background";
+
+// Lazy load BubbleBackground to reduce initial bundle size
+const BubbleBackground = dynamic(
+  () =>
+    import("@/components/common/bubble-background").then(
+      (mod) => mod.BubbleBackground
+    ),
+  { ssr: false }
+);
 
 import { links } from "@/constants/links";
 
@@ -42,15 +53,15 @@ export function FooterCTA() {
           className="rounded-2xl p-6 md:p-8 shadow-xl relative overflow-hidden border-zinc-800/60"
         >
           {/* Card background pattern */}
-          <div className="absolute inset-0 bg-gradient-to-br from-zinc-800/10 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-br from-zinc-800/10 to-transparent" />
 
           {/* Decorative elements */}
-          <div className="absolute top-4 right-4 w-20 h-20 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full blur-xl opacity-20" />
-          <div className="absolute bottom-4 left-4 w-16 h-16 bg-gradient-to-r from-pink-400 to-red-400 rounded-full blur-xl opacity-20" />
+          <div className="absolute top-4 right-4 w-20 h-20 bg-linear-to-r from-blue-400 to-purple-400 rounded-full blur-xl opacity-20" />
+          <div className="absolute bottom-4 left-4 w-16 h-16 bg-linear-to-r from-pink-400 to-red-400 rounded-full blur-xl opacity-20" />
 
           <div className="relative z-10 text-center">
             {/* Badge */}
-            <Badge className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full text-sm font-medium mb-6 shadow-lg hover:from-blue-600 hover:to-purple-600 border-none">
+            <Badge className="inline-flex items-center gap-2 px-4 py-2 bg-linear-to-r from-blue-500 to-purple-500 text-white rounded-full text-sm font-medium mb-6 shadow-lg hover:from-blue-600 hover:to-purple-600 border-none">
               <Sparkles className="w-4 h-4" />
               <span>Transform Your Discord Server Today</span>
             </Badge>
@@ -81,7 +92,7 @@ export function FooterCTA() {
                   aria-label="Add Role Reactor Discord Bot to Server - Free Discord Bot"
                 >
                   <FaDiscord size={20} className="relative z-10 mr-2" />
-                  <span className="relative z-10">Add Bot Free</span>
+                  <span className="relative z-10">Get Started Free</span>
                   <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform ml-2" />
                 </Link>
               </Button>
@@ -109,7 +120,7 @@ export function FooterCTA() {
           <div className="flex items-center justify-center gap-8 text-zinc-500 text-sm">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-              <span>100% Free</span>
+              <span>Free to Use</span>
             </div>
             <div className="w-px h-4 bg-zinc-800" />
             <div className="flex items-center gap-2">

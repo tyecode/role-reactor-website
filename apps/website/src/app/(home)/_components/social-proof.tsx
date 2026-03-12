@@ -2,60 +2,27 @@ import { Heart, Shield, TrendingUp, Zap } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
-const stats = [
-  {
-    value: "Free",
-    label: "No Cost",
-    description: "Completely free",
-    icon: Heart,
-    color: "red",
-    gradient: "from-red-500 to-pink-500",
-  },
-  {
-    value: "Simple",
-    label: "Easy Setup",
-    description: "Quick to configure",
-    icon: TrendingUp,
-    color: "green",
-    gradient: "from-green-500 to-emerald-500",
-  },
-  {
-    value: "Reliable",
-    label: "Stable",
-    description: "Works consistently",
-    icon: Shield,
-    color: "blue",
-    gradient: "from-blue-500 to-cyan-500",
-  },
-  {
-    value: "Powerful",
-    label: "Advanced Features",
-    description: "Comprehensive tools",
-    icon: Zap,
-    color: "yellow",
-    gradient: "from-yellow-500 to-orange-500",
-  },
-];
+function formatExecutions(count: number): string {
+  if (count >= 1_000_000) return `${(count / 1_000_000).toFixed(1)}M+`;
+  if (count >= 1_000) return `${(count / 1_000).toFixed(0)}k+`;
+  return "100k+"; // Minimum display threshold
+}
 
 interface SocialProofProps {
   totalExecutions?: number;
 }
 
 export function SocialProof({ totalExecutions = 0 }: SocialProofProps) {
-  // Update the Free stat to show dynamic command executions
   const dynamicStats = [
     {
       value:
-        totalExecutions > 0
-          ? `${(totalExecutions / 1000).toFixed(1)}k+`
-          : "100k+",
+        totalExecutions >= 1000 ? formatExecutions(totalExecutions) : "100k+",
       label: "Commands Executed",
       description: "Proven track record",
       icon: TrendingUp,
       color: "green",
       gradient: "from-green-500 to-emerald-500",
     },
-    ...stats.filter((s) => s.label !== "No Cost" && s.label !== "Easy Setup"),
     {
       value: "99.9%",
       label: "Uptime",
@@ -63,6 +30,22 @@ export function SocialProof({ totalExecutions = 0 }: SocialProofProps) {
       icon: Shield,
       color: "blue",
       gradient: "from-blue-500 to-cyan-500",
+    },
+    {
+      value: "Free",
+      label: "Core Features",
+      description: "No credit card needed",
+      icon: Heart,
+      color: "red",
+      gradient: "from-red-500 to-pink-500",
+    },
+    {
+      value: "Powerful",
+      label: "Advanced Tools",
+      description: "AI, XP, automation",
+      icon: Zap,
+      color: "yellow",
+      gradient: "from-yellow-500 to-orange-500",
     },
   ];
 
@@ -143,7 +126,7 @@ export function SocialProof({ totalExecutions = 0 }: SocialProofProps) {
               {[
                 { label: "Easy Setup", icon: Shield },
                 { label: "Always Reliable", icon: TrendingUp },
-                { label: "Free Forever", icon: Zap },
+                { label: "Free to Start", icon: Zap },
                 { label: "Community Focused", icon: Heart },
               ].map((item) => (
                 <div key={item.label} className="text-center group">

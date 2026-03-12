@@ -3,13 +3,13 @@ import {
   Target,
   Clock,
   Users,
-  Settings,
+  Trophy,
   Bot,
   CheckCircle,
   MessageSquare,
   Image,
   Mic,
-  Brain,
+  BarChart3,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -70,7 +70,7 @@ const features = [
     color: "violet",
   },
   {
-    icon: Settings,
+    icon: Trophy,
     title: "XP System",
     description:
       "Reward active members with experience points, levels, and leaderboards. Configurable and optional.",
@@ -88,22 +88,13 @@ const features = [
     color: "pink",
   },
   {
-    icon: MessageSquare,
+    icon: BarChart3,
     title: "Poll System",
     description:
-      "Create and manage native Discord polls with interactive forms and real-time voting.",
+      "Create interactive polls with emoji reactions and track results in real-time. Easy to set up with slash commands.",
     gradient: "from-green-500 to-emerald-500",
-    stats: "Native polls",
+    stats: "Interactive",
     color: "green",
-  },
-  {
-    icon: Brain,
-    title: "8ball Game",
-    description:
-      "Ask the magic 8ball questions and get random responses for fun and entertainment.",
-    gradient: "from-cyan-500 to-blue-500",
-    stats: "Fun game",
-    color: "cyan",
   },
 ];
 

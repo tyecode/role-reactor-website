@@ -29,10 +29,6 @@ export default function Layout({ children }: { children: ReactNode }) {
       text: "Leaderboards",
       url: "/leaderboards",
     },
-    {
-      text: "Documentation",
-      url: "/docs",
-    },
     // All items from linkItems (GitHub, Discord, Sponsor)
     ...linkItems,
     // Right-side items from baseOptions (Login button)

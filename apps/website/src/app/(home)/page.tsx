@@ -39,11 +39,6 @@ export default async function HomePage() {
       email: "tyecoder@gmail.com",
       url: "https://github.com/qodinger",
     },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.8",
-      ratingCount: "150",
-    },
     featureList: [
       "Self-assignable roles through reactions",
       "Temporary roles with auto-expiration",
@@ -51,18 +46,16 @@ export default async function HomePage() {
       "Welcome system with customizable messages",
       "Goodbye system with customizable placeholders",
       "XP system with levels and leaderboards",
-      "AI-powered avatar generation",
-      "Native Discord poll system",
-      "8ball game for fun and entertainment",
+      "Interactive poll system",
       "Voice channel permission enforcement",
       "Role categories and organization",
       "Custom emoji support",
       "Bulk operations for role management",
+      "Pro Engine with advanced automation",
     ],
     keywords:
-      "discord bot, discord bots, role management, reaction roles, temporary roles, scheduled roles, welcome system, goodbye system, XP system, AI avatar generation, poll system, discord role bot, easy setup, community management, server roles",
+      "discord bot, discord bots, role management, reaction roles, temporary roles, scheduled roles, welcome system, goodbye system, XP system, poll system, discord role bot, easy setup, community management, server roles",
     applicationSubCategory: "Role Management Bot",
-    softwareVersion: "1.4.0",
     downloadUrl: links.inviteBot,
     installUrl: links.inviteBot,
   };

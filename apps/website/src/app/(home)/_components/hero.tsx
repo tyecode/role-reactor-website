@@ -79,7 +79,7 @@ export function Hero() {
           <span className="text-white font-medium">
             automated role management
           </span>
-          . Reactions, temporary roles, XP tracking, AI avatars, and more.
+          . Reactions, temporary roles, XP tracking, welcome systems, and more.
         </p>
 
         {/* CTA Buttons */}
@@ -96,7 +96,7 @@ export function Hero() {
               rel="noopener noreferrer"
             >
               <FaDiscord size={20} />
-              <span>Add Bot Free</span>
+              <span>Get Started Free</span>
               <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
             </Link>
           </Button>
