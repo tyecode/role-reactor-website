@@ -26,6 +26,10 @@ export default function Layout({ children }: { children: ReactNode }) {
       ],
     },
     {
+      text: "Leaderboards",
+      url: "/leaderboards",
+    },
+    {
       text: "Documentation",
       url: "/docs",
     },
