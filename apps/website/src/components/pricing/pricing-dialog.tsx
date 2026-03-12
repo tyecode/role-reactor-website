@@ -95,7 +95,7 @@ export function PricingDialog({
           amount: selectedPackage.price,
           packageId: selectedPackage.id,
           currency,
-          provider // Pass the selected provider to our backend
+          provider, // Pass the selected provider to our backend
         }),
       });
 

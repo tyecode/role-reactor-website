@@ -61,7 +61,7 @@ export function AdBlock({
     message: string;
   }) => {
     const isSidebar = variant === "sidebar";
-    
+
     return (
       <div
         className={cn(
@@ -79,7 +79,12 @@ export function AdBlock({
         <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] bg-[length:100%_2px,3px_100%] pointer-events-none" />
 
         {/* Content */}
-        <div className={cn("relative z-10 flex flex-col items-center isolate", isSidebar ? "gap-2" : "gap-3")}>
+        <div
+          className={cn(
+            "relative z-10 flex flex-col items-center isolate",
+            isSidebar ? "gap-2" : "gap-3"
+          )}
+        >
           <div className="flex items-center gap-2">
             {publisherId ? (
               <Sparkles className="w-3.5 h-3.5 text-cyan-400/50 animate-pulse" />
@@ -107,11 +112,18 @@ export function AdBlock({
             {isSidebar ? "Prime Ad Space" : "Premium Advertising Opportunity"}
           </div>
 
-          <div className={cn("flex flex-col items-center", isSidebar ? "gap-2" : "gap-3")}>
-            <div className={cn(
-              "text-zinc-500 font-bold uppercase tracking-widest text-center !m-0 !p-0 leading-tight opacity-80",
-              isSidebar ? "text-[8px] max-w-[120px]" : "text-[10px] max-w-md"
-            )}>
+          <div
+            className={cn(
+              "flex flex-col items-center",
+              isSidebar ? "gap-2" : "gap-3"
+            )}
+          >
+            <div
+              className={cn(
+                "text-zinc-500 font-bold uppercase tracking-widest text-center !m-0 !p-0 leading-tight opacity-80",
+                isSidebar ? "text-[8px] max-w-[120px]" : "text-[10px] max-w-md"
+              )}
+            >
               {message}
             </div>
             <a
@@ -124,7 +136,9 @@ export function AdBlock({
               )}
             >
               <Megaphone className={isSidebar ? "w-2.5 h-2.5" : "w-3 h-3"} />
-              <span className="border-b border-cyan-400/30">Partner with us</span>
+              <span className="border-b border-cyan-400/30">
+                Partner with us
+              </span>
             </a>
           </div>
         </div>

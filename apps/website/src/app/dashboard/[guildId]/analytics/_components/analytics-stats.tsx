@@ -155,7 +155,9 @@ export function AnalyticsStats({
             <div className="relative z-10 flex flex-col justify-center p-5 w-full h-full">
               {/* Label */}
               <div className="flex items-center gap-2 text-zinc-500 mb-2">
-                <stat.icon className={cn("w-4 h-4", iconColorMap[stat.color])} />
+                <stat.icon
+                  className={cn("w-4 h-4", iconColorMap[stat.color])}
+                />
                 <span
                   className={cn(
                     "text-[10px] font-black uppercase tracking-widest",
@@ -178,10 +180,12 @@ export function AnalyticsStats({
               </div>
 
               {/* Subtitle */}
-              <div className={cn(
-                "text-[10px] text-zinc-500 font-bold font-mono mt-1",
-                isLocked && "opacity-30 blur-[1px] select-none"
-              )}>
+              <div
+                className={cn(
+                  "text-[10px] text-zinc-500 font-bold font-mono mt-1",
+                  isLocked && "opacity-30 blur-[1px] select-none"
+                )}
+              >
                 {isLocked ? "Unlock to view data" : stat.subtitle}
               </div>
             </div>

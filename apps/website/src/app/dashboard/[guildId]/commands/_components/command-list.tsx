@@ -304,10 +304,7 @@ export function CommandList({ guildId }: CommandListProps) {
               {sortedCategories.map((category) => {
                 const CategoryIcon = categoryIconMap[category] || Terminal;
                 return (
-                  <div
-                    key={category}
-                    className="space-y-6"
-                  >
+                  <div key={category} className="space-y-6">
                     <div className="flex items-center gap-4 group/cat">
                       <div className="p-2.5 bg-zinc-900 rounded-xl border border-white/10 text-cyan-500 group-hover/cat:border-cyan-500/50 group-hover/cat:shadow-[0_0_15px_rgba(6,182,212,0.3)] transition-all duration-300">
                         <CategoryIcon className="w-5 h-5" />

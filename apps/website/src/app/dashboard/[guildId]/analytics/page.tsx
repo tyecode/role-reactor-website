@@ -2,7 +2,17 @@
 
 import { useState, use, useEffect } from "react";
 import { Audiowide } from "next/font/google";
-import { BarChart3, Crown, Lock, Zap, Download, Loader2, ChevronDown, FileSpreadsheet, FileJson } from "lucide-react";
+import {
+  BarChart3,
+  Crown,
+  Lock,
+  Zap,
+  Download,
+  Loader2,
+  ChevronDown,
+  FileSpreadsheet,
+  FileJson,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useServerStore } from "@/store/use-server-store";
 import { useProEngineStore } from "@/store/use-pro-engine-store";
@@ -164,8 +174,10 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
 
         const rows = history.map((day: AnalyticsDay) => {
           // Keep strict dates if available, fallback to label string with current year assumption if missing date field
-          const resolvedDate = day.date || `${new Date().getFullYear()}-${day.label?.replace(" ", "-")}`;
-          
+          const resolvedDate =
+            day.date ||
+            `${new Date().getFullYear()}-${day.label?.replace(" ", "-")}`;
+
           return [
             resolvedDate,
             day.members ?? 0,
@@ -184,7 +196,6 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
           ...rows.map((row: (string | number)[]) => row.join(",")),
         ].join("\n");
         type = "text/csv;charset=utf-8;";
-
       } else if (format === "json") {
         const payload = {
           guildId,
@@ -193,7 +204,9 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
           periodDays: effectiveDays,
           aggregatedStats: activityStats,
           history: history.map((day: AnalyticsDay) => ({
-            date: day.date || `${new Date().getFullYear()}-${day.label?.replace(" ", "-")}`,
+            date:
+              day.date ||
+              `${new Date().getFullYear()}-${day.label?.replace(" ", "-")}`,
             label: day.label,
             metrics: {
               totalMembers: day.members ?? 0,
@@ -204,7 +217,7 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
               voiceMinutes: day.voiceMinutes ?? 0,
               commands: day.commands ?? 0,
               roleReactions: day.roleReactions ?? 0,
-            }
+            },
           })),
         };
         content = JSON.stringify(payload, null, 2);
@@ -220,7 +233,7 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      
+
       // Free up memory and prevent the browser from hanging
       setTimeout(() => URL.revokeObjectURL(url), 1000);
 
@@ -357,7 +370,9 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
                   <FileSpreadsheet className="w-4 h-4 mr-2 text-cyan-400" />
                   <div className="flex flex-col gap-0.5">
                     <span className="text-sm">CSV File</span>
-                    <span className="text-[10px] text-zinc-500 font-normal">For Excel & Sheets</span>
+                    <span className="text-[10px] text-zinc-500 font-normal">
+                      For Excel & Sheets
+                    </span>
                   </div>
                 </DropdownMenuItem>
                 <DropdownMenuItem
@@ -367,7 +382,9 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
                   <FileJson className="w-4 h-4 mr-2 text-purple-400" />
                   <div className="flex flex-col gap-0.5">
                     <span className="text-sm">JSON Payload</span>
-                    <span className="text-[10px] text-zinc-500 font-normal">For API & Developers</span>
+                    <span className="text-[10px] text-zinc-500 font-normal">
+                      For API & Developers
+                    </span>
                   </div>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -426,8 +443,6 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
         {/* Pro Upsell Banner — only for free users */}
         {!isPremium && (
           <div className="space-y-6">
-            
-            
             <div className="relative overflow-hidden rounded-2xl border border-amber-500/20 bg-zinc-900/50 p-6">
               <div className="absolute inset-0 bg-linear-to-r from-amber-500/5 via-transparent to-cyan-500/5" />
               <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -445,8 +460,8 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
                       Unlock Full Analytics
                     </h3>
                     <p className="text-xs text-zinc-500 mt-0.5">
-                      Extended time ranges, detailed activity stats, top members,
-                      and auto-refreshing data.
+                      Extended time ranges, detailed activity stats, top
+                      members, and auto-refreshing data.
                     </p>
                   </div>
                 </div>

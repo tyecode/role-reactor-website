@@ -93,10 +93,7 @@ export function FeaturesGrid({ isPremium }: FeaturesGridProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {features.map((feature) => (
-          <div
-            key={feature.title}
-            className="h-full"
-          >
+          <div key={feature.title} className="h-full">
             <Card
               className={cn(
                 "group relative h-full transition-all duration-500 overflow-hidden border-white/5 bg-black/40 hover:bg-black/60",

@@ -13,7 +13,12 @@ interface DocsLayoutClientProps {
   children: ReactNode;
 }
 
-export function DocsLayoutClient({ tree, nav, links, children }: DocsLayoutClientProps) {
+export function DocsLayoutClient({
+  tree,
+  nav,
+  links,
+  children,
+}: DocsLayoutClientProps) {
   // Augment the tree to include a special separator for the ad
   let augmentedTree: PageTree.Root | PageTree.Node[];
 

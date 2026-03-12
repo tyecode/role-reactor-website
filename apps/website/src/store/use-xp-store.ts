@@ -76,7 +76,9 @@ export const useXPStore = create<XPState>()(
         try {
           // Parallel fetching of leaderboard and settings
           const [leaderboardRes, settingsRes] = await Promise.all([
-            fetch(`/api/guilds/${guildId}/leaderboard?limit=100&source=dashboard`),
+            fetch(
+              `/api/guilds/${guildId}/leaderboard?limit=100&source=dashboard`
+            ),
             fetch(`/api/guilds/${guildId}/settings`),
           ]);
 
@@ -125,7 +127,9 @@ export const useXPStore = create<XPState>()(
           // Determine XP disabled from settings (core toggle), not from
           // the leaderboard API which returns 403 for both "XP core off"
           // AND "public leaderboard off".
-          const xpDisabled = settingsData ? !settingsData.enabled : leaderboardData.length === 0;
+          const xpDisabled = settingsData
+            ? !settingsData.enabled
+            : leaderboardData.length === 0;
 
           set({
             dataCache: {

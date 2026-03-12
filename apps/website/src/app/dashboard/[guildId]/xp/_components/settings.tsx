@@ -70,8 +70,10 @@ interface SettingsTabProps {
   onSavingChange?: (saving: boolean) => void;
 }
 
-export const XPSettingsTab = forwardRef<{ handleSave: () => Promise<void>; saving: boolean }, SettingsTabProps>(
-  ({ guildId, onSavingChange }, ref) => {
+export const XPSettingsTab = forwardRef<
+  { handleSave: () => Promise<void>; saving: boolean },
+  SettingsTabProps
+>(({ guildId, onSavingChange }, ref) => {
   const { getGuildData, isLoading, isError, fetchXPData, updateSettings } =
     useXPStore();
 
@@ -133,7 +135,7 @@ export const XPSettingsTab = forwardRef<{ handleSave: () => Promise<void>; savin
 
   useImperativeHandle(ref, () => ({
     handleSave,
-    saving
+    saving,
   }));
 
   const updateLocalSetting = <T extends keyof XPSettings>(
@@ -693,7 +695,10 @@ export const XPSettingsTab = forwardRef<{ handleSave: () => Promise<void>; savin
         </Card>
 
         {/* Public Leaderboard Link */}
-        <Card variant="cyberpunk" className="overflow-hidden relative border-cyan-500/30">
+        <Card
+          variant="cyberpunk"
+          className="overflow-hidden relative border-cyan-500/30"
+        >
           <div className="absolute -right-10 -bottom-10 p-8 opacity-[0.05]">
             <Globe className="w-64 h-64 rotate-12" />
           </div>
@@ -718,44 +723,46 @@ export const XPSettingsTab = forwardRef<{ handleSave: () => Promise<void>; savin
               />
             </CardTitle>
             <CardDescription className="text-[11px] font-bold text-zinc-500 uppercase tracking-widest mt-1">
-              Enable the public website link so your community can view their rankings. If disabled, the page will remain private.
+              Enable the public website link so your community can view their
+              rankings. If disabled, the page will remain private.
             </CardDescription>
           </CardHeader>
           <CardContent className="p-8 pt-4 space-y-8">
-             <div className="flex items-center gap-4 p-4 rounded-xl bg-zinc-900/50 border border-white/5 relative group">
-                <Input
-                  readOnly
-                  value={`https://rolereactor.app/leaderboard/${guildId}`}
-                  className="bg-transparent border-none font-mono text-zinc-400 focus-visible:ring-0 shadow-none px-0"
-                />
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  className="shrink-0 bg-white/5 border-white/10 hover:bg-white/10 hover:text-white transition-colors"
-                  onClick={() => {
-                    navigator.clipboard.writeText(`https://rolereactor.app/leaderboard/${guildId}`);
-                    toast.success("Leaderboard link copied to clipboard!");
-                  }}
-                >
-                  <Copy className="w-4 h-4 mr-2" />
-                  Copy Link
-                </Button>
-                <Button 
-                   variant="cyber" 
-                   size="sm" 
-                   className="shrink-0"
-                   onClick={() => window.open(`/leaderboard/${guildId}`, "_blank")}
-                >
-                  <ExternalLink className="w-4 h-4" />
-                </Button>
-             </div>
+            <div className="flex items-center gap-4 p-4 rounded-xl bg-zinc-900/50 border border-white/5 relative group">
+              <Input
+                readOnly
+                value={`https://rolereactor.app/leaderboard/${guildId}`}
+                className="bg-transparent border-none font-mono text-zinc-400 focus-visible:ring-0 shadow-none px-0"
+              />
+              <Button
+                variant="outline"
+                size="sm"
+                className="shrink-0 bg-white/5 border-white/10 hover:bg-white/10 hover:text-white transition-colors"
+                onClick={() => {
+                  navigator.clipboard.writeText(
+                    `https://rolereactor.app/leaderboard/${guildId}`
+                  );
+                  toast.success("Leaderboard link copied to clipboard!");
+                }}
+              >
+                <Copy className="w-4 h-4 mr-2" />
+                Copy Link
+              </Button>
+              <Button
+                variant="cyber"
+                size="sm"
+                className="shrink-0"
+                onClick={() => window.open(`/leaderboard/${guildId}`, "_blank")}
+              >
+                <ExternalLink className="w-4 h-4" />
+              </Button>
+            </div>
           </CardContent>
         </Card>
       </div>
     </div>
   );
-  }
-);
+});
 XPSettingsTab.displayName = "XPSettingsTab";
 
 function SettingsSkeleton() {

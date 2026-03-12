@@ -169,7 +169,10 @@ export function DailyTrends({
       <Card variant="cyberpunk" className="overflow-hidden">
         <CyberpunkBackground />
         <CardContent className="p-0 relative z-10 flex flex-col lg:flex-row h-auto lg:h-[350px]">
-          <ScrollArea type="auto" className="w-full max-w-full lg:w-64 bg-zinc-900/50 border-b lg:border-b-0 lg:border-r border-white/5 shrink-0">
+          <ScrollArea
+            type="auto"
+            className="w-full max-w-full lg:w-64 bg-zinc-900/50 border-b lg:border-b-0 lg:border-r border-white/5 shrink-0"
+          >
             <div className="flex lg:flex-col gap-2 p-2 w-max lg:w-full">
               {tabs.map((tab) => {
                 const isActive = activeTab === tab.id;

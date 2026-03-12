@@ -56,7 +56,7 @@ export default function XPPage({ params }: XPPageProps) {
 
   const { guilds } = useServerStore();
   const { fetchSettings, settingsCache } = useProEngineStore();
-  
+
   const activeGuild = guilds.find((g) => g.id === guildId);
   const guildName = activeGuild?.name || "this server";
 
