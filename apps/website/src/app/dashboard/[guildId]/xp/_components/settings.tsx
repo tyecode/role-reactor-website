@@ -2,9 +2,6 @@
 import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
 import { Audiowide } from "next/font/google";
 import {
-  Save,
-  Loader2,
-  Settings2,
   Bell,
   MessageSquare,
   Zap,
@@ -13,7 +10,6 @@ import {
   Clock,
   Hash,
   AlertCircle,
-  ChevronRight,
   Globe,
   ExternalLink,
   Copy,
@@ -760,6 +756,7 @@ export const XPSettingsTab = forwardRef<{ handleSave: () => Promise<void>; savin
   );
   }
 );
+XPSettingsTab.displayName = "XPSettingsTab";
 
 function SettingsSkeleton() {
   return (

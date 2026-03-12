@@ -9,17 +9,20 @@ import { type LeaderboardEntry } from "@/store/use-xp-store";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { AdBlock } from "@/components/adsense/ad-block";
 
 interface LeaderboardListProps {
   leaderboard: LeaderboardEntry[];
   filteredLeaderboard: LeaderboardEntry[];
   searchQuery: string;
+  isPremium?: boolean;
 }
 
 export function LeaderboardList({
   leaderboard,
   filteredLeaderboard,
   searchQuery,
+  isPremium = false,
 }: LeaderboardListProps) {
   const displayData = searchQuery ? filteredLeaderboard : leaderboard;
 
@@ -72,150 +75,163 @@ export function LeaderboardList({
               const progress = (entry.totalXP % 1000) / 10;
 
               return (
-                <div
-                  key={entry.userId}
-                  className={cn(
-                    "grid grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-white/3 transition-all border-b border-white/5 last:border-0 group relative min-w-0",
-                    isTop3 && "bg-white/1"
-                  )}
-                >
-                  <div className="col-span-1 flex justify-center">
-                    <Badge
-                      variant={
-                        actualRank === 1
-                          ? "premium"
-                          : actualRank === 2 || actualRank === 3
-                            ? "outline"
-                            : "secondary"
-                      }
-                      className={cn(
-                        "w-7 h-7 flex items-center justify-center rounded-lg p-0 font-black text-[10px] tabular-nums transition-all duration-300 group-hover:scale-110",
-                        actualRank === 2 &&
-                          "text-zinc-300 border-white/20 bg-white/10",
-                        actualRank === 3 &&
-                          "text-orange-400 border-orange-500/40 bg-orange-500/20",
-                        actualRank > 3 &&
-                          "text-zinc-500 border-white/10 bg-zinc-900",
-                        audiowide.className
-                      )}
-                    >
-                      {actualRank}
-                    </Badge>
-                  </div>
-
-                  <div className="col-span-5 sm:col-span-5 md:col-span-5 flex items-center gap-3 sm:gap-4 min-w-0">
-                    <div className="relative shrink-0">
-                      {isTop3 && (
-                        <div
-                          className={cn(
-                            "absolute inset-0 blur-md rounded-lg opacity-20",
-                            actualRank === 1
-                              ? "bg-amber-500"
-                              : actualRank === 2
-                                ? "bg-zinc-300"
-                                : "bg-orange-500"
-                          )}
-                        />
-                      )}
-                      <Avatar
+                <div key={entry.userId}>
+                  <div
+                    className={cn(
+                      "grid grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-white/3 transition-all border-b border-white/5 last:border-0 group relative min-w-0",
+                      isTop3 && "bg-white/1"
+                    )}
+                  >
+                    <div className="col-span-1 flex justify-center">
+                      <Badge
+                        variant={
+                          actualRank === 1
+                            ? "premium"
+                            : actualRank === 2 || actualRank === 3
+                              ? "outline"
+                              : "secondary"
+                        }
                         className={cn(
-                          "h-10 w-10 sm:h-11 sm:w-11 shrink-0 transition-all duration-300 group-hover:border-white/20 rounded-xl relative z-10",
-                          isTop3
-                            ? "border-2 border-white/20"
-                            : "border border-white/10"
-                        )}
-                      >
-                        <AvatarImage
-                          src={
-                            getDiscordImageUrl(
-                              "avatars",
-                              entry.userId,
-                              entry.user.avatar,
-                              64
-                            ) || undefined
-                          }
-                          alt={entry.user.username}
-                          width={44}
-                          height={44}
-                        />
-                        <AvatarFallback className="bg-zinc-900 font-black text-[10px] text-zinc-500">
-                          {entry.user.username.slice(0, 2).toUpperCase()}
-                        </AvatarFallback>
-                      </Avatar>
-                    </div>
-                    <div className="truncate min-w-0 flex flex-col">
-                      <div
-                        className={cn(
-                          "font-black transition-colors truncate text-sm uppercase tracking-wide",
-                          isTop3
-                            ? "text-white group-hover:text-cyan-400"
-                            : "text-zinc-400 group-hover:text-white",
+                          "w-7 h-7 flex items-center justify-center rounded-lg p-0 font-black text-[10px] tabular-nums transition-all duration-300 group-hover:scale-110",
+                          actualRank === 2 &&
+                            "text-zinc-300 border-white/20 bg-white/10",
+                          actualRank === 3 &&
+                            "text-orange-400 border-orange-500/40 bg-orange-500/20",
+                          actualRank > 3 &&
+                            "text-zinc-500 border-white/10 bg-zinc-900",
                           audiowide.className
                         )}
                       >
-                        {entry.user.username}
-                      </div>
-                      <div className="text-[9px] text-zinc-600 font-black flex items-center gap-2 uppercase tracking-tighter">
-                        LEVEL {entry.level}
-                        {entry.rankInfo && (
-                          <Badge
-                            variant="outline"
-                            className="text-[8px] h-4 px-1.5 gap-1 border-white/5"
-                            style={
-                              entry.rankInfo.color
-                                ? {
-                                    backgroundColor: `#${entry.rankInfo.color.toString(16).padStart(6, "0")}15`,
-                                    color: `#${entry.rankInfo.color.toString(16).padStart(6, "0")}`,
-                                    borderColor: `#${entry.rankInfo.color.toString(16).padStart(6, "0")}30`,
-                                  }
-                                : {}
+                        {actualRank}
+                      </Badge>
+                    </div>
+
+                    <div className="col-span-5 sm:col-span-5 md:col-span-5 flex items-center gap-3 sm:gap-4 min-w-0">
+                      <div className="relative shrink-0">
+                        {isTop3 && (
+                          <div
+                            className={cn(
+                              "absolute inset-0 blur-md rounded-lg opacity-20",
+                              actualRank === 1
+                                ? "bg-amber-500"
+                                : actualRank === 2
+                                  ? "bg-zinc-300"
+                                  : "bg-orange-500"
+                            )}
+                          />
+                        )}
+                        <Avatar
+                          className={cn(
+                            "h-10 w-10 sm:h-11 sm:w-11 shrink-0 transition-all duration-300 group-hover:border-white/20 rounded-xl relative z-10",
+                            isTop3
+                              ? "border-2 border-white/20"
+                              : "border border-white/10"
+                          )}
+                        >
+                          <AvatarImage
+                            src={
+                              getDiscordImageUrl(
+                                "avatars",
+                                entry.userId,
+                                entry.user.avatar,
+                                64
+                              ) || undefined
                             }
-                          >
-                            <span className="text-[10px]">
-                              {entry.rankInfo.emoji}
-                            </span>
-                            {entry.rankInfo.title}
-                          </Badge>
-                        )}
+                            alt={entry.user.username}
+                            width={44}
+                            height={44}
+                          />
+                          <AvatarFallback className="bg-zinc-900 font-black text-[10px] text-zinc-500">
+                            {entry.user.username.slice(0, 2).toUpperCase()}
+                          </AvatarFallback>
+                        </Avatar>
+                      </div>
+                      <div className="truncate min-w-0 flex flex-col">
+                        <div
+                          className={cn(
+                            "font-black transition-colors truncate text-sm uppercase tracking-wide",
+                            isTop3
+                              ? "text-white group-hover:text-cyan-400"
+                              : "text-zinc-400 group-hover:text-white",
+                            audiowide.className
+                          )}
+                        >
+                          {entry.user.username}
+                        </div>
+                        <div className="text-[9px] text-zinc-600 font-black flex items-center gap-2 uppercase tracking-tighter">
+                          LEVEL {entry.level}
+                          {entry.rankInfo && (
+                            <Badge
+                              variant="outline"
+                              className="text-[8px] h-4 px-1.5 gap-1 border-white/5"
+                              style={
+                                entry.rankInfo.color
+                                  ? {
+                                      backgroundColor: `#${entry.rankInfo.color.toString(16).padStart(6, "0")}15`,
+                                      color: `#${entry.rankInfo.color.toString(16).padStart(6, "0")}`,
+                                      borderColor: `#${entry.rankInfo.color.toString(16).padStart(6, "0")}30`,
+                                    }
+                                  : {}
+                              }
+                            >
+                              <span className="text-[10px]">
+                                {entry.rankInfo.emoji}
+                              </span>
+                              {entry.rankInfo.title}
+                            </Badge>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="hidden md:flex md:col-span-4 flex-col justify-center gap-2.5">
-                    <div className="h-2 w-full bg-zinc-900 rounded-full overflow-hidden border border-white/5 relative">
-                      <div
-                        className={cn(
-                          "h-full rounded-full transition-all duration-1000 relative z-10",
-                          isTop3
-                            ? "bg-linear-to-r from-cyan-500 via-blue-500 to-purple-500"
-                            : "bg-cyan-600 opacity-40 shadow-[0_0_10px_rgba(6,182,212,0.3)]"
-                        )}
-                        style={{ width: `${progress}%` }}
-                      />
-                      <div className="absolute inset-0 bg-white/5 animate-pulse" />
+                    <div className="hidden md:flex md:col-span-4 flex-col justify-center gap-2.5">
+                      <div className="h-2 w-full bg-zinc-900 rounded-full overflow-hidden border border-white/5 relative">
+                        <div
+                          className={cn(
+                            "h-full rounded-full transition-all duration-1000 relative z-10",
+                            isTop3
+                              ? "bg-linear-to-r from-cyan-500 via-blue-500 to-purple-500"
+                              : "bg-cyan-600 opacity-40 shadow-[0_0_10px_rgba(6,182,212,0.3)]"
+                          )}
+                          style={{ width: `${progress}%` }}
+                        />
+                        <div className="absolute inset-0 bg-white/5 animate-pulse" />
+                      </div>
+                      <div className="flex justify-between items-center text-[8px] uppercase tracking-widest font-black text-zinc-600">
+                        <span>Progress</span>
+                        <span className="text-zinc-500">
+                          {progress.toFixed(0)}%
+                        </span>
+                      </div>
                     </div>
-                    <div className="flex justify-between items-center text-[8px] uppercase tracking-widest font-black text-zinc-600">
-                      <span>Progress</span>
-                      <span className="text-zinc-500">
-                        {progress.toFixed(0)}%
-                      </span>
-                    </div>
-                  </div>
 
-                  <div
-                    className={cn(
-                      "col-span-6 sm:col-span-6 md:col-span-2 text-right font-black text-xs tabular-nums transition-colors tracking-widest",
-                      isTop3
-                        ? "text-cyan-400"
-                        : "text-zinc-500 group-hover:text-white",
-                      audiowide.className
+                    <div
+                      className={cn(
+                        "col-span-6 sm:col-span-6 md:col-span-2 text-right font-black text-xs tabular-nums transition-colors tracking-widest",
+                        isTop3
+                          ? "text-cyan-400"
+                          : "text-zinc-500 group-hover:text-white",
+                        audiowide.className
+                      )}
+                    >
+                      {entry.totalXP.toLocaleString()}
+                    </div>
+
+                    {/* Hover accent */}
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-0 bg-cyan-500 group-hover:h-1/2 transition-all duration-300 rounded-r-full shadow-[0_0_15px_#06b6d4]" />
+                  </div>
+                  {actualRank % 50 === 0 &&
+                    actualRank !== displayData.length && (
+                      <div className="border-b border-white/5 py-8 px-6 bg-white/1">
+                        <AdBlock
+                          slot={`dashboard_xp_feed_${actualRank}`}
+                          format="fluid"
+                          layoutKey="-fb+5w+4e-db+86"
+                          className="max-h-[120px]"
+                          hide={isPremium}
+                        />
+                      </div>
                     )}
-                  >
-                    {entry.totalXP.toLocaleString()}
-                  </div>
-
-                  {/* Hover accent */}
-                  <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-0 bg-cyan-500 group-hover:h-1/2 transition-all duration-300 rounded-r-full shadow-[0_0_15px_#06b6d4]" />
                 </div>
               );
             })}

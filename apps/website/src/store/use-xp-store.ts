@@ -76,13 +76,12 @@ export const useXPStore = create<XPState>()(
         try {
           // Parallel fetching of leaderboard and settings
           const [leaderboardRes, settingsRes] = await Promise.all([
-            fetch(`/api/guilds/${guildId}/leaderboard?limit=100`),
+            fetch(`/api/guilds/${guildId}/leaderboard?limit=100&source=dashboard`),
             fetch(`/api/guilds/${guildId}/settings`),
           ]);
 
           // Handle Leaderboard Response
           let leaderboardData: LeaderboardEntry[] = [];
-          let xpDisabled = false;
           if (leaderboardRes.ok) {
             const data = await leaderboardRes.json();
             const leaderboardJson =
@@ -101,11 +100,6 @@ export const useXPStore = create<XPState>()(
                 result.error.format()
               );
               // Fallback to empty instead of crashing if possible
-            }
-          } else if (leaderboardRes.status === 403) {
-            const errorData = await leaderboardRes.json().catch(() => ({}));
-            if (errorData.hint === "XP_DISABLED") {
-              xpDisabled = true;
             }
           }
 
@@ -127,6 +121,11 @@ export const useXPStore = create<XPState>()(
               }
             }
           }
+
+          // Determine XP disabled from settings (core toggle), not from
+          // the leaderboard API which returns 403 for both "XP core off"
+          // AND "public leaderboard off".
+          const xpDisabled = settingsData ? !settingsData.enabled : leaderboardData.length === 0;
 
           set({
             dataCache: {

@@ -13,6 +13,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useXPStore, type LeaderboardEntry } from "@/store/use-xp-store";
 import { useServerStore } from "@/store/use-server-store";
+import { useProEngineStore } from "@/store/use-pro-engine-store";
 
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -54,15 +55,22 @@ export default function XPPage({ params }: XPPageProps) {
   const { leaderboard, settings, isXpDisabled } = getGuildData(guildId);
 
   const { guilds } = useServerStore();
+  const { fetchSettings, settingsCache } = useProEngineStore();
+  
   const activeGuild = guilds.find((g) => g.id === guildId);
   const guildName = activeGuild?.name || "this server";
+
+  // Get premium status
+  const premiumStatus = settingsCache[guildId] ?? null;
+  const isPremium = premiumStatus?.isPremium?.pro || false;
 
   // Handle Initial Fetch — force refresh on guild change
   useEffect(() => {
     if (guildId) {
       fetchXPData(guildId, true);
+      fetchSettings(guildId, true);
     }
-  }, [guildId, fetchXPData]);
+  }, [guildId, fetchXPData, fetchSettings]);
 
   const filteredLeaderboard = leaderboard.filter((entry: LeaderboardEntry) =>
     entry.user.username.toLowerCase().includes(searchQuery.toLowerCase())
@@ -198,6 +206,7 @@ export default function XPPage({ params }: XPPageProps) {
                 leaderboard={leaderboard}
                 filteredLeaderboard={filteredLeaderboard}
                 searchQuery={searchQuery}
+                isPremium={isPremium}
               />
             </div>
           )}

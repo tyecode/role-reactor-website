@@ -10,9 +10,13 @@ export async function GET(
 
     const { searchParams } = new URL(request.url);
     const limit = searchParams.get("limit") || "50";
+    const source = searchParams.get("source");
+
+    const queryParams = new URLSearchParams({ limit });
+    if (source) queryParams.set("source", source);
 
     const response = await botFetch(
-      `/guilds/${guildId}/leaderboard?limit=${limit}`
+      `/guilds/${guildId}/leaderboard?${queryParams.toString()}`
     );
 
     if (!response.ok) {
