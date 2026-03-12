@@ -23,9 +23,5 @@ export default async function AdminLayout({
     notFound();
   }
 
-  return (
-    <div className="space-y-6 w-full">
-      {children}
-    </div>
-  );
+  return <div className="space-y-6 w-full">{children}</div>;
 }
