@@ -7,6 +7,7 @@ import {
 } from "fumadocs-ui/page";
 import { notFound } from "next/navigation";
 import { getMDXComponents } from "@/mdx-components";
+import { AdBlock } from "@/components/adsense/ad-block";
 
 export default async function Page(props: {
   params: Promise<{ slug?: string[] }>;
@@ -28,6 +29,9 @@ export default async function Page(props: {
             // a: createRelativeLink(source, page),
           })}
         />
+        <div className="mt-16 border-t border-white/5 pt-12">
+          <AdBlock slot="docs_footer" />
+        </div>
       </DocsBody>
     </DocsPage>
   );
