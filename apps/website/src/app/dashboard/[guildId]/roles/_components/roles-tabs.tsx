@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, Suspense } from "react";
+import { useState, useCallback, Suspense, useEffect } from "react";
 import { Audiowide } from "next/font/google";
 import { Plus, List, Pencil } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ActiveMenus } from "./active-menus";
 import { RoleBuilder } from "./role-builder";
 import { NodeLoader } from "@/components/common/node-loader";
+import { useProEngineStore } from "@/store/use-pro-engine-store";
 
 const audiowide = Audiowide({
   subsets: ["latin"],
@@ -56,6 +57,14 @@ export function RolesTabs({ guildId }: { guildId: string }) {
     setEditData(null);
     setActiveTab("active");
   }, []);
+
+  const { fetchSettings } = useProEngineStore();
+
+  useEffect(() => {
+    if (guildId) {
+      fetchSettings(guildId);
+    }
+  }, [guildId, fetchSettings]);
 
   const isEditing = editData !== null;
 

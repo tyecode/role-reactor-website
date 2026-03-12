@@ -8,7 +8,6 @@ import { usePricingStore } from "@/store/use-pricing-store";
 import { useUserStore } from "@/store/use-user-store";
 import type { CorePackage } from "@/types/pricing";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useUiSound } from "@/hooks/use-ui-sound";
 import { toast } from "@/lib/toast";
 
@@ -31,7 +30,6 @@ export function PricingDialog({
   onOpenChange: setControlledOpen,
 }: PricingDialogProps) {
   const { data: session } = useSession();
-  const router = useRouter();
   const { playBeep, playConfirm, playSwitch } = useUiSound();
   const [internalOpen, setInternalOpen] = useState(false);
   const [view, setView] = useState<"packages" | "payment" | "payment_pending">(

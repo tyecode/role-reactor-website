@@ -26,7 +26,6 @@ import { GrowthChart } from "./_components/growth-chart";
 import { TopMembers } from "./_components/top-members";
 import { ActivityBreakdown } from "./_components/activity-breakdown";
 import { DailyTrends } from "./_components/daily-trends";
-
 import useSWR from "swr";
 
 const audiowide = Audiowide({
@@ -426,37 +425,41 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
 
         {/* Pro Upsell Banner — only for free users */}
         {!isPremium && (
-          <div className="relative overflow-hidden rounded-2xl border border-amber-500/20 bg-zinc-900/50 p-6">
-            <div className="absolute inset-0 bg-linear-to-r from-amber-500/5 via-transparent to-cyan-500/5" />
-            <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-linear-to-br from-amber-500/20 to-cyan-500/20 flex items-center justify-center border border-amber-500/20">
-                  <Crown className="w-6 h-6 text-amber-500" />
+          <div className="space-y-6">
+            
+            
+            <div className="relative overflow-hidden rounded-2xl border border-amber-500/20 bg-zinc-900/50 p-6">
+              <div className="absolute inset-0 bg-linear-to-r from-amber-500/5 via-transparent to-cyan-500/5" />
+              <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-linear-to-br from-amber-500/20 to-cyan-500/20 flex items-center justify-center border border-amber-500/20">
+                    <Crown className="w-6 h-6 text-amber-500" />
+                  </div>
+                  <div>
+                    <h3
+                      className={cn(
+                        "text-sm font-bold text-white uppercase tracking-wider",
+                        audiowide.className
+                      )}
+                    >
+                      Unlock Full Analytics
+                    </h3>
+                    <p className="text-xs text-zinc-500 mt-0.5">
+                      Extended time ranges, detailed activity stats, top members,
+                      and auto-refreshing data.
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3
-                    className={cn(
-                      "text-sm font-bold text-white uppercase tracking-wider",
-                      audiowide.className
-                    )}
-                  >
-                    Unlock Full Analytics
-                  </h3>
-                  <p className="text-xs text-zinc-500 mt-0.5">
-                    Extended time ranges, detailed activity stats, top members,
-                    and auto-refreshing data.
-                  </p>
-                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowPremiumModal(true)}
+                  className="bg-amber-500/10 border-amber-500/30 text-amber-400 hover:bg-amber-500/20 hover:border-amber-500/50 hover:text-amber-300 font-black uppercase tracking-widest text-[10px] shrink-0"
+                >
+                  <Zap className="w-3.5 h-3.5 mr-2 fill-current" />
+                  Upgrade to Pro
+                </Button>
               </div>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setShowPremiumModal(true)}
-                className="bg-amber-500/10 border-amber-500/30 text-amber-400 hover:bg-amber-500/20 hover:border-amber-500/50 hover:text-amber-300 font-black uppercase tracking-widest text-[10px] shrink-0"
-              >
-                <Zap className="w-3.5 h-3.5 mr-2 fill-current" />
-                Upgrade to Pro
-              </Button>
             </div>
           </div>
         )}
