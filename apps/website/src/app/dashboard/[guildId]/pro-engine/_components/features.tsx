@@ -92,14 +92,10 @@ export function FeaturesGrid({ isPremium }: FeaturesGridProps) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {features.map((feature, index) => (
+        {features.map((feature) => (
           <div
             key={feature.title}
-            className="h-full animate-in fade-in zoom-in-95 duration-500"
-            style={{
-              animationDelay: `${index * 50}ms`,
-              animationFillMode: "both",
-            }}
+            className="h-full"
           >
             <Card
               className={cn(

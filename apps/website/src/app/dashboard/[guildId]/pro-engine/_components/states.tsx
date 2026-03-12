@@ -140,7 +140,7 @@ export function ProEngineCancelledAlert({
   onReactivate,
 }: ProEngineCancelledAlertProps) {
   return (
-    <div className="animate-in fade-in slide-in-from-bottom-2 duration-700">
+    <div>
       <div className="relative overflow-hidden rounded-2xl border border-cyan-500/20 bg-black/40 backdrop-blur-md group/cancelled transition-all duration-500 hover:border-cyan-400/40 hover:shadow-[0_0_30px_-5px_rgba(6,182,212,0.2)]">
         {/* HQ HUD Background */}
         <CyberpunkBackground
@@ -222,7 +222,7 @@ export function LockedState({ onActivate }: LockedStateProps) {
     <Card
       variant="cyberpunk"
       showGrid
-      className="flex flex-col items-center justify-center text-center border-dashed animate-in fade-in zoom-in-95 duration-500"
+      className="flex flex-col items-center justify-center text-center border-dashed"
     >
       <div className="absolute inset-0 bg-linear-to-b from-amber-500/5 to-transparent pointer-events-none" />
       <div className="relative z-10 py-24 w-full flex flex-col items-center justify-center">

@@ -10,11 +10,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { BarChart3, Zap, Terminal, ArrowRight, Shield } from "lucide-react";
+import { BarChart3, Zap, Terminal, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { PageHeader } from "@/app/dashboard/_components/page-header";
 
 export default async function DashboardPage() {
   const session = await auth();

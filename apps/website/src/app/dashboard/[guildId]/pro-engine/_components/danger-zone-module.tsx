@@ -154,7 +154,7 @@ export function DangerZoneModule({
         </div>
 
         {showCancelConfirm ? (
-          <div className="space-y-4 animate-in fade-in zoom-in-95 duration-500">
+          <div className="space-y-4">
             <div className="p-4 rounded-sm bg-rose-500/10 border border-rose-500/20 border-dashed backdrop-blur-sm relative overflow-hidden group/warn">
               <div className="absolute inset-0 bg-rose-500/5 -translate-y-full group-hover/warn:translate-y-0 transition-transform duration-700" />
               <p className="relative z-10 text-[9px] text-rose-100/70 font-black uppercase tracking-[0.2em] text-center leading-relaxed">

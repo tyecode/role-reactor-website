@@ -9,7 +9,6 @@ export function OverviewLanding() {
   const {
     isLoading: isServersLoading,
     fetchServers,
-    installedGuildIds,
     error,
   } = useServerStore();
 

@@ -61,7 +61,7 @@ export function ProEngineSettings({
   }
 
   return (
-    <div className="relative group animate-in fade-in slide-in-from-bottom-4 duration-700 delay-200">
+    <div className="relative group">
       {/* Ambient Glow */}
       <div className="absolute -inset-0.5 bg-linear-to-r from-cyan-500/20 via-purple-500/10 to-transparent rounded-3xl blur opacity-30 group-hover:opacity-50 transition duration-1000" />
 

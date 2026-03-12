@@ -8,7 +8,7 @@ import {
   Loader2,
   Server,
 } from "lucide-react";
-import { useSession, signOut, signIn } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
 import {
   useSearchParams,
   useRouter,
