@@ -22,6 +22,10 @@ export interface ReactionMapping {
   roleName: string;
   roleId: string;
   roleColor: number;
+  // Multi-role support (bundles/arrays)
+  roleIds?: string[];
+  roleNames?: string[];
+  roleColors?: number[];
 }
 
 export function useRoleBuilder(
@@ -147,7 +151,9 @@ export function useRoleBuilder(
     const hasDescription = description.trim().length > 0;
     const hasReactions = reactions.length > 0;
     const hasChannel = selectedChannel.length > 0;
-    const incompleteReactions = reactions.filter((r) => !r.roleId || !r.emoji);
+    const incompleteReactions = reactions.filter(
+      (r) => (!r.roleId && !r.roleIds?.length) || !r.emoji
+    );
     const isReady =
       hasTitle &&
       hasDescription &&
@@ -200,7 +206,15 @@ export function useRoleBuilder(
   const addReaction = useCallback(() => {
     setReactions((prev) => [
       ...prev,
-      { emoji: "🔘", roleName: "", roleId: "", roleColor: 0 },
+      {
+        emoji: "🔘",
+        roleName: "",
+        roleId: "",
+        roleColor: 0,
+        roleIds: [],
+        roleNames: [],
+        roleColors: [],
+      },
     ]);
   }, []);
 

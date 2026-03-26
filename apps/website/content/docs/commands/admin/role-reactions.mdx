@@ -29,9 +29,13 @@ import { Cards, Card } from "fumadocs-ui/components/card";
   />
   <Card
     title="roles (required)"
-    description="Comma-separated emoji:role pairs (e.g., 🎮:Gamer,🎨:Artist)"
+    description="Comma-separated emoji:role pairs (e.g., 🎮:@Gamer,🎨:@Artist)"
   />
   <Card title="color (optional)" description="Choose a color for the embed" />
+  <Card
+    title="hide_list (optional)"
+    description="Hide the automatic list of available roles at the bottom of the embed"
+  />
 </Cards>
 
 ### List Subcommand
@@ -69,23 +73,54 @@ import { Cards, Card } from "fumadocs-ui/components/card";
     description="New comma-separated emoji:role pairs"
   />
   <Card title="color (optional)" description="New color for the embed" />
+  <Card
+    title="hide_list (optional)"
+    description="Hide the automatic list of available roles at the bottom of the embed"
+  />
 </Cards>
 
 ## Role Format Tips
 
 <Callout type="info">
 **Role Format Options:**
-- **@RoleName** - Use @ symbol (e.g., `@Gamer`)
-- **RoleName** - Use role name directly (e.g., `Gamer`)
-- **Role Mention** - Use role mention format (e.g., `&lt;@&123456789&gt;`)
-- **"Role Name"** - Use quotes for spaces (e.g., `"Gaming Role"`)
+- **@RoleName** — Use @ symbol (e.g., `🎮:@Gamer`)
+- **RoleName** — Use role name directly (e.g., `🎮:Gamer`)
+- **"Role Name"** — Use quotes for spaces (e.g., `💬:"Gaming Role"`)
+- **[@Role1, @Role2]** — Create inline multi-role arrays (e.g., `💡:[@Mod, @Admin]`)
+- **[BundleName]** — Import a saved Role Bundle (e.g., `🚀:[StarterPack]`)
+- **emoji:role:limit** — Set a maximum number of users per role (e.g., `🎮:Gamer:10`)
 
 **Examples:**
 
-- `🎮:@Gamer,🎨:@Artist` - Using @ symbol
-- `🎮:Gamer,🎨:Artist` - Direct role names
-- `🎮:"Gaming Role",🎨:"Art Role"` - Quoted names with spaces
+- `🎮:@Gamer,🎨:@Artist` — Using @ symbol
+- `🎮:Gamer,🎨:Artist` — Direct role names
+- `🎮:"Gaming Role",🎨:"Art Role"` — Quoted names with spaces
+- `💡:[@Moderator, @Admin]` — Inline multi-role array
+- `🚀:[StarterPack]` — Import a Role Bundle
+- `🎮:Gamer:10,🎨:Artist:5` — With user limits
 
+</Callout>
+
+## Available Colors
+
+- **Default** — Soft lavender (`#9b8bf0`)
+- **Neon Blue** — Bright cyberpunk blue
+- **Matrix Green** — Iconic digital rain green
+- **Cyber Red** — Aggressive cyberpunk red
+- **Electric Yellow** — Pure electric yellow
+- **Quantum Purple** — Mystical quantum purple
+- **Plasma Orange** — Hot plasma orange
+- **Synth Pink** — Synthetic digital pink
+- **Hologram Cyan** — Holographic cyan
+- **Steel Brown** — Industrial steel brown
+- **Chrome Gray** — Polished chrome gray
+
+## Tier Limitations
+
+<Callout type="info">
+- **Active Menus per Server:** 3 Menus (Free) | 20 Menus (Pro Engine)
+- **Emojis per Menu:** 10 Emojis (Free) | 20 Emojis (Pro Engine)
+- **Roles per Bundle/Array:** 5 Roles (Free) | 15 Roles (Pro Engine)
 </Callout>
 
 ## Step-by-Step Example
@@ -139,6 +174,11 @@ import { Cards, Card } from "fumadocs-ui/components/card";
 ## Related Commands
 
 <Cards>
+  <Card
+    title="/role-bundle"
+    description="Create reusable role bundles for role-reaction setups"
+    href="./role-bundle"
+  />
   <Card
     title="/temp-roles"
     description="Manage temporary role assignments"

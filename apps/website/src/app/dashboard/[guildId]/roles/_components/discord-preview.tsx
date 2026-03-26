@@ -16,6 +16,9 @@ interface DiscordPreviewProps {
     emoji: string;
     roleName: string;
     roleColor?: number;
+    roleIds?: string[];
+    roleNames?: string[];
+    roleColors?: number[];
   }[];
   serverEmojis?: DiscordEmoji[];
 }
@@ -102,6 +105,65 @@ export function DiscordPreview({
     })}`;
   }, []);
 
+  const mergedReactions = React.useMemo(() => {
+    const map = new Map<string, (typeof reactions)[0]>();
+    for (const r of reactions) {
+      if (!r.emoji) continue;
+
+      const existing = map.get(r.emoji);
+      if (!existing) {
+        map.set(r.emoji, {
+          emoji: r.emoji,
+          roleName: r.roleName,
+          roleColor: r.roleColor,
+          roleNames:
+            r.roleNames && r.roleNames.length > 0
+              ? [...r.roleNames]
+              : r.roleName
+                ? [r.roleName]
+                : [],
+          roleColors:
+            r.roleColors && r.roleColors.length > 0
+              ? [...r.roleColors]
+              : r.roleColor != null
+                ? [r.roleColor]
+                : [0],
+        });
+      } else {
+        if (r.roleNames && r.roleNames.length > 0) {
+          existing.roleNames!.push(...r.roleNames);
+          existing.roleColors!.push(...(r.roleColors || []));
+        } else if (r.roleName) {
+          existing.roleNames!.push(r.roleName);
+          existing.roleColors!.push(r.roleColor || 0);
+        }
+      }
+    }
+
+    return Array.from(map.values()).map((r) => {
+      const uniqueNames = new Set<string>();
+      const finalNames: string[] = [];
+      const finalColors: number[] = [];
+
+      for (let i = 0; i < (r.roleNames?.length || 0); i++) {
+        const name = r.roleNames![i];
+        if (!uniqueNames.has(name)) {
+          uniqueNames.add(name);
+          finalNames.push(name);
+          finalColors.push(r.roleColors![i] || 0);
+        }
+      }
+
+      return {
+        ...r,
+        roleName: finalNames[0] || "",
+        roleColor: finalColors[0] || 0,
+        roleNames: finalNames,
+        roleColors: finalColors,
+      };
+    });
+  }, [reactions]);
+
   return (
     <div className="bg-[#313338] text-[#dbdee1] p-4 rounded-xl font-sans text-[15px] select-none shadow-2xl border border-white/5">
       <div className="flex gap-4">
@@ -153,17 +215,26 @@ export function DiscordPreview({
                 )}
 
                 {/* Automatically Generated Available Roles Section */}
-                {!hideList && reactions.some((r) => r.roleName) && (
+                {!hideList && mergedReactions.some((r) => r.roleName) && (
                   <div className="mt-3 space-y-1">
                     <div className="text-white font-bold text-[14px]">
                       Available Roles
                     </div>
                     <div className="space-y-0.5">
-                      {reactions
+                      {mergedReactions
                         .filter((r) => r.roleName)
                         .map((r, i) => {
-                          const roleColor = toHex(r.roleColor);
-                          const isDefault = roleColor === "#b9bbbe";
+                          // Multi-role: show all role names if available
+                          const names =
+                            r.roleNames && r.roleNames.length > 0
+                              ? r.roleNames
+                              : [r.roleName];
+                          const colors =
+                            r.roleColors && r.roleColors.length > 0
+                              ? r.roleColors
+                              : r.roleColor != null
+                                ? [r.roleColor]
+                                : [0];
 
                           return (
                             <div
@@ -178,29 +249,44 @@ export function DiscordPreview({
                                 className="w-5 h-5 text-base"
                                 fallback="❓"
                               />
-                              <span
-                                className="px-1 rounded-[3px] font-medium transition-colors cursor-pointer text-[14px]"
-                                style={{
-                                  color: roleColor,
-                                  backgroundColor: isDefault
-                                    ? "rgba(79, 84, 92, 0.3)"
-                                    : hexToRgba(roleColor, 0.1),
-                                }}
-                                onMouseOver={(e) => {
-                                  e.currentTarget.style.backgroundColor =
-                                    isDefault
-                                      ? "rgba(79, 84, 92, 0.5)"
-                                      : hexToRgba(roleColor, 0.2);
-                                }}
-                                onMouseOut={(e) => {
-                                  e.currentTarget.style.backgroundColor =
-                                    isDefault
-                                      ? "rgba(79, 84, 92, 0.3)"
-                                      : hexToRgba(roleColor, 0.1);
-                                }}
-                              >
-                                @{r.roleName}
-                              </span>
+                              <div className="flex items-center gap-1 flex-wrap">
+                                {names.map((name, idx) => {
+                                  const roleColor = toHex(colors[idx] || 0);
+                                  const isDefault = roleColor === "#b9bbbe";
+                                  return (
+                                    <React.Fragment key={idx}>
+                                      {idx > 0 && (
+                                        <span className="text-[12px] text-[#949ba4]">
+                                          ,
+                                        </span>
+                                      )}
+                                      <span
+                                        className="px-1 rounded-[3px] font-medium transition-colors cursor-pointer text-[14px]"
+                                        style={{
+                                          color: roleColor,
+                                          backgroundColor: isDefault
+                                            ? "rgba(79, 84, 92, 0.3)"
+                                            : hexToRgba(roleColor, 0.1),
+                                        }}
+                                        onMouseOver={(e) => {
+                                          e.currentTarget.style.backgroundColor =
+                                            isDefault
+                                              ? "rgba(79, 84, 92, 0.5)"
+                                              : hexToRgba(roleColor, 0.2);
+                                        }}
+                                        onMouseOut={(e) => {
+                                          e.currentTarget.style.backgroundColor =
+                                            isDefault
+                                              ? "rgba(79, 84, 92, 0.3)"
+                                              : hexToRgba(roleColor, 0.1);
+                                        }}
+                                      >
+                                        @{name}
+                                      </span>
+                                    </React.Fragment>
+                                  );
+                                })}
+                              </div>
                             </div>
                           );
                         })}
@@ -229,9 +315,9 @@ export function DiscordPreview({
             </div>
 
             {/* Reactions */}
-            {reactions.length > 0 && (
+            {mergedReactions.length > 0 && (
               <div className="flex flex-wrap gap-1 mt-2">
-                {reactions.map((r, i) => (
+                {mergedReactions.map((r, i) => (
                   <div
                     key={i}
                     className="bg-[#2b2d31] hover:bg-[#3b3d42] border border-transparent hover:border-[#5865f2]/50 rounded-[4px] px-1.5 py-0.5 flex items-center gap-2 cursor-pointer transition-colors"

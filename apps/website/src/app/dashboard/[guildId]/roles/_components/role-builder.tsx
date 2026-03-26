@@ -35,6 +35,7 @@ import {
   MousePointer2,
   Zap,
   Hash,
+  AlertTriangle,
 } from "lucide-react";
 import { DiscordRole, DiscordChannel, DiscordEmoji } from "@/types/discord";
 
@@ -645,116 +646,202 @@ function RoleMappingList({
 
   return (
     <>
-      {reactions.map((r: ReactionMapping, i: number) => (
-        <Card
-          key={i}
-          variant="glass"
-          className="group p-3 rounded-lg hover:bg-white/5 border-transparent hover:border-white/10 transition-colors"
-          contentClassName="flex-row gap-3 items-center"
-        >
-          <EmojiPicker
-            open={openEmojiPicker === i}
-            onOpenChange={(open) => setOpenEmojiPicker(open ? i : null)}
-            guildId={guildId}
-            isLoadingEmojis={isLoadingEmojis}
-            hasFetchedEmojis={hasFetchedEmojis}
-            emojiError={emojiError}
-            onRefresh={() => fetchEmojis(guildId, true)}
-            customEmojis={customEmojis}
-            guildIconUrl={guildIconUrl}
-            onEmojiSelect={(emoji) => {
-              const val = emoji.native || emoji.id;
-              updateReaction(i, { emoji: val });
-              setOpenEmojiPicker(null);
-            }}
+      {reactions.map((r: ReactionMapping, i: number) => {
+        // Multi-role: use roleIds/roleNames if available, otherwise fall back to single
+        const selectedRoleIds = r.roleIds?.length
+          ? r.roleIds
+          : r.roleId
+            ? [r.roleId]
+            : [];
+        const selectedRoleNames = r.roleNames?.length
+          ? r.roleNames
+          : r.roleName
+            ? [r.roleName]
+            : [];
+        const selectedRoleColors = r.roleColors?.length
+          ? r.roleColors
+          : r.roleColor
+            ? [r.roleColor]
+            : [];
+
+        const availableRoles = serverRoles.filter(
+          (sr: DiscordRole) => !selectedRoleIds.includes(sr.id),
+        );
+
+        return (
+          <Card
+            key={i}
+            variant="glass"
+            className="group p-3 rounded-lg hover:bg-white/5 border-transparent hover:border-white/10 transition-colors"
+            contentClassName="flex-col gap-3"
           >
-            <EmojiPickerTrigger asChild>
-              <Button
-                variant="outline"
-                size="icon"
-                className={cn(
-                  "h-11 w-11 shrink-0 relative group/emoji transition-all duration-200",
-                  openEmojiPicker === i &&
-                    "border-cyan-500/50 bg-cyan-500/5 shadow-[0_0_20px_0_rgba(6,182,212,0.2)] scale-105"
-                )}
-                title="Click to select emoji"
+            <div className="flex items-center gap-3">
+              <EmojiPicker
+                open={openEmojiPicker === i}
+                onOpenChange={(open) => setOpenEmojiPicker(open ? i : null)}
+                guildId={guildId}
+                isLoadingEmojis={isLoadingEmojis}
+                hasFetchedEmojis={hasFetchedEmojis}
+                emojiError={emojiError}
+                onRefresh={() => fetchEmojis(guildId, true)}
+                customEmojis={customEmojis}
+                guildIconUrl={guildIconUrl}
+                onEmojiSelect={(emoji) => {
+                  const val = emoji.native || emoji.id;
+                  updateReaction(i, { emoji: val });
+                  setOpenEmojiPicker(null);
+                }}
               >
-                <EmojiDisplay
-                  emoji={r.emoji}
-                  serverEmojis={serverEmojis}
-                  className="z-10"
-                />
-              </Button>
-            </EmojiPickerTrigger>
-            <EmojiPickerContent align="start" side="top" sideOffset={8} />
-          </EmojiPicker>
+                <EmojiPickerTrigger asChild>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className={cn(
+                      "h-11 w-11 shrink-0 relative group/emoji transition-all duration-200",
+                      openEmojiPicker === i &&
+                        "border-cyan-500/50 bg-cyan-500/5 shadow-[0_0_20px_0_rgba(6,182,212,0.2)] scale-105",
+                    )}
+                    title="Click to select emoji"
+                  >
+                    <EmojiDisplay
+                      emoji={r.emoji}
+                      serverEmojis={serverEmojis}
+                      className="z-10"
+                    />
+                  </Button>
+                </EmojiPickerTrigger>
+                <EmojiPickerContent align="start" side="top" sideOffset={8} />
+              </EmojiPicker>
 
-          <div className="flex-1">
-            <Select
-              value={
-                serverRoles.some((sr: DiscordRole) => sr.id === r.roleId)
-                  ? r.roleId
-                  : ""
-              }
-              onValueChange={(val) => {
-                const role = serverRoles.find(
-                  (sr: DiscordRole) => sr.id === val
-                );
-                if (role) {
-                  updateReaction(i, {
-                    roleId: role.id,
-                    roleName: role.name,
-                    roleColor: role.color,
-                  });
-                }
-              }}
-            >
-              <SelectTrigger className="h-10 w-full">
-                <SelectValue
-                  placeholder={
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <Shield className="w-3.5 h-3.5" />
-                      <span>
-                        {isLoadingRoles ? "Loading..." : "Select a role..."}
-                      </span>
-                    </div>
-                  }
-                />
-              </SelectTrigger>
-              <SelectContent className="min-w-[200px]">
-                {serverRoles.length > 0 ? (
-                  serverRoles.map((role: DiscordRole) => (
-                    <SelectItem key={role.id} value={role.id}>
-                      <div className="flex items-center gap-2">
-                        <div
-                          className="w-2 h-2 rounded-full"
-                          style={{ backgroundColor: toHex(role.color) }}
-                        />
-                        <span style={{ color: toHex(role.color) }}>
-                          {role.name}
-                        </span>
+              <div className="flex-1">
+                <Select
+                  value=""
+                  onValueChange={(val) => {
+                    const role = serverRoles.find(
+                      (sr: DiscordRole) => sr.id === val,
+                    );
+                    if (role) {
+                      const newRoleIds = [...selectedRoleIds, role.id];
+                      const newRoleNames = [...selectedRoleNames, role.name];
+                      const newRoleColors = [...selectedRoleColors, role.color];
+                      updateReaction(i, {
+                        roleId: newRoleIds[0],
+                        roleName: newRoleNames[0],
+                        roleColor: newRoleColors[0],
+                        roleIds: newRoleIds,
+                        roleNames: newRoleNames,
+                        roleColors: newRoleColors,
+                      });
+                    }
+                  }}
+                >
+                  <SelectTrigger className="h-10 w-full">
+                    <SelectValue
+                      placeholder={
+                        <div className="flex items-center gap-2 text-muted-foreground">
+                          <Shield className="w-3.5 h-3.5" />
+                          <span>
+                            {isLoadingRoles
+                              ? "Loading..."
+                              : selectedRoleIds.length > 0
+                                ? "Add another role..."
+                                : "Select a role..."}
+                          </span>
+                        </div>
+                      }
+                    />
+                  </SelectTrigger>
+                  <SelectContent className="min-w-[200px]">
+                    {availableRoles.length > 0 ? (
+                      availableRoles.map((role: DiscordRole) => (
+                        <SelectItem key={role.id} value={role.id}>
+                          <div className="flex items-center gap-2">
+                            <div
+                              className="w-2 h-2 rounded-full"
+                              style={{ backgroundColor: toHex(role.color) }}
+                            />
+                            <span style={{ color: toHex(role.color) }}>
+                              {role.name}
+                            </span>
+                          </div>
+                        </SelectItem>
+                      ))
+                    ) : (
+                      <div className="p-2 text-xs text-muted-foreground italic text-center">
+                        {isLoadingRoles
+                          ? "Fetching roles..."
+                          : "No roles available"}
                       </div>
-                    </SelectItem>
-                  ))
-                ) : (
-                  <div className="p-2 text-xs text-muted-foreground italic text-center">
-                    {isLoadingRoles ? "Fetching roles..." : "No roles found"}
-                  </div>
-                )}
-              </SelectContent>
-            </Select>
-          </div>
+                    )}
+                  </SelectContent>
+                </Select>
+              </div>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => removeReaction(i)}
-            className="h-9 w-9 opacity-0 group-hover:opacity-100 transition-opacity"
-          >
-            <Trash2 className="w-4 h-4 text-muted-foreground hover:text-destructive" />
-          </Button>
-        </Card>
-      ))}
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => removeReaction(i)}
+                className="h-9 w-9 opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+                <Trash2 className="w-4 h-4 text-muted-foreground hover:text-destructive" />
+              </Button>
+            </div>
+
+            {/* Selected role badges */}
+            {selectedRoleIds.length > 0 && (
+              <div className="flex flex-wrap gap-1.5 pl-14">
+                {selectedRoleIds.map((roleId, idx) => (
+                  <span
+                    key={roleId}
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium border border-white/10 bg-white/5 transition-colors hover:bg-white/8"
+                  >
+                    <div
+                      className="w-2 h-2 rounded-full shrink-0"
+                      style={{
+                        backgroundColor: toHex(
+                          selectedRoleColors[idx] || 0,
+                        ),
+                      }}
+                    />
+                    <span
+                      style={{
+                        color: toHex(selectedRoleColors[idx] || 0),
+                      }}
+                    >
+                      {selectedRoleNames[idx] || roleId}
+                    </span>
+                    <button
+                      type="button"
+                      className="ml-0.5 text-zinc-500 hover:text-red-400 transition-colors cursor-pointer"
+                      onClick={() => {
+                        const newRoleIds = selectedRoleIds.filter(
+                          (_, j) => j !== idx,
+                        );
+                        const newRoleNames = selectedRoleNames.filter(
+                          (_, j) => j !== idx,
+                        );
+                        const newRoleColors = selectedRoleColors.filter(
+                          (_, j) => j !== idx,
+                        );
+                        updateReaction(i, {
+                          roleId: newRoleIds[0] || "",
+                          roleName: newRoleNames[0] || "",
+                          roleColor: newRoleColors[0] || 0,
+                          roleIds: newRoleIds,
+                          roleNames: newRoleNames,
+                          roleColors: newRoleColors,
+                        });
+                      }}
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
+          </Card>
+        );
+      })}
     </>
   );
 }

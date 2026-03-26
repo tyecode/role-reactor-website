@@ -83,7 +83,7 @@ const checkBotInstallationCached = unstable_cache(
     );
   },
   ["bot-installation-check"],
-  { revalidate: 300 }
+  { revalidate: 15 } // Short cache to recover quickly from bot restarts
 );
 
 /**

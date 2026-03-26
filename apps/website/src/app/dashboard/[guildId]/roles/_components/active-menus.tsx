@@ -37,6 +37,8 @@ interface RoleConfig {
   roleId: string;
   roleName: string;
   roleColor: number;
+  roleIds?: string[];
+  roleNames?: string[];
 }
 
 interface RoleMapping {
@@ -458,15 +460,20 @@ export function ActiveMenus({
                         if (!onEdit) return;
                         const roles = menu.roles || {};
                         const reactions = Object.entries(roles).map(
-                          ([emoji, config]) => ({
-                            emoji,
-                            roleId:
-                              (config as { roleId?: string }).roleId ?? "",
-                            roleName:
-                              (config as { roleName?: string }).roleName ?? "",
-                            roleColor:
-                              (config as { roleColor?: number }).roleColor ?? 0,
-                          })
+                          ([emoji, config]) => {
+                            const c = config as RoleConfig;
+                            return {
+                              emoji,
+                              roleId: c.roleId ?? "",
+                              roleName: c.roleName ?? "",
+                              roleColor: c.roleColor ?? 0,
+                              roleIds: c.roleIds ?? (c.roleId ? [c.roleId] : []),
+                              roleNames: c.roleNames ?? (c.roleName ? [c.roleName] : []),
+                              roleColors: c.roleColor != null
+                                ? (c.roleIds ?? [c.roleId]).map(() => c.roleColor ?? 0)
+                                : [],
+                            };
+                          },
                         );
                         onEdit({
                           messageId: menu.messageId,

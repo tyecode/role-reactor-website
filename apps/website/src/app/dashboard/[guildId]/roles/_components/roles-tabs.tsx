@@ -30,6 +30,9 @@ export interface EditData {
     roleId: string;
     roleName: string;
     roleColor: number;
+    roleIds?: string[];
+    roleNames?: string[];
+    roleColors?: number[];
   }>;
 }
 

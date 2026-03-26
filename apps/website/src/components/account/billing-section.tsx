@@ -30,7 +30,7 @@ import { useUserStore } from "@/store/use-user-store";
 
 interface Transaction {
   paymentId: string;
-  provider: "paypal" | "plisio" | "top.gg" | "premium_system" | "admin_adjustment";
+  provider: "plisio" | "top.gg" | "premium_system" | "admin_adjustment";
   type?: string;
   amount: number;
   coresGranted: number;
@@ -130,13 +130,6 @@ export function BillingSection() {
   };
 
   const getProviderBadge = (provider: string) => {
-    if (provider === "paypal") {
-      return (
-        <Badge className="bg-[#0070BA]/10 text-[#0070BA] border border-[#0070BA]/30">
-          PayPal
-        </Badge>
-      );
-    }
     if (provider === "top.gg") {
       return (
         <Badge className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
@@ -310,9 +303,7 @@ export function BillingSection() {
                         </div>
                       </>
                     ) : (
-                      <div className="text-xs text-zinc-500">
-                        Free
-                      </div>
+                      <div className="text-xs text-zinc-500">Free</div>
                     )}
                   </div>
                 </div>

@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/card";
 import {
   DollarSign,
-  CreditCard,
   Users,
   History,
   TrendingUp,
@@ -49,7 +48,7 @@ interface PaymentStats {
   recentPayments: Array<{
     paymentId: string;
     discordId: string;
-    provider: "paypal" | "plisio";
+    provider: "plisio";
     amount: number;
     coresGranted: number;
     createdAt: string;
@@ -139,12 +138,6 @@ async function RevenueContent() {
             <div className="flex gap-2">
               <Badge
                 variant="outline"
-                className="text-[10px] border-emerald-500/20 text-emerald-400"
-              >
-                PAYPAL
-              </Badge>
-              <Badge
-                variant="outline"
                 className="text-[10px] border-fuchsia-500/20 text-fuchsia-400"
               >
                 CRYPTO
@@ -184,16 +177,10 @@ async function RevenueContent() {
                       <div
                         className={cn(
                           "p-2 rounded-lg text-xs font-black",
-                          payment.provider === "paypal"
-                            ? "bg-blue-500/10 text-blue-400"
-                            : "bg-amber-500/10 text-amber-400"
+                          "bg-amber-500/10 text-amber-400"
                         )}
                       >
-                        {payment.provider === "paypal" ? (
-                          <CreditCard className="size-3" />
-                        ) : (
-                          <Bitcoin className="size-3" />
-                        )}
+                        <Bitcoin className="size-3" />
                       </div>
                       <div>
                         <p className="font-mono text-[11px] font-bold text-zinc-100 group-hover:text-cyan-400 transition-colors uppercase">

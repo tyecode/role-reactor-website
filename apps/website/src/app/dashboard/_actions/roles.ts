@@ -16,6 +16,9 @@ export type DeployData = {
     roleId: string;
     roleName: string;
     roleColor: number;
+    roleIds?: string[];
+    roleNames?: string[];
+    roleColors?: number[];
   }>;
 };
 

@@ -90,7 +90,7 @@ const config = {
               "img-src 'self' data: https: blob:",
               "font-src 'self' https://fonts.gstatic.com",
               "connect-src 'self' https://api.rolereactor.app https://discord.com https://cdn.discordapp.com https://media.discordapp.net https://vercel.live https://analytics.vercel.com",
-              "frame-src 'self' https://www.paypal.com https://www.sandbox.paypal.com",
+              "frame-src 'self'",
               "frame-ancestors 'none'",
               "base-uri 'self'",
               "form-action 'self'",
