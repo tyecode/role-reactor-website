@@ -13,7 +13,6 @@ describe("Environment Validation", () => {
 
   it("should have valid URL formats", () => {
     expect(() => new URL(env.NEXT_PUBLIC_BASE_URL)).not.toThrow();
-    expect(() => new URL(env.NEXT_PUBLIC_DASHBOARD_URL)).not.toThrow();
     expect(() => new URL(env.BOT_API_URL)).not.toThrow();
   });
 

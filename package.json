@@ -4,10 +4,12 @@
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
+    "dev:prod": "turbo dev:prod",
     "lint": "turbo lint",
     "type-check": "turbo type-check",
     "clean": "turbo clean",
     "start": "turbo start",
+    "start:prod": "turbo start:prod",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "prepare": "husky",

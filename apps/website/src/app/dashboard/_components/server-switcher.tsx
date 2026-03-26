@@ -178,7 +178,7 @@ export function ServerSwitcher() {
                           <>
                             <div className="w-1.5 h-1.5 rounded-full bg-red-900/50 shrink-0 border border-red-500/30" />
                             <span className="truncate text-red-500/60">
-                              NODE UNREACHABLE
+                              OFFLINE
                             </span>
                           </>
                         )

@@ -22,6 +22,9 @@ const GUILD_CACHE = new Map<
   { data: DiscordGuildResponse[]; expires: number }
 >();
 
+// In-memory fallback cache to prevent dashboard lockouts if the Bot API throws 503s
+const BOT_INSTALL_CACHE = new Map<string, string[]>();
+
 async function fetchDiscordGuildsInternal(accessToken: string) {
   const now = Date.now();
   const cached = GUILD_CACHE.get(accessToken);
@@ -124,9 +127,26 @@ export async function getManageableGuilds() {
     }
 
     // 3. Check bot installation status (Cached)
-    const installedGuildIds = await checkBotInstallationCached(
-      manageableGuilds.map((g) => g.id)
-    );
+    let installedGuildIds: string[] = [];
+    const cacheKey = accessToken.slice(-10); // Use a partial token as a key for the fallback map
+
+    try {
+      installedGuildIds = await checkBotInstallationCached(
+        manageableGuilds.map((g) => g.id)
+      );
+      // Save last known good state
+      BOT_INSTALL_CACHE.set(cacheKey, installedGuildIds);
+    } catch (e) {
+      console.warn(
+        "[Server] Bot API /guilds/check failed. Attempting to use memory fallback...",
+        e
+      );
+      if (BOT_INSTALL_CACHE.has(cacheKey)) {
+        installedGuildIds = BOT_INSTALL_CACHE.get(cacheKey) || [];
+      } else {
+        throw e; // No fallback available, propagate error
+      }
+    }
 
     return {
       guilds: manageableGuilds,
@@ -134,6 +154,26 @@ export async function getManageableGuilds() {
     };
   } catch (error) {
     console.error("[Server] Failed to fetch manageable guilds:", error);
+
+    // If the entire thing fails, but we have some fallback we can try to recover
+    const fallbackGuilds =
+      GUILD_CACHE.get(sessionWithToken.accessToken || "")?.data || [];
+    const fallbackInstalled =
+      BOT_INSTALL_CACHE.get(sessionWithToken.accessToken?.slice(-10) || "") ||
+      [];
+
+    if (fallbackGuilds.length > 0) {
+      return {
+        guilds: fallbackGuilds.map((g) => ({
+          id: g.id,
+          name: g.name,
+          icon: g.icon,
+          permissions: g.permissions,
+        })),
+        installedGuildIds: fallbackInstalled,
+      };
+    }
+
     return { guilds: [], installedGuildIds: [] };
   }
 }

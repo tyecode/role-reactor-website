@@ -24,7 +24,6 @@ const environmentSchema = z.object({
 
   // Base URLs (Optional with defaults)
   NEXT_PUBLIC_BASE_URL: z.string().url().default("http://localhost:8080"),
-  NEXT_PUBLIC_DASHBOARD_URL: z.string().url().default("http://localhost:8888"),
 
   // Bot API Configuration (Required)
   BOT_API_URL: z.string().url().min(1, "BOT_API_URL is required"),
@@ -57,7 +56,6 @@ export function validateEnvironment(): Environment {
     DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
     AUTH_SECRET: process.env.AUTH_SECRET,
     NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
-    NEXT_PUBLIC_DASHBOARD_URL: process.env.NEXT_PUBLIC_DASHBOARD_URL,
     BOT_API_URL: process.env.BOT_API_URL,
     INTERNAL_API_KEY: process.env.INTERNAL_API_KEY,
     NEXT_PUBLIC_DEVELOPER_IDS: process.env.NEXT_PUBLIC_DEVELOPER_IDS,

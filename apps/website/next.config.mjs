@@ -17,8 +17,9 @@ const config = {
   poweredByHeader: false,
   generateEtags: false,
 
-  // Output standalone for Docker deployment
-  output: "standalone",
+  // Output standalone for self-hosted deployment (Docker/VPS)
+  // Vercel uses its own infrastructure, so standalone is not needed there
+  ...(process.env.STANDALONE === "true" ? { output: "standalone" } : {}),
 
   // Image optimization
   images: {

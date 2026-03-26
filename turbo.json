@@ -16,7 +16,15 @@
       "cache": false,
       "persistent": true
     },
+    "dev:prod": {
+      "cache": false,
+      "persistent": true
+    },
     "start": {
+      "cache": false,
+      "persistent": true
+    },
+    "start:prod": {
       "cache": false,
       "persistent": true
     }

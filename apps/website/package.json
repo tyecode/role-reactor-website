@@ -19,9 +19,12 @@
     "url": "https://github.com/qodinger/role-reactor-website"
   },
   "scripts": {
-    "build": "next build && node scripts/after-build.js",
+    "build": "next build",
+    "build:standalone": "STANDALONE=true next build && node scripts/after-build.js",
     "dev": "next dev --turbo --port 8080",
-    "start": "PORT=8080 node --env-file=.env.local .next/standalone/apps/website/server.js",
+    "dev:prod": "dotenv -e .env.production -o -- next dev --turbo --port 8080",
+    "start": "HOSTNAME=localhost PORT=8080 node --env-file=.env.local .next/standalone/apps/website/server.js",
+    "start:prod": "HOSTNAME=localhost PORT=8080 node --env-file=.env.production .next/standalone/apps/website/server.js",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "type-check": "tsc --noEmit -p tsconfig.typecheck.json",
@@ -122,6 +125,7 @@
     "@types/service_worker_api": "^0.0.9",
     "@vitejs/plugin-react": "^5.1.4",
     "@vitest/ui": "^4.0.18",
+    "dotenv-cli": "^11.0.0",
     "eslint": "^9.31.0",
     "eslint-config-next": "15.4.3",
     "husky": "^9.1.7",

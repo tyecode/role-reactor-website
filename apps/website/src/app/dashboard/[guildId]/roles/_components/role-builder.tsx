@@ -35,7 +35,6 @@ import {
   MousePointer2,
   Zap,
   Hash,
-  AlertTriangle,
 } from "lucide-react";
 import { DiscordRole, DiscordChannel, DiscordEmoji } from "@/types/discord";
 

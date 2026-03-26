@@ -218,7 +218,7 @@ export default async function PublicLeaderboardPage({
         : 0,
   };
   const baseUrl =
-    process.env.NEXT_PUBLIC_APP_URL ??
+    process.env.NEXT_PUBLIC_BASE_URL ??
     (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null) ??
     "https://rolereactor.app";
   const pageUrl = `${baseUrl}/leaderboard/${guildId}`;

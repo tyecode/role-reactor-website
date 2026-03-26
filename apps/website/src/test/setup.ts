@@ -38,7 +38,6 @@ vi.mock("@/lib/env", () => ({
     DISCORD_CLIENT_SECRET: "test_client_secret_at_least_32_characters_long",
     AUTH_SECRET: "test_auth_secret_at_least_32_characters_long",
     NEXT_PUBLIC_BASE_URL: "http://localhost:8080",
-    NEXT_PUBLIC_DASHBOARD_URL: "http://localhost:8888",
     BOT_API_URL: "http://localhost:3030",
     INTERNAL_API_KEY: "test_internal_key_at_least_32_characters_long",
   },
