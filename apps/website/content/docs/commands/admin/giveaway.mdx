@@ -1,0 +1,87 @@
+---
+title: Giveaway
+description: Create and manage high-capacity server giveaways with advanced entry requirements, claim periods, and automatic winner selection.
+keywords: giveaway, raffle, contest, prize, drop, winners, rewards
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+import { Cards, Card } from "fumadocs-ui/components/card";
+
+## Subcommands
+
+<Cards>
+  <Card title="create" description="Create a new giveaway with full customization" />
+  <Card title="end" description="End a giveaway early and pick winners" />
+  <Card title="reroll" description="Reroll winners for an ended giveaway" />
+  <Card title="list" description="List all active and ended giveaways" />
+  <Card title="delete" description="Delete a giveaway permanently" />
+</Cards>
+
+## Usage Examples
+
+<Tabs items={["Create", "Manage"]}>
+  <Tab value="Create">
+    Create a giveaway with all options:
+    ```bash
+    /giveaway create prize:Nitro winners:1 duration:24h
+    ```
+    Optional filters:
+    - `channel` — Channel to post in
+    - `description` — Additional details
+    - `required-role` — Role required to enter
+    - `min-level` — Minimum XP level to enter
+    - `require-vote` — Require a top.gg vote to enter
+    - `claim-period` — Time winners have to claim (e.g. `24h`)
+    - `min-account-age` — Minimum Discord account age
+    - `min-server-age` — Minimum time in server
+  </Tab>
+  <Tab value="Manage">
+    Manage existing giveaways:
+    ```bash
+    /giveaway end giveaway-id:abc123
+    /giveaway reroll giveaway-id:abc123
+    /giveaway list
+    /giveaway delete giveaway-id:abc123
+    ```
+  </Tab>
+</Tabs>
+
+## Permissions Required
+
+<Callout type="info">
+  - **Manage Server** permission required
+</Callout>
+
+## What You'll See
+
+<Callout type="info">
+  An interactive giveaway embed with a reaction-based entry system, live
+  participant count, countdown timer, and automatic winner selection. Winners
+  are pinged when the giveaway ends.
+</Callout>
+
+## Troubleshooting
+
+<Callout type="warning">
+  - **No winners picked:** Ensure there are valid entries that meet all
+  requirements.
+  <br />- **Cannot reroll:** Only ended giveaways can be rerolled.
+  <br />- **Entry requirements not working:** Double-check that the required
+  role, level, or vote settings are correct.
+</Callout>
+
+## Related Commands
+
+<Cards>
+  <Card
+    title="/role-reactions"
+    description="Create role selection messages"
+    href="./role-reactions"
+  />
+  <Card
+    title="/schedule-role"
+    description="Schedule role assignments"
+    href="./schedule-role"
+  />
+</Cards>

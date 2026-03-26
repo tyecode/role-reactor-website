@@ -1,0 +1,67 @@
+---
+title: Server Info
+description: Display detailed information about the current server including member count, channels, roles, creation date, and more.
+keywords: serverinfo, server, info, information, guild, details, stats
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Cards, Card } from "fumadocs-ui/components/card";
+
+## Parameters
+
+<Cards>
+  <Card
+    title="No parameters required"
+    description="Displays information about the current server"
+  />
+</Cards>
+
+## Step-by-Step Example
+
+1. Run the command:
+   ```bash
+   /serverinfo
+   ```
+2. The bot displays a detailed embed with:
+   - Server name, icon, and banner
+   - Owner information
+   - Member count (humans vs bots)
+   - Channel breakdown (text, voice, categories)
+   - Role count
+   - Creation date and server age
+   - Verification level
+   - Server features
+
+## Permissions Required
+
+<Callout type="info">
+  - **View Channel** permission required
+</Callout>
+
+## What You'll See
+
+<Callout type="info">
+  A detailed embed with comprehensive server information including member
+  counts, channel breakdown, roles, creation date, verification level, and
+  server features. Perfect for getting a complete overview of your server.
+</Callout>
+
+## Troubleshooting
+
+<Callout type="warning">
+  - **Missing information:** Some details may not be available if the bot lacks
+  certain permissions.
+  <br />- **Slow response:** Large servers may take a moment to fetch accurate
+  member counts.
+</Callout>
+
+## Related Commands
+
+<Cards>
+  <Card
+    title="/userinfo"
+    description="View detailed user information"
+    href="./userinfo"
+  />
+  <Card title="/ping" description="Check bot latency" href="./ping" />
+</Cards>

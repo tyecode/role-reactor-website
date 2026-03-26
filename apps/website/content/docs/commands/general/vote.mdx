@@ -1,0 +1,70 @@
+---
+title: Vote
+description: Vote for Role Reactor on top.gg and earn Core credits as rewards. Support the bot and get rewarded every 12 hours.
+keywords: vote, top.gg, rewards, core credits, support, voting
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Cards, Card } from "fumadocs-ui/components/card";
+
+## Parameters
+
+<Cards>
+  <Card
+    title="public (optional)"
+    description="Show the vote link publicly instead of just to you (default: false)"
+  />
+</Cards>
+
+## Step-by-Step Example
+
+1. Run the command:
+   ```bash
+   /vote
+   ```
+2. The bot shows your voting status with:
+   - **Vote Reward** — 1 Core per vote
+   - **Cooldown Status** — whether you can vote now or when it resets
+   - **Your Total Votes** — lifetime vote count
+   - **How It Works** — step-by-step guide
+3. Click the **Vote on Top.gg** button to open the voting page.
+4. Log in with Discord, click **Vote**, and you'll automatically receive **1 Core**.
+5. Come back in **12 hours** to vote again!
+
+## Permissions Required
+
+<Callout type="info">
+  - **No special permissions required** — available to all users
+</Callout>
+
+## What You'll See
+
+<Callout type="info">
+  A detailed embed showing your vote status, cooldown timer, total votes, and a
+  direct link to vote on top.gg. Every vote earns you 1 Core credit that you
+  can use for premium features!
+</Callout>
+
+## Troubleshooting
+
+<Callout type="warning">
+  - **Didn't receive reward:** Make sure you voted while logged into the correct
+  Discord account. Rewards are delivered automatically.
+  <br />- **Cooldown active:** You can only vote once every 12 hours. The
+  command shows when you can vote again.
+</Callout>
+
+## Related Commands
+
+<Cards>
+  <Card
+    title="/core"
+    description="Check your Core balance"
+    href="./core"
+  />
+  <Card
+    title="/support"
+    description="Get the support server link"
+    href="./support"
+  />
+</Cards>

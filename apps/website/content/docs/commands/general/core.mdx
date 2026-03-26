@@ -15,24 +15,21 @@ import { Cards, Card } from "fumadocs-ui/components/card";
     title="balance"
     description="Check your current Core balance and tier status"
   />
-  <Card
-    title="pricing"
-    description="View Core pricing, membership benefits, and donation options"
-  />
 </Cards>
 
 ## Usage Examples
 
-<Tabs items={["Check Balance", "View Pricing"]}>
+<Tabs items={["Check Balance"]}>
   <Tab value="Check Balance">
-    Check your current Core balance: ```bash /core balance ``` This will show: -
-    Your current Core balance - Your membership tier (if any) - Total avatar
-    generations used - Membership benefits
-  </Tab>
-  <Tab value="View Pricing">
-    View Core pricing and membership options: ```bash /core pricing ``` This
-    will show: - Support rates (10 Cores per $1) - Membership tiers and benefits
-    - Monthly credit allocations - Integration links
+    Check your current Core balance:
+    ```bash
+    /core balance
+    ```
+    This will show:
+    - Your current Core balance
+    - Your membership tier (if any)
+    - Total avatar generations used
+    - Membership benefits
   </Tab>
 </Tabs>
 
@@ -62,7 +59,7 @@ The Core credit system is a credit-based economy for AI avatar generation. Users
 ## Permissions Required
 
 <Callout type="info">
-  - **Send Messages:** Required to view balance and pricing
+  - **No special permissions required** — available to all users
 </Callout>
 
 ## What You'll See
@@ -94,9 +91,9 @@ The Core credit system is a credit-based economy for AI avatar generation. Users
     href="./avatar"
   />
   <Card
-    title="/sponsor"
-    description="Get information about sponsoring the bot"
-    href="./sponsor"
+    title="/vote"
+    description="Vote for the bot to earn Core credits"
+    href="./vote"
   />
 </Cards>
 

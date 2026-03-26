@@ -1,0 +1,99 @@
+---
+title: Voice Roles
+description: Manage roles that automatically control users in voice channels. Disconnect, mute, deafen, or move members based on their roles.
+keywords: voice-roles, voice control, disconnect, mute, deafen, move, voice channels
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+import { Cards, Card } from "fumadocs-ui/components/card";
+
+## Subcommand Groups
+
+<Cards>
+  <Card title="disconnect" description="Auto-disconnect users with a specific role from voice" />
+  <Card title="mute" description="Auto-mute users with a specific role in voice" />
+  <Card title="deafen" description="Auto-deafen users with a specific role in voice" />
+  <Card title="move" description="Auto-move users with a specific role to a target channel" />
+</Cards>
+
+Each group has `add`, `remove`, and `list` subcommands.
+
+## Usage Examples
+
+<Tabs items={["Disconnect", "Mute", "Deafen", "Move"]}>
+  <Tab value="Disconnect">
+    Auto-disconnect users with a role:
+    ```bash
+    /voice-roles disconnect add role:@Banned-VC
+    /voice-roles disconnect remove role:@Banned-VC
+    /voice-roles disconnect list
+    ```
+  </Tab>
+  <Tab value="Mute">
+    Auto-mute users with a role:
+    ```bash
+    /voice-roles mute add role:@Muted
+    /voice-roles mute remove role:@Muted
+    /voice-roles mute list
+    ```
+  </Tab>
+  <Tab value="Deafen">
+    Auto-deafen users with a role:
+    ```bash
+    /voice-roles deafen add role:@Deafened
+    /voice-roles deafen remove role:@Deafened
+    /voice-roles deafen list
+    ```
+  </Tab>
+  <Tab value="Move">
+    Auto-move users with a role to a channel:
+    ```bash
+    /voice-roles move add role:@AFK channel:#afk-channel
+    /voice-roles move remove role:@AFK
+    /voice-roles move list
+    ```
+  </Tab>
+</Tabs>
+
+## Permissions Required
+
+<Callout type="info">
+  - **Manage Roles** — Required to configure voice roles
+  - **Move Members** — Required for the bot to move users
+  - **Mute Members** — Required for the bot to mute/deafen users
+</Callout>
+
+## What You'll See
+
+<Callout type="info">
+  Confirmation of voice role configuration. Once set up, the bot automatically
+  applies the voice action (disconnect, mute, deafen, or move) whenever a
+  user with the specified role joins a voice channel.
+</Callout>
+
+## Troubleshooting
+
+<Callout type="warning">
+  - **Not working:** Ensure the bot has Move Members, Mute Members, and
+  Deafen Members permissions.
+  <br />- **Role not triggering:** The bot monitors role changes in real-time.
+  Make sure the target role is correctly configured.
+  <br />- **Cannot add role:** The bot's highest role must be above the voice
+  control role.
+</Callout>
+
+## Related Commands
+
+<Cards>
+  <Card
+    title="/role-reactions"
+    description="Create role selection messages"
+    href="./role-reactions"
+  />
+  <Card
+    title="/temp-roles"
+    description="Assign temporary roles"
+    href="./temp-roles"
+  />
+</Cards>

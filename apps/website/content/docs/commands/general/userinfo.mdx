@@ -1,0 +1,73 @@
+---
+title: User Info
+description: Display detailed information about a user including account age, server join date, roles, and activity status.
+keywords: userinfo, user, info, information, profile, details, member
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Cards, Card } from "fumadocs-ui/components/card";
+
+## Parameters
+
+<Cards>
+  <Card
+    title="user (optional)"
+    description="The user to get information about — leave empty to see your own info"
+  />
+</Cards>
+
+## Step-by-Step Example
+
+1. View your own info:
+   ```bash
+   /userinfo
+   ```
+2. Or view another user's info:
+   ```bash
+   /userinfo user:@username
+   ```
+3. The bot displays a detailed embed with:
+   - Username, avatar, and display name
+   - Account creation date
+   - Server join date
+   - Assigned roles
+   - Current activity and status
+   - User badges and flags
+
+## Permissions Required
+
+<Callout type="info">
+  - **View Channel** permission required
+</Callout>
+
+## What You'll See
+
+<Callout type="info">
+  A detailed embed with comprehensive user information including account
+  creation date, server join date, roles, permissions, and current activity.
+  Great for checking user details and account information.
+</Callout>
+
+## Troubleshooting
+
+<Callout type="warning">
+  - **User not found:** Make sure you're mentioning a valid user who is in the
+  server.
+  <br />- **Missing roles:** The bot can only show roles it has permission to
+  see.
+</Callout>
+
+## Related Commands
+
+<Cards>
+  <Card
+    title="/serverinfo"
+    description="View detailed server information"
+    href="./serverinfo"
+  />
+  <Card
+    title="/level"
+    description="Check your level and XP"
+    href="./level"
+  />
+</Cards>

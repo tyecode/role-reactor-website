@@ -1,0 +1,96 @@
+---
+title: Welcome
+description: Configure the welcome system for new members. Set up automatic welcome messages, auto-roles, and customize the welcome experience.
+keywords: welcome, setup, new members, auto-role, configuration, greeting
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+import { Cards, Card } from "fumadocs-ui/components/card";
+
+## Subcommands
+
+<Cards>
+  <Card
+    title="setup"
+    description="Configure the welcome system with channel, message, and auto-role"
+  />
+  <Card
+    title="settings"
+    description="View and manage current welcome system settings"
+  />
+</Cards>
+
+## Usage Examples
+
+<Tabs items={["Basic Setup", "Manage Settings"]}>
+  <Tab value="Basic Setup">
+    Configure the welcome system:
+    ```bash
+    /welcome setup channel:#welcome message:Welcome {user} to {server}! 🎉
+    ```
+    Optional settings:
+    - `auto-role` - A role to assign to new members automatically
+    - `enabled` - Toggle the system on/off (default: true)
+    - `embed` - Send the message as an embed instead of text (default: false)
+  </Tab>
+  <Tab value="Manage Settings">
+    View and toggle settings:
+    ```bash
+    /welcome settings
+    ```
+    Opens an interactive dashboard to test your welcome message, toggle features, and update the configuration.
+  </Tab>
+</Tabs>
+
+## Placeholders
+
+You can use these placeholders in your welcome message:
+
+- `{user}` - User mention
+- `{username}` - Username without mention
+- `{server}` - Server name
+- `{memberCount}` - Total member count
+
+## Permissions Required
+
+<Callout type="info">
+  - **Manage Server:** Required to configure welcome system
+</Callout>
+
+## What You'll See
+
+<Callout type="info">
+  Interactive welcome system with channel selection, message customization,
+  auto-role assignment, and real-time settings management for new members!
+</Callout>
+
+## Troubleshooting
+
+<Callout type="warning">
+  - **Permission denied:** You require Manage Server permissions to configure the
+  welcome system.
+  <br />
+  - **Channel not found:** Verify the channel exists and the bot can access it.
+  <br />
+  - **Auto-role not working:** Ensure the bot's role is positioned above the
+  auto-role in the server settings hierarchy.
+  <br />
+  - **Message not sending:** Verify bot permissions in the welcome
+  channel.
+</Callout>
+
+## Related Commands
+
+<Cards>
+  <Card
+    title="/goodbye setup"
+    description="Configure the goodbye system"
+    href="./goodbye"
+  />
+  <Card
+    title="/role-reactions"
+    description="Create role selection messages"
+    href="./role-reactions"
+  />
+</Cards>

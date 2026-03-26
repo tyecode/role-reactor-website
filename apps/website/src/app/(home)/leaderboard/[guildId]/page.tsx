@@ -63,6 +63,7 @@ async function fetchLeaderboardData(guildId: string) {
   let isPremium = false;
   let serverInfo: ServerInfo = {};
   let total = 0;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let stats: any = null;
 
   try {

@@ -4,9 +4,13 @@
     "role-reactions",
     "schedule-role",
     "temp-roles",
-    "setup-welcome",
-    "welcome-settings",
+    "welcome",
     "goodbye",
-    "xp-settings"
+    "xp",
+    "giveaway",
+    "moderation",
+    "role-bundle",
+    "ticket",
+    "voice-roles"
   ]
 }

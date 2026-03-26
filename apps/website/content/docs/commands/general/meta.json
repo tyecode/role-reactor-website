@@ -11,6 +11,10 @@
     "poll",
     "level",
     "leaderboard",
-    "sponsor"
+    "rps",
+    "serverinfo",
+    "userinfo",
+    "vote",
+    "wyr"
   ]
 }

@@ -1,0 +1,104 @@
+---
+title: Ticket
+description: Manage a full ticket support system with panels, categories, transcripts, and staff tools. Create organized support workflows for your server.
+keywords: ticket, support, help desk, ticketing, support ticket, staff, transcript
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+import { Cards, Card } from "fumadocs-ui/components/card";
+
+## Subcommands
+
+<Cards>
+  <Card title="setup" description="Set up the ticket system with a support channel and panel" />
+  <Card title="info" description="View ticket system statistics and configuration" />
+  <Card title="settings" description="Interactive dashboard to manage ticket settings" />
+  <Card title="panel" description="Manage ticket panels (list, delete)" />
+  <Card title="transcript" description="Export a ticket transcript in various formats" />
+  <Card title="close" description="Close the current ticket (staff)" />
+  <Card title="add / remove" description="Add or remove users from a ticket (staff)" />
+  <Card title="transfer" description="Transfer a ticket to another staff member" />
+  <Card title="rename" description="Rename the current ticket channel" />
+</Cards>
+
+## Usage Examples
+
+<Tabs items={["Setup", "Management", "Staff Tools"]}>
+  <Tab value="Setup">
+    Set up the ticket system:
+    ```bash
+    /ticket setup channel:#support title:Support description:Click to open a ticket
+    ```
+    Options:
+    - `channel` — Where to post the ticket panel
+    - `title` — Panel embed title
+    - `description` — Panel embed description
+    - `color` — Embed color (hex format)
+  </Tab>
+  <Tab value="Management">
+    Manage the system:
+    ```bash
+    /ticket info
+    /ticket settings
+    /ticket panel list
+    /ticket panel delete panel-id:abc123
+    ```
+    The `/ticket settings` command opens an interactive dashboard where you can
+    configure staff roles, naming format, and more.
+  </Tab>
+  <Tab value="Staff Tools">
+    Staff commands (used inside ticket channels):
+    ```bash
+    /ticket close
+    /ticket add user:@member
+    /ticket remove user:@member
+    /ticket transfer user:@staff
+    /ticket rename name:vip-support-123
+    /ticket transcript ticket-id:abc123 format:html
+    ```
+    Transcript formats: `html`, `json`, `text`
+  </Tab>
+</Tabs>
+
+## Permissions Required
+
+<Callout type="info">
+  - **Manage Server** — Required for setup and settings
+  - **Staff Role** — Required for close, add, remove, transfer, rename
+  - **No permissions** — Users can open tickets via the panel button
+</Callout>
+
+## What You'll See
+
+<Callout type="info">
+  A complete ticket system with panel buttons for users to open tickets,
+  private ticket channels with staff access, transcript exports, and an
+  interactive settings dashboard for configuration.
+</Callout>
+
+## Troubleshooting
+
+<Callout type="warning">
+  - **Panel not showing:** Make sure the bot has Send Messages and Embed Links
+  permissions in the target channel.
+  <br />- **Cannot close ticket:** Only users with the configured staff role can
+  close tickets.
+  <br />- **Transcript empty:** The ticket channel must have messages to
+  generate a transcript.
+</Callout>
+
+## Related Commands
+
+<Cards>
+  <Card
+    title="/moderation"
+    description="Moderate server members"
+    href="./moderation"
+  />
+  <Card
+    title="/role-reactions"
+    description="Create role selection messages"
+    href="./role-reactions"
+  />
+</Cards>

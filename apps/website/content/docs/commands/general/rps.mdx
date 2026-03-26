@@ -1,0 +1,73 @@
+---
+title: RPS
+description: Challenge another user or a bot to a game of Rock Paper Scissors. Your choice is hidden until your opponent picks.
+keywords: rps, rock paper scissors, game, challenge, play, fun, multiplayer
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Cards, Card } from "fumadocs-ui/components/card";
+
+## Parameters
+
+<Cards>
+  <Card
+    title="user (required)"
+    description="The user to challenge — can be another member or a bot"
+  />
+  <Card
+    title="choice (required)"
+    description="Your choice: Rock, Paper, or Scissors (hidden from opponent)"
+  />
+</Cards>
+
+## Step-by-Step Example
+
+1. Run the command:
+   ```bash
+   /rps user:@friend choice:Rock
+   ```
+2. Your choice is hidden from the opponent.
+3. If you challenged a **bot**, the result is shown immediately.
+4. If you challenged a **user**, they'll see interactive buttons to pick their choice.
+5. Once both players have chosen, the bot reveals the result!
+
+## Game Rules
+
+- **Rock** beats Scissors
+- **Paper** beats Rock
+- **Scissors** beats Paper
+- Same choice results in a **tie**
+
+## Permissions Required
+
+<Callout type="info">
+  - **No special permissions required** — available to all users
+</Callout>
+
+## What You'll See
+
+<Callout type="info">
+  A fun Rock Paper Scissors game! Your choice is hidden from your opponent until
+  they make their choice. The bot automatically determines the winner based on
+  classic RPS rules.
+</Callout>
+
+## Troubleshooting
+
+<Callout type="warning">
+  - **Opponent didn't respond:** The challenge expires after a short time. Ask
+  them to try again!
+  <br />- **Can't challenge yourself:** You cannot play against yourself — pick
+  another user or challenge the bot.
+</Callout>
+
+## Related Commands
+
+<Cards>
+  <Card title="/wyr" description="Would You Rather questions" href="./wyr" />
+  <Card
+    title="/8ball"
+    description="Ask the magic 8ball a question"
+    href="./8ball"
+  />
+</Cards>

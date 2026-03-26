@@ -1,0 +1,82 @@
+---
+title: Role Bundle
+description: Create and manage reusable role bundles for quick multi-role assignments. Group roles together and apply them to users in one action.
+keywords: role-bundle, bundles, role pack, groups, bulk roles, role management
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+import { Cards, Card } from "fumadocs-ui/components/card";
+
+## Subcommands
+
+<Cards>
+  <Card title="create" description="Create a new role bundle with a name and roles" />
+  <Card title="delete" description="Delete an existing role bundle" />
+  <Card title="list" description="List all role bundles in the server" />
+  <Card title="apply" description="Apply a bundle's roles to a user" />
+</Cards>
+
+## Usage Examples
+
+<Tabs items={["Create", "Apply", "Manage"]}>
+  <Tab value="Create">
+    Create a role bundle:
+    ```bash
+    /role-bundle create name:VIP roles:@VIP,@Supporter,@Donator
+    ```
+    Groups multiple roles under one reusable name.
+  </Tab>
+  <Tab value="Apply">
+    Apply a bundle to a user:
+    ```bash
+    /role-bundle apply name:VIP user:@member
+    ```
+    All roles in the bundle are assigned at once.
+  </Tab>
+  <Tab value="Manage">
+    List or delete bundles:
+    ```bash
+    /role-bundle list
+    /role-bundle delete name:VIP
+    ```
+  </Tab>
+</Tabs>
+
+## Permissions Required
+
+<Callout type="info">
+  - **Manage Roles** permission required
+</Callout>
+
+## What You'll See
+
+<Callout type="info">
+  Confirmation of bundle creation, deletion, or application. When applying a
+  bundle, the bot assigns all included roles to the target user in one action.
+</Callout>
+
+## Troubleshooting
+
+<Callout type="warning">
+  - **Role not assigned:** The bot's highest role must be above the roles in the
+  bundle.
+  <br />- **Bundle not found:** Use `/role-bundle list` to see all available
+  bundles.
+  <br />- **Cannot create:** Make sure you have Manage Roles permission.
+</Callout>
+
+## Related Commands
+
+<Cards>
+  <Card
+    title="/role-reactions"
+    description="Create role selection messages"
+    href="./role-reactions"
+  />
+  <Card
+    title="/temp-roles"
+    description="Assign temporary roles"
+    href="./temp-roles"
+  />
+</Cards>
