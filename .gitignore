@@ -6,4 +6,5 @@ dist
 .env.production
 .env*.local
 .DS_Store
-coverage
+coverageplaywright-report/
+test-results/
