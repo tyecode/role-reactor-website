@@ -12,6 +12,12 @@
     "type-check": {
       "dependsOn": ["^type-check"]
     },
+    "test": {
+      "dependsOn": ["^test"]
+    },
+    "test:run": {
+      "dependsOn": ["^test:run"]
+    },
     "dev": {
       "cache": false,
       "persistent": true
