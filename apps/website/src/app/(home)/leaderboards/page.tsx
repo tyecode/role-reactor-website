@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { Audiowide } from "next/font/google";
 import { Trophy, Users, ShieldCheck } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { BubbleBackground } from "@/components/common/bubble-background";
 import { Badge } from "@/components/ui/badge";
 import { botFetchJson } from "@/lib/bot-fetch";
+import { audiowide } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 
 import { ServerSearch } from "@/app/(home)/_components/server-search";
@@ -22,20 +22,69 @@ interface GuildResult {
   name: string;
   icon: string | null;
   memberCount: number;
+  totalXP?: number;
+  rankedCount?: number;
+  rank?: number;
 }
 
-const audiowide = Audiowide({
-  subsets: ["latin"],
-  weight: "400",
-  display: "swap",
-});
+const formatCompactNumber = (number: number) => {
+  if (number < 1000) return number.toString();
+  return Intl.NumberFormat("en-US", {
+    notation: "compact",
+    maximumFractionDigits: 1,
+  }).format(number);
+};
+
+const getRankStyles = (rank: number) => {
+  const brandAvatar = {
+    avatar: "ring-white/10 group-hover:ring-emerald-500/50",
+  };
+
+  switch (rank) {
+    case 1:
+      return {
+        badge:
+          "text-amber-300 bg-amber-500/20 border-amber-500/40 shadow-[0_0_20px_rgba(251,191,36,0.2)]",
+        avatar:
+          "ring-amber-500/40 group-hover:ring-amber-300 shadow-[0_0_15px_rgba(251,191,36,0.2)]",
+        glow: "bg-amber-500/20",
+        text: "group-hover:text-amber-300",
+      };
+    case 2:
+      return {
+        badge:
+          "text-zinc-200 bg-zinc-400/20 border-zinc-400/40 shadow-[0_0_20px_rgba(161,161,170,0.2)]",
+        avatar:
+          "ring-zinc-400/40 group-hover:ring-zinc-200 shadow-[0_0_15px_rgba(161,161,170,0.2)]",
+        glow: "bg-zinc-400/20",
+        text: "group-hover:text-zinc-100",
+      };
+    case 3:
+      return {
+        badge:
+          "text-orange-300 bg-orange-500/20 border-orange-500/40 shadow-[0_0_20px_rgba(249,115,22,0.2)]",
+        avatar:
+          "ring-orange-500/40 group-hover:ring-orange-300 shadow-[0_0_15px_rgba(249,115,22,0.2)]",
+        glow: "bg-orange-500/20",
+        text: "group-hover:text-orange-300",
+      };
+    default:
+      return {
+        badge:
+          "text-emerald-400 bg-emerald-500/10 border-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.1)]",
+        glow: "bg-emerald-500/10",
+        text: "group-hover:text-emerald-400",
+        ...brandAvatar,
+      };
+  }
+};
 
 export default async function LeaderboardsPage() {
   let guilds: GuildResult[] = [];
   try {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const data = await botFetchJson<any>("/guilds/public-leaderboards", {
-      next: { revalidate: 3600 }, // Cache for 1 hour
+      next: { revalidate: 0 }, // Disable cache for now to see fresh data
     });
     if (data?.guilds) {
       guilds = data.guilds;
@@ -104,51 +153,101 @@ export default async function LeaderboardsPage() {
         </div>
 
         {/* Guild Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 pt-8 relative z-10 w-full max-w-fd-container mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-8 relative z-10 w-full">
           {guilds.length > 0 ? (
-            guilds.map((guild) => (
-              <Link
-                href={`/leaderboard/${guild.id}`}
-                key={guild.id}
-                className="block group"
-              >
-                <div className="flex items-center p-4 rounded-2xl border border-white/5 bg-zinc-950/40 backdrop-blur-md hover:bg-zinc-900/80 hover:border-emerald-500/30 hover:shadow-[0_0_20px_rgba(16,185,129,0.1)] transition-all duration-300 gap-4 overflow-hidden relative">
-                  {/* Subtle Spotlights */}
-                  <div className="absolute top-1/2 -translate-y-1/2 left-0 w-24 h-24 bg-emerald-500/10 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="absolute inset-0 bg-linear-to-r from-transparent to-zinc-950/80 pointer-events-none rounded-2xl" />
+            guilds.map((guild) => {
+              const rank = guild.rank || 0;
+              const styles = getRankStyles(rank);
+              const isTop3 = rank > 0 && rank <= 3;
 
-                  {/* Avatar */}
-                  <Avatar className="h-14 w-14 rounded-xl ring-1 ring-white/10 group-hover:ring-emerald-500/50 transition-all duration-300 shadow-md relative z-10 shrink-0 bg-zinc-900">
-                    <AvatarImage
-                      src={guild.icon || ""}
-                      className="object-cover"
-                    />
-                    <AvatarFallback className="bg-zinc-900 text-zinc-400 text-sm font-bold rounded-xl uppercase">
-                      {guild.name.substring(0, 2)}
-                    </AvatarFallback>
-                  </Avatar>
-
-                  {/* Info */}
-                  <div className="flex flex-col relative z-10 min-w-0">
-                    <h3
+              return (
+                <Link
+                  href={`/leaderboard/${guild.id}`}
+                  key={guild.id}
+                  className="block group"
+                >
+                  <div
+                    className={cn(
+                      "flex items-center p-4 rounded-2xl border bg-zinc-950/40 backdrop-blur-md hover:bg-zinc-900/80 hover:shadow-[0_0_20px_rgba(16,185,129,0.1)] transition-all duration-300 gap-4 overflow-hidden relative",
+                      isTop3
+                        ? "border-amber-500/30 hover:border-amber-500/40" // Bronze/Silver/Gold specific borders could go here but using amber for all top 3 is consistent with current logic
+                        : "border-white/5 hover:border-emerald-500/30"
+                    )}
+                  >
+                    {/* Subtle Spotlight */}
+                    <div
                       className={cn(
-                        "text-white text-base font-bold truncate group-hover:text-emerald-300 transition-colors leading-snug"
+                        "absolute top-1/2 -translate-y-1/2 left-6 w-20 h-20 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700",
+                        styles.glow
                       )}
-                      title={guild.name}
-                    >
-                      {guild.name}
-                    </h3>
+                    />
+                    <div className="absolute inset-0 bg-linear-to-r from-transparent to-zinc-950/80 pointer-events-none rounded-2xl" />
 
-                    <div className="mt-1">
-                      <span className="inline-flex items-center gap-1.5 text-xs text-zinc-400 font-medium whitespace-nowrap">
-                        <Users className="w-3.5 h-3.5 text-emerald-400/70 group-hover:text-emerald-400 transition-colors" />
-                        {guild.memberCount.toLocaleString()} MEMBERS
+                    {/* Rank Badge */}
+                    <div className="absolute top-3 right-3 z-20">
+                      <span
+                        className={cn(
+                          "text-xs font-black px-2.5 py-1 rounded-lg border uppercase tracking-wider",
+                          styles.badge,
+                          audiowide.className
+                        )}
+                      >
+                        #{rank}
                       </span>
                     </div>
+
+                    {/* Avatar */}
+                    <Avatar
+                      className={cn(
+                        "h-14 w-14 rounded-xl ring-1 transition-all duration-300 shadow-md relative z-10 shrink-0 bg-zinc-900",
+                        styles.avatar
+                      )}
+                    >
+                      <AvatarImage
+                        src={guild.icon || undefined}
+                        alt={guild.name}
+                        className="object-cover"
+                      />
+                      <AvatarFallback className="bg-zinc-900 text-zinc-400 text-sm font-bold rounded-xl uppercase">
+                        {guild.name.substring(0, 2)}
+                      </AvatarFallback>
+                    </Avatar>
+
+                    {/* Info */}
+                    <div className="flex flex-col relative z-10 min-w-0 flex-1">
+                      <h3
+                        className={cn(
+                          "text-white text-base font-bold truncate transition-colors leading-snug",
+                          styles.text,
+                          audiowide.className
+                        )}
+                        title={guild.name}
+                      >
+                        {guild.name}
+                      </h3>
+
+                      <div className="mt-1 flex items-center gap-3">
+                        <span className="inline-flex items-center gap-1 text-[10px] text-zinc-400 font-bold tracking-tighter uppercase whitespace-nowrap">
+                          <Users className="w-3 h-3 text-emerald-500/60" />
+                          {guild.memberCount.toLocaleString()}
+                        </span>
+                        {guild.rankedCount !== undefined && (
+                          <span className="inline-flex items-center gap-1 text-[10px] text-zinc-400 font-bold tracking-tighter uppercase whitespace-nowrap">
+                            <Trophy className="w-3 h-3 text-emerald-500/60" />
+                            {guild.rankedCount}
+                          </span>
+                        )}
+                        {guild.totalXP !== undefined && (
+                          <span className="inline-flex items-center gap-1 text-[10px] text-zinc-400 font-bold tracking-tighter uppercase whitespace-nowrap bg-emerald-500/10 px-1.5 py-0.5 rounded-sm">
+                            {formatCompactNumber(guild.totalXP)} XP
+                          </span>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))
+                </Link>
+              );
+            })
           ) : (
             <div className="col-span-full py-24 text-center text-zinc-500 font-medium bg-zinc-950/40 backdrop-blur-sm rounded-4xl border border-white/5 flex flex-col items-center justify-center gap-6">
               <div className="w-20 h-20 bg-zinc-900/80 rounded-full flex items-center justify-center border border-white/5">

@@ -7,17 +7,7 @@ import { useServerStore } from "@/store/use-server-store";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import {
-  Trophy,
-  Users,
-  Shield,
-  Crown,
-  BarChart3,
-  Globe,
-  Rocket,
-  Cable,
-  TrendingUp,
-} from "lucide-react";
+import { Users, Crown, Rocket, Cable, TrendingUp } from "lucide-react";
 
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -142,45 +132,6 @@ export function GuildOverviewView({
       trend: onlineStatusText,
       trendUp: null,
       color: "emerald",
-    },
-  ];
-
-  const modules = [
-    {
-      name: "XP & Levels",
-      desc: "Gamification system with rewards",
-      status: settings?.xpEnabled ? "Active" : "Disabled",
-      active: settings?.xpEnabled,
-      icon: Trophy,
-      color: "amber",
-      href: `/dashboard/${guildId}/xp`,
-    },
-    {
-      name: "Reaction Roles",
-      desc: "Self-service role assignment",
-      status: "Active",
-      active: true,
-      icon: Shield,
-      color: "cyan",
-      href: `/dashboard/${guildId}/roles`,
-    },
-    {
-      name: "Welcome System",
-      desc: "Automated onboarding messages",
-      status: "Coming Soon",
-      active: false,
-      icon: Globe,
-      color: "emerald",
-      href: "#",
-    },
-    {
-      name: "Analytics",
-      desc: "Server growth and insights",
-      status: "Active",
-      active: true,
-      icon: BarChart3,
-      color: "fuchsia",
-      href: `/dashboard/${guildId}/analytics`,
     },
   ];
 
@@ -637,60 +588,6 @@ export function GuildOverviewView({
             </div>
           </CardContent>
         </Card>
-      </div>
-
-      {/* Feature Grid */}
-      <div className="space-y-4">
-        <h2 className="text-lg font-bold text-white flex items-center gap-2">
-          <BarChart3 className="text-blue-500 w-5 h-5" /> Module Quick Access
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
-          {modules.map((module, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.1 * i }}
-              className="relative hover:z-10"
-            >
-              <Link href={module.href} className="block h-full">
-                <Card
-                  variant="feature"
-                  className={cn(
-                    "h-full p-5 transition-transform group",
-                    !module.active && "opacity-60 grayscale cursor-not-allowed"
-                  )}
-                >
-                  <div className="flex items-center gap-4 relative z-10">
-                    <div
-                      className={cn(
-                        "w-10 h-10 rounded-md flex items-center justify-center group-hover:scale-110 transition-transform",
-                        module.color === "amber"
-                          ? "bg-amber-500/10 text-amber-500"
-                          : module.color === "cyan"
-                            ? "bg-cyan-500/10 text-cyan-500"
-                            : module.color === "emerald"
-                              ? "bg-emerald-500/10 text-emerald-500"
-                              : "bg-fuchsia-500/10 text-fuchsia-500"
-                      )}
-                    >
-                      <module.icon className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <h4 className="text-sm font-bold text-white">
-                        {module.name}
-                      </h4>
-                      <p className="text-[10px] text-zinc-500 font-medium">
-                        {module.status}
-                      </p>
-                    </div>
-                  </div>
-                  {/* Overlay handled by Card now */}
-                </Card>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
       </div>
     </div>
   );

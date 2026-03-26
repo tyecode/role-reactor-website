@@ -7,6 +7,7 @@ import { FaDiscord } from "react-icons/fa";
 
 import { links } from "@/constants/links";
 import { UserMenu } from "@/components/auth/user-menu";
+import { NotificationBell } from "@/components/notifications/notification-bell";
 
 export const linkItems: LinkItemType[] = [];
 
@@ -32,7 +33,12 @@ export const baseOptions: BaseLayoutProps = {
     {
       type: "custom",
       secondary: true,
-      children: <UserMenu />,
+      children: (
+        <div className="flex items-center ml-3">
+          <NotificationBell />
+          <UserMenu />
+        </div>
+      ),
     },
   ],
 };

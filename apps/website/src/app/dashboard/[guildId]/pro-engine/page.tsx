@@ -14,7 +14,6 @@ import { useSession } from "next-auth/react";
 import { ErrorView } from "@/components/common/error-view";
 import { PremiumGuard } from "@/app/dashboard/_components/premium-guard";
 
-import { FeaturesGrid } from "./_components/features";
 import { ProEngineSettings } from "./_components/settings";
 import {
   ProEngineActiveAlert,
@@ -22,8 +21,6 @@ import {
   ProEngineCancelledAlert,
 } from "./_components/states";
 
-// Re-using SubscriptionStats component if it exists.
-// Note: In previous file views, it was imported from "./stats".
 import { SubscriptionStats } from "./_components/stats";
 import ProEngineLoading from "./loading";
 import { calculateSubscriptionProgress } from "@/lib/premium-utils";
@@ -203,8 +200,6 @@ export default function ProEnginePage() {
             />
           </>
         )}
-        {/* Features List */}
-        <FeaturesGrid isPremium={isPremium} />
       </div>
 
       <PremiumGuard
@@ -225,12 +220,12 @@ export default function ProEnginePage() {
         buttonText={
           isPremium && isCancelled
             ? "ENABLE AUTO-RENEW"
-            : `UNLOCK FOR ${premiumStatus?.premiumConfig?.PRO?.cost ?? 15} CORES`
+            : `UNLOCK FOR ${premiumStatus?.premiumConfig?.PRO?.cost ?? 20} CORES`
         }
         subText={
           isPremium && isCancelled
-            ? `New terms: ${premiumStatus?.premiumConfig?.PRO?.cost ?? 15} Cores/${premiumStatus?.premiumConfig?.PRO?.period ?? "week"}`
-            : `Deducts ${premiumStatus?.premiumConfig?.PRO?.cost ?? 15} Cores every ${premiumStatus?.premiumConfig?.PRO?.periodDays ?? 7} days`
+            ? `New terms: ${premiumStatus?.premiumConfig?.PRO?.cost ?? 20} Cores/${premiumStatus?.premiumConfig?.PRO?.period ?? "week"}`
+            : `Deducts ${premiumStatus?.premiumConfig?.PRO?.cost ?? 20} Cores every ${premiumStatus?.premiumConfig?.PRO?.periodDays ?? 7} days`
         }
       />
     </div>

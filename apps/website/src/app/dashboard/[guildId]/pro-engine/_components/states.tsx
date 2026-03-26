@@ -110,7 +110,7 @@ export function ProEngineLockedAlert({ onUnlock }: ProEngineLockedAlertProps) {
           <Button
             variant="outline"
             size="sm"
-            className="hidden sm:flex shrink-0 font-black uppercase text-[10px] bg-transparent border-amber-500/30 text-amber-500 hover:bg-amber-500 hover:text-zinc-950 hover:border-amber-500 shadow-[0_0_0_rgba(245,158,11,0)] hover:shadow-[0_0_15px_rgba(245,158,11,0.4)] transition-all duration-300"
+            className="cursor-pointer hidden sm:flex shrink-0 font-black uppercase text-[10px] bg-transparent border-amber-500/30 text-amber-500 hover:bg-amber-500 hover:text-zinc-950 hover:border-amber-500 shadow-[0_0_0_rgba(245,158,11,0)] hover:shadow-[0_0_15px_rgba(245,158,11,0.4)] transition-all duration-300"
           >
             Unlock Now
           </Button>
@@ -183,7 +183,7 @@ export function ProEngineCancelledAlert({
                 </span>
                 . If you change your mind, you can re-enable auto-renew for{" "}
                 <span className="text-cyan-400">
-                  {newCost || cost || 15} Cores/{newPeriod || period || "week"}
+                  {newCost || cost || 20} Cores/{newPeriod || period || "week"}
                 </span>
                 .
               </p>
@@ -193,7 +193,7 @@ export function ProEngineCancelledAlert({
           <Button
             variant="cyber"
             onClick={onReactivate}
-            className="h-12 px-8 shrink-0 w-full sm:w-auto group-hover/cancelled:shadow-[0_0_20px_rgba(6,182,212,0.4)]"
+            className="cursor-pointer h-12 px-8 shrink-0 w-full sm:w-auto group-hover/cancelled:shadow-[0_0_20px_rgba(6,182,212,0.4)]"
           >
             <Zap className="mr-2 w-4 h-4" />
             Keep Pro Engine
@@ -247,7 +247,7 @@ export function LockedState({ onActivate }: LockedStateProps) {
         <Button
           variant="cyber"
           onClick={onActivate}
-          className="h-14 px-10 tracking-widest mt-6"
+          className="cursor-pointer h-14 px-10 tracking-widest mt-6"
         >
           Activate Now
           <Zap className="ml-2 w-4 h-4 fill-black group-hover:animate-pulse" />

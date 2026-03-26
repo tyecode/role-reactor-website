@@ -2,6 +2,7 @@
 
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { CoreBalance } from "@/components/common/core-balance";
+import { NotificationBell } from "@/components/notifications/notification-bell";
 
 export function DashboardHeader() {
   return (
@@ -13,7 +14,8 @@ export function DashboardHeader() {
         <SidebarTrigger className="hover:bg-primary/10 transition-colors" />
       </div>
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center">
+        <NotificationBell />
         <CoreBalance />
       </div>
     </header>

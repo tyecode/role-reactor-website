@@ -116,7 +116,7 @@ export function UserMenu({
   hideUserInfo = false,
 }: UserMenuProps) {
   const pathname = usePathname();
-  const isHome = pathname === "/";
+  const isHome = !pathname?.startsWith("/dashboard");
   const isGlobalDashboard = pathname === "/dashboard";
 
   // Loading state

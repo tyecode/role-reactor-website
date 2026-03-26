@@ -30,7 +30,8 @@ import { useUserStore } from "@/store/use-user-store";
 
 interface Transaction {
   paymentId: string;
-  provider: "paypal" | "plisio";
+  provider: "paypal" | "plisio" | "top.gg" | "premium_system" | "admin_adjustment";
+  type?: string;
   amount: number;
   coresGranted: number;
   status: string;
@@ -133,6 +134,27 @@ export function BillingSection() {
       return (
         <Badge className="bg-[#0070BA]/10 text-[#0070BA] border border-[#0070BA]/30">
           PayPal
+        </Badge>
+      );
+    }
+    if (provider === "top.gg") {
+      return (
+        <Badge className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+          Vote Reward
+        </Badge>
+      );
+    }
+    if (provider === "premium_system") {
+      return (
+        <Badge className="bg-amber-500/10 text-amber-400 border border-amber-500/30">
+          Pro Engine
+        </Badge>
+      );
+    }
+    if (provider === "admin_adjustment") {
+      return (
+        <Badge className="bg-blue-500/10 text-blue-400 border border-blue-500/30">
+          Admin
         </Badge>
       );
     }
@@ -278,12 +300,20 @@ export function BillingSection() {
                     </div>
                   </div>
                   <div className="text-right">
-                    <div className="text-white font-mono text-sm">
-                      ${tx.amount.toFixed(2)}
-                    </div>
-                    <div className="text-xs text-zinc-500 uppercase">
-                      {tx.currency || "USD"}
-                    </div>
+                    {tx.amount > 0 ? (
+                      <>
+                        <div className="text-white font-mono text-sm">
+                          ${tx.amount.toFixed(2)}
+                        </div>
+                        <div className="text-xs text-zinc-500 uppercase">
+                          {tx.currency || "USD"}
+                        </div>
+                      </>
+                    ) : (
+                      <div className="text-xs text-zinc-500">
+                        Free
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}

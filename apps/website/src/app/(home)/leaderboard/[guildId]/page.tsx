@@ -1,43 +1,70 @@
 import { Metadata } from "next";
-import { Trophy, Lock } from "lucide-react";
+
+import { Trophy, Lock, Users, Crown, TrendingUp } from "lucide-react";
+import Link from "next/link";
 
 import { botFetch } from "@/lib/bot-fetch";
 import { LeaderboardEntry } from "@/store/use-xp-store";
 import { audiowide } from "@/lib/fonts";
-import { cn, getDiscordImageUrl } from "@/lib/utils";
-import { Card } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 import { AdBlock } from "@/components/adsense/ad-block";
+import { BubbleBackground } from "@/components/common/bubble-background";
+
+import { ServerHero } from "./_components/server-hero";
+import { LeaderboardTable } from "./_components/leaderboard-table";
+import { StatCard } from "./_components/stat-card";
 
 export const dynamic = "force-dynamic";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ guildId: string }>;
-}): Promise<Metadata> {
-  await params;
+interface ServerInfo {
+  name?: string;
+  icon?: string | null;
+  banner?: string | null;
+  splash?: string | null;
+  description?: string | null;
+  memberCount?: number;
+  onlineCount?: number;
+  inviteUrl?: string | null;
+  vanityUrl?: string | null;
+}
+
+// ─── Data Fetching ────────────────────────────────────────────────────────────
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function extractServerInfo(data: Record<string, unknown>): ServerInfo {
+  const d = data as any;
+  const source = (d.data?.serverInfo ??
+    d.serverInfo ??
+    d.data?.guild ??
+    d.guild ??
+    d.data ??
+    d ??
+    {}) as Record<string, unknown>;
+
   return {
-    title: `Server Leaderboard | Role Reactor`,
-    description: `View the top members and XP leaderboard for this server.`,
+    name: source.name as string | undefined,
+    icon: source.icon as string | null | undefined,
+    banner: source.banner as string | null | undefined,
+    splash: source.splash as string | null | undefined,
+    description: source.description as string | null | undefined,
+    memberCount: (source.humanCount ?? source.memberCount) as number | undefined,
+    onlineCount: source.onlineCount as number | undefined,
+    inviteUrl: source.inviteUrl as string | null | undefined,
+    vanityUrl: source.vanityUrl as string | null | undefined,
   };
 }
 
-export default async function PublicLeaderboardPage({
-  params,
-}: {
-  params: Promise<{ guildId: string }>;
-}) {
-  const { guildId } = await params;
-
+async function fetchLeaderboardData(guildId: string) {
   let leaderboard: LeaderboardEntry[] = [];
   let isError = false;
   let isPrivate = false;
   let isPremium = false;
+  let serverInfo: ServerInfo = {};
+  let total = 0;
+  let stats: any = null;
 
   try {
-    const res = await botFetch(`/guilds/${guildId}/leaderboard?limit=100`, {
+    const res = await botFetch(`/guilds/${guildId}/leaderboard?limit=50`, {
       cache: "no-store",
     });
 
@@ -52,13 +79,17 @@ export default async function PublicLeaderboardPage({
         isPrivate = true;
       }
     } else {
-      const data = await res.json();
+      const resp = await res.json();
+      const data = resp.data || resp;
+      const rawLeaderboard = data.leaderboard || [];
+      isPremium = data.isPremium ?? false;
+      serverInfo = extractServerInfo(data.serverInfo || data);
+      total = data.total || 0;
+      stats = data.stats || null;
 
-      // Extract leaderboard — handle both flat and nested response shapes
-      leaderboard = data.data?.leaderboard || data.leaderboard || [];
-      isPremium = data.data?.isPremium ?? data.isPremium ?? false;
-
-      if (!Array.isArray(leaderboard)) {
+      if (Array.isArray(rawLeaderboard)) {
+        leaderboard = rawLeaderboard.filter((entry: LeaderboardEntry) => !entry.user?.bot);
+      } else {
         leaderboard = [];
       }
     }
@@ -66,6 +97,53 @@ export default async function PublicLeaderboardPage({
     console.error("Failed to fetch leaderboard for public page:", err);
     isError = true;
   }
+
+  return { leaderboard, isError, isPrivate, isPremium, serverInfo, total, stats };
+}
+
+// ─── Metadata ─────────────────────────────────────────────────────────────────
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ guildId: string }>;
+}): Promise<Metadata> {
+  const { guildId } = await params;
+
+  let serverName = "Server";
+  try {
+    const res = await botFetch(`/guilds/${guildId}/leaderboard?limit=1`, {
+      cache: "no-store",
+    });
+    if (res.ok) {
+      const data = await res.json();
+      const info = extractServerInfo(data);
+      if (info.name) serverName = info.name;
+    }
+  } catch {
+    // Fallback to generic name
+  }
+
+  return {
+    title: `${serverName} Leaderboard | Role Reactor`,
+    description: `View the top members and XP rankings for ${serverName}. See who's the most active in the community!`,
+    openGraph: {
+      title: `${serverName} — XP Leaderboard`,
+      description: `Check out the most active members in ${serverName}, ranked by experience points.`,
+    },
+  };
+}
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
+
+export default async function PublicLeaderboardPage({
+  params,
+}: {
+  params: Promise<{ guildId: string }>;
+}) {
+  const { guildId } = await params;
+  const { leaderboard, isError, isPrivate, isPremium, serverInfo, total, stats } =
+    await fetchLeaderboardData(guildId);
 
   if (isPrivate) {
     return (
@@ -95,177 +173,108 @@ export default async function PublicLeaderboardPage({
           Leaderboard Unavailable
         </h1>
         <p className="text-zinc-500 max-w-md">
-          We couldn't load the leaderboard for this server. Ensure the Role
+          We couldn&apos;t load the leaderboard for this server. Ensure the Role
           Reactor bot is in the server and the XP system is enabled.
         </p>
       </main>
     );
   }
 
+  const serverName = serverInfo.name || "Server";
+  const inviteLink = serverInfo.inviteUrl || serverInfo.vanityUrl || null;
+  const totalRanked = total || 0;
+  const { totalXP, highestLevel, averageLevel } = stats || {
+    totalXP: leaderboard.reduce((acc, entry) => acc + (entry.totalXP || 0), 0),
+    highestLevel: leaderboard.length > 0 ? Math.max(...leaderboard.map(e => e.level || 0)) : 0,
+    averageLevel: leaderboard.length > 0
+      ? Math.round(leaderboard.reduce((acc, entry) => acc + (entry.level || 0), 0) / leaderboard.length)
+      : 0
+  };
+  const baseUrl =
+    process.env.NEXT_PUBLIC_APP_URL ??
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null) ??
+    "https://rolereactor.app";
+  const pageUrl = `${baseUrl}/leaderboard/${guildId}`;
+
   return (
-    <main className="container max-w-5xl mx-auto py-16 px-4 min-h-screen">
-      <div className="flex flex-col items-center text-center mb-12">
-        <div className="w-16 h-16 bg-cyan-500/10 rounded-2xl flex items-center justify-center mb-6 border border-cyan-500/20 shadow-[0_0_30px_rgba(6,182,212,0.15)]">
-          <Trophy className="w-8 h-8 text-cyan-400" />
-        </div>
-        <h1
-          className={cn(
-            "text-4xl md:text-5xl font-black mb-4 uppercase tracking-wider",
-            audiowide.className
-          )}
-        >
-          Server Leaderboard
-        </h1>
-        <p className="text-zinc-400 max-w-xl text-lg">
-          The most active members in the community, ranked by experience points.
-        </p>
+    <main className="min-h-screen relative">
+      {/* Background */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 bg-zinc-950 pointer-events-none" />
+        <BubbleBackground
+          interactive={false}
+          className="absolute inset-0 opacity-15"
+          transition={{ stiffness: 50, damping: 30 }}
+          colors={{
+            first: "6, 182, 212",
+            second: "59, 130, 246",
+            third: "139, 92, 246",
+            fourth: "99, 102, 241",
+            fifth: "14, 165, 233",
+            sixth: "6, 182, 212",
+          }}
+        />
+        <div className="absolute inset-0 bg-black/70 pointer-events-none" />
       </div>
 
-      {/* Header Advertisement */}
-      <AdBlock slot="leaderboard_top" className="mb-8" hide={isPremium} />
+      <div className="relative z-10 container max-w-5xl mx-auto py-16 px-4">
+        <ServerHero
+          guildId={guildId}
+          serverName={serverName}
+          serverInfo={serverInfo || {}}
+          isPremium={isPremium}
+          leaderboardCount={totalRanked}
+          inviteLink={inviteLink}
+          pageUrl={pageUrl}
+        />
 
-      <Card variant="cyberpunk" className="w-full">
-        <div className="p-0 overflow-x-auto">
-          <div className="min-w-[400px]">
-            {/* Header */}
-            <div className="grid grid-cols-12 gap-4 px-6 py-4 text-[10px] uppercase font-black text-zinc-500 tracking-widest border-b border-white/5 bg-white/2">
-              <div
-                className={cn(
-                  "col-span-1 text-center font-black",
-                  audiowide.className
-                )}
-              >
-                #
-              </div>
-              <div
-                className={cn("col-span-6 sm:col-span-6", audiowide.className)}
-              >
-                Community Member
-              </div>
-              <div
-                className={cn(
-                  "hidden md:block md:col-span-3",
-                  audiowide.className
-                )}
-              >
-                Level
-              </div>
-              <div
-                className={cn(
-                  "col-span-5 sm:col-span-5 md:col-span-2 text-right",
-                  audiowide.className
-                )}
-              >
-                Total XP
-              </div>
-            </div>
-
-            {/* List */}
-            <div className="flex flex-col">
-              {leaderboard.length === 0 ? (
-                <div className="py-24 text-center">
-                  <p className="text-zinc-500 uppercase tracking-widest font-black text-sm">
-                    No members on the leaderboard yet
-                  </p>
-                </div>
-              ) : (
-                leaderboard.map((entry, i) => {
-                  const rank = i + 1;
-                  const isTop3 = rank <= 3;
-
-                  return (
-                    <div key={entry.userId}>
-                      <div
-                        className={cn(
-                          "grid grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-white/3 transition-all border-b border-white/5 last:border-0 relative",
-                          isTop3 && "bg-white/1"
-                        )}
-                      >
-                        <div className="col-span-1 flex justify-center relative z-10">
-                          <Badge
-                            variant={
-                              rank === 1
-                                ? "premium"
-                                : rank <= 3
-                                  ? "outline"
-                                  : "secondary"
-                            }
-                            className={cn(
-                              "w-7 h-7 flex items-center justify-center rounded-lg p-0 font-black text-[10px] tabular-nums",
-                              rank === 2 &&
-                                "text-zinc-300 border-white/20 bg-white/10",
-                              rank === 3 &&
-                                "text-orange-400 border-orange-500/40 bg-orange-500/20",
-                              rank > 3 &&
-                                "text-zinc-500 border-white/10 bg-zinc-900",
-                              audiowide.className
-                            )}
-                          >
-                            {rank}
-                          </Badge>
-                        </div>
-
-                        <div className="col-span-6 sm:col-span-6 flex items-center gap-4 relative z-10">
-                          <Avatar className="h-10 w-10 shrink-0 border border-white/10 bg-zinc-900">
-                            <AvatarImage
-                              src={
-                                getDiscordImageUrl(
-                                  "avatars",
-                                  entry.userId,
-                                  entry.user.avatar,
-                                  64
-                                ) || undefined
-                              }
-                            />
-                            <AvatarFallback className="text-[10px] uppercase font-black">
-                              {entry.user.username.slice(0, 2)}
-                            </AvatarFallback>
-                          </Avatar>
-                          <div className="truncate flex flex-col">
-                            <span
-                              className={cn(
-                                "font-black text-sm uppercase truncate",
-                                isTop3 ? "text-cyan-400" : "text-zinc-300",
-                                audiowide.className
-                              )}
-                            >
-                              {entry.user.username}
-                            </span>
-                            {entry.rankInfo && (
-                              <span className="text-[10px] text-zinc-500 font-black uppercase tracking-widest truncate mt-0.5">
-                                {entry.rankInfo.emoji} {entry.rankInfo.title}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-
-                        <div className="hidden md:flex md:col-span-3 items-center relative z-10 text-xs font-black text-zinc-400 uppercase tracking-widest">
-                          Level {entry.level}
-                        </div>
-
-                        <div
-                          className={cn(
-                            "col-span-5 sm:col-span-5 md:col-span-2 text-right font-black tabular-nums tracking-widest relative z-10",
-                            isTop3
-                              ? "text-cyan-400 text-sm"
-                              : "text-zinc-500 text-xs",
-                            audiowide.className
-                          )}
-                        >
-                          {entry.totalXP.toLocaleString()} XP
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })
-              )}
-            </div>
-          </div>
+        {/* Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+          <StatCard
+            icon={<Users className="w-4 h-4" />}
+            label="Ranked Members"
+            value={leaderboard.length.toLocaleString()}
+          />
+          <StatCard
+            icon={<Crown className="w-4 h-4" />}
+            label="Highest Level"
+            value={highestLevel.toString()}
+          />
+          <StatCard
+            icon={<TrendingUp className="w-4 h-4" />}
+            label="Average Level"
+            value={averageLevel.toString()}
+          />
+          <StatCard
+            icon={<Trophy className="w-4 h-4" />}
+            label="Total XP Earned"
+            value={formatCompact(totalXP)}
+          />
         </div>
-      </Card>
 
-      {/* Footer Advertisement */}
-      <AdBlock slot="leaderboard_bottom" className="mt-12" hide={isPremium} />
+        <AdBlock slot="leaderboard_top" className="mb-8" hide={isPremium} />
+
+        <LeaderboardTable leaderboard={leaderboard} />
+
+        <AdBlock slot="leaderboard_bottom" className="mt-12" hide={isPremium} />
+
+        <div className="mt-8 text-center">
+          <Link
+            href="/leaderboards"
+            className="text-sm text-zinc-500 hover:text-cyan-400 transition-colors font-medium inline-flex items-center gap-2"
+          >
+            ← Browse all leaderboards
+          </Link>
+        </div>
+      </div>
     </main>
   );
+}
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+function formatCompact(num: number): string {
+  if (num >= 1_000_000) return `${(num / 1_000_000).toFixed(1)}M`;
+  if (num >= 1_000) return `${(num / 1_000).toFixed(1)}K`;
+  return num.toLocaleString();
 }
