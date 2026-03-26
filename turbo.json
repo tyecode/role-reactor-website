@@ -4,7 +4,19 @@
     "build": {
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**"],
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "env": [
+        "DISCORD_CLIENT_ID",
+        "DISCORD_CLIENT_SECRET",
+        "AUTH_SECRET",
+        "BOT_API_URL",
+        "INTERNAL_API_KEY",
+        "NEXT_PUBLIC_BASE_URL",
+        "NEXT_PUBLIC_DISCORD_CLIENT_ID",
+        "NEXT_PUBLIC_DISCORD_DEVELOPERS",
+        "GOOGLE_SITE_VERIFICATION",
+        "NEXT_PUBLIC_SENTRY_DSN"
+      ]
     },
     "lint": {
       "dependsOn": ["^lint"]
