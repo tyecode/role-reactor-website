@@ -47,7 +47,9 @@ function extractServerInfo(data: Record<string, unknown>): ServerInfo {
     banner: source.banner as string | null | undefined,
     splash: source.splash as string | null | undefined,
     description: source.description as string | null | undefined,
-    memberCount: (source.humanCount ?? source.memberCount) as number | undefined,
+    memberCount: (source.humanCount ?? source.memberCount) as
+      | number
+      | undefined,
     onlineCount: source.onlineCount as number | undefined,
     inviteUrl: source.inviteUrl as string | null | undefined,
     vanityUrl: source.vanityUrl as string | null | undefined,
@@ -88,7 +90,9 @@ async function fetchLeaderboardData(guildId: string) {
       stats = data.stats || null;
 
       if (Array.isArray(rawLeaderboard)) {
-        leaderboard = rawLeaderboard.filter((entry: LeaderboardEntry) => !entry.user?.bot);
+        leaderboard = rawLeaderboard.filter(
+          (entry: LeaderboardEntry) => !entry.user?.bot
+        );
       } else {
         leaderboard = [];
       }
@@ -98,7 +102,15 @@ async function fetchLeaderboardData(guildId: string) {
     isError = true;
   }
 
-  return { leaderboard, isError, isPrivate, isPremium, serverInfo, total, stats };
+  return {
+    leaderboard,
+    isError,
+    isPrivate,
+    isPremium,
+    serverInfo,
+    total,
+    stats,
+  };
 }
 
 // ─── Metadata ─────────────────────────────────────────────────────────────────
@@ -142,8 +154,15 @@ export default async function PublicLeaderboardPage({
   params: Promise<{ guildId: string }>;
 }) {
   const { guildId } = await params;
-  const { leaderboard, isError, isPrivate, isPremium, serverInfo, total, stats } =
-    await fetchLeaderboardData(guildId);
+  const {
+    leaderboard,
+    isError,
+    isPrivate,
+    isPremium,
+    serverInfo,
+    total,
+    stats,
+  } = await fetchLeaderboardData(guildId);
 
   if (isPrivate) {
     return (
@@ -185,10 +204,17 @@ export default async function PublicLeaderboardPage({
   const totalRanked = total || 0;
   const { totalXP, highestLevel, averageLevel } = stats || {
     totalXP: leaderboard.reduce((acc, entry) => acc + (entry.totalXP || 0), 0),
-    highestLevel: leaderboard.length > 0 ? Math.max(...leaderboard.map(e => e.level || 0)) : 0,
-    averageLevel: leaderboard.length > 0
-      ? Math.round(leaderboard.reduce((acc, entry) => acc + (entry.level || 0), 0) / leaderboard.length)
-      : 0
+    highestLevel:
+      leaderboard.length > 0
+        ? Math.max(...leaderboard.map((e) => e.level || 0))
+        : 0,
+    averageLevel:
+      leaderboard.length > 0
+        ? Math.round(
+            leaderboard.reduce((acc, entry) => acc + (entry.level || 0), 0) /
+              leaderboard.length
+          )
+        : 0,
   };
   const baseUrl =
     process.env.NEXT_PUBLIC_APP_URL ??
