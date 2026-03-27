@@ -731,7 +731,7 @@ export const XPSettingsTab = forwardRef<
             <div className="flex items-center gap-4 p-4 rounded-xl bg-zinc-900/50 border border-white/5 relative group">
               <Input
                 readOnly
-                value={`https://rolereactor.app/leaderboard/${guildId}`}
+                value={`https://rolereactor.app/leaderboards/${guildId}`}
                 className="bg-transparent border-none font-mono text-zinc-400 focus-visible:ring-0 shadow-none px-0"
               />
               <Button
@@ -740,7 +740,7 @@ export const XPSettingsTab = forwardRef<
                 className="shrink-0 bg-white/5 border-white/10 hover:bg-white/10 hover:text-white transition-colors"
                 onClick={() => {
                   navigator.clipboard.writeText(
-                    `https://rolereactor.app/leaderboard/${guildId}`
+                    `https://rolereactor.app/leaderboards/${guildId}`
                   );
                   toast.success("Leaderboard link copied to clipboard!");
                 }}
@@ -752,7 +752,9 @@ export const XPSettingsTab = forwardRef<
                 variant="cyber"
                 size="sm"
                 className="shrink-0"
-                onClick={() => window.open(`/leaderboard/${guildId}`, "_blank")}
+                onClick={() =>
+                  window.open(`/leaderboards/${guildId}`, "_blank")
+                }
               >
                 <ExternalLink className="w-4 h-4" />
               </Button>

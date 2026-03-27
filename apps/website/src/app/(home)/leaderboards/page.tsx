@@ -14,7 +14,7 @@ import { AdBlock } from "@/components/adsense/ad-block";
 export const metadata = {
   title: "Top Communities | Role Reactor",
   description:
-    "Discover the largest and most active Discord communities using the Role Reactor XP system.",
+    "Discover the most active Discord communities powered by Role Reactor's XP system.",
 };
 
 interface GuildResult {
@@ -83,9 +83,12 @@ export default async function LeaderboardsPage() {
   let guilds: GuildResult[] = [];
   try {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const data = await botFetchJson<any>("/guilds/public-leaderboards", {
-      next: { revalidate: 0 }, // Disable cache for now to see fresh data
-    });
+    const data = await botFetchJson<any>(
+      "/guilds/public-leaderboards?limit=30",
+      {
+        next: { revalidate: 0 }, // Disable cache for now to see fresh data
+      }
+    );
     if (data?.guilds) {
       guilds = data.guilds;
     }
@@ -141,8 +144,8 @@ export default async function LeaderboardsPage() {
           </h1>
 
           <p className="text-lg md:text-xl text-zinc-400 font-light leading-relaxed mb-4">
-            Discover the largest and most active Discord communities using the
-            Role Reactor XP system to engage their members.
+            Discover the most active Discord communities powered by Role
+            Reactor&apos;s XP system.
           </p>
 
           <div className="pt-8">
@@ -162,7 +165,7 @@ export default async function LeaderboardsPage() {
 
               return (
                 <Link
-                  href={`/leaderboard/${guild.id}`}
+                  href={`/leaderboards/${guild.id}`}
                   key={guild.id}
                   className="block group"
                 >
@@ -183,19 +186,6 @@ export default async function LeaderboardsPage() {
                     />
                     <div className="absolute inset-0 bg-linear-to-r from-transparent to-zinc-950/80 pointer-events-none rounded-2xl" />
 
-                    {/* Rank Badge */}
-                    <div className="absolute top-3 right-3 z-20">
-                      <span
-                        className={cn(
-                          "text-xs font-black px-2.5 py-1 rounded-lg border uppercase tracking-wider",
-                          styles.badge,
-                          audiowide.className
-                        )}
-                      >
-                        #{rank}
-                      </span>
-                    </div>
-
                     {/* Avatar */}
                     <Avatar
                       className={cn(
@@ -215,16 +205,27 @@ export default async function LeaderboardsPage() {
 
                     {/* Info */}
                     <div className="flex flex-col relative z-10 min-w-0 flex-1">
-                      <h3
-                        className={cn(
-                          "text-white text-base font-bold truncate transition-colors leading-snug",
-                          styles.text,
-                          audiowide.className
-                        )}
-                        title={guild.name}
-                      >
-                        {guild.name}
-                      </h3>
+                      <div className="flex items-center gap-2">
+                        <h3
+                          className={cn(
+                            "text-white text-base font-bold truncate transition-colors leading-snug",
+                            styles.text,
+                            audiowide.className
+                          )}
+                          title={guild.name}
+                        >
+                          {guild.name}
+                        </h3>
+                        <span
+                          className={cn(
+                            "text-xs font-black px-2 py-0.5 rounded-lg border uppercase tracking-wider shrink-0 ml-auto",
+                            styles.badge,
+                            audiowide.className
+                          )}
+                        >
+                          #{rank}
+                        </span>
+                      </div>
 
                       <div className="mt-1 flex items-center gap-3">
                         <span className="inline-flex items-center gap-1 text-[10px] text-zinc-400 font-bold tracking-tighter uppercase whitespace-nowrap">

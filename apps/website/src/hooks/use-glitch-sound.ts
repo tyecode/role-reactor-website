@@ -67,15 +67,15 @@ async function init() {
 
 // Global initialization
 if (typeof window !== "undefined") {
-  init();
-  const resume = () => {
+  const handleInteraction = () => {
+    init();
     if (state.context?.state === "suspended") {
-      state.context.resume();
+      state.context.resume().catch(() => {});
     }
   };
-  window.addEventListener("mousedown", resume, { capture: true });
-  window.addEventListener("keydown", resume, { capture: true });
-  window.addEventListener("touchstart", resume, { capture: true });
+  window.addEventListener("mousedown", handleInteraction, { capture: true });
+  window.addEventListener("keydown", handleInteraction, { capture: true });
+  window.addEventListener("touchstart", handleInteraction, { capture: true });
 }
 
 export function useGlitchSound() {

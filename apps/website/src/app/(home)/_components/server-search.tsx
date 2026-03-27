@@ -179,7 +179,7 @@ export function ServerSearch() {
                       animate={{ opacity: 1, scale: 1 }}
                       transition={{ delay: index * 0.05 }}
                     >
-                      <Link href={`/leaderboard/${guild.id}`}>
+                      <Link href={`/leaderboards/${guild.id}`}>
                         <div className="group flex items-center p-3 rounded-xl border border-white/5 bg-zinc-900/60 backdrop-blur-sm hover:bg-zinc-800/80 hover:border-emerald-500/40 hover:shadow-[0_0_15px_rgba(16,185,129,0.15)] transition-all gap-4 overflow-hidden relative">
                           {/* Avatar */}
                           <Avatar

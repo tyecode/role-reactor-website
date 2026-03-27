@@ -536,7 +536,31 @@
     animation-delay: 0.8s;
   }
 
-  /* Custom Scrollbar */
+  /* Global Scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+
+  *::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 10px;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
+
+  /* Custom Scrollbar (legacy class — global now handles this) */
   .custom-scrollbar::-webkit-scrollbar {
     width: 5px;
     height: 5px;

@@ -193,8 +193,8 @@ export default async function PublicLeaderboardPage({
           Leaderboard Unavailable
         </h1>
         <p className="text-zinc-500 max-w-md">
-          We couldn&apos;t load the leaderboard for this server. Ensure the Role
-          Reactor bot is in the server and the XP system is enabled.
+          This leaderboard is currently unavailable. The server may not have the
+          XP system enabled or may no longer be using Role Reactor.
         </p>
       </main>
     );
@@ -221,7 +221,7 @@ export default async function PublicLeaderboardPage({
     process.env.NEXT_PUBLIC_BASE_URL ??
     (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null) ??
     "https://rolereactor.app";
-  const pageUrl = `${baseUrl}/leaderboard/${guildId}`;
+  const pageUrl = `${baseUrl}/leaderboards/${guildId}`;
 
   return (
     <main className="min-h-screen relative">

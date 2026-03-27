@@ -1,7 +1,29 @@
 "use client";
 
 import { Zap, Shield, Trophy } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { CyberpunkBackground } from "@/components/common/cyberpunk-background";
+
+const BENEFITS = [
+  {
+    icon: Zap,
+    text: "Unlock All Premium Features",
+    color: "text-cyan-400",
+    glow: "rgba(34,211,238,0.4)",
+  },
+  {
+    icon: Shield,
+    text: "Priority Processing & Dedicated Support",
+    color: "text-emerald-400",
+    glow: "rgba(52,211,153,0.4)",
+  },
+  {
+    icon: Trophy,
+    text: "Up to 20x Higher Limits on All Systems",
+    color: "text-fuchsia-400",
+    glow: "rgba(232,121,249,0.4)",
+  },
+];
 
 export function PricingBenefits() {
   return (
@@ -20,38 +42,25 @@ export function PricingBenefits() {
 
       <div className="relative z-10">
         <ul className="space-y-2">
-          <li className="flex items-center gap-3 text-white group/item">
-            <div className="text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.4)]">
-              <Zap className="w-3.5 h-3.5" />
-            </div>
-            <span className="text-[10px] font-black uppercase tracking-wider text-zinc-300 group-hover/item:text-white transition-colors">
-              Premium Automation Tools
-            </span>
-          </li>
-          <li className="flex items-center gap-3 text-white group/item">
-            <div className="text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,0.4)]">
-              <Shield className="w-3.5 h-3.5" />
-            </div>
-            <span className="text-[10px] font-black uppercase tracking-wider text-zinc-300 group-hover/item:text-white transition-colors">
-              Advanced XP Systems
-            </span>
-          </li>
-          <li className="flex items-center gap-3 text-white group/item">
-            <div className="text-fuchsia-400 drop-shadow-[0_0_8px_rgba(232,121,249,0.4)]">
-              <Trophy className="w-3.5 h-3.5" />
-            </div>
-            <span className="text-[10px] font-black uppercase tracking-wider text-zinc-300 group-hover/item:text-white transition-colors">
-              Exclusive Ranked Rewards
-            </span>
-          </li>
+          {BENEFITS.map((benefit) => (
+            <li
+              key={benefit.text}
+              className="flex items-center gap-3 text-white group/item select-none"
+            >
+              <div
+                className={cn(
+                  benefit.color,
+                  `drop-shadow-[0_0_8px_${benefit.glow}]`
+                )}
+              >
+                <benefit.icon className="w-3.5 h-3.5" />
+              </div>
+              <span className="text-[10px] font-black uppercase tracking-wider text-zinc-300 group-hover/item:text-white transition-colors">
+                {benefit.text}
+              </span>
+            </li>
+          ))}
         </ul>
-      </div>
-
-      {/* Pagination Dots */}
-      <div className="flex justify-center gap-2 mt-3">
-        <span className="w-1 h-1 rounded-full bg-zinc-800" />
-        <span className="w-3 h-1 rounded-full bg-cyan-500 shadow-[0_0_8px_rgba(6,182,212,0.5)] transition-all duration-300" />
-        <span className="w-1 h-1 rounded-full bg-zinc-800" />
       </div>
     </div>
   );
