@@ -30,8 +30,8 @@ interface ServerInfo {
 
 // ─── Data Fetching ────────────────────────────────────────────────────────────
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function extractServerInfo(data: Record<string, unknown>): ServerInfo {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const d = data as any;
   const source = (d.data?.serverInfo ??
     d.serverInfo ??
