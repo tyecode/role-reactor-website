@@ -289,6 +289,7 @@ export default async function PublicLeaderboardPage({
           <Link
             href="/leaderboards"
             className="text-sm text-zinc-500 hover:text-cyan-400 transition-colors font-medium inline-flex items-center gap-2"
+            prefetch={false}
           >
             ← Browse all leaderboards
           </Link>

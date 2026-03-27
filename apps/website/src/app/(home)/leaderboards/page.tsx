@@ -168,6 +168,7 @@ export default async function LeaderboardsPage() {
                   href={`/leaderboards/${guild.id}`}
                   key={guild.id}
                   className="block group"
+                  prefetch={false}
                 >
                   <div
                     className={cn(
