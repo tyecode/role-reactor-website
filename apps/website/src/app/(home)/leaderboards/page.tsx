@@ -1,3 +1,4 @@
+import React from "react";
 import Link from "next/link";
 import { Trophy, Users, ShieldCheck } from "lucide-react";
 
@@ -158,12 +159,12 @@ export default async function LeaderboardsPage() {
         {/* Guild Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-8 relative z-10 w-full">
           {guilds.length > 0 ? (
-            guilds.map((guild) => {
+            guilds.map((guild, index) => {
               const rank = guild.rank || 0;
               const styles = getRankStyles(rank);
               const isTop3 = rank > 0 && rank <= 3;
 
-              return (
+              const serverCard = (
                 <Link
                   href={`/leaderboards/${guild.id}`}
                   key={guild.id}
@@ -172,9 +173,9 @@ export default async function LeaderboardsPage() {
                 >
                   <div
                     className={cn(
-                      "flex items-center p-4 rounded-2xl border bg-zinc-950/40 backdrop-blur-md hover:bg-zinc-900/80 hover:shadow-[0_0_20px_rgba(16,185,129,0.1)] transition-all duration-300 gap-4 overflow-hidden relative",
+                      "flex items-center p-4 rounded-2xl border bg-zinc-950/40 backdrop-blur-md hover:bg-zinc-900/80 hover:shadow-[0_0_20px_rgba(16,185,129,0.1)] transition-all duration-300 gap-4 overflow-hidden relative h-full",
                       isTop3
-                        ? "border-amber-500/30 hover:border-amber-500/40" // Bronze/Silver/Gold specific borders could go here but using amber for all top 3 is consistent with current logic
+                        ? "border-amber-500/30 hover:border-amber-500/40"
                         : "border-white/5 hover:border-emerald-500/30"
                     )}
                   >
@@ -249,6 +250,20 @@ export default async function LeaderboardsPage() {
                   </div>
                 </Link>
               );
+
+              // Inject Native Ad exactly at index 5 (6th position)
+              if (index === 5) {
+                return (
+                  <React.Fragment key={`ad-group-${guild.id}`}>
+                    <div className="flex flex-col items-center justify-center p-4 rounded-2xl border border-white/5 bg-zinc-950/40 backdrop-blur-md overflow-hidden relative min-h-[100px] h-full">
+                       <AdBlock slot="leaderboards_native" format="fluid" className="h-full w-full" layoutKey="-gw-1+2a-9x+5y" />
+                    </div>
+                    {serverCard}
+                  </React.Fragment>
+                );
+              }
+
+              return serverCard;
             })
           ) : (
             <div className="col-span-full py-24 text-center text-zinc-500 font-medium bg-zinc-950/40 backdrop-blur-sm rounded-4xl border border-white/5 flex flex-col items-center justify-center gap-6">

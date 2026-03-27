@@ -4,6 +4,7 @@ import { Megaphone, ShieldAlert, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { audiowide } from "@/lib/fonts";
 import { links } from "@/constants/links";
+import Link from "next/link";
 
 interface AdBlockProps {
   slot: string;
@@ -14,6 +15,7 @@ interface AdBlockProps {
   className?: string;
   hide?: boolean;
   variant?: "default" | "sidebar";
+  showRemoveAds?: boolean;
 }
 
 declare global {
@@ -31,6 +33,7 @@ export function AdBlock({
   className,
   hide,
   variant = "default",
+  showRemoveAds = false,
 }: AdBlockProps) {
   const publisherId = process.env.NEXT_PUBLIC_ADSENSE_PUB_ID;
   const isDev = process.env.NODE_ENV === "development";
@@ -160,21 +163,40 @@ export function AdBlock({
     );
   }
 
+  // Use "rectangle" format automatically for sidebars to prevent infinite vertical skyscraper ads breaking layouts
+  const computedFormat =
+    variant === "sidebar" && format === "auto" ? "rectangle" : format;
+
   return (
     <div
-      className={cn("w-full overflow-hidden min-h-[50px]", className)}
-      style={style}
+      className={cn(
+        "relative flex flex-col items-center justify-center w-full",
+        "has-[ins[data-ad-status=unfilled]]:hidden",
+        className
+      )}
     >
       <ins
         ref={adRef}
-        className="adsbygoogle"
+        className={cn(
+          "adsbygoogle w-full block bg-transparent",
+          variant === "sidebar" && "max-h-[300px] overflow-hidden"
+        )}
         style={{ display: "block", ...style }}
         data-ad-client={publisherId}
         data-ad-slot={slot}
-        data-ad-format={format}
+        data-ad-format={computedFormat}
         data-full-width-responsive={responsive}
         {...(layoutKey ? { "data-ad-layout-key": layoutKey } : {})}
       />
+      {showRemoveAds && (
+        <Link
+          href="/premium"
+          className="text-[10px] text-zinc-500/70 hover:text-cyan-400/90 font-medium uppercase tracking-widest mt-2 transition-colors"
+          prefetch={false}
+        >
+          Remove Ads — Get Premium
+        </Link>
+      )}
     </div>
   );
 }
