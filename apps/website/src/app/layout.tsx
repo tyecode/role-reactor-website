@@ -125,11 +125,14 @@ export const metadata: Metadata = {
     apple: [{ url: "/images/favicon/apple-touch-icon.png", sizes: "180x180" }],
   },
   manifest: "/images/favicon/site.webmanifest",
-  ...(process.env.GOOGLE_SITE_VERIFICATION && {
-    other: {
+  other: {
+    ...(process.env.GOOGLE_SITE_VERIFICATION && {
       "google-site-verification": process.env.GOOGLE_SITE_VERIFICATION,
-    },
-  }),
+    }),
+    ...(process.env.NEXT_PUBLIC_ADSENSE_PUB_ID && {
+      "google-adsense-account": process.env.NEXT_PUBLIC_ADSENSE_PUB_ID,
+    }),
+  },
 };
 
 export default function Layout({ children }: { children: ReactNode }) {
