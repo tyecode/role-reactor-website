@@ -255,7 +255,7 @@ export default async function LeaderboardsPage() {
               if (index === 5) {
                 return (
                   <React.Fragment key={`ad-group-${guild.id}`}>
-                    <div className="flex flex-col items-center justify-center p-4 rounded-2xl border border-white/5 bg-zinc-950/40 backdrop-blur-md overflow-hidden relative min-h-[100px] h-full">
+                    <div className="flex flex-col items-center justify-center p-4 rounded-2xl border border-white/5 bg-zinc-950/40 backdrop-blur-md overflow-hidden relative min-h-[100px] h-full has-[ins[data-ad-status=unfilled]]:hidden">
                        <AdBlock slot="leaderboards_native" format="fluid" className="h-full w-full" layoutKey="-gw-1+2a-9x+5y" />
                     </div>
                     {serverCard}
