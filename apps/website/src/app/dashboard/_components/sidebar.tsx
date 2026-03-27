@@ -57,11 +57,9 @@ import { UserMenu } from "@/components/auth/user-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ServerSwitcher } from "./server-switcher";
-import { AdBlock } from "@/components/adsense/ad-block";
 import { useServerStore } from "@/store/use-server-store";
 import { useProEngineStore } from "@/store/use-pro-engine-store";
 import { Suspense, useEffect, useState } from "react";
-
 import { audiowide } from "@/lib/fonts";
 
 // Helper to get avatar URL
@@ -530,17 +528,6 @@ export function DashboardSidebar() {
               <NavGroup label="Developer" items={getDeveloperItems()} />
             )}
           </>
-        )}
-
-        {/* Sidebar Native Ad Zone */}
-        {!isPremium && mounted && (
-          <div className="mt-auto px-4 py-6 group-data-[collapsible=icon]:hidden">
-            <AdBlock
-              slot="dashboard_sidebar_bottom"
-              variant="sidebar"
-              className="border-white/10 hover:border-cyan-500/30 transition-colors"
-            />
-          </div>
         )}
       </SidebarContent>
 
