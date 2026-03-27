@@ -159,12 +159,12 @@ export default async function LeaderboardsPage() {
         {/* Guild Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-8 relative z-10 w-full">
           {guilds.length > 0 ? (
-            guilds.map((guild, index) => {
+            guilds.map((guild) => {
               const rank = guild.rank || 0;
               const styles = getRankStyles(rank);
               const isTop3 = rank > 0 && rank <= 3;
 
-              const serverCard = (
+              return (
                 <Link
                   href={`/leaderboards/${guild.id}`}
                   key={guild.id}
@@ -250,20 +250,6 @@ export default async function LeaderboardsPage() {
                   </div>
                 </Link>
               );
-
-              // Inject Native Ad exactly at index 5 (6th position)
-              if (index === 5) {
-                return (
-                  <React.Fragment key={`ad-group-${guild.id}`}>
-                    <div className="flex flex-col items-center justify-center p-4 rounded-2xl border border-white/5 bg-zinc-950/40 backdrop-blur-md overflow-hidden relative min-h-[100px] h-full has-[ins[data-ad-status=unfilled]]:hidden">
-                       <AdBlock slot="leaderboards_native" format="fluid" className="h-full w-full" layoutKey="-gw-1+2a-9x+5y" />
-                    </div>
-                    {serverCard}
-                  </React.Fragment>
-                );
-              }
-
-              return serverCard;
             })
           ) : (
             <div className="col-span-full py-24 text-center text-zinc-500 font-medium bg-zinc-950/40 backdrop-blur-sm rounded-4xl border border-white/5 flex flex-col items-center justify-center gap-6">
