@@ -28,8 +28,8 @@ export async function GET() {
 
     const data = await response.json();
     return NextResponse.json({
-      success: true,
-      unreadCount: data.data?.unreadCount || 0,
+      success: data.status === "success",
+      unreadCount: data.unreadCount || 0,
     });
   } catch (error) {
     console.error("Error fetching unread count:", error);

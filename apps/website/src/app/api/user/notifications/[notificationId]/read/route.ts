@@ -43,8 +43,8 @@ export async function PATCH(
 
     const data = await response.json();
     return NextResponse.json({
-      success: true,
-      marked: data.data?.success || false,
+      success: data.status === "success",
+      marked: data.success || false,
     });
   } catch (error) {
     console.error("Error marking notification as read:", error);

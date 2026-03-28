@@ -37,11 +37,11 @@ export async function GET() {
 
     const data = await response.json();
 
-    if (data.success && data.data) {
+    if (data.status === "success") {
       return NextResponse.json({
         success: true,
-        transactions: data.data.payments || [],
-        total: data.data.total || 0,
+        transactions: data.payments || [],
+        total: data.total || 0,
       });
     }
 

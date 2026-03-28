@@ -36,13 +36,14 @@ export async function GET(req: Request) {
     }
 
     const data = await response.json();
+    const isSuccess = data.status === "success";
 
-    if (data.success && data.data) {
+    if (isSuccess) {
       return NextResponse.json({
         success: true,
-        notifications: data.data.notifications || [],
-        unreadCount: data.data.unreadCount || 0,
-        pagination: data.data.pagination,
+        notifications: data.notifications || [],
+        unreadCount: data.unreadCount || 0,
+        pagination: data.pagination,
       });
     }
 
@@ -89,8 +90,8 @@ export async function PATCH() {
 
     const data = await response.json();
     return NextResponse.json({
-      success: true,
-      markedRead: data.data?.markedRead || 0,
+      success: data.status === "success",
+      markedRead: data.markedRead || 0,
     });
   } catch (error) {
     console.error("Error marking all notifications as read:", error);
