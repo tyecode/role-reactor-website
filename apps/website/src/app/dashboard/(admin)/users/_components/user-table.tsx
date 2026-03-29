@@ -38,6 +38,7 @@ import { cn, getDiscordImageUrl } from "@/lib/utils";
 import { UserRoles } from "@/lib/admin";
 import { updateUserRole } from "../actions";
 import { ManageCoresDialog } from "./manage-cores-dialog";
+import { ViewTransactionsDialog } from "./view-transactions-dialog";
 
 interface UserData {
   id: string;
@@ -79,6 +80,8 @@ export function UserTable({ initialData }: UserTableProps) {
   const [selectedCoreUser, setSelectedCoreUser] = useState<UserData | null>(
     null
   );
+  const [selectedHistoryUser, setSelectedHistoryUser] =
+    useState<UserData | null>(null);
 
   const handleSearch = (val: string) => {
     setSearchTerm(val);
@@ -182,6 +185,7 @@ export function UserTable({ initialData }: UserTableProps) {
                   setUpdateRole(role);
                 }}
                 onManageCores={() => setSelectedCoreUser(user)}
+                onViewHistory={() => setSelectedHistoryUser(user)}
               />
             ))}
           </tbody>
@@ -267,6 +271,11 @@ export function UserTable({ initialData }: UserTableProps) {
         open={!!selectedCoreUser}
         onOpenChange={(open) => !open && setSelectedCoreUser(null)}
       />
+      <ViewTransactionsDialog
+        user={selectedHistoryUser}
+        open={!!selectedHistoryUser}
+        onOpenChange={(open) => !open && setSelectedHistoryUser(null)}
+      />
     </>
   );
 }
@@ -275,10 +284,12 @@ function UserRow({
   user,
   onEditRole,
   onManageCores,
+  onViewHistory,
 }: {
   user: UserData;
   onEditRole: (role: string) => void;
   onManageCores: () => void;
+  onViewHistory: () => void;
 }) {
   const rootIds = (process.env.NEXT_PUBLIC_DISCORD_DEVELOPERS || "")
     .split(",")
@@ -447,8 +458,11 @@ function UserRow({
               Manage Cores
             </DropdownMenuItem>
 
-            <DropdownMenuItem className="text-xs font-mono uppercase cursor-pointer focus:bg-zinc-800">
-              View Audit Log
+            <DropdownMenuItem
+              className="text-xs font-mono uppercase cursor-pointer focus:bg-cyan-500/10 focus:text-cyan-400"
+              onClick={onViewHistory}
+            >
+              View Payment History
             </DropdownMenuItem>
 
             {!isRootOwner && (

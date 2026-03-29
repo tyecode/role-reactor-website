@@ -40,3 +40,14 @@ export async function manageUserCores(
     return { success: false, error: "Failed to update balance" };
   }
 }
+
+export async function getUserTransactions(userId: string) {
+  try {
+    // Reuses the exact same bot endpoint the billing page uses, but executed by admin
+    const result = await botFetchJson<any>(`/user/${userId}/payments`);
+    return { success: true, transactions: result?.payments || [] };
+  } catch (error) {
+    console.error(`Failed to fetch transactions for user ${userId}:`, error);
+    return { success: false, error: "Failed to fetch transactions" };
+  }
+}
