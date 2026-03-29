@@ -7,7 +7,6 @@ import {
   Bot,
   CheckCircle,
   MessageSquare,
-  Image,
   Mic,
   BarChart3,
 } from "lucide-react";
@@ -79,15 +78,6 @@ const features = [
     color: "indigo",
   },
   {
-    icon: Image,
-    title: "AI Avatar Generation",
-    description:
-      "Generate unique anime-style avatars using AI with multiple style options and custom prompts.",
-    gradient: "from-pink-500 to-rose-500",
-    stats: "AI-powered",
-    color: "pink",
-  },
-  {
     icon: BarChart3,
     title: "Poll System",
     description:
@@ -100,7 +90,7 @@ const features = [
 
 export function Features() {
   return (
-    <section className="py-16 px-4 relative overflow-hidden">
+    <section className="py-12 sm:py-16 px-4 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-background" />
 
@@ -118,12 +108,12 @@ export function Features() {
             <Bot className="w-3 h-3" />
             <span>Powerful Features</span>
           </Badge>
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
             Comprehensive Features
           </h2>
           <p className="text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-            Role management features with AI-powered tools, XP tracking, and
-            advanced automation. Easy to set up and use.
+            Complete role management with XP tracking, polls, and advanced
+            automation. Easy to set up and use.
           </p>
         </div>
 
@@ -162,12 +152,12 @@ export function Features() {
                     </h3>
                     <Badge
                       variant="secondary"
-                      className="bg-zinc-800/50 text-zinc-500 group-hover:bg-zinc-800 group-hover:text-zinc-300 transition-all border-zinc-700/30"
+                      className="bg-zinc-800/50 text-zinc-300 group-hover:bg-zinc-800 group-hover:text-zinc-200 transition-all border-zinc-700/30"
                     >
                       {feature.stats}
                     </Badge>
                   </div>
-                  <p className="text-sm text-muted-foreground leading-relaxed flex-1">
+                  <p className="text-sm text-zinc-400 leading-relaxed flex-1">
                     {feature.description}
                   </p>
                 </div>

@@ -1,6 +1,5 @@
-import { Heart, Shield, TrendingUp, Zap } from "lucide-react";
+import { Server, TrendingUp, Shield, Heart } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 
 function formatExecutions(count: number): string {
   if (count >= 1_000_000) return `${(count / 1_000_000).toFixed(1)}M+`;
@@ -10,10 +9,29 @@ function formatExecutions(count: number): string {
 
 interface SocialProofProps {
   totalExecutions?: number;
+  totalGuilds?: number;
+  totalCommands?: number;
 }
 
-export function SocialProof({ totalExecutions = 0 }: SocialProofProps) {
+function formatGuilds(count: number): string {
+  if (count >= 1000) return `${(count / 1000).toFixed(1)}k+`;
+  return count.toString();
+}
+
+export function SocialProof({
+  totalExecutions = 0,
+  totalGuilds = 0,
+  totalCommands = 0,
+}: SocialProofProps) {
   const dynamicStats = [
+    {
+      value: totalGuilds >= 1 ? formatGuilds(totalGuilds) : "1k+",
+      label: "Servers",
+      description: "Growing daily",
+      icon: Server,
+      color: "purple",
+      gradient: "from-purple-500 to-pink-500",
+    },
     {
       value:
         totalExecutions >= 1000 ? formatExecutions(totalExecutions) : "100k+",
@@ -32,25 +50,17 @@ export function SocialProof({ totalExecutions = 0 }: SocialProofProps) {
       gradient: "from-blue-500 to-cyan-500",
     },
     {
-      value: "Free",
-      label: "Core Features",
-      description: "No credit card needed",
+      value: `${totalCommands}+`,
+      label: "Commands",
+      description: "Feature rich",
       icon: Heart,
       color: "red",
       gradient: "from-red-500 to-pink-500",
     },
-    {
-      value: "Powerful",
-      label: "Advanced Tools",
-      description: "AI, XP, automation",
-      icon: Zap,
-      color: "yellow",
-      gradient: "from-yellow-500 to-orange-500",
-    },
   ];
 
   return (
-    <section className="py-16 px-4 relative overflow-hidden">
+    <section className="py-12 sm:py-16 px-4 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-background" />
 
@@ -61,20 +71,9 @@ export function SocialProof({ totalExecutions = 0 }: SocialProofProps) {
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Header */}
         <div className="text-center mb-12">
-          <Badge
-            variant="secondary"
-            className="mb-4 bg-zinc-800/50 text-zinc-400 hover:bg-zinc-800/80 border-zinc-700/50 gap-2"
-          >
-            <Heart className="w-3 h-3" />
-            <span>Simple & Reliable</span>
-          </Badge>
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 leading-tight">
-            Why Choose Role Reactor Bot
+          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
+            Trusted by Thousands
           </h2>
-          <p className="text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-            A comprehensive Discord bot for role management with advanced
-            features. Easy to use with powerful automation capabilities.
-          </p>
         </div>
 
         {/* Stats */}
@@ -98,49 +97,11 @@ export function SocialProof({ totalExecutions = 0 }: SocialProofProps) {
                 <div className="text-sm font-semibold text-foreground mb-1">
                   {stat.label}
                 </div>
-                <div className="text-xs text-muted-foreground">
-                  {stat.description}
-                </div>
+                <div className="text-xs text-zinc-400">{stat.description}</div>
               </CardContent>
             </Card>
           ))}
         </div>
-
-        {/* Trust indicators */}
-        <Card
-          variant="cyberpunk"
-          className="bg-linear-to-r from-zinc-900/40 to-zinc-800/10 border-white/5"
-        >
-          <CardContent className="p-8">
-            <div className="text-center mb-6">
-              <h3 className="text-xl font-bold text-foreground mb-3">
-                Perfect for Your Server
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                Works for Discord servers of any size. Comprehensive features
-                that are easy to manage.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
-              {[
-                { label: "Easy Setup", icon: Shield },
-                { label: "Always Reliable", icon: TrendingUp },
-                { label: "Free to Start", icon: Zap },
-                { label: "Community Focused", icon: Heart },
-              ].map((item) => (
-                <div key={item.label} className="text-center group">
-                  <div className="w-10 h-10 mx-auto mb-2 bg-linear-to-br from-blue-500 to-purple-500 rounded-lg flex items-center justify-center text-white group-hover:scale-110 transition-transform duration-300">
-                    <item.icon className="w-5 h-5" />
-                  </div>
-                  <div className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">
-                    {item.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
       </div>
     </section>
   );

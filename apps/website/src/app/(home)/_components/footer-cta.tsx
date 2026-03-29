@@ -67,11 +67,11 @@ export function FooterCTA() {
             </Badge>
 
             {/* Main heading */}
-            <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
               Ready to Level Up?
             </h2>
 
-            <p className="text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed mb-8">
+            <p className="text-base sm:text-lg md:text-xl text-zinc-400 max-w-xl sm:max-w-2xl mx-auto leading-relaxed mb-8">
               Stop struggling with manual role management. Role Reactor
               automates everything so you can focus on building an amazing
               community.
@@ -114,26 +114,6 @@ export function FooterCTA() {
             </div>
           </div>
         </Card>
-
-        {/* Trust Indicators */}
-        <div className="mt-8 text-center">
-          <div className="flex items-center justify-center gap-8 text-zinc-500 text-sm">
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-              <span>Free to Use</span>
-            </div>
-            <div className="w-px h-4 bg-zinc-800" />
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
-              <span>30s Setup</span>
-            </div>
-            <div className="w-px h-4 bg-zinc-800" />
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-purple-500 rounded-full animate-pulse" />
-              <span>24/7 Online</span>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );

@@ -63,7 +63,7 @@ export function Hero() {
         {/* Main Title */}
         <h1
           className={cn(
-            "text-6xl md:text-8xl font-bold tracking-tight text-white drop-shadow-[0_0_15px_rgba(6,182,212,0.3)]",
+            "text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold tracking-tight text-white drop-shadow-[0_0_15px_rgba(6,182,212,0.3)]",
             audiowide.className
           )}
         >
@@ -74,7 +74,7 @@ export function Hero() {
         </h1>
 
         {/* Subtitle / Tagline */}
-        <p className="text-xl md:text-2xl text-zinc-400 max-w-3xl mx-auto leading-relaxed font-light">
+        <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-zinc-400 max-w-2xl sm:max-w-3xl mx-auto leading-relaxed font-light">
           The ultimate Discord bot for{" "}
           <span className="text-white font-medium">
             automated role management
@@ -115,7 +115,7 @@ export function Hero() {
         </div>
 
         {/* Trust Indicators - Horizontal */}
-        <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-4 pt-12 text-sm text-zinc-500 font-medium tracking-wide">
+        <div className="flex flex-wrap items-center justify-center gap-x-4 sm:gap-x-8 md:gap-x-12 gap-y-4 pt-8 sm:pt-12 text-xs sm:text-sm text-zinc-400 font-medium tracking-wide">
           <div className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_10px_var(--color-emerald-500)]" />
             Always Online

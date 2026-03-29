@@ -7,16 +7,25 @@ import { links } from "@/constants/links";
 import { botFetchJson } from "@/lib/bot-fetch";
 
 export default async function HomePage() {
-  // Fetch command usage stats from the bot API
+  // Fetch command usage and stats from the bot API
   let totalExecutions = 0;
+  let totalGuilds = 0;
+  let totalCommands = 0;
   try {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const data = await botFetchJson<any>("/commands/usage", {
-      next: { revalidate: 3600 }, // Cache for 1 hour
-    });
-    totalExecutions = data.summary?.totalExecutions || 0;
+    const [usageData, statsData] = await Promise.all([
+      botFetchJson<any>("/commands/usage", {
+        next: { revalidate: 3600 },
+      }),
+      botFetchJson<any>("/stats", {
+        next: { revalidate: 3600 },
+      }),
+    ]);
+    totalExecutions = usageData.summary?.totalExecutions || 0;
+    totalGuilds = statsData.statistics?.guilds || 0;
+    totalCommands = usageData.summary?.totalCommands || 0;
   } catch (error) {
-    console.error("Failed to fetch command stats:", error);
+    console.error("Failed to fetch stats:", error);
   }
 
   const structuredData = {
@@ -24,7 +33,7 @@ export default async function HomePage() {
     "@type": "SoftwareApplication",
     name: "Role Reactor Bot",
     description:
-      "A comprehensive Discord bot for self-assignable roles through reactions. Features temporary roles, scheduled assignments, welcome/goodbye systems, XP tracking, AI avatar generation, poll system, voice permissions, and more.",
+      "A comprehensive Discord bot for self-assignable roles through reactions. Features temporary roles, scheduled assignments, welcome/goodbye systems, XP tracking, poll system, voice permissions, and more.",
     url: links.home,
     applicationCategory: "Discord Bot",
     operatingSystem: "Discord",
@@ -51,7 +60,6 @@ export default async function HomePage() {
       "Role categories and organization",
       "Custom emoji support",
       "Bulk operations for role management",
-      "Pro Engine with advanced automation",
     ],
     keywords:
       "discord bot, discord bots, role management, reaction roles, temporary roles, scheduled roles, welcome system, goodbye system, XP system, poll system, discord role bot, easy setup, community management, server roles",
@@ -72,7 +80,11 @@ export default async function HomePage() {
         <div className="max-w-fd-container mx-auto px-4">
           <AdBlock slot="home_between_sections" className="mb-8" />
         </div>
-        <SocialProof totalExecutions={totalExecutions} />
+        <SocialProof
+          totalExecutions={totalExecutions}
+          totalGuilds={totalGuilds}
+          totalCommands={totalCommands}
+        />
         <FooterCTA />
       </main>
     </>

@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
  */
 export async function GET() {
   try {
-    const response = await botFetch("/health");
+    const response = await botFetch("/api/v1/health");
 
     if (!response.ok) {
       const errorText = await response.text();

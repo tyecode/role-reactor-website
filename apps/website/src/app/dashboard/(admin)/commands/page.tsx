@@ -43,7 +43,7 @@ interface CommandUsage {
 
 async function getCommandUsage() {
   try {
-    return await botFetchJson<CommandUsage>("/commands/usage?limit=20");
+    return await botFetchJson<CommandUsage>("/commands/usage?limit=50");
   } catch (error) {
     console.error("Failed to fetch command usage:", error);
     return null;
@@ -112,7 +112,7 @@ async function CommandsContent() {
             </CardDescription>
           </CardHeader>
           <CardContent className="h-[460px] pt-4">
-            <CommandUsageChart data={usage.commands} />
+            <CommandUsageChart data={usage.commands.slice(0, 10)} />
           </CardContent>
         </Card>
 
