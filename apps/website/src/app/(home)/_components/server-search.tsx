@@ -31,29 +31,33 @@ const formatCompactNumber = (number: number) => {
 const getRankStyles = (rank: number) => {
   const brandStyles = {
     avatar: "ring-white/10 group-hover:ring-emerald-500/50",
-    text: "group-hover:text-emerald-400"
+    text: "group-hover:text-emerald-400",
   };
 
   switch (rank) {
     case 1:
       return {
-        badge: "text-amber-300 bg-amber-500/20 border-amber-500/40 shadow-[0_0_20px_rgba(251,191,36,0.2)]",
-        ...brandStyles
+        badge:
+          "text-amber-300 bg-amber-500/20 border-amber-500/40 shadow-[0_0_20px_rgba(251,191,36,0.2)]",
+        ...brandStyles,
       };
     case 2:
       return {
-        badge: "text-zinc-200 bg-zinc-400/20 border-zinc-400/40 shadow-[0_0_20px_rgba(161,161,170,0.2)]",
-        ...brandStyles
+        badge:
+          "text-zinc-200 bg-zinc-400/20 border-zinc-400/40 shadow-[0_0_20px_rgba(161,161,170,0.2)]",
+        ...brandStyles,
       };
     case 3:
       return {
-        badge: "text-orange-300 bg-orange-500/20 border-orange-500/40 shadow-[0_0_20px_rgba(249,115,22,0.2)]",
-        ...brandStyles
+        badge:
+          "text-orange-300 bg-orange-500/20 border-orange-500/40 shadow-[0_0_20px_rgba(249,115,22,0.2)]",
+        ...brandStyles,
       };
     default:
       return {
-        badge: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.1)]",
-        ...brandStyles
+        badge:
+          "text-emerald-400 bg-emerald-500/10 border-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.1)]",
+        ...brandStyles,
       };
   }
 };
@@ -150,7 +154,7 @@ export function ServerSearch() {
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => setIsFocused(true)}
             placeholder="Search for a server..."
-            className="flex-1 bg-transparent border-0 focus-visible:ring-0 text-lg h-16 placeholder:text-zinc-600/80 font-medium text-white px-4"
+            className="flex-1 bg-transparent border-0 focus-visible:ring-0 text-base sm:text-lg h-12 sm:h-16 placeholder:text-zinc-600/80 font-medium text-white px-4"
           />
           {isLoading && (
             <div className="pr-5 text-emerald-400">

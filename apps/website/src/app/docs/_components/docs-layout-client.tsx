@@ -18,11 +18,7 @@ export function DocsLayoutClient({
   children,
 }: DocsLayoutClientProps) {
   return (
-    <DocsLayout
-      tree={tree as PageTree.Root}
-      nav={nav}
-      links={links}
-    >
+    <DocsLayout tree={tree as PageTree.Root} nav={nav} links={links}>
       {children}
     </DocsLayout>
   );

@@ -235,7 +235,7 @@ export function ProfileSection() {
                 </div>
               </div>
             </div>
-            <Badge className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+            <Badge className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/10 hover:text-emerald-400 hover:border-emerald-500/30">
               <Check className="w-3 h-3 mr-1" />
               Connected
             </Badge>

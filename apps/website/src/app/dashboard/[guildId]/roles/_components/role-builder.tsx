@@ -664,7 +664,7 @@ function RoleMappingList({
             : [];
 
         const availableRoles = serverRoles.filter(
-          (sr: DiscordRole) => !selectedRoleIds.includes(sr.id),
+          (sr: DiscordRole) => !selectedRoleIds.includes(sr.id)
         );
 
         return (
@@ -698,7 +698,7 @@ function RoleMappingList({
                     className={cn(
                       "h-11 w-11 shrink-0 relative group/emoji transition-all duration-200",
                       openEmojiPicker === i &&
-                        "border-cyan-500/50 bg-cyan-500/5 shadow-[0_0_20px_0_rgba(6,182,212,0.2)] scale-105",
+                        "border-cyan-500/50 bg-cyan-500/5 shadow-[0_0_20px_0_rgba(6,182,212,0.2)] scale-105"
                     )}
                     title="Click to select emoji"
                   >
@@ -717,7 +717,7 @@ function RoleMappingList({
                   value=""
                   onValueChange={(val) => {
                     const role = serverRoles.find(
-                      (sr: DiscordRole) => sr.id === val,
+                      (sr: DiscordRole) => sr.id === val
                     );
                     if (role) {
                       const newRoleIds = [...selectedRoleIds, role.id];
@@ -797,9 +797,7 @@ function RoleMappingList({
                     <div
                       className="w-2 h-2 rounded-full shrink-0"
                       style={{
-                        backgroundColor: toHex(
-                          selectedRoleColors[idx] || 0,
-                        ),
+                        backgroundColor: toHex(selectedRoleColors[idx] || 0),
                       }}
                     />
                     <span
@@ -814,13 +812,13 @@ function RoleMappingList({
                       className="ml-0.5 text-zinc-500 hover:text-red-400 transition-colors cursor-pointer"
                       onClick={() => {
                         const newRoleIds = selectedRoleIds.filter(
-                          (_, j) => j !== idx,
+                          (_, j) => j !== idx
                         );
                         const newRoleNames = selectedRoleNames.filter(
-                          (_, j) => j !== idx,
+                          (_, j) => j !== idx
                         );
                         const newRoleColors = selectedRoleColors.filter(
-                          (_, j) => j !== idx,
+                          (_, j) => j !== idx
                         );
                         updateReaction(i, {
                           roleId: newRoleIds[0] || "",

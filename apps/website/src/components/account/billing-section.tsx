@@ -132,27 +132,27 @@ export function BillingSection() {
   const getProviderBadge = (provider: string) => {
     if (provider === "top.gg") {
       return (
-        <Badge className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+        <Badge className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/10 hover:text-emerald-400 hover:border-emerald-500/30">
           Vote Reward
         </Badge>
       );
     }
     if (provider === "premium_system") {
       return (
-        <Badge className="bg-amber-500/10 text-amber-400 border border-amber-500/30">
+        <Badge className="bg-amber-500/10 text-amber-400 border border-amber-500/30 hover:bg-amber-500/10 hover:text-amber-400 hover:border-amber-500/30">
           Pro Engine
         </Badge>
       );
     }
     if (provider === "admin_adjustment") {
       return (
-        <Badge className="bg-blue-500/10 text-blue-400 border border-blue-500/30">
+        <Badge className="bg-blue-500/10 text-blue-400 border border-blue-500/30 hover:bg-blue-500/10 hover:text-blue-400 hover:border-blue-500/30">
           Admin
         </Badge>
       );
     }
     return (
-      <Badge className="bg-purple-500/10 text-purple-400 border border-purple-500/30">
+      <Badge className="bg-purple-500/10 text-purple-400 border border-purple-500/30 hover:bg-purple-500/10 hover:text-purple-400 hover:border-purple-500/30">
         Crypto
       </Badge>
     );

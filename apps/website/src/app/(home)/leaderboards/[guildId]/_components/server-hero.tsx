@@ -62,8 +62,12 @@ export function ServerHero({
             <AvatarImage
               src={
                 serverInfo.icon
-                  ? getDiscordImageUrl("icons", guildId, serverInfo.icon, 256) ||
-                    undefined
+                  ? getDiscordImageUrl(
+                      "icons",
+                      guildId,
+                      serverInfo.icon,
+                      256
+                    ) || undefined
                   : undefined
               }
               alt={serverName}

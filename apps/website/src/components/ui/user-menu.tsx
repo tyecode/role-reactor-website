@@ -214,7 +214,7 @@ export function UserMenu({
     <Button
       variant="ghost"
       size="icon"
-      className="h-9 w-9 rounded-lg cursor-pointer border border-transparent hover:border-cyan-500/30 hover:bg-cyan-950/20 hover:shadow-[0_0_15px_-3px_rgba(6,182,212,0.4)] transition-all duration-300 group"
+      className="h-9 w-9 rounded-xl cursor-pointer border border-transparent hover:border-cyan-500/30 hover:bg-cyan-950/20 hover:shadow-[0_0_15px_-3px_rgba(6,182,212,0.4)] transition-all duration-300 group"
       aria-label="User menu"
       title={user.name || "User menu"}
     >
@@ -300,7 +300,7 @@ export function UserMenu({
               <DropdownMenuItem asChild>
                 <a
                   href={dashboardUrl}
-                  className="cursor-pointer flex items-center py-2.5 px-3 rounded-lg transition-all hover:bg-cyan-500/10 hover:text-cyan-300 group focus:bg-cyan-500/10 focus:text-cyan-300 border border-transparent hover:border-cyan-500/20"
+                  className="cursor-pointer flex items-center py-2.5 px-3 rounded-xl transition-all hover:bg-cyan-500/10 hover:text-cyan-300 group focus:bg-cyan-500/10 focus:text-cyan-300 border border-transparent hover:border-cyan-500/20"
                 >
                   <LayoutDashboard className="mr-3 h-4 w-4 text-zinc-400 group-hover:text-cyan-400 group-hover:drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] transition-all" />
                   <span className="font-medium font-mono text-sm">
@@ -315,7 +315,7 @@ export function UserMenu({
               <DropdownMenuItem asChild>
                 <a
                   href={profileUrl}
-                  className="cursor-pointer flex items-center py-2.5 px-3 rounded-lg transition-all hover:bg-cyan-500/10 hover:text-cyan-300 group focus:bg-cyan-500/10 focus:text-cyan-300 border border-transparent hover:border-cyan-500/20"
+                  className="cursor-pointer flex items-center py-2.5 px-3 rounded-xl transition-all hover:bg-cyan-500/10 hover:text-cyan-300 group focus:bg-cyan-500/10 focus:text-cyan-300 border border-transparent hover:border-cyan-500/20"
                 >
                   <User className="mr-3 h-4 w-4 text-zinc-400 group-hover:text-cyan-400 group-hover:drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] transition-all" />
                   <span className="font-medium font-mono text-sm">Profile</span>
@@ -328,7 +328,7 @@ export function UserMenu({
               <DropdownMenuItem asChild>
                 <a
                   href={billingUrl}
-                  className="cursor-pointer flex items-center py-2.5 px-3 rounded-lg transition-all hover:bg-cyan-500/10 hover:text-cyan-300 group focus:bg-cyan-500/10 focus:text-cyan-300 border border-transparent hover:border-cyan-500/20"
+                  className="cursor-pointer flex items-center py-2.5 px-3 rounded-xl transition-all hover:bg-cyan-500/10 hover:text-cyan-300 group focus:bg-cyan-500/10 focus:text-cyan-300 border border-transparent hover:border-cyan-500/20"
                 >
                   <Zap className="mr-3 h-4 w-4 text-zinc-400 group-hover:text-cyan-400 group-hover:drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] transition-all" />
                   <span className="font-medium font-mono text-sm">
@@ -347,7 +347,7 @@ export function UserMenu({
               <DropdownMenuItem asChild>
                 <Link
                   href="/"
-                  className="cursor-pointer flex items-center py-2.5 px-3 rounded-lg transition-all hover:bg-cyan-500/10 hover:text-cyan-300 group focus:bg-cyan-500/10 focus:text-cyan-300 border border-transparent hover:border-cyan-500/20"
+                  className="cursor-pointer flex items-center py-2.5 px-3 rounded-xl transition-all hover:bg-cyan-500/10 hover:text-cyan-300 group focus:bg-cyan-500/10 focus:text-cyan-300 border border-transparent hover:border-cyan-500/20"
                 >
                   <Home className="mr-3 h-4 w-4 text-zinc-400 group-hover:text-cyan-400 group-hover:drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] transition-all" />
                   <span className="font-medium font-mono text-sm">
@@ -362,7 +362,7 @@ export function UserMenu({
             {/* Logout */}
             <DropdownMenuItem
               onClick={onLogout}
-              className="cursor-pointer text-red-400 hover:text-red-300 hover:bg-red-500/10 focus:text-red-300 focus:bg-red-500/10 flex items-center py-2.5 px-3 rounded-lg border border-transparent hover:border-red-500/20 group transition-all"
+              className="cursor-pointer text-red-400 hover:text-red-300 hover:bg-red-500/10 focus:text-red-300 focus:bg-red-500/10 flex items-center py-2.5 px-3 rounded-xl border border-transparent hover:border-red-500/20 group transition-all"
             >
               <LogOut className="mr-3 h-4 w-4 group-hover:drop-shadow-[0_0_5px_rgba(239,68,68,0.5)] transition-all" />
               <span className="font-medium font-mono text-sm">LOGOUT</span>

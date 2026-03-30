@@ -76,10 +76,10 @@ export async function PATCH() {
       );
     }
 
-    const response = await botFetch(
-      `/user/${userId}/notifications/read-all`,
-      { method: "PATCH", cache: "no-store" }
-    );
+    const response = await botFetch(`/user/${userId}/notifications/read-all`, {
+      method: "PATCH",
+      cache: "no-store",
+    });
 
     if (!response.ok) {
       return NextResponse.json(

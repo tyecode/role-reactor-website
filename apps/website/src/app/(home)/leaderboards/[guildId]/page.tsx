@@ -279,11 +279,21 @@ export default async function PublicLeaderboardPage({
           />
         </div>
 
-        <AdBlock slot="leaderboard_top" className="mb-8" hide={isPremium} showRemoveAds={!isPremium} />
+        <AdBlock
+          slot="leaderboard_top"
+          className="mb-8"
+          hide={isPremium}
+          showRemoveAds={!isPremium}
+        />
 
         <LeaderboardTable leaderboard={leaderboard} />
 
-        <AdBlock slot="leaderboard_bottom" className="mt-12" hide={isPremium} showRemoveAds={!isPremium} />
+        <AdBlock
+          slot="leaderboard_bottom"
+          className="mt-12"
+          hide={isPremium}
+          showRemoveAds={!isPremium}
+        />
 
         <div className="mt-8 text-center">
           <Link

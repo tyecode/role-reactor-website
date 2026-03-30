@@ -134,7 +134,7 @@ export default async function LeaderboardsPage() {
 
           <h1
             className={cn(
-              "text-5xl md:text-7xl font-bold tracking-tight text-white drop-shadow-[0_0_15px_rgba(16,185,129,0.3)]",
+              "text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-white drop-shadow-[0_0_15px_rgba(16,185,129,0.3)]",
               audiowide.className
             )}
           >
@@ -144,7 +144,7 @@ export default async function LeaderboardsPage() {
             </span>
           </h1>
 
-          <p className="text-lg md:text-xl text-zinc-400 font-light leading-relaxed mb-4">
+          <p className="text-base sm:text-lg md:text-xl text-zinc-400 font-light leading-relaxed mb-4">
             Discover the most active Discord communities powered by Role
             Reactor&apos;s XP system.
           </p>
@@ -220,7 +220,7 @@ export default async function LeaderboardsPage() {
                         </h3>
                         <span
                           className={cn(
-                            "text-xs font-black px-2 py-0.5 rounded-lg border uppercase tracking-wider shrink-0 ml-auto",
+                            "text-xs font-black px-2 py-0.5 rounded-xl border uppercase tracking-wider shrink-0 ml-auto",
                             styles.badge,
                             audiowide.className
                           )}
@@ -241,7 +241,7 @@ export default async function LeaderboardsPage() {
                           </span>
                         )}
                         {guild.totalXP !== undefined && (
-                          <span className="inline-flex items-center gap-1 text-[10px] text-zinc-400 font-bold tracking-tighter uppercase whitespace-nowrap bg-emerald-500/10 px-1.5 py-0.5 rounded-sm">
+                          <span className="inline-flex items-center gap-1 text-[10px] text-zinc-400 font-bold tracking-tighter uppercase whitespace-nowrap bg-emerald-500/10 px-1.5 py-0.5 rounded-md">
                             {formatCompactNumber(guild.totalXP)} XP
                           </span>
                         )}

@@ -61,9 +61,9 @@ export function FooterCTA() {
 
           <div className="relative z-10 text-center">
             {/* Badge */}
-            <Badge className="inline-flex items-center gap-2 px-4 py-2 bg-linear-to-r from-blue-500 to-purple-500 text-white rounded-full text-sm font-medium mb-6 shadow-lg hover:from-blue-600 hover:to-purple-600 border-none">
-              <Sparkles className="w-4 h-4" />
-              <span>Transform Your Discord Server Today</span>
+            <Badge className="inline-flex items-center gap-2 px-4 py-2 bg-linear-to-r from-blue-500 to-purple-500 text-white rounded-full text-sm font-medium mb-6 shadow-lg hover:from-blue-600 hover:to-purple-600 border-none whitespace-normal h-auto">
+              <Sparkles className="w-4 h-4 shrink-0" />
+              <span className="text-xs sm:text-sm">Transform Your Discord</span>
             </Badge>
 
             {/* Main heading */}

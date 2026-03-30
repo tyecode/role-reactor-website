@@ -467,13 +467,18 @@ export function ActiveMenus({
                               roleId: c.roleId ?? "",
                               roleName: c.roleName ?? "",
                               roleColor: c.roleColor ?? 0,
-                              roleIds: c.roleIds ?? (c.roleId ? [c.roleId] : []),
-                              roleNames: c.roleNames ?? (c.roleName ? [c.roleName] : []),
-                              roleColors: c.roleColor != null
-                                ? (c.roleIds ?? [c.roleId]).map(() => c.roleColor ?? 0)
-                                : [],
+                              roleIds:
+                                c.roleIds ?? (c.roleId ? [c.roleId] : []),
+                              roleNames:
+                                c.roleNames ?? (c.roleName ? [c.roleName] : []),
+                              roleColors:
+                                c.roleColor != null
+                                  ? (c.roleIds ?? [c.roleId]).map(
+                                      () => c.roleColor ?? 0
+                                    )
+                                  : [],
                             };
-                          },
+                          }
                         );
                         onEdit({
                           messageId: menu.messageId,

@@ -226,11 +226,11 @@ export function DangerZoneModule({
           <div className="space-y-6">
             <p className="text-[10px] text-zinc-500 leading-relaxed font-black uppercase tracking-wider opacity-80">
               downgrading will revert{" "}
-              <span className="text-rose-400/60 font-bold">
-                premium limits
-              </span>{" "}
+              <span className="text-rose-400/60 font-bold">premium limits</span>{" "}
               and{" "}
-              <span className="text-rose-400/60 font-bold">enhanced features</span>{" "}
+              <span className="text-rose-400/60 font-bold">
+                enhanced features
+              </span>{" "}
               at cycle completion.
             </p>
             <Button

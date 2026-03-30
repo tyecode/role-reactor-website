@@ -20,11 +20,7 @@ export function LeaderboardTable({ leaderboard }: LeaderboardTableProps) {
               <EmptyState />
             ) : (
               leaderboard.map((entry, i) => (
-                <LeaderboardRow
-                  key={entry.userId}
-                  entry={entry}
-                  rank={i + 1}
-                />
+                <LeaderboardRow key={entry.userId} entry={entry} rank={i + 1} />
               ))
             )}
           </div>
@@ -37,7 +33,9 @@ export function LeaderboardTable({ leaderboard }: LeaderboardTableProps) {
 function TableHeader() {
   return (
     <div className="grid grid-cols-12 gap-4 px-6 py-4 text-[10px] uppercase font-black text-zinc-500 tracking-widest border-b border-white/5 bg-white/2">
-      <div className={cn("col-span-1 text-center font-black", audiowide.className)}>
+      <div
+        className={cn("col-span-1 text-center font-black", audiowide.className)}
+      >
         #
       </div>
       <div className={cn("col-span-6 sm:col-span-6", audiowide.className)}>
@@ -46,7 +44,12 @@ function TableHeader() {
       <div className={cn("hidden md:block md:col-span-3", audiowide.className)}>
         Level
       </div>
-      <div className={cn("col-span-5 sm:col-span-5 md:col-span-2 text-right", audiowide.className)}>
+      <div
+        className={cn(
+          "col-span-5 sm:col-span-5 md:col-span-2 text-right",
+          audiowide.className
+        )}
+      >
         Total XP
       </div>
     </div>
@@ -63,7 +66,13 @@ function EmptyState() {
   );
 }
 
-function LeaderboardRow({ entry, rank }: { entry: LeaderboardEntry; rank: number }) {
+function LeaderboardRow({
+  entry,
+  rank,
+}: {
+  entry: LeaderboardEntry;
+  rank: number;
+}) {
   const isTop3 = rank <= 3;
 
   return (
@@ -80,7 +89,8 @@ function LeaderboardRow({ entry, rank }: { entry: LeaderboardEntry; rank: number
           className={cn(
             "w-7 h-7 flex items-center justify-center rounded-lg p-0 font-black text-[10px] tabular-nums",
             rank === 2 && "text-zinc-300 border-white/20 bg-white/10",
-            rank === 3 && "text-orange-400 border-orange-500/40 bg-orange-500/20",
+            rank === 3 &&
+              "text-orange-400 border-orange-500/40 bg-orange-500/20",
             rank > 3 && "text-zinc-500 border-white/10 bg-zinc-900",
             audiowide.className
           )}
@@ -96,7 +106,11 @@ function LeaderboardRow({ entry, rank }: { entry: LeaderboardEntry; rank: number
             <div
               className={cn(
                 "absolute inset-0 blur-md rounded-lg opacity-20",
-                rank === 1 ? "bg-amber-500" : rank === 2 ? "bg-zinc-300" : "bg-orange-500"
+                rank === 1
+                  ? "bg-amber-500"
+                  : rank === 2
+                    ? "bg-zinc-300"
+                    : "bg-orange-500"
               )}
             />
           )}
@@ -108,8 +122,12 @@ function LeaderboardRow({ entry, rank }: { entry: LeaderboardEntry; rank: number
           >
             <AvatarImage
               src={
-                getDiscordImageUrl("avatars", entry.userId, entry.user.avatar, 64) ||
-                undefined
+                getDiscordImageUrl(
+                  "avatars",
+                  entry.userId,
+                  entry.user.avatar,
+                  64
+                ) || undefined
               }
               alt={entry.user.username}
             />
@@ -145,7 +163,9 @@ function LeaderboardRow({ entry, rank }: { entry: LeaderboardEntry; rank: number
       <div
         className={cn(
           "col-span-5 sm:col-span-5 md:col-span-2 text-right font-black tabular-nums tracking-widest relative z-10 transition-colors",
-          isTop3 ? "text-cyan-400 text-sm" : "text-zinc-500 text-xs group-hover:text-white",
+          isTop3
+            ? "text-cyan-400 text-sm"
+            : "text-zinc-500 text-xs group-hover:text-white",
           audiowide.className
         )}
       >
