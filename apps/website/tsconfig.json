@@ -15,7 +15,6 @@
     "jsx": "preserve",
     "incremental": true,
     "baseUrl": ".",
-    "ignoreDeprecations": "5.0",
     "paths": {
       "fumadocs-mdx:collections/*": ["./.source/*"],
       "@/.source": ["./.source/index.ts"],
