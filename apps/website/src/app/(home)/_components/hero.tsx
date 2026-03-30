@@ -88,7 +88,7 @@ export function Hero() {
             asChild
             size="lg"
             variant="discord"
-            className="w-full sm:w-auto gap-2 h-12 px-8 min-w-[200px] group"
+            className="w-full sm:w-auto gap-2 h-12 px-8 min-w-50 group"
           >
             <Link
               href={links.inviteBot}
@@ -105,7 +105,7 @@ export function Hero() {
             asChild
             variant="outline"
             size="lg"
-            className="w-full sm:w-auto gap-2 h-12 px-8 min-w-[200px] group rounded-xl border-zinc-800 bg-zinc-950/50 hover:bg-zinc-900/80 hover:text-white"
+            className="w-full sm:w-auto gap-2 h-12 px-8 min-w-50 group rounded-xl border-zinc-800 bg-zinc-950/50 hover:bg-zinc-900/80 hover:text-white"
           >
             <Link href="/docs">
               <FaRocket className="w-4 h-4 group-hover:-rotate-12 transition-transform" />

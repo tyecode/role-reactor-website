@@ -162,7 +162,7 @@ export function BillingSection() {
     <div className="space-y-6">
       {/* Core Balance Card */}
       <Card className="bg-zinc-950/50 border-white/5 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-purple-500/5 pointer-events-none" />
+        <div className="absolute inset-0 bg-linear-to-br from-cyan-500/5 to-purple-500/5 pointer-events-none" />
         <CardHeader>
           <div className="flex items-center justify-between">
             <div>
