@@ -1,17 +1,13 @@
 "use client";
 
-import { useState, useCallback, Suspense, useEffect, lazy } from "react";
+import { useEffect, Suspense } from "react";
 import { Audiowide } from "next/font/google";
-import { Plus, List, Pencil } from "lucide-react";
+import { Plus, List } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
 import { ActiveMenus } from "./active-menus";
 import { NodeLoader } from "@/components/common/node-loader";
 import { useProEngineStore } from "@/store/use-pro-engine-store";
-
-const RoleBuilder = lazy(() =>
-  import("./role-builder").then((mod) => ({ default: mod.RoleBuilder }))
-);
 
 const audiowide = Audiowide({
   subsets: ["latin"],
@@ -45,25 +41,15 @@ function RolesPageSkeleton() {
   );
 }
 
-export function RolesTabs({ guildId }: { guildId: string }) {
-  const [activeTab, setActiveTab] = useState("active");
-  const [editData, setEditData] = useState<EditData | null>(null);
-
-  const handleEdit = useCallback((data: EditData) => {
-    setEditData(data);
-    setActiveTab("create");
-  }, []);
-
-  const handleCancelEdit = useCallback(() => {
-    setEditData(null);
-    setActiveTab("active");
-  }, []);
-
-  const handleSaveComplete = useCallback(() => {
-    setEditData(null);
-    setActiveTab("active");
-  }, []);
-
+export function RolesTabs({
+  guildId,
+  onEdit,
+  onCreate,
+}: {
+  guildId: string;
+  onEdit: (data: EditData) => void;
+  onCreate: () => void;
+}) {
   const { fetchSettings } = useProEngineStore();
 
   useEffect(() => {
@@ -72,62 +58,29 @@ export function RolesTabs({ guildId }: { guildId: string }) {
     }
   }, [guildId, fetchSettings]);
 
-  const isEditing = editData !== null;
-
   return (
-    <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-      <div className="flex flex-col lg:flex-row items-center justify-between gap-4 mb-5 min-w-0 px-1">
-        <TabsList variant="neon" className="w-full lg:w-auto flex min-w-0">
-          <TabsTrigger
-            variant="neon"
-            value="active"
-            className={cn(
-              "flex-1 lg:flex-none flex items-center gap-2",
-              audiowide.className
-            )}
-          >
-            <List className="w-4 h-4" />
-            Active Setups
-          </TabsTrigger>
-          <TabsTrigger
-            variant="neon-purple"
-            value="create"
-            className={cn(
-              "flex-1 lg:flex-none flex items-center gap-2",
-              audiowide.className
-            )}
-          >
-            {isEditing ? (
-              <>
-                <Pencil className="w-4 h-4" />
-                Edit Setup
-              </>
-            ) : (
-              <>
-                <Plus className="w-4 h-4" />
-                Create Setup
-              </>
-            )}
-          </TabsTrigger>
-        </TabsList>
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <List className="w-4 h-4 text-zinc-500" />
+          <span className={cn("text-sm font-bold", audiowide.className)}>
+            ACTIVE SETUPS
+          </span>
+        </div>
+        <Button
+          variant="cyber"
+          size="sm"
+          onClick={onCreate}
+          className={cn("h-9 px-4", audiowide.className)}
+        >
+          <Plus className="w-4 h-4 mr-2" />
+          Create Setup
+        </Button>
       </div>
 
-      <TabsContent value="active" className="mt-0">
-        <Suspense fallback={<RolesPageSkeleton />}>
-          <ActiveMenus guildId={guildId} onEdit={handleEdit} />
-        </Suspense>
-      </TabsContent>
-
-      <TabsContent value="create" className="mt-0">
-        <Suspense fallback={<RolesPageSkeleton />}>
-          <RoleBuilder
-            guildId={guildId}
-            editData={editData}
-            onCancelEdit={handleCancelEdit}
-            onSaveComplete={handleSaveComplete}
-          />
-        </Suspense>
-      </TabsContent>
-    </Tabs>
+      <Suspense fallback={<RolesPageSkeleton />}>
+        <ActiveMenus guildId={guildId} onEdit={onEdit} />
+      </Suspense>
+    </div>
   );
 }

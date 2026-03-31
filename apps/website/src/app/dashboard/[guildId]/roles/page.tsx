@@ -1,9 +1,5 @@
-import { BotInviteCard } from "@/app/dashboard/_components/bot-invite-card";
-import { ShieldCheck } from "lucide-react";
-import { PageHeader } from "@/app/dashboard/_components/page-header";
-import { RolesTabs } from "./_components/roles-tabs";
-
 import { getManageableGuilds } from "@/lib/server/guilds";
+import RolesClient from "./roles-client";
 
 export async function generateMetadata({
   params,
@@ -33,32 +29,11 @@ export default async function RolesPage({
   const guildName = activeGuild?.name || "this server";
   const isInstalled = installedGuildIds.includes(guildId);
 
-  if (!isInstalled) {
-    return (
-      <div className="space-y-6 w-full">
-        <PageHeader
-          category="Engagement Management"
-          categoryIcon={ShieldCheck}
-          title="Reaction Roles"
-          description="Configure interactive role assignment systems for"
-          serverName={guildName}
-        />
-        <BotInviteCard guildId={guildId} />
-      </div>
-    );
-  }
-
   return (
-    <div className="space-y-6 w-full">
-      <PageHeader
-        category="Engagement Management"
-        categoryIcon={ShieldCheck}
-        title="Reaction Roles"
-        description="Configure interactive role assignment systems for"
-        serverName={guildName}
-      />
-
-      <RolesTabs guildId={guildId} />
-    </div>
+    <RolesClient
+      guildId={guildId}
+      guildName={guildName}
+      isInstalled={isInstalled}
+    />
   );
 }
