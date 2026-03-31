@@ -11,10 +11,12 @@ import {
   Server,
   Database,
   RefreshCw,
+  Activity,
 } from "lucide-react";
+import { NodeLoader } from "@/components/common/node-loader";
 import { ErrorView } from "@/components/common/error-view";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 interface HealthData {
@@ -110,8 +112,11 @@ export function SystemHealthViewer() {
 
   if (!data) {
     return (
-      <div className="flex items-center justify-center p-12">
-        <RefreshCw className="size-8 animate-spin text-cyan-500" />
+      <div className="absolute inset-0 z-40 flex items-center justify-center bg-background">
+        <NodeLoader
+          title="Loading Dashboard"
+          subtitle="Synchronizing your data..."
+        />
       </div>
     );
   }
@@ -120,7 +125,20 @@ export function SystemHealthViewer() {
   const isHealthy = data.database.connected && memoryPercentage < 80;
 
   return (
-    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <Card
+      variant="cyberpunk"
+      className="border-white/10 bg-black/80 backdrop-blur-xl"
+    >
+      <CardHeader className="border-b border-white/5 pb-4 bg-zinc-950/50">
+        <CardTitle className="text-lg italic font-mono flex items-center gap-2">
+          <Activity className="size-4 text-cyan-500" />
+          Live System Metrics
+        </CardTitle>
+        <CardDescription className="font-mono text-[10px] uppercase tracking-widest text-zinc-500">
+          Click refresh to update metrics
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="p-6 space-y-6">
       {/* Status Overview */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <Card className="bg-zinc-900/50 border-white/5">
@@ -341,7 +359,6 @@ export function SystemHealthViewer() {
         </Card>
       </div>
 
-      {/* Refresh Button */}
       <div className="flex justify-end">
         <Button
           variant="outline"
@@ -356,6 +373,7 @@ export function SystemHealthViewer() {
           Refresh
         </Button>
       </div>
-    </div>
+    </CardContent>
+    </Card>
   );
 }

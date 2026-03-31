@@ -29,10 +29,12 @@ async function getLogs() {
 
 function LogsLoader() {
   return (
-    <NodeLoader
-      title="Fetching Logs"
-      subtitle="Synchronizing diagnostic feed..."
-    />
+    <div className="absolute inset-0 z-40 flex items-center justify-center bg-background">
+      <NodeLoader
+        title="Loading Dashboard"
+        subtitle="Synchronizing your data..."
+      />
+    </div>
   );
 }
 

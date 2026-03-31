@@ -47,10 +47,12 @@ async function getUsers(search?: string) {
 
 function UsersLoader() {
   return (
-    <NodeLoader
-      title="Fetching Users"
-      subtitle="Synchronizing user directory..."
-    />
+    <div className="absolute inset-0 z-40 flex items-center justify-center bg-background">
+      <NodeLoader
+        title="Loading Dashboard"
+        subtitle="Synchronizing your data..."
+      />
+    </div>
   );
 }
 
@@ -69,7 +71,13 @@ async function UsersContent({ search }: { search?: string }) {
     );
   }
 
-  return <UserTable initialData={data} />;
+  return (
+    <Card variant="cyberpunk" className="border-white/5 bg-zinc-950/40">
+      <CardContent className="p-0">
+        <UserTable initialData={data} />
+      </CardContent>
+    </Card>
+  );
 }
 
 export default async function AdminUsersPage({
@@ -88,13 +96,9 @@ export default async function AdminUsersPage({
         description="Manage user roles and system access for the entire bot infrastructure."
       />
 
-      <Card variant="cyberpunk" className="border-white/5 bg-zinc-950/40">
-        <CardContent className="p-0">
-          <Suspense fallback={<UsersLoader />}>
-            <UsersContent search={search} />
-          </Suspense>
-        </CardContent>
-      </Card>
+      <Suspense fallback={<UsersLoader />}>
+        <UsersContent search={search} />
+      </Suspense>
     </div>
   );
 }

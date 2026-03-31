@@ -43,7 +43,7 @@ export function GlobalStateLoader() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-xl"
+          className="absolute inset-0 z-50 flex items-center justify-center bg-background"
         >
           <NodeLoader
             title={

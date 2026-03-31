@@ -21,7 +21,7 @@ import { PageHeader } from "@/app/dashboard/_components/page-header";
 import { ErrorView } from "@/components/common/error-view";
 import { Button } from "@/components/ui/button";
 
-import XPLoading from "./loading";
+import { NodeLoader } from "@/components/common/node-loader";
 import { StatsGrid } from "./_components/stats";
 import { LeaderboardList } from "./_components/leaderboard";
 import { XPSettingsTab } from "./_components/settings";
@@ -91,7 +91,11 @@ export default function XPPage({ params }: XPPageProps) {
     !hasGuildData || (isLoading && !leaderboard.length && !settings);
 
   if (isInitialLoading) {
-    return <XPLoading />;
+    return (
+      <div className="absolute inset-0 z-40 flex items-center justify-center bg-background">
+        <NodeLoader title="Loading Dashboard" subtitle="Synchronizing your data..." />
+      </div>
+    );
   }
 
   if (isError && !leaderboard.length && !isXpDisabled) {

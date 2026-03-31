@@ -43,11 +43,11 @@ export default async function DashboardLayout({
         <ServerStoreData />
       </Suspense>
       <NavigationProgress />
-      <GlobalStateLoader />
-      <DashboardSidebar />
+      <DashboardSidebar user={session.user} />
       <SidebarInset className="relative flex flex-col flex-1 min-w-0 md:my-2 md:mr-2 md:rounded-xl md:shadow-2xl border border-white/5 bg-background/50 backdrop-blur-sm overflow-hidden h-dvh">
         <DashboardHeader />
         <main className="flex-1 overflow-hidden relative">
+          <GlobalStateLoader />
           <ScrollArea className="h-full">
             <div className="page-container">
               <PageTransition>{children}</PageTransition>

@@ -22,7 +22,7 @@ import {
 } from "./_components/states";
 
 import { SubscriptionStats } from "./_components/stats";
-import ProEngineLoading from "./loading";
+import { NodeLoader } from "@/components/common/node-loader";
 import { calculateSubscriptionProgress } from "@/lib/premium-utils";
 
 export default function ProEnginePage() {
@@ -102,7 +102,14 @@ export default function ProEnginePage() {
   };
 
   if (isGlobalLoading) {
-    return <ProEngineLoading />;
+    return (
+      <div className="absolute inset-0 z-40 flex items-center justify-center bg-background">
+        <NodeLoader
+          title="Loading Dashboard"
+          subtitle="Synchronizing your data..."
+        />
+      </div>
+    );
   }
 
   if (isError && !settings) {

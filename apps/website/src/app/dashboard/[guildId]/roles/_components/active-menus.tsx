@@ -1,5 +1,7 @@
 "use client";
 
+import { NodeLoader } from "@/components/common/node-loader";
+
 import { useState, useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -82,7 +84,7 @@ export function ActiveMenus({
   const [deletedIds, setDeletedIds] = useState<Set<string>>(new Set());
 
   // Initial load — SWR caches page 1 data so it's available instantly on re-mount
-  const { data, error } = useSWR(
+  const { data, error, isLoading } = useSWR(
     `/api/guilds/${guildId}/role-reactions?page=1&limit=${ITEMS_PER_PAGE}`,
     fetcher
   );
@@ -142,11 +144,31 @@ export function ActiveMenus({
 
   if (error) {
     return (
-      <Card className="border-red-500/20 bg-red-500/5">
-        <CardContent className="p-8 text-center text-red-400">
-          Failed to load active setups. Please try again later.
-        </CardContent>
-      </Card>
+      <div className="absolute inset-0 z-40 flex items-center justify-center bg-background">
+        <Card className="border-red-500/20 bg-red-500/5 max-w-lg w-full">
+          <CardContent className="p-8 flex flex-col items-center text-center">
+            <AlertTriangle className="size-8 text-red-500 mb-4 animate-pulse" />
+            <p className="text-red-400 font-mono text-sm uppercase tracking-widest font-bold">
+              Data Synchronization Failed
+            </p>
+            <p className="text-zinc-500 text-xs mt-2">
+              Failed to load active setups. Please refresh the page or try again
+              later.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <div className="absolute inset-0 z-40 flex items-center justify-center bg-background">
+        <NodeLoader
+          title="Loading Dashboard"
+          subtitle="Synchronizing your data..."
+        />
+      </div>
     );
   }
 

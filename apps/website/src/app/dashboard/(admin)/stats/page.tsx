@@ -80,10 +80,12 @@ async function getCommandUsage() {
 
 function StatsLoader() {
   return (
-    <NodeLoader
-      title="Fetching Statistics"
-      subtitle="Synchronizing system analytics..."
-    />
+    <div className="absolute inset-0 z-40 flex items-center justify-center bg-background">
+      <NodeLoader
+        title="Loading Dashboard"
+        subtitle="Synchronizing your data..."
+      />
+    </div>
   );
 }
 

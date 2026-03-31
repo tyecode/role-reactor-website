@@ -72,10 +72,12 @@ async function getPaymentStats() {
 
 function RevenueLoader() {
   return (
-    <NodeLoader
-      title="Fetching Revenue Data"
-      subtitle="Synchronizing transaction logs..."
-    />
+    <div className="absolute inset-0 z-40 flex items-center justify-center bg-background">
+      <NodeLoader
+        title="Loading Dashboard"
+        subtitle="Synchronizing your data..."
+      />
+    </div>
   );
 }
 
