@@ -24,7 +24,6 @@ import {
   ChevronDown,
   Pencil,
 } from "lucide-react";
-import { NodeLoader } from "@/components/common/node-loader";
 import { CyberpunkBackground } from "@/components/common/cyberpunk-background";
 import { cn } from "@/lib/utils";
 import { audiowide } from "@/lib/fonts";
@@ -83,7 +82,7 @@ export function ActiveMenus({
   const [deletedIds, setDeletedIds] = useState<Set<string>>(new Set());
 
   // Initial load — SWR caches page 1 data so it's available instantly on re-mount
-  const { data, error, isLoading } = useSWR(
+  const { data, error } = useSWR(
     `/api/guilds/${guildId}/role-reactions?page=1&limit=${ITEMS_PER_PAGE}`,
     fetcher
   );
@@ -140,19 +139,6 @@ export function ActiveMenus({
       setIsLoadingMore(false);
     }
   }, [guildId, currentPage, hasMore, isLoadingMore]);
-
-  if (isLoading) {
-    return (
-      <Card variant="cyberpunk">
-        <CardContent className="p-12 flex justify-center">
-          <NodeLoader
-            title="Scanning Database"
-            subtitle="Fetching active role setups..."
-          />
-        </CardContent>
-      </Card>
-    );
-  }
 
   if (error) {
     return (
