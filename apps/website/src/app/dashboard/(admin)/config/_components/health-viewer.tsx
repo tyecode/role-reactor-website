@@ -16,7 +16,13 @@ import {
 import { NodeLoader } from "@/components/common/node-loader";
 import { ErrorView } from "@/components/common/error-view";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 interface HealthData {
@@ -139,241 +145,243 @@ export function SystemHealthViewer() {
         </CardDescription>
       </CardHeader>
       <CardContent className="p-6 space-y-6">
-      {/* Status Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="bg-zinc-900/50 border-white/5">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between mb-2">
-              <p className="text-[10px] uppercase tracking-widest text-zinc-500">
-                System Status
-              </p>
-              {isHealthy ? (
-                <CheckCircle className="size-4 text-green-500" />
-              ) : (
-                <AlertTriangle className="size-4 text-amber-500" />
-              )}
-            </div>
-            <p
-              className={cn(
-                "text-2xl font-bold uppercase",
-                isHealthy ? "text-green-500" : "text-amber-500"
-              )}
-            >
-              {isHealthy ? "Healthy" : "Warning"}
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-zinc-900/50 border-white/5">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between mb-2">
-              <p className="text-[10px] uppercase tracking-widest text-zinc-500">
-                Uptime
-              </p>
-              <Clock className="size-4 text-cyan-500" />
-            </div>
-            <p className="text-2xl font-bold text-white">
-              {formatUptime(data.uptime)}
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-zinc-900/50 border-white/5">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between mb-2">
-              <p className="text-[10px] uppercase tracking-widest text-zinc-500">
-                Environment
-              </p>
-              <Server className="size-4 text-purple-500" />
-            </div>
-            <p
-              className={cn(
-                "text-2xl font-bold uppercase",
-                data.isProduction ? "text-green-500" : "text-amber-500"
-              )}
-            >
-              {data.environment}
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-zinc-900/50 border-white/5">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between mb-2">
-              <p className="text-[10px] uppercase tracking-widest text-zinc-500">
-                Database
-              </p>
-              <Database
-                className={cn(
-                  "size-4",
-                  data.database.connected ? "text-green-500" : "text-red-500"
+        {/* Status Overview */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <Card className="bg-zinc-900/50 border-white/5">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-[10px] uppercase tracking-widest text-zinc-500">
+                  System Status
+                </p>
+                {isHealthy ? (
+                  <CheckCircle className="size-4 text-green-500" />
+                ) : (
+                  <AlertTriangle className="size-4 text-amber-500" />
                 )}
-              />
-            </div>
-            <p
-              className={cn(
-                "text-2xl font-bold uppercase",
-                data.database.connected ? "text-green-500" : "text-red-500"
-              )}
-            >
-              {data.database.connected ? "Connected" : "Offline"}
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Detailed Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Memory Usage */}
-        <Card className="bg-zinc-900/50 border-white/5">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-mono uppercase tracking-widest flex items-center gap-2">
-              <HardDrive className="size-4 text-cyan-500" />
-              Memory Usage
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span className="text-zinc-400">Used</span>
-                <span className="text-white font-mono">
-                  {formatBytes(data.memory.used)} /{" "}
-                  {formatBytes(data.memory.total)}
-                </span>
               </div>
-              <div className="w-full bg-zinc-800 rounded-full h-2 overflow-hidden">
-                <div
-                  className={cn(
-                    "h-full transition-all duration-500",
-                    memoryPercentage < 60
-                      ? "bg-green-500"
-                      : memoryPercentage < 80
-                        ? "bg-amber-500"
-                        : "bg-red-500"
-                  )}
-                  style={{ width: `${memoryPercentage}%` }}
-                />
-              </div>
-              <p className="text-xs text-zinc-500 text-right">
-                {memoryPercentage.toFixed(1)}% utilized
+              <p
+                className={cn(
+                  "text-2xl font-bold uppercase",
+                  isHealthy ? "text-green-500" : "text-amber-500"
+                )}
+              >
+                {isHealthy ? "Healthy" : "Warning"}
               </p>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
 
-        {/* CPU Usage */}
-        <Card className="bg-zinc-900/50 border-white/5">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-mono uppercase tracking-widest flex items-center gap-2">
-              <Cpu className="size-4 text-cyan-500" />
-              CPU Usage
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span className="text-zinc-400">Current Load</span>
-                <span className="text-white font-mono">
-                  {data.cpu.usage.toFixed(1)}%
-                </span>
+          <Card className="bg-zinc-900/50 border-white/5">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-[10px] uppercase tracking-widest text-zinc-500">
+                  Uptime
+                </p>
+                <Clock className="size-4 text-cyan-500" />
               </div>
-              <div className="w-full bg-zinc-800 rounded-full h-2 overflow-hidden">
-                <div
-                  className={cn(
-                    "h-full transition-all duration-500",
-                    data.cpu.usage < 60
-                      ? "bg-green-500"
-                      : data.cpu.usage < 80
-                        ? "bg-amber-500"
-                        : "bg-red-500"
-                  )}
-                  style={{ width: `${data.cpu.usage}%` }}
-                />
-              </div>
-              <p className="text-xs text-zinc-500 text-right">
-                {data.cpu.usage < 60
-                  ? "Normal"
-                  : data.cpu.usage < 80
-                    ? "Elevated"
-                    : "High"}
+              <p className="text-2xl font-bold text-white">
+                {formatUptime(data.uptime)}
               </p>
-            </div>
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
 
-        {/* API Performance */}
-        <Card className="bg-zinc-900/50 border-white/5">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-mono uppercase tracking-widest flex items-center gap-2">
-              <Zap className="size-4 text-cyan-500" />
-              API Performance
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              <div className="flex justify-between text-sm">
-                <span className="text-zinc-400">Requests/min</span>
-                <span className="text-white font-mono">
-                  {data.api.requestsPerMinute}
-                </span>
+          <Card className="bg-zinc-900/50 border-white/5">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-[10px] uppercase tracking-widest text-zinc-500">
+                  Environment
+                </p>
+                <Server className="size-4 text-purple-500" />
               </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-zinc-400">Avg Response</span>
-                <span className="text-white font-mono">
-                  {data.api.averageResponseTime}ms
-                </span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+              <p
+                className={cn(
+                  "text-2xl font-bold uppercase",
+                  data.isProduction ? "text-green-500" : "text-amber-500"
+                )}
+              >
+                {data.environment}
+              </p>
+            </CardContent>
+          </Card>
 
-        {/* Database Performance */}
-        <Card className="bg-zinc-900/50 border-white/5">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm font-mono uppercase tracking-widest flex items-center gap-2">
-              <Database className="size-4 text-cyan-500" />
-              Database Performance
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              <div className="flex justify-between text-sm">
-                <span className="text-zinc-400">Status</span>
-                <span
+          <Card className="bg-zinc-900/50 border-white/5">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-[10px] uppercase tracking-widest text-zinc-500">
+                  Database
+                </p>
+                <Database
                   className={cn(
-                    "font-mono uppercase text-xs",
+                    "size-4",
                     data.database.connected ? "text-green-500" : "text-red-500"
                   )}
-                >
-                  {data.database.connected ? "Online" : "Offline"}
-                </span>
+                />
               </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-zinc-400">Ping</span>
-                <span className="text-white font-mono">
-                  {data.database.responseTime}ms
-                </span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+              <p
+                className={cn(
+                  "text-2xl font-bold uppercase",
+                  data.database.connected ? "text-green-500" : "text-red-500"
+                )}
+              >
+                {data.database.connected ? "Connected" : "Offline"}
+              </p>
+            </CardContent>
+          </Card>
+        </div>
 
-      <div className="flex justify-end">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={fetchHealth}
-          disabled={isRefreshing}
-          className="bg-zinc-900/50 border-white/5 hover:bg-zinc-800"
-        >
-          <RefreshCw
-            className={cn("size-3 mr-2", isRefreshing && "animate-spin")}
-          />
-          Refresh
-        </Button>
-      </div>
-    </CardContent>
+        {/* Detailed Metrics */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Memory Usage */}
+          <Card className="bg-zinc-900/50 border-white/5">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-mono uppercase tracking-widest flex items-center gap-2">
+                <HardDrive className="size-4 text-cyan-500" />
+                Memory Usage
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span className="text-zinc-400">Used</span>
+                  <span className="text-white font-mono">
+                    {formatBytes(data.memory.used)} /{" "}
+                    {formatBytes(data.memory.total)}
+                  </span>
+                </div>
+                <div className="w-full bg-zinc-800 rounded-full h-2 overflow-hidden">
+                  <div
+                    className={cn(
+                      "h-full transition-all duration-500",
+                      memoryPercentage < 60
+                        ? "bg-green-500"
+                        : memoryPercentage < 80
+                          ? "bg-amber-500"
+                          : "bg-red-500"
+                    )}
+                    style={{ width: `${memoryPercentage}%` }}
+                  />
+                </div>
+                <p className="text-xs text-zinc-500 text-right">
+                  {memoryPercentage.toFixed(1)}% utilized
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* CPU Usage */}
+          <Card className="bg-zinc-900/50 border-white/5">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-mono uppercase tracking-widest flex items-center gap-2">
+                <Cpu className="size-4 text-cyan-500" />
+                CPU Usage
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                <div className="flex justify-between text-sm">
+                  <span className="text-zinc-400">Current Load</span>
+                  <span className="text-white font-mono">
+                    {data.cpu.usage.toFixed(1)}%
+                  </span>
+                </div>
+                <div className="w-full bg-zinc-800 rounded-full h-2 overflow-hidden">
+                  <div
+                    className={cn(
+                      "h-full transition-all duration-500",
+                      data.cpu.usage < 60
+                        ? "bg-green-500"
+                        : data.cpu.usage < 80
+                          ? "bg-amber-500"
+                          : "bg-red-500"
+                    )}
+                    style={{ width: `${data.cpu.usage}%` }}
+                  />
+                </div>
+                <p className="text-xs text-zinc-500 text-right">
+                  {data.cpu.usage < 60
+                    ? "Normal"
+                    : data.cpu.usage < 80
+                      ? "Elevated"
+                      : "High"}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* API Performance */}
+          <Card className="bg-zinc-900/50 border-white/5">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-mono uppercase tracking-widest flex items-center gap-2">
+                <Zap className="size-4 text-cyan-500" />
+                API Performance
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex justify-between text-sm">
+                  <span className="text-zinc-400">Requests/min</span>
+                  <span className="text-white font-mono">
+                    {data.api.requestsPerMinute}
+                  </span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-zinc-400">Avg Response</span>
+                  <span className="text-white font-mono">
+                    {data.api.averageResponseTime}ms
+                  </span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Database Performance */}
+          <Card className="bg-zinc-900/50 border-white/5">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-sm font-mono uppercase tracking-widest flex items-center gap-2">
+                <Database className="size-4 text-cyan-500" />
+                Database Performance
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex justify-between text-sm">
+                  <span className="text-zinc-400">Status</span>
+                  <span
+                    className={cn(
+                      "font-mono uppercase text-xs",
+                      data.database.connected
+                        ? "text-green-500"
+                        : "text-red-500"
+                    )}
+                  >
+                    {data.database.connected ? "Online" : "Offline"}
+                  </span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-zinc-400">Ping</span>
+                  <span className="text-white font-mono">
+                    {data.database.responseTime}ms
+                  </span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="flex justify-end">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={fetchHealth}
+            disabled={isRefreshing}
+            className="bg-zinc-900/50 border-white/5 hover:bg-zinc-800"
+          >
+            <RefreshCw
+              className={cn("size-3 mr-2", isRefreshing && "animate-spin")}
+            />
+            Refresh
+          </Button>
+        </div>
+      </CardContent>
     </Card>
   );
 }

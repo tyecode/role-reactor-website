@@ -13,6 +13,8 @@ import { cn } from "@/lib/utils";
 import { ServerSearch } from "@/app/(home)/_components/server-search";
 import { AdBlock } from "@/components/adsense/ad-block";
 
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: "Top Communities | Role Reactor",

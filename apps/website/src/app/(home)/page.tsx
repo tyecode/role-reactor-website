@@ -6,18 +6,30 @@ import { AdBlock } from "@/components/adsense/ad-block";
 import { links } from "@/constants/links";
 import { botFetchJson } from "@/lib/bot-fetch";
 
+interface UsageData {
+  summary?: {
+    totalExecutions?: number;
+    totalCommands?: number;
+  };
+}
+
+interface StatsData {
+  statistics?: {
+    guilds?: number;
+  };
+}
+
 export default async function HomePage() {
   // Fetch command usage and stats from the bot API
   let totalExecutions = 0;
   let totalGuilds = 0;
   let totalCommands = 0;
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [usageData, statsData] = await Promise.all([
-      botFetchJson<any>("/commands/usage", {
+      botFetchJson<UsageData>("/commands/usage", {
         next: { revalidate: 3600 },
       }),
-      botFetchJson<any>("/stats", {
+      botFetchJson<StatsData>("/stats", {
         next: { revalidate: 3600 },
       }),
     ]);
