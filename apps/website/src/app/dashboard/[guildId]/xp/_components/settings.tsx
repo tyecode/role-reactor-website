@@ -70,6 +70,23 @@ interface SettingsTabProps {
   onSavingChange?: (saving: boolean) => void;
 }
 
+const DEFAULT_XP_SETTINGS: XPSettings = {
+  enabled: false,
+  messageXP: true,
+  commandXP: true,
+  roleXP: true,
+  voiceXP: true,
+  messageXPAmount: { min: 15, max: 25 },
+  roleXPAmount: 10,
+  commandXPAmount: { base: 50 },
+  voiceXPAmount: { base: 30 },
+  messageCooldown: 60,
+  commandCooldown: 60,
+  levelUpMessages: true,
+  levelUpChannel: null,
+  publicLeaderboard: true,
+};
+
 export const XPSettingsTab = forwardRef<
   { handleSave: () => Promise<void>; saving: boolean },
   SettingsTabProps
@@ -81,6 +98,7 @@ export const XPSettingsTab = forwardRef<
 
   const { channels } = useGuildChannels(guildId);
   const [saving, setSaving] = useState(false);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [localSettings, setLocalSettings] = useState<XPSettings | null>(null);
 
   useEffect(() => {
@@ -91,8 +109,15 @@ export const XPSettingsTab = forwardRef<
   useEffect(() => {
     if (globalSettings && !localSettings) {
       setLocalSettings(globalSettings);
+      setLoadError(null);
+    } else if (!globalSettings && !localSettings && !isLoading) {
+      // If no global settings exist (failed validation or not set), use defaults
+      setLocalSettings(DEFAULT_XP_SETTINGS);
+      setLoadError(
+        "Settings could not be loaded from server. Using default configuration."
+      );
     }
-  }, [globalSettings, localSettings]);
+  }, [globalSettings, localSettings, isLoading]);
 
   const handleSave = async () => {
     if (!guildId || !localSettings) return;
@@ -122,12 +147,15 @@ export const XPSettingsTab = forwardRef<
         updateSettings(guildId, localSettings);
         // Force refresh data to be sure
         fetchXPData(guildId, true);
+        // Clear any load errors since save was successful
+        setLoadError(null);
       } else {
         throw new Error(data.message || "Failed to save settings");
       }
     } catch (err: any) {
       console.error("Error saving XP settings:", err);
       toast.error(err.message || "Failed to save settings");
+      throw err; // Re-throw so caller knows save failed
     } finally {
       setSaving(false);
     }
@@ -185,6 +213,29 @@ export const XPSettingsTab = forwardRef<
   return (
     <div className="space-y-6 pb-20 relative">
       <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 blur-[120px] pointer-events-none" />
+
+      {/* Load Error Alert */}
+      {loadError && (
+        <Card
+          variant="cyberpunk"
+          className="border-amber-500/30 bg-amber-500/5"
+        >
+          <CardContent className="p-4">
+            <div className="flex items-start gap-4">
+              <AlertCircle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+              <div className="flex-1">
+                <p className="text-sm text-amber-200/80 font-bold uppercase tracking-tight">
+                  {loadError}
+                </p>
+                <p className="text-xs text-amber-200/60 mt-1">
+                  Adjust settings as needed and click "Push Settings" to save
+                  them to the server.
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Main Feature Toggle */}
       <Card
