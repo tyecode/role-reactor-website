@@ -24,8 +24,14 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { cn, formatCurrency, formatCompactNumber } from "@/lib/utils";
 import { RevenueAreaChart } from "./_components/revenue-chart";
-import { Suspense } from "react";
+import { Suspense, lazy } from "react";
 import { NodeLoader } from "@/components/common/node-loader";
+
+const LazyRevenueChart = lazy(() =>
+  import("./_components/revenue-chart").then((mod) => ({
+    default: mod.RevenueAreaChart,
+  }))
+);
 
 function formatTimeAgo(date: Date) {
   const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
@@ -144,8 +150,14 @@ async function RevenueContent() {
               </Badge>
             </div>
           </CardHeader>
-          <CardContent className="h-[350px] pt-4">
-            <RevenueAreaChart data={recentPayments} />
+          <CardContent className="h-87.5 pt-4">
+            <Suspense
+              fallback={
+                <div className="h-full w-full bg-zinc-900/10 animate-pulse rounded-xl" />
+              }
+            >
+              <LazyRevenueChart data={recentPayments} />
+            </Suspense>
           </CardContent>
         </Card>
 

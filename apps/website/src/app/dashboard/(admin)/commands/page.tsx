@@ -25,9 +25,15 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { CommandUsageChart } from "./_components/command-chart";
-import { Suspense } from "react";
+import { Suspense, lazy } from "react";
 import { NodeLoader } from "@/components/common/node-loader";
 import { ScrollArea } from "@/components/ui/scroll-area";
+
+const LazyCommandChart = lazy(() =>
+  import("./_components/command-chart").then((mod) => ({
+    default: mod.CommandUsageChart,
+  }))
+);
 
 interface CommandUsage {
   commands: Array<{
@@ -111,8 +117,14 @@ async function CommandsContent() {
               Command usage distribution across the platform
             </CardDescription>
           </CardHeader>
-          <CardContent className="h-[460px] pt-4">
-            <CommandUsageChart data={usage.commands.slice(0, 10)} />
+          <CardContent className="h-115 pt-4">
+            <Suspense
+              fallback={
+                <div className="h-full w-full bg-zinc-900/10 animate-pulse rounded-xl" />
+              }
+            >
+              <LazyCommandChart data={usage.commands.slice(0, 10)} />
+            </Suspense>
           </CardContent>
         </Card>
 
@@ -131,7 +143,7 @@ async function CommandsContent() {
               <ListFilter className="size-4 text-zinc-600" />
             </CardHeader>
             <CardContent className="overflow-hidden">
-              <ScrollArea className="h-[430px] pr-4">
+              <ScrollArea className="h-107.5 pr-4">
                 {usage.commands.map((cmd, idx) => (
                   <div
                     key={cmd.name}

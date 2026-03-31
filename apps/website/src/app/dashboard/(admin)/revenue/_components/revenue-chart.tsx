@@ -51,7 +51,7 @@ export function RevenueAreaChart({ data }: { data: PaymentData[] }) {
     );
 
   return (
-    <div className="h-full w-full min-h-[300px]">
+    <div className="h-full w-full min-h-75">
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart data={chartData}>
           <defs>
@@ -87,7 +87,6 @@ export function RevenueAreaChart({ data }: { data: PaymentData[] }) {
               borderRadius: "12px",
               fontSize: "12px",
               fontFamily: "monospace",
-              color: "#fff",
             }}
             labelStyle={{
               color: "#10b981",

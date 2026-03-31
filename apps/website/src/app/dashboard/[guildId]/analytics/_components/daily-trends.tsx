@@ -168,10 +168,10 @@ export function DailyTrends({
 
       <Card variant="cyberpunk" className="overflow-hidden">
         <CyberpunkBackground />
-        <CardContent className="p-0 relative z-10 flex flex-col lg:flex-row h-auto lg:h-[350px]">
+        <CardContent className="p-0 relative z-10 flex flex-col lg:flex-row h-auto lg:h-87.5">
           <ScrollArea
             type="auto"
-            className="w-full max-w-full lg:w-64 bg-zinc-900/50 border-b lg:border-b-0 lg:border-r border-white/5 shrink-0"
+            className="w-full max-w-full lg:w-64 bg-zinc-900/50 border-b lg:border-b-0 lg:border-l-[3px] border-white/5 shrink-0"
           >
             <div className="flex lg:flex-col gap-2 p-2 w-max lg:w-full">
               {tabs.map((tab) => {
@@ -230,7 +230,7 @@ export function DailyTrends({
               </div>
             </div>
 
-            <div className="flex-1 min-h-[300px] lg:min-h-0 relative">
+            <div className="flex-1 min-h-75 lg:min-h-0 relative">
               {!isMounted ? (
                 <div className="absolute inset-0 bg-zinc-900/10 animate-pulse rounded-xl" />
               ) : !hasData ? (

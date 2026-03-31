@@ -23,8 +23,14 @@ import {
 } from "lucide-react";
 import { cn, formatCompactNumber } from "@/lib/utils";
 import { StatsChart } from "./_components/stats-chart";
-import { Suspense } from "react";
+import { Suspense, lazy } from "react";
 import { NodeLoader } from "@/components/common/node-loader";
+
+const LazyStatsChart = lazy(() =>
+  import("./_components/stats-chart").then((mod) => ({
+    default: mod.StatsChart,
+  }))
+);
 
 interface BotStats {
   bot: {
@@ -151,8 +157,14 @@ async function StatsContent() {
               <Terminal className="size-5 text-cyan-500 opacity-50" />
             </div>
           </CardHeader>
-          <CardContent className="h-[300px] w-full pt-4">
-            <StatsChart data={usage?.commands || []} />
+          <CardContent className="h-75 w-full pt-4">
+            <Suspense
+              fallback={
+                <div className="h-full w-full bg-zinc-900/10 animate-pulse rounded-xl" />
+              }
+            >
+              <LazyStatsChart data={usage?.commands || []} />
+            </Suspense>
           </CardContent>
         </Card>
 

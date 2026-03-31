@@ -5,7 +5,6 @@ import { Audiowide } from "next/font/google";
 import { cn } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { CyberpunkBackground } from "@/components/common/cyberpunk-background";
-
 import {
   AreaChart,
   Area,
@@ -43,7 +42,6 @@ export function GrowthChart({ history, days }: GrowthChartProps) {
 
   const hasData = history.some((d) => d.joins > 0 || d.leaves > 0);
 
-  // Custom tooltip
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
@@ -123,9 +121,9 @@ export function GrowthChart({ history, days }: GrowthChartProps) {
         </div>
 
         {!isMounted ? (
-          <div className="h-[300px] w-full bg-zinc-900/10 animate-pulse rounded-xl" />
+          <div className="h-75 w-full bg-zinc-900/10 animate-pulse rounded-xl" />
         ) : !hasData ? (
-          <div className="h-[300px] flex items-center justify-center">
+          <div className="h-75 flex items-center justify-center">
             <div className="text-center">
               <p
                 className={cn(
@@ -141,7 +139,7 @@ export function GrowthChart({ history, days }: GrowthChartProps) {
             </div>
           </div>
         ) : days <= 14 ? (
-          <div className="h-[300px]">
+          <div className="h-75">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={history} barCategoryGap="20%">
                 <CartesianGrid
@@ -173,7 +171,7 @@ export function GrowthChart({ history, days }: GrowthChartProps) {
             </ResponsiveContainer>
           </div>
         ) : (
-          <div className="h-[300px]">
+          <div className="h-75">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={history}>
                 <defs>

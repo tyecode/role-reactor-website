@@ -49,7 +49,7 @@ export function PremiumGuard({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent variant="glitch" className="max-w-[460px]">
+      <DialogContent variant="glitch" className="max-w-115">
         <DialogTitle className="sr-only">{title}</DialogTitle>
         <DialogDescription className="sr-only">{description}</DialogDescription>
 

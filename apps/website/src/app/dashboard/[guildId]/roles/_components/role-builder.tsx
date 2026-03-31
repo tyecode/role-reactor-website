@@ -329,7 +329,7 @@ function ConfigurationFields({
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Tell users what to do..."
             className={cn(
-              "min-h-[140px] resize-none",
+              "min-h-35 resize-none",
               !validation.hasDescription &&
                 description.length > 0 &&
                 "border-destructive"
@@ -393,7 +393,7 @@ function ConfigurationFields({
             <Input
               value={color}
               onChange={(e) => setColor(e.target.value)}
-              className="w-[100px] font-mono uppercase"
+              className="w-25 font-mono uppercase"
             />
           </div>
         </div>
@@ -428,7 +428,7 @@ function ChannelSelector({
         <SelectTrigger className="w-full">
           <SelectValue placeholder="Select a channel..." />
         </SelectTrigger>
-        <SelectContent className="max-h-[300px]">
+        <SelectContent className="max-h-75">
           {channels.length > 0 ? (
             channels.map((ch: DiscordChannel) => (
               <SelectItem key={ch.id} value={ch.id}>
@@ -750,7 +750,7 @@ function RoleMappingList({
                       }
                     />
                   </SelectTrigger>
-                  <SelectContent className="min-w-[200px]">
+                  <SelectContent className="min-w-50">
                     {availableRoles.length > 0 ? (
                       availableRoles.map((role: DiscordRole) => (
                         <SelectItem key={role.id} value={role.id}>

@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import * as AvatarPrimitive from "@radix-ui/react-avatar";
+import Image from "next/image";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
@@ -49,20 +50,66 @@ const Avatar = React.forwardRef<
 ));
 Avatar.displayName = AvatarPrimitive.Root.displayName;
 
+export interface AvatarImageProps
+  extends
+    React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>,
+    VariantProps<typeof avatarVariants> {
+  width?: number;
+  height?: number;
+  unoptimized?: boolean;
+}
+
 const AvatarImage = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Image>,
-  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image> & {
-    width?: number;
-    height?: number;
+  AvatarImageProps
+>(
+  (
+    {
+      className,
+      src,
+      width = 40,
+      height = 40,
+      unoptimized = false,
+      variant: _variant,
+      size: _size,
+      ...props
+    },
+    ref
+  ) => {
+    // Use next/image for Discord CDN images, fallback to native img for data URLs
+    const srcString = typeof src === "string" ? src : "";
+    const isDataUrl = srcString.startsWith("data:");
+    const isExternal = srcString.startsWith("http");
+
+    if (isDataUrl || !srcString) {
+      return (
+        <AvatarPrimitive.Image
+          ref={ref}
+          className={cn("aspect-square h-full w-full object-cover", className)}
+          referrerPolicy="no-referrer"
+          src={src}
+          {...props}
+        />
+      );
+    }
+
+    return (
+      <div className={cn("aspect-square h-full w-full", className)}>
+        <Image
+          ref={ref as React.Ref<HTMLImageElement>}
+          src={srcString}
+          alt=""
+          width={width}
+          height={height}
+          className="aspect-square h-full w-full object-cover"
+          unoptimized={unoptimized || !isExternal}
+          loading="lazy"
+          {...props}
+        />
+      </div>
+    );
   }
->(({ className, width: _width, height: _height, ...props }, ref) => (
-  <AvatarPrimitive.Image
-    ref={ref}
-    className={cn("aspect-square h-full w-full object-cover", className)}
-    referrerPolicy="no-referrer"
-    {...props}
-  />
-));
+);
 AvatarImage.displayName = AvatarPrimitive.Image.displayName;
 
 const AvatarFallback = React.forwardRef<

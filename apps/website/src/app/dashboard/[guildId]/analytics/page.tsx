@@ -31,12 +31,27 @@ import { NodeLoader } from "@/components/common/node-loader";
 import { PremiumGuard } from "@/app/dashboard/_components/premium-guard";
 import { toast } from "@/lib/toast";
 
+import dynamic from "next/dynamic";
 import { AnalyticsStats } from "./_components/analytics-stats";
-import { GrowthChart } from "./_components/growth-chart";
 import { TopMembers } from "./_components/top-members";
 import { ActivityBreakdown } from "./_components/activity-breakdown";
-import { DailyTrends } from "./_components/daily-trends";
 import useSWR from "swr";
+
+const GrowthChart = dynamic(
+  () => import("./_components/growth-chart").then((mod) => mod.GrowthChart),
+  { ssr: false, loading: () => <ChartSkeleton /> }
+);
+
+const DailyTrends = dynamic(
+  () => import("./_components/daily-trends").then((mod) => mod.DailyTrends),
+  { ssr: false, loading: () => <ChartSkeleton /> }
+);
+
+function ChartSkeleton() {
+  return (
+    <div className="h-87.5 w-full bg-zinc-900/10 animate-pulse rounded-xl border border-white/5" />
+  );
+}
 
 const audiowide = Audiowide({
   subsets: ["latin"],
