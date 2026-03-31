@@ -1,11 +1,14 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, lazy } from "react";
 import { BotInviteCard } from "@/app/dashboard/_components/bot-invite-card";
 import { ShieldCheck } from "lucide-react";
 import { PageHeader } from "@/app/dashboard/_components/page-header";
 import { NodeLoader } from "@/components/common/node-loader";
-import { RolesTabs } from "./_components/roles-tabs";
+
+const RolesTabs = lazy(() =>
+  import("./_components/roles-tabs").then((mod) => ({ default: mod.RolesTabs }))
+);
 
 function RolesPageSkeleton() {
   return (
