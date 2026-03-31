@@ -79,7 +79,7 @@ export function AdBlock({
         <div className="absolute inset-0 bg-linear-to-br from-cyan-500/5 via-transparent to-purple-500/5 opacity-50" />
 
         {/* Scanline Effect */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] bg-[length:100%_2px,3px_100%] pointer-events-none" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] bg-size-[100%_2px,3px_100%] pointer-events-none" />
 
         {/* Content */}
         <div
@@ -96,7 +96,7 @@ export function AdBlock({
             )}
             <div
               className={cn(
-                "uppercase font-black tracking-[0.3em] text-zinc-500 !m-0 !p-0 leading-none",
+                "uppercase font-black tracking-[0.3em] text-zinc-500 m-0! p-0! leading-none",
                 isSidebar ? "text-[8px]" : "text-[9px]",
                 audiowide.className
               )}
@@ -107,7 +107,7 @@ export function AdBlock({
 
           <div
             className={cn(
-              "text-zinc-100 font-black uppercase tracking-widest text-center max-w-md !m-0 !p-0 leading-none drop-shadow-sm",
+              "text-zinc-100 font-black uppercase tracking-widest text-center max-w-md m-0! p-0! leading-none drop-shadow-sm",
               isSidebar ? "text-[12px] leading-tight" : "text-[15px]",
               audiowide.className
             )}
@@ -123,7 +123,7 @@ export function AdBlock({
           >
             <div
               className={cn(
-                "text-zinc-500 font-bold uppercase tracking-widest text-center !m-0 !p-0 leading-tight opacity-80",
+                "text-zinc-500 font-bold uppercase tracking-widest text-center m-0! p-0! leading-tight opacity-80",
                 isSidebar ? "text-[8px] max-w-[120px]" : "text-[10px] max-w-md"
               )}
             >
@@ -134,7 +134,7 @@ export function AdBlock({
               target="_blank"
               rel="noopener noreferrer"
               className={cn(
-                "font-black text-cyan-400/80 hover:text-cyan-400 uppercase tracking-[0.2em] transition-all duration-300 flex items-center gap-2 !no-underline leading-none hover:scale-105",
+                "font-black text-cyan-400/80 hover:text-cyan-400 uppercase tracking-[0.2em] transition-all duration-300 flex items-center gap-2 no-underline! leading-none hover:scale-105",
                 isSidebar ? "mt-1 text-[7.5px]" : "mt-3 text-[8.5px]"
               )}
             >

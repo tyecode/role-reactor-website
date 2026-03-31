@@ -31,5 +31,10 @@
     "@radix-ui/react-switch": "^1.2.6",
     "husky": "^9.1.7",
     "import-in-the-middle": "^3.0.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "import-in-the-middle": "3.0.0"
+    }
   }
 }
