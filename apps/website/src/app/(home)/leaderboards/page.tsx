@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import React from "react";
 import Link from "next/link";
 import { Trophy, Users, ShieldCheck } from "lucide-react";
@@ -12,11 +13,41 @@ import { cn } from "@/lib/utils";
 import { ServerSearch } from "@/app/(home)/_components/server-search";
 import { AdBlock } from "@/components/adsense/ad-block";
 
-export const metadata = {
-  title: "Top Communities | Role Reactor",
-  description:
-    "Discover the most active Discord communities powered by Role Reactor's XP system.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Top Communities | Role Reactor",
+    description:
+      "Discover the most active Discord communities powered by Role Reactor's XP system. View leaderboards, track progress, and compete with other servers.",
+    openGraph: {
+      title: "Top Communities | Role Reactor",
+      description:
+        "Discover the most active Discord communities powered by Role Reactor's XP system.",
+      type: "website",
+      locale: "en_US",
+      url: "/leaderboards",
+      siteName: "Role Reactor",
+      images: [
+        {
+          url: "/og.png",
+          width: 1200,
+          height: 630,
+          alt: "Role Reactor Leaderboards",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Top Communities | Role Reactor",
+      description:
+        "Discover the most active Discord communities powered by Role Reactor's XP system.",
+      images: ["/og.png"],
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+  };
+}
 
 interface GuildResult {
   id: string;

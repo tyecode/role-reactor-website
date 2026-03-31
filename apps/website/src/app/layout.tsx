@@ -11,9 +11,11 @@ import { PWAMeta, PWAProvider } from "@/components/pwa/pwa-provider";
 import { initPerformanceMonitoring } from "@/lib/web-vitals";
 import { AdsenseScript } from "@/components/adsense/adsense-script";
 
-import "@/app/global.css";
+import "./global.css";
 
 import { inter } from "@/lib/fonts";
+
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || links.home;
 
 // Initialize performance monitoring
 if (typeof window !== "undefined") {
@@ -23,9 +25,10 @@ if (typeof window !== "undefined") {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  colorScheme: "dark",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
   ],
 };
 
@@ -66,21 +69,21 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || links.home),
+  metadataBase: new URL(baseUrl),
   alternates: {
-    canonical: "/",
+    canonical: baseUrl,
   },
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "/",
+    url: baseUrl,
     title: "Role Reactor - Discord Bot for Role Management",
     description:
       "Role Reactor is a powerful Discord bot for automated role management. Set up reaction roles instantly, manage permissions, and enhance your Discord server experience.",
     siteName: "Role Reactor",
     images: [
       {
-        url: "/og.png",
+        url: `${baseUrl}/og.png`,
         width: 1200,
         height: 630,
         alt: "Role Reactor - Discord Bot for Role Management",
@@ -92,7 +95,7 @@ export const metadata: Metadata = {
     title: "Role Reactor - Discord Bot for Role Management",
     description:
       "Role Reactor is a powerful Discord bot for automated role management. Set up reaction roles instantly, manage permissions, and enhance your Discord server experience.",
-    images: ["/og.png"],
+    images: [`${baseUrl}/og.png`],
   },
   robots: {
     index: true,
@@ -107,6 +110,11 @@ export const metadata: Metadata = {
   },
   verification: {
     google: process.env.GOOGLE_SITE_VERIFICATION,
+    other: {
+      ...(process.env.NEXT_PUBLIC_ADSENSE_PUB_ID && {
+        "google-adsense-account": process.env.NEXT_PUBLIC_ADSENSE_PUB_ID,
+      }),
+    },
   },
   icons: {
     icon: [
@@ -125,13 +133,10 @@ export const metadata: Metadata = {
     apple: [{ url: "/images/favicon/apple-touch-icon.png", sizes: "180x180" }],
   },
   manifest: "/images/favicon/site.webmanifest",
-  other: {
-    ...(process.env.GOOGLE_SITE_VERIFICATION && {
-      "google-site-verification": process.env.GOOGLE_SITE_VERIFICATION,
-    }),
-    ...(process.env.NEXT_PUBLIC_ADSENSE_PUB_ID && {
-      "google-adsense-account": process.env.NEXT_PUBLIC_ADSENSE_PUB_ID,
-    }),
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "Role Reactor",
   },
 };
 

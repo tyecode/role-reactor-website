@@ -1,10 +1,36 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowLeft, Mail, MessageCircle, Github, Heart } from "lucide-react";
 import { links } from "@/constants/links";
 
+export const metadata: Metadata = {
+  title: "Contact Us",
+  description:
+    "Get in touch with the Role Reactor team. Email support, Discord community, and GitHub issues for bug reports and feature requests.",
+  openGraph: {
+    title: "Contact Us | Role Reactor",
+    description:
+      "Get in touch with the Role Reactor team. Email support, Discord community, and GitHub issues for bug reports and feature requests.",
+    type: "website",
+    locale: "en_US",
+    url: "/contact",
+    siteName: "Role Reactor",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contact Us | Role Reactor",
+    description:
+      "Get in touch with the Role Reactor team for support and inquiries.",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+
 export default function ContactPage() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-950 via-black to-blue-950">
+    <main className="min-h-screen bg-linear-to-br from-gray-950 via-black to-blue-950">
       <div className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto">
           <Link
@@ -108,46 +134,28 @@ export default function ContactPage() {
                     Support Development
                   </h3>
                   <p className="text-gray-300 mb-4">
-                    Help us keep Role Reactor running and improving:
+                    Enjoying Role Reactor? Your support helps keep the bot
+                    running and funds new features. This is a voluntary donation
+                    - not required for bot features.
                   </p>
-                  <div className="space-y-2">
-                    <a
-                      href={links.buymeacoffee}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block text-indigo-400 hover:underline"
-                    >
-                      Buy Me a Coffee
-                    </a>
-                  </div>
+                  <a
+                    href={links.buymeacoffee}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md transition-colors"
+                  >
+                    <Heart className="w-4 h-4 mr-2" />
+                    Buy Me a Coffee
+                  </a>
                 </div>
               </div>
             </div>
 
-            <div className="mt-8 pt-8 border-t border-gray-700">
-              <h3 className="text-xl font-semibold text-white mb-4">
-                Business Information
-              </h3>
-              <div className="text-gray-300 space-y-2">
-                <p>
-                  <strong>Service:</strong> Role Reactor Discord Bot
-                </p>
-                <p>
-                  <strong>Type:</strong> Discord Bot Development & Support
-                </p>
-                <p>
-                  <strong>Developer:</strong> {links.author.name}
-                </p>
-                <p>
-                  <strong>Business Email:</strong> {links.contact.email}
-                </p>
-                <p>
-                  <strong>Website:</strong> {links.home}
-                </p>
-                <p>
-                  <strong>Support:</strong> Discord Community & Email
-                </p>
-              </div>
+            <div className="mt-8 pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
+              <p>
+                © {new Date().getFullYear()} Role Reactor. Built by{" "}
+                {links.author.name}.
+              </p>
             </div>
           </div>
         </div>
