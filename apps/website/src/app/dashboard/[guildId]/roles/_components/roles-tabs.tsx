@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, useCallback, useEffect, Suspense, lazy } from "react";
+import { useState, useCallback, useEffect, lazy } from "react";
 import { Audiowide } from "next/font/google";
 import { Plus, List, Pencil } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ActiveMenus } from "./active-menus";
-import { NodeLoader } from "@/components/common/node-loader";
 import { useProEngineStore } from "@/store/use-pro-engine-store";
 
 const RoleBuilder = lazy(() =>
@@ -37,14 +36,6 @@ export interface EditData {
     roleNames?: string[];
     roleColors?: number[];
   }>;
-}
-
-function RolesPageSkeleton() {
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-zinc-950/80 backdrop-blur-sm">
-      <NodeLoader title="Loading Roles" subtitle="Synchronizing role data..." />
-    </div>
-  );
 }
 
 export function RolesTabs({
@@ -128,20 +119,16 @@ export function RolesTabs({
       </div>
 
       <TabsContent value="active" className="mt-0">
-        <Suspense fallback={<RolesPageSkeleton />}>
-          <ActiveMenus guildId={guildId} onEdit={handleEdit} />
-        </Suspense>
+        <ActiveMenus guildId={guildId} onEdit={handleEdit} />
       </TabsContent>
 
       <TabsContent value="create" className="mt-0">
-        <Suspense fallback={<RolesPageSkeleton />}>
-          <RoleBuilder
-            guildId={guildId}
-            editData={editData}
-            onCancelEdit={handleCancelEdit}
-            onSaveComplete={handleSaveComplete}
-          />
-        </Suspense>
+        <RoleBuilder
+          guildId={guildId}
+          editData={editData}
+          onCancelEdit={handleCancelEdit}
+          onSaveComplete={handleSaveComplete}
+        />
       </TabsContent>
     </Tabs>
   );

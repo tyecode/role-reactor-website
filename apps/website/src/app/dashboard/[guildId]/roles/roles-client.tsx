@@ -26,14 +26,6 @@ export default function RolesClient({
   guildName,
   isInstalled,
 }: RolesClientProps) {
-  const handleEdit = () => {
-    // Handled by tabs component
-  };
-
-  const handleCreate = () => {
-    // Handled by tabs component
-  };
-
   if (!isInstalled) {
     return (
       <div className="space-y-6 w-full">
@@ -50,21 +42,17 @@ export default function RolesClient({
   }
 
   return (
-    <div className="space-y-6 w-full">
-      <PageHeader
-        category="Engagement Management"
-        categoryIcon={ShieldCheck}
-        title="Reaction Roles"
-        description="Configure interactive role assignment systems for"
-        serverName={guildName}
-      />
-      <Suspense fallback={<RolesPageSkeleton />}>
-        <RolesTabs
-          guildId={guildId}
-          onEdit={handleEdit}
-          onCreate={handleCreate}
+    <Suspense fallback={<RolesPageSkeleton />}>
+      <div className="space-y-6 w-full">
+        <PageHeader
+          category="Engagement Management"
+          categoryIcon={ShieldCheck}
+          title="Reaction Roles"
+          description="Configure interactive role assignment systems for"
+          serverName={guildName}
         />
-      </Suspense>
-    </div>
+        <RolesTabs guildId={guildId} onEdit={() => {}} onCreate={() => {}} />
+      </div>
+    </Suspense>
   );
 }
