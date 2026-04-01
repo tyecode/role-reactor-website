@@ -20,7 +20,10 @@ export async function botFetch(
   const { userId, ...fetchOptions } = options;
 
   // Use fallback for local dev if env not set
-  const apiUrl = botApiUrl || "http://localhost:3030";
+  if (!botApiUrl) {
+    throw new Error("BOT_API_URL is not defined");
+  }
+  const apiUrl = botApiUrl;
   const apiKey = internalKey;
 
   if (!apiKey && process.env.NODE_ENV === "development") {

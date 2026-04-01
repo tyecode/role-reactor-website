@@ -72,6 +72,7 @@ describe("botFetch Security Tests", () => {
 
   it("should throw error when BOT_API_URL is not defined", async () => {
     vi.stubEnv("BOT_API_URL", "");
+    vi.stubEnv("NODE_ENV", "production");
 
     await expect(botFetch("/test")).rejects.toThrow(
       "BOT_API_URL is not defined"
