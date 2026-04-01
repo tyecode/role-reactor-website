@@ -199,7 +199,7 @@ export function DiscordPreview({
           <div className="space-y-1.5">
             {/* Embed */}
             <div
-              className="mt-1 flex rounded-[4px] bg-[#2b2d31] max-w-[520px] overflow-hidden"
+              className="mt-1 flex rounded-lg bg-[#2b2d31] max-w-130 overflow-hidden"
               style={{ borderLeft: `4px solid ${color}` }}
             >
               <div className="p-3 md:p-4 pr-12 w-full">
@@ -209,7 +209,7 @@ export function DiscordPreview({
                   </div>
                 )}
                 {description && (
-                  <div className="text-[14px] leading-[1.375] whitespace-pre-wrap text-[#dbdee1]">
+                  <div className="text-[14px] leading-snug whitespace-pre-wrap text-[#dbdee1]">
                     {description}
                   </div>
                 )}
@@ -320,7 +320,7 @@ export function DiscordPreview({
                 {mergedReactions.map((r, i) => (
                   <div
                     key={i}
-                    className="bg-[#2b2d31] hover:bg-[#3b3d42] border border-transparent hover:border-[#5865f2]/50 rounded-[4px] px-1.5 py-0.5 flex items-center gap-2 cursor-pointer transition-colors"
+                    className="bg-[#2b2d31] hover:bg-[#3b3d42] border border-transparent hover:border-[#5865f2]/50 rounded-lg px-1.5 py-0.5 flex items-center gap-2 cursor-pointer transition-colors"
                   >
                     <EmojiDisplay
                       emoji={r.emoji}
@@ -334,7 +334,7 @@ export function DiscordPreview({
                     </span>
                   </div>
                 ))}
-                <div className="bg-[#2b2d31] hover:bg-[#3b3d42] rounded-[4px] px-1.5 py-0.5 flex items-center cursor-pointer text-[#b5bac1] hover:text-[#dbdee1]">
+                <div className="bg-[#2b2d31] hover:bg-[#3b3d42] rounded-lg px-1.5 py-0.5 flex items-center cursor-pointer text-[#b5bac1] hover:text-[#dbdee1]">
                   <SmilePlus className="w-4 h-4" />
                 </div>
               </div>

@@ -394,7 +394,7 @@ export function CommandList({ guildId }: CommandListProps) {
                             {/* Hover Effects */}
                             {!isDisabled && (
                               <>
-                                <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-linear-to-r from-transparent via-cyan-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-linear-to-r from-transparent via-cyan-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                                 <div className="absolute -right-10 -bottom-10 w-32 h-32 bg-cyan-500/10 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                               </>
                             )}

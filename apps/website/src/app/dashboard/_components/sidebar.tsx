@@ -5,6 +5,7 @@ import {
   LayoutDashboard,
   ChevronUp,
   ShieldCheck,
+  Wand2,
   Trophy,
   UserPlus,
   BarChart3,
@@ -148,6 +149,12 @@ export function DashboardSidebar({ user }: { user: User }) {
             title: "Command settings",
             href: getHref("/dashboard/commands", true),
             icon: Terminal,
+          },
+          {
+            title: "Custom Commands",
+            href: getHref("/dashboard/custom-commands", true),
+            icon: Wand2,
+            isComingSoon: true,
           },
         ]
       : [];

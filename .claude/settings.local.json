@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -la /Users/tyecode/dev/projects/discord-bots/role-reactor-website/apps/website/src/app/api/guilds/[guildId]/)",
+      "WebSearch"
+    ]
+  }
+}

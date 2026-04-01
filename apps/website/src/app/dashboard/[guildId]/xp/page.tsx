@@ -198,7 +198,7 @@ export default function XPPage({ params }: XPPageProps) {
 
         <TabsContent
           value="leaderboard"
-          className="mt-0 focus-visible:outline-none min-h-[500px] w-full overflow-hidden"
+          className="mt-0 focus-visible:outline-none min-h-125 w-full overflow-hidden"
         >
           {isXpDisabled ? (
             <XPDisabledState onEnable={() => setActiveTab("settings")} />
