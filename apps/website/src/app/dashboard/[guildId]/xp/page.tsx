@@ -67,8 +67,9 @@ export default function XPPage({ params }: XPPageProps) {
   // Handle Initial Fetch — force refresh on guild change
   useEffect(() => {
     if (guildId) {
-      fetchXPData(guildId, true);
-      fetchSettings(guildId, true);
+      // Let the stores decide based on their TTL caches (5 min)
+      fetchXPData(guildId);
+      fetchSettings(guildId);
     }
   }, [guildId, fetchXPData, fetchSettings]);
 

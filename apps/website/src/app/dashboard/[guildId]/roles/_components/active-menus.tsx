@@ -86,7 +86,13 @@ export function ActiveMenus({
   // Initial load — SWR caches page 1 data so it's available instantly on re-mount
   const { data, error, isLoading } = useSWR(
     `/api/guilds/${guildId}/role-reactions?page=1&limit=${ITEMS_PER_PAGE}`,
-    fetcher
+    fetcher,
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+      refreshWhenHidden: false,
+      dedupingInterval: 30_000,
+    }
   );
 
   const firstPageMenus: RoleMapping[] = data?.roleMappings || [];

@@ -98,7 +98,7 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
     fetcher,
     {
       refreshInterval: isPremium ? 120000 : 0, // Auto-refresh only for Pro
-      revalidateOnFocus: true,
+      revalidateOnFocus: false,
     }
   );
 

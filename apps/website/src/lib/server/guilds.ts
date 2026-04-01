@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 import { auth } from "@/auth";
 import { botFetchJson } from "@/lib/bot-fetch";
 import type { DiscordGuild } from "@/store/use-server-store";
@@ -57,8 +58,8 @@ async function fetchDiscordGuildsInternal(accessToken: string) {
 
   const data = (await response.json()) as DiscordGuildResponse[];
 
-  // Set in-memory cache for 60 seconds (conservative)
-  GUILD_CACHE.set(accessToken, { data, expires: now + 60000 });
+  // Set in-memory cache for 5 minutes (matches fetch revalidate window)
+  GUILD_CACHE.set(accessToken, { data, expires: now + 300000 });
 
   return data;
 }
@@ -93,7 +94,7 @@ const checkBotInstallationCached = unstable_cache(
  * Fetches manageable guilds from Discord and checks which ones have the bot installed.
  * Designed to be called from Server Components (layouts/pages).
  */
-export async function getManageableGuilds() {
+export const getManageableGuilds = cache(async () => {
   const session = await auth();
   const sessionWithToken = session as typeof session & { accessToken?: string };
 
@@ -176,4 +177,4 @@ export async function getManageableGuilds() {
 
     return { guilds: [], installedGuildIds: [] };
   }
-}
+});
