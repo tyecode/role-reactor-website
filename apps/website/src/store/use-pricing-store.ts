@@ -1,11 +1,13 @@
 import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
 import type { PricingData } from "../types/pricing";
 
 interface PricingStore {
   data: PricingData | null;
   isLoading: boolean;
   error: string | null;
-  lastFetched: number | null;
+  lastFetchedPackages: number | null;
+  lastFetchedUser: number | null;
   fetchPromise: Promise<void> | null;
   /**
    * Fetches pricing data.
@@ -19,94 +21,142 @@ interface PricingStore {
   updateUserBalance: (newBalance: number) => void;
 }
 
-export const usePricingStore = create<PricingStore>((set, get) => ({
-  data: null,
-  isLoading: false,
-  error: null,
-  lastFetched: null,
+export const usePricingStore = create<PricingStore>()(
+  persist(
+    (set, get) => ({
+      data: null,
+      isLoading: false,
+      error: null,
+      lastFetchedPackages: null,
+      lastFetchedUser: null,
 
-  fetchPromise: null,
+      fetchPromise: null,
 
-  fetchPricing: async (userId?: string, force = false) => {
-    const { data, lastFetched, fetchPromise } = get();
+      fetchPricing: async (userId?: string, force = false) => {
+        const {
+          data,
+          lastFetchedPackages,
+          lastFetchedUser,
+          fetchPromise,
+        } = get();
 
-    // Cache validity (e.g., 5 minutes)
-    const CACHE_DURATION = 5 * 60 * 1000;
-    const now = Date.now();
-    const isCacheValid = lastFetched && now - lastFetched < CACHE_DURATION;
+        // Cache validity (e.g., 5 minutes)
+        const CACHE_DURATION = 5 * 60 * 1000;
+        const now = Date.now();
+        const packagesCacheValid =
+          lastFetchedPackages && now - lastFetchedPackages < CACHE_DURATION;
+        const userCacheValid =
+          lastFetchedUser && now - lastFetchedUser < CACHE_DURATION;
 
-    // Check if we can skip fetching
-    const hasUserData = !!data?.user;
-    const needsUserData = !!userId;
+        const needsUserData = !!userId;
+        const hasPackages = !!data?.packages?.length;
+        const hasUserData = !!data?.user;
 
-    if (!force && isCacheValid && data) {
-      // If we have data and it's valid...
-      // Check if we specifically need user data and don't have it
-      if (!needsUserData || (needsUserData && hasUserData)) {
-        console.log("Pricing store: Using cached data", {
+        if (!force) {
+          const okPackages = hasPackages && packagesCacheValid;
+          const okUser = !needsUserData || (hasUserData && userCacheValid);
+          if (okPackages && okUser) return;
+        }
+
+        // Reuse existing promise if active to prevent duplicate requests
+        if (fetchPromise) {
+          console.log("Pricing store: Reusing active fetch promise");
+          return fetchPromise;
+        }
+
+        console.log("Pricing store: Fetching fresh data...", {
           userId,
-          hasUserData,
+          force,
+          packagesCacheValid,
+          userCacheValid,
         });
-        return;
-      }
-    }
 
-    // Reuse existing promise if active to prevent duplicate requests
-    if (fetchPromise) {
-      console.log("Pricing store: Reusing active fetch promise");
-      return fetchPromise;
-    }
+        set({ isLoading: true, error: null });
 
-    console.log("Pricing store: Fetching fresh data...", {
-      userId,
-      force,
-      isCacheValid,
-    });
+        const promise = (async () => {
+          try {
+            const shouldFetchPackages =
+              force || !hasPackages || !packagesCacheValid;
+            const shouldFetchUser =
+              !!userId && (force || !hasUserData || !userCacheValid);
 
-    set({ isLoading: true, error: null });
+            const packagesPromise = shouldFetchPackages
+              ? fetch("/api/pricing/packages").then((r) => r.json())
+              : Promise.resolve(null);
 
-    const promise = (async () => {
-      try {
-        const url = userId ? `/api/pricing?user_id=${userId}` : "/api/pricing";
-        const response = await fetch(url);
-        const result = await response.json();
+            const userPromise = shouldFetchUser
+              ? fetch(`/api/pricing/balance?user_id=${userId}`).then((r) =>
+                  r.json()
+                )
+              : Promise.resolve(null);
 
-        if (result.success && result.data) {
+            const [packagesRes, userRes] = await Promise.all([
+              packagesPromise,
+              userPromise,
+            ]);
+
+            const nextData: PricingData = {
+              ...(data ?? ({} as PricingData)),
+              ...(packagesRes?.success && packagesRes.data
+                ? packagesRes.data
+                : {}),
+              ...(userRes?.success && userRes.data ? userRes.data : {}),
+            };
+
+            if (shouldFetchPackages && !(packagesRes?.success && packagesRes.data)) {
+              throw new Error(packagesRes?.message || packagesRes?.error || "Failed to fetch pricing packages");
+            }
+
+            if (shouldFetchUser && !(userRes?.success && userRes.data)) {
+              throw new Error(userRes?.message || userRes?.error || "Failed to fetch user balance");
+            }
+
+            set({
+              data: nextData,
+              lastFetchedPackages: shouldFetchPackages
+                ? Date.now()
+                : lastFetchedPackages,
+              lastFetchedUser: shouldFetchUser ? Date.now() : lastFetchedUser,
+              isLoading: false,
+              fetchPromise: null,
+            });
+          } catch (error) {
+            console.error("Pricing store fetch error:", error);
+            set({
+              error: "Network error",
+              isLoading: false,
+              fetchPromise: null,
+            });
+          }
+        })();
+
+        set({ fetchPromise: promise });
+        return promise;
+      },
+
+      updateUserBalance: (newBalance: number) => {
+        const { data } = get();
+        if (data && data.user) {
           set({
-            data: result.data,
-            lastFetched: Date.now(),
-            isLoading: false,
-            fetchPromise: null,
-          });
-        } else {
-          set({
-            error: result.message || "Failed to fetch pricing",
-            isLoading: false,
-            fetchPromise: null,
+            data: {
+              ...data,
+              user: {
+                ...data.user,
+                currentCredits: newBalance,
+              },
+            },
           });
         }
-      } catch (error) {
-        console.error("Pricing store fetch error:", error);
-        set({ error: "Network error", isLoading: false, fetchPromise: null });
-      }
-    })();
-
-    set({ fetchPromise: promise });
-    return promise;
-  },
-
-  updateUserBalance: (newBalance: number) => {
-    const { data } = get();
-    if (data && data.user) {
-      set({
-        data: {
-          ...data,
-          user: {
-            ...data.user,
-            currentCredits: newBalance,
-          },
-        },
-      });
+      },
+    }),
+    {
+      name: "pricing-storage",
+      storage: createJSONStorage(() => localStorage),
+      partialize: (state) => ({
+        data: state.data,
+        lastFetchedPackages: state.lastFetchedPackages,
+        lastFetchedUser: state.lastFetchedUser,
+      }),
     }
-  },
-}));
+  )
+);

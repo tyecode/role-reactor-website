@@ -39,7 +39,7 @@ export const useUserStore = create<UserState>()(
 
         try {
           // currently fetching from pricing endpoint as it contains the credit info
-          const response = await fetch(`/api/pricing?user_id=${userId}`);
+          const response = await fetch(`/api/pricing/balance?user_id=${userId}`);
           const result = await response.json();
 
           if (result.success && result.data?.user) {
