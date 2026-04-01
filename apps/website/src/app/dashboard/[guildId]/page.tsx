@@ -15,8 +15,12 @@ interface GuildResponse {
 import { getManageableGuilds } from "@/lib/server/guilds";
 
 async function getGuildStats(guildId: string) {
+  const session = await auth();
+  const userId = session?.user?.id;
+
   try {
     return await botFetchJson<GuildResponse>(`/guilds/${guildId}/settings`, {
+      userId,
       next: { revalidate: 60 }, // Cache for 1 minute for better navigation performance
     });
   } catch (error) {
