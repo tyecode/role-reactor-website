@@ -162,19 +162,48 @@ export function NotificationBell() {
     markAllAsRead,
   } = useNotificationStore();
 
-  // Poll unread count every 60 seconds when authenticated and tab is visible
+  // Smart Polling: dynamically back off when user is AFK to aggressively save serverless/DB costs
   useEffect(() => {
     if (!session?.user?.id) return;
 
+    let lastActivityTime = Date.now();
+    let lastPollTime = Date.now();
+
+    // Track user interaction to determine if they are actively looking at the screen
+    const handleActivity = () => {
+      lastActivityTime = Date.now();
+    };
+
+    window.addEventListener("mousemove", handleActivity, { passive: true });
+    window.addEventListener("keydown", handleActivity, { passive: true });
+    window.addEventListener("click", handleActivity, { passive: true });
+    window.addEventListener("scroll", handleActivity, { passive: true });
+
     fetchUnreadCount();
 
+    // The base "tick" runs every 30 seconds
     const interval = setInterval(() => {
-      if (document.visibilityState === "visible") {
-        fetchUnreadCount();
-      }
-    }, 60_000);
+      if (document.visibilityState !== "visible") return;
 
-    return () => clearInterval(interval);
+      const now = Date.now();
+      const isIdle = now - lastActivityTime > 5 * 60 * 1000; // Idle after 5 mins of no interaction
+      const timeSinceLastPoll = now - lastPollTime;
+
+      // If active, poll immediately (since 30s tick passed).
+      // If idle, wait until 3 minutes (180,000ms) have passed since the last poll.
+      if (!isIdle || timeSinceLastPoll >= 180_000) {
+        fetchUnreadCount();
+        lastPollTime = now;
+      }
+    }, 30_000);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("mousemove", handleActivity);
+      window.removeEventListener("keydown", handleActivity);
+      window.removeEventListener("click", handleActivity);
+      window.removeEventListener("scroll", handleActivity);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session?.user?.id]);
 

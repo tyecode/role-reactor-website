@@ -16,6 +16,7 @@ interface NotificationState {
   unreadCount: number;
   isLoading: boolean;
   isOpen: boolean;
+  hasFetched: boolean;
 
   setOpen: (open: boolean) => void;
   fetchNotifications: () => Promise<void>;
@@ -29,6 +30,7 @@ export const useNotificationStore = create<NotificationState>()((set, get) => ({
   unreadCount: 0,
   isLoading: false,
   isOpen: false,
+  hasFetched: false,
 
   setOpen: (open: boolean) => {
     set({ isOpen: open });
@@ -39,7 +41,10 @@ export const useNotificationStore = create<NotificationState>()((set, get) => ({
 
   fetchNotifications: async () => {
     if (get().isLoading) return;
-    set({ isLoading: true });
+    
+    if (!get().hasFetched) {
+      set({ isLoading: true });
+    }
 
     try {
       const response = await fetch("/api/user/notifications?limit=30");
@@ -49,6 +54,7 @@ export const useNotificationStore = create<NotificationState>()((set, get) => ({
         set({
           notifications: data.notifications || [],
           unreadCount: data.unreadCount || 0,
+          hasFetched: true,
         });
       }
     } catch (error) {
