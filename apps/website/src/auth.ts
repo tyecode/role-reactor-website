@@ -65,6 +65,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         try {
           await botFetchJson("/user/sync", {
             method: "POST",
+            userId: profile.id,
             body: JSON.stringify({
               id: profile.id,
               username: profile.username || profile.name,

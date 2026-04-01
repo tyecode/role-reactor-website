@@ -21,9 +21,10 @@ export async function GET(
     const page = searchParams.get("page") || "1";
     const limit = searchParams.get("limit") || "10";
 
+    const userId = session.user?.id;
     const response = await botFetch(
       `/guilds/${guildId}/custom-commands?page=${page}&limit=${limit}`,
-      { cache: "no-store" }
+      { cache: "no-store", userId }
     );
 
     if (!response.ok) {
@@ -65,9 +66,11 @@ export async function POST(
 
     const body = await request.json();
 
+    const userId = session.user?.id;
     const response = await botFetch(`/guilds/${guildId}/custom-commands`, {
       method: "POST",
       body: JSON.stringify({ ...body, createdBy: session.user?.id }),
+      userId,
     });
 
     if (!response.ok) {

@@ -27,14 +27,29 @@ export async function GET(request: NextRequest) {
 
     const data = await response.json();
 
-    if (data.success && data.data) {
-      return NextResponse.json({ success: true, data: data.data });
+    // Extract and normalize user data - API returns "requestedUserId" but schema expects "userId"
+    let userData = null;
+    if (data.success && data.data?.user) {
+      userData = {
+        userId: data.data.user.requestedUserId,
+        isFirstPurchase: data.data.user.isFirstPurchase,
+        currentCredits: data.data.user.currentCredits,
+        eligibleForFirstPurchaseBonus:
+          data.data.user.eligibleForFirstPurchaseBonus,
+      };
     }
 
-    if (data.status === "success") {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { status, timestamp, ...pricingInfo } = data;
-      return NextResponse.json({ success: true, data: pricingInfo });
+    if (data.status === "success" && data.user) {
+      userData = {
+        userId: data.user.requestedUserId,
+        isFirstPurchase: data.user.isFirstPurchase,
+        currentCredits: data.user.currentCredits,
+        eligibleForFirstPurchaseBonus: data.user.eligibleForFirstPurchaseBonus,
+      };
+    }
+
+    if (userData) {
+      return NextResponse.json({ success: true, data: { user: userData } });
     }
 
     throw new Error("Invalid response format from Bot API");
@@ -50,4 +65,3 @@ export async function GET(request: NextRequest) {
     );
   }
 }
-

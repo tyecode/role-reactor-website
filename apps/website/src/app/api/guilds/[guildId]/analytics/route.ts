@@ -19,11 +19,13 @@ export async function GET(
 
     const { searchParams } = new URL(request.url);
     const days = searchParams.get("days") || "30";
+    const userId = session.user?.id;
 
     const response = await botFetch(
       `/guilds/${guildId}/analytics?days=${days}`,
       {
         cache: "no-store",
+        userId,
       }
     );
 

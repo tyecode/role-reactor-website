@@ -24,12 +24,11 @@ export async function POST(
       // Body might be empty, which is fine as we handle defaults in backend
     }
 
+    const userId = session.user?.id;
     const response = await botFetch(`/guilds/${guildId}/premium/activate`, {
       method: "POST",
-      headers: {
-        "x-user-id": session.user?.id || "",
-      },
       body: JSON.stringify(body),
+      userId,
     });
 
     if (!response.ok) {

@@ -17,8 +17,10 @@ export async function POST(
       );
     }
 
+    const userId = session.user?.id;
     const response = await botFetch(`/guilds/${guildId}/custom-commands/sync`, {
       method: "POST",
+      userId,
     });
 
     if (!response.ok) {

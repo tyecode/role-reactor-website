@@ -48,6 +48,7 @@ export async function POST(request: NextRequest) {
     // Pass user info directly since we've already authenticated them on the website
     const botResponse = await botFetch("/payments/create", {
       method: "POST",
+      userId,
       body: JSON.stringify({
         amount,
         packageId,

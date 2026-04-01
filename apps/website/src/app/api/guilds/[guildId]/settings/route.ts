@@ -17,10 +17,8 @@ export async function GET(
       );
     }
 
-    // TODO: Verify if user has permissions for this guild
-    // For now, we trust the auth session exists
-
-    const response = await botFetch(`/guilds/${guildId}/settings`);
+    const userId = session.user?.id;
+    const response = await botFetch(`/guilds/${guildId}/settings`, { userId });
 
     if (!response.ok) {
       const errorData = await response.json();
@@ -59,11 +57,13 @@ export async function PATCH(
       );
     }
 
+    const userId = session.user?.id;
     const body = await request.json();
 
     const response = await botFetch(`/guilds/${guildId}/settings`, {
       method: "PATCH",
       body: JSON.stringify(body),
+      userId,
     });
 
     if (!response.ok) {

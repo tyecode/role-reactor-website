@@ -20,11 +20,13 @@ export async function GET(
     const { searchParams } = new URL(request.url);
     const page = searchParams.get("page") || "1";
     const limit = searchParams.get("limit") || "6";
+    const userId = session.user?.id;
 
     const response = await botFetch(
       `/guilds/${guildId}/role-reactions?page=${page}&limit=${limit}`,
       {
         cache: "no-store",
+        userId,
       }
     );
 

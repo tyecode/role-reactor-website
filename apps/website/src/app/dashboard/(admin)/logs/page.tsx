@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { auth } from "@/auth";
 import { botFetchJson } from "@/lib/bot-fetch";
 import { PageHeader } from "@/app/dashboard/_components/page-header";
 
@@ -19,8 +20,11 @@ interface LogsResponse {
 }
 
 async function getLogs() {
+  const session = await auth();
+  const userId = session?.user?.id;
+
   try {
-    return await botFetchJson<LogsResponse>("/logs?limit=1000");
+    return await botFetchJson<LogsResponse>("/logs?limit=1000", { userId });
   } catch (error) {
     console.error("Failed to fetch logs:", error);
     return null;

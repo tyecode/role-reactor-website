@@ -17,11 +17,13 @@ export async function DELETE(
       );
     }
 
+    const userId = session.user?.id;
     const response = await botFetch(
       `/guilds/${guildId}/role-reactions/${messageId}`,
       {
         method: "DELETE",
         cache: "no-store",
+        userId,
       }
     );
 

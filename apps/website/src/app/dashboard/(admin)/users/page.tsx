@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { auth } from "@/auth";
 import { botFetchJson } from "@/lib/bot-fetch";
 import { PageHeader } from "@/app/dashboard/_components/page-header";
 import { Users } from "lucide-react";
@@ -33,12 +34,17 @@ interface UsersResponse {
 }
 
 async function getUsers(search?: string) {
+  const session = await auth();
+  const userId = session?.user?.id;
+
   try {
     const query = new URLSearchParams({
       limit: "50",
       ...(search && { search }),
     });
-    return await botFetchJson<UsersResponse>(`/user?${query.toString()}`);
+    return await botFetchJson<UsersResponse>(`/user?${query.toString()}`, {
+      userId,
+    });
   } catch (error) {
     console.error("Failed to fetch users:", error);
     return null;

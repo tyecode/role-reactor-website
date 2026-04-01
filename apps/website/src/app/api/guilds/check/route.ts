@@ -13,10 +13,12 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
+    const userId = session.user?.id;
 
     const response = await botFetch("/guilds/check", {
       method: "POST",
       body: JSON.stringify(body),
+      userId,
     });
 
     if (!response.ok) {

@@ -18,12 +18,14 @@ export async function PATCH(
     }
 
     const body = await request.json();
+    const userId = session.user?.id;
 
     const response = await botFetch(
       `/guilds/${guildId}/custom-commands/${commandId}`,
       {
         method: "PATCH",
         body: JSON.stringify(body),
+        userId,
       }
     );
 
@@ -64,9 +66,11 @@ export async function DELETE(
       );
     }
 
+    const userId = session.user?.id;
+
     const response = await botFetch(
       `/guilds/${guildId}/custom-commands/${commandId}`,
-      { method: "DELETE" }
+      { method: "DELETE", userId }
     );
 
     if (!response.ok) {

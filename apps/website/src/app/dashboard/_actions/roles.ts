@@ -32,6 +32,8 @@ export async function deployReactionRoles(guildId: string, data: DeployData) {
     };
   }
 
+  const userId = session.user.id;
+
   try {
     // 1. Validate data server-side
     if (!data.channelId) {
@@ -53,6 +55,7 @@ export async function deployReactionRoles(guildId: string, data: DeployData) {
     // In a real scenario, this would match the bot's REST API.
     await botFetchJson(`/guilds/${guildId}/roles/deploy`, {
       method: "POST",
+      userId,
       body: JSON.stringify(data),
     });
 
@@ -90,6 +93,8 @@ export async function updateReactionRoles(
     };
   }
 
+  const userId = session.user.id;
+
   try {
     if (data.reactions.length === 0) {
       return {
@@ -100,6 +105,7 @@ export async function updateReactionRoles(
 
     await botFetchJson(`/guilds/${guildId}/role-reactions/${messageId}`, {
       method: "PATCH",
+      userId,
       body: JSON.stringify(data),
     });
 

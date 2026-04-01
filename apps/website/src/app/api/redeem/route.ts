@@ -38,9 +38,9 @@ export async function POST(request: NextRequest) {
 
     const response = await botFetch("/redeem", {
       method: "POST",
+      userId,
       headers: {
         "Content-Type": "application/json",
-        "x-user-id": userId,
       },
       body: JSON.stringify({
         code: code.trim().toUpperCase(),

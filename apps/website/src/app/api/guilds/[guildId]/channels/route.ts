@@ -17,8 +17,10 @@ export async function GET(
       );
     }
 
+    const userId = session.user?.id;
     const response = await botFetch(`/guilds/${guildId}/channels`, {
       cache: "no-store",
+      userId,
     });
 
     if (!response.ok) {

@@ -27,6 +27,7 @@ export async function POST(
       );
     }
 
+    const userId = session.user?.id;
     const response = await botFetch(
       `/guilds/${guildId}/custom-commands/${commandId}/duplicate`,
       {
@@ -35,6 +36,7 @@ export async function POST(
           targetGuildId,
           createdBy: session.user?.id,
         }),
+        userId,
       }
     );
 

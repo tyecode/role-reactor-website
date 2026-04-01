@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { auth } from "@/auth";
 import { botFetchJson } from "@/lib/bot-fetch";
 import { PageHeader } from "@/app/dashboard/_components/page-header";
 
@@ -62,8 +63,11 @@ interface PaymentStats {
 }
 
 async function getPaymentStats() {
+  const session = await auth();
+  const userId = session?.user?.id;
+
   try {
-    return await botFetchJson<PaymentStats>("/payments/stats");
+    return await botFetchJson<PaymentStats>("/payments/stats", { userId });
   } catch (error) {
     console.error("Failed to fetch payment stats:", error);
     return null;
