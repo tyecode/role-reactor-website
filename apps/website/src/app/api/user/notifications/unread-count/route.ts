@@ -19,7 +19,7 @@ export async function GET() {
 
     const response = await botFetch(
       `/user/${userId}/notifications/unread-count`,
-      { method: "GET", cache: "no-store" }
+      { method: "GET", cache: "no-store", userId }
     );
 
     if (!response.ok) {

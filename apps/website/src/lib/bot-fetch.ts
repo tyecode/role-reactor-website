@@ -3,6 +3,7 @@ import { getBotApiUrl } from "./api-config";
 
 interface BotFetchOptions extends RequestInit {
   silent?: boolean;
+  userId?: string;
 }
 
 /**
@@ -16,6 +17,7 @@ export async function botFetch(
 ): Promise<Response> {
   const botApiUrl = process.env.BOT_API_URL;
   const internalKey = process.env.INTERNAL_API_KEY;
+  const { userId, ...fetchOptions } = options;
 
   if (!botApiUrl) {
     throw new Error("BOT_API_URL is not defined in environment variables");
@@ -27,18 +29,18 @@ export async function botFetch(
     );
   }
 
-  // Ensure path is properly versioned (e.g., /guilds -> /api/v1/guilds)
   const versionedPath = getBotApiUrl(path);
   const url = `${botApiUrl}${versionedPath}`;
 
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
     ...(internalKey && { Authorization: `Bearer ${internalKey}` }),
-    ...(options.headers as Record<string, string>),
+    ...(userId && { "X-User-ID": userId }),
+    ...(fetchOptions.headers as Record<string, string>),
   };
 
   return fetch(url, {
-    ...options,
+    ...fetchOptions,
     headers,
   });
 }

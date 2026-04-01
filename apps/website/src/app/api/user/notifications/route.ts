@@ -24,7 +24,7 @@ export async function GET(req: Request) {
 
     const response = await botFetch(
       `/user/${userId}/notifications?limit=${limit}&skip=${skip}&unread=${unread}`,
-      { method: "GET", cache: "no-store" }
+      { method: "GET", cache: "no-store", userId }
     );
 
     if (!response.ok) {
@@ -79,6 +79,7 @@ export async function PATCH() {
     const response = await botFetch(`/user/${userId}/notifications/read-all`, {
       method: "PATCH",
       cache: "no-store",
+      userId,
     });
 
     if (!response.ok) {

@@ -31,7 +31,7 @@ export async function PATCH(
 
     const response = await botFetch(
       `/user/${userId}/notifications/${notificationId}/read`,
-      { method: "PATCH", cache: "no-store" }
+      { method: "PATCH", cache: "no-store", userId }
     );
 
     if (!response.ok) {

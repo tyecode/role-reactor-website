@@ -20,6 +20,7 @@ export async function GET() {
     const response = await botFetch(`/user/${userId}/balance`, {
       method: "GET",
       cache: "no-store",
+      userId,
     });
 
     if (!response.ok) {

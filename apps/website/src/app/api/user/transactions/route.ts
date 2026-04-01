@@ -22,6 +22,7 @@ export async function GET() {
     const response = await botFetch(`/user/${userId}/payments`, {
       method: "GET",
       cache: "no-store",
+      userId,
     });
 
     if (!response.ok) {
