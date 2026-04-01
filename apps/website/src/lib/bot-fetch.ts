@@ -19,22 +19,22 @@ export async function botFetch(
   const internalKey = process.env.INTERNAL_API_KEY;
   const { userId, ...fetchOptions } = options;
 
-  if (!botApiUrl) {
-    throw new Error("BOT_API_URL is not defined in environment variables");
-  }
+  // Use fallback for local dev if env not set
+  const apiUrl = botApiUrl || "http://localhost:3030";
+  const apiKey = internalKey;
 
-  if (!internalKey && process.env.NODE_ENV === "development") {
+  if (!apiKey && process.env.NODE_ENV === "development") {
     console.warn(
       `[botFetch Warning] INTERNAL_API_KEY is missing. Requests to ${path} might fail authorized checks on the bot.`
     );
   }
 
   const versionedPath = getBotApiUrl(path);
-  const url = `${botApiUrl}${versionedPath}`;
+  const url = `${apiUrl}${versionedPath}`;
 
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
-    ...(internalKey && { Authorization: `Bearer ${internalKey}` }),
+    ...(apiKey && { Authorization: `Bearer ${apiKey}` }),
     ...(userId && { "X-User-ID": userId }),
     ...(fetchOptions.headers as Record<string, string>),
   };
