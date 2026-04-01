@@ -23,21 +23,20 @@ interface ChartDataPoint {
 
 export function RevenueAreaChart({ data }: { data: PaymentData[] }) {
   // Prep data for chart (aggregation by day)
-  const chartData = data
-    .reduce((acc: ChartDataPoint[], payment) => {
-      const date = new Date(payment.createdAt).toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-      });
-      const existing = acc.find((d) => d.date === date);
-      if (existing) {
-        existing.amount += payment.amount;
-      } else {
-        acc.push({ date, amount: payment.amount });
-      }
-      return acc;
-    }, [])
-    .reverse();
+  // Use a Map to avoid O(n^2) `.find()` inside reduce.
+  const totalsByDay = new Map<string, number>();
+  for (const payment of data) {
+    const date = new Date(payment.createdAt).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+    });
+    totalsByDay.set(date, (totalsByDay.get(date) ?? 0) + payment.amount);
+  }
+
+  const chartData = Array.from(totalsByDay, ([date, amount]) => ({
+    date,
+    amount,
+  })).reverse();
 
   const [isMounted, setIsMounted] = useState(false);
 

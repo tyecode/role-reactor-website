@@ -10,6 +10,7 @@ import {
   useDeferredValue,
   useCallback,
 } from "react";
+import { useVirtualizer } from "@tanstack/react-virtual";
 import {
   RefreshCw,
   Terminal,
@@ -94,6 +95,13 @@ export function SystemLogsTerminal({ initialLogs }: SystemLogsTerminalProps) {
     return result;
   }, [logs, deferredSearchTerm, levelFilter]);
 
+  const rowVirtualizer = useVirtualizer({
+    count: filteredLogs.length,
+    getScrollElement: () => scrollRef.current,
+    estimateSize: () => 22,
+    overscan: 24,
+  });
+
   const handleRefresh = () => {
     startTransition(async () => {
       try {
@@ -146,7 +154,7 @@ export function SystemLogsTerminal({ initialLogs }: SystemLogsTerminalProps) {
     const viewport = scrollRef.current;
     if (!viewport) return;
 
-    viewport.addEventListener("scroll", handleScroll);
+    viewport.addEventListener("scroll", handleScroll, { passive: true });
     // Initial check
     handleScroll();
 
@@ -307,7 +315,7 @@ export function SystemLogsTerminal({ initialLogs }: SystemLogsTerminalProps) {
         className="flex-1 min-h-0 bg-black/90 relative"
         viewportRef={scrollRef}
       >
-        <div className="p-4 font-mono text-xs space-y-1">
+        <div className="p-4 font-mono text-xs">
           {filteredLogs.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-zinc-600 gap-2 opacity-50 py-12">
               <Terminal className="size-8" />
@@ -316,13 +324,29 @@ export function SystemLogsTerminal({ initialLogs }: SystemLogsTerminalProps) {
               </p>
             </div>
           ) : (
-            filteredLogs.map((log: string, i: number) => (
-              <LogLine key={i} line={log} />
-            ))
+            <div
+              className="relative w-full"
+              style={{ height: `${rowVirtualizer.getTotalSize()}px` }}
+            >
+              {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+                const line = filteredLogs[virtualRow.index] ?? "";
+                return (
+                  <div
+                    key={`${virtualRow.index}-${line}`}
+                    className="absolute left-0 top-0 w-full"
+                    style={{
+                      transform: `translateY(${virtualRow.start}px)`,
+                    }}
+                  >
+                    <LogLine line={line} />
+                  </div>
+                );
+              })}
+            </div>
           )}
 
           {/* Cursor Effect */}
-          <div className="mt-2 h-4 w-2 bg-cyan-500 animate-pulse" />
+          <div className="sticky bottom-0 mt-2 h-4 w-2 bg-cyan-500 animate-pulse" />
         </div>
       </ScrollArea>
 
