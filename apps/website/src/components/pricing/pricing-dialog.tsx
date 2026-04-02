@@ -167,6 +167,7 @@ export function PricingDialog({
           className="max-w-[420px]"
           innerClassName="flex flex-col"
           hideClose={view !== "packages"}
+          aria-describedby={undefined}
         >
           {view === "packages" ? (
             <PackagesView
