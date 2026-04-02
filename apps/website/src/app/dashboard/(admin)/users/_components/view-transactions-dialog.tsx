@@ -98,7 +98,7 @@ export function ViewTransactionsDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px] border-white/5 bg-zinc-950/95 backdrop-blur-xl">
+      <DialogContent className="sm:max-w-150 border-white/5 bg-zinc-950/95 backdrop-blur-xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 italic">
             <History className="size-4 text-cyan-500" />

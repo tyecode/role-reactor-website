@@ -22,9 +22,9 @@ async function getGuildStats(guildId: string) {
     return await botFetchJson<GuildResponse>(`/guilds/${guildId}/settings`, {
       userId,
       next: { revalidate: 60 }, // Cache for 1 minute for better navigation performance
+      silent: true, // Suppress console errors for expected 403 (guild membership required)
     });
-  } catch (error) {
-    console.error("Failed to fetch guild stats:", error);
+  } catch {
     return null;
   }
 }

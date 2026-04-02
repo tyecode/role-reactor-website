@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   Users,
@@ -37,6 +37,7 @@ import { Button } from "@/components/ui/button";
 import { cn, getDiscordImageUrl } from "@/lib/utils";
 import { UserRoles } from "@/lib/admin";
 import { updateUserRole } from "../actions";
+import { useUsersStore } from "@/store/use-users-store";
 import { ManageCoresDialog } from "./manage-cores-dialog";
 import { ViewTransactionsDialog } from "./view-transactions-dialog";
 
@@ -51,24 +52,27 @@ interface UserData {
   createdAt: string;
 }
 
-interface UserTableProps {
-  initialData: {
-    users: UserData[];
-    pagination: {
-      page: number;
-      total: number;
-      pages: number;
-    };
-  };
-}
-
-export function UserTable({ initialData }: UserTableProps) {
+export function UserTable() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
   const [searchTerm, setSearchTerm] = useState(
     searchParams.get("search") || ""
   );
+
+  const {
+    users,
+    pagination,
+    isLoading,
+    fetchUsers,
+    updateUserRole: updateStoreUserRole,
+  } = useUsersStore();
+
+  // Initial load
+  useEffect(() => {
+    const search = searchParams.get("search") || undefined;
+    fetchUsers(search, true); // Force fetch on mount
+  }, []);
 
   // Role Update State
   const [selectedUser, setSelectedUser] = useState<UserData | null>(null);
@@ -94,6 +98,7 @@ export function UserTable({ initialData }: UserTableProps) {
       }
       router.push(`?${params.toString()}`);
     });
+    fetchUsers(val || undefined);
   };
 
   const handleUpdateRole = async () => {
@@ -107,11 +112,13 @@ export function UserTable({ initialData }: UserTableProps) {
 
       if (!result.success) throw new Error(result.error);
 
+      // Update the global store
+      updateStoreUserRole(selectedUser.id, updateRole);
+
       setStatus("success");
       setTimeout(() => {
         setSelectedUser(null);
         setStatus("idle");
-        router.refresh();
       }, 1500);
     } catch (error) {
       console.error("Failed to update role:", error);
@@ -123,8 +130,8 @@ export function UserTable({ initialData }: UserTableProps) {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between mb-4">
-        <div className="relative w-full md:w-96 group">
+      <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between mb-4 pt-4 px-6">
+        <div className="relative w-full lg:w-96 group">
           <Search
             className={cn(
               "absolute left-3 top-1/2 -translate-y-1/2 size-4 transition-colors",
@@ -146,66 +153,78 @@ export function UserTable({ initialData }: UserTableProps) {
             variant="outline"
             className="border-cyan-500/20 text-cyan-500 bg-cyan-500/5 font-mono text-[10px] tracking-widest uppercase"
           >
-            Total Managed: {initialData.pagination.total}
+            Total Managed: {pagination?.total ?? 0}
           </Badge>
         </div>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="border-b border-white/5 bg-white/5">
-              <th className="p-4 font-mono text-[10px] text-zinc-500 uppercase tracking-widest px-6">
-                User
-              </th>
-              <th className="p-4 font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
-                Role
-              </th>
-              <th className="p-4 font-mono text-[10px] text-zinc-500 uppercase tracking-widest text-right">
-                Credits
-              </th>
-              <th className="p-4 font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
-                Last Login
-              </th>
-              <th className="p-4 font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
-                Joined
-              </th>
-              <th className="p-4 font-mono text-[10px] text-zinc-500 uppercase tracking-widest text-right px-6">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-white/5">
-            {initialData.users.map((user) => (
-              <UserRow
-                key={user.id}
-                user={user}
-                onEditRole={(role) => {
-                  setSelectedUser(user);
-                  setUpdateRole(role);
-                }}
-                onManageCores={() => setSelectedCoreUser(user)}
-                onViewHistory={() => setSelectedHistoryUser(user)}
-              />
-            ))}
-          </tbody>
-        </table>
-
-        {initialData.users.length === 0 && (
-          <div className="p-12 text-center">
-            <p className="font-mono text-xs text-zinc-600 uppercase tracking-widest">
-              No users found matching current query
-            </p>
+      {isLoading ? (
+        <div className="p-12 text-center">
+          <Loader2 className="size-6 animate-spin mx-auto text-cyan-500 mb-4" />
+          <p className="font-mono text-xs text-zinc-500 uppercase tracking-widest">
+            Loading users...
+          </p>
+        </div>
+      ) : (
+        <>
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="border-b border-white/5 bg-white/5">
+                  <th className="pt-6 pb-4 font-mono text-[10px] text-zinc-500 uppercase tracking-widest px-6">
+                    User
+                  </th>
+                  <th className="pt-6 pb-4 font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
+                    Role
+                  </th>
+                  <th className="pt-6 pb-4 font-mono text-[10px] text-zinc-500 uppercase tracking-widest text-right">
+                    Credits
+                  </th>
+                  <th className="pt-6 pb-4 font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
+                    Last Login
+                  </th>
+                  <th className="pt-6 pb-4 font-mono text-[10px] text-zinc-500 uppercase tracking-widest">
+                    Joined
+                  </th>
+                  <th className="pt-6 pb-4 font-mono text-[10px] text-zinc-500 uppercase tracking-widest text-right px-6">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5">
+                {users.map((user, index) => (
+                  <UserRow
+                    key={user.id}
+                    user={user}
+                    isPriority={index === 0}
+                    onEditRole={(role) => {
+                      setSelectedUser(user);
+                      setUpdateRole(role);
+                    }}
+                    onManageCores={() => setSelectedCoreUser(user)}
+                    onViewHistory={() => setSelectedHistoryUser(user)}
+                  />
+                ))}
+              </tbody>
+            </table>
           </div>
-        )}
-      </div>
+
+          {users.length === 0 && !isLoading && (
+            <div className="p-12 text-center">
+              <p className="font-mono text-xs text-zinc-600 uppercase tracking-widest">
+                No users found matching current query
+              </p>
+            </div>
+          )}
+        </>
+      )}
 
       {/* Role Management Dialog */}
       <Dialog
         open={!!selectedUser}
         onOpenChange={(open) => !open && setSelectedUser(null)}
       >
-        <DialogContent className="sm:max-w-[425px] border-white/5 bg-zinc-950/95 backdrop-blur-xl">
+        <DialogContent className="sm:max-w-106.25 border-white/5 bg-zinc-950/95 backdrop-blur-xl">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 italic">
               <Key className="size-4 text-cyan-500" />
@@ -282,11 +301,13 @@ export function UserTable({ initialData }: UserTableProps) {
 
 function UserRow({
   user,
+  isPriority,
   onEditRole,
   onManageCores,
   onViewHistory,
 }: {
   user: UserData;
+  isPriority?: boolean;
   onEditRole: (role: string) => void;
   onManageCores: () => void;
   onViewHistory: () => void;
@@ -349,6 +370,7 @@ function UserRow({
               alt={user.username}
               width={36}
               height={36}
+              priority={isPriority}
             />
             <AvatarFallback className="rounded-lg bg-zinc-900 border border-white/5 text-[10px] text-zinc-500">
               {user.username.charAt(0).toUpperCase()}

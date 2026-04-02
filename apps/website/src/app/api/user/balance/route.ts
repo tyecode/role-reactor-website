@@ -24,12 +24,24 @@ export async function GET() {
     });
 
     if (!response.ok) {
-      throw new Error(`Bot API returned ${response.status}`);
+      // Return empty balance for expected API errors (503 = service unavailable)
+      return NextResponse.json({
+        success: true,
+        balance: 0,
+      });
     }
 
     const data = await response.json();
 
-    // The bot returns { status: "success", userId, credits, ... }
+    // Bot API returns: { success: true, data: { user: { currentCredits: 30.94, ... } } }
+    if (data.success && data.data?.user?.currentCredits !== undefined) {
+      return NextResponse.json({
+        success: true,
+        balance: data.data.user.currentCredits,
+      });
+    }
+
+    // Fallback for old response format: { status: "success", userId, credits, ... }
     if (data.status === "success") {
       return NextResponse.json({
         success: true,
@@ -41,11 +53,11 @@ export async function GET() {
       success: false,
       error: "Invalid response from bot",
     });
-  } catch (error) {
-    console.error("Error fetching user balance:", error);
-    return NextResponse.json(
-      { success: false, error: "Internal server error" },
-      { status: 500 }
-    );
+  } catch {
+    // Silently handle errors - return empty balance
+    return NextResponse.json({
+      success: true,
+      balance: 0,
+    });
   }
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -19,9 +19,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { Loader2, Coins, AlertTriangle } from "lucide-react";
+import { Loader2, Coins, AlertTriangle, RefreshCw } from "lucide-react";
 import { manageUserCores } from "../actions";
 import { useRouter } from "next/navigation";
+import { useUsersStore } from "@/store/use-users-store";
 
 interface ManageCoresDialogProps {
   user: {
@@ -39,11 +40,29 @@ export function ManageCoresDialog({
   onOpenChange,
 }: ManageCoresDialogProps) {
   const router = useRouter();
+  const { fetchUser } = useUsersStore();
   const [action, setAction] = useState<"add" | "remove" | "set">("add");
   const [amount, setAmount] = useState<string>("");
   const [reason, setReason] = useState<string>("");
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [freshCredits, setFreshCredits] = useState<number | null>(null);
+
+  // Fetch fresh user data when dialog opens
+  useEffect(() => {
+    if (open && user?.id) {
+      setIsRefreshing(true);
+      fetchUser(user.id).then((freshData) => {
+        if (freshData) {
+          setFreshCredits(freshData.credits);
+        }
+        setIsRefreshing(false);
+      });
+    }
+  }, [open, user?.id]);
+
+  const displayCredits = freshCredits ?? user?.credits ?? 0;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,6 +90,7 @@ export function ManageCoresDialog({
         onOpenChange(false);
         setAmount("");
         setReason("");
+        setFreshCredits(null);
         router.refresh();
       } else {
         setError(result.error as string);
@@ -86,7 +106,7 @@ export function ManageCoresDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px] border-white/5 bg-zinc-950/95 backdrop-blur-xl">
+      <DialogContent className="sm:max-w-106.25 border-white/5 bg-zinc-950/95 backdrop-blur-xl">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 italic">
             <Coins className="size-4 text-yellow-500" />
@@ -97,10 +117,14 @@ export function ManageCoresDialog({
             <span className="text-cyan-500">{user.username}</span>
             <br />
             Current Balance:{" "}
-            <span className="text-yellow-500 font-bold">
-              {user.credits?.toLocaleString() || 0}
-            </span>{" "}
-            Cores
+            <span className="text-yellow-500 font-bold flex items-center gap-2">
+              {isRefreshing ? (
+                <RefreshCw className="size-3 animate-spin" />
+              ) : freshCredits !== null ? (
+                <span className="text-xs text-green-500 font-mono">(Live)</span>
+              ) : null}
+              {displayCredits?.toLocaleString() || 0} Cores
+            </span>
           </DialogDescription>
         </DialogHeader>
 

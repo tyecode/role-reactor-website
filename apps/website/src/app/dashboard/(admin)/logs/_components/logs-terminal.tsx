@@ -36,10 +36,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-interface SystemLogsTerminalProps {
-  initialLogs: string[];
-}
+import { useLogsStore } from "@/store/use-logs-store";
 
 const processLog = (line: string) => {
   // Basic color coding for log levels
@@ -67,14 +64,19 @@ const LogLine = memo(({ line }: { line: string }) => {
 
 LogLine.displayName = "LogLine";
 
-export function SystemLogsTerminal({ initialLogs }: SystemLogsTerminalProps) {
-  const [logs, setLogs] = useState<string[]>(initialLogs);
+export function SystemLogsTerminal() {
+  const { logs, fetchLogs, appendLogs, isLoading } = useLogsStore();
   const [isRefreshing, startTransition] = useTransition();
   const [searchTerm, setSearchTerm] = useState("");
   const [levelFilter, setLevelFilter] = useState("ALL");
   const deferredSearchTerm = useDeferredValue(searchTerm);
   const [autoRefresh, setAutoRefresh] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Initial load
+  useEffect(() => {
+    fetchLogs(true); // Force fetch on mount
+  }, []);
 
   // Memoize filtered logs to prevent calculation on every render
   // and use deferredSearchTerm to keep UI responsive
@@ -104,33 +106,7 @@ export function SystemLogsTerminal({ initialLogs }: SystemLogsTerminalProps) {
 
   const handleRefresh = () => {
     startTransition(async () => {
-      try {
-        const res = await fetch("/api/proxy/logs?limit=100");
-        if (!res.ok) throw new Error("Failed to fetch logs");
-        const data = await res.json();
-
-        if (data && data.logs) {
-          setLogs((prevLogs) => {
-            // Simple approach to append only new logs based on unique content
-            // This assumes log lines are generally unique (timestamped)
-            const existingSet = new Set(prevLogs);
-            const newLines = data.logs.filter(
-              (line: string) => !existingSet.has(line)
-            );
-
-            if (newLines.length === 0) return prevLogs;
-
-            // Keep history capped at 2000 lines to prevent memory issues
-            const updatedLogs = [...prevLogs, ...newLines];
-            if (updatedLogs.length > 2000) {
-              return updatedLogs.slice(updatedLogs.length - 2000);
-            }
-            return updatedLogs;
-          });
-        }
-      } catch (error) {
-        console.error("Failed to refresh logs", error);
-      }
+      await fetchLogs(true);
     });
   };
 
@@ -200,20 +176,7 @@ export function SystemLogsTerminal({ initialLogs }: SystemLogsTerminalProps) {
             const data = await res.json();
 
             if (data && data.logs && isActive) {
-              setLogs((prevLogs) => {
-                const existingSet = new Set(prevLogs);
-                const newLines = data.logs.filter(
-                  (line: string) => !existingSet.has(line)
-                );
-
-                if (newLines.length === 0) return prevLogs;
-
-                const updatedLogs = [...prevLogs, ...newLines];
-                if (updatedLogs.length > 2000) {
-                  return updatedLogs.slice(updatedLogs.length - 2000);
-                }
-                return updatedLogs;
-              });
+              appendLogs(data.logs);
             }
           } catch (error) {
             console.error("Failed to refresh logs", error);
@@ -237,15 +200,15 @@ export function SystemLogsTerminal({ initialLogs }: SystemLogsTerminalProps) {
       isActive = false;
       clearTimeout(timeoutId);
     };
-  }, [autoRefresh]);
+  }, [autoRefresh, appendLogs]);
 
   return (
     <Card
       variant="cyberpunk"
-      className="border-white/10 bg-black/80 backdrop-blur-xl h-[600px] flex flex-col overflow-hidden"
+      className="border-white/10 bg-black/80 backdrop-blur-xl h-150 flex flex-col overflow-hidden"
     >
-      <CardHeader className="border-b border-white/5 pb-4 bg-zinc-950/50 flex flex-row items-center justify-between">
-        <div className="flex flex-col gap-1">
+      <CardHeader className="border-b border-white/5 pb-4 bg-zinc-950/50 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-col gap-1 whitespace-nowrap">
           <CardTitle className="text-lg italic font-mono flex items-center gap-2">
             <Terminal className="size-4 text-cyan-500" />
             Terminal Output
@@ -255,19 +218,19 @@ export function SystemLogsTerminal({ initialLogs }: SystemLogsTerminalProps) {
           </CardDescription>
         </div>
 
-        <div className="flex items-center gap-2">
-          <div className="relative w-48 group">
-            <Search className="absolute left-2 top-1/2 -translate-y-1/2 size-3 text-zinc-500 group-focus-within:text-cyan-500 transition-colors" />
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="relative w-full lg:w-64 group">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-3 text-zinc-500 group-focus-within:text-cyan-500 transition-colors" />
             <Input
               placeholder="Filter logs..."
-              className="h-8 pl-8 text-[10px] font-mono bg-zinc-900/50 border-white/10 focus-visible:ring-cyan-500/30 text-zinc-400 placeholder:text-zinc-600"
+              className="h-10 pl-8 text-xs font-mono bg-zinc-900/50 border-white/10 focus-visible:ring-cyan-500/30 text-zinc-400 placeholder:text-zinc-600"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
 
           <Select value={levelFilter} onValueChange={setLevelFilter}>
-            <SelectTrigger className="h-8 w-[130px] bg-zinc-900/50 border-white/10 text-[10px] font-mono text-zinc-400">
+            <SelectTrigger className="h-10 w-full lg:w-40 bg-zinc-900/50 border-white/10 text-xs font-mono text-zinc-400">
               <SelectValue placeholder="Level" />
             </SelectTrigger>
             <SelectContent>
@@ -283,7 +246,7 @@ export function SystemLogsTerminal({ initialLogs }: SystemLogsTerminalProps) {
             variant="outline"
             size="icon"
             className={cn(
-              "h-8 w-8 transition-all border-white/10 bg-zinc-900/50 hover:bg-zinc-800",
+              "h-10 w-10 shrink-0 transition-all border-white/10 bg-zinc-900/50 hover:bg-zinc-800",
               autoRefresh &&
                 "bg-cyan-500/10 border-cyan-500/50 text-cyan-500 animate-pulse"
             )}
@@ -291,21 +254,21 @@ export function SystemLogsTerminal({ initialLogs }: SystemLogsTerminalProps) {
             title={autoRefresh ? "Pause Auto-Refresh" : "Start Auto-Refresh"}
           >
             {autoRefresh ? (
-              <Pause className="size-3" />
+              <Pause className="size-4" />
             ) : (
-              <Play className="size-3" />
+              <Play className="size-4" />
             )}
           </Button>
 
           <Button
             variant="outline"
             size="icon"
-            className="h-8 w-8 border-white/10 bg-zinc-900/50 hover:bg-zinc-800 hover:text-cyan-400"
+            className="h-10 w-10 shrink-0 border-white/10 bg-zinc-900/50 hover:bg-zinc-800 hover:text-cyan-400"
             onClick={handleRefresh}
             disabled={isRefreshing}
           >
             <RefreshCw
-              className={cn("size-3", isRefreshing && "animate-spin")}
+              className={cn("size-4", isRefreshing && "animate-spin")}
             />
           </Button>
         </div>
@@ -316,7 +279,14 @@ export function SystemLogsTerminal({ initialLogs }: SystemLogsTerminalProps) {
         viewportRef={scrollRef}
       >
         <div className="p-4 font-mono text-xs">
-          {filteredLogs.length === 0 ? (
+          {isLoading && filteredLogs.length === 0 ? (
+            <div className="h-full flex flex-col items-center justify-center text-zinc-600 gap-2 py-12">
+              <RefreshCw className="size-8 animate-spin text-cyan-500" />
+              <p className="tracking-widest uppercase text-[10px]">
+                Loading logs...
+              </p>
+            </div>
+          ) : filteredLogs.length === 0 ? (
             <div className="h-full flex flex-col items-center justify-center text-zinc-600 gap-2 opacity-50 py-12">
               <Terminal className="size-8" />
               <p className="tracking-widest uppercase text-[10px]">
