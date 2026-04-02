@@ -132,7 +132,6 @@ export function DashboardSidebar({ user }: { user: User }) {
             title: "Welcome System",
             href: getHref("/dashboard/welcome", true),
             icon: UserPlus,
-            isComingSoon: true,
           },
           {
             title: "Analytics",

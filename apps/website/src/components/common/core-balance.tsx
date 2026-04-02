@@ -79,7 +79,7 @@ export function CoreBalance({
           className
         )}
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-linear-to-br from-cyan-500/5 to-transparent pointer-events-none" />
 
         <div className="flex items-center gap-3 relative z-10">
           <div className="p-1.5 bg-cyan-500/10 rounded-lg border border-cyan-500/20 shadow-[0_0_10px_rgba(6,182,212,0.1)]">
@@ -186,10 +186,10 @@ export function CoreBalance({
       )}
     >
       {/* Inner Glow */}
-      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-500/0 via-cyan-500/5 to-cyan-500/0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
+      <div className="absolute inset-0 rounded-full bg-linear-to-r from-cyan-500/0 via-cyan-500/5 to-cyan-500/0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
 
       {/* Icon with Neon Glow */}
-      <div className="relative w-5 h-5 flex-shrink-0 ml-0.5">
+      <div className="relative w-5 h-5 shrink-0 ml-0.5">
         <Image
           src={coreImageUrl}
           alt="Cores"
@@ -202,7 +202,7 @@ export function CoreBalance({
       {/* Number with Audiowide */}
       <span
         className={cn(
-          "font-bold text-sm tracking-widest min-w-[20px] text-center z-10",
+          "font-bold text-sm tracking-widest min-w-5 text-center z-10",
           audiowide.className,
           isLoading ? "opacity-50 animate-pulse" : "text-white"
         )}
