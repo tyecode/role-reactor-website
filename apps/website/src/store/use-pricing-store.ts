@@ -33,12 +33,8 @@ export const usePricingStore = create<PricingStore>()(
       fetchPromise: null,
 
       fetchPricing: async (userId?: string, force = false) => {
-        const {
-          data,
-          lastFetchedPackages,
-          lastFetchedUser,
-          fetchPromise,
-        } = get();
+        const { data, lastFetchedPackages, lastFetchedUser, fetchPromise } =
+          get();
 
         // Cache validity (e.g., 5 minutes)
         const CACHE_DURATION = 5 * 60 * 1000;
@@ -103,29 +99,50 @@ export const usePricingStore = create<PricingStore>()(
               ...(userRes?.success && userRes.data ? userRes.data : {}),
             };
 
-            if (shouldFetchPackages && !(packagesRes?.success && packagesRes.data)) {
-              throw new Error(packagesRes?.message || packagesRes?.error || "Failed to fetch pricing packages");
+            // Don't throw errors - just use cached/empty data
+            // This prevents UI errors when bot API is temporarily down (503)
+            if (
+              shouldFetchPackages &&
+              !(packagesRes?.success && packagesRes.data)
+            ) {
+              console.warn(
+                "[Pricing Store] Failed to fetch packages:",
+                packagesRes?.message || packagesRes?.error
+              );
+              // Keep cached packages or use empty data
             }
 
             if (shouldFetchUser && !(userRes?.success && userRes.data)) {
-              throw new Error(userRes?.message || userRes?.error || "Failed to fetch user balance");
+              console.warn(
+                "[Pricing Store] Failed to fetch user balance:",
+                userRes?.message || userRes?.error
+              );
+              // Keep cached user data or use empty data
             }
 
             set({
               data: nextData,
-              lastFetchedPackages: shouldFetchPackages
-                ? Date.now()
-                : lastFetchedPackages,
-              lastFetchedUser: shouldFetchUser ? Date.now() : lastFetchedUser,
+              lastFetchedPackages:
+                shouldFetchPackages && packagesRes?.success
+                  ? Date.now()
+                  : lastFetchedPackages,
+              lastFetchedUser:
+                shouldFetchUser && userRes?.success
+                  ? Date.now()
+                  : lastFetchedUser,
               isLoading: false,
               fetchPromise: null,
             });
           } catch (error) {
-            console.error("Pricing store fetch error:", error);
+            // Silently handle network errors - keep existing data
+            console.warn(
+              "[Pricing Store] Network error, keeping cached data:",
+              error instanceof Error ? error.message : error
+            );
             set({
-              error: "Network error",
               isLoading: false,
               fetchPromise: null,
+              // Don't set error state - keep showing cached data
             });
           }
         })();
