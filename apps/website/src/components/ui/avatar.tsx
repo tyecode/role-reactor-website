@@ -57,6 +57,7 @@ export interface AvatarImageProps
   width?: number;
   height?: number;
   unoptimized?: boolean;
+  priority?: boolean;
 }
 
 const AvatarImage = React.forwardRef<
@@ -70,6 +71,7 @@ const AvatarImage = React.forwardRef<
       width = 40,
       height = 40,
       unoptimized = false,
+      priority = false,
       variant: _variant,
       size: _size,
       ...props
@@ -103,7 +105,8 @@ const AvatarImage = React.forwardRef<
           height={height}
           className="aspect-square h-full w-full object-cover"
           unoptimized={unoptimized || !isExternal}
-          loading="lazy"
+          loading={priority ? undefined : "lazy"}
+          priority={priority}
           {...props}
         />
       </div>

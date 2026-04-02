@@ -464,6 +464,7 @@ export function DashboardSidebar({ user }: { user: User }) {
           alt={user?.name || "User"}
           width={32}
           height={32}
+          priority
         />
         <AvatarFallback className="rounded-lg bg-zinc-900 border border-white/10 text-cyan-400 text-xs font-mono">
           {user?.name?.charAt(0).toUpperCase() || "U"}
