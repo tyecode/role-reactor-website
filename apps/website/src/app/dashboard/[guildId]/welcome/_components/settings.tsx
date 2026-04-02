@@ -116,6 +116,7 @@ export const WelcomeSettingsTab = forwardRef<
         "No welcome settings found. Configure your welcome system below and click 'Push Settings' to save."
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [globalSettings]);
 
   // Update preview when message changes

@@ -65,12 +65,12 @@ export default function WelcomePage({ params }: WelcomePageProps) {
     }
   };
 
-  const { getGuildData, isLoading, isError, fetchWelcomeData } =
-    useWelcomeStore();
+  const { getGuildData, fetchWelcomeData } = useWelcomeStore();
 
   // Get data for THIS specific guild
   const hasGuildData = guildId in useWelcomeStore.getState().dataCache;
-  const { settings } = getGuildData(guildId);
+  const guildData = getGuildData(guildId);
+  const { settings, isLoading, isError } = guildData;
 
   const { guilds } = useServerStore();
   const { fetchSettings } = useProEngineStore();
