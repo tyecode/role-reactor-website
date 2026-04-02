@@ -11,10 +11,8 @@ export async function GET() {
     const userId = session?.user?.id;
 
     if (!userId) {
-      return NextResponse.json(
-        { success: false, error: "Unauthorized" },
-        { status: 401 }
-      );
+      // Return 0 balance for unauthorized (don't throw error)
+      return NextResponse.json({ success: true, balance: 0 }, { status: 200 });
     }
 
     const response = await botFetch(`/user/${userId}/balance`, {
@@ -24,7 +22,10 @@ export async function GET() {
     });
 
     if (!response.ok) {
-      // Return empty balance for expected API errors (503 = service unavailable)
+      // Bot API returned error (503, 404, etc) - return 0 balance
+      console.warn(
+        `[Balance] Bot API returned ${response.status} for user ${userId}`
+      );
       return NextResponse.json({
         success: true,
         balance: 0,
@@ -49,12 +50,18 @@ export async function GET() {
       });
     }
 
+    // Unexpected response format - return 0 balance
+    console.warn("[Balance] Unexpected response format:", data);
     return NextResponse.json({
-      success: false,
-      error: "Invalid response from bot",
+      success: true,
+      balance: 0,
     });
-  } catch {
-    // Silently handle errors - return empty balance
+  } catch (error) {
+    // Silently handle errors - return 0 balance
+    console.warn(
+      "[Balance] Error fetching balance:",
+      error instanceof Error ? error.message : error
+    );
     return NextResponse.json({
       success: true,
       balance: 0,

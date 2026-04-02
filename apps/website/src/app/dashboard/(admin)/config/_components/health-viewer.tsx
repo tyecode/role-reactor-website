@@ -54,13 +54,26 @@ export function SystemHealthViewer() {
     setIsRefreshing(true);
     try {
       const res = await fetch("/api/proxy/health");
-      if (!res.ok) throw new Error(`Bot API returned ${res.status}`);
+      
+      // Debug: Log response status
+      if (!res.ok) {
+        console.error(`[Health] API returned ${res.status}`);
+        throw new Error(`Bot API returned ${res.status}`);
+      }
+      
       const json = await res.json();
-
+      
+      // Debug: Log actual response structure
+      console.log('[Health] Raw response:', json);
+      
       // Handle both response formats: { data: {...} } or {...}
       const healthData = json.data || json;
       
+      // Debug: Log extracted health data
+      console.log('[Health] Extracted data:', healthData);
+
       if (!healthData.uptime && !healthData.memory) {
+        console.error('[Health] Empty data received:', healthData);
         throw new Error("Bot API returned empty health data");
       }
 

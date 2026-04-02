@@ -6,10 +6,9 @@ import { useSession } from "next-auth/react";
 // Fetcher function for SWR
 const fetcher = async (url: string) => {
   const res = await fetch(url);
-  if (!res.ok) throw new Error("Failed to fetch balance");
+  // Always return balance (API returns 0 on errors)
   const data = await res.json();
-  if (!data.success) throw new Error("API returned error");
-  return data.balance as number;
+  return (data.balance ?? 0) as number;
 };
 
 /**
