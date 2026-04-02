@@ -17,7 +17,7 @@ import {
 
 import { cn } from "@/lib/utils";
 import { useXPStore } from "@/store/use-xp-store";
-import { useGuildChannels } from "@/hooks/use-guild-channels";
+import { useGuildStore } from "@/store/use-guild-store";
 
 import { toast } from "@/lib/toast";
 import { Button } from "@/components/ui/button";
@@ -93,10 +93,15 @@ export const XPSettingsTab = forwardRef<
 >(({ guildId, onSavingChange }, ref) => {
   const { getGuildData, isLoading, isError, fetchXPData, updateSettings } =
     useXPStore();
+  const { guildData, fetchChannels } = useGuildStore();
 
   const { settings: globalSettings } = getGuildData(guildId);
+  const channels = guildData[guildId]?.channels || [];
 
-  const { channels } = useGuildChannels(guildId);
+  useEffect(() => {
+    fetchChannels(guildId);
+  }, [guildId, fetchChannels]);
+
   const [saving, setSaving] = useState(false);
   const [loadError, setLoadError] = useState<string | null>(null);
   const [localSettings, setLocalSettings] = useState<XPSettings | null>(null);
@@ -212,8 +217,6 @@ export const XPSettingsTab = forwardRef<
 
   return (
     <div className="space-y-6 pb-20 relative">
-      <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/10 blur-[120px] pointer-events-none" />
-
       {/* Load Error Alert */}
       {loadError && (
         <Card
@@ -243,12 +246,9 @@ export const XPSettingsTab = forwardRef<
         showGrid
         className={cn(
           "transition-all duration-500",
-          localSettings.enabled
-            ? "border-cyan-500/30 shadow-[0_0_40px_rgba(6,182,212,0.05)]"
-            : "opacity-60"
+          !localSettings.enabled && "opacity-60"
         )}
       >
-        <div className="absolute -right-20 -top-20 w-60 h-60 bg-cyan-500/5 blur-[80px] rounded-full pointer-events-none" />
         <CardContent className="p-6">
           <div className="flex items-center justify-between gap-8">
             <div className="space-y-2">
@@ -396,10 +396,7 @@ export const XPSettingsTab = forwardRef<
 
         <div className="grid gap-6 lg:grid-cols-2">
           {/* XP Rates */}
-          <Card variant="cyberpunk" className="overflow-hidden relative">
-            <div className="absolute top-0 right-0 p-8 opacity-5">
-              <Hash className="w-32 h-32 rotate-12" />
-            </div>
+          <Card variant="cyberpunk">
             <CardHeader className="p-6 pb-4">
               <CardTitle
                 className={cn(
@@ -547,10 +544,7 @@ export const XPSettingsTab = forwardRef<
           </Card>
 
           {/* Cooldowns */}
-          <Card variant="cyberpunk" className="overflow-hidden relative">
-            <div className="absolute top-0 right-0 p-8 opacity-5">
-              <Clock className="w-32 h-32 -rotate-12" />
-            </div>
+          <Card variant="cyberpunk">
             <CardHeader className="p-6 pb-4">
               <CardTitle
                 className={cn(
@@ -838,8 +832,8 @@ function SettingsSkeleton() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
-        <Skeleton className="h-[400px] rounded-3xl bg-zinc-900/50" />
-        <Skeleton className="h-[400px] rounded-3xl bg-zinc-900/50" />
+        <Skeleton className="h-100 rounded-3xl bg-zinc-900/50" />
+        <Skeleton className="h-100 rounded-3xl bg-zinc-900/50" />
       </div>
     </div>
   );

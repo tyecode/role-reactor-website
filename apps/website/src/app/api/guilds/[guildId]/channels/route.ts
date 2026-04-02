@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { botFetch } from "@/lib/bot-fetch";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ guildId: string }> }
@@ -19,7 +21,6 @@ export async function GET(
 
     const userId = session.user?.id;
     const response = await botFetch(`/guilds/${guildId}/channels`, {
-      cache: "no-store",
       userId,
     });
 
@@ -35,7 +36,11 @@ export async function GET(
     }
 
     const data = await response.json();
-    return NextResponse.json(data.channels || []);
+    return NextResponse.json(data.channels || [], {
+      headers: {
+        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=60",
+      },
+    });
   } catch (error) {
     console.error("Guild channels proxy error:", error);
     return NextResponse.json(

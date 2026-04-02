@@ -2,10 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { botFetch } from "@/lib/bot-fetch";
 
-export const dynamic = "force-dynamic";
-
-export async function GET(
-  request: NextRequest,
+export async function POST(
+  _request: NextRequest,
   { params }: { params: Promise<{ guildId: string }> }
 ) {
   try {
@@ -19,34 +17,27 @@ export async function GET(
       );
     }
 
-    const { searchParams } = new URL(request.url);
-    const days = searchParams.get("days") || "30";
     const userId = session.user?.id;
-
-    const response = await botFetch(
-      `/guilds/${guildId}/analytics?days=${days}`,
-      { userId }
-    );
+    const response = await botFetch(`/guilds/${guildId}/welcome/test`, {
+      method: "POST",
+      userId,
+    });
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
+      const errorData = await response.json();
       return NextResponse.json(
         {
           success: false,
-          error: errorData.message || "Failed to fetch analytics from bot",
+          error: errorData.message || "Failed to test welcome message",
         },
         { status: response.status }
       );
     }
 
     const data = await response.json();
-    return NextResponse.json(data, {
-      headers: {
-        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=60",
-      },
-    });
+    return NextResponse.json(data);
   } catch (error) {
-    console.error("Guild analytics proxy error:", error);
+    console.error("Welcome test proxy error:", error);
     return NextResponse.json(
       { success: false, error: "Internal server error" },
       { status: 500 }

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { botFetch } from "@/lib/bot-fetch";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ guildId: string }> }
@@ -32,7 +34,11 @@ export async function GET(
     }
 
     const data = await response.json();
-    return NextResponse.json(data);
+    return NextResponse.json(data, {
+      headers: {
+        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=30",
+      },
+    });
   } catch (error) {
     console.error("Guild leaderboard proxy error:", error);
     return NextResponse.json(

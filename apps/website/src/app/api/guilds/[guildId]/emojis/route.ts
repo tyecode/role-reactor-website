@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { botFetch } from "@/lib/bot-fetch";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ guildId: string }> }
@@ -18,10 +20,7 @@ export async function GET(
     }
 
     const userId = session.user?.id;
-    const response = await botFetch(`/guilds/${guildId}/emojis`, {
-      cache: "no-store",
-      userId,
-    });
+    const response = await botFetch(`/guilds/${guildId}/emojis`, { userId });
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
@@ -35,10 +34,11 @@ export async function GET(
     }
 
     const data = await response.json();
-    console.log(
-      `[Proxy] Fetched ${data.emojis?.length || 0} emojis for guild ${guildId}`
-    );
-    return NextResponse.json(data.emojis || []);
+    return NextResponse.json(data.emojis || [], {
+      headers: {
+        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=60",
+      },
+    });
   } catch (error) {
     console.error("Guild emojis proxy error:", error);
     return NextResponse.json(

@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { botFetch } from "@/lib/bot-fetch";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ guildId: string }> }
@@ -24,7 +26,7 @@ export async function GET(
     const userId = session.user?.id;
     const response = await botFetch(
       `/guilds/${guildId}/custom-commands?page=${page}&limit=${limit}`,
-      { cache: "no-store", userId }
+      { userId }
     );
 
     if (!response.ok) {
@@ -39,7 +41,11 @@ export async function GET(
     }
 
     const data = await response.json();
-    return NextResponse.json(data);
+    return NextResponse.json(data, {
+      headers: {
+        "Cache-Control": "public, s-maxage=60, stale-while-revalidate=30",
+      },
+    });
   } catch (error) {
     console.error("Custom commands GET proxy error:", error);
     return NextResponse.json(
