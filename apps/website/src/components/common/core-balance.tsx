@@ -33,6 +33,9 @@ export function CoreBalance({
   const { status } = useSession();
   const { balance, isLoading } = useCoreBalance();
 
+  // Round balance to 2 decimal places to fix floating point precision issues
+  const roundedBalance = balance ? Math.round(balance * 100) / 100 : 0;
+
   if (status === "unauthenticated") return null;
 
   // Loading state skeleton
@@ -102,7 +105,7 @@ export function CoreBalance({
                 isLoading && "opacity-50 animate-pulse"
               )}
             >
-              {isLoading ? "..." : balance}
+              {isLoading ? "..." : roundedBalance}
             </span>
           </div>
         </div>
@@ -151,7 +154,7 @@ export function CoreBalance({
             isLoading && "opacity-50 animate-pulse"
           )}
         >
-          {isLoading ? "..." : balance}
+          {isLoading ? "..." : roundedBalance}
         </span>
         {showPlusButton &&
           (onClick ? (
@@ -204,7 +207,7 @@ export function CoreBalance({
           isLoading ? "opacity-50 animate-pulse" : "text-white"
         )}
       >
-        {isLoading ? "0" : balance}
+        {isLoading ? "0" : roundedBalance}
       </span>
 
       {/* Plus Button - Tech Style */}

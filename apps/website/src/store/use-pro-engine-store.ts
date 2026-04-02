@@ -67,7 +67,10 @@ export const useProEngineStore = create<ProEngineState>()(
             } catch {
               errorMsg = `Error ${res.status}: ${res.statusText}`;
             }
-            throw new Error(errorMsg);
+            console.warn(`[Pro Engine] API returned ${res.status}:`, errorMsg);
+            // Keep cached data, don't throw error
+            set({ isLoading: false });
+            return;
           }
 
           const json = await res.json();
@@ -78,7 +81,9 @@ export const useProEngineStore = create<ProEngineState>()(
               "Pro Engine Store: Validation failed",
               result.error.format()
             );
-            throw new Error("Invalid settings data received from server");
+            // Keep cached data on validation error
+            set({ isLoading: false });
+            return;
           }
 
           const data = result.data;
@@ -90,13 +95,14 @@ export const useProEngineStore = create<ProEngineState>()(
             isLoading: false,
           });
         } catch (error) {
-          console.error("Pro Engine Store: Fetch failed", error);
+          // Network error - keep cached data
+          console.warn(
+            "[Pro Engine] Network error, keeping cached data:",
+            error instanceof Error ? error.message : error
+          );
           set({
-            isError:
-              error instanceof Error
-                ? error
-                : new Error("Failed to synchronize settings"),
             isLoading: false,
+            // Don't set isError to prevent UI from showing error state
           });
         }
       },

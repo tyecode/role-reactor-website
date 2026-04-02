@@ -79,14 +79,33 @@ export default function ProEnginePage() {
         toast.success("Pro Engine activated successfully!");
         setShowActivationModal(false);
 
-        // Refresh settings and user balance in parallel
-        await Promise.all([
-          fetchSettings(guildId, true),
-          session?.user?.id
-            ? fetchUser(session.user.id, true)
-            : Promise.resolve(),
-          mutate("/api/user/balance"), // Force SWR balance components to update
-        ]);
+        // Optimistically update local store to show active state immediately
+        // This prevents UI from being stuck on "LOCKED" if bot API is down
+        const now = new Date();
+        const expiresAt = new Date(now);
+        expiresAt.setDate(expiresAt.getDate() + 7); // 7 days from now
+
+        updateLocalSettings({
+          isPremium: { pro: true },
+          subscription: {
+            cancelled: false,
+            autoRenew: true,
+            expiresAt: expiresAt.toISOString(),
+            activatedAt: now.toISOString(),
+            cost: premiumStatus?.premiumConfig?.PRO?.cost ?? 20,
+            period: premiumStatus?.premiumConfig?.PRO?.period ?? "week",
+            lastDeductionDate: now.toISOString(),
+          },
+        });
+
+        // Refresh from server in background (won't break UI if it fails)
+        fetchSettings(guildId, true);
+
+        // Also refresh user balance
+        if (session?.user?.id) {
+          fetchUser(session.user.id, true);
+        }
+        mutate("/api/user/balance");
 
         router.refresh();
       } else {
@@ -133,7 +152,7 @@ export default function ProEnginePage() {
   }
 
   return (
-    <div className="space-y-6 w-full">
+    <div className="space-y-6 w-full relative">
       <PageHeader
         category="System Configuration"
         categoryIcon={Crown}
@@ -151,7 +170,7 @@ export default function ProEnginePage() {
         serverName={guildName}
       />
 
-      <div className="space-y-4">
+      <div className="space-y-4 pb-8 relative">
         {/* Status Alerts */}
         {isPremium ? (
           <ProEngineActiveAlert

@@ -35,6 +35,7 @@ export async function GET() {
     const data = await response.json();
 
     // Bot API returns: { success: true, data: { user: { currentCredits: 30.94, ... } } }
+    // Backend already rounds to 2 decimal places
     if (data.success && data.data?.user?.currentCredits !== undefined) {
       return NextResponse.json({
         success: true,
