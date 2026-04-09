@@ -77,7 +77,7 @@ export function PropellerAdBlock({
     return (
       <div
         className={cn(
-          "relative w-full overflow-hidden rounded-2xl border border-white/5 bg-zinc-950/40 backdrop-blur-sm",
+          "relative w-full overflow-hidden rounded-lg border border-white/5 bg-zinc-950/40 backdrop-blur-sm",
           "flex flex-col items-center justify-center transition-all duration-500",
           isSidebar ? "p-4 min-h-[140px]" : "p-6 min-h-[100px]",
           className
@@ -128,8 +128,8 @@ export function PropellerAdBlock({
           </a>
         </div>
 
-        <div className="absolute top-0 left-0 w-4 h-4 border-t border-l border-white/10 rounded-tl-xl" />
-        <div className="absolute bottom-0 right-0 w-4 h-4 border-b border-r border-white/10 rounded-br-xl" />
+        <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-white/10 rounded-tl-md" />
+        <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-white/10 rounded-br-md" />
       </div>
     );
   }
