@@ -41,7 +41,7 @@ export const useNotificationStore = create<NotificationState>()((set, get) => ({
 
   fetchNotifications: async () => {
     if (get().isLoading) return;
-    
+
     if (!get().hasFetched) {
       set({ isLoading: true });
     }

@@ -54,26 +54,26 @@ export function SystemHealthViewer() {
     setIsRefreshing(true);
     try {
       const res = await fetch("/api/proxy/health");
-      
+
       // Debug: Log response status
       if (!res.ok) {
         console.error(`[Health] API returned ${res.status}`);
         throw new Error(`Bot API returned ${res.status}`);
       }
-      
+
       const json = await res.json();
-      
+
       // Debug: Log actual response structure
-      console.log('[Health] Raw response:', json);
-      
+      console.log("[Health] Raw response:", json);
+
       // Handle both response formats: { data: {...} } or {...}
       const healthData = json.data || json;
-      
+
       // Debug: Log extracted health data
-      console.log('[Health] Extracted data:', healthData);
+      console.log("[Health] Extracted data:", healthData);
 
       if (!healthData.uptime && !healthData.memory) {
-        console.error('[Health] Empty data received:', healthData);
+        console.error("[Health] Empty data received:", healthData);
         throw new Error("Bot API returned empty health data");
       }
 
@@ -89,7 +89,9 @@ export function SystemHealthViewer() {
       setError(null);
     } catch (err: unknown) {
       console.error("Health fetch error:", err);
-      setError(err instanceof Error ? err.message : "Failed to load health data");
+      setError(
+        err instanceof Error ? err.message : "Failed to load health data"
+      );
     } finally {
       setIsRefreshing(false);
     }
@@ -100,20 +102,40 @@ export function SystemHealthViewer() {
   }, [fetchHealth]);
 
   if (error && !data) {
-    return <ErrorView title="Connection Failed" message={error} onRetry={fetchHealth} showHome={false} />;
+    return (
+      <ErrorView
+        title="Connection Failed"
+        message={error}
+        onRetry={fetchHealth}
+        showHome={false}
+      />
+    );
   }
 
   if (!data) {
     return (
       <div className="absolute inset-0 z-40 flex items-center justify-center bg-background">
-        <NodeLoader title="Loading Dashboard" subtitle="Synchronizing your data..." />
+        <NodeLoader
+          title="Loading Dashboard"
+          subtitle="Synchronizing your data..."
+        />
       </div>
     );
   }
 
   const memoryPercentage = data.memory.percentage;
-  const systemStatus = memoryPercentage >= 90 ? "CRITICAL" : memoryPercentage >= 80 ? "WARNING" : "HEALTHY";
-  const statusColor = memoryPercentage >= 90 ? "text-red-500" : memoryPercentage >= 80 ? "text-amber-500" : "text-green-500";
+  const systemStatus =
+    memoryPercentage >= 90
+      ? "CRITICAL"
+      : memoryPercentage >= 80
+        ? "WARNING"
+        : "HEALTHY";
+  const statusColor =
+    memoryPercentage >= 90
+      ? "text-red-500"
+      : memoryPercentage >= 80
+        ? "text-amber-500"
+        : "text-green-500";
   const StatusIcon = memoryPercentage >= 80 ? AlertTriangle : CheckCircle;
 
   return (
@@ -138,7 +160,9 @@ export function SystemHealthViewer() {
             isRefreshing && "animate-pulse border-cyan-500/50 text-cyan-500"
           )}
         >
-          <RefreshCw className={cn("size-3 mr-2", isRefreshing && "animate-spin")} />
+          <RefreshCw
+            className={cn("size-3 mr-2", isRefreshing && "animate-spin")}
+          />
           Refresh
         </Button>
       </div>
@@ -148,30 +172,50 @@ export function SystemHealthViewer() {
         <Card className="border-white/5 bg-zinc-950/40 backdrop-blur-xl">
           <CardContent className="p-4">
             <div className="flex items-center justify-between mb-3">
-              <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-mono">System Status</p>
+              <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-mono">
+                System Status
+              </p>
               <StatusIcon className={cn("size-4", statusColor)} />
             </div>
-            <p className={cn("text-2xl font-bold uppercase font-mono tracking-tight", statusColor)}>{systemStatus}</p>
+            <p
+              className={cn(
+                "text-2xl font-bold uppercase font-mono tracking-tight",
+                statusColor
+              )}
+            >
+              {systemStatus}
+            </p>
           </CardContent>
         </Card>
 
         <Card className="border-white/5 bg-zinc-950/40 backdrop-blur-xl">
           <CardContent className="p-4">
             <div className="flex items-center justify-between mb-3">
-              <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-mono">Uptime</p>
+              <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-mono">
+                Uptime
+              </p>
               <Clock className="size-4 text-cyan-500" />
             </div>
-            <p className="text-2xl font-bold font-mono text-white tracking-tight">{formatUptime(data.uptime)}</p>
+            <p className="text-2xl font-bold font-mono text-white tracking-tight">
+              {formatUptime(data.uptime)}
+            </p>
           </CardContent>
         </Card>
 
         <Card className="border-white/5 bg-zinc-950/40 backdrop-blur-xl">
           <CardContent className="p-4">
             <div className="flex items-center justify-between mb-3">
-              <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-mono">Environment</p>
+              <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-mono">
+                Environment
+              </p>
               <Server className="size-4 text-purple-500" />
             </div>
-            <p className={cn("text-2xl font-bold uppercase font-mono tracking-tight", data.isProduction ? "text-green-500" : "text-amber-500")}>
+            <p
+              className={cn(
+                "text-2xl font-bold uppercase font-mono tracking-tight",
+                data.isProduction ? "text-green-500" : "text-amber-500"
+              )}
+            >
               {data.environment}
             </p>
           </CardContent>
@@ -180,10 +224,22 @@ export function SystemHealthViewer() {
         <Card className="border-white/5 bg-zinc-950/40 backdrop-blur-xl">
           <CardContent className="p-4">
             <div className="flex items-center justify-between mb-3">
-              <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-mono">Database</p>
-              <Database className={cn("size-4", data.database.connected ? "text-green-500" : "text-red-500")} />
+              <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-mono">
+                Database
+              </p>
+              <Database
+                className={cn(
+                  "size-4",
+                  data.database.connected ? "text-green-500" : "text-red-500"
+                )}
+              />
             </div>
-            <p className={cn("text-2xl font-bold uppercase font-mono tracking-tight", data.database.connected ? "text-green-500" : "text-red-500")}>
+            <p
+              className={cn(
+                "text-2xl font-bold uppercase font-mono tracking-tight",
+                data.database.connected ? "text-green-500" : "text-red-500"
+              )}
+            >
               {data.database.connected ? "Connected" : "Offline"}
             </p>
           </CardContent>
@@ -201,13 +257,30 @@ export function SystemHealthViewer() {
           <CardContent>
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-zinc-500 text-xs font-mono uppercase">Used</span>
-                <span className="text-white font-mono text-sm">{formatBytes(data.memory.used)} / {formatBytes(data.memory.total)}</span>
+                <span className="text-zinc-500 text-xs font-mono uppercase">
+                  Used
+                </span>
+                <span className="text-white font-mono text-sm">
+                  {formatBytes(data.memory.used)} /{" "}
+                  {formatBytes(data.memory.total)}
+                </span>
               </div>
               <div className="w-full bg-zinc-800 rounded-full h-2.5 overflow-hidden">
-                <div className={cn("h-full transition-all duration-500 rounded-full", memoryPercentage < 60 ? "bg-green-500" : memoryPercentage < 80 ? "bg-amber-500" : "bg-red-500")} style={{ width: `${memoryPercentage}%` }} />
+                <div
+                  className={cn(
+                    "h-full transition-all duration-500 rounded-full",
+                    memoryPercentage < 60
+                      ? "bg-green-500"
+                      : memoryPercentage < 80
+                        ? "bg-amber-500"
+                        : "bg-red-500"
+                  )}
+                  style={{ width: `${memoryPercentage}%` }}
+                />
               </div>
-              <p className="text-xs text-zinc-500 font-mono text-right">{memoryPercentage.toFixed(1)}% utilized</p>
+              <p className="text-xs text-zinc-500 font-mono text-right">
+                {memoryPercentage.toFixed(1)}% utilized
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -221,13 +294,33 @@ export function SystemHealthViewer() {
           <CardContent>
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-zinc-500 text-xs font-mono uppercase">Current Load</span>
-                <span className="text-white font-mono text-sm">{data.cpu.usage.toFixed(1)}%</span>
+                <span className="text-zinc-500 text-xs font-mono uppercase">
+                  Current Load
+                </span>
+                <span className="text-white font-mono text-sm">
+                  {data.cpu.usage.toFixed(1)}%
+                </span>
               </div>
               <div className="w-full bg-zinc-800 rounded-full h-2.5 overflow-hidden">
-                <div className={cn("h-full transition-all duration-500 rounded-full", data.cpu.usage < 60 ? "bg-green-500" : data.cpu.usage < 80 ? "bg-amber-500" : "bg-red-500")} style={{ width: `${data.cpu.usage}%` }} />
+                <div
+                  className={cn(
+                    "h-full transition-all duration-500 rounded-full",
+                    data.cpu.usage < 60
+                      ? "bg-green-500"
+                      : data.cpu.usage < 80
+                        ? "bg-amber-500"
+                        : "bg-red-500"
+                  )}
+                  style={{ width: `${data.cpu.usage}%` }}
+                />
               </div>
-              <p className="text-xs text-zinc-500 font-mono text-right">{data.cpu.usage < 60 ? "Normal" : data.cpu.usage < 80 ? "Elevated" : "High"}</p>
+              <p className="text-xs text-zinc-500 font-mono text-right">
+                {data.cpu.usage < 60
+                  ? "Normal"
+                  : data.cpu.usage < 80
+                    ? "Elevated"
+                    : "High"}
+              </p>
             </div>
           </CardContent>
         </Card>
@@ -241,15 +334,23 @@ export function SystemHealthViewer() {
           <CardContent>
             <div className="space-y-3">
               <div className="flex justify-between items-center">
-                <span className="text-zinc-500 text-xs font-mono uppercase">Requests/min</span>
+                <span className="text-zinc-500 text-xs font-mono uppercase">
+                  Requests/min
+                </span>
                 <div className="flex items-center gap-2">
                   <TrendingUp className="size-3 text-green-500" />
-                  <span className="text-white font-mono text-base font-bold">{data.api.requestsPerMinute}</span>
+                  <span className="text-white font-mono text-base font-bold">
+                    {data.api.requestsPerMinute}
+                  </span>
                 </div>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-zinc-500 text-xs font-mono uppercase">Avg Response</span>
-                <span className="text-white font-mono text-base font-bold">{data.api.averageResponseTime}ms</span>
+                <span className="text-zinc-500 text-xs font-mono uppercase">
+                  Avg Response
+                </span>
+                <span className="text-white font-mono text-base font-bold">
+                  {data.api.averageResponseTime}ms
+                </span>
               </div>
             </div>
           </CardContent>
@@ -264,14 +365,25 @@ export function SystemHealthViewer() {
           <CardContent>
             <div className="space-y-3">
               <div className="flex justify-between items-center">
-                <span className="text-zinc-500 text-xs font-mono uppercase">Status</span>
-                <span className={cn("font-mono uppercase text-sm font-bold", data.database.connected ? "text-green-500" : "text-red-500")}>
+                <span className="text-zinc-500 text-xs font-mono uppercase">
+                  Status
+                </span>
+                <span
+                  className={cn(
+                    "font-mono uppercase text-sm font-bold",
+                    data.database.connected ? "text-green-500" : "text-red-500"
+                  )}
+                >
                   {data.database.connected ? "Online" : "Offline"}
                 </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-zinc-500 text-xs font-mono uppercase">Ping</span>
-                <span className="text-white font-mono text-base font-bold">{data.database.responseTime}ms</span>
+                <span className="text-zinc-500 text-xs font-mono uppercase">
+                  Ping
+                </span>
+                <span className="text-white font-mono text-base font-bold">
+                  {data.database.responseTime}ms
+                </span>
               </div>
             </div>
           </CardContent>

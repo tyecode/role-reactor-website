@@ -117,4 +117,3 @@ export function GuildGrowthChart({ data }: { data: GrowthPoint[] }) {
     </div>
   );
 }
-

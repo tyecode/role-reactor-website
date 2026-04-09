@@ -70,7 +70,7 @@ export const useLogsStore = create<LogsState>()(
         if (uniqueNewLogs.length === 0) return;
 
         const updatedLogs = [...logs, ...uniqueNewLogs];
-        
+
         // Cap at MAX_LOGS to prevent memory issues
         if (updatedLogs.length > MAX_LOGS) {
           set({ logs: updatedLogs.slice(updatedLogs.length - MAX_LOGS) });
