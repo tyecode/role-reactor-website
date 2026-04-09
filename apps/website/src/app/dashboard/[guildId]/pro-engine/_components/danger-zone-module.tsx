@@ -134,7 +134,7 @@ export function DangerZoneModule({
     <Card
       variant="cyberpunk"
       showGrid
-      className="border-rose-500/20 group/danger min-h-[200px] hover:border-rose-400/40 hover:shadow-[0_0_30px_-5px_rgba(244,63,94,0.15)]"
+      className="border-rose-500/20 group/danger min-h-50 hover:border-rose-400/40 hover:shadow-[0_0_30px_-5px_rgba(244,63,94,0.15)]"
       contentClassName="p-6 sm:p-7 flex flex-col justify-between"
     >
       {/* Internal Warning FX - Custom Overrides */}

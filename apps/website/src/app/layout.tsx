@@ -10,6 +10,7 @@ import { SessionProvider } from "@/components/auth/session-provider";
 import { Toaster } from "sonner";
 import { PWAMeta, PWAProvider } from "@/components/pwa/pwa-provider";
 import { initPerformanceMonitoring } from "@/lib/web-vitals";
+import { PropellerAdsScript } from "@/components/propellerads";
 
 import "./global.css";
 
@@ -147,26 +148,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         className="flex flex-col min-h-screen antialiased"
         suppressHydrationWarning
       >
-        {process.env.NEXT_PUBLIC_PROPELLERADS_ZONE_ID && (
-          <Script
-            id="propellerads-init"
-            strategy="afterInteractive"
-            dangerouslySetInnerHTML={{
-              __html: `
-                (function(s){
-                  s.dataset.zone='${process.env.NEXT_PUBLIC_PROPELLERADS_ZONE_ID}',
-                  s.src='https://nap5k.com/tag.min.js'
-                })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')));
-              `,
-            }}
-            onLoad={() => {
-              console.log("PropellerAds main script loaded successfully");
-            }}
-            onError={(error) => {
-              console.error("PropellerAds main script failed to load:", error);
-            }}
-          />
-        )}
+        <PropellerAdsScript />
         <PWAMeta />
         <PWAProvider />
         <SessionProvider>

@@ -57,7 +57,8 @@ export function PropellerAdBlock({
       containerRef.current?.appendChild(script);
 
       return () => {
-        if (containerRef.current?.contains(script)) {
+        const container = containerRef.current;
+        if (container?.contains(script)) {
           script.remove();
         }
       };
