@@ -112,7 +112,13 @@ export async function fetchSponsorsFromBMC(): Promise<Sponsor[]> {
   
   const data = await response.json();
   
-  return data.data.map((supporter: any) => ({
+  return data.data.map((supporter: {
+    id: string;
+    supporter_name?: string;
+    support_coffee_price: number;
+    support_note?: string;
+    created_on: string;
+  }) => ({
     id: supporter.id,
     name: supporter.supporter_name || 'Anonymous',
     tier: getTierFromAmount(supporter.support_coffee_price),

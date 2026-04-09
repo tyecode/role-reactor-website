@@ -1,8 +1,16 @@
 import { auth } from "@/auth";
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from "next/server";
+import { DiscordGuild } from "@/types/discord";
 
-const GUILD_CACHE = new Map<string, { data: any[]; expires: number }>();
+interface AuthSession {
+  user: { id: string };
+  accessToken: string;
+}
+
+const GUILD_CACHE = new Map<
+  string,
+  { data: DiscordGuild[]; expires: number }
+>();
 
 export async function GET() {
   const session = await auth();
@@ -15,7 +23,7 @@ export async function GET() {
     );
   }
 
-  const accessToken = (session as any).accessToken;
+  const accessToken = (session as AuthSession).accessToken;
   if (!accessToken) {
     console.warn(
       `[API] No access token found in session for user: ${session.user?.id}.`
@@ -69,7 +77,7 @@ export async function GET() {
     const allGuilds = await response.json();
 
     // Filter for servers where user is an OWNER, ADMIN, or has MANAGE_GUILD
-    const manageableGuilds = allGuilds.filter((guild: any) => {
+    const manageableGuilds = allGuilds.filter((guild: DiscordGuild) => {
       const permissions = BigInt(guild.permissions || "0");
       const isAdmin = (permissions & BigInt(0x8)) === BigInt(0x8);
       const canManage = (permissions & BigInt(0x20)) === BigInt(0x20);
@@ -87,10 +95,11 @@ export async function GET() {
       `[Discord API] Success: Fetched ${manageableGuilds.length} manageable guilds for ${session.user?.id}`
     );
     return NextResponse.json(manageableGuilds);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("[Discord API Exception] Internal Server Error:", error);
+    const message = error instanceof Error ? error.message : "Unknown error";
     return NextResponse.json(
-      { error: "Internal Server Error", message: error.message },
+      { error: "Internal Server Error", message },
       { status: 500 }
     );
   }

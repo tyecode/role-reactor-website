@@ -62,28 +62,23 @@ export async function POST(request: NextRequest) {
 
     if (!botResponse.ok) {
       const errorText = await botResponse.text();
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      let errorData: any;
+      let errorMessage = "Failed to create payment";
 
       try {
-        errorData = JSON.parse(errorText);
+        const errorData = JSON.parse(errorText);
+        errorMessage = errorData.message || errorData.error || errorMessage;
       } catch {
-        errorData = { message: errorText.substring(0, 200) };
+        errorMessage = errorText.substring(0, 200);
       }
 
       if (process.env.NODE_ENV === "development") {
         console.error(
           `Bot API payment creation failed (${botResponse.status}):`,
-          errorData
+          errorText
         );
       }
 
-      // Handle specific error codes from bot API
       const statusCode = botResponse.status;
-      const errorMessage =
-        errorData.error?.message ||
-        errorData.message ||
-        "Failed to create payment";
 
       return NextResponse.json(
         {
@@ -92,7 +87,7 @@ export async function POST(request: NextRequest) {
             message: errorMessage,
             code: statusCode,
             details:
-              process.env.NODE_ENV === "development" ? errorData : undefined,
+              process.env.NODE_ENV === "development" ? errorText : undefined,
           },
         },
         { status: statusCode }

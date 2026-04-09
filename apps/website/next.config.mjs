@@ -1,6 +1,11 @@
 import { createMDX } from "fumadocs-mdx/next";
 import bundleAnalyzer from "@next/bundle-analyzer";
 import { withSentryConfig } from "@sentry/nextjs";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const withMDX = createMDX();
 
@@ -56,6 +61,41 @@ const config = {
     },
   },
 
+  // Webpack cache optimization
+  webpack: (config, { isServer, dev }) => {
+    // Suppress webpack cache warnings and optimize for large strings
+    if (!isServer && !dev) {
+      // Use memory cache to avoid filesystem serialization issues
+      config.cache = false;
+
+      // Optimize chunk splitting to reduce large strings
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: {
+          ...config.optimization.splitChunks,
+          cacheGroups: {
+            ...config.optimization.splitChunks?.cacheGroups,
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name: "vendors",
+              chunks: "all",
+              priority: 10,
+            },
+          },
+        },
+      };
+
+      // Suppress webpack performance hints
+      config.stats = {
+        ...config.stats,
+        warnings: false,
+        warningsFilter: [/PackFileCacheStrategy/],
+      };
+    }
+
+    return config;
+  },
+
   // Security and performance headers
   async headers() {
     return [
@@ -86,7 +126,7 @@ const config = {
             key: "Content-Security-Policy",
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://vercel.live https://assets.vercel.com https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://vercel.live https://assets.vercel.com https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://nap5k.com",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "img-src 'self' data: https: blob:",
               "font-src 'self' https://fonts.gstatic.com",
