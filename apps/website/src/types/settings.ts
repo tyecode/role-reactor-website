@@ -147,10 +147,17 @@ export const BotConfigSchema = z.object({
         .object({
           name: z.string().optional(),
         })
-        .catchall(z.unknown())
         .optional(),
+      discord: z.record(z.string(), z.unknown()).optional(),
+      database: z.record(z.string(), z.unknown()).optional(),
+      logging: z.record(z.string(), z.unknown()).optional(),
+      features: z.record(z.string(), z.unknown()).optional(),
+      aiSettings: z.record(z.string(), z.unknown()).optional(),
+      rateLimits: z.record(z.string(), z.unknown()).optional(),
+      cacheLimits: z.record(z.string(), z.unknown()).optional(),
+      payments: z.record(z.string(), z.unknown()).optional(),
     })
-    .catchall(z.unknown()),
+    .optional(),
   environment: z.string(),
   isProduction: z.boolean(),
 });
