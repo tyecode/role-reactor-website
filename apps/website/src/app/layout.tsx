@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next";
 
 import { RootProvider } from "fumadocs-ui/provider";
 import { Analytics } from "@vercel/analytics/next";
+import Script from "next/script";
 
 import { links } from "@/constants/links";
 import { SessionProvider } from "@/components/auth/session-provider";
@@ -147,7 +148,9 @@ export default function Layout({ children }: { children: ReactNode }) {
         suppressHydrationWarning
       >
         {process.env.NEXT_PUBLIC_PROPELLERADS_ZONE_ID && (
-          <script
+          <Script
+            id="propellerads-init"
+            strategy="afterInteractive"
             dangerouslySetInnerHTML={{
               __html: `(function(s){s.dataset.zone='${process.env.NEXT_PUBLIC_PROPELLERADS_ZONE_ID}',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')));`,
             }}
