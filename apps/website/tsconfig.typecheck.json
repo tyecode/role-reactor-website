@@ -4,7 +4,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": false,
+    "strict": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "esModuleInterop": true,
@@ -15,36 +15,17 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "fumadocs-mdx:collections/*": ["./.source/*"],
+      "@/.source": ["./.source/index.ts"]
     }
   },
   "include": [
-    "src/lib/env.ts",
-    "src/lib/env.test.ts",
-    "src/lib/utils.ts",
-    "src/lib/utils.test.ts",
-    "src/lib/api-config.ts",
-    "src/lib/bot-fetch.ts",
-    "src/lib/premium-utils.ts",
-    "src/lib/pricing.ts",
-    "src/lib/rate-limit.ts",
-    "src/lib/web-vitals.ts",
-    "src/lib/toast.tsx",
-    "src/lib/fonts.ts",
-    "src/lib/code-reader.ts",
-    "src/hooks/**/*.ts",
-    "src/hooks/**/*.tsx",
-    "src/components/**/*.ts",
-    "src/components/**/*.tsx",
-    "src/store/use-user-store.ts",
-    "src/store/use-pricing-store.ts",
-    "src/store/use-emoji-store.ts",
-    "src/store/use-guild-store.ts",
-    "src/store/use-server-store.ts",
-    "src/store/use-xp-store.ts",
-    "src/types/**/*.ts",
-    "src/constants/**/*.ts",
-    "src/auth.ts"
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    ".source/**/*.ts",
+    ".source/**/*.js",
+    "next-env.d.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", ".next"]
 }
