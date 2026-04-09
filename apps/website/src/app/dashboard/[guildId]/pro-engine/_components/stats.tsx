@@ -61,7 +61,7 @@ export function SubscriptionStats({
           <Card
             variant="stat"
             className={cn(
-              "p-5 flex flex-col justify-center min-h-[100px] h-full",
+              "p-5 flex flex-col justify-center min-h-25 h-full",
               stat.color === "blue" &&
                 "border-blue-500/20 hover:border-blue-500/40",
               stat.color === "purple" &&

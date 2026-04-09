@@ -3,7 +3,6 @@ import type { Metadata, Viewport } from "next";
 
 import { RootProvider } from "fumadocs-ui/provider";
 import { Analytics } from "@vercel/analytics/next";
-import Script from "next/script";
 
 import { links } from "@/constants/links";
 import { SessionProvider } from "@/components/auth/session-provider";

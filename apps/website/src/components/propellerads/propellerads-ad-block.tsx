@@ -31,10 +31,11 @@ export function PropellerAdBlock({
     setIsLoading(true);
     setAdFailed(false);
 
+    const container = containerRef.current;
+    if (!container) return;
+
     // Clear any existing content
-    if (containerRef.current) {
-      containerRef.current.innerHTML = "";
-    }
+    container.innerHTML = "";
 
     try {
       const script = document.createElement("script");
@@ -54,11 +55,10 @@ export function PropellerAdBlock({
         setIsLoading(false);
       };
 
-      containerRef.current?.appendChild(script);
+      container.appendChild(script);
 
       return () => {
-        const container = containerRef.current;
-        if (container?.contains(script)) {
+        if (container.contains(script)) {
           script.remove();
         }
       };
