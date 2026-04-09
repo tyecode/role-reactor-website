@@ -7,8 +7,8 @@ import { botFetch } from "@/lib/bot-fetch";
 import { LeaderboardEntry } from "@/store/use-xp-store";
 import { audiowide } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
-import { AdBlock } from "@/components/adsense/ad-block";
 import { BubbleBackground } from "@/components/common/bubble-background";
+import { PropellerAdBlock } from "@/components/propellerads";
 
 import { ServerHero } from "./_components/server-hero";
 import { LeaderboardTable } from "./_components/leaderboard-table";
@@ -279,20 +279,22 @@ export default async function PublicLeaderboardPage({
           />
         </div>
 
-        <AdBlock
-          slot="leaderboard_top"
+        <PropellerAdBlock
+          zoneId={
+            process.env.NEXT_PUBLIC_PROPELLERADS_LEADERBOARD_TOP_ZONE || ""
+          }
           className="mb-8"
           hide={isPremium}
-          showRemoveAds={!isPremium}
         />
 
         <LeaderboardTable leaderboard={leaderboard} />
 
-        <AdBlock
-          slot="leaderboard_bottom"
+        <PropellerAdBlock
+          zoneId={
+            process.env.NEXT_PUBLIC_PROPELLERADS_LEADERBOARD_BOTTOM_ZONE || ""
+          }
           className="mt-12"
           hide={isPremium}
-          showRemoveAds={!isPremium}
         />
 
         <div className="mt-8 text-center">

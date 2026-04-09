@@ -9,7 +9,7 @@ import { type LeaderboardEntry } from "@/store/use-xp-store";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { AdBlock } from "@/components/adsense/ad-block";
+import { PropellerAdBlock } from "@/components/propellerads";
 
 interface LeaderboardListProps {
   leaderboard: LeaderboardEntry[];
@@ -29,7 +29,7 @@ export function LeaderboardList({
   return (
     <Card variant="cyberpunk" className="w-full">
       <div className="p-0 overflow-x-auto">
-        <div className="min-w-[400px]">
+        <div className="min-w-100">
           <div className="grid grid-cols-12 gap-4 px-6 py-4 text-[10px] uppercase font-black text-zinc-500 tracking-widest border-b border-white/5 bg-white/2 min-w-0">
             <div
               className={cn(
@@ -65,7 +65,7 @@ export function LeaderboardList({
             </div>
           </div>
 
-          <div className="max-h-[800px] overflow-y-auto overflow-x-hidden custom-scrollbar min-w-0">
+          <div className="max-h-200 overflow-y-auto overflow-x-hidden custom-scrollbar min-w-0">
             {displayData.map((entry, i) => {
               const actualRank = searchQuery
                 ? leaderboard.findIndex((e) => e.userId === entry.userId) + 1
@@ -223,11 +223,11 @@ export function LeaderboardList({
                   {actualRank % 50 === 0 &&
                     actualRank !== displayData.length && (
                       <div className="border-b border-white/5 py-8 px-6 bg-white/1">
-                        <AdBlock
-                          slot={`dashboard_xp_feed_${actualRank}`}
-                          format="fluid"
-                          layoutKey="-fb+5w+4e-db+86"
-                          className="max-h-[120px]"
+                        <PropellerAdBlock
+                          zoneId={
+                            process.env.NEXT_PUBLIC_PROPELLERADS_FEED_ZONE || ""
+                          }
+                          className="max-h-30"
                           hide={isPremium}
                         />
                       </div>

@@ -9,7 +9,7 @@ import { SessionProvider } from "@/components/auth/session-provider";
 import { Toaster } from "sonner";
 import { PWAMeta, PWAProvider } from "@/components/pwa/pwa-provider";
 import { initPerformanceMonitoring } from "@/lib/web-vitals";
-import { AdsenseScript } from "@/components/adsense/adsense-script";
+import { PropellerAdsScript } from "@/components/propellerads";
 
 import "./global.css";
 
@@ -110,11 +110,6 @@ export const metadata: Metadata = {
   },
   verification: {
     google: process.env.GOOGLE_SITE_VERIFICATION,
-    other: {
-      ...(process.env.NEXT_PUBLIC_ADSENSE_PUB_ID && {
-        "google-adsense-account": process.env.NEXT_PUBLIC_ADSENSE_PUB_ID,
-      }),
-    },
   },
   icons: {
     icon: [
@@ -152,7 +147,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         className="flex flex-col min-h-screen antialiased"
         suppressHydrationWarning
       >
-        <AdsenseScript />
+        <PropellerAdsScript />
         <PWAMeta />
         <PWAProvider />
         <SessionProvider>

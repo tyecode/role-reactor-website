@@ -11,7 +11,7 @@ import { audiowide } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 
 import { ServerSearch } from "@/app/(home)/_components/server-search";
-import { AdBlock } from "@/components/adsense/ad-block";
+import { PropellerAdBlock } from "@/components/propellerads";
 
 export const dynamic = "force-dynamic";
 
@@ -186,7 +186,12 @@ export default async function LeaderboardsPage() {
             <ServerSearch />
           </div>
 
-          <AdBlock slot="leaderboards_list_top" className="mt-8" />
+          <PropellerAdBlock
+            zoneId={
+              process.env.NEXT_PUBLIC_PROPELLERADS_LEADERBOARDS_TOP_ZONE || ""
+            }
+            className="mt-8"
+          />
         </div>
 
         {/* Guild Grid */}
@@ -301,7 +306,12 @@ export default async function LeaderboardsPage() {
           )}
         </div>
 
-        <AdBlock slot="leaderboards_list_bottom" className="mt-8" />
+        <PropellerAdBlock
+          zoneId={
+            process.env.NEXT_PUBLIC_PROPELLERADS_LEADERBOARDS_BOTTOM_ZONE || ""
+          }
+          className="mt-8"
+        />
       </div>
     </main>
   );

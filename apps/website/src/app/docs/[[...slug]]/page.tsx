@@ -7,7 +7,7 @@ import {
 } from "fumadocs-ui/page";
 import { notFound } from "next/navigation";
 import { getMDXComponents } from "@/mdx-components";
-import { AdBlock } from "@/components/adsense/ad-block";
+import { PropellerAdBlock } from "@/components/propellerads";
 import { links } from "@/constants/links";
 
 export default async function Page(props: {
@@ -17,21 +17,21 @@ export default async function Page(props: {
   const page = source.getPage(params.slug);
   if (!page) notFound();
 
-  const MDXContent = page.data.body;
+  const pageData = page.data as unknown as Record<string, unknown>;
+  const MDXContent = pageData.body as React.ComponentType<
+    Record<string, unknown>
+  >;
 
   return (
-    <DocsPage toc={page.data.toc} full={page.data.full}>
-      <DocsTitle>{page.data.title}</DocsTitle>
-      <DocsDescription>{page.data.description}</DocsDescription>
+    <DocsPage toc={pageData.toc as never} full={pageData.full as boolean}>
+      <DocsTitle>{pageData.title as string}</DocsTitle>
+      <DocsDescription>{pageData.description as string}</DocsDescription>
       <DocsBody>
-        <MDXContent
-          components={getMDXComponents({
-            // this allows you to link to other pages with relative file paths
-            // a: createRelativeLink(source, page),
-          })}
-        />
+        <MDXContent components={getMDXComponents({})} />
         <div className="mt-16 border-t border-white/5 pt-12">
-          <AdBlock slot="docs_footer" />
+          <PropellerAdBlock
+            zoneId={process.env.NEXT_PUBLIC_PROPELLERADS_DOCS_ZONE || ""}
+          />
         </div>
       </DocsBody>
     </DocsPage>
