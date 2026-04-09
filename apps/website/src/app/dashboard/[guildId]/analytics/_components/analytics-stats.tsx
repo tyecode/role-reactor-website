@@ -122,7 +122,7 @@ export function AnalyticsStats({
             key={stat.label}
             variant="stat"
             className={cn(
-              "min-h-[100px] relative overflow-hidden",
+              "min-h-25 relative overflow-hidden",
               colorMap[stat.color],
               isLocked && "cursor-pointer"
             )}

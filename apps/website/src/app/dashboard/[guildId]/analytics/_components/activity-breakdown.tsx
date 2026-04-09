@@ -69,8 +69,23 @@ export function ActivityBreakdown({
     },
   ];
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({
+    active,
+    payload,
+  }: {
+    active?: boolean;
+    payload?: Array<{
+      dataKey: string;
+      value: number;
+      color: string;
+      payload: {
+        color: string;
+        name: string;
+        value: number;
+        percentage: string;
+      };
+    }>;
+  }) => {
     if (active && payload && payload.length) {
       const entry = payload[0].payload;
       return (
@@ -100,7 +115,7 @@ export function ActivityBreakdown({
     <div className="relative">
       {/* Premium blur overlay */}
       {!isPremium && (
-        <div className="absolute inset-0 z-20 flex items-center justify-center bg-zinc-950/40 backdrop-blur-[8px] rounded-2xl">
+        <div className="absolute inset-0 z-20 flex items-center justify-center bg-zinc-950/40 backdrop-blur-sm rounded-2xl">
           <button
             onClick={onUpgrade}
             className="flex items-center gap-2 bg-amber-500/10 border border-amber-500/20 rounded-xl px-5 py-3 hover:bg-amber-500/20 hover:border-amber-500/40 transition-all cursor-pointer group"
@@ -152,7 +167,7 @@ export function ActivityBreakdown({
           ) : (
             <div className="flex flex-col sm:flex-row items-center gap-6">
               {/* Donut Chart */}
-              <div className="w-[180px] h-[180px] shrink-0">
+              <div className="w-45 h-45 shrink-0">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
