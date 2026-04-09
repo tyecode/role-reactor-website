@@ -195,7 +195,7 @@ export const XPSettingsTab = forwardRef<
     value: number
   ) => {
     if (!localSettings) return;
-    const parentObj = localSettings[parent] as any;
+    const parentObj = localSettings[parent] as Record<string, unknown>;
     setLocalSettings({
       ...localSettings,
       [parent]: { ...parentObj, [key]: value },
@@ -369,7 +369,7 @@ export const XPSettingsTab = forwardRef<
                           ] as boolean
                         }
                         onCheckedChange={(checked) =>
-                          updateLocalSetting(source.id as any, checked)
+                          updateLocalSetting(source.id as string, checked)
                         }
                         variant={
                           source.color as
@@ -528,19 +528,25 @@ export const XPSettingsTab = forwardRef<
                       )}
                       value={
                         item.parent
-                          ? ((localSettings as any)[item.id]?.base ?? 0)
-                          : ((localSettings as any)[item.id] ?? 0)
+                          ? ((
+                              (localSettings as Record<string, unknown>)[
+                                item.id
+                              ] as Record<string, unknown>
+                            )?.base ?? 0)
+                          : (((localSettings as Record<string, unknown>)[
+                              item.id
+                            ] as number) ?? 0)
                       }
                       onChange={(e) => {
                         if (item.parent)
                           updateNestedLocalSetting(
-                            item.id as any,
+                            item.id as "messageXPAmount" | "commandXPAmount",
                             "base",
                             parseInt(e.target.value) || 0
                           );
                         else
                           updateLocalSetting(
-                            item.id as any,
+                            item.id as keyof XPSettings,
                             parseInt(e.target.value) || 0
                           );
                       }}

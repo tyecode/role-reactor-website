@@ -1400,7 +1400,14 @@ export function CommandForm({
                             value={btn.style}
                             onValueChange={(v) => {
                               const updated = [...buttons];
-                              updated[i] = { ...updated[i], style: v as any };
+                              updated[i] = {
+                                ...updated[i],
+                                style: v as
+                                  | "primary"
+                                  | "secondary"
+                                  | "success"
+                                  | "danger",
+                              };
                               setButtons(updated);
                             }}
                           >

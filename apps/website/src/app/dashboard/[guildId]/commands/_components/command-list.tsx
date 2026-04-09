@@ -43,7 +43,7 @@ const audiowide = Audiowide({
   display: "swap",
 });
 
-const iconMap: Record<string, any> = {
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   "8ball": CircleHelp,
   ask: MessageCircle,
   avatar: UserCircle,
@@ -62,7 +62,10 @@ const iconMap: Record<string, any> = {
   wyr: Split,
 };
 
-const categoryIconMap: Record<string, any> = {
+const categoryIconMap: Record<
+  string,
+  React.ComponentType<{ className?: string }>
+> = {
   Admin: Shield,
   Developer: Terminal,
   General: HelpCircle,
@@ -446,7 +449,7 @@ export function CommandList({ guildId }: CommandListProps) {
   );
 }
 
-interface ShieldProps extends React.SVGProps<SVGSVGElement> {}
+type ShieldProps = React.SVGProps<SVGSVGElement>;
 
 function Shield(props: ShieldProps) {
   return (

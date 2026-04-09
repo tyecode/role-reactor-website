@@ -12,7 +12,6 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  TooltipProps,
   ResponsiveContainer,
   BarChart,
   Bar,
