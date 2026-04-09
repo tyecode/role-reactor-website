@@ -152,7 +152,18 @@ export default function Layout({ children }: { children: ReactNode }) {
             id="propellerads-init"
             strategy="afterInteractive"
             dangerouslySetInnerHTML={{
-              __html: `(function(s){s.dataset.zone='${process.env.NEXT_PUBLIC_PROPELLERADS_ZONE_ID}',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')));`,
+              __html: `
+                (function(s){
+                  s.dataset.zone='${process.env.NEXT_PUBLIC_PROPELLERADS_ZONE_ID}',
+                  s.src='https://nap5k.com/tag.min.js'
+                })([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')));
+              `,
+            }}
+            onLoad={() => {
+              console.log("PropellerAds main script loaded successfully");
+            }}
+            onError={(error) => {
+              console.error("PropellerAds main script failed to load:", error);
             }}
           />
         )}
