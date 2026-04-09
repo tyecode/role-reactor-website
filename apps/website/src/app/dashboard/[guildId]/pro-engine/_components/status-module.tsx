@@ -27,7 +27,7 @@ export function StatusModule({
     <Card
       variant="cyberpunk"
       showGrid
-      className="border-cyan-500/20 group/status min-h-[200px] hover:border-cyan-400/40 hover:shadow-[0_0_30px_-5px_rgba(6,182,212,0.2)]"
+      className="border-cyan-500/20 group/status min-h-50 hover:border-cyan-400/40 hover:shadow-[0_0_30px_-5px_rgba(6,182,212,0.2)]"
       contentClassName="p-6 sm:p-7 flex flex-col justify-between"
     >
       {/* Internal HUD FX - Custom Overrides */}
