@@ -88,4 +88,19 @@ export function validateEnvironment(): Environment {
  * Pre-validated environment object
  * Use this in your application code for type-safe access
  */
-export const env: Environment = validateEnvironment();
+const isBuildPhase =
+  process.env.NEXT_PHASE === "phase-production-build" ||
+  process.env.NEXT_PHASE === "phase-production-build-serverless" ||
+  process.env.NEXT_PHASE === "phase-pre-compile" ||
+  process.env.NODE_ENV === "test";
+
+export const env: Environment = isBuildPhase
+  ? ({
+      DISCORD_CLIENT_ID: "0",
+      DISCORD_CLIENT_SECRET: "a".repeat(32),
+      AUTH_SECRET: "a".repeat(32),
+      NEXT_PUBLIC_BASE_URL: "http://localhost:8080",
+      BOT_API_URL: "http://localhost:3030",
+      INTERNAL_API_KEY: "a".repeat(32),
+    } as Environment)
+  : validateEnvironment();
