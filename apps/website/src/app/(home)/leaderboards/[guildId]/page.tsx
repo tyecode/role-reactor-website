@@ -4,7 +4,7 @@ import { Trophy, Lock, Users, Crown, TrendingUp } from "lucide-react";
 import Link from "next/link";
 
 import { botFetch } from "@/lib/bot-fetch";
-import { LeaderboardEntry } from "@/store/use-xp-store";
+import { LeaderboardEntry, GuildStats } from "@/types/discord";
 import { audiowide } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { BubbleBackground } from "@/components/common/bubble-background";
@@ -64,7 +64,7 @@ async function fetchLeaderboardData(guildId: string) {
   let serverInfo: ServerInfo = {};
   let total = 0;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let stats: any = null;
+  let stats: GuildStats | null = null;
 
   try {
     const res = await botFetch(`/guilds/${guildId}/leaderboard?limit=50`, {
@@ -265,17 +265,17 @@ export default async function PublicLeaderboardPage({
           <StatCard
             icon={<Crown className="w-4 h-4" />}
             label="Highest Level"
-            value={highestLevel.toString()}
+            value={(highestLevel ?? 0).toString()}
           />
           <StatCard
             icon={<TrendingUp className="w-4 h-4" />}
             label="Average Level"
-            value={averageLevel.toString()}
+            value={(averageLevel ?? 0).toString()}
           />
           <StatCard
             icon={<Trophy className="w-4 h-4" />}
             label="Total XP Earned"
-            value={formatCompact(totalXP)}
+            value={formatCompact(totalXP ?? 0)}
           />
         </div>
 
