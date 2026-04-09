@@ -22,79 +22,56 @@ export function PropellerAdBlock({
   variant = "default",
 }: PropellerAdBlockProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [adFailed, setAdFailed] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [status, setStatus] = useState<"loading" | "loaded" | "failed">(
+    "loading"
+  );
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (hide || typeof window === "undefined" || !zoneId) return;
 
-    setIsLoading(true);
-    setAdFailed(false);
+    setStatus("loading");
 
     const container = containerRef.current;
     if (!container) return;
 
-    // Clear any existing content
     container.innerHTML = "";
 
-    try {
-      const script = document.createElement("script");
-      script.setAttribute("data-cfasync", "false");
-      script.type = "text/javascript";
-      script.src = `https://nap5k.com/pwa/${zoneId}`;
-      script.async = true;
+    const script = document.createElement("script");
+    script.setAttribute("data-cfasync", "false");
+    script.type = "text/javascript";
+    script.src = `https://nap5k.com/pwa/${zoneId}`;
+    script.async = true;
 
-      script.onload = () => {
-        console.log(`PropellerAds zone ${zoneId} loaded successfully`);
-        setIsLoading(false);
-      };
+    script.onload = () => {
+      console.log(`PropellerAds zone ${zoneId} loaded successfully`);
+      setStatus("loaded");
+    };
 
-      script.onerror = (error) => {
-        console.error(`PropellerAds zone ${zoneId} failed to load:`, error);
-        setAdFailed(true);
-        setIsLoading(false);
-      };
+    script.onerror = () => {
+      console.error(`PropellerAds zone ${zoneId} failed to load`);
+      setStatus("failed");
+    };
 
-      container.appendChild(script);
+    container.appendChild(script);
 
-      return () => {
-        if (container.contains(script)) {
-          script.remove();
-        }
-      };
-    } catch (error) {
-      console.error(
-        `Error creating PropellerAds script for zone ${zoneId}:`,
-        error
-      );
-      setAdFailed(true);
-      setIsLoading(false);
-    }
+    timeoutRef.current = setTimeout(() => {
+      setStatus("failed");
+    }, 5000);
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+      if (container.contains(script)) {
+        script.remove();
+      }
+    };
   }, [zoneId, hide]);
 
   if (hide) return null;
 
-  // Show loading state
-  if (isLoading) {
-    return (
-      <div
-        className={cn(
-          "relative w-full overflow-hidden rounded-2xl border border-white/5 bg-zinc-950/40 backdrop-blur-sm",
-          "flex flex-col items-center justify-center transition-all duration-500",
-          variant === "sidebar" ? "p-4 min-h-[140px]" : "p-6 min-h-[100px]",
-          className
-        )}
-        style={style}
-      >
-        <div className="animate-pulse flex flex-col items-center gap-2">
-          <div className="w-8 h-8 bg-zinc-800 rounded-lg" />
-          <div className="w-16 h-2 bg-zinc-800 rounded" />
-        </div>
-      </div>
-    );
-  }
-
-  if (adFailed) {
+  if (status === "failed") {
     const isSidebar = variant === "sidebar";
 
     return (
