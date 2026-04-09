@@ -15,7 +15,7 @@ export default function PrivacyPage() {
             ← Back to Home
           </Link>
           <h1 className="text-4xl font-bold text-white mb-2">Privacy Policy</h1>
-          <p className="text-gray-400">Last Updated: September 7, 2025</p>
+          <p className="text-gray-400">Last Updated: April 4, 2026</p>
         </div>
 
         {/* Content */}
@@ -23,11 +23,11 @@ export default function PrivacyPage() {
           <div className="bg-black/70 backdrop-blur-sm rounded-xl p-8 border border-gray-700/50">
             <p className="text-lg text-gray-300 leading-relaxed mb-8">
               If you are here, you have reached us by visiting rolereactor.app,
-              or by using our Discord bot services ("Services"). Your privacy is
-              important to us. It is our policy, as the developers of Role
-              Reactor, to respect your privacy and comply with any applicable
-              law and regulation regarding any personal information we may
-              collect about you.
+              or by using our Discord bot services (&quot;Services&quot;). Your
+              privacy is important to us. It is our policy, as the developers of
+              Role Reactor, to respect your privacy and comply with any
+              applicable law and regulation regarding any personal information
+              we may collect about you.
             </p>
 
             <p className="text-gray-300 leading-relaxed mb-8">
@@ -52,9 +52,10 @@ export default function PrivacyPage() {
             </h2>
 
             <p className="text-gray-300 leading-relaxed mb-4">
-              The information we collect consists of three types: "Personal
-              Information Provided by You," "Automatically Collected
-              Information," and "Information Provided by Discord."
+              The information we collect consists of four types: &quot;Personal
+              Information Provided by You,&quot; &quot;Automatically Collected
+              Information,&quot; &quot;Information Provided by Discord,&quot;
+              and &quot;Website Data.&quot;
             </p>
 
             <h3 className="text-xl font-semibold text-white mb-3">
@@ -67,11 +68,13 @@ export default function PrivacyPage() {
             </p>
 
             <p className="text-gray-300 leading-relaxed mb-4">
-              When you make contributions through our Services, your payment
-              processing service provider may collect your name, email address,
-              and payment information to process the transaction. We receive a
-              notification of the contribution, which may include your provided
-              name and message.
+              When you purchase Core Credits through our Services, your payment
+              processing service provider (e.g., Plisio for cryptocurrency
+              transactions) may collect your payment information to process the
+              transaction. We receive a notification of the purchase, which
+              includes a transaction ID and the amount of Core Credits to
+              deposit into your account. We do not directly store your
+              cryptocurrency wallet addresses or payment card details.
             </p>
 
             <p className="text-gray-300 leading-relaxed mb-6">
@@ -83,7 +86,7 @@ export default function PrivacyPage() {
             </p>
 
             <h3 className="text-xl font-semibold text-white mb-3">
-              Automatically Collected Information
+              Automatically Collected Information (Discord Bot)
             </h3>
             <p className="text-gray-300 leading-relaxed mb-4">
               When you interact with our Services, we may automatically collect
@@ -107,8 +110,27 @@ export default function PrivacyPage() {
               </li>
               <li>
                 <strong>Message Activity:</strong> We log that a message was
-                sent to calculate XP. We do not store the content of user
-                messages.
+                sent to calculate XP. We do not store the content of regular
+                chat messages.
+              </li>
+              <li>
+                <strong>Ticket Transcripts:</strong> When a support ticket is
+                closed, the conversation transcript may be stored for a limited
+                period (7 days for free users, extended for Pro Engine users).
+                Transcripts contain the message content exchanged within the
+                ticket channel.
+              </li>
+              <li>
+                <strong>AI Conversations:</strong> If you use AI-powered
+                features (such as AI chat or avatar generation), your prompts
+                and the bot&apos;s responses may be temporarily stored to
+                maintain conversation context. AI conversation history is
+                automatically deleted after a configurable retention period.
+              </li>
+              <li>
+                <strong>Giveaway Data:</strong> Entry records, winner
+                selections, and giveaway configurations are stored for the
+                duration of the giveaway and a reasonable period afterward.
               </li>
               <li>
                 <strong>Bot Command Usage and Configuration Settings:</strong>{" "}
@@ -116,15 +138,9 @@ export default function PrivacyPage() {
               </li>
               <li>
                 <strong>Error Logs and Performance Data:</strong> To monitor the
-                bot's health and troubleshoot issues.
+                bot&apos;s health and troubleshoot issues.
               </li>
             </ul>
-
-            <p className="text-gray-300 leading-relaxed mb-6">
-              This information does not typically reveal your specific
-              real-world identity but is essential for the bot's operational
-              functionality.
-            </p>
 
             <h3 className="text-xl font-semibold text-white mb-3">
               Information Provided by Discord
@@ -136,19 +152,52 @@ export default function PrivacyPage() {
               avatar.
             </p>
 
+            <h3 className="text-xl font-semibold text-white mb-3">
+              Website Data (rolereactor.app)
+            </h3>
+            <p className="text-gray-300 leading-relaxed mb-4">
+              When you use our web dashboard at rolereactor.app, we collect
+              additional information necessary for the website to function:
+            </p>
+
+            <ul className="list-disc pl-6 text-gray-300 mb-6 space-y-2">
+              <li>
+                <strong>OAuth2 Authentication:</strong> When you log in via
+                Discord, we use OAuth2 to authenticate your identity. We receive
+                your Discord user ID, username, avatar, and a list of servers
+                you manage. Access tokens are encrypted and stored securely.
+              </li>
+              <li>
+                <strong>Session Cookies:</strong> We use essential session
+                cookies to keep you logged in and maintain your dashboard
+                session. These cookies are strictly necessary for the website to
+                function and are not used for tracking or advertising.
+              </li>
+              <li>
+                <strong>Core Credit Balance and Transaction History:</strong>{" "}
+                Your Core Credit balance, purchase history, and Pro Engine
+                activation records are stored in our database.
+              </li>
+            </ul>
+
             <h2 className="text-2xl font-semibold text-white mb-4">
               How We Use Your Information
             </h2>
 
             <p className="text-gray-300 leading-relaxed mb-4">
-              We use the information collected via our bot for various purposes:
+              We use the information collected via our Services for the
+              following purposes:
             </p>
 
             <ul className="list-disc pl-6 text-gray-300 mb-4 space-y-2">
               <li>To provide, operate, and maintain our Services.</li>
               <li>
                 To provide in-service features like leaderboards, experience
-                systems, and role management.
+                systems, tickets, giveaways, and role management.
+              </li>
+              <li>
+                To process purchases of Core Credits and manage Pro Engine
+                activations.
               </li>
               <li>
                 To customize and personalize the experience in the Services.
@@ -160,7 +209,10 @@ export default function PrivacyPage() {
                 To analyze and understand how you use our Services, and to
                 develop new products, services, features, and functionality.
               </li>
-              <li>To recognize and reward supporters and donors.</li>
+              <li>
+                To detect and prevent fraud, abuse, or unauthorized use of our
+                Services.
+              </li>
             </ul>
 
             <h2 className="text-2xl font-semibold text-white mb-4">
@@ -177,11 +229,11 @@ export default function PrivacyPage() {
             <p className="text-gray-300 leading-relaxed mb-4">
               We may provide your information to third-party companies that
               perform services for us or on our behalf. These services include
-              payment processing, data hosting and storage (MongoDB Atlas), and
-              issue tracking for support (GitHub). These service providers have
-              access to your information only to perform these tasks on our
-              behalf and are obligated not to disclose or use it for any other
-              purpose.
+              payment processing (Plisio), data hosting and storage (MongoDB
+              Atlas), AI model providers (OpenRouter, Stability AI), and issue
+              tracking for support (GitHub). These service providers have access
+              to your information only to perform these tasks on our behalf and
+              are obligated not to disclose or use it for any other purpose.
             </p>
 
             <h3 className="text-xl font-semibold text-white mb-3">
@@ -206,14 +258,33 @@ export default function PrivacyPage() {
             <h2 className="text-2xl font-semibold text-white mb-4">
               Data Retention
             </h2>
-            <p className="text-gray-300 leading-relaxed mb-6">
+            <p className="text-gray-300 leading-relaxed mb-4">
               We will retain your personal information only for as long as is
               necessary for the purposes set out in this privacy policy. We will
               retain and use your information to the extent necessary to comply
               with our legal obligations, resolve disputes, and enforce our
-              policies. When you remove our bot from your Discord server,
-              associated server-specific configuration data is deleted.
+              policies.
             </p>
+
+            <ul className="list-disc pl-6 text-gray-300 mb-6 space-y-2">
+              <li>
+                <strong>Server Configuration:</strong> When you remove our bot
+                from your Discord server, associated server-specific
+                configuration data is deleted.
+              </li>
+              <li>
+                <strong>Ticket Transcripts:</strong> Stored for 7 days (free
+                tier) or as configured (Pro Engine), then automatically deleted.
+              </li>
+              <li>
+                <strong>AI Conversations:</strong> Temporarily stored and
+                automatically purged after the configured retention period.
+              </li>
+              <li>
+                <strong>Core Credit Records:</strong> Transaction and balance
+                records are retained for as long as your account exists.
+              </li>
+            </ul>
 
             <h2 className="text-2xl font-semibold text-white mb-4">
               Our Policies Concerning Children
@@ -309,9 +380,9 @@ export default function PrivacyPage() {
             </h2>
             <p className="text-gray-300 leading-relaxed">
               We may update this privacy policy from time to time. When we do,
-              we will update the "Last Updated" date at the top of this page.
-              For significant changes, we will notify users through our Discord
-              server or website.
+              we will update the &quot;Last Updated&quot; date at the top of
+              this page. For significant changes, we will notify users through
+              our Discord server or website.
             </p>
           </div>
         </div>

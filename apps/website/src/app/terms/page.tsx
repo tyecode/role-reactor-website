@@ -15,7 +15,7 @@ export default function TermsPage() {
             ← Back to Home
           </Link>
           <h1 className="text-4xl font-bold text-white mb-2">Terms of Use</h1>
-          <p className="text-gray-400">Last Updated: September 7, 2025</p>
+          <p className="text-gray-400">Last Updated: April 4, 2026</p>
         </div>
 
         {/* Content */}
@@ -40,20 +40,24 @@ export default function TermsPage() {
             </p>
 
             <p className="text-gray-300 leading-relaxed mb-4">
-              When we say "The Company", "Role Reactor", "Ourselves", "We", "Us"
-              and "Our", this refers to our service, Role Reactor. When we say
-              "Services" in these terms, we mean Role Reactor's Discord bot,
-              website, and other products. "Party", "Parties" or "Us" refers to
-              both the End User and ourselves, or either the End User or
-              ourselves. When we say "You" or "Your", we mean you.
+              When we say &quot;The Company&quot;, &quot;Role Reactor&quot;,
+              &quot;Ourselves&quot;, &quot;We&quot;, &quot;Us&quot; and
+              &quot;Our&quot;, this refers to our service, Role Reactor. When we
+              say &quot;Services&quot; in these terms, we mean Role
+              Reactor&apos;s Discord bot, website (rolereactor.app), dashboard,
+              and other products. &quot;Party&quot;, &quot;Parties&quot; or
+              &quot;Us&quot; refers to both the End User and ourselves, or
+              either the End User or ourselves. When we say &quot;You&quot; or
+              &quot;Your&quot;, we mean you.
             </p>
 
             <p className="text-gray-300 leading-relaxed mb-6">
-              If you're accessing our services on behalf of a legal entity, you
-              agree that you have the authority to bind that entity to these
-              terms, and "you" and "your" will refer to that entity. When we say
-              "Discord" or "Discord server", we are referring to our online
-              community provided by Discord, Inc.
+              If you&apos;re accessing our services on behalf of a legal entity,
+              you agree that you have the authority to bind that entity to these
+              terms, and &quot;you&quot; and &quot;your&quot; will refer to that
+              entity. When we say &quot;Discord&quot; or &quot;Discord
+              server&quot;, we are referring to our online community provided by
+              Discord, Inc.
             </p>
 
             <h2 className="text-2xl font-semibold text-white mb-4">
@@ -81,8 +85,8 @@ export default function TermsPage() {
             </h2>
 
             <p className="text-gray-300 leading-relaxed mb-4">
-              By accessing our services, you confirm that you're at least 13
-              years old and meet the minimum age of digital consent in your
+              By accessing our services, you confirm that you&apos;re at least
+              13 years old and meet the minimum age of digital consent in your
               country. If you are old enough to access our services in your
               country but not old enough to have authority to consent to our
               terms, your parent or responsible guardian must agree to our terms
@@ -91,9 +95,10 @@ export default function TermsPage() {
 
             <p className="text-gray-300 leading-relaxed mb-6">
               Please ask your parent or guardian to read these terms with you.
-              If you're a parent or legal guardian, and you allow your teenager
-              to use our services, then these terms also apply to you and you
-              are responsible for your teenager's activity on our services.
+              If you&apos;re a parent or legal guardian, and you allow your
+              teenager to use our services, then these terms also apply to you
+              and you are responsible for your teenager&apos;s activity on our
+              services.
             </p>
 
             <h2 className="text-2xl font-semibold text-white mb-4">
@@ -101,10 +106,11 @@ export default function TermsPage() {
             </h2>
 
             <p className="text-gray-300 leading-relaxed mb-4">
-              Role Reactor is a free, open-source Discord bot that provides role
-              management and gamification features. Our core service is provided
-              free of charge, with optional supporting opportunities available
-              to support development and server costs.
+              Role Reactor is an open-source Discord bot platform that provides
+              community management and automation features. Our core service is
+              provided free of charge, with optional paid upgrades (Core Credits
+              and Pro Engine) available for users who need higher limits and
+              advanced features.
             </p>
 
             <p className="text-gray-300 leading-relaxed mb-4">
@@ -115,12 +121,16 @@ export default function TermsPage() {
               <li>Self-assignable roles with reaction-based assignment</li>
               <li>Temporary role assignments with automatic expiration</li>
               <li>Scheduled role assignments at specific times or intervals</li>
-              <li>Experience points and leveling system</li>
-              <li>Leaderboards and user statistics</li>
-              <li>Welcome system for new members</li>
+              <li>Experience points, leveling system, and leaderboards</li>
+              <li>Welcome and goodbye messages for new and departing members</li>
+              <li>Ticket support system with transcript storage</li>
+              <li>Giveaway hosting with configurable entry limits</li>
+              <li>Moderation tools (timeout, ban, kick, bulk actions)</li>
+              <li>Dynamic voice channel control</li>
+              <li>AI-powered tools (avatars, chat, image generation)</li>
+              <li>Server analytics dashboard</li>
+              <li>Web dashboard for server configuration</li>
               <li>Administrative tools for server management</li>
-              <li>Interactive 8-ball question answering</li>
-              <li>Optional support features</li>
             </ul>
 
             <h2 className="text-2xl font-semibold text-white mb-4">
@@ -131,9 +141,10 @@ export default function TermsPage() {
               Your Content
             </h3>
             <p className="text-gray-300 leading-relaxed mb-4">
-              When we say "Your Content" in these terms, we mean all the things
-              you add (upload and post) to our services. This may include text,
-              links, emoji, photos, videos, documents or other media.
+              When we say &quot;Your Content&quot; in these terms, we mean all
+              the things you add (upload and post) to our services. This may
+              include text, links, emoji, photos, videos, documents or other
+              media.
             </p>
 
             <p className="text-gray-300 leading-relaxed mb-6">
@@ -154,27 +165,66 @@ export default function TermsPage() {
             </p>
 
             <h2 className="text-2xl font-semibold text-white mb-4">
-              Donations and Sponsorship
+              Purchases and Payments
             </h2>
 
             <h3 className="text-xl font-semibold text-white mb-3">
-              Optional Donations
+              Core Credits
             </h3>
             <p className="text-gray-300 leading-relaxed mb-4">
-              Role Reactor is provided free of charge. We offer optional support
-              opportunities through third-party platforms to help cover server
-              costs and support development. All contributions are processed
-              through third-party payment processors and are subject to their
-              terms and conditions.
+              Role Reactor offers digital credit packages called &quot;Core
+              Credits&quot; (also referred to as &quot;Cores&quot;) available
+              for purchase at various price points. Core Credits are used to
+              activate the Pro Engine and access premium features within your
+              Discord server. Purchases are processed through third-party
+              payment processors (currently cryptocurrency via Plisio) and are
+              subject to their respective terms and conditions.
             </p>
 
             <h3 className="text-xl font-semibold text-white mb-3">
-              Sponsor Benefits
+              Pro Engine
+            </h3>
+            <p className="text-gray-300 leading-relaxed mb-4">
+              The Pro Engine is a premium upgrade that provides increased usage
+              limits and access to advanced features for a specific Discord
+              server. Pro Engine activations are tied to the server they are
+              activated on and cannot be transferred between servers. Each
+              activation has a duration period, after which it must be renewed
+              using additional Core Credits.
+            </p>
+
+            <h3 className="text-xl font-semibold text-white mb-3">
+              Refund Policy
+            </h3>
+            <p className="text-gray-300 leading-relaxed mb-4">
+              Core Credits are non-refundable digital assets. Once purchased,
+              Core Credits cannot be exchanged for cash or transferred to
+              another user. Pro Engine activations, once applied to a server,
+              cannot be reversed or refunded. If you experience a technical
+              issue with your purchase, please contact us for assistance.
+            </p>
+
+            <h3 className="text-xl font-semibold text-white mb-3">
+              Free Credits
             </h3>
             <p className="text-gray-300 leading-relaxed mb-6">
-              Sponsors may receive benefits such as special recognition roles in
-              our Discord community and priority support. All donations are
-              final and non-refundable.
+              Users may earn a limited number of Core Credits through free
+              methods such as voting on bot listing platforms (e.g., top.gg).
+              We reserve the right to modify, limit, or discontinue free credit
+              programs at any time without notice.
+            </p>
+
+            <h2 className="text-2xl font-semibold text-white mb-4">
+              Voluntary Donations
+            </h2>
+            <p className="text-gray-300 leading-relaxed mb-6">
+              In addition to Core Credit purchases, we accept voluntary
+              donations through third-party platforms (e.g., Buy Me a Coffee)
+              to support the ongoing development and hosting costs of Role
+              Reactor. Donations are entirely optional, do not grant any
+              premium features, and are non-refundable. Donations are processed
+              through their respective third-party platforms and are subject to
+              those platforms&apos; terms and conditions.
             </p>
 
             <h2 className="text-2xl font-semibold text-white mb-4">
@@ -183,8 +233,10 @@ export default function TermsPage() {
 
             <p className="text-gray-300 leading-relaxed mb-6">
               You agree to use our Services only for lawful purposes and not to
-              engage in any conduct that restricts or inhibits anyone's use or
-              enjoyment of the Services.
+              engage in any conduct that restricts or inhibits anyone&apos;s use
+              or enjoyment of the Services. You agree not to exploit, abuse, or
+              manipulate the Core Credit economy through automated means, fake
+              accounts, or any other fraudulent activity.
             </p>
 
             <h2 className="text-2xl font-semibold text-white mb-4">
@@ -192,9 +244,9 @@ export default function TermsPage() {
             </h2>
 
             <p className="text-gray-300 leading-relaxed mb-4">
-              Our services are provided on an "AS IS" basis. To the full extent
-              permissible by law, we disclaim any and all warranties and
-              representations. We do not warrant the non-infringement of any
+              Our services are provided on an &quot;AS IS&quot; basis. To the
+              full extent permissible by law, we disclaim any and all warranties
+              and representations. We do not warrant the non-infringement of any
               intellectual property right.
             </p>
 
@@ -214,7 +266,8 @@ export default function TermsPage() {
             <p className="text-gray-300 leading-relaxed mb-4">
               You are free to stop using our services at any time. Removing the
               bot from your Discord server will delete your server-specific data
-              from our service.
+              from our service. Unused Core Credits will remain in your account
+              unless you request their deletion.
             </p>
 
             <h3 className="text-xl font-semibold text-white mb-3">
@@ -223,7 +276,9 @@ export default function TermsPage() {
             <p className="text-gray-300 leading-relaxed mb-6">
               We reserve the right to suspend or terminate your access to our
               services with or without notice if you breach these terms or if we
-              are required to do so to comply with a legal requirement.
+              are required to do so to comply with a legal requirement. In the
+              event of termination for Terms of Service violations, unused Core
+              Credits may be forfeited.
             </p>
 
             <h2 className="text-2xl font-semibold text-white mb-4">
@@ -291,7 +346,7 @@ export default function TermsPage() {
 
             <h2 className="text-2xl font-semibold text-white mb-4">Changes</h2>
             <p className="text-gray-300 leading-relaxed">
-              We may change these Terms from time to time. If we do, we'll
+              We may change these Terms from time to time. If we do, we&apos;ll
               provide notice of any changes. Your continued use of the Services
               following any notice will confirm that you have agreed to the
               amended Terms.
