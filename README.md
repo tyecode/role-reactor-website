@@ -86,7 +86,6 @@ DISCORD_CLIENT_ID=your-client-id
 DISCORD_CLIENT_SECRET=your-client-secret
 
 # Database & API
-DATABASE_URL=your-database-url
 BOT_API_URL=http://localhost:8080
 ```
 

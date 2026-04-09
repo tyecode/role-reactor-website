@@ -343,24 +343,20 @@ These checks ensure code quality and consistency across the project.
 
 ### Environment Variables
 
-Create a `.env.local` file for local development or configure in your deployment platform:
+The website requires several environment variables for authentication and API communication. 
 
-```env
-# Site Configuration (Optional - has default fallback)
-# Used for metadata base URL and sitemap generation
-NEXT_PUBLIC_BASE_URL=https://rolereactor.app
+Create a `.env.local` file by copying the provided example:
 
-# Optional: Google Site Verification
-# Used for Google Search Console verification
-GOOGLE_SITE_VERIFICATION=your_verification_code
+```bash
+cp .env.example .env.local
 ```
 
-> **Note**: All environment variables are optional. The application will work with default values if variables are not provided:
->
-> - `NEXT_PUBLIC_BASE_URL` defaults to `https://rolereactor.app` if not set
-> - `GOOGLE_SITE_VERIFICATION` is only needed for Google Search Console verification
->
-> **Note**: The application uses mock data for sponsor/donation features. Real API integrations can be added in the future by implementing the appropriate API routes.
+Inside `.env.local`, you will need to configure:
+1. **Discord OAuth** (`DISCORD_CLIENT_ID`, `DISCORD_CLIENT_SECRET`)
+2. **NextAuth** (`AUTH_SECRET`)
+3. **Bot API** (`BOT_API_URL`, `INTERNAL_API_KEY`)
+
+> **Note**: For a full list of required and optional variables, read the comments inside the `.env.example` file.
 
 ### Build & Deploy
 
