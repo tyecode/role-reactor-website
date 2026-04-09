@@ -195,10 +195,10 @@ export const XPSettingsTab = forwardRef<
     value: number
   ) => {
     if (!localSettings) return;
-    const parentObj = localSettings[parent] as Record<string, unknown>;
+    const parentObj = localSettings[parent] as XPAmount | undefined;
     setLocalSettings({
       ...localSettings,
-      [parent]: { ...parentObj, [key]: value },
+      [parent]: { ...(parentObj || { base: 0, min: 0, max: 0 }), [key]: value },
     });
   };
 
@@ -529,12 +529,12 @@ export const XPSettingsTab = forwardRef<
                       value={
                         item.parent
                           ? ((
-                              (localSettings as Record<string, unknown>)[
-                                item.id
-                              ] as Record<string, unknown>
+                              localSettings[
+                                item.id as keyof XPSettings
+                              ] as XPAmount
                             )?.base ?? 0)
-                          : (((localSettings as Record<string, unknown>)[
-                              item.id
+                          : ((localSettings[
+                              item.id as keyof XPSettings
                             ] as number) ?? 0)
                       }
                       onChange={(e) => {
