@@ -166,9 +166,11 @@ export const WelcomeSettingsTab = forwardRef<
       } else {
         throw new Error(data.message || "Failed to save settings");
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Error saving welcome settings:", err);
-      toast.error(err.message || "Failed to save settings");
+      const message =
+        err instanceof Error ? err.message : "Failed to save settings";
+      toast.error(message);
       throw err;
     } finally {
       setSaving(false);

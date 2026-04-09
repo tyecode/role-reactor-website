@@ -27,12 +27,12 @@ const DEFAULT_GROWTH_DATA = [
   { label: "Day 7", joins: 0, leaves: 0 },
 ];
 
+import { GuildStats, GuildSettings } from "@/types/discord";
+
 interface GuildOverviewProps {
   guildId: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  settings: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  guildStats: any;
+  settings: GuildSettings;
+  guildStats: GuildStats;
   isPremium: boolean;
 }
 
@@ -44,7 +44,7 @@ const GuildGrowthChart = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="h-[300px] w-full bg-cyan-500/5 animate-pulse rounded-xl border border-cyan-500/10" />
+      <div className="h-75 w-full bg-cyan-500/5 animate-pulse rounded-xl border border-cyan-500/10" />
     ),
   }
 );
@@ -214,7 +214,7 @@ export function GuildOverviewView({
                 <Users className="w-3 h-3 text-cyan-400" /> Recent Arrivals
               </h3>
 
-              <div className="space-y-2 pb-2 flex-1 overflow-y-auto pr-1 custom-scrollbar max-h-[300px] xl:max-h-none">
+              <div className="space-y-2 pb-2 flex-1 overflow-y-auto pr-1 custom-scrollbar max-h-75 xl:max-h-none">
                 {guildStats?.recentMembers?.length > 0 ? (
                   guildStats.recentMembers.map(
                     (member: {
@@ -451,7 +451,7 @@ export function GuildOverviewView({
               </div>
             </div>
 
-            <div className="h-[300px] w-full">
+            <div className="h-75 w-full">
               <GuildGrowthChart data={growthData} />
             </div>
           </CardContent>

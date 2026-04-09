@@ -48,6 +48,7 @@ import { toast } from "sonner";
 import { useCustomCommandsStore } from "@/store/use-custom-commands-store";
 import { useGuildStore } from "@/store/use-guild-store";
 import { CommandPreview } from "./command-preview";
+import { DiscordRole, DiscordChannel } from "@/types/discord";
 import type {
   CustomCommand,
   CustomCommandType,
@@ -440,7 +441,7 @@ export function CommandForm({
   };
 
   const textChannels = channels.filter(
-    (c: any) => c.type === 0 || c.type === 5
+    (c: DiscordChannel) => c.type === 0 || c.type === 5
   );
 
   return (
@@ -860,13 +861,14 @@ export function CommandForm({
                     <SelectContent className="bg-zinc-900 border-zinc-700 max-h-60">
                       {roles
                         .filter(
-                          (r: any) => !r.managed && r.name !== "@everyone"
+                          (r: DiscordRole) =>
+                            !r.managed && r.name !== "@everyone"
                         )
                         .sort(
-                          (a: any, b: any) =>
+                          (a: DiscordRole, b: DiscordRole) =>
                             (b.position ?? 0) - (a.position ?? 0)
                         )
-                        .map((role: any) => (
+                        .map((role: DiscordRole) => (
                           <SelectItem
                             key={role.id}
                             value={role.id}
@@ -1109,7 +1111,7 @@ export function CommandForm({
                     {textChannels.length === 0 ? (
                       <p className="text-zinc-500 text-xs">No channels found</p>
                     ) : (
-                      textChannels.map((channel: any) => (
+                      textChannels.map((channel: DiscordChannel) => (
                         <label
                           key={channel.id}
                           className="flex items-center gap-2 text-xs cursor-pointer hover:bg-zinc-700/30 p-1 rounded"
@@ -1140,19 +1142,20 @@ export function CommandForm({
                   </p>
                   <div className="max-h-32 overflow-y-auto border border-zinc-700/50 rounded-md bg-zinc-800/30 p-2 space-y-1">
                     {roles.filter(
-                      (r: any) => !r.managed && r.name !== "@everyone"
+                      (r: DiscordRole) => !r.managed && r.name !== "@everyone"
                     ).length === 0 ? (
                       <p className="text-zinc-500 text-xs">No roles found</p>
                     ) : (
                       roles
                         .filter(
-                          (r: any) => !r.managed && r.name !== "@everyone"
+                          (r: DiscordRole) =>
+                            !r.managed && r.name !== "@everyone"
                         )
                         .sort(
-                          (a: any, b: any) =>
+                          (a: DiscordRole, b: DiscordRole) =>
                             (b.position ?? 0) - (a.position ?? 0)
                         )
-                        .map((role: any) => (
+                        .map((role: DiscordRole) => (
                           <label
                             key={role.id}
                             className="flex items-center gap-2 text-xs cursor-pointer hover:bg-zinc-700/30 p-1 rounded"

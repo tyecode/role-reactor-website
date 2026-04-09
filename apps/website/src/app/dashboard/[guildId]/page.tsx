@@ -4,11 +4,11 @@ import { BotInviteCard } from "@/app/dashboard/_components/bot-invite-card";
 import { GuildOverviewView } from "@/app/dashboard/[guildId]/_components/guild-overview-view";
 import { notFound } from "next/navigation";
 
+import { GuildSettings, GuildStats } from "@/types/discord";
+
 interface GuildResponse {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  settings: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  guildStats: any;
+  settings: GuildSettings;
+  guildStats: GuildStats;
   isPremium: boolean;
 }
 

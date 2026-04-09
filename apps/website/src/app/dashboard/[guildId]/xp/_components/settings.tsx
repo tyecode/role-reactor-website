@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect, forwardRef, useImperativeHandle } from "react";
 import { Audiowide } from "next/font/google";
 import {
@@ -47,22 +46,29 @@ const audiowide = Audiowide({
   display: "swap",
 });
 
+interface XPAmount {
+  base: number;
+  min: number;
+  max: number;
+  multiplier?: number;
+}
+
 interface XPSettings {
   enabled: boolean;
   messageXP: boolean;
   commandXP: boolean;
   roleXP: boolean;
   voiceXP: boolean;
-  messageXPAmount?: any;
+  messageXPAmount?: XPAmount;
   roleXPAmount?: number;
-  commandXPAmount?: any;
-  voiceXPAmount?: any;
+  commandXPAmount?: XPAmount;
+  voiceXPAmount?: XPAmount;
   messageCooldown?: number;
   commandCooldown?: number;
   levelUpMessages: boolean;
   levelUpChannel?: string | null;
   publicLeaderboard?: boolean;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 interface SettingsTabProps {
@@ -76,10 +82,10 @@ const DEFAULT_XP_SETTINGS: XPSettings = {
   commandXP: true,
   roleXP: true,
   voiceXP: true,
-  messageXPAmount: { min: 15, max: 25 },
+  messageXPAmount: { base: 20, min: 15, max: 25 },
   roleXPAmount: 10,
-  commandXPAmount: { base: 50 },
-  voiceXPAmount: { base: 30 },
+  commandXPAmount: { base: 50, min: 40, max: 60 },
+  voiceXPAmount: { base: 30, min: 25, max: 35 },
   messageCooldown: 60,
   commandCooldown: 60,
   levelUpMessages: true,
@@ -157,9 +163,11 @@ export const XPSettingsTab = forwardRef<
       } else {
         throw new Error(data.message || "Failed to save settings");
       }
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Error saving XP settings:", err);
-      toast.error(err.message || "Failed to save settings");
+      const message =
+        err instanceof Error ? err.message : "Failed to save settings";
+      toast.error(message);
       throw err; // Re-throw so caller knows save failed
     } finally {
       setSaving(false);
@@ -432,7 +440,7 @@ export const XPSettingsTab = forwardRef<
                         type="number"
                         variant="cyber"
                         className={cn("text-cyan-400", audiowide.className)}
-                        value={localSettings.messageXPAmount.min}
+                        value={localSettings.messageXPAmount?.min || 15}
                         onChange={(e) =>
                           updateNestedLocalSetting(
                             "messageXPAmount",
@@ -459,7 +467,7 @@ export const XPSettingsTab = forwardRef<
                         type="number"
                         variant="cyber"
                         className={cn("text-cyan-400", audiowide.className)}
-                        value={localSettings.messageXPAmount.max}
+                        value={localSettings.messageXPAmount?.max || 25}
                         onChange={(e) =>
                           updateNestedLocalSetting(
                             "messageXPAmount",

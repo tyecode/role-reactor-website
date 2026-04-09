@@ -12,6 +12,7 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
+  TooltipProps,
   ResponsiveContainer,
   BarChart,
   Bar,
@@ -23,14 +24,28 @@ const audiowide = Audiowide({
   display: "swap",
 });
 
+interface ChartData {
+  date: string;
+  label: string;
+  joins: number;
+  leaves: number;
+  members: number;
+}
+
+interface TooltipData {
+  dataKey: string;
+  color: string;
+  value: number;
+}
+
+interface CustomTooltipProps {
+  active?: boolean;
+  payload?: TooltipData[];
+  label?: string;
+}
+
 interface GrowthChartProps {
-  history: Array<{
-    date: string;
-    label: string;
-    joins: number;
-    leaves: number;
-    members: number;
-  }>;
+  history: ChartData[];
   days: number;
 }
 
@@ -42,8 +57,7 @@ export function GrowthChart({ history, days }: GrowthChartProps) {
 
   const hasData = history.some((d) => d.joins > 0 || d.leaves > 0);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
     if (active && payload && payload.length) {
       return (
         <div className="bg-zinc-900/95 border border-white/10 rounded-lg p-3 shadow-xl backdrop-blur-xl">
@@ -55,31 +69,28 @@ export function GrowthChart({ history, days }: GrowthChartProps) {
           >
             {label}
           </p>
-          {payload.map(
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            (entry: any) => (
-              <div
-                key={entry.dataKey}
-                className="flex items-center justify-between gap-4 text-xs"
+          {payload.map((entry: TooltipData) => (
+            <div
+              key={entry.dataKey}
+              className="flex items-center justify-between gap-4 text-xs"
+            >
+              <span className="flex items-center gap-1.5">
+                <div
+                  className="w-2 h-2 rounded-full"
+                  style={{ backgroundColor: entry.color }}
+                />
+                <span className="text-zinc-300 capitalize font-semibold">
+                  {entry.dataKey}
+                </span>
+              </span>
+              <span
+                className="font-black tabular-nums"
+                style={{ color: entry.color }}
               >
-                <span className="flex items-center gap-1.5">
-                  <div
-                    className="w-2 h-2 rounded-full"
-                    style={{ backgroundColor: entry.color }}
-                  />
-                  <span className="text-zinc-300 capitalize font-semibold">
-                    {entry.dataKey}
-                  </span>
-                </span>
-                <span
-                  className="font-black tabular-nums"
-                  style={{ color: entry.color }}
-                >
-                  {entry.value}
-                </span>
-              </div>
-            )
-          )}
+                {entry.value}
+              </span>
+            </div>
+          ))}
         </div>
       );
     }

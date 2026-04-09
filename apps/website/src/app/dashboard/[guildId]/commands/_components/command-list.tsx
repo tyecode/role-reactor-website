@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { PremiumGuard } from "../../../_components/premium-guard";
+import { DiscordCommand } from "@/types/discord";
 
 import { useState, useEffect } from "react";
 import { ErrorView } from "@/components/common/error-view";
@@ -140,9 +140,11 @@ export function CommandList({ guildId }: CommandListProps) {
       }
 
       await fetchSettings(guildId, true); // Revalidate
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Failed to update settings:", err);
-      toast.error(err.message || "Failed to update command status");
+      const message =
+        err instanceof Error ? err.message : "Failed to update command status";
+      toast.error(message);
       await fetchSettings(guildId, true); // Revert on error
     }
   };
@@ -166,9 +168,13 @@ export function CommandList({ guildId }: CommandListProps) {
 
       toast.success("✨ Pro Engine unlocked!");
       await fetchSettings(guildId, true); // Refresh status
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Failed to activate premium:", err);
-      toast.error(err.message || "Insufficient Cores or activation error");
+      const message =
+        err instanceof Error
+          ? err.message
+          : "Insufficient Cores or activation error";
+      toast.error(message);
     } finally {
       setIsActivating(false);
     }
@@ -190,20 +196,20 @@ export function CommandList({ guildId }: CommandListProps) {
   const isPremium = data?.isPremium?.pro;
 
   const filteredCommands = commands.filter(
-    (cmd: any) =>
+    (cmd: DiscordCommand) =>
       cmd.name.toLowerCase().includes(search.toLowerCase()) ||
       cmd.description.toLowerCase().includes(search.toLowerCase()) ||
       cmd.category?.toLowerCase().includes(search.toLowerCase())
   );
 
   const groupedCommands = filteredCommands.reduce(
-    (acc: any, cmd: any) => {
+    (acc: Record<string, DiscordCommand[]>, cmd: DiscordCommand) => {
       const cat = cmd.category || "General";
       if (!acc[cat]) acc[cat] = [];
       acc[cat].push(cmd);
       return acc;
     },
-    {} as Record<string, any[]>
+    {} as Record<string, DiscordCommand[]>
   );
 
   const sortedCategories = Object.keys(groupedCommands).sort();
@@ -323,7 +329,7 @@ export function CommandList({ guildId }: CommandListProps) {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                      {groupedCommands[category].map((cmd: any) => {
+                      {groupedCommands[category].map((cmd: DiscordCommand) => {
                         const Icon = iconMap[cmd.name] || Terminal;
                         const isDisabled = disabledCommands.includes(cmd.name);
 
@@ -440,7 +446,9 @@ export function CommandList({ guildId }: CommandListProps) {
   );
 }
 
-function Shield(props: any) {
+interface ShieldProps extends React.SVGProps<SVGSVGElement> {}
+
+function Shield(props: ShieldProps) {
   return (
     <svg
       {...props}
