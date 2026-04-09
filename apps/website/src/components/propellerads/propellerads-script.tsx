@@ -8,24 +8,12 @@ export function PropellerAdsScript() {
   if (!zoneId) return null;
 
   return (
-    <>
-      <Script
-        id="propellerads-init"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
-            (function(d,z){
-              var s=d.createElement("script");
-              s.src=z+"/js/inpage-push/16.js";
-              s.async=true;
-              s.onload=function(){
-                (window.PA===undefined?setTimeout(function(){InPagePush({"zone":${zoneId}})},2000):InPagePush({"zone":${zoneId}}));
-              };
-              document.body.appendChild(s);
-            })(document,"https://5gvci.com");
-          `,
-        }}
-      />
-    </>
+    <Script
+      id="propellerads-init"
+      strategy="afterInteractive"
+      dangerouslySetInnerHTML={{
+        __html: `(function(s){s.dataset.zone='${zoneId}',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')));`,
+      }}
+    />
   );
 }
