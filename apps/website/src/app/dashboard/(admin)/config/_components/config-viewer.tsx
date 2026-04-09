@@ -23,7 +23,7 @@ import { cn } from "@/lib/utils";
 
 import { BotConfig, BotConfigSchema } from "@/types/settings";
 
-const renderValue = (value: unknown) => {
+const renderValue = (value: unknown): React.ReactNode => {
   if (value === null || value === undefined)
     return <span className="text-zinc-600">null</span>;
   if (typeof value === "boolean") {
@@ -144,7 +144,7 @@ export function ConfigViewer() {
     );
   }
 
-  const { config } = data;
+  const { config } = data ?? {};
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -156,7 +156,7 @@ export function ConfigViewer() {
                 Environment
               </p>
               <p className="text-lg font-bold text-white uppercase">
-                {data.environment}
+                {data?.environment}
               </p>
             </div>
             <Server className="size-8 text-zinc-700" />
@@ -187,7 +187,7 @@ export function ConfigViewer() {
                 Bot Name
               </p>
               <p className="text-lg font-bold text-white truncate max-w-[150px]">
-                {config.botInfo?.name}
+                {config?.botInfo?.name ?? "Role Reactor"}
               </p>
             </div>
             <Terminal className="size-8 text-zinc-700" />
@@ -230,21 +230,21 @@ export function ConfigViewer() {
 
         <TabsContent value="system" className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {config.discord && (
+            {config?.discord && (
               <ConfigSection
                 title="Discord Configuration"
                 icon={Terminal}
                 data={config.discord as Record<string, unknown>}
               />
             )}
-            {config.database && (
+            {config?.database && (
               <ConfigSection
                 title="Database Settings"
                 icon={Database}
                 data={config.database as Record<string, unknown>}
               />
             )}
-            {config.logging && (
+            {config?.logging && (
               <ConfigSection
                 title="Logging Configuration"
                 icon={Activity}
@@ -256,14 +256,14 @@ export function ConfigViewer() {
 
         <TabsContent value="features" className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {config.features && (
+            {config?.features && (
               <ConfigSection
                 title="Feature Flags"
                 icon={Zap}
                 data={config.features as Record<string, unknown>}
               />
             )}
-            {config.aiSettings && (
+            {config?.aiSettings && (
               <ConfigSection
                 title="AI Settings"
                 icon={Cpu}
@@ -275,14 +275,14 @@ export function ConfigViewer() {
 
         <TabsContent value="limits" className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {(config.rateLimits as any)?.rest && (
+            {(config?.rateLimits as any)?.rest && (
               <ConfigSection
                 title="REST Rate Limits"
                 icon={Shield}
-                data={(config.rateLimits as any).rest}
+                data={(config?.rateLimits as any)?.rest}
               />
             )}
-            {config.cacheLimits && (
+            {config?.cacheLimits && (
               <ConfigSection
                 title="Cache Limits"
                 icon={Database}
@@ -294,7 +294,7 @@ export function ConfigViewer() {
 
         <TabsContent value="payments" className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {config.payments && (
+            {config?.payments && (
               <>
                 <ConfigSection
                   title="Plisio (Crypto)"

@@ -58,7 +58,7 @@ export function ViewTransactionsDialog({
       if (result.success) {
         setTransactions(result.transactions || []);
       } else {
-        setError(result.error);
+        setError(result.error ?? "Unknown error");
       }
     } catch (err) {
       setError("Failed to load transactions.");

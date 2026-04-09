@@ -172,30 +172,32 @@ export default function ProEnginePage() {
 
       <div className="space-y-4 pb-8 relative">
         {/* Status Alerts */}
-        {isPremium ? (
-          <ProEngineActiveAlert
-            isCancelled={isCancelled}
-            expiresAt={premiumStatus.subscription.expiresAt}
-          />
+        {isPremium && premiumStatus?.subscription ? (
+          <>
+            <ProEngineActiveAlert
+              isCancelled={isCancelled}
+              expiresAt={premiumStatus.subscription.expiresAt ?? undefined}
+            />
+            {isCancelled && premiumStatus.subscription.expiresAt && (
+              <ProEngineCancelledAlert
+                expiresAt={premiumStatus.subscription.expiresAt}
+                cost={premiumStatus.subscription.cost ?? undefined}
+                period={premiumStatus.subscription.period ?? undefined}
+                newCost={premiumStatus?.premiumConfig?.PRO?.cost}
+                newPeriod={premiumStatus?.premiumConfig?.PRO?.period}
+                progress={
+                  calculateSubscriptionProgress(
+                    premiumStatus.subscription.expiresAt,
+                    premiumStatus.subscription.lastDeductionDate ?? undefined,
+                    premiumStatus?.premiumConfig?.PRO?.periodDays ?? 7
+                  ).progress
+                }
+                onReactivate={() => setShowActivationModal(true)}
+              />
+            )}
+          </>
         ) : (
           <ProEngineLockedAlert onUnlock={() => setShowActivationModal(true)} />
-        )}
-        {isPremium && isCancelled && premiumStatus?.subscription?.expiresAt && (
-          <ProEngineCancelledAlert
-            expiresAt={premiumStatus.subscription.expiresAt}
-            cost={premiumStatus.subscription.cost}
-            period={premiumStatus.subscription.period}
-            newCost={premiumStatus?.premiumConfig?.PRO?.cost}
-            newPeriod={premiumStatus?.premiumConfig?.PRO?.period}
-            progress={
-              calculateSubscriptionProgress(
-                premiumStatus.subscription.expiresAt,
-                premiumStatus.subscription.lastDeductionDate,
-                premiumStatus?.premiumConfig?.PRO?.periodDays ?? 7
-              ).progress
-            }
-            onReactivate={() => setShowActivationModal(true)}
-          />
         )}
         {/* Premium Management & Stats */}
         {isPremium && premiumStatus?.subscription && (

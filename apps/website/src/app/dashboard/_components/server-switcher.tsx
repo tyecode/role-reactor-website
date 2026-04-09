@@ -117,12 +117,12 @@ export function ServerSwitcher() {
                           64
                         ) || undefined
                       }
-                      alt={activeGuild.name}
+                      alt={activeGuild.name ?? "Server"}
                       width={40}
                       height={40}
                     />
                     <AvatarFallback className="bg-transparent text-zinc-400 font-bold text-base">
-                      {activeGuild.name.charAt(0)}
+                      {activeGuild.name?.charAt(0) ?? "?"}
                     </AvatarFallback>
                   </Avatar>
                 ) : (
@@ -267,10 +267,10 @@ export function ServerSwitcher() {
                             }
                             width={36}
                             height={36}
-                            alt={guild.name}
+                            alt={guild.name ?? "Server"}
                           />
                           <AvatarFallback className="bg-transparent text-xs font-black text-zinc-500 group-hover:text-cyan-400 transition-colors">
-                            {guild.name.charAt(0).toUpperCase()}
+                            {guild.name?.charAt(0).toUpperCase() ?? "?"}
                           </AvatarFallback>
                         </Avatar>
                       </div>

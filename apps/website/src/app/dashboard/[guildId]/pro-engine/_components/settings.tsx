@@ -41,8 +41,8 @@ export function ProEngineSettings({
 
   // Calculate detailed remaining time using reusable utility
   const subData = calculateSubscriptionProgress(
-    premiumStatus?.subscription?.expiresAt,
-    premiumStatus?.subscription?.lastDeductionDate,
+    premiumStatus?.subscription?.expiresAt ?? undefined,
+    premiumStatus?.subscription?.lastDeductionDate ?? undefined,
     premiumStatus?.premiumConfig?.PRO?.periodDays ?? 7
   );
 

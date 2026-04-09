@@ -27,9 +27,9 @@ export function SubscriptionStats({
     {
       icon: Calendar,
       label: "Date Activated",
-      value: new Date(
-        premiumStatus.subscription.activatedAt
-      ).toLocaleDateString(),
+      value: premiumStatus.subscription.activatedAt
+        ? new Date(premiumStatus.subscription.activatedAt).toLocaleDateString()
+        : "N/A",
       color: "blue",
     },
     {
