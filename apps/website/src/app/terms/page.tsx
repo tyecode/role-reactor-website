@@ -122,7 +122,9 @@ export default function TermsPage() {
               <li>Temporary role assignments with automatic expiration</li>
               <li>Scheduled role assignments at specific times or intervals</li>
               <li>Experience points, leveling system, and leaderboards</li>
-              <li>Welcome and goodbye messages for new and departing members</li>
+              <li>
+                Welcome and goodbye messages for new and departing members
+              </li>
               <li>Ticket support system with transcript storage</li>
               <li>Giveaway hosting with configurable entry limits</li>
               <li>Moderation tools (timeout, ban, kick, bulk actions)</li>
@@ -209,8 +211,8 @@ export default function TermsPage() {
             </h3>
             <p className="text-gray-300 leading-relaxed mb-6">
               Users may earn a limited number of Core Credits through free
-              methods such as voting on bot listing platforms (e.g., top.gg).
-              We reserve the right to modify, limit, or discontinue free credit
+              methods such as voting on bot listing platforms (e.g., top.gg). We
+              reserve the right to modify, limit, or discontinue free credit
               programs at any time without notice.
             </p>
 
@@ -219,12 +221,12 @@ export default function TermsPage() {
             </h2>
             <p className="text-gray-300 leading-relaxed mb-6">
               In addition to Core Credit purchases, we accept voluntary
-              donations through third-party platforms (e.g., Buy Me a Coffee)
-              to support the ongoing development and hosting costs of Role
-              Reactor. Donations are entirely optional, do not grant any
-              premium features, and are non-refundable. Donations are processed
-              through their respective third-party platforms and are subject to
-              those platforms&apos; terms and conditions.
+              donations through third-party platforms (e.g., Buy Me a Coffee) to
+              support the ongoing development and hosting costs of Role Reactor.
+              Donations are entirely optional, do not grant any premium
+              features, and are non-refundable. Donations are processed through
+              their respective third-party platforms and are subject to those
+              platforms&apos; terms and conditions.
             </p>
 
             <h2 className="text-2xl font-semibold text-white mb-4">

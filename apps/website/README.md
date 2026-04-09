@@ -343,7 +343,7 @@ These checks ensure code quality and consistency across the project.
 
 ### Environment Variables
 
-The website requires several environment variables for authentication and API communication. 
+The website requires several environment variables for authentication and API communication.
 
 Create a `.env.local` file by copying the provided example:
 
@@ -352,6 +352,7 @@ cp .env.example .env.local
 ```
 
 Inside `.env.local`, you will need to configure:
+
 1. **Discord OAuth** (`DISCORD_CLIENT_ID`, `DISCORD_CLIENT_SECRET`)
 2. **NextAuth** (`AUTH_SECRET`)
 3. **Bot API** (`BOT_API_URL`, `INTERNAL_API_KEY`)
