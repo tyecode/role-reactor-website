@@ -26,7 +26,7 @@ import Image from "next/image";
 import { toast } from "@/lib/toast";
 import { cn } from "@/lib/utils";
 import { audiowide } from "@/lib/fonts";
-import { useUserStore } from "@/store/use-user-store";
+import { useCoreBalance } from "@/hooks/use-core-balance";
 
 interface Transaction {
   paymentId: string;
@@ -41,7 +41,7 @@ interface Transaction {
 
 export function BillingSection() {
   const { data: session } = useSession();
-  const { user, fetchUser } = useUserStore();
+  const { balance, mutate } = useCoreBalance();
   const [redeemCode, setRedeemCode] = useState("");
   const [isRedeeming, setIsRedeeming] = useState(false);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -96,7 +96,7 @@ export function BillingSection() {
       if (response.ok && data.success) {
         toast.success(`Successfully redeemed! ${data.message || ""}`);
         setRedeemCode("");
-        await fetchUser(session.user.id, true);
+        await mutate(); // Refresh balance from API
         fetchTransactions(); // Refresh transactions
       } else {
         toast.error(data.error || "Invalid or expired code");
@@ -210,7 +210,7 @@ export function BillingSection() {
                       audiowide.className
                     )}
                   >
-                    {(user?.currentCredits ?? 0).toFixed(2)}
+                    {(balance ?? 0).toFixed(2)}
                   </div>
                   <div className="text-sm text-zinc-500 font-medium mt-1">
                     Available Cores
