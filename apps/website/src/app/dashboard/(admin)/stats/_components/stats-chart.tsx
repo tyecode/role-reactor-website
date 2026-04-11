@@ -17,8 +17,17 @@ interface StatsData {
 }
 
 export function StatsChart({ data }: { data: StatsData[] }) {
+  // Handle empty or undefined data
+  if (!data || data.length === 0) {
+    return (
+      <div className="h-full w-full flex items-center justify-center text-zinc-600 text-sm font-mono">
+        No data available
+      </div>
+    );
+  }
+
   return (
-    <ResponsiveContainer width="100%" height="100%">
+    <ResponsiveContainer width="100%" height="100%" minHeight={200}>
       <BarChart data={data}>
         <CartesianGrid
           strokeDasharray="3 3"
