@@ -34,12 +34,22 @@ export async function GET() {
 
     const data = await response.json();
 
+    // Log raw data from bot API to debug floating point issue
+    console.log(
+      "[Balance] Raw data from bot API:",
+      JSON.stringify(data, null, 2)
+    );
+
     // Bot API returns: { success: true, data: { user: { currentCredits: 30.94, ... } } }
     // Backend already rounds to 2 decimal places
     if (data.success && data.data?.user?.currentCredits !== undefined) {
+      const rawBalance = data.data.user.currentCredits;
+      // Fix floating point precision issue from bot API
+      const fixedBalance = Number(Number(rawBalance).toFixed(2));
+      console.log("[Balance] Raw:", rawBalance, "Fixed:", fixedBalance);
       return NextResponse.json({
         success: true,
-        balance: data.data.user.currentCredits,
+        balance: fixedBalance,
       });
     }
 

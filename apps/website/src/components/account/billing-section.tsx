@@ -210,7 +210,7 @@ export function BillingSection() {
                       audiowide.className
                     )}
                   >
-                    {user?.currentCredits ?? 0}
+                    {(user?.currentCredits ?? 0).toFixed(2)}
                   </div>
                   <div className="text-sm text-zinc-500 font-medium mt-1">
                     Available Cores

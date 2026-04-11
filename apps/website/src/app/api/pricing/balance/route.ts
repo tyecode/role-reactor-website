@@ -30,20 +30,30 @@ export async function GET(request: NextRequest) {
     // Extract and normalize user data - API returns "requestedUserId" but schema expects "userId"
     let userData = null;
     if (data.success && data.data?.user) {
+      const rawCredits = data.data.user.currentCredits;
+      // Fix floating point precision issue from bot API
+      const fixedCredits = rawCredits
+        ? Number(Number(rawCredits).toFixed(2))
+        : 0;
       userData = {
         userId: data.data.user.requestedUserId,
         isFirstPurchase: data.data.user.isFirstPurchase,
-        currentCredits: data.data.user.currentCredits,
+        currentCredits: fixedCredits,
         eligibleForFirstPurchaseBonus:
           data.data.user.eligibleForFirstPurchaseBonus,
       };
     }
 
     if (data.status === "success" && data.user) {
+      const rawCredits = data.user.currentCredits;
+      // Fix floating point precision issue from bot API
+      const fixedCredits = rawCredits
+        ? Number(Number(rawCredits).toFixed(2))
+        : 0;
       userData = {
         userId: data.user.requestedUserId,
         isFirstPurchase: data.user.isFirstPurchase,
-        currentCredits: data.user.currentCredits,
+        currentCredits: fixedCredits,
         eligibleForFirstPurchaseBonus: data.user.eligibleForFirstPurchaseBonus,
       };
     }

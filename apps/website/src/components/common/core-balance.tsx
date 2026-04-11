@@ -35,6 +35,7 @@ export function CoreBalance({
 
   // Round balance to 2 decimal places to fix floating point precision issues
   const roundedBalance = balance ? Math.round(balance * 100) / 100 : 0;
+  const displayBalance = roundedBalance.toFixed(2);
 
   if (status === "unauthenticated") return null;
 
@@ -105,7 +106,7 @@ export function CoreBalance({
                 isLoading && "opacity-50 animate-pulse"
               )}
             >
-              {isLoading ? "..." : roundedBalance}
+              {isLoading ? "..." : displayBalance}
             </span>
           </div>
         </div>
@@ -154,7 +155,7 @@ export function CoreBalance({
             isLoading && "opacity-50 animate-pulse"
           )}
         >
-          {isLoading ? "..." : roundedBalance}
+          {isLoading ? "..." : displayBalance}
         </span>
         {showPlusButton &&
           (onClick ? (
@@ -207,7 +208,7 @@ export function CoreBalance({
           isLoading ? "opacity-50 animate-pulse" : "text-white"
         )}
       >
-        {isLoading ? "0" : roundedBalance}
+        {isLoading ? "0" : displayBalance}
       </span>
 
       {/* Plus Button - Tech Style */}
