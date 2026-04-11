@@ -49,11 +49,19 @@ interface CommandUsage {
 
 async function getCommandUsage() {
   try {
-    return await botFetchJson<CommandUsage>("/commands/usage?limit=50", {
-      silent: true,
-    });
+    const result = await botFetchJson<CommandUsage>(
+      "/commands/usage?limit=50",
+      {
+        silent: true,
+      }
+    );
+    return result;
   } catch (error) {
-    console.error("Failed to fetch command usage:", error);
+    // Silently fail and return null - the UI will handle this gracefully
+    console.warn(
+      "[Commands Page] Failed to fetch command usage:",
+      error instanceof Error ? error.message : error
+    );
     return null;
   }
 }
@@ -70,7 +78,14 @@ function CommandsLoader() {
 }
 
 async function CommandsContent() {
-  const usage = await getCommandUsage();
+  let usage = null;
+
+  try {
+    usage = await getCommandUsage();
+  } catch (error) {
+    // Catch any unexpected errors
+    console.error("[Commands Page] Unexpected error:", error);
+  }
 
   if (!usage) {
     return (
