@@ -49,7 +49,9 @@ interface CommandUsage {
 
 async function getCommandUsage() {
   try {
-    return await botFetchJson<CommandUsage>("/commands/usage?limit=50");
+    return await botFetchJson<CommandUsage>("/commands/usage?limit=50", {
+      silent: true,
+    });
   } catch (error) {
     console.error("Failed to fetch command usage:", error);
     return null;
