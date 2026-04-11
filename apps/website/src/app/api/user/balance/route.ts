@@ -54,10 +54,19 @@ export async function GET() {
     }
 
     // Fallback for old response format: { status: "success", userId, credits, ... }
-    if (data.status === "success") {
+    if (data.status === "success" && data.credits !== undefined) {
+      const rawBalance = data.credits;
+      // Fix floating point precision issue from bot API
+      const fixedBalance = Number(Number(rawBalance).toFixed(2));
+      console.log(
+        "[Balance] Raw (fallback):",
+        rawBalance,
+        "Fixed:",
+        fixedBalance
+      );
       return NextResponse.json({
         success: true,
-        balance: data.credits || 0,
+        balance: fixedBalance,
       });
     }
 

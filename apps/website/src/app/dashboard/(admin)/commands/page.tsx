@@ -106,14 +106,14 @@ async function CommandsContent() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <MetricCard
           title="Total Executions"
-          value={usage.summary.totalExecutions.toLocaleString()}
+          value={(usage.summary?.totalExecutions ?? 0).toLocaleString()}
           icon={Cpu}
           description="Total commands processed by the bot system"
           color="cyan"
         />
         <MetricCard
           title="Active Commands"
-          value={usage.summary.totalCommands.toString()}
+          value={(usage.summary?.totalCommands ?? 0).toString()}
           icon={Layers}
           description="Available system command modules"
           color="fuchsia"
@@ -163,7 +163,7 @@ async function CommandsContent() {
             </CardHeader>
             <CardContent className="overflow-hidden">
               <ScrollArea className="h-107.5 pr-4">
-                {usage.commands.map((cmd, idx) => (
+                {usage.commands?.map((cmd, idx) => (
                   <div
                     key={cmd.name}
                     className="group flex items-center justify-between p-3 mb-3 bg-white/5 hover:bg-white/10 border border-white/5 hover:border-cyan-500/20 rounded-xl transition-all duration-300"
@@ -195,7 +195,7 @@ async function CommandsContent() {
                     <div className="text-right">
                       <div className="flex items-baseline gap-1 justify-end">
                         <span className="text-lg font-black font-mono text-white tracking-tighter">
-                          {cmd.count.toLocaleString()}
+                          {(cmd.count ?? 0).toLocaleString()}
                         </span>
                         <Zap className="size-3 text-amber-500 animate-pulse" />
                       </div>
