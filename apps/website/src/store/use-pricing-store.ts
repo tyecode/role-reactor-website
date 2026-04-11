@@ -36,8 +36,8 @@ export const usePricingStore = create<PricingStore>()(
         const { data, lastFetchedPackages, lastFetchedUser, fetchPromise } =
           get();
 
-        // Cache validity (e.g., 5 minutes)
-        const CACHE_DURATION = 5 * 60 * 1000;
+        // Cache validity (e.g., 2 minutes)
+        const CACHE_DURATION = 2 * 60 * 1000;
         const now = Date.now();
         const packagesCacheValid =
           lastFetchedPackages && now - lastFetchedPackages < CACHE_DURATION;

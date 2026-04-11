@@ -24,10 +24,11 @@ export function useCoreBalance() {
     error,
     mutate,
   } = useSWR(session?.user ? "/api/user/balance" : null, fetcher, {
-    refreshInterval: 60000, // Refresh every 60s
-    revalidateOnFocus: false, // Don't refetch on window focus
+    refreshInterval: 30000, // Refresh every 30s
+    revalidateOnFocus: true, // Refetch when window gains focus
     revalidateOnReconnect: true, // Refetch on reconnect
     dedupingInterval: 5000, // Dedupe requests within 5s
+    keepPreviousData: true, // Keep showing old data while fetching new
   });
 
   const isLoading = status === "loading" || isSWRManagerLoading;

@@ -24,8 +24,8 @@ export const useUserStore = create<UserState>()(
       fetchUser: async (userId: string, force = false) => {
         const { user, lastFetched, isLoading } = get();
 
-        // Return cached data if valid (e.g. 5 mins) and same user
-        const CACHE_DURATION = 5 * 60 * 1000;
+        // Return cached data if valid (e.g. 2 mins) and same user
+        const CACHE_DURATION = 2 * 60 * 1000;
         const now = Date.now();
         const isCacheValid = lastFetched && now - lastFetched < CACHE_DURATION;
 
