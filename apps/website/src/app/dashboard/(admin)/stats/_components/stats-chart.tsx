@@ -65,7 +65,7 @@ export function StatsChart({ data }: { data: StatsData[] }) {
         <Bar dataKey="count" radius={[4, 4, 0, 0]}>
           {data.map((entry, index) => (
             <Cell
-              key={`cell-${index}`}
+              key={`cell-${entry.name}-${index}`}
               fill={index % 2 === 0 ? "#06b6d4" : "#d946ef"}
               fillOpacity={0.8}
             />

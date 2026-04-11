@@ -63,9 +63,9 @@ export function CommandUsageChart({ data }: { data: CommandData[] }) {
           itemStyle={{ color: "#06b6d4" }}
         />
         <Bar dataKey="count" radius={[0, 4, 4, 0]} barSize={32}>
-          {data.map((_, index) => (
+          {data.map((item, index) => (
             <Cell
-              key={`cell-${index}`}
+              key={`cell-${item.name}-${index}`}
               fill={index % 2 === 0 ? "#06b6d4" : "#d946ef"}
               fillOpacity={0.8}
             />

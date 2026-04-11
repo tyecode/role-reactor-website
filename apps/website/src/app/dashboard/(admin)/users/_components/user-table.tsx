@@ -13,6 +13,8 @@ import {
   Check,
   AlertCircle,
   Coins,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -71,7 +73,9 @@ export function UserTable() {
   // Initial load
   useEffect(() => {
     const search = searchParams.get("search") || undefined;
-    fetchUsers(search, true); // Force fetch on mount
+    const page = parseInt(searchParams.get("page") || "1");
+    setCurrentPage(page);
+    fetchUsers(search, true, page); // Force fetch on mount
   }, []);
 
   // Role Update State
@@ -87,8 +91,11 @@ export function UserTable() {
   const [selectedHistoryUser, setSelectedHistoryUser] =
     useState<UserData | null>(null);
 
+  const [currentPage, setCurrentPage] = useState(1);
+
   const handleSearch = (val: string) => {
     setSearchTerm(val);
+    setCurrentPage(1);
     startTransition(() => {
       const params = new URLSearchParams(searchParams);
       if (val) {
@@ -96,9 +103,23 @@ export function UserTable() {
       } else {
         params.delete("search");
       }
+      params.set("page", "1");
       router.push(`?${params.toString()}`);
     });
-    fetchUsers(val || undefined);
+    fetchUsers(val || undefined, false, 1);
+  };
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage < 1) return;
+    if (pagination && newPage > pagination.pages) return;
+
+    setCurrentPage(newPage);
+    startTransition(() => {
+      const params = new URLSearchParams(searchParams);
+      params.set("page", String(newPage));
+      router.push(`?${params.toString()}`);
+    });
+    fetchUsers(searchTerm || undefined, false, newPage);
   };
 
   const handleUpdateRole = async () => {
@@ -214,6 +235,30 @@ export function UserTable() {
               <p className="font-mono text-xs text-zinc-600 uppercase tracking-widest">
                 No users found matching current query
               </p>
+            </div>
+          )}
+
+          {pagination && pagination.pages > 1 && (
+            <div className="flex items-center justify-between px-4 py-3 border-t border-white/5">
+              <div className="flex items-center gap-2 text-xs font-mono text-zinc-500">
+                Page {pagination.page} of {pagination.pages}
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className="p-2 rounded-lg bg-zinc-900/50 border border-white/10 hover:border-cyan-500/50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                >
+                  <ChevronLeft className="size-4" />
+                </button>
+                <button
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage >= pagination.pages}
+                  className="p-2 rounded-lg bg-zinc-900/50 border border-white/10 hover:border-cyan-500/50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                >
+                  <ChevronRight className="size-4" />
+                </button>
+              </div>
             </div>
           )}
         </>

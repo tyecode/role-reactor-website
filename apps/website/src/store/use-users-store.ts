@@ -24,7 +24,11 @@ interface UsersState {
   error: string | null;
   lastFetched: number | null;
 
-  fetchUsers: (search?: string, force?: boolean) => Promise<void>;
+  fetchUsers: (
+    search?: string,
+    force?: boolean,
+    page?: number
+  ) => Promise<void>;
   fetchUser: (userId: string) => Promise<UserData | null>; // Fetch single user fresh
   updateUserRole: (userId: string, role: string) => void;
   clearUsers: () => void;
@@ -43,7 +47,7 @@ export const useUsersStore = create<UsersState>()(
       error: null,
       lastFetched: null,
 
-      fetchUsers: async (search?: string, force = false) => {
+      fetchUsers: async (search?: string, force = false, page = 1) => {
         const { lastFetched, searchQuery, isLoading, users } = get();
 
         // Return cached data if valid and same search query
@@ -72,6 +76,7 @@ export const useUsersStore = create<UsersState>()(
 
           const query = new URLSearchParams({
             limit: "50",
+            page: String(page || 1),
             ...(search && { search }),
           });
 

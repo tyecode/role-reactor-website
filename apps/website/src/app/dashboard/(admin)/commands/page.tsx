@@ -165,7 +165,7 @@ async function CommandsContent() {
               <ScrollArea className="h-107.5 pr-4">
                 {usage.commands?.map((cmd, idx) => (
                   <div
-                    key={cmd.name}
+                    key={idx}
                     className="group flex items-center justify-between p-3 mb-3 bg-white/5 hover:bg-white/10 border border-white/5 hover:border-cyan-500/20 rounded-xl transition-all duration-300"
                   >
                     <div className="flex items-center gap-4">

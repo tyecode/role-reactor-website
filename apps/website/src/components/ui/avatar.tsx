@@ -78,12 +78,14 @@ const AvatarImage = React.forwardRef<
     },
     ref
   ) => {
+    const [imgError, setImgError] = React.useState(false);
+
     // Use next/image for Discord CDN images, fallback to native img for data URLs
     const srcString = typeof src === "string" ? src : "";
     const isDataUrl = srcString.startsWith("data:");
     const isExternal = srcString.startsWith("http");
 
-    if (isDataUrl || !srcString) {
+    if (isDataUrl || !srcString || imgError) {
       return (
         <AvatarPrimitive.Image
           ref={ref}
@@ -107,6 +109,7 @@ const AvatarImage = React.forwardRef<
           unoptimized={unoptimized || !isExternal}
           loading={priority ? undefined : "lazy"}
           priority={priority}
+          onError={() => setImgError(true)}
           {...props}
         />
       </div>
