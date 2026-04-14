@@ -205,13 +205,13 @@ function BenefitRow({
           )}
         >
           {item.name}
-          <div className="relative opacity-0 group-hover:opacity-100 transition-opacity">
-            <Info className="w-3 h-3 text-zinc-600 cursor-help" />
-            <div className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-zinc-800 text-[10px] text-zinc-300 rounded whitespace-nowrap z-10 shadow-lg border border-white/10 hidden md:block">
-              {item.tooltip}
-            </div>
-          </div>
         </span>
+        <div className="relative group/info">
+          <Info className="w-3 h-3 text-zinc-600 cursor-help" />
+          <div className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-zinc-800 text-[10px] text-zinc-300 rounded whitespace-nowrap z-10 shadow-lg border border-white/10 hidden group-hover/info:block">
+            {item.tooltip}
+          </div>
+        </div>
       </div>
 
       {/* Free Value */}
