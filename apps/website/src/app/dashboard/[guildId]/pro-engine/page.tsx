@@ -24,6 +24,7 @@ import {
 import { SubscriptionStats } from "./_components/stats";
 import { NodeLoader } from "@/components/common/node-loader";
 import { calculateSubscriptionProgress } from "@/lib/premium-utils";
+import { ProEngineBenefits } from "./_components/benefits-table";
 
 export default function ProEnginePage() {
   const params = useParams();
@@ -75,6 +76,7 @@ export default function ProEnginePage() {
       const res = await fetch(`/api/guilds/${guildId}/premium/activate`, {
         method: "POST",
       });
+
       if (res.ok) {
         toast.success("Pro Engine activated successfully!");
         setShowActivationModal(false);
@@ -87,6 +89,7 @@ export default function ProEnginePage() {
 
         updateLocalSettings({
           isPremium: { pro: true },
+          premiumConfig: premiumStatus?.premiumConfig,
           subscription: {
             cancelled: false,
             autoRenew: true,
@@ -197,7 +200,12 @@ export default function ProEnginePage() {
             )}
           </>
         ) : (
-          <ProEngineLockedAlert onUnlock={() => setShowActivationModal(true)} />
+          <>
+            <ProEngineLockedAlert
+              onUnlock={() => setShowActivationModal(true)}
+            />
+            <ProEngineBenefits />
+          </>
         )}
         {/* Premium Management & Stats */}
         {isPremium && premiumStatus?.subscription && (

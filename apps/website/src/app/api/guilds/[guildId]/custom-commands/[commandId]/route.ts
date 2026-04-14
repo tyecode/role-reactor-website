@@ -34,7 +34,10 @@ export async function PATCH(
       return NextResponse.json(
         {
           success: false,
-          error: errorData.message || "Failed to update custom command",
+          error:
+            errorData.message ||
+            errorData.error ||
+            "Failed to update custom command",
         },
         { status: response.status }
       );
@@ -78,7 +81,10 @@ export async function DELETE(
       return NextResponse.json(
         {
           success: false,
-          error: errorData.message || "Failed to delete custom command",
+          error:
+            errorData.message ||
+            errorData.error ||
+            "Failed to delete custom command",
         },
         { status: response.status }
       );

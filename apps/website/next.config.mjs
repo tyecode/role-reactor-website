@@ -130,7 +130,7 @@ const config = {
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "img-src 'self' data: https: blob:",
               "font-src 'self' https://fonts.gstatic.com",
-              "connect-src 'self' https://api.rolereactor.app https://discord.com https://cdn.discordapp.com https://media.discordapp.net https://vercel.live https://analytics.vercel.com https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com",
+              "connect-src 'self' https: data: blob:",
               "frame-src 'self' https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com",
               "frame-ancestors 'none'",
               "base-uri 'self'",

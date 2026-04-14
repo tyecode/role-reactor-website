@@ -36,7 +36,10 @@ export async function POST(
       return NextResponse.json(
         {
           success: false,
-          error: errorData.message || "Failed to cancel premium subscription",
+          error:
+            errorData.message ||
+            errorData.error ||
+            "Failed to cancel premium subscription",
         },
         { status: response.status }
       );

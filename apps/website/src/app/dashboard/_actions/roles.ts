@@ -35,7 +35,6 @@ export async function deployReactionRoles(guildId: string, data: DeployData) {
   const userId = session.user.id;
 
   try {
-    // 1. Validate data server-side
     if (!data.channelId) {
       return {
         error: "INVALID_CHANNEL",
@@ -50,16 +49,12 @@ export async function deployReactionRoles(guildId: string, data: DeployData) {
       };
     }
 
-    // 2. Transmit to bot API
-    // Note: This endpoint is hypothetical based on common patterns.
-    // In a real scenario, this would match the bot's REST API.
     await botFetchJson(`/guilds/${guildId}/roles/deploy`, {
       method: "POST",
       userId,
       body: JSON.stringify(data),
     });
 
-    // 3. Revalidate path to refresh cache
     revalidatePath(`/dashboard/${guildId}/roles`);
 
     return { success: true, message: "System deployed successfully!" };

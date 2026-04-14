@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import { notFound, redirect } from "next/navigation";
 import { OverviewLanding } from "@/app/dashboard/_components/overview-landing";
+import { SystemHealth } from "@/app/dashboard/_components/system-health";
 import { isDeveloper } from "@/lib/admin";
 import { getManageableGuilds } from "@/lib/server/guilds";
 import {
@@ -57,51 +58,7 @@ export default async function DashboardPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {/* System Health */}
-          <Card
-            variant="cyberpunk"
-            showGrid
-            className="overflow-hidden border-cyan-500/20"
-          >
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle className="text-xl">
-                    Infrastructure Health
-                  </CardTitle>
-                  <CardDescription>
-                    Real-time operational status of core services
-                  </CardDescription>
-                </div>
-                <ActivityIcon />
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <HealthItem
-                label="DISCORD GATEWAY"
-                status="ONLINE"
-                latency="42ms"
-                color="emerald"
-              />
-              <HealthItem
-                label="DATABASE CLUSTER"
-                status="STABLE"
-                latency="12ms"
-                color="emerald"
-              />
-              <HealthItem
-                label="PAYMENT WEBOOKS"
-                status="ACTIVE"
-                latency="N/A"
-                color="emerald"
-              />
-              <HealthItem
-                label="AI PROCESSING"
-                status="NORMAL"
-                latency="1.2s"
-                color="emerald"
-              />
-            </CardContent>
-          </Card>
+          <SystemHealth />
 
           {/* Console Logs Preview */}
           <Card
@@ -229,60 +186,5 @@ function OverviewNavCard({
         </CardContent>
       </Card>
     </Link>
-  );
-}
-
-interface HealthItemProps {
-  label: string;
-  status: string;
-  latency: string;
-  color: "emerald" | "amber" | "red";
-}
-
-function HealthItem({ label, status, latency, color }: HealthItemProps) {
-  const colors = {
-    emerald: "text-emerald-500 bg-emerald-500/10 border-emerald-500/20",
-    amber: "text-amber-500 bg-amber-500/10 border-amber-500/20",
-    red: "text-red-500 bg-red-500/10 border-red-500/20",
-  };
-
-  return (
-    <div className="flex items-center justify-between p-3 border border-white/5 rounded-xl bg-white/5 group hover:bg-white/10 transition-all">
-      <div className="flex items-center gap-3">
-        <div className="flex flex-col">
-          <span className="text-[10px] font-mono font-black text-zinc-500 tracking-widest">
-            {label}
-          </span>
-          <span className="text-[9px] text-zinc-600 font-medium uppercase tracking-tighter">
-            Lat: {latency}
-          </span>
-        </div>
-      </div>
-      <Badge
-        className={cn(
-          "text-[9px] font-black tracking-widest h-5 px-2 border-none",
-          colors[color as keyof typeof colors]
-        )}
-      >
-        {status}
-      </Badge>
-    </div>
-  );
-}
-
-function ActivityIcon() {
-  return (
-    <div className="flex items-center gap-1 h-4">
-      {[1, 2, 3, 4].map((i) => (
-        <div
-          key={i}
-          className="w-1 bg-cyan-500/50 rounded-full animate-bounce"
-          style={{
-            animationDelay: `${i * 0.1}s`,
-            height: `${Math.random() * 16 + 4}px`,
-          }}
-        />
-      ))}
-    </div>
   );
 }

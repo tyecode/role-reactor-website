@@ -113,18 +113,33 @@ export const useProEngineStore = create<ProEngineState>()(
         if (!guildId) return;
 
         const currentData = state.settingsCache[guildId];
-        if (!currentData) return;
+
+        // If no current data, create minimal structure for activation
+        const baseData = currentData || {
+          isPremium: { pro: false },
+          premiumConfig: newSettings.premiumConfig || {
+            PRO: {
+              id: "pro_engine",
+              name: "Pro Engine",
+              description: "",
+              cost: 20,
+              period: "week",
+              periodDays: 7,
+              includes: [],
+            },
+          },
+        };
 
         set({
           settingsCache: {
             ...state.settingsCache,
             [guildId]: {
-              ...currentData,
+              ...baseData,
               ...newSettings,
               isPremium:
-                typeof currentData?.isPremium === "object"
+                typeof baseData?.isPremium === "object"
                   ? {
-                      ...currentData.isPremium,
+                      ...baseData.isPremium,
                       ...((newSettings.isPremium as object) || {}),
                     }
                   : {
@@ -132,9 +147,9 @@ export const useProEngineStore = create<ProEngineState>()(
                       ...((newSettings.isPremium as object) || {}),
                     },
               subscription:
-                newSettings.subscription && currentData?.subscription
-                  ? { ...currentData.subscription, ...newSettings.subscription }
-                  : newSettings.subscription || currentData?.subscription,
+                newSettings.subscription && baseData?.subscription
+                  ? { ...baseData.subscription, ...newSettings.subscription }
+                  : newSettings.subscription || baseData?.subscription,
             },
           },
         });

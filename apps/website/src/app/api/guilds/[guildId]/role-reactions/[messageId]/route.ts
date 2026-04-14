@@ -32,7 +32,10 @@ export async function DELETE(
       return NextResponse.json(
         {
           success: false,
-          error: errorData.message || "Failed to delete role mapping from bot",
+          error:
+            errorData.message ||
+            errorData.error ||
+            "Failed to delete role mapping from bot",
         },
         { status: response.status }
       );

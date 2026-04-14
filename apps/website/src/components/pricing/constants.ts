@@ -3,18 +3,17 @@ import {
   SiBitcoin,
   SiEthereum,
   SiTether,
-  SiLitecoin,
+  SiDogecoin,
   SiSolana,
-  SiBinance,
+  SiLitecoin,
 } from "react-icons/si";
 import type { IconType } from "react-icons";
 
 export type { CorePackage, PricingData };
 
 /**
- * Supported cryptocurrencies - Top 6 by market cap and popularity
+ * Supported cryptocurrencies - matched with Plisio supported currencies
  */
-
 export const supportedCryptos: Array<{
   id: string;
   name: string;
@@ -23,8 +22,11 @@ export const supportedCryptos: Array<{
 }> = [
   { id: "BTC", name: "Bitcoin", icon: SiBitcoin, color: "#F7931A" },
   { id: "ETH", name: "Ethereum", icon: SiEthereum, color: "#627EEA" },
-  { id: "USDT_BSC", name: "Tether (BEP20)", icon: SiTether, color: "#26A17B" },
+  { id: "USDT_TRX", name: "USDT (TRC20)", icon: SiTether, color: "#26A17B" },
+  { id: "USDT_BSC", name: "USDT (BEP20)", icon: SiTether, color: "#26A17B" },
+  { id: "USDT", name: "USDT (ERC20)", icon: SiTether, color: "#26A17B" },
+  { id: "USDC", name: "USDC (ERC20)", icon: SiTether, color: "#2775CA" },
+  { id: "DOGE", name: "Dogecoin", icon: SiDogecoin, color: "#C2A633" },
   { id: "LTC", name: "Litecoin", icon: SiLitecoin, color: "#345D9D" },
-  { id: "SOL", name: "Solana", icon: SiSolana, color: "#14F195" },
-  { id: "BNB", name: "BNB", icon: SiBinance, color: "#F3BA2F" },
+  { id: "SOL", name: "Solana", icon: SiSolana, color: "#9945FF" },
 ];

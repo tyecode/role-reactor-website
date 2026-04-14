@@ -10,7 +10,7 @@ export function PropellerAdsScript() {
   return (
     <Script
       id="propellerads-init"
-      strategy="beforeInteractive"
+      strategy="lazyOnload"
       dangerouslySetInnerHTML={{
         __html: `(function(s){s.dataset.zone='${zoneId}',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')));`,
       }}

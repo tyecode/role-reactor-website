@@ -36,7 +36,10 @@ export async function POST(
       return NextResponse.json(
         {
           success: false,
-          error: errorData.message || "Failed to activate premium",
+          error:
+            errorData.message ||
+            errorData.error ||
+            "Failed to activate premium",
         },
         { status: response.status }
       );

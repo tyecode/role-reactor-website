@@ -6,7 +6,17 @@ import { useServerStore } from "@/store/use-server-store";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Users, Crown, Rocket, Cable, TrendingUp } from "lucide-react";
+import {
+  Users,
+  Crown,
+  Rocket,
+  Cable,
+  TrendingUp,
+  MessageSquare,
+  Ticket,
+  Zap,
+  Gift,
+} from "lucide-react";
 
 import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -141,41 +151,82 @@ export function GuildOverviewView({
         >
           <Card
             variant="cyberpunk"
-            className="p-6 flex items-center justify-between border-purple-500/20 hover:border-purple-500/50 hover:shadow-purple-500/20 group overflow-hidden"
+            className="border-purple-500/20 hover:border-purple-500/50 hover:shadow-purple-500/20 group overflow-hidden"
           >
             <div className="absolute inset-0 bg-linear-to-r from-purple-600/10 to-blue-600/10 opacity-50" />
-            <div className="flex items-center gap-4 z-10">
-              <div className="w-12 h-12 rounded-xl bg-linear-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white shadow-lg shadow-purple-500/20 group-hover:scale-110 transition-transform">
-                <Crown className="w-6 h-6" />
-              </div>
-              <div>
-                <h3
-                  className={cn(
-                    "text-lg font-bold text-white flex items-center gap-2",
-                    audiowide.className
-                  )}
+
+            <div className="relative z-10 p-6 pb-4">
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-linear-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white shadow-lg shadow-purple-500/20 group-hover:scale-110 transition-transform">
+                    <Crown className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <h3
+                      className={cn(
+                        "text-lg font-bold text-white flex items-center gap-2",
+                        audiowide.className
+                      )}
+                    >
+                      Pro Engine
+                      <Badge
+                        variant="pro"
+                        className="bg-purple-500/20 text-purple-300 border-purple-500/30"
+                      >
+                        PRO
+                      </Badge>
+                    </h3>
+                    <p className="text-zinc-500 text-xs font-medium">
+                      Unlock advanced automation and premium features
+                    </p>
+                  </div>
+                </div>
+                <Button
+                  variant="neon"
+                  size="lg"
+                  className="z-10 bg-purple-500 hover:bg-purple-400 text-white shadow-purple-500/20 shrink-0"
+                  asChild
                 >
-                  Go Premium
-                  <Badge
-                    variant="pro"
-                    className="bg-purple-500/20 text-purple-300 border-purple-500/30"
-                  >
-                    PRO
-                  </Badge>
-                </h3>
-                <p className="text-zinc-500 text-xs font-medium">
-                  Unlock advanced automation, unlimited roles, and more.
-                </p>
+                  <Link href={`/dashboard/${guildId}/pro-engine`}>
+                    Upgrade Now
+                  </Link>
+                </Button>
               </div>
             </div>
-            <Button
-              variant="neon"
-              size="lg"
-              className="z-10 bg-purple-500 hover:bg-purple-400 text-white shadow-purple-500/20"
-              asChild
-            >
-              <Link href="/pricing">Upgrade Server</Link>
-            </Button>
+
+            {/* Benefits Grid */}
+            <div className="relative z-10 px-6 pb-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <DashboardBenefit
+                  icon={MessageSquare}
+                  title="20 Role Reactions"
+                  sub="Engage members"
+                  color="text-cyan-400"
+                  bgColor="bg-cyan-500/10"
+                />
+                <DashboardBenefit
+                  icon={Ticket}
+                  title="Advanced Ticketing"
+                  sub="500/mo, automation"
+                  color="text-amber-400"
+                  bgColor="bg-amber-500/10"
+                />
+                <DashboardBenefit
+                  icon={Zap}
+                  title="500 Schedules"
+                  sub="Automated roles"
+                  color="text-purple-400"
+                  bgColor="bg-purple-500/10"
+                />
+                <DashboardBenefit
+                  icon={Gift}
+                  title="50K Entries"
+                  sub="Massive giveaways"
+                  color="text-pink-400"
+                  bgColor="bg-pink-500/10"
+                />
+              </div>
+            </div>
 
             {/* Background Decorative */}
             <div className="absolute top-0 right-0 w-64 h-full bg-linear-to-l from-purple-500/10 to-transparent pointer-events-none" />
@@ -456,6 +507,45 @@ export function GuildOverviewView({
             </div>
           </CardContent>
         </Card>
+      </div>
+    </div>
+  );
+}
+
+function DashboardBenefit({
+  icon: Icon,
+  title,
+  sub,
+  color,
+  bgColor,
+}: {
+  icon: React.ElementType;
+  title: string;
+  sub: string;
+  color: string;
+  bgColor: string;
+}) {
+  return (
+    <div
+      className={cn(
+        "flex items-center gap-2.5 px-3 py-2.5 rounded-lg border transition-colors hover:scale-[1.02]",
+        bgColor,
+        color.includes("cyan") && "border-cyan-500/20 hover:border-cyan-500/40",
+        color.includes("amber") &&
+          "border-amber-500/20 hover:border-amber-500/40",
+        color.includes("purple") &&
+          "border-purple-500/20 hover:border-purple-500/40",
+        color.includes("pink") && "border-pink-500/20 hover:border-pink-500/40"
+      )}
+    >
+      <div className={cn("p-1.5 rounded-md", bgColor, color)}>
+        <Icon className="w-4 h-4" />
+      </div>
+      <div className="flex flex-col min-w-0">
+        <span className="text-[10px] font-bold text-white truncate">
+          {title}
+        </span>
+        <span className="text-[9px] text-zinc-500 truncate">{sub}</span>
       </div>
     </div>
   );

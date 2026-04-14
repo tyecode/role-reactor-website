@@ -102,7 +102,7 @@ export function GuildHero({ guildName, guildIcon, guildId }: GuildHeroProps) {
         {/* Cyberpunk Glow Behind Avatar */}
         <div className="absolute -inset-2 bg-linear-to-br from-cyan-500/20 via-transparent to-fuchsia-500/20 blur-xl rounded-3xl" />
         {/* Neon Border Ring */}
-        <div className="absolute -inset-[2px] rounded-3xl bg-linear-to-br from-cyan-500/35 via-transparent to-fuchsia-500/35 z-0" />
+        <div className="absolute -inset-0.5 rounded-3xl bg-linear-to-br from-cyan-500/35 via-transparent to-fuchsia-500/35 z-0" />
         <Avatar className="h-20 w-20 sm:h-28 sm:w-28 md:h-32 md:w-32 xl:h-40 xl:w-40 rounded-3xl border-2 border-zinc-950 shadow-2xl z-10 relative ring-1 ring-cyan-500/50 shadow-cyan-500/20">
           <AvatarImage
             src={

@@ -1,6 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,8 +21,12 @@ import { cn } from "@/lib/utils";
 import { audiowide } from "@/lib/fonts";
 
 export function ProfileSection() {
-  const { data: session, update } = useSession();
+  const { data: session, status, update } = useSession();
   const [copiedField, setCopiedField] = useState<string | null>(null);
+
+  if (status === "loading") {
+    return <ProfileSectionSkeleton />;
+  }
 
   const copyToClipboard = async (text: string, field: string) => {
     try {
@@ -35,7 +40,9 @@ export function ProfileSection() {
   };
 
   const getAvatarUrl = () => {
-    if (session?.user?.image) return session.user.image;
+    if (session?.user?.image) {
+      return session.user.image;
+    }
     if (session?.user?.id) {
       return `https://cdn.discordapp.com/embed/avatars/${Number(session.user.id) % 5}.png`;
     }
@@ -50,6 +57,7 @@ export function ProfileSection() {
     try {
       await update();
       toast.success("Discord data refreshed successfully!");
+      window.location.reload();
     } catch {
       toast.error("Failed to refresh Discord data");
     }
@@ -239,6 +247,78 @@ export function ProfileSection() {
               <Check className="w-3 h-3 mr-1" />
               Connected
             </Badge>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+function ProfileSectionSkeleton() {
+  return (
+    <div className="space-y-6 animate-pulse">
+      {/* Avatar & Username Card */}
+      <Card className="bg-zinc-950/50 border-white/5">
+        <CardHeader>
+          <Skeleton className="h-6 w-32" />
+          <Skeleton className="h-4 w-64" />
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="flex items-center gap-6">
+            <Skeleton className="h-24 w-24 rounded-2xl" />
+            <div className="flex-1 space-y-2">
+              <Skeleton className="h-8 w-48" />
+              <Skeleton className="h-5 w-32 rounded-full" />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Account Details Card */}
+      <Card className="bg-zinc-950/50 border-white/5">
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div>
+              <Skeleton className="h-6 w-32" />
+              <Skeleton className="h-4 w-64" />
+            </div>
+            <Skeleton className="h-8 w-28" />
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-2">
+            <Skeleton className="h-3 w-32" />
+            <div className="flex gap-2">
+              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-10 w-10" />
+            </div>
+          </div>
+          <div className="space-y-2">
+            <Skeleton className="h-3 w-32" />
+            <div className="flex gap-2">
+              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-10 w-10" />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Connected Accounts Card */}
+      <Card className="bg-zinc-950/50 border-white/5">
+        <CardHeader>
+          <Skeleton className="h-6 w-32" />
+          <Skeleton className="h-4 w-64" />
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center justify-between p-4 bg-zinc-900/50 rounded-xl border border-white/5">
+            <div className="flex items-center gap-4">
+              <Skeleton className="h-12 w-12 rounded-xl" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-24" />
+                <Skeleton className="h-3 w-32" />
+              </div>
+            </div>
+            <Skeleton className="h-6 w-20 rounded-full" />
           </div>
         </CardContent>
       </Card>

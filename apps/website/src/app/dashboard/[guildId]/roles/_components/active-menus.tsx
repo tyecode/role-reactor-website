@@ -29,6 +29,7 @@ import {
 import { CyberpunkBackground } from "@/components/common/cyberpunk-background";
 import { cn } from "@/lib/utils";
 import { audiowide } from "@/lib/fonts";
+import { toast } from "@/lib/toast";
 import useSWR from "swr";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -119,9 +120,13 @@ export function ActiveMenus({
         // Track deleted ID so it's filtered out of both SWR data and additional pages
         setDeletedIds((prev) => new Set(prev).add(deleteTarget.messageId));
         setDeleteTarget(null);
+        toast.success("Role reaction setup deleted successfully");
+      } else {
+        const error = await res.json();
+        toast.error(error.error || "Failed to delete role reaction setup");
       }
     } catch {
-      // Silently fail
+      toast.error("An unexpected error occurred");
     } finally {
       setIsDeleting(false);
     }
