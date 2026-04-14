@@ -252,7 +252,13 @@ function BenefitRow({
   );
 }
 
-export function ProEngineBenefits() {
+interface ProEngineBenefitsProps {
+  isActive?: boolean;
+}
+
+export function ProEngineBenefits({
+  isActive = false,
+}: ProEngineBenefitsProps) {
   return (
     <Card className="border-purple-500/20 bg-zinc-950/50 overflow-hidden">
       {/* Header */}
@@ -264,13 +270,25 @@ export function ProEngineBenefits() {
               Pro Engine Benefits
             </span>
           </div>
-          <Badge
-            variant="outline"
-            className="border-purple-500/30 text-purple-400 bg-purple-500/10 text-[10px]"
-          >
-            <Zap className="w-3 h-3 mr-1" />
-            20 Cores / week
-          </Badge>
+          <div className="flex items-center gap-2">
+            {isActive ? (
+              <Badge
+                variant="outline"
+                className="border-emerald-500/30 text-emerald-400 bg-emerald-500/10 text-[10px]"
+              >
+                <Check className="w-3 h-3 mr-1" />
+                ACTIVE
+              </Badge>
+            ) : (
+              <Badge
+                variant="outline"
+                className="border-purple-500/30 text-purple-400 bg-purple-500/10 text-[10px]"
+              >
+                <Zap className="w-3 h-3 mr-1" />
+                20 Cores / week
+              </Badge>
+            )}
+          </div>
         </div>
       </div>
 

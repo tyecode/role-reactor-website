@@ -214,6 +214,7 @@ export default function ProEnginePage() {
               premiumStatus={premiumStatus}
               isCancelled={isCancelled}
             />
+            <ProEngineBenefits isActive={true} />
             <ProEngineSettings
               guildId={guildId}
               premiumStatus={premiumStatus}
