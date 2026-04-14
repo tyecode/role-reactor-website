@@ -1,7 +1,8 @@
 "use client";
 
 import { Card } from "@/components/ui/card";
-import { Check, X, Crown } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Check, X, Crown, Zap, Info } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const benefits = [
@@ -9,38 +10,130 @@ const benefits = [
     name: "Reaction Messages",
     free: "3",
     pro: "20",
+    tooltip: "Maximum role reaction messages you can create per server",
+    type: "limit",
     category: "Role Reactions",
   },
   {
     name: "Emojis per Message",
     free: "10",
     pro: "20",
+    tooltip: "Maximum emojis/roles per reaction message",
+    type: "limit",
     category: "Role Reactions",
   },
-  { name: "Active Giveaways", free: "3", pro: "20", category: "Giveaways" },
-  { name: "Max Entries", free: "2,500", pro: "50,000", category: "Giveaways" },
-  { name: "Max Winners", free: "5", pro: "20", category: "Giveaways" },
-  { name: "Level Rewards", free: "5", pro: "Unlimited", category: "Leveling" },
-  { name: "Replace Role Mode", free: false, pro: true, category: "Leveling" },
-  { name: "Scheduled Roles", free: "25", pro: "500", category: "Automation" },
-  { name: "Role Bundles", free: "5", pro: "15", category: "Automation" },
-  { name: "Bulk Actions", free: "25", pro: "250", category: "Automation" },
-  { name: "Tickets per Month", free: "50", pro: "500", category: "Ticketing" },
-  { name: "Categories per Panel", free: "3", pro: "20", category: "Ticketing" },
+  {
+    name: "Active Giveaways",
+    free: "3",
+    pro: "20",
+    tooltip: "Maximum concurrent giveaways running at once",
+    type: "limit",
+    category: "Giveaways",
+  },
+  {
+    name: "Max Entries",
+    free: "2,500",
+    pro: "50,000",
+    tooltip: "Maximum participants per giveaway",
+    type: "limit",
+    category: "Giveaways",
+  },
+  {
+    name: "Max Winners",
+    free: "5",
+    pro: "20",
+    tooltip: "Maximum winners per giveaway",
+    type: "limit",
+    category: "Giveaways",
+  },
+  {
+    name: "Level Rewards",
+    free: "5",
+    pro: "Unlimited",
+    tooltip: "Maximum role rewards for level-ups",
+    type: "limit",
+    category: "Leveling",
+  },
+  {
+    name: "Replace Role Mode",
+    free: false,
+    pro: true,
+    tooltip: "Replace lower roles instead of stacking them",
+    type: "feature",
+    category: "Leveling",
+  },
+  {
+    name: "Scheduled Roles",
+    free: "25",
+    pro: "500",
+    tooltip: "Maximum scheduled role assignments",
+    type: "limit",
+    category: "Automation",
+  },
+  {
+    name: "Role Bundles",
+    free: "5",
+    pro: "15",
+    tooltip: "Reusable groups of roles for quick setup",
+    type: "limit",
+    category: "Automation",
+  },
+  {
+    name: "Bulk Actions",
+    free: "25",
+    pro: "250",
+    tooltip: "Maximum users per bulk moderation action",
+    type: "limit",
+    category: "Automation",
+  },
+  {
+    name: "Tickets per Month",
+    free: "50",
+    pro: "500",
+    tooltip: "Monthly ticket creation limit",
+    type: "limit",
+    category: "Ticketing",
+  },
+  {
+    name: "Categories per Panel",
+    free: "3",
+    pro: "20",
+    tooltip: "Maximum ticket categories per panel",
+    type: "limit",
+    category: "Ticketing",
+  },
   {
     name: "Transcript Retention",
     free: "7 days",
     pro: "Unlimited",
+    tooltip: "How long closed ticket transcripts are stored",
+    type: "limit",
     category: "Ticketing",
   },
   {
     name: "Export Formats",
     free: "MD",
     pro: "HTML, JSON",
+    tooltip: "Transcript export format options",
+    type: "feature",
     category: "Ticketing",
   },
-  { name: "Staff Analytics", free: false, pro: true, category: "Ticketing" },
-  { name: "Ticket Automation", free: false, pro: true, category: "Ticketing" },
+  {
+    name: "Staff Analytics",
+    free: false,
+    pro: true,
+    tooltip: "Track staff ticket handling performance",
+    type: "feature",
+    category: "Ticketing",
+  },
+  {
+    name: "Ticket Automation",
+    free: false,
+    pro: true,
+    tooltip: "Auto-close, reminders, and escalation rules",
+    type: "feature",
+    category: "Ticketing",
+  },
 ];
 
 const categoryStyles: Record<
@@ -74,17 +167,124 @@ const categoryStyles: Record<
   },
 };
 
+function BenefitRow({
+  item,
+  style,
+  isFirstOfCategory,
+}: {
+  item: (typeof benefits)[0];
+  style: (typeof categoryStyles)[keyof typeof categoryStyles];
+  isFirstOfCategory: boolean;
+}) {
+  const isFeature = item.type === "feature";
+  return (
+    <div
+      className={cn(
+        "group grid grid-cols-12 gap-2 px-4 py-3 items-center text-xs transition-colors hover:bg-white/[0.02]",
+        isFirstOfCategory && "border-t border-white/5",
+        isFirstOfCategory && style.bg
+      )}
+    >
+      {/* Feature Name with Category Badge & Tooltip */}
+      <div className="col-span-5 flex items-center gap-2">
+        {isFirstOfCategory && (
+          <span
+            className={cn(
+              "text-[9px] font-bold px-2 py-0.5 rounded shrink-0",
+              style.badgeBg,
+              style.badge
+            )}
+          >
+            {item.category}
+          </span>
+        )}
+        <span
+          className={cn(
+            "text-zinc-400 flex items-center gap-1",
+            isFirstOfCategory && "font-medium"
+          )}
+        >
+          {item.name}
+          <div className="relative opacity-0 group-hover:opacity-100 transition-opacity">
+            <Info className="w-3 h-3 text-zinc-600 cursor-help" />
+            <div className="absolute left-0 bottom-full mb-1 px-2 py-1 bg-zinc-800 text-[10px] text-zinc-300 rounded whitespace-nowrap z-10 shadow-lg border border-white/10 hidden md:block">
+              {item.tooltip}
+            </div>
+          </div>
+        </span>
+      </div>
+
+      {/* Free Value */}
+      <div className="col-span-3 text-center">
+        <span
+          className={cn(
+            "font-mono text-xs",
+            isFeature
+              ? typeof item.free === "boolean"
+                ? item.free
+                  ? "text-emerald-400"
+                  : "text-zinc-700"
+                : "text-zinc-600"
+              : "text-zinc-500"
+          )}
+        >
+          {typeof item.free === "boolean"
+            ? item.free
+              ? "✅"
+              : "—"
+            : item.free}
+        </span>
+      </div>
+
+      {/* Pro Value */}
+      <div className="col-span-4 text-center flex items-center justify-center gap-1">
+        {typeof item.pro === "boolean" ? (
+          item.pro ? (
+            <Check className="w-4 h-4 text-emerald-400" />
+          ) : (
+            <X className="w-4 h-4 text-zinc-700" />
+          )
+        ) : (
+          <span className="text-purple-400 font-bold">{item.pro}</span>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export function ProEngineBenefits() {
   return (
     <Card className="border-purple-500/20 bg-zinc-950/50 overflow-hidden">
       {/* Header */}
       <div className="p-4 border-b border-white/5 bg-purple-500/5">
-        <div className="flex items-center gap-2">
-          <Crown className="w-4 h-4 text-purple-400" />
-          <span className="text-sm font-bold text-white">
-            Pro Engine Benefits
-          </span>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Crown className="w-4 h-4 text-purple-400" />
+            <span className="text-sm font-bold text-white">
+              Pro Engine Benefits
+            </span>
+          </div>
+          <Badge
+            variant="outline"
+            className="border-purple-500/30 text-purple-400 bg-purple-500/10 text-[10px]"
+          >
+            <Zap className="w-3 h-3 mr-1" />
+            20 Cores / week
+          </Badge>
         </div>
+      </div>
+
+      {/* Legend */}
+      <div className="px-4 py-2 border-b border-white/5 bg-zinc-900/30 flex items-center gap-4 text-[10px] text-zinc-500">
+        <span className="flex items-center gap-1">
+          <span className="font-mono text-zinc-400">3</span> = Limit
+        </span>
+        <span className="flex items-center gap-1">
+          <Check className="w-3 h-3 text-emerald-400" /> = Included
+        </span>
+        <span className="flex items-center gap-1">
+          <span className="text-zinc-700">—</span> = Not available
+        </span>
       </div>
 
       {/* Table Header */}
@@ -102,63 +302,21 @@ export function ProEngineBenefits() {
             index === 0 || benefits[index - 1].category !== item.category;
 
           return (
-            <div
+            <BenefitRow
               key={item.name}
-              className={cn(
-                "grid grid-cols-12 gap-2 px-4 py-3 items-center text-xs",
-                isFirstOfCategory && "border-t border-white/5",
-                isFirstOfCategory && style.bg
-              )}
-            >
-              {/* Feature Name with Category Badge */}
-              <div className="col-span-5 flex items-center gap-2">
-                {isFirstOfCategory && (
-                  <span
-                    className={cn(
-                      "text-[9px] font-bold px-2 py-0.5 rounded shrink-0",
-                      style.badgeBg,
-                      style.badge
-                    )}
-                  >
-                    {item.category}
-                  </span>
-                )}
-                <span
-                  className={cn(
-                    "text-zinc-400",
-                    isFirstOfCategory && "font-medium"
-                  )}
-                >
-                  {item.name}
-                </span>
-              </div>
-
-              {/* Free Value */}
-              <div className="col-span-3 text-center">
-                <span className="text-zinc-600 font-mono text-xs">
-                  {typeof item.free === "boolean"
-                    ? item.free
-                      ? "✅"
-                      : "—"
-                    : item.free}
-                </span>
-              </div>
-
-              {/* Pro Value */}
-              <div className="col-span-4 text-center flex items-center justify-center gap-1">
-                {typeof item.pro === "boolean" ? (
-                  item.pro ? (
-                    <Check className="w-4 h-4 text-emerald-400" />
-                  ) : (
-                    <X className="w-4 h-4 text-zinc-700" />
-                  )
-                ) : (
-                  <span className="text-purple-400 font-bold">{item.pro}</span>
-                )}
-              </div>
-            </div>
+              item={item}
+              style={style}
+              isFirstOfCategory={isFirstOfCategory}
+            />
           );
         })}
+      </div>
+
+      {/* Footer */}
+      <div className="px-4 py-3 border-t border-white/5 bg-zinc-900/30">
+        <p className="text-[10px] text-zinc-500 text-center">
+          All limits reset monthly. Upgrade anytime for instant access.
+        </p>
       </div>
     </Card>
   );
