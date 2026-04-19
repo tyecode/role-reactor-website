@@ -15,6 +15,7 @@ import {
   Coins,
   ChevronLeft,
   ChevronRight,
+  Zap,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -52,6 +53,7 @@ interface UserData {
   credits: number;
   lastLogin: string;
   createdAt: string;
+  isPayer?: boolean;
 }
 
 export function UserTable() {
@@ -369,19 +371,23 @@ function UserRow({
     { color: string; icon: React.ComponentType<{ className?: string }> }
   > = {
     [UserRoles.OWNER]: {
-      color: "text-red-500 bg-red-500/10 border-red-500/20",
+      color:
+        "text-red-500 bg-red-500/10 border-red-500/20 hover:bg-red-500/20 hover:border-red-500/40",
       icon: ShieldAlert,
     },
     [UserRoles.ADMIN]: {
-      color: "text-amber-500 bg-amber-500/10 border-amber-500/20",
+      color:
+        "text-amber-500 bg-amber-500/10 border-amber-500/20 hover:bg-amber-500/20 hover:border-amber-500/40",
       icon: ShieldCheck,
     },
     [UserRoles.SUPPORT]: {
-      color: "text-cyan-500 bg-cyan-500/10 border-cyan-500/20",
+      color:
+        "text-cyan-500 bg-cyan-500/10 border-cyan-500/20 hover:bg-cyan-500/20 hover:border-cyan-500/40",
       icon: Shield,
     },
     [UserRoles.USER]: {
-      color: "text-zinc-500 bg-zinc-500/10 border-zinc-500/20",
+      color:
+        "text-zinc-500 bg-zinc-500/10 border-zinc-500/20 hover:bg-zinc-500/20 hover:border-zinc-500/40",
       icon: Users,
     },
   };
@@ -422,16 +428,27 @@ function UserRow({
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col">
-            <span
-              className={cn(
-                "text-sm font-bold uppercase font-mono transition-colors",
-                isRootOwner
-                  ? "text-cyan-400"
-                  : "text-zinc-100 group-hover:text-cyan-400"
+            <div className="flex items-center gap-2">
+              <span
+                className={cn(
+                  "text-sm font-bold uppercase font-mono transition-colors",
+                  isRootOwner
+                    ? "text-cyan-400"
+                    : "text-zinc-100 group-hover:text-cyan-400"
+                )}
+              >
+                {user.globalName || user.username}
+              </span>
+              {user.isPayer && (
+                <Badge
+                  variant="outline"
+                  className="text-[7px] font-mono border-amber-500/50 text-amber-400 bg-amber-500/10 px-1.5 py-0 h-4 uppercase tracking-wider shadow-[0_0_8px_rgba(245,158,11,0.15)] hover:border-amber-400/80 hover:text-amber-300 hover:bg-amber-500/20 transition-all cursor-default"
+                >
+                  <Zap className="size-2.5 mr-1" />
+                  Pro
+                </Badge>
               )}
-            >
-              {user.globalName || user.username}
-            </span>
+            </div>
             <span className="text-[10px] text-zinc-500 font-mono tracking-tighter">
               ID: {user.id}
             </span>
@@ -454,7 +471,7 @@ function UserRow({
           {isRootOwner && (
             <Badge
               variant="outline"
-              className="text-[7px] font-mono border-cyan-500/30 text-cyan-500 bg-cyan-500/10 px-1 py-0 h-4 uppercase tracking-tighter shadow-[0_0_5px_rgba(6,182,212,0.1)]"
+              className="text-[7px] font-mono border-cyan-500/30 text-cyan-500 bg-cyan-500/10 px-1 py-0 h-4 uppercase tracking-tighter shadow-[0_0_5px_rgba(6,182,212,0.1)] hover:border-cyan-400/80 hover:text-cyan-400 hover:bg-cyan-500/20 transition-all"
             >
               System Root
             </Badge>

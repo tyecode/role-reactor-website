@@ -10,6 +10,7 @@ interface UserData {
   credits: number;
   lastLogin: string;
   createdAt: string;
+  isPayer?: boolean;
 }
 
 interface UsersState {
