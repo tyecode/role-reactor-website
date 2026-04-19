@@ -5,22 +5,24 @@ import { links } from "@/constants/links";
 export default function TermsPage() {
   return (
     <main className="min-h-screen bg-linear-to-br from-gray-950 via-black to-blue-950">
-      <div className="max-w-4xl mx-auto px-6 py-16">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-16">
         {/* Header */}
-        <div className="mb-12">
+        <div className="mb-8 sm:mb-12">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-indigo-400 transition-colors mb-6"
+            className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-indigo-400 transition-colors mb-4 sm:mb-6"
           >
             ← Back to Home
           </Link>
-          <h1 className="text-4xl font-bold text-white mb-2">Terms of Use</h1>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-2">
+            Terms of Use
+          </h1>
           <p className="text-gray-400">Last Updated: April 4, 2026</p>
         </div>
 
         {/* Content */}
         <div className="prose prose-invert max-w-none">
-          <div className="bg-black/70 backdrop-blur-sm rounded-xl p-8 border border-gray-700/50">
+          <div className="bg-black/70 backdrop-blur-sm rounded-xl p-4 sm:p-6 lg:p-8 border border-gray-700/50">
             <p className="text-lg text-gray-300 leading-relaxed mb-8">
               Welcome! We appreciate you and our community. In order to create a
               better experience for everyone, we require all our users to

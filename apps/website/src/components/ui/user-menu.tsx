@@ -247,9 +247,14 @@ export function UserMenu({
         />
       )}
 
-      <DropdownMenu>
+      <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
-          {customTrigger || defaultTrigger}
+          <div
+            onPointerDown={(e) => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
+          >
+            {customTrigger || defaultTrigger}
+          </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent
           align={align}

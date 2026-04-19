@@ -31,30 +31,32 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <main className="min-h-screen bg-linear-to-br from-gray-950 via-black to-blue-950">
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-16">
         <div className="max-w-4xl mx-auto">
           <Link
             href="/"
-            className="inline-flex items-center text-indigo-400 hover:text-indigo-300 mb-8 transition-colors"
+            className="inline-flex items-center text-indigo-400 hover:text-indigo-300 mb-6 sm:mb-8 transition-colors"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Home
           </Link>
-          <h1 className="text-4xl font-bold text-white mb-2">Contact Us</h1>
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-2">
+            Contact Us
+          </h1>
           <p className="text-gray-400">
             Get in touch with the Role Reactor team
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto mt-12">
-          <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-8 border border-gray-800">
+        <div className="max-w-4xl mx-auto mt-8 sm:mt-12">
+          <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-4 sm:p-6 lg:p-8 border border-gray-800">
             <p className="text-lg text-gray-300 leading-relaxed mb-8">
               We're here to help! Whether you have questions about Role Reactor,
               need technical support, or want to provide feedback, we'd love to
               hear from you.
             </p>
 
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid md:grid-cols-2 gap-6 sm:gap-8">
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
                   <Mail className="w-6 h-6 text-indigo-400 mt-1" />
@@ -117,7 +119,7 @@ export default function ContactPage() {
               </div>
 
               <div className="space-y-6">
-                <div className="bg-gray-800/50 rounded-lg p-6 border border-gray-700">
+                <div className="bg-gray-800/50 rounded-lg p-4 sm:p-6 border border-gray-700">
                   <h3 className="text-xl font-semibold text-white mb-4">
                     Response Times
                   </h3>
@@ -128,7 +130,7 @@ export default function ContactPage() {
                   </ul>
                 </div>
 
-                <div className="bg-gray-800/50 rounded-lg p-6 border border-gray-700">
+                <div className="bg-gray-800/50 rounded-lg p-4 sm:p-6 border border-gray-700">
                   <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
                     <Heart className="w-5 h-5 text-red-400 mr-2" />
                     Support Development

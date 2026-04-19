@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import type { Metadata, Viewport } from "next";
 
 import { RootProvider } from "fumadocs-ui/provider";
+import { MobileNavClose } from "@/components/common/mobile-nav-close";
 import { Analytics } from "@vercel/analytics/next";
 
 import { links } from "@/constants/links";
@@ -147,6 +148,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         className="flex flex-col min-h-screen antialiased"
         suppressHydrationWarning
       >
+        <MobileNavClose />
         {process.env.NEXT_PUBLIC_PROPELLERADS_ZONE_ID && (
           <Script
             id="propellerads-init"
