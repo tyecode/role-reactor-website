@@ -9,7 +9,7 @@ import { type LeaderboardEntry } from "@/store/use-xp-store";
 import { Card } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { PropellerAdBlock } from "@/components/propellerads";
+import { ConditionalAdBlock } from "@/components/propellerads";
 
 interface LeaderboardListProps {
   leaderboard: LeaderboardEntry[];
@@ -223,7 +223,7 @@ export function LeaderboardList({
                   {actualRank % 50 === 0 &&
                     actualRank !== displayData.length && (
                       <div className="border-b border-white/5 py-8 px-6 bg-white/1">
-                        <PropellerAdBlock
+                        <ConditionalAdBlock
                           zoneId={
                             process.env.NEXT_PUBLIC_PROPELLERADS_FEED_ZONE || ""
                           }

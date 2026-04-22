@@ -8,7 +8,7 @@ import { LeaderboardEntry, GuildStats } from "@/types/discord";
 import { audiowide } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { BubbleBackground } from "@/components/common/bubble-background";
-import { PropellerAdBlock } from "@/components/propellerads";
+import { ConditionalAdBlock } from "@/components/propellerads";
 
 import { ServerHero } from "./_components/server-hero";
 import { LeaderboardTable } from "./_components/leaderboard-table";
@@ -279,7 +279,7 @@ export default async function PublicLeaderboardPage({
           />
         </div>
 
-        <PropellerAdBlock
+        <ConditionalAdBlock
           zoneId={
             process.env.NEXT_PUBLIC_PROPELLERADS_LEADERBOARD_TOP_ZONE || ""
           }
@@ -289,7 +289,7 @@ export default async function PublicLeaderboardPage({
 
         <LeaderboardTable leaderboard={leaderboard} />
 
-        <PropellerAdBlock
+        <ConditionalAdBlock
           zoneId={
             process.env.NEXT_PUBLIC_PROPELLERADS_LEADERBOARD_BOTTOM_ZONE || ""
           }

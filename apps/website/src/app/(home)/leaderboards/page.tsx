@@ -11,7 +11,7 @@ import { audiowide } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 
 import { ServerSearch } from "@/app/(home)/_components/server-search";
-import { PropellerAdBlock } from "@/components/propellerads";
+import { ConditionalAdBlock } from "@/components/propellerads";
 
 export const dynamic = "force-dynamic";
 
@@ -186,7 +186,7 @@ export default async function LeaderboardsPage() {
             <ServerSearch />
           </div>
 
-          <PropellerAdBlock
+          <ConditionalAdBlock
             zoneId={
               process.env.NEXT_PUBLIC_PROPELLERADS_LEADERBOARDS_TOP_ZONE || ""
             }
@@ -306,7 +306,7 @@ export default async function LeaderboardsPage() {
           )}
         </div>
 
-        <PropellerAdBlock
+        <ConditionalAdBlock
           zoneId={
             process.env.NEXT_PUBLIC_PROPELLERADS_LEADERBOARDS_BOTTOM_ZONE || ""
           }

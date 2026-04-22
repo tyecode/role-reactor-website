@@ -7,7 +7,7 @@ import {
 } from "fumadocs-ui/page";
 import { notFound } from "next/navigation";
 import { getMDXComponents } from "@/mdx-components";
-import { PropellerAdBlock } from "@/components/propellerads";
+import { ConditionalAdBlock } from "@/components/propellerads";
 import { links } from "@/constants/links";
 
 export default async function Page(props: {
@@ -29,7 +29,7 @@ export default async function Page(props: {
       <DocsBody>
         <MDXContent components={getMDXComponents({})} />
         <div className="mt-16 border-t border-white/5 pt-12">
-          <PropellerAdBlock
+          <ConditionalAdBlock
             zoneId={process.env.NEXT_PUBLIC_PROPELLERADS_DOCS_ZONE || ""}
           />
         </div>

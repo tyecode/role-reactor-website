@@ -2,7 +2,7 @@ import { Hero } from "@/app/(home)/_components/hero";
 import { Features } from "@/app/(home)/_components/features";
 import { SocialProof } from "@/app/(home)/_components/social-proof";
 import { FooterCTA } from "@/app/(home)/_components/footer-cta";
-import { PropellerAdBlock } from "@/components/propellerads";
+import { ConditionalAdBlock } from "@/components/propellerads";
 import { links } from "@/constants/links";
 import { botFetchJson } from "@/lib/bot-fetch";
 
@@ -90,7 +90,7 @@ export default async function HomePage() {
         <Hero />
         <Features />
         <div className="max-w-fd-container mx-auto px-4">
-          <PropellerAdBlock
+          <ConditionalAdBlock
             zoneId={process.env.NEXT_PUBLIC_PROPELLERADS_HOME_ZONE || ""}
             className="mb-8"
           />
