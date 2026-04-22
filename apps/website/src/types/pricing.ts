@@ -46,6 +46,7 @@ export interface UserPricingInfo {
   isFirstPurchase: boolean;
   currentCredits: number;
   eligibleForFirstPurchaseBonus: boolean;
+  hasActivePro?: boolean;
 }
 
 /**

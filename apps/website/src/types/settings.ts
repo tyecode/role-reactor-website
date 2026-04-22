@@ -134,6 +134,7 @@ export const UserPricingInfoSchema = z.object({
   isFirstPurchase: z.boolean(),
   currentCredits: z.number(),
   eligibleForFirstPurchaseBonus: z.boolean(),
+  hasActivePro: z.boolean().optional(),
 });
 
 /**
