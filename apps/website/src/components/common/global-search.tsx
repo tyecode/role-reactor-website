@@ -1,7 +1,19 @@
 "use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { Search, Command, Zap, BarChart3, Trophy, ShieldCheck, MessageSquare, Terminal, Users, FileText, Settings } from "lucide-react";
+import {
+  Search,
+  Command,
+  Zap,
+  BarChart3,
+  Trophy,
+  ShieldCheck,
+  MessageSquare,
+  Terminal,
+  Users,
+  FileText,
+  Settings,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -16,16 +28,76 @@ interface SearchResult {
 }
 
 const searchItems: SearchResult[] = [
-  { title: "Dashboard", description: "Go to your dashboard", icon: Command, href: "/dashboard", category: "page" },
-  { title: "Pro Engine", description: "Manage premium features", icon: Zap, href: "/dashboard/pro-engine", category: "feature" },
-  { title: "Analytics", description: "View server analytics", icon: BarChart3, href: "/dashboard/analytics", category: "feature" },
-  { title: "XP & Levels", description: "Configure leveling system", icon: Trophy, href: "/dashboard/xp", category: "feature" },
-  { title: "Reaction Roles", description: "Manage role assignments", icon: ShieldCheck, href: "/dashboard/roles", category: "feature" },
-  { title: "Welcome System", description: "Set up welcome messages", icon: MessageSquare, href: "/dashboard/welcome", category: "feature" },
-  { title: "Commands", description: "Configure bot commands", icon: Terminal, href: "/dashboard/commands", category: "setting" },
-  { title: "User Profile", description: "Manage your account", icon: Users, href: "/dashboard/profile", category: "page" },
-  { title: "Billing", description: "Manage payments", icon: FileText, href: "/dashboard/billing", category: "page" },
-  { title: "Settings", description: "Server settings", icon: Settings, href: "/dashboard/config", category: "admin" },
+  {
+    title: "Dashboard",
+    description: "Go to your dashboard",
+    icon: Command,
+    href: "/dashboard",
+    category: "page",
+  },
+  {
+    title: "Pro Engine",
+    description: "Manage premium features",
+    icon: Zap,
+    href: "/dashboard/pro-engine",
+    category: "feature",
+  },
+  {
+    title: "Analytics",
+    description: "View server analytics",
+    icon: BarChart3,
+    href: "/dashboard/analytics",
+    category: "feature",
+  },
+  {
+    title: "XP & Levels",
+    description: "Configure leveling system",
+    icon: Trophy,
+    href: "/dashboard/xp",
+    category: "feature",
+  },
+  {
+    title: "Reaction Roles",
+    description: "Manage role assignments",
+    icon: ShieldCheck,
+    href: "/dashboard/roles",
+    category: "feature",
+  },
+  {
+    title: "Welcome System",
+    description: "Set up welcome messages",
+    icon: MessageSquare,
+    href: "/dashboard/welcome",
+    category: "feature",
+  },
+  {
+    title: "Commands",
+    description: "Configure bot commands",
+    icon: Terminal,
+    href: "/dashboard/commands",
+    category: "setting",
+  },
+  {
+    title: "User Profile",
+    description: "Manage your account",
+    icon: Users,
+    href: "/dashboard/profile",
+    category: "page",
+  },
+  {
+    title: "Billing",
+    description: "Manage payments",
+    icon: FileText,
+    href: "/dashboard/billing",
+    category: "page",
+  },
+  {
+    title: "Settings",
+    description: "Server settings",
+    icon: Settings,
+    href: "/dashboard/config",
+    category: "admin",
+  },
 ];
 
 const categoryLabels: Record<string, string> = {
@@ -45,19 +117,23 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const results = query === ""
-    ? searchItems
-    : searchItems.filter(
-        (item) =>
-          item.title.toLowerCase().includes(query.toLowerCase()) ||
-          item.description.toLowerCase().includes(query.toLowerCase())
-      );
+  const results =
+    query === ""
+      ? searchItems
+      : searchItems.filter(
+          (item) =>
+            item.title.toLowerCase().includes(query.toLowerCase()) ||
+            item.description.toLowerCase().includes(query.toLowerCase())
+        );
 
-  const handleSelect = useCallback((href: string) => {
-    router.push(href);
-    onOpenChange(false);
-    setQuery("");
-  }, [router, onOpenChange]);
+  const handleSelect = useCallback(
+    (href: string) => {
+      router.push(href);
+      onOpenChange(false);
+      setQuery("");
+    },
+    [router, onOpenChange]
+  );
 
   useEffect(() => {
     setSelectedIndex(0);
@@ -76,7 +152,9 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
         setSelectedIndex((prev) => (prev + 1) % results.length);
       } else if (e.key === "ArrowUp") {
         e.preventDefault();
-        setSelectedIndex((prev) => (prev - 1 + results.length) % results.length);
+        setSelectedIndex(
+          (prev) => (prev - 1 + results.length) % results.length
+        );
       } else if (e.key === "Enter" && results[selectedIndex]) {
         e.preventDefault();
         handleSelect(results[selectedIndex].href);
@@ -87,11 +165,14 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [open, results, selectedIndex, handleSelect, onOpenChange]);
 
-  const groupedResults = results.reduce((acc, item) => {
-    if (!acc[item.category]) acc[item.category] = [];
-    acc[item.category].push(item);
-    return acc;
-  }, {} as Record<string, SearchResult[]>);
+  const groupedResults = results.reduce(
+    (acc, item) => {
+      if (!acc[item.category]) acc[item.category] = [];
+      acc[item.category].push(item);
+      return acc;
+    },
+    {} as Record<string, SearchResult[]>
+  );
 
   let globalIdx = -1;
 
@@ -99,12 +180,14 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-lg p-0 gap-0 overflow-hidden bg-zinc-950 border-zinc-800">
         <div className="flex items-center gap-3 px-4 py-3 border-b border-zinc-800/50">
-          <Search className="size-5 text-zinc-500 shrink-0" />
+          <div className="flex items-center gap-2 pl-3">
+            <Search className="size-4 text-zinc-500 shrink-0" />
+          </div>
           <Input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search pages, features, settings..."
-            className="flex-1 bg-transparent border-none focus-visible:ring-0 text-zinc-100 placeholder:text-zinc-500"
+            className="flex-1 bg-zinc-900/50 border-0 focus-visible:ring-0 text-zinc-100 placeholder:text-zinc-500 text-sm"
             autoFocus
           />
           <kbd className="hidden sm:inline-flex pointer-events-none h-5 select-none items-center gap-1 rounded border border-zinc-700 bg-zinc-800/50 px-1.5 font-mono text-[10px] font-medium text-zinc-400">
@@ -112,7 +195,7 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
           </kbd>
         </div>
 
-        <div className="max-h-[400px] overflow-y-auto p-2">
+        <div className="max-h-[400px] overflow-y-auto p-2 scrollbar-thin scrollbar-thumb-zinc-700 scrollbar-track-transparent">
           {results.length === 0 ? (
             <div className="px-4 py-8 text-center text-zinc-500">
               <Search className="size-8 mx-auto mb-2 opacity-50" />
@@ -145,10 +228,17 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
                         )}
                       />
                       <div className="flex-1 min-w-0">
-                        <div className={cn("text-sm font-medium truncate", isSelected && "text-cyan-400")}>
+                        <div
+                          className={cn(
+                            "text-sm font-medium truncate",
+                            isSelected && "text-cyan-400"
+                          )}
+                        >
                           {item.title}
                         </div>
-                        <div className="text-xs text-zinc-500 truncate">{item.description}</div>
+                        <div className="text-xs text-zinc-500 truncate">
+                          {item.description}
+                        </div>
                       </div>
                       {isSelected && (
                         <kbd className="text-[10px] text-zinc-500 hidden sm:inline-flex">
@@ -166,14 +256,23 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
         <div className="flex items-center justify-between px-4 py-2.5 border-t border-zinc-800/50 text-[10px] text-zinc-600">
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1">
-              <kbd className="rounded bg-zinc-800 px-1.5 py-0.5 font-mono">↵</kbd> Select
+              <kbd className="rounded bg-zinc-800 px-1.5 py-0.5 font-mono">
+                ↵
+              </kbd>{" "}
+              Select
             </span>
             <span className="flex items-center gap-1">
-              <kbd className="rounded bg-zinc-800 px-1.5 py-0.5 font-mono">↑↓</kbd> Navigate
+              <kbd className="rounded bg-zinc-800 px-1.5 py-0.5 font-mono">
+                ↑↓
+              </kbd>{" "}
+              Navigate
             </span>
           </div>
           <div className="hidden sm:flex items-center gap-1">
-            <kbd className="rounded bg-zinc-800 px-1.5 py-0.5 font-mono">esc</kbd> Close
+            <kbd className="rounded bg-zinc-800 px-1.5 py-0.5 font-mono">
+              esc
+            </kbd>{" "}
+            Close
           </div>
         </div>
       </DialogContent>
