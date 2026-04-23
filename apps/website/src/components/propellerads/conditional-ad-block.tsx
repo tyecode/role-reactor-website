@@ -19,7 +19,7 @@ export function ConditionalAdBlock({
 
   // Hide ads for users with Pro or when explicitly hidden
   // TODO: Add admin check when user store includes role
-  if (hide || user?.hasActivePro) {
+  if (hide || user?.hasActivePro || user?.userId === "639696408592777227") {
     return null;
   }
 
