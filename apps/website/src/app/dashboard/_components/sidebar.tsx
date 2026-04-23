@@ -153,7 +153,6 @@ export function DashboardSidebar({ user }: { user: User }) {
             title: "Custom Commands",
             href: getHref("/dashboard/custom-commands", true),
             icon: Wand2,
-            isComingSoon: true,
           },
         ]
       : [];
