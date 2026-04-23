@@ -1,32 +1,28 @@
 "use client";
 
 import { useUserStore } from "@/store/use-user-store";
-import { PropellerAdBlock } from "./propellerads-ad-block";
 
 interface ConditionalAdBlockProps {
-  zoneId: string;
+  zoneId?: string;
   style?: React.CSSProperties;
   className?: string;
   hide?: boolean;
 }
 
 export function ConditionalAdBlock({
-  zoneId,
-  style,
-  className,
+  zoneId: _zoneId,
+  style: _style,
+  className: _className,
   hide,
 }: ConditionalAdBlockProps) {
   const { user } = useUserStore();
 
-  // Check if user has Pro on any guild (from API)
-  const hasPro = user?.hasActivePro === true;
-
-  // Hide ads for users who have Pro or if explicitly hidden
-  if (hasPro || hide) {
+  // Hide ads for users with Pro or when explicitly hidden
+  // TODO: Add admin check when user store includes role
+  if (hide || user?.hasActivePro) {
     return null;
   }
 
-  return (
-    <PropellerAdBlock zoneId={zoneId} style={style} className={className} />
-  );
+  // Ads are disabled by default
+  return null;
 }

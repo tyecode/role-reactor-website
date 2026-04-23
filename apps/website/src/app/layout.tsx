@@ -10,8 +10,6 @@ import { SessionProvider } from "@/components/auth/session-provider";
 import { Toaster } from "sonner";
 import { PWAMeta, PWAProvider } from "@/components/pwa/pwa-provider";
 import { initPerformanceMonitoring } from "@/lib/web-vitals";
-import Script from "next/script";
-
 import "./global.css";
 
 import { inter } from "@/lib/fonts";
@@ -149,15 +147,6 @@ export default function Layout({ children }: { children: ReactNode }) {
         suppressHydrationWarning
       >
         <MobileNavClose />
-        {process.env.NEXT_PUBLIC_PROPELLERADS_ZONE_ID && (
-          <Script
-            id="propellerads-init"
-            strategy="beforeInteractive"
-            dangerouslySetInnerHTML={{
-              __html: `(function(s){s.dataset.zone='${process.env.NEXT_PUBLIC_PROPELLERADS_ZONE_ID}',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')));`,
-            }}
-          />
-        )}
         <PWAMeta />
         <PWAProvider />
         <SessionProvider>
