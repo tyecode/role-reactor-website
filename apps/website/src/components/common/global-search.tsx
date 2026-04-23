@@ -15,7 +15,7 @@ import {
   Settings,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
@@ -179,6 +179,9 @@ export function GlobalSearch({ open, onOpenChange }: GlobalSearchProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-lg p-0 gap-0 overflow-hidden bg-zinc-950 border-zinc-800">
+        <DialogTitle className="sr-only">
+          Search pages, features, and settings
+        </DialogTitle>
         <div className="flex items-center gap-3 px-4 py-3 border-b border-zinc-800/50">
           <div className="flex items-center gap-2 pl-3">
             <Search className="size-4 text-zinc-500 shrink-0" />
