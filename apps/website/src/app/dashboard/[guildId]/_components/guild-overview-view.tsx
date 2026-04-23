@@ -1,6 +1,7 @@
 "use client";
 
 import { GuildHero } from "./guild-hero";
+import { ServerOnboarding } from "./server-onboarding";
 import { useServerStore } from "@/store/use-server-store";
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -233,6 +234,9 @@ export function GuildOverviewView({
           </Card>
         </motion.div>
       )}
+
+      {/* Onboarding for new servers */}
+      {!isPremium && <ServerOnboarding guildId={guildId} />}
 
       {/* Hero Header */}
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-4">
