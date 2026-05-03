@@ -60,9 +60,12 @@ export function UserTable() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
-  const [searchTerm, setSearchTerm] = useState(
-    searchParams.get("search") || ""
-  );
+
+  const initialSearch = searchParams.get("search") || "";
+  const initialPage = Math.max(1, parseInt(searchParams.get("page") || "1"));
+
+  const [searchTerm, setSearchTerm] = useState(initialSearch);
+  const [currentPage, setCurrentPage] = useState(initialPage);
 
   const {
     users,
@@ -72,28 +75,13 @@ export function UserTable() {
     updateUserRole: updateStoreUserRole,
   } = useUsersStore();
 
-  // Initial load
   useEffect(() => {
     const search = searchParams.get("search") || undefined;
-    const page = parseInt(searchParams.get("page") || "1");
+    const page = Math.max(1, parseInt(searchParams.get("page") || "1"));
     setCurrentPage(page);
-    fetchUsers(search, true, page); // Force fetch on mount
-  }, []);
-
-  // Role Update State
-  const [selectedUser, setSelectedUser] = useState<UserData | null>(null);
-  const [updateRole, setUpdateRole] = useState<string>("");
-  const [isUpdating, setIsUpdating] = useState(false);
-  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
-
-  // Core Management State
-  const [selectedCoreUser, setSelectedCoreUser] = useState<UserData | null>(
-    null
-  );
-  const [selectedHistoryUser, setSelectedHistoryUser] =
-    useState<UserData | null>(null);
-
-  const [currentPage, setCurrentPage] = useState(1);
+    setSearchTerm(searchParams.get("search") || "");
+    fetchUsers(search, true, page);
+  }, [searchParams, fetchUsers]);
 
   const handleSearch = (val: string) => {
     setSearchTerm(val);
@@ -108,7 +96,7 @@ export function UserTable() {
       params.set("page", "1");
       router.push(`?${params.toString()}`);
     });
-    fetchUsers(val || undefined, false, 1);
+    fetchUsers(val || undefined, true, 1);
   };
 
   const handlePageChange = (newPage: number) => {
@@ -121,8 +109,21 @@ export function UserTable() {
       params.set("page", String(newPage));
       router.push(`?${params.toString()}`);
     });
-    fetchUsers(searchTerm || undefined, false, newPage);
+    fetchUsers(searchTerm || undefined, true, newPage);
   };
+
+  // Role Update State
+  const [selectedUser, setSelectedUser] = useState<UserData | null>(null);
+  const [updateRole, setUpdateRole] = useState<string>("");
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+
+  // Core Management State
+  const [selectedCoreUser, setSelectedCoreUser] = useState<UserData | null>(
+    null
+  );
+  const [selectedHistoryUser, setSelectedHistoryUser] =
+    useState<UserData | null>(null);
 
   const handleUpdateRole = async () => {
     if (!selectedUser || !updateRole) return;
@@ -249,14 +250,14 @@ export function UserTable() {
                 <button
                   onClick={() => handlePageChange(currentPage - 1)}
                   disabled={currentPage === 1}
-                  className="p-2 rounded-lg bg-zinc-900/50 border border-white/10 hover:border-cyan-500/50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                  className="p-2 rounded-lg bg-zinc-900/50 border border-white/10 hover:border-cyan-500/50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
                 >
                   <ChevronLeft className="size-4" />
                 </button>
                 <button
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={currentPage >= pagination.pages}
-                  className="p-2 rounded-lg bg-zinc-900/50 border border-white/10 hover:border-cyan-500/50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+                  className="p-2 rounded-lg bg-zinc-900/50 border border-white/10 hover:border-cyan-500/50 disabled:opacity-30 disabled:cursor-not-allowed transition-colors cursor-pointer"
                 >
                   <ChevronRight className="size-4" />
                 </button>

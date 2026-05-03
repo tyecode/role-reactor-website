@@ -1,0 +1,48 @@
+---
+title: Stats
+description: View bot statistics including server count, member statistics, and command usage information.
+keywords: stats, statistics, servers, users, usage, bot info
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Cards, Card } from "fumadocs-ui/components/card";
+
+## Overview
+
+The Stats command provides a comprehensive overview of the bot's performance and usage across all servers it serves.
+
+## What You'll See
+
+<Callout type="info">
+  - **Server Count** — Total number of servers the bot is in - **Member Count**
+  — Total members across all servers - **Command Usage** — Most frequently used
+  commands - **Uptime** — How long the bot has been running
+</Callout>
+
+## Usage
+
+```bash
+/stats
+```
+
+No additional parameters required.
+
+## Related Commands
+
+<Cards>
+  <Card
+    title="/ping"
+    description="Check bot latency and connection status"
+    href="./ping"
+  />
+  <Card
+    title="/serverinfo"
+    description="Display detailed information about your server"
+    href="./serverinfo"
+  />
+  <Card
+    title="/help"
+    description="Access help and command information"
+    href="./help"
+  />
+</Cards>

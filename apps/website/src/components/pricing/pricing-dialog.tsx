@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, ReactNode } from "react";
+import { useEffect, useState, useMemo, ReactNode } from "react";
 import { useSession, signIn } from "next-auth/react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -11,10 +11,11 @@ import Image from "next/image";
 import { useUiSound } from "@/hooks/use-ui-sound";
 import { toast } from "@/lib/toast";
 
-// Sub-components
 import { PackagesView } from "./packages-view";
 import { PaymentMethodView } from "./payment-method-view";
 import { PaymentPendingView } from "./payment-pending-view";
+
+const SESSION_STORAGE_KEY = "role-reactor-pending-package";
 
 interface PricingDialogProps {
   children?: ReactNode;
@@ -30,7 +31,7 @@ export function PricingDialog({
   onOpenChange: setControlledOpen,
 }: PricingDialogProps) {
   const { data: session } = useSession();
-  const { playBeep, playConfirm, playSwitch } = useUiSound();
+  const { playConfirm, playSwitch } = useUiSound();
   const [internalOpen, setInternalOpen] = useState(false);
   const [view, setView] = useState<"packages" | "payment" | "payment_pending">(
     "packages"
@@ -47,7 +48,10 @@ export function PricingDialog({
 
   const { updateBalance, fetchUser } = useUserStore();
 
-  const packages = pricingData?.packages || [];
+  const packages = useMemo(
+    () => pricingData?.packages || [],
+    [pricingData?.packages]
+  );
   const loading = isStoreLoading;
 
   useEffect(() => {
@@ -61,15 +65,41 @@ export function PricingDialog({
   );
   const [loadingPackageId] = useState<string | null>(null);
   const [loadingCryptoId, setLoadingCryptoId] = useState<string | null>(null);
+  const [pendingPayment, setPendingPayment] = useState<{
+    orderId: string;
+    expectedCores: number;
+    initialBalance: number;
+  } | null>(null);
+  const [initialBalance, setInitialBalance] = useState<number>(0);
+
   useEffect(() => {
     if (isOpen) {
       fetchPricing(session?.user?.id);
       setView("packages");
+
+      if (session?.user?.id) {
+        const savedPackageId = sessionStorage.getItem(SESSION_STORAGE_KEY);
+        if (savedPackageId) {
+          sessionStorage.removeItem(SESSION_STORAGE_KEY);
+          const pkg = packages.find((p) => p.id === savedPackageId);
+          if (pkg) {
+            setSelectedPackage(pkg);
+            setView("payment");
+          }
+        }
+      }
     }
-  }, [isOpen, fetchPricing, session?.user?.id]);
+  }, [isOpen, fetchPricing, session?.user?.id, packages]);
+
+  useEffect(() => {
+    if (session?.user?.id && pricingData?.user?.currentCredits) {
+      setInitialBalance(pricingData.user.currentCredits);
+    }
+  }, [session?.user?.id, pricingData?.user?.currentCredits]);
 
   const handlePaymentInitiation = (packageId: string) => {
     if (!session?.user?.id) {
+      sessionStorage.setItem(SESSION_STORAGE_KEY, packageId);
       signIn("discord", { callbackUrl: window.location.href });
       return;
     }
@@ -95,7 +125,7 @@ export function PricingDialog({
           amount: selectedPackage.price,
           packageId: selectedPackage.id,
           currency,
-          provider, // Pass the selected provider to our backend
+          provider,
         }),
       });
 
@@ -117,8 +147,14 @@ export function PricingDialog({
       }
 
       const paymentUrl = data.data?.paymentUrl || data.data?.invoiceUrl;
+      const orderId = data.data?.orderId;
       if (paymentUrl) {
         window.open(paymentUrl, "_blank", "noopener,noreferrer");
+        setPendingPayment({
+          orderId,
+          expectedCores: selectedPackage.totalCores,
+          initialBalance,
+        });
         setView("payment_pending");
       } else {
         throw new Error("No payment URL received from server");
@@ -131,6 +167,16 @@ export function PricingDialog({
     } finally {
       setLoadingCryptoId(null);
     }
+  };
+
+  const handlePaymentComplete = () => {
+    playConfirm();
+    toast.success("Cores added to your balance!");
+    if (session?.user?.id) {
+      fetchUser(session.user.id, true);
+    }
+    setPendingPayment(null);
+    setOpen(false);
   };
 
   return (
@@ -164,7 +210,7 @@ export function PricingDialog({
         )}
         <DialogContent
           variant="glitch"
-          className="max-w-[420px]"
+          className="max-w-[520px] sm:max-w-[600px]"
           innerClassName="flex flex-col"
           hideClose={view !== "packages"}
           aria-describedby={undefined}
@@ -179,10 +225,13 @@ export function PricingDialog({
             />
           ) : view === "payment_pending" ? (
             <PaymentPendingView
+              pendingPayment={pendingPayment}
+              onComplete={handlePaymentComplete}
               onReturn={() => {
                 if (session?.user?.id) {
                   fetchUser(session.user.id, true);
                 }
+                setPendingPayment(null);
                 setOpen(false);
               }}
             />
@@ -196,7 +245,6 @@ export function PricingDialog({
                 }}
                 onCryptoPayment={handleCryptoPayment}
                 loadingCryptoId={loadingCryptoId}
-                playBeep={playBeep}
                 playConfirm={playConfirm}
               />
             )

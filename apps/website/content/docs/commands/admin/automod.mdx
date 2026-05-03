@@ -1,0 +1,87 @@
+---
+title: Auto-Moderation
+description: Configure auto-moderation filters to protect your server from bad words, spam, links, mentions, and more. Includes advanced wildcard and regex filters for Pro Engine.
+keywords: automod, auto-moderation, filter, spam, bad words, links, moderation, protection
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+import { Cards, Card } from "fumadocs-ui/components/card";
+
+## Filters
+
+<Cards>
+  <Card
+    title="badwords"
+    description="Block custom words or phrases from chat"
+  />
+  <Card title="links" description="Block all URLs (Pro: domain allowlisting)" />
+  <Card title="spam" description="Detect repeated messages and spam behavior" />
+  <Card title="mentions" description="Prevent excessive @mention spam" />
+  <Card title="invites" description="Block Discord invite links" />
+  <Card
+    title="capslock"
+    description="Detect and moderate excessive caps usage"
+  />
+</Cards>
+
+## Usage Examples
+
+<Tabs items={["Toggle", "Bad Words", "Links", "Domains (Pro)"]}>
+  <Tab value="Toggle">
+    Enable or disable auto-moderation: ```bash /automod toggle enabled:true ```
+  </Tab>
+  <Tab value="Bad Words">
+    Configure bad words filter: ```bash /automod badwords toggle enabled:true
+    /automod badwords words:add badword1,badword2 /automod badwords
+    action:delete ``` - Supports multiple actions: `delete`, `warn`, `timeout`
+  </Tab>
+  <Tab value="Links">
+    Configure link filter: ```bash /automod links toggle enabled:true /automod
+    links action:delete ``` Blocks all URLs by default. Pro servers can
+    allowlist specific domains.
+  </Tab>
+  <Tab value="Domains (Pro)">
+    Manage allowed domains (Pro Engine required): ```bash /automod domains add
+    google.com,github.com /automod domains remove google.com /automod domains
+    list /automod domains clear ```
+  </Tab>
+</Tabs>
+
+## Pro Engine Features
+
+<Callout type="info">
+  Pro Engine unlocks advanced filtering capabilities: - **Domain Allowlisting**
+  — Whitelist trusted domains while blocking all other links - **Wildcard
+  Filters** — Use patterns like `*spam*` to catch variations - **Regex Filters**
+  — Advanced regex patterns for precise content moderation
+</Callout>
+
+## Permissions Required
+
+<Callout type="info">
+  - **Manage Server** or **Manage Roles** — Required for all `/automod` commands
+</Callout>
+
+## What You'll See
+
+<Callout type="info">
+  Configuration panel with interactive buttons to toggle filters, set actions,
+  and manage word lists. Moderation actions are applied automatically when
+  violations are detected.
+</Callout>
+
+## Related Commands
+
+<Cards>
+  <Card
+    title="/moderation"
+    description="Manual moderation tools"
+    href="./moderation"
+  />
+  <Card
+    title="/ticket"
+    description="Manage the ticket support system"
+    href="./ticket"
+  />
+</Cards>

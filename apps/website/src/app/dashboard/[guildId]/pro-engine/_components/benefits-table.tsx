@@ -23,6 +23,14 @@ const benefits = [
     category: "Role Reactions",
   },
   {
+    name: "Max Usage Limits",
+    free: false,
+    pro: true,
+    tooltip: "Set maximum number of users who can claim a reaction role",
+    type: "feature",
+    category: "Role Reactions",
+  },
+  {
     name: "Active Giveaways",
     free: "3",
     pro: "20",
@@ -134,6 +142,54 @@ const benefits = [
     type: "feature",
     category: "Ticketing",
   },
+  {
+    name: "Domain Allowlisting",
+    free: false,
+    pro: true,
+    tooltip: "Whitelist trusted domains while blocking all other links",
+    type: "feature",
+    category: "Auto-Moderation",
+  },
+  {
+    name: "Wildcard Filters",
+    free: false,
+    pro: true,
+    tooltip: "Use wildcard patterns (e.g. *spam*) for flexible word filtering",
+    type: "feature",
+    category: "Auto-Moderation",
+  },
+  {
+    name: "Regex Filters",
+    free: false,
+    pro: true,
+    tooltip: "Advanced regex patterns for precise content moderation",
+    type: "feature",
+    category: "Auto-Moderation",
+  },
+  {
+    name: "Custom Commands",
+    free: false,
+    pro: true,
+    tooltip: "Create custom slash commands with buttons and menus",
+    type: "feature",
+    category: "Custom Commands",
+  },
+  {
+    name: "Command Responses",
+    free: false,
+    pro: true,
+    tooltip: "Configure custom text, embed, or button responses",
+    type: "feature",
+    category: "Custom Commands",
+  },
+  {
+    name: "Select Menus",
+    free: false,
+    pro: true,
+    tooltip: "Add interactive select menus to custom commands",
+    type: "feature",
+    category: "Custom Commands",
+  },
 ];
 
 const categoryStyles: Record<
@@ -164,6 +220,16 @@ const categoryStyles: Record<
     bg: "bg-amber-500/5",
     badge: "text-amber-400",
     badgeBg: "bg-amber-500/20",
+  },
+  "Auto-Moderation": {
+    bg: "bg-red-500/5",
+    badge: "text-red-400",
+    badgeBg: "bg-red-500/20",
+  },
+  "Custom Commands": {
+    bg: "bg-blue-500/5",
+    badge: "text-blue-400",
+    badgeBg: "bg-blue-500/20",
   },
 };
 

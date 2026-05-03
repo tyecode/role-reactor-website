@@ -215,7 +215,7 @@ export function NotificationBell() {
         <Button
           variant="ghost"
           size="icon"
-          className="relative h-9 w-9 rounded-lg border border-transparent hover:border-cyan-500/30 hover:bg-cyan-950/20 hover:shadow-[0_0_15px_-3px_rgba(6,182,212,0.4)] transition-all duration-300 group"
+          className="relative h-9 w-9 rounded-lg border border-transparent hover:border-cyan-500/30 hover:bg-cyan-950/20 hover:shadow-[0_0_15px_-3px_rgba(6,182,212,0.4)] transition-all duration-300 group cursor-pointer"
           aria-label="Notifications"
         >
           <Bell className="h-4 w-4 text-zinc-400 group-hover:text-cyan-400 transition-colors" />
@@ -307,7 +307,7 @@ export function NotificationBell() {
         </div>
 
         {/* Footer gradient */}
-        <div className="h-0.5 w-full bg-gradient-to-r from-cyan-500/0 via-cyan-500/20 to-cyan-500/0" />
+        <div className="h-0.5 w-full bg-linear-to-r from-cyan-500/0 via-cyan-500/20 to-cyan-500/0" />
       </SheetContent>
     </Sheet>
   );

@@ -9,8 +9,9 @@
     "xp",
     "giveaway",
     "moderation",
-    "role-bundle",
     "ticket",
+    "automod",
+    "role-bundle",
     "voice-roles"
   ]
 }

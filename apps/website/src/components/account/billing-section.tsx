@@ -46,6 +46,7 @@ export function BillingSection() {
   const [isRedeeming, setIsRedeeming] = useState(false);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [isLoadingTransactions, setIsLoadingTransactions] = useState(false);
+  const [visibleTransactions, setVisibleTransactions] = useState(10);
 
   useEffect(() => {
     if (session?.user?.id) {
@@ -68,6 +69,12 @@ export function BillingSection() {
       setIsLoadingTransactions(false);
     }
   };
+
+  const showMoreTransactions = () => {
+    setVisibleTransactions((prev) => prev + 20);
+  };
+
+  const hasMoreTransactions = visibleTransactions < transactions.length;
 
   const handleRedeemCode = async () => {
     if (!redeemCode.trim()) {
@@ -273,7 +280,7 @@ export function BillingSection() {
             </div>
           ) : transactions.length > 0 ? (
             <div className="space-y-2">
-              {transactions.slice(0, 10).map((tx, index) => (
+              {transactions.slice(0, visibleTransactions).map((tx, index) => (
                 <div
                   key={tx.paymentId || index}
                   className="flex items-center justify-between p-4 bg-zinc-900/30 rounded-lg border border-white/5 hover:border-white/10 transition-all"
@@ -308,6 +315,18 @@ export function BillingSection() {
                   </div>
                 </div>
               ))}
+              {hasMoreTransactions && (
+                <div className="flex justify-center pt-4">
+                  <Button
+                    variant="outline"
+                    onClick={showMoreTransactions}
+                    className="border-white/10 text-zinc-400 hover:text-white hover:border-cyan-500/30 hover:bg-cyan-500/5"
+                  >
+                    Show More ({transactions.length - visibleTransactions}{" "}
+                    remaining)
+                  </Button>
+                </div>
+              )}
             </div>
           ) : (
             <div className="text-center py-8">
