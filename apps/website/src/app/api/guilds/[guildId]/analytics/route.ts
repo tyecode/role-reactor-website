@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { botFetch } from "@/lib/bot-fetch";
+import { rateLimiters, getClientIP } from "@/lib/rate-limit";
 
 export const dynamic = "force-dynamic";
 
@@ -8,6 +9,16 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ guildId: string }> }
 ) {
+  const ip = getClientIP(request);
+  const { allowed, headers } = rateLimiters.api.middleware(ip);
+
+  if (!allowed) {
+    return NextResponse.json(
+      { success: false, error: "Rate limit exceeded" },
+      { status: 429, headers }
+    );
+  }
+
   try {
     const { guildId } = await params;
 
@@ -31,10 +42,7 @@ export async function GET(
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}));
       return NextResponse.json(
-        {
-          success: false,
-          error: errorData.message || "Failed to fetch analytics from bot",
-        },
+        { success: false, error: errorData.message || "Failed to fetch analytics from bot" },
         { status: response.status }
       );
     }
@@ -45,8 +53,7 @@ export async function GET(
         "Cache-Control": "public, s-maxage=300, stale-while-revalidate=60",
       },
     });
-  } catch (error) {
-    console.error("Guild analytics proxy error:", error);
+  } catch {
     return NextResponse.json(
       { success: false, error: "Internal server error" },
       { status: 500 }

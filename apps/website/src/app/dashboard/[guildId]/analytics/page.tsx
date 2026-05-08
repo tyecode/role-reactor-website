@@ -152,9 +152,6 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
     setIsExporting(true);
 
     try {
-      // Create professional artificial delay to mimic database pooling
-      await new Promise((resolve) => setTimeout(resolve, 600));
-
       const safeGuildName = guildName.replace(/[^a-z0-9]/gi, "_").toLowerCase();
       const dateStr = new Date().toISOString().split("T")[0];
       const fileName = `${safeGuildName}_analytics_${effectiveDays}d_${dateStr}.${format}`;
@@ -170,6 +167,15 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
         commands?: number;
         roleReactions?: number;
       }
+
+      const getResolvedDate = (day: AnalyticsDay) => {
+        if (day.date) return day.date;
+        if (day.label) {
+          const year = new Date().getFullYear();
+          return `${year}-${day.label.replace(" ", "-")}`;
+        }
+        return "unknown";
+      };
 
       let content = "";
       let type = "";
@@ -187,29 +193,19 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
           "Role Reactions",
         ];
 
-        const rows = history.map((day: AnalyticsDay) => {
-          // Keep strict dates if available, fallback to label string with current year assumption if missing date field
-          const resolvedDate =
-            day.date ||
-            `${new Date().getFullYear()}-${day.label?.replace(" ", "-")}`;
+        const rows = history.map((day: AnalyticsDay) => [
+          getResolvedDate(day),
+          day.members ?? 0,
+          day.joins ?? 0,
+          day.leaves ?? 0,
+          (day.joins ?? 0) - (day.leaves ?? 0),
+          day.messages ?? 0,
+          day.voiceMinutes ?? 0,
+          day.commands ?? 0,
+          day.roleReactions ?? 0,
+        ]);
 
-          return [
-            resolvedDate,
-            day.members ?? 0,
-            day.joins ?? 0,
-            day.leaves ?? 0,
-            (day.joins ?? 0) - (day.leaves ?? 0),
-            day.messages ?? 0,
-            day.voiceMinutes ?? 0,
-            day.commands ?? 0,
-            day.roleReactions ?? 0,
-          ];
-        });
-
-        content = [
-          headers.join(","),
-          ...rows.map((row: (string | number)[]) => row.join(",")),
-        ].join("\n");
+        content = [headers.join(","), ...rows.map((row: (string | number)[]) => row.join(","))].join("\n");
         type = "text/csv;charset=utf-8;";
       } else if (format === "json") {
         const payload = {
@@ -219,9 +215,7 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
           periodDays: effectiveDays,
           aggregatedStats: activityStats,
           history: history.map((day: AnalyticsDay) => ({
-            date:
-              day.date ||
-              `${new Date().getFullYear()}-${day.label?.replace(" ", "-")}`,
+            date: getResolvedDate(day),
             label: day.label,
             metrics: {
               totalMembers: day.members ?? 0,
@@ -244,17 +238,15 @@ export default function AnalyticsPage({ params }: AnalyticsPageProps) {
       const link = document.createElement("a");
       link.setAttribute("href", url);
       link.setAttribute("download", fileName);
-      link.setAttribute("target", "_blank"); // Prevents Next.js from intercepting as a page navigation
+      link.setAttribute("target", "_blank");
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
 
-      // Free up memory and prevent the browser from hanging
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      setTimeout(() => URL.revokeObjectURL(url), 100);
 
       toast.success(`${format.toUpperCase()} export compiled and downloaded!`);
-    } catch (err) {
-      console.error("Failed to build export payload:", err);
+    } catch {
       toast.error("Export failed. Please try again.");
     } finally {
       setIsExporting(false);
