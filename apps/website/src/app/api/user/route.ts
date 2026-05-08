@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { botFetchJson } from "@/lib/bot-fetch";
+import { rateLimiters, getClientIP } from "@/lib/rate-limit";
 
 interface UserData {
   id: string;
@@ -23,10 +24,14 @@ interface UsersResponse {
   };
 }
 
-/**
- * Get users list with optional search
- */
 export async function GET(request: Request) {
+  const ip = getClientIP(request);
+  const { allowed, headers } = rateLimiters.api.middleware(ip);
+
+  if (!allowed) {
+    return NextResponse.json({ error: "Rate limit exceeded" }, { status: 429, headers });
+  }
+
   try {
     const session = await auth();
     const userId = session?.user?.id;
@@ -48,22 +53,14 @@ export async function GET(request: Request) {
 
     const data = await botFetchJson<UsersResponse>(
       `/user?${query.toString()}`,
-      {
-        userId,
-        silent: true, // Suppress console errors for expected API issues
-      }
+      { userId, silent: true }
     );
 
     return NextResponse.json(data);
   } catch {
-    // Return empty result for expected API errors (503 = service unavailable)
     return NextResponse.json({
       users: [],
-      pagination: {
-        page: 1,
-        total: 0,
-        pages: 0,
-      },
+      pagination: { page: 1, total: 0, pages: 0 },
     });
   }
 }

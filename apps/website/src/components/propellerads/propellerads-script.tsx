@@ -2,10 +2,14 @@
 
 import Script from "next/script";
 
+const ZONE_ID_REGEX = /^[a-zA-Z0-9_-]+$/;
+
 export function PropellerAdsScript() {
   const zoneId = process.env.NEXT_PUBLIC_PROPELLERADS_ZONE_ID;
 
-  if (!zoneId) return null;
+  if (!zoneId || !ZONE_ID_REGEX.test(zoneId)) {
+    return null;
+  }
 
   return (
     <Script
