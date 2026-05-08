@@ -31,7 +31,8 @@ export async function GET(
     }
 
     const { searchParams } = new URL(request.url);
-    const days = searchParams.get("days") || "30";
+    const daysParam = searchParams.get("days");
+    const days = typeof daysParam === "string" ? daysParam : "30";
     const userId = session.user?.id;
 
     const response = await botFetch(
