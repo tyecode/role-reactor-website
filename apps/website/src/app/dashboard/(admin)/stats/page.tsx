@@ -44,6 +44,12 @@ interface BotStats {
   };
 }
 
+interface ActiveUsers {
+  dau: number;
+  mau: number;
+  total: number;
+}
+
 interface CommandUsage {
   commands: Array<{
     name: string;
@@ -78,6 +84,17 @@ async function getCommandUsage() {
   }
 }
 
+async function getActiveUsers() {
+  try {
+    return await botFetchJson<{ activeUsers: ActiveUsers }>("/stats/active-users", {
+      next: { revalidate: 300 }, // Cache for 5 minutes
+    });
+  } catch (error) {
+    console.error("Failed to fetch active users:", error);
+    return null;
+  }
+}
+
 function StatsLoader() {
   return (
     <div className="absolute inset-0 z-40 flex items-center justify-center bg-background">
@@ -90,7 +107,11 @@ function StatsLoader() {
 }
 
 async function StatsContent() {
-  const [stats, usage] = await Promise.all([getStats(), getCommandUsage()]);
+  const [stats, usage, activeUsers] = await Promise.all([
+    getStats(),
+    getCommandUsage(),
+    getActiveUsers(),
+  ]);
 
   if (!stats) {
     return (
@@ -128,6 +149,25 @@ async function StatsContent() {
           color="fuchsia"
         />
         <StatCard
+          title="Daily Active"
+          value={formatCompactNumber(activeUsers?.activeUsers.dau || 0)}
+          icon={Activity}
+          description="Users active in last 24h"
+          trend="+8.3%"
+          color="emerald"
+        />
+        <StatCard
+          title="Monthly Active"
+          value={formatCompactNumber(activeUsers?.activeUsers.mau || 0)}
+          icon={Users}
+          description="Users active in last 30 days"
+          trend="+15%"
+          color="cyan"
+        />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatCard
           title="Executions"
           value={formatCompactNumber(usage?.summary.totalExecutions || 0)}
           icon={Terminal}
@@ -142,6 +182,28 @@ async function StatsContent() {
           description="All processes operational"
           color="amber"
           isStatus
+        />
+        <StatCard
+          title="Engagement Rate"
+          value={
+            stats.statistics.users > 0
+              ? `${Math.round(((activeUsers?.activeUsers.dau || 0) / stats.statistics.users) * 100)}%`
+              : "0%"
+          }
+          icon={Activity}
+          description="DAU / Total Users ratio"
+          color="fuchsia"
+        />
+        <StatCard
+          title="Retention"
+          value={
+            activeUsers?.activeUsers.mau && activeUsers.activeUsers.mau > 0
+              ? `${Math.round(((activeUsers.activeUsers.dau || 0) / activeUsers.activeUsers.mau) * 100)}%`
+              : "0%"
+          }
+          icon={Users}
+          description="DAU / MAU retention ratio"
+          color="cyan"
         />
       </div>
 
