@@ -108,6 +108,7 @@ function ActivityIcon() {
 export function SystemHealth() {
   const [health, setHealth] = useState<HealthData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [fetchFailed, setFetchFailed] = useState(false);
 
   useEffect(() => {
     const fetchHealth = async () => {
@@ -116,16 +117,20 @@ export function SystemHealth() {
         if (res.ok) {
           const data = await res.json();
           setHealth(data);
+          setFetchFailed(false);
+        } else {
+          setFetchFailed(true);
         }
       } catch (error) {
         console.error("Failed to fetch health:", error);
+        setFetchFailed(true);
       } finally {
         setLoading(false);
       }
     };
 
     fetchHealth();
-    const interval = setInterval(fetchHealth, 30000); // Refresh every 30s
+    const interval = setInterval(fetchHealth, 30000);
     return () => clearInterval(interval);
   }, []);
 
@@ -149,6 +154,44 @@ export function SystemHealth() {
           {[1, 2, 3, 4].map((i) => (
             <Skeleton key={i} className="h-12 w-full rounded-xl min-h-[48px]" />
           ))}
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (fetchFailed) {
+    return (
+      <Card
+        variant="cyberpunk"
+        showGrid
+        className="overflow-hidden border-red-500/20"
+      >
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <div>
+              <CardTitle className="text-xl">Infrastructure Health</CardTitle>
+              <CardDescription>
+                Real-time operational status of core services
+              </CardDescription>
+            </div>
+            <div className="flex items-center gap-1 h-4">
+              <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <HealthItem
+            label="DISCORD GATEWAY"
+            status="OFFLINE"
+            color="red"
+          />
+          <HealthItem
+            label="DATABASE CLUSTER"
+            status="UNREACHABLE"
+            color="red"
+          />
+          <HealthItem label="MEMORY USAGE" status="N/A" color="red" />
+          <HealthItem label="API LOAD" status="N/A" color="red" />
         </CardContent>
       </Card>
     );

@@ -7,11 +7,13 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { BubbleBackground } from "@/components/common/bubble-background";
 import { Badge } from "@/components/ui/badge";
 import { botFetchJson } from "@/lib/bot-fetch";
+import { checkBotStatus } from "@/lib/bot-status";
 import { audiowide } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 
 import { ServerSearch } from "@/app/(home)/_components/server-search";
 import { ConditionalAdBlock } from "@/components/propellerads";
+import { WifiOff } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
@@ -114,13 +116,60 @@ const getRankStyles = (rank: number) => {
 };
 
 export default async function LeaderboardsPage() {
+  const botStatus = await checkBotStatus();
   let guilds: GuildResult[] = [];
+
+  if (!botStatus.online) {
+    return (
+      <main className="min-h-screen relative flex flex-col items-center py-24 px-4 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-zinc-950 pointer-events-none" />
+          <BubbleBackground
+            interactive={false}
+            className="absolute inset-0 opacity-20"
+            transition={{ stiffness: 50, damping: 30 }}
+            colors={{
+              first: "139, 92, 246",
+              second: "236, 72, 153",
+              third: "168, 85, 247",
+              fourth: "99, 102, 241",
+              fifth: "59, 130, 246",
+              sixth: "124, 58, 237",
+            }}
+          />
+          <div className="absolute inset-0 bg-black/60 pointer-events-none" />
+        </div>
+
+        <div className="relative z-10 w-full max-w-fd-container mx-auto mt-12 flex flex-col items-center justify-center min-h-[60vh] text-center">
+          <div className="w-20 h-20 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mb-6">
+            <WifiOff className="w-10 h-10 text-red-500" />
+          </div>
+          <h1
+            className={cn(
+              "text-3xl sm:text-4xl font-bold tracking-tight text-white mb-4",
+              audiowide.className
+            )}
+          >
+            Service Unavailable
+          </h1>
+          <p className="text-zinc-400 max-w-md text-base leading-relaxed mb-2">
+            The bot service is currently offline. Leaderboards and XP data are
+            temporarily unavailable.
+          </p>
+          <p className="text-zinc-600 text-sm">
+            Please try again in a few minutes.
+          </p>
+        </div>
+      </main>
+    );
+  }
+
   try {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const data = await botFetchJson<any>(
       "/guilds/public-leaderboards?limit=30",
       {
-        next: { revalidate: 0 }, // Disable cache for now to see fresh data
+        next: { revalidate: 0 },
       }
     );
     if (data?.guilds) {

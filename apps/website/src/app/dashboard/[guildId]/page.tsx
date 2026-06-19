@@ -1,6 +1,8 @@
 import { auth } from "@/auth";
 import { botFetchJson } from "@/lib/bot-fetch";
+import { checkBotStatus } from "@/lib/bot-status";
 import { BotInviteCard } from "@/app/dashboard/_components/bot-invite-card";
+import { BotOfflineCard } from "@/app/dashboard/_components/bot-offline-card";
 import { GuildOverviewView } from "@/app/dashboard/[guildId]/_components/guild-overview-view";
 import { notFound } from "next/navigation";
 
@@ -44,11 +46,11 @@ export default async function GuildOverviewPage({
 
   // 2. Data Fetching
   const guildsPromise = getManageableGuilds();
-  const dataPromise = getGuildStats(guildId);
+  const botStatusPromise = checkBotStatus();
 
-  const [{ guilds }, guildResponse] = await Promise.all([
+  const [{ guilds }, botStatus] = await Promise.all([
     guildsPromise,
-    dataPromise,
+    botStatusPromise,
   ]);
 
   const activeGuild = guilds.find((g) => g.id === guildId);
@@ -59,7 +61,15 @@ export default async function GuildOverviewPage({
     notFound();
   }
 
-  // 4. Data Validity Handling
+  // 4. Bot Offline Handling
+  if (!botStatus.online) {
+    return <BotOfflineCard />;
+  }
+
+  // 5. Data Fetching (only if bot is online)
+  const guildResponse = await getGuildStats(guildId);
+
+  // 6. Data Validity Handling
   if (!guildResponse) {
     return <BotInviteCard guildId={guildId} />;
   }

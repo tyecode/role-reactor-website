@@ -4,11 +4,13 @@ import { Trophy, Lock, Users, Crown, TrendingUp } from "lucide-react";
 import Link from "next/link";
 
 import { botFetch } from "@/lib/bot-fetch";
+import { checkBotStatus } from "@/lib/bot-status";
 import { LeaderboardEntry, GuildStats } from "@/types/discord";
 import { audiowide } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
 import { BubbleBackground } from "@/components/common/bubble-background";
 import { ConditionalAdBlock } from "@/components/propellerads";
+import { WifiOff } from "lucide-react";
 
 import { ServerHero } from "./_components/server-hero";
 import { LeaderboardTable } from "./_components/leaderboard-table";
@@ -66,6 +68,20 @@ async function fetchLeaderboardData(guildId: string) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let stats: GuildStats | null = null;
 
+  const botOnline = await checkBotStatus();
+  if (!botOnline.online) {
+    return {
+      leaderboard,
+      isError: false,
+      isPrivate: false,
+      isPremium: false,
+      isOffline: true,
+      serverInfo,
+      total,
+      stats,
+    };
+  }
+
   try {
     const res = await botFetch(`/guilds/${guildId}/leaderboard?limit=50`, {
       cache: "no-store",
@@ -108,6 +124,7 @@ async function fetchLeaderboardData(guildId: string) {
     isError,
     isPrivate,
     isPremium,
+    isOffline: false,
     serverInfo,
     total,
     stats,
@@ -160,10 +177,59 @@ export default async function PublicLeaderboardPage({
     isError,
     isPrivate,
     isPremium,
+    isOffline,
     serverInfo,
     total,
     stats,
   } = await fetchLeaderboardData(guildId);
+
+  if (isOffline) {
+    return (
+      <main className="min-h-screen relative">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-zinc-950 pointer-events-none" />
+          <BubbleBackground
+            interactive={false}
+            className="absolute inset-0 opacity-15"
+            transition={{ stiffness: 50, damping: 30 }}
+            colors={{
+              first: "6, 182, 212",
+              second: "59, 130, 246",
+              third: "139, 92, 246",
+              fourth: "99, 102, 241",
+              fifth: "14, 165, 233",
+              sixth: "6, 182, 212",
+            }}
+          />
+          <div className="absolute inset-0 bg-black/70 pointer-events-none" />
+        </div>
+
+        <div className="relative z-10 container max-w-5xl mx-auto py-24 px-4 min-h-[80vh] flex flex-col items-center justify-center text-center">
+          <div className="w-20 h-20 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mb-6">
+            <WifiOff className="w-10 h-10 text-red-500" />
+          </div>
+          <h1
+            className={cn(
+              "text-3xl font-black mb-4 uppercase tracking-widest text-zinc-400",
+              audiowide.className
+            )}
+          >
+            Service Unavailable
+          </h1>
+          <p className="text-zinc-500 max-w-md">
+            The bot service is currently offline. This leaderboard is temporarily
+            unavailable. Please try again in a few minutes.
+          </p>
+          <Link
+            href="/leaderboards"
+            className="mt-8 text-sm text-zinc-500 hover:text-cyan-400 transition-colors font-medium inline-flex items-center gap-2"
+          >
+            ← Browse all leaderboards
+          </Link>
+        </div>
+      </main>
+    );
+  }
 
   if (isPrivate) {
     return (
