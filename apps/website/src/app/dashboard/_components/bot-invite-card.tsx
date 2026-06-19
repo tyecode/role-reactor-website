@@ -119,18 +119,13 @@ export function BotInviteCard({ guildId }: BotInviteCardProps) {
           className="mt-12 flex items-center gap-6 text-[10px] md:text-xs text-zinc-600 font-bold uppercase tracking-widest"
         >
           <div className="flex items-center gap-2">
-            <div className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-            Offline
+            <div className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />
+            Not Installed
           </div>
           <div className="w-px h-4 bg-zinc-800" />
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full bg-zinc-700" />
-            Setup Required
-          </div>
-          <div className="w-px h-4 bg-zinc-800" />
-          <div className="flex items-center gap-2">
-            <div className="w-1.5 h-1.5 rounded-full bg-zinc-700" />
-            Waiting
+            Invite Bot
           </div>
         </motion.div>
       </div>

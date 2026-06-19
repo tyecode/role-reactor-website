@@ -204,7 +204,7 @@ export function OnboardingView({ inviteUrl }: OnboardingViewProps) {
               icon: Zap,
               accent: "text-emerald-400",
               href: "/dashboard/billing",
-              glow: "group-hover:shadow-emerald-100/10",
+              glow: "group-hover:shadow-emerald-500/10",
             },
           ].map((action, i) => (
             <motion.div

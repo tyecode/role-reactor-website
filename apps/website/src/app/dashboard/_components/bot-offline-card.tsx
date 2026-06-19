@@ -6,6 +6,7 @@ import { Audiowide } from "next/font/google";
 import { motion } from "motion/react";
 import { LayoutDashboard, WifiOff, RefreshCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const audiowide = Audiowide({
   subsets: ["latin"],
@@ -14,6 +15,8 @@ const audiowide = Audiowide({
 });
 
 export function BotOfflineCard() {
+  const router = useRouter();
+
   return (
     <div className="relative flex flex-col items-center justify-center w-full min-h-[80vh] text-center px-4 overflow-hidden">
       {/* Animated Background Grid */}
@@ -81,21 +84,19 @@ export function BotOfflineCard() {
             size="lg"
             className="h-12 border border-white/10 hover:bg-white/5 text-zinc-300 font-bold rounded-xl"
           >
-            <Link href="/dashboard" className="flex items-center gap-2">
-              <LayoutDashboard className="w-4 h-4" />
+            <Link href="/dashboard">
+              <LayoutDashboard className="w-4 h-4 mr-2" />
               Dashboard
             </Link>
           </Button>
 
           <Button
-            asChild
             size="lg"
+            onClick={() => router.refresh()}
             className="h-12 bg-zinc-800 hover:bg-zinc-700 text-white font-bold rounded-xl transition-all hover:scale-105 active:scale-95 px-8"
           >
-            <Link href="/dashboard" className="flex items-center gap-2">
-              <RefreshCcw className="w-4 h-4" />
-              Refresh
-            </Link>
+            <RefreshCcw className="w-4 h-4 mr-2" />
+            Refresh
           </Button>
         </motion.div>
 

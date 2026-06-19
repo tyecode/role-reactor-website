@@ -89,15 +89,16 @@ function HealthItem({ label, status, latency, color }: HealthItemProps) {
 }
 
 function ActivityIcon() {
+  const heights = [14, 8, 18, 10];
   return (
     <div className="flex items-center gap-1 h-4">
-      {[1, 2, 3, 4].map((i) => (
+      {heights.map((h, i) => (
         <div
           key={i}
           className="w-1 bg-cyan-500/50 rounded-full animate-bounce"
           style={{
             animationDelay: `${i * 0.1}s`,
-            height: `${Math.random() * 16 + 4}px`,
+            height: `${h}px`,
           }}
         />
       ))}
