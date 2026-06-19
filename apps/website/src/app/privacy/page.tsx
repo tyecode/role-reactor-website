@@ -1,19 +1,11 @@
-import Link from "next/link";
-
 import { links } from "@/constants/links";
 
 export default function PrivacyPage() {
   return (
-    <main className="min-h-screen bg-linear-to-br from-gray-950 via-black to-blue-950">
+    <main className="min-h-screen">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-16">
         {/* Header */}
         <div className="mb-8 sm:mb-12">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-indigo-400 transition-colors mb-4 sm:mb-6"
-          >
-            ← Back to Home
-          </Link>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-2">
             Privacy Policy
           </h1>

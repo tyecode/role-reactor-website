@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { HomeLayout } from "fumadocs-ui/layouts/home";
+
+import { baseOptions, linkItems } from "@/app/layout.config";
+import { Footer } from "@/components/layout/footer";
 
 export const metadata: Metadata = {
   title: "Contact Us - Role Reactor",
@@ -22,9 +26,27 @@ export const metadata: Metadata = {
 };
 
 export default function ContactLayout({ children }: { children: ReactNode }) {
+  const mergedLinks = [
+    {
+      text: "Documentation",
+      url: "/docs",
+    },
+    {
+      text: "Leaderboards",
+      url: "/leaderboards",
+    },
+    ...linkItems,
+    ...(baseOptions.links || []),
+  ];
+
   return (
-    <div className="flex flex-col min-h-screen">
-      <div className="flex-1">{children}</div>
-    </div>
+    <HomeLayout
+      {...baseOptions}
+      {...{ links: mergedLinks }}
+      className="bg-neutral-950 [--color-fd-background:var(--color-neutral-950)]"
+    >
+      {children}
+      <Footer />
+    </HomeLayout>
   );
 }

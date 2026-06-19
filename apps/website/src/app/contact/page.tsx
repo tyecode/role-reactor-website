@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { ArrowLeft, Mail, MessageCircle, Github, Heart } from "lucide-react";
+import { Mail, MessageCircle, Github, Heart } from "lucide-react";
 import { links } from "@/constants/links";
 
 export const metadata: Metadata = {
@@ -30,16 +29,9 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <main className="min-h-screen bg-linear-to-br from-gray-950 via-black to-blue-950">
+    <main className="min-h-screen">
       <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-16">
         <div className="max-w-4xl mx-auto">
-          <Link
-            href="/"
-            className="inline-flex items-center text-indigo-400 hover:text-indigo-300 mb-6 sm:mb-8 transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Home
-          </Link>
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-2">
             Contact Us
           </h1>
