@@ -35,15 +35,15 @@ export function PaymentMethodView({
 }: PaymentMethodViewProps) {
   return (
     <div className="flex flex-col h-full">
-      <DialogHeader className="px-8 py-6 flex-row items-center justify-between border-b border-white/5 bg-zinc-950/40 backdrop-blur-md shrink-0 rounded-t-2xl! space-y-0">
-        <div className="flex items-center gap-4">
+      <DialogHeader className="px-6 py-4 flex-row items-center justify-between border-b border-white/5 bg-zinc-950/40 backdrop-blur-md shrink-0 rounded-t-2xl! space-y-0">
+        <div className="flex items-center gap-3">
           <Button
             variant="secondary"
             size="icon"
-            className="rounded-xl w-9 h-9"
+            className="rounded-xl w-8 h-8"
             onClick={onBack}
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-3.5 h-3.5" />
           </Button>
           <div className="flex flex-col">
             <DialogTitle variant="glitch" className="text-sm">
@@ -64,12 +64,12 @@ export function PaymentMethodView({
         </div>
       </DialogHeader>
 
-      <div className="p-8 space-y-6">
-        <div className="flex flex-col gap-2">
-          <span className="text-[10px] font-black text-zinc-400 tracking-widest uppercase mb-2">
+      <div className="p-5 space-y-4">
+        <div className="flex flex-col gap-1.5">
+          <span className="text-[10px] font-black text-zinc-400 tracking-widest uppercase">
             Order Summary
           </span>
-          <div className="bg-zinc-950/40 rounded-xl border border-white/5 p-4 space-y-3">
+          <div className="bg-zinc-950/40 rounded-xl border border-white/5 p-3 space-y-2">
             <div className="flex items-center justify-between text-xs">
               <span className="text-zinc-500">Base Cores</span>
               <span className="text-white font-bold">
@@ -98,19 +98,18 @@ export function PaymentMethodView({
           </div>
         </div>
 
-        <div className="flex flex-col space-y-6">
-          <div className="flex flex-col gap-2">
-            <span className="text-[10px] font-black text-zinc-400 tracking-widest uppercase mb-2">
+        <div className="flex flex-col space-y-3">
+          <div className="flex flex-col gap-1.5">
+            <span className="text-[10px] font-black text-zinc-400 tracking-widest uppercase">
               Select Currency
             </span>
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-3 gap-2 h-60 overflow-y-auto [ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pr-1">
               {supportedCryptos.map((crypto) => {
                 const isCurrentLoading = loadingCryptoId === crypto.id;
                 return (
-                  <Button
+                  <button
                     key={crypto.id}
-                    variant="secondary"
-                    className="h-auto md:h-auto py-5 flex flex-col items-center justify-center gap-3 rounded-xl group"
+                    className="flex flex-col items-center justify-center gap-2 rounded-xl group py-3 px-3 bg-secondary hover:bg-secondary/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     onClick={() => {
                       playConfirm();
                       onCryptoPayment(crypto.id, "plisio");
@@ -121,25 +120,25 @@ export function PaymentMethodView({
                       <Loader2 className="w-6 h-6 animate-spin text-cyan-500" />
                     ) : (
                       <div
-                        className="w-12 h-12 shrink-0 rounded-full flex items-center justify-center text-white shadow-2xl transition-transform group-hover:scale-110 duration-300"
+                        className="w-10 h-10 shrink-0 rounded-full flex items-center justify-center text-white shadow-2xl transition-transform group-hover:scale-110 duration-300"
                         style={{
                           backgroundColor: crypto.color,
                           boxShadow: `0 0 15px ${crypto.color}44`,
                         }}
                       >
-                        <crypto.icon className="w-12 h-12 scale-150" />
+                        <crypto.icon className="w-5 h-5" />
                       </div>
                     )}
                     <span className="text-[10px] font-black text-zinc-400 group-hover:text-white uppercase tracking-widest transition-colors">
                       {crypto.name}
                     </span>
-                  </Button>
+                  </button>
                 );
               })}
             </div>
           </div>
 
-          <p className="pt-2 text-[9px] text-center text-zinc-600 uppercase tracking-[0.3em] font-black opacity-60">
+          <p className="text-[9px] text-center text-zinc-600 uppercase tracking-[0.3em] font-black opacity-60">
             Delivered after network confirmation
           </p>
         </div>

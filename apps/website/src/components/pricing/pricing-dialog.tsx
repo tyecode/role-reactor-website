@@ -210,7 +210,7 @@ export function PricingDialog({
         )}
         <DialogContent
           variant="glitch"
-          className="max-w-[520px] sm:max-w-[600px]"
+          className="max-w-[420px]"
           innerClassName="flex flex-col"
           hideClose={view !== "packages"}
           aria-describedby={undefined}

@@ -45,7 +45,7 @@ export function PackagesView({
       {/* Benefits Section */}
       <PricingBenefits />
 
-      <div className="px-6 pb-6 pt-1 max-h-[60vh] overflow-y-auto [ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="px-6 pb-6 pt-1 overflow-y-auto max-h-[50vh] [ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <PricingCards
           packages={packages}
           pricingData={pricingData}
