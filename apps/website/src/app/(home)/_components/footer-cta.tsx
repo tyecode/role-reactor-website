@@ -1,119 +1,71 @@
 "use client";
 
 import Link from "next/link";
-import dynamic from "next/dynamic";
+import { motion } from "motion/react";
 import { FaDiscord, FaRocket } from "react-icons/fa";
-import { Sparkles, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-
-// Lazy load BubbleBackground to reduce initial bundle size
-const BubbleBackground = dynamic(
-  () =>
-    import("@/components/common/bubble-background").then(
-      (mod) => mod.BubbleBackground
-    ),
-  { ssr: false }
-);
 
 import { links } from "@/constants/links";
 
 export function FooterCTA() {
   return (
-    <section className="py-12 px-4 relative overflow-hidden">
-      {/* Abstract Digital Background */}
-      <div className="absolute inset-0 z-0">
-        {/* Main background */}
-        <div className="absolute inset-0 bg-background pointer-events-none" />
+    <section className="py-20 sm:py-28 px-4 relative">
+      <div className="max-w-3xl mx-auto relative z-10 text-center">
+        {/* Glow effect behind */}
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-indigo-600/10 rounded-full blur-[100px]" />
+        </div>
 
-        {/* Bubble Background with gooey metaball effect */}
-        <BubbleBackground
-          interactive={false}
-          className="absolute inset-0"
-          transition={{ stiffness: 50, damping: 30 }}
-          colors={{
-            first: "139, 92, 246", // purple-500
-            second: "236, 72, 153", // pink-500
-            third: "168, 85, 247", // purple-400
-            fourth: "99, 102, 241", // indigo-500
-            fifth: "59, 130, 246", // blue-500
-            sixth: "124, 58, 237", // violet-600
-          }}
-        />
-
-        {/* Dark overlay to reduce brightness */}
-        <div className="absolute inset-0 bg-black/40 pointer-events-none" />
-      </div>
-
-      <div className="max-w-4xl mx-auto relative z-10">
-        {/* Main CTA Card */}
-        <Card
-          variant="glass"
-          className="rounded-2xl p-6 md:p-8 shadow-xl relative overflow-hidden border-zinc-800/60"
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.5 }}
         >
-          {/* Card background pattern */}
-          <div className="absolute inset-0 bg-linear-to-br from-zinc-800/10 to-transparent" />
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
+            Ready to get started?
+          </h2>
+          <p className="text-base sm:text-lg text-zinc-500 max-w-lg mx-auto mb-10">
+            Add Role Reactor to your server in under a minute. Free forever, no
+            credit card required.
+          </p>
 
-          {/* Decorative elements */}
-          <div className="absolute top-4 right-4 w-20 h-20 bg-linear-to-r from-blue-400 to-purple-400 rounded-full blur-xl opacity-20" />
-          <div className="absolute bottom-4 left-4 w-16 h-16 bg-linear-to-r from-pink-400 to-red-400 rounded-full blur-xl opacity-20" />
-
-          <div className="relative z-10 text-center">
-            {/* Badge */}
-            <Badge className="inline-flex items-center gap-2 px-4 py-2 bg-linear-to-r from-blue-500 to-purple-500 text-white rounded-full text-sm font-medium mb-6 shadow-lg hover:from-blue-600 hover:to-purple-600 border-none whitespace-normal h-auto">
-              <Sparkles className="w-4 h-4 shrink-0" />
-              <span className="text-xs sm:text-sm">Transform Your Discord</span>
-            </Badge>
-
-            {/* Main heading */}
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-              Ready to Level Up?
-            </h2>
-
-            <p className="text-base sm:text-lg md:text-xl text-zinc-400 max-w-xl sm:max-w-2xl mx-auto leading-relaxed mb-8">
-              Stop struggling with manual role management. Role Reactor
-              automates everything so you can focus on building an amazing
-              community.
-            </p>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <div className="relative group">
+              {/* Animated glow behind Discord button */}
+              <div className="absolute -inset-1 bg-[#5865F2]/20 rounded-xl blur-lg opacity-50 group-hover:opacity-80 transition-opacity duration-500 animate-pulse" />
               <Button
                 asChild
                 size="lg"
                 variant="discord"
-                className="group relative px-8 py-3 h-12"
+                className="relative h-13 px-10 min-w-52 text-sm"
               >
                 <Link
                   href={links.inviteBot}
                   target="_blank"
                   rel="noopener noreferrer"
-                  aria-label="Add Role Reactor Discord Bot to Server - Free Discord Bot"
                 >
-                  <FaDiscord size={20} className="relative z-10 mr-2" />
-                  <span className="relative z-10">Get Started Free</span>
-                  <ArrowRight className="w-4 h-4 relative z-10 group-hover:translate-x-1 transition-transform ml-2" />
-                </Link>
-              </Button>
-
-              <Button
-                asChild
-                variant="outline"
-                size="lg"
-                className="group px-8 py-3 h-12 rounded-xl border-zinc-700 bg-zinc-900/50 hover:bg-zinc-800 hover:text-white"
-              >
-                <Link
-                  href="/docs"
-                  aria-label="Role Reactor Discord Bot Documentation and Setup Guide"
-                >
-                  <FaRocket className="w-4 h-4 group-hover:rotate-12 transition-transform mr-2" />
-                  <span>View Documentation</span>
+                  <FaDiscord size={20} />
+                  <span>Add to Discord</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </Button>
             </div>
+
+            <Button
+              asChild
+              variant="outline"
+              size="lg"
+              className="group h-13 px-10 min-w-52 text-sm"
+            >
+              <Link href="/docs">
+                <FaRocket className="w-4 h-4 group-hover:-rotate-12 transition-transform" />
+                <span>Read the Docs</span>
+              </Link>
+            </Button>
           </div>
-        </Card>
+        </motion.div>
       </div>
     </section>
   );

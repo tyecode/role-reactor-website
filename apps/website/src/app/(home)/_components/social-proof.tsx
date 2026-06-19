@@ -1,10 +1,12 @@
-import { Server, TrendingUp, Shield, Heart } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+"use client";
+
+import { motion } from "motion/react";
+import { Server, TrendingUp, Shield, Terminal } from "lucide-react";
 
 function formatExecutions(count: number): string {
   if (count >= 1_000_000) return `${(count / 1_000_000).toFixed(1)}M+`;
   if (count >= 1_000) return `${(count / 1_000).toFixed(0)}k+`;
-  return "100k+"; // Minimum display threshold
+  return "100k+";
 }
 
 interface SocialProofProps {
@@ -23,83 +25,60 @@ export function SocialProof({
   totalGuilds = 0,
   totalCommands = 0,
 }: SocialProofProps) {
-  const dynamicStats = [
+  const stats = [
     {
       value: totalGuilds >= 1 ? formatGuilds(totalGuilds) : "1k+",
       label: "Servers",
-      description: "Growing daily",
       icon: Server,
-      color: "purple",
-      gradient: "from-purple-500 to-pink-500",
+      color: "text-indigo-400",
     },
     {
       value:
         totalExecutions >= 1000 ? formatExecutions(totalExecutions) : "100k+",
-      label: "Commands Executed",
-      description: "Proven track record",
+      label: "Commands Run",
       icon: TrendingUp,
-      color: "green",
-      gradient: "from-green-500 to-emerald-500",
+      color: "text-emerald-400",
     },
     {
       value: "99.9%",
       label: "Uptime",
-      description: "Always available",
       icon: Shield,
-      color: "blue",
-      gradient: "from-blue-500 to-cyan-500",
+      color: "text-cyan-400",
     },
     {
       value: `${totalCommands}+`,
       label: "Commands",
-      description: "Feature rich",
-      icon: Heart,
-      color: "red",
-      gradient: "from-red-500 to-pink-500",
+      icon: Terminal,
+      color: "text-purple-400",
     },
   ];
 
   return (
-    <section className="py-12 sm:py-16 px-4 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-background" />
-
-      {/* Decorative elements */}
-      <div className="absolute top-1/4 left-0 w-96 h-96 bg-zinc-800/10 rounded-full blur-3xl opacity-30" />
-      <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-zinc-900/10 rounded-full blur-3xl opacity-30" />
-
-      <div className="max-w-6xl mx-auto relative z-10">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
-            Trusted by Thousands
-          </h2>
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6 mb-12">
-          {dynamicStats.map((stat, index) => (
-            <Card
+    <section className="py-20 sm:py-28 px-4 relative">
+      <div className="max-w-5xl mx-auto relative z-10">
+        {/* Stats row */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+          {stats.map((stat, index) => (
+            <motion.div
               key={stat.label}
-              variant="glass"
-              className="group text-center transition-all duration-300 hover:shadow-[0_0_20px_-5px_rgba(255,255,255,0.1)] overflow-hidden animate-fade-in-up opacity-0"
-              style={{ animationDelay: `${index * 100}ms` }}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.4, delay: index * 0.08 }}
+              className="text-center group"
             >
-              <CardContent className="p-6">
-                <div
-                  className={`w-12 h-12 mx-auto mb-3 bg-linear-to-br ${stat.gradient} rounded-lg flex items-center justify-center text-white shadow-lg group-hover:shadow-xl group-hover:scale-110 transition-all duration-300`}
-                >
-                  <stat.icon className="w-6 h-6" />
+              <div className="flex justify-center mb-3">
+                <div className="w-10 h-10 rounded-lg bg-white/[0.04] border border-white/[0.06] flex items-center justify-center group-hover:bg-white/[0.06] transition-colors">
+                  <stat.icon className={`w-5 h-5 ${stat.color}`} />
                 </div>
-                <div className="text-xl font-bold text-foreground mb-1 group-hover:scale-110 transition-transform duration-300">
-                  {stat.value}
-                </div>
-                <div className="text-sm font-semibold text-foreground mb-1">
-                  {stat.label}
-                </div>
-                <div className="text-xs text-zinc-400">{stat.description}</div>
-              </CardContent>
-            </Card>
+              </div>
+              <div className="text-3xl sm:text-4xl font-bold text-white mb-1 tracking-tight">
+                {stat.value}
+              </div>
+              <div className="text-sm text-zinc-500 font-medium">
+                {stat.label}
+              </div>
+            </motion.div>
           ))}
         </div>
       </div>

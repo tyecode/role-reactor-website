@@ -88,7 +88,13 @@ export default async function HomePage() {
       />
       <main className="min-h-screen">
         <Hero />
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="h-px bg-linear-to-r from-transparent via-white/[0.06] to-transparent" />
+        </div>
         <Features />
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="h-px bg-linear-to-r from-transparent via-white/[0.06] to-transparent" />
+        </div>
         <div className="max-w-fd-container mx-auto px-4">
           <ConditionalAdBlock
             zoneId={process.env.NEXT_PUBLIC_PROPELLERADS_HOME_ZONE || ""}
@@ -100,6 +106,9 @@ export default async function HomePage() {
           totalGuilds={totalGuilds}
           totalCommands={totalCommands}
         />
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="h-px bg-linear-to-r from-transparent via-white/[0.06] to-transparent" />
+        </div>
         <FooterCTA />
       </main>
     </>

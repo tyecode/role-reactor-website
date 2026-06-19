@@ -1,3 +1,6 @@
+"use client";
+
+import { motion } from "motion/react";
 import {
   Zap,
   Target,
@@ -5,165 +8,182 @@ import {
   Users,
   Trophy,
   Bot,
-  CheckCircle,
   MessageSquare,
   Mic,
   BarChart3,
+  ArrowUpRight,
 } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 const features = [
   {
     icon: Zap,
-    title: "Self-Assignable Roles",
+    title: "Reaction Roles",
     description:
-      "Users can assign/remove roles by reacting to messages. Organize roles into categories for better management.",
-    gradient: "from-blue-500 to-cyan-500",
-    stats: "Easy setup",
-    color: "blue",
+      "Let users self-assign roles by reacting to messages. Organize into categories for clean management.",
+    color: "cyan",
   },
   {
     icon: Clock,
     title: "Temporary Roles",
     description:
-      "Auto-expire roles after a set time with smart notifications. Perfect for events and temporary access.",
-    gradient: "from-purple-500 to-pink-500",
-    stats: "Auto-expire",
+      "Auto-expire roles after a set time. Perfect for events, trials, and temporary access.",
     color: "purple",
   },
   {
     icon: Target,
     title: "Scheduled Roles",
     description:
-      "Schedule future role assignments with simple time formats. Supports one-time and recurring schedules.",
-    gradient: "from-emerald-500 to-teal-500",
-    stats: "Time scheduling",
+      "Schedule future role assignments with natural time formats. Supports one-time and recurring.",
     color: "emerald",
   },
   {
     icon: Users,
     title: "Welcome System",
     description:
-      "Auto-welcome new members with customizable messages and automatic role assignment.",
-    gradient: "from-orange-500 to-red-500",
-    stats: "Auto-welcome",
+      "Auto-welcome new members with customizable embeds and automatic role assignment.",
     color: "orange",
   },
   {
     icon: MessageSquare,
     title: "Goodbye System",
     description:
-      "Auto-goodbye messages when members leave with customizable placeholders and embed support.",
-    gradient: "from-amber-500 to-yellow-500",
-    stats: "Auto-goodbye",
+      "Custom goodbye messages when members leave. Supports embeds and placeholder variables.",
     color: "amber",
   },
   {
     icon: Mic,
     title: "Voice Permissions",
     description:
-      "Automatically enforces Connect/Speak restrictions for all role assignments with smart voice management.",
-    gradient: "from-violet-500 to-purple-500",
-    stats: "Auto-enforce",
+      "Automatically enforces Connect/Speak restrictions for all role assignments.",
     color: "violet",
   },
   {
     icon: Trophy,
-    title: "XP System",
+    title: "XP & Levels",
     description:
-      "Reward active members with experience points, levels, and leaderboards. Configurable and optional.",
-    gradient: "from-indigo-500 to-purple-500",
-    stats: "Configurable",
+      "Reward active members with XP, levels, and leaderboards. Fully configurable and optional.",
     color: "indigo",
   },
   {
     icon: BarChart3,
     title: "Poll System",
     description:
-      "Create interactive polls with emoji reactions and track results in real-time. Easy to set up with slash commands.",
-    gradient: "from-green-500 to-emerald-500",
-    stats: "Interactive",
+      "Create interactive polls with emoji reactions and track results in real-time.",
     color: "green",
   },
 ];
 
+const colorMap: Record<
+  string,
+  { bg: string; text: string; border: string; glow: string }
+> = {
+  cyan: {
+    bg: "bg-cyan-500/10",
+    text: "text-cyan-400",
+    border: "hover:border-cyan-500/30",
+    glow: "hover:shadow-[0_0_30px_-8px_rgba(6,182,212,0.25)]",
+  },
+  purple: {
+    bg: "bg-purple-500/10",
+    text: "text-purple-400",
+    border: "hover:border-purple-500/30",
+    glow: "hover:shadow-[0_0_30px_-8px_rgba(168,85,247,0.25)]",
+  },
+  emerald: {
+    bg: "bg-emerald-500/10",
+    text: "text-emerald-400",
+    border: "hover:border-emerald-500/30",
+    glow: "hover:shadow-[0_0_30px_-8px_rgba(16,185,129,0.25)]",
+  },
+  orange: {
+    bg: "bg-orange-500/10",
+    text: "text-orange-400",
+    border: "hover:border-orange-500/30",
+    glow: "hover:shadow-[0_0_30px_-8px_rgba(249,115,22,0.25)]",
+  },
+  amber: {
+    bg: "bg-amber-500/10",
+    text: "text-amber-400",
+    border: "hover:border-amber-500/30",
+    glow: "hover:shadow-[0_0_30px_-8px_rgba(245,158,11,0.25)]",
+  },
+  violet: {
+    bg: "bg-violet-500/10",
+    text: "text-violet-400",
+    border: "hover:border-violet-500/30",
+    glow: "hover:shadow-[0_0_30px_-8px_rgba(139,92,246,0.25)]",
+  },
+  indigo: {
+    bg: "bg-indigo-500/10",
+    text: "text-indigo-400",
+    border: "hover:border-indigo-500/30",
+    glow: "hover:shadow-[0_0_30px_-8px_rgba(99,102,241,0.25)]",
+  },
+  green: {
+    bg: "bg-green-500/10",
+    text: "text-green-400",
+    border: "hover:border-green-500/30",
+    glow: "hover:shadow-[0_0_30px_-8px_rgba(34,197,94,0.25)]",
+  },
+};
+
 export function Features() {
   return (
-    <section className="py-12 sm:py-16 px-4 relative overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-background" />
-
-      {/* Decorative elements */}
-      <div className="absolute top-0 left-1/4 w-72 h-72 bg-zinc-800/20 rounded-full blur-3xl opacity-30" />
-      <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-zinc-900/20 rounded-full blur-3xl opacity-30" />
-
+    <section className="py-20 sm:py-28 px-4 relative">
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Header */}
-        <div className="text-center mb-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-14"
+        >
           <Badge
             variant="secondary"
-            className="mb-4 bg-zinc-800/50 text-zinc-400 hover:bg-zinc-800/80 border-zinc-700/50 gap-2"
+            className="mb-4 bg-white/5 text-zinc-400 border-white/10 gap-2"
           >
             <Bot className="w-3 h-3" />
-            <span>Powerful Features</span>
+            <span>Features</span>
           </Badge>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
-            Comprehensive Features
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
+            Everything your server needs
           </h2>
-          <p className="text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-            Complete role management with XP tracking, polls, and advanced
-            automation. Easy to set up and use.
+          <p className="text-lg text-zinc-500 max-w-xl mx-auto">
+            Powerful role management and community tools. Set up in minutes, not
+            hours.
           </p>
-        </div>
+        </motion.div>
 
-        {/* Main features grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-          {features.map((feature, index) => (
-            <Card
-              key={feature.title}
-              variant="glass"
-              className="group relative hover:border-cyan-500/30 transition-all duration-300 hover:shadow-[0_0_30px_-10px_rgba(6,182,212,0.15)] overflow-hidden animate-fade-in-up opacity-0"
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              {/* Gradient background */}
-              <div
-                className={`absolute inset-0 bg-linear-to-br ${feature.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-300`}
-              />
-
-              <CardContent className="p-6 flex flex-col h-full relative z-10">
-                {/* Icon */}
-                <div className="relative mb-4">
-                  <div
-                    className={`w-12 h-12 bg-linear-to-br ${feature.gradient} rounded-lg flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-all duration-300`}
-                  >
-                    <feature.icon className="w-6 h-6" />
-                  </div>
-                  <div className="absolute -top-1 -right-1 w-5 h-5 bg-emerald-500/20 rounded-full flex items-center justify-center border border-emerald-500/20">
-                    <CheckCircle className="w-3 h-3 text-emerald-400" />
-                  </div>
+        {/* Features grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {features.map((feature, index) => {
+            const colors = colorMap[feature.color];
+            return (
+              <motion.div
+                key={feature.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.4, delay: index * 0.05 }}
+                className={`group relative p-5 rounded-xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-sm transition-all duration-300 hover:bg-white/[0.04] hover:border-white/[0.12] ${colors.border} ${colors.glow}`}
+              >
+                <div
+                  className={`w-10 h-10 ${colors.bg} rounded-lg flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110`}
+                >
+                  <feature.icon className={`w-5 h-5 ${colors.text}`} />
                 </div>
-
-                {/* Content */}
-                <div className="space-y-3 flex-1 flex flex-col">
-                  <div className="flex items-start justify-between gap-2">
-                    <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors flex-1">
-                      {feature.title}
-                    </h3>
-                    <Badge
-                      variant="secondary"
-                      className="bg-zinc-800/50 text-zinc-300 group-hover:bg-zinc-800 group-hover:text-zinc-200 transition-all border-zinc-700/30"
-                    >
-                      {feature.stats}
-                    </Badge>
-                  </div>
-                  <p className="text-sm text-zinc-400 leading-relaxed flex-1">
-                    {feature.description}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                <h3 className="text-sm font-semibold text-white mb-1.5 flex items-center gap-1.5">
+                  {feature.title}
+                  <ArrowUpRight className="w-3 h-3 text-zinc-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </h3>
+                <p className="text-sm text-zinc-500 leading-relaxed">
+                  {feature.description}
+                </p>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
