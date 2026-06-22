@@ -62,6 +62,19 @@ interface CommandUsage {
   };
 }
 
+interface GuildCountHistory {
+  current: {
+    guilds: number;
+    users: number;
+    date: string;
+  } | null;
+  history: Array<{
+    date: string;
+    guilds: number;
+    users: number;
+  }>;
+}
+
 async function getStats() {
   try {
     return await botFetchJson<BotStats>("/stats", {
@@ -95,6 +108,24 @@ async function getActiveUsers() {
   }
 }
 
+async function getGuildCountHistory() {
+  try {
+    return await botFetchJson<GuildCountHistory>("/stats/guild-count?days=7", {
+      next: { revalidate: 300 },
+    });
+  } catch (error) {
+    console.error("Failed to fetch guild count history:", error);
+    return null;
+  }
+}
+
+function calcTrend(current: number, previous: number): string {
+  if (previous === 0) return current > 0 ? "New" : "—";
+  const change = current - previous;
+  const pct = ((change / previous) * 100).toFixed(1);
+  return change >= 0 ? `+${pct}%` : `${pct}%`;
+}
+
 function StatsLoader() {
   return (
     <div className="absolute inset-0 z-40 flex items-center justify-center bg-background">
@@ -107,11 +138,29 @@ function StatsLoader() {
 }
 
 async function StatsContent() {
-  const [stats, usage, activeUsers] = await Promise.all([
+  const [stats, usage, activeUsers, guildCountHistory] = await Promise.all([
     getStats(),
     getCommandUsage(),
     getActiveUsers(),
+    getGuildCountHistory(),
   ]);
+
+  // Calculate real trends from guild count history
+  const history = guildCountHistory?.history || [];
+  const guildTrend =
+    history.length >= 2
+      ? calcTrend(
+          history[history.length - 1].guilds,
+          history[0].guilds,
+        )
+      : null;
+  const userTrend =
+    history.length >= 2
+      ? calcTrend(
+          history[history.length - 1].users,
+          history[0].users,
+        )
+      : null;
 
   if (!stats) {
     return (
@@ -137,7 +186,7 @@ async function StatsContent() {
           value={formatCompactNumber(stats.statistics.guilds)}
           icon={Server}
           description="Total Discord installations"
-          trend="+2.4%"
+          trend={guildTrend || undefined}
           color="cyan"
         />
         <StatCard
@@ -145,7 +194,7 @@ async function StatsContent() {
           value={formatCompactNumber(stats.statistics.users)}
           icon={Users}
           description="Unique users across all servers"
-          trend="+5.1%"
+          trend={userTrend || undefined}
           color="fuchsia"
         />
         <StatCard
@@ -153,7 +202,6 @@ async function StatsContent() {
           value={formatCompactNumber(activeUsers?.activeUsers.dau || 0)}
           icon={Activity}
           description="Users active in last 24h"
-          trend="+8.3%"
           color="emerald"
         />
         <StatCard
@@ -161,7 +209,6 @@ async function StatsContent() {
           value={formatCompactNumber(activeUsers?.activeUsers.mau || 0)}
           icon={Users}
           description="Users active in last 30 days"
-          trend="+15%"
           color="cyan"
         />
       </div>
@@ -172,7 +219,6 @@ async function StatsContent() {
           value={formatCompactNumber(usage?.summary.totalExecutions || 0)}
           icon={Terminal}
           description="Total commands processed"
-          trend="+12%"
           color="emerald"
         />
         <StatCard
