@@ -1,8 +1,9 @@
 import { Metadata } from "next";
 
-import { Trophy, Lock, Users, Crown, TrendingUp } from "lucide-react";
+import { Trophy, Lock, Users, Crown, TrendingUp, Zap, BookOpen } from "lucide-react";
 import Link from "next/link";
 
+import { auth } from "@/auth";
 import { botFetch } from "@/lib/bot-fetch";
 import { checkBotStatus } from "@/lib/bot-status";
 import { LeaderboardEntry, GuildStats } from "@/types/discord";
@@ -58,7 +59,7 @@ function extractServerInfo(data: Record<string, unknown>): ServerInfo {
   };
 }
 
-async function fetchLeaderboardData(guildId: string) {
+async function fetchLeaderboardData(guildId: string, period: string = "all") {
   let leaderboard: LeaderboardEntry[] = [];
   let isError = false;
   let isPrivate = false;
@@ -83,7 +84,7 @@ async function fetchLeaderboardData(guildId: string) {
   }
 
   try {
-    const res = await botFetch(`/guilds/${guildId}/leaderboard?limit=50`, {
+    const res = await botFetch(`/guilds/${guildId}/leaderboard?limit=50&period=${period}`, {
       cache: "no-store",
     });
 
@@ -168,20 +169,20 @@ export async function generateMetadata({
 
 export default async function PublicLeaderboardPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ guildId: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { guildId } = await params;
-  const {
-    leaderboard,
-    isError,
-    isPrivate,
-    isPremium,
-    isOffline,
-    serverInfo,
-    total,
-    stats,
-  } = await fetchLeaderboardData(guildId);
+  const sp = await searchParams;
+  const period = typeof sp.period === "string" ? sp.period : "all";
+  
+  const [
+    { leaderboard, isError, isPrivate, isPremium, isOffline, serverInfo, total, stats },
+    session,
+  ] = await Promise.all([fetchLeaderboardData(guildId, period), auth()]);
+  const currentUserId = session?.user?.id ?? undefined;
 
   if (isOffline) {
     return (
@@ -317,6 +318,7 @@ export default async function PublicLeaderboardPage({
           serverInfo={serverInfo || {}}
           isPremium={isPremium}
           leaderboardCount={totalRanked}
+          memberCount={serverInfo?.memberCount}
           inviteLink={inviteLink}
           pageUrl={pageUrl}
         />
@@ -353,7 +355,34 @@ export default async function PublicLeaderboardPage({
           hide={isPremium}
         />
 
-        <LeaderboardTable leaderboard={leaderboard} />
+        {/* How to earn XP — shown for non-premium, logged-out visitors */}
+        {!currentUserId && (
+          <div className="flex items-start gap-4 mb-6 px-5 py-4 rounded-xl border border-cyan-500/15 bg-cyan-500/5 backdrop-blur-sm">
+            <div className="shrink-0 w-9 h-9 rounded-lg bg-cyan-500/15 border border-cyan-500/20 flex items-center justify-center mt-0.5">
+              <BookOpen className="w-4 h-4 text-cyan-400" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className={cn("text-xs font-black uppercase tracking-widest text-cyan-400/80 mb-1", audiowide.className)}>
+                How is XP earned?
+              </p>
+              <p className="text-sm text-zinc-400 leading-relaxed">
+                XP is earned by chatting, reacting, and being active in this Discord server.
+                The more you participate, the higher you climb!
+              </p>
+              <div className="flex flex-wrap items-center gap-3 mt-2.5">
+                <Link
+                  href="/docs"
+                  className="inline-flex items-center gap-1.5 text-xs font-bold text-cyan-400 hover:text-cyan-300 transition-colors"
+                >
+                  <Zap className="w-3.5 h-3.5" />
+                  Learn more in the docs
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <LeaderboardTable leaderboard={leaderboard} currentUserId={currentUserId} period={period} />
 
         <ConditionalAdBlock
           zoneId={

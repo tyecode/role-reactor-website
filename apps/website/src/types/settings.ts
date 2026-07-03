@@ -35,6 +35,9 @@ export const DiscordRoleSchema = z.object({
 export const LeaderboardEntrySchema = z.object({
   userId: z.string(),
   totalXP: z.number(),
+  dailyXP: z.number().optional(),
+  weeklyXP: z.number().optional(),
+  monthlyXP: z.number().optional(),
   level: z.number(),
   user: z.object({
     username: z.string(),
@@ -85,6 +88,9 @@ export const ProSubscriptionSchema = z.object({
   period: z.string().nullable().optional(),
   payerUserId: z.string().nullable().optional(),
   lastDeductionDate: z.string().nullable().optional(),
+  isTrial: z.boolean().nullable().optional(),
+  trialEndsAt: z.string().nullable().optional(),
+  trialUsed: z.boolean().nullable().optional(),
 });
 
 export const ProEngineSettingsSchema = z
@@ -171,6 +177,8 @@ export const PremiumStatusSchema = z
         activatedAt: z.string().nullable().optional(),
         expiresAt: z.string().nullable().optional(),
         autoRenew: z.boolean().nullable().optional(),
+        isTrial: z.boolean().nullable().optional(),
+        trialEndsAt: z.string().nullable().optional(),
       })
       .nullable()
       .optional(),
