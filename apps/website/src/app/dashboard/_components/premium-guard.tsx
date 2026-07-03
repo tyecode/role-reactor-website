@@ -9,7 +9,7 @@ import {
   DialogDescription,
   DialogHeader,
 } from "@/components/ui/dialog";
-import { Crown, CheckCircle2, Loader2, Zap, ExternalLink } from "lucide-react";
+import { Crown, CheckCircle2, Loader2, Zap, ExternalLink, Clock } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { CyberpunkBackground } from "@/components/common/cyberpunk-background";
@@ -18,6 +18,8 @@ interface PremiumGuardProps {
   isPremium?: boolean;
   children?: ReactNode;
   onActivate: () => void;
+  onTrial?: () => void;
+  showTrialOption?: boolean;
   isActivating?: boolean;
   title?: string;
   description?: string;
@@ -30,6 +32,8 @@ interface PremiumGuardProps {
 
 export function PremiumGuard({
   onActivate,
+  onTrial,
+  showTrialOption = false,
   isActivating = false,
   title = "ACTIVATE PRO ENGINE",
   description = "Unlock full potential with our Pro functionalities.",
@@ -104,27 +108,49 @@ export function PremiumGuard({
             ))}
           </div>
 
-          {/* Activation Button */}
-          <Button
-            variant="glitch"
-            size="lg"
-            data-text={buttonText}
-            disabled={isActivating}
-            onClick={onActivate}
-            className="w-full h-12"
-          >
-            {isActivating ? (
-              <Loader2 className="w-5 h-5 animate-spin" />
-            ) : (
-              <>
-                <Zap className="w-5 h-5 mr-3 fill-current" />
-                {buttonText}
-              </>
-            )}
-          </Button>
+          {/* Activation Button — Trial first, then cores */}
+          {showTrialOption && onTrial ? (
+            <Button
+              variant="glitch"
+              size="lg"
+              data-text="START FREE TRIAL"
+              disabled={isActivating}
+              onClick={onTrial}
+              className="w-full h-12"
+            >
+              {isActivating ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                <>
+                  <Clock className="w-5 h-5 mr-3" />
+                  START FREE TRIAL
+                </>
+              )}
+            </Button>
+          ) : (
+            <Button
+              variant="glitch"
+              size="lg"
+              data-text={buttonText}
+              disabled={isActivating}
+              onClick={onActivate}
+              className="w-full h-12"
+            >
+              {isActivating ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                <>
+                  <Zap className="w-5 h-5 mr-3 fill-current" />
+                  {buttonText}
+                </>
+              )}
+            </Button>
+          )}
 
           <p className="text-[9px] text-zinc-500 text-center tracking-[0.3em] uppercase font-black opacity-60">
-            {subText}
+            {showTrialOption && onTrial
+              ? "7 days free · No cores required · Cancel anytime"
+              : subText}
           </p>
 
           {/* Learn More Link */}

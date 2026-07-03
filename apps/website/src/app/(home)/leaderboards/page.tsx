@@ -244,7 +244,16 @@ export default async function LeaderboardsPage() {
         </div>
 
         {/* Guild Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-8 relative z-10 w-full">
+        <div className="space-y-3 pt-4 relative z-10 w-full">
+          <div className="flex items-center justify-between">
+            <p className={cn("text-[10px] uppercase tracking-widest font-black text-zinc-600", audiowide.className)}>
+              Ranked by total XP
+            </p>
+            <p className="text-[10px] uppercase tracking-widest font-black text-zinc-700">
+              {guilds.length} server{guilds.length !== 1 ? "s" : ""}
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {guilds.length > 0 ? (
             guilds.map((guild) => {
               const rank = guild.rank || 0;
@@ -324,7 +333,7 @@ export default async function LeaderboardsPage() {
                         {guild.rankedCount !== undefined && (
                           <span className="inline-flex items-center gap-1 text-[10px] text-zinc-400 font-bold tracking-tighter uppercase whitespace-nowrap">
                             <Trophy className="w-3 h-3 text-emerald-500/60" />
-                            {guild.rankedCount}
+                            {guild.rankedCount} ranked
                           </span>
                         )}
                         {guild.totalXP !== undefined && (
@@ -353,6 +362,7 @@ export default async function LeaderboardsPage() {
               </div>
             </div>
           )}
+          </div>
         </div>
 
         <ConditionalAdBlock

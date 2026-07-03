@@ -23,6 +23,7 @@ interface ServerHeroProps {
   serverInfo: ServerInfo;
   isPremium: boolean;
   leaderboardCount: number;
+  memberCount?: number;
   inviteLink: string | null;
   pageUrl: string;
 }
@@ -33,9 +34,15 @@ export function ServerHero({
   serverInfo,
   isPremium,
   leaderboardCount,
+  memberCount,
   inviteLink,
   pageUrl,
 }: ServerHeroProps) {
+  const effectiveMemberCount = memberCount ?? serverInfo.memberCount;
+  const participationPct =
+    effectiveMemberCount && effectiveMemberCount > 0
+      ? Math.round((leaderboardCount / effectiveMemberCount) * 100)
+      : null;
   return (
     <div className="mb-10">
       {/* Banner */}
@@ -105,15 +112,18 @@ export function ServerHero({
           )}
 
           <div className="flex items-center justify-start gap-4 text-xs text-zinc-500 font-medium">
-            {serverInfo.memberCount !== undefined && (
+            {effectiveMemberCount !== undefined && (
               <span className="inline-flex items-center gap-1.5">
                 <Users className="w-3.5 h-3.5 text-cyan-400/70" />
-                {(serverInfo.memberCount || 0).toLocaleString()} members
+                {(effectiveMemberCount || 0).toLocaleString()} members
               </span>
             )}
             <span className="inline-flex items-center gap-1.5">
               <Trophy className="w-3.5 h-3.5 text-cyan-400/70" />
               {leaderboardCount} ranked
+              {participationPct !== null && effectiveMemberCount && (
+                <span className="text-zinc-700">({participationPct}%)</span>
+              )}
             </span>
           </div>
         </div>

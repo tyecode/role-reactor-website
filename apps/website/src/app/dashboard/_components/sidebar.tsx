@@ -32,6 +32,7 @@ import {
   Users,
   Activity,
   Lock,
+  Server,
 } from "lucide-react";
 import { isDeveloper } from "@/lib/admin";
 
@@ -270,6 +271,11 @@ export function DashboardSidebar({ user }: { user: User }) {
       title: "User Management",
       href: "/dashboard/users",
       icon: Users,
+    },
+    {
+      title: "Server Management",
+      href: "/dashboard/servers",
+      icon: Server,
     },
     {
       title: "System Logs",

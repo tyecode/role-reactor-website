@@ -19,6 +19,8 @@ import {
   ProEngineActiveAlert,
   ProEngineLockedAlert,
   ProEngineCancelledAlert,
+  ProEngineTrialAlert,
+  ProEngineTrialExpiredAlert,
 } from "./_components/states";
 
 import { SubscriptionStats } from "./_components/stats";
@@ -54,6 +56,9 @@ export default function ProEnginePage() {
   const premiumStatus = settings;
   const isPremium = premiumStatus?.isPremium?.pro || false;
   const isCancelled = premiumStatus?.subscription?.cancelled || false;
+  const isTrialing = premiumStatus?.subscription?.isTrial || false;
+  const trialEndsAt = premiumStatus?.subscription?.trialEndsAt || premiumStatus?.subscription?.expiresAt;
+  const trialUsed = premiumStatus?.subscription?.trialUsed || false;
 
   // Show loading when no cached data for THIS guild, or user not loaded yet
   const isGlobalLoading = !settings || (!user && isUserLoading);
@@ -99,7 +104,7 @@ export default function ProEnginePage() {
             period: premiumStatus?.premiumConfig?.PRO?.period ?? "week",
             lastDeductionDate: now.toISOString(),
           },
-        });
+        }, guildId);
 
         // Refresh from server in background (won't break UI if it fails)
         fetchSettings(guildId, true);
@@ -117,6 +122,54 @@ export default function ProEnginePage() {
       }
     } catch (err) {
       console.error("Activation error:", err);
+      toast.error("An unexpected error occurred");
+    } finally {
+      setIsActivating(false);
+    }
+  };
+
+  const handleActivateTrial = async () => {
+    setIsActivating(true);
+    try {
+      const res = await fetch(`/api/guilds/${guildId}/premium/activate-trial`, {
+        method: "POST",
+      });
+
+      if (res.ok) {
+        toast.success("Free trial activated! Enjoy 7 days of Pro Engine.");
+        setShowActivationModal(false);
+
+        // Optimistically update local store
+        const now = new Date();
+        const trialEndsAt = new Date(now);
+        trialEndsAt.setDate(trialEndsAt.getDate() + 7);
+
+        updateLocalSettings({
+          isPremium: { pro: true },
+          premiumConfig: premiumStatus?.premiumConfig,
+          subscription: {
+            cancelled: false,
+            autoRenew: false,
+            expiresAt: trialEndsAt.toISOString(),
+            activatedAt: now.toISOString(),
+            cost: 0,
+            period: "trial",
+            lastDeductionDate: now.toISOString(),
+            isTrial: true,
+            trialEndsAt: trialEndsAt.toISOString(),
+            trialUsed: true,
+          },
+        }, guildId);
+
+        // Refresh from server
+        fetchSettings(guildId, true);
+        router.refresh();
+      } else {
+        const errorData = await res.json();
+        toast.error(errorData.error || "Failed to activate trial");
+      }
+    } catch (err) {
+      console.error("Trial activation error:", err);
       toast.error("An unexpected error occurred");
     } finally {
       setIsActivating(false);
@@ -175,7 +228,16 @@ export default function ProEnginePage() {
 
       <div className="space-y-4 pb-8 relative">
         {/* Status Alerts */}
-        {isPremium && premiumStatus?.subscription ? (
+        {isPremium && isTrialing ? (
+          <>
+            <ProEngineTrialAlert
+              trialEndsAt={trialEndsAt ?? undefined}
+              onUpgrade={() => setShowActivationModal(true)}
+              coreCost={premiumStatus?.premiumConfig?.PRO?.cost}
+              corePeriod={premiumStatus?.premiumConfig?.PRO?.period}
+            />
+          </>
+        ) : isPremium && premiumStatus?.subscription ? (
           <>
             <ProEngineActiveAlert
               isCancelled={isCancelled}
@@ -199,11 +261,20 @@ export default function ProEnginePage() {
               />
             )}
           </>
+        ) : !isPremium && trialUsed ? (
+          <>
+            <ProEngineTrialExpiredAlert
+              onSubscribe={() => setShowActivationModal(true)}
+              coreCost={premiumStatus?.premiumConfig?.PRO?.cost}
+              corePeriod={premiumStatus?.premiumConfig?.PRO?.period}
+            />
+            <ProEngineBenefits />
+          </>
         ) : (
           <>
-            <ProEngineLockedAlert
-              onUnlock={() => setShowActivationModal(true)}
-            />
+                    <ProEngineLockedAlert
+                      onUnlock={() => setShowActivationModal(true)}
+                    />
             <ProEngineBenefits />
           </>
         )}
@@ -244,6 +315,8 @@ export default function ProEnginePage() {
         onOpenChange={setShowActivationModal}
         isActivating={isActivating}
         onActivate={handleActivate}
+        onTrial={handleActivateTrial}
+        showTrialOption={!isPremium && !trialUsed}
         title={
           isPremium && isCancelled
             ? "RESTORE ACTIVE STATUS"

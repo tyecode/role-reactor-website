@@ -99,9 +99,10 @@ export function PaymentMethodView({
         </div>
 
         <div className="flex flex-col space-y-3">
+          {/* Crypto Options */}
           <div className="flex flex-col gap-1.5">
             <span className="text-[10px] font-black text-zinc-400 tracking-widest uppercase">
-              Select Currency
+              Pay with Crypto
             </span>
             <div className="grid grid-cols-3 gap-2 h-60 overflow-y-auto [ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pr-1">
               {supportedCryptos.map((crypto) => {
@@ -139,7 +140,7 @@ export function PaymentMethodView({
           </div>
 
           <p className="text-[9px] text-center text-zinc-600 uppercase tracking-[0.3em] font-black opacity-60">
-            Delivered after network confirmation
+            Crypto: delivered after network confirmation
           </p>
         </div>
       </div>

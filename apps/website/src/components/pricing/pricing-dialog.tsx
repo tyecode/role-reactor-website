@@ -33,9 +33,9 @@ export function PricingDialog({
   const { data: session } = useSession();
   const { playConfirm, playSwitch } = useUiSound();
   const [internalOpen, setInternalOpen] = useState(false);
-  const [view, setView] = useState<"packages" | "payment" | "payment_pending">(
-    "packages"
-  );
+  const [view, setView] = useState<
+    "packages" | "payment" | "payment_pending"
+  >("packages");
 
   const isOpen = controlledOpen ?? internalOpen;
   const setOpen = setControlledOpen ?? setInternalOpen;
@@ -169,6 +169,10 @@ export function PricingDialog({
     }
   };
 
+  const handleBMACPayment = () => {
+    window.location.href = "/donate";
+  };
+
   const handlePaymentComplete = () => {
     playConfirm();
     toast.success("Cores added to your balance!");
@@ -220,6 +224,7 @@ export function PricingDialog({
               packages={packages}
               pricingData={pricingData}
               onPaymentInitiation={handlePaymentInitiation}
+              onBMACPayment={handleBMACPayment}
               loadingPackageId={loadingPackageId}
               loading={loading}
             />

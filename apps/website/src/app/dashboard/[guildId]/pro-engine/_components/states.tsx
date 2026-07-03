@@ -1,6 +1,6 @@
 "use client";
 
-import { Zap, Lock, AlertTriangle } from "lucide-react";
+import { Zap, Lock, AlertTriangle, Clock } from "lucide-react";
 import { Audiowide } from "next/font/google";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -252,6 +252,130 @@ export function LockedState({ onActivate }: LockedStateProps) {
           Activate Now
           <Zap className="ml-2 w-4 h-4 fill-black group-hover:animate-pulse" />
         </Button>
+      </div>
+    </Card>
+  );
+}
+
+interface ProEngineTrialAlertProps {
+  trialEndsAt?: string;
+  onUpgrade: () => void;
+  coreCost?: number;
+  corePeriod?: string;
+}
+
+export function ProEngineTrialAlert({
+  trialEndsAt,
+  onUpgrade,
+  coreCost = 20,
+  corePeriod = "week",
+}: ProEngineTrialAlertProps) {
+  const daysRemaining = trialEndsAt
+    ? Math.max(0, Math.ceil((new Date(trialEndsAt).getTime() - Date.now()) / (1000 * 60 * 60 * 24)))
+    : 0;
+
+  return (
+    <Card className="relative overflow-hidden border-emerald-500/20 bg-zinc-950">
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px] pointer-events-none" />
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 h-full w-1/3 bg-emerald-500/5 blur-[80px] pointer-events-none" />
+
+      <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-6 p-6 sm:p-8">
+        <div className="space-y-2 max-w-2xl min-w-0 w-full">
+          <h3
+            className={cn(
+              "text-xl font-black uppercase tracking-widest text-white flex items-center gap-3",
+              audiowide.className
+            )}
+          >
+            FREE TRIAL ACTIVE
+          </h3>
+          <p className="text-sm font-medium text-zinc-500 leading-relaxed wrap-break-word">
+            You&apos;re experiencing Pro Engine features for free.{" "}
+            {daysRemaining > 0 ? (
+              <>
+                Your trial ends in{" "}
+                <span className="text-emerald-400">
+                  {daysRemaining} {daysRemaining === 1 ? "day" : "days"}
+                </span>
+                . Subscribe now to keep all features uninterrupted.
+              </>
+            ) : (
+              "Your trial has ended. Subscribe to Pro Engine to continue using premium features."
+            )}
+          </p>
+        </div>
+
+        <div className="flex flex-row sm:flex-col items-center sm:items-end gap-3 shrink-0 w-full sm:w-auto">
+          <div className="px-4 py-2 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center gap-3 shadow-[0_0_20px_rgba(16,185,129,0.15)]">
+            <Clock className="w-4 h-4 text-emerald-400" />
+            <span className="text-xs font-black text-emerald-400 uppercase tracking-widest">
+              {daysRemaining > 0 ? `${daysRemaining}D LEFT` : "TRIAL ENDED"}
+            </span>
+          </div>
+          <Button
+            variant="cyber"
+            onClick={onUpgrade}
+            className="cursor-pointer font-black uppercase text-[10px] h-10 px-6"
+          >
+            <Zap className="w-4 h-4 mr-2" />
+            SUBSCRIBE - {coreCost} CORES/{corePeriod.toUpperCase()}
+          </Button>
+        </div>
+      </div>
+    </Card>
+  );
+}
+
+interface ProEngineTrialExpiredAlertProps {
+  onSubscribe: () => void;
+  coreCost?: number;
+  corePeriod?: string;
+}
+
+export function ProEngineTrialExpiredAlert({
+  onSubscribe,
+  coreCost = 20,
+  corePeriod = "week",
+}: ProEngineTrialExpiredAlertProps) {
+  return (
+    <Card className="relative overflow-hidden border-amber-500/20 bg-zinc-950">
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[24px_24px] pointer-events-none" />
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 h-full w-1/3 bg-amber-500/5 blur-[80px] pointer-events-none" />
+
+      <div className="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-6 p-6 sm:p-8">
+        <div className="space-y-2 max-w-2xl min-w-0 w-full">
+          <h3
+            className={cn(
+              "text-xl font-black uppercase tracking-widest text-amber-500 flex items-center gap-3",
+              audiowide.className
+            )}
+          >
+            TRIAL EXPIRED
+          </h3>
+          <p className="text-sm font-medium text-zinc-500 leading-relaxed wrap-break-word">
+            Your free trial has ended. Subscribe to Pro Engine to continue using
+            premium features like advanced automod, unlimited level rewards, and
+            more.
+          </p>
+        </div>
+
+        <div className="flex flex-row sm:flex-col items-center sm:items-end gap-3 shrink-0 w-full sm:w-auto">
+          <div className="px-4 py-2 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center gap-3 shadow-[0_0_20px_rgba(245,158,11,0.15)]">
+            <AlertTriangle className="w-4 h-4 text-amber-400" />
+            <span className="text-xs font-black text-amber-400 uppercase tracking-widest">
+              EXPIRED
+            </span>
+          </div>
+          <Button
+            variant="glitch"
+            data-text={`SUBSCRIBE - ${coreCost} CORES/${corePeriod.toUpperCase()}`}
+            onClick={onSubscribe}
+            className="cursor-pointer font-black uppercase text-[10px] h-10 px-6"
+          >
+            <Zap className="w-4 h-4 mr-2 fill-current" />
+            SUBSCRIBE - {coreCost} CORES/{corePeriod.toUpperCase()}
+          </Button>
+        </div>
       </div>
     </Card>
   );

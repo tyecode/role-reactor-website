@@ -17,7 +17,7 @@ interface ProEngineState {
 
   // Actions
   fetchSettings: (guildId: string, force?: boolean) => Promise<void>;
-  updateLocalSettings: (settings: Partial<ProEngineSettings>) => void;
+  updateLocalSettings: (settings: Partial<ProEngineSettings>, guildId?: string) => void;
   clearCache: (guildId?: string) => void;
 }
 
@@ -107,12 +107,12 @@ export const useProEngineStore = create<ProEngineState>()(
         }
       },
 
-      updateLocalSettings: (newSettings) => {
+      updateLocalSettings: (newSettings, guildId?: string) => {
         const state = get();
-        const guildId = state.currentGuildId;
-        if (!guildId) return;
+        const targetGuildId = guildId || state.currentGuildId;
+        if (!targetGuildId) return;
 
-        const currentData = state.settingsCache[guildId];
+        const currentData = state.settingsCache[targetGuildId];
 
         // If no current data, create minimal structure for activation
         const baseData = currentData || {
@@ -133,7 +133,7 @@ export const useProEngineStore = create<ProEngineState>()(
         set({
           settingsCache: {
             ...state.settingsCache,
-            [guildId]: {
+            [targetGuildId]: {
               ...baseData,
               ...newSettings,
               isPremium:
