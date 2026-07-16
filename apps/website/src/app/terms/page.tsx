@@ -39,7 +39,7 @@ export default function TermsPage() {
               &quot;Ourselves&quot;, &quot;We&quot;, &quot;Us&quot; and
               &quot;Our&quot;, this refers to our service, Role Reactor. When we
               say &quot;Services&quot; in these terms, we mean Role
-              Reactor&apos;s Discord bot, website (rolereactor.app), dashboard,
+              Reactor&apos;s Discord bot, website (rolereactor.xyz), dashboard,
               and other products. &quot;Party&quot;, &quot;Parties&quot; or
               &quot;Us&quot; refers to both the End User and ourselves, or
               either the End User or ourselves. When we say &quot;You&quot; or

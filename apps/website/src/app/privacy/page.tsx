@@ -16,7 +16,7 @@ export default function PrivacyPage() {
         <div className="prose prose-invert max-w-none">
           <div className="bg-black/70 backdrop-blur-sm rounded-xl p-4 sm:p-6 lg:p-8 border border-gray-700/50">
             <p className="text-lg text-gray-300 leading-relaxed mb-8">
-              If you are here, you have reached us by visiting rolereactor.app,
+              If you are here, you have reached us by visiting rolereactor.xyz,
               or by using our Discord bot services (&quot;Services&quot;). Your
               privacy is important to us. It is our policy, as the developers of
               Role Reactor, to respect your privacy and comply with any
@@ -147,10 +147,10 @@ export default function PrivacyPage() {
             </p>
 
             <h3 className="text-xl font-semibold text-white mb-3">
-              Website Data (rolereactor.app)
+              Website Data (rolereactor.xyz)
             </h3>
             <p className="text-gray-300 leading-relaxed mb-4">
-              When you use our web dashboard at rolereactor.app, we collect
+              When you use our web dashboard at rolereactor.xyz, we collect
               additional information necessary for the website to function:
             </p>
 

@@ -8,13 +8,13 @@
 
 _Comprehensive documentation platform for the Role Reactor Discord bot_
 
-[![Website](https://img.shields.io/badge/Website-rolereactor.app-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://rolereactor.app)
-[![Documentation](https://img.shields.io/badge/Documentation-Docs-5865F2?style=for-the-badge&logo=book&logoColor=white)](https://rolereactor.app/docs)
+[![Website](https://img.shields.io/badge/Website-rolereactor.xyz-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://rolereactor.xyz)
+[![Documentation](https://img.shields.io/badge/Documentation-Docs-5865F2?style=for-the-badge&logo=book&logoColor=white)](https://rolereactor.xyz/docs)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 [![Next.js](https://img.shields.io/badge/Next.js-15-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://typescriptlang.org)
 
-[![OpenGraph Preview](public/og.png)](https://rolereactor.app)
+[![OpenGraph Preview](public/og.png)](https://rolereactor.xyz)
 
 ---
 
@@ -437,8 +437,8 @@ The MIT License is a permissive free software license that allows you to use, mo
 
 ## 🌟 Support & Resources
 
-[![Website](https://img.shields.io/badge/Website-rolereactor.app-5865F2?style=flat-square&logo=discord&logoColor=white)](https://rolereactor.app)
-[![Documentation](https://img.shields.io/badge/Documentation-Docs-5865F2?style=flat-square&logo=book&logoColor=white)](https://rolereactor.app/docs)
+[![Website](https://img.shields.io/badge/Website-rolereactor.xyz-5865F2?style=flat-square&logo=discord&logoColor=white)](https://rolereactor.xyz)
+[![Documentation](https://img.shields.io/badge/Documentation-Docs-5865F2?style=flat-square&logo=book&logoColor=white)](https://rolereactor.xyz/docs)
 [![Discord Support](https://img.shields.io/badge/Discord-Support-5865F2?style=flat-square&logo=discord&logoColor=white)](https://discord.gg/D8tYkU75Ry)
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/qodinger/role-reactor-website)
 
