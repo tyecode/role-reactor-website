@@ -1,3 +1,6 @@
+const WEBSITE_URL =
+  process.env.NEXT_PUBLIC_WEBSITE_URL || "https://rolereactor.xyz";
+
 export const links = {
   author: {
     name: "qodinger",
@@ -6,10 +9,10 @@ export const links = {
   contact: {
     email: "rolereactor@gmail.com",
   },
-  home: "https://rolereactor.app",
+  home: WEBSITE_URL,
   support: "https://discord.gg/D8tYkU75Ry",
   github: "https://github.com/qodinger/role-reactor-bot",
-  sponsor: "https://rolereactor.app/sponsor",
+  sponsor: `${WEBSITE_URL}/sponsor`,
   buymeacoffee: "https://buymeacoffee.com/rolereactor",
   inviteBot: `https://discord.com/api/oauth2/authorize?client_id=${
     process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID || "1392714201558159431"

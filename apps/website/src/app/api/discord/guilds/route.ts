@@ -47,7 +47,7 @@ export async function GET() {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         Accept: "application/json",
-        "User-Agent": "RoleReactorWebsite (https://rolereactor.app, 1.0.0)",
+        "User-Agent": `RoleReactorWebsite (${process.env.NEXT_PUBLIC_WEBSITE_URL || "https://rolereactor.xyz"}, 1.0.0)`,
       },
       next: { revalidate: 60 }, // Reduce next cache to favor our in-memory cache for debugging
     });

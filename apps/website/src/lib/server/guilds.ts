@@ -38,7 +38,7 @@ async function fetchDiscordGuildsInternal(accessToken: string) {
     headers: {
       Authorization: `Bearer ${accessToken}`,
       Accept: "application/json",
-      "User-Agent": "RoleReactorWebsite (https://rolereactor.app, 1.0.0)",
+      "User-Agent": `RoleReactorWebsite (${process.env.NEXT_PUBLIC_WEBSITE_URL || "https://rolereactor.xyz"}, 1.0.0)`,
     },
     next: { revalidate: 300 }, // Full revalidation cache
   });

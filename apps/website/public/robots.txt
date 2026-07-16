@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://rolereactor.app/sitemap.xml
+Sitemap: https://rolereactor.xyz/sitemap.xml
 
 # Crawl delay for respectful crawling
 Crawl-delay: 1

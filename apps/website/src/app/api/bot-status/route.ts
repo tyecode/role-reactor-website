@@ -7,7 +7,7 @@ export async function GET() {
     const response = await fetch(`${BOT_API_URL}/api/v1/bot/status`, {
       method: "GET",
       headers: {
-        "User-Agent": "RoleReactorWebsite (https://rolereactor.app, 1.0.0)",
+        "User-Agent": `RoleReactorWebsite (${process.env.NEXT_PUBLIC_WEBSITE_URL || "https://rolereactor.xyz"}, 1.0.0)`,
       },
       signal: AbortSignal.timeout(5000),
     });
