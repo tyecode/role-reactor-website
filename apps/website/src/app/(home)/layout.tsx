@@ -25,7 +25,7 @@ export default function Layout({ children }: { children: ReactNode }) {
     <HomeLayout
       {...baseOptions}
       {...{ links: mergedLinks }}
-      className="bg-neutral-950 [--color-fd-background:var(--color-neutral-950)]"
+      className="bg-neutral-950 [--color-fd-background:var(--color-neutral-950)] overflow-x-hidden"
     >
       {children}
       <Footer />

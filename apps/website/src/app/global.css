@@ -305,6 +305,10 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Use clip instead of hidden — hidden creates a scroll container which
+       blocks native macOS trackpad vertical scrolling */
+    overflow-x: clip;
+    max-width: 100vw;
   }
 
   /* Optimize page transitions for app-like feel */
@@ -390,6 +394,14 @@
   [class*="fd-content"],
   [class*="fd-layout"] {
     border-color: hsl(var(--border)) !important;
+  }
+
+  /* Fix: prevent fumadocs HomeLayout nav from causing horizontal overflow on mobile */
+  header[class*="fd"],
+  [data-fd-nav],
+  nav[class*="fd"] {
+    max-width: 100vw;
+    overflow-x: clip;
   }
 
   /* Override borders in documentation pages */
