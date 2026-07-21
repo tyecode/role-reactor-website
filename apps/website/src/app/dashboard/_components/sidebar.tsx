@@ -33,6 +33,7 @@ import {
   Activity,
   Lock,
   Server,
+  Image,
 } from "lucide-react";
 import { isDeveloper } from "@/lib/admin";
 
@@ -295,6 +296,11 @@ export function DashboardSidebar({ user }: { user: User }) {
       href: contextId ? `/dashboard/${contextId}` : "/dashboard",
       icon: LayoutDashboard,
     },
+    {
+      title: "Image Tools",
+      href: "/dashboard/image-tools",
+      icon: Image,
+    },
     ...(contextId
       ? [
           {
@@ -323,7 +329,8 @@ export function DashboardSidebar({ user }: { user: User }) {
     }
 
     // 2. Exact match for a specific Guild Overview (e.g. /dashboard/123)
-    const guildRootRegex = /^\/dashboard\/[^\/]+$/;
+    // Discord guild IDs are numeric snowflakes, so we only match digits
+    const guildRootRegex = /^\/dashboard\/\d+$/;
     if (guildRootRegex.test(cleanHref)) {
       return cleanPathname === cleanHref;
     }
