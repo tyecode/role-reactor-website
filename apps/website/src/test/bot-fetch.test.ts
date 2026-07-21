@@ -3,7 +3,7 @@ import { botFetch, botFetchJson } from "../lib/bot-fetch";
 
 describe("botFetch Security Tests", () => {
   beforeEach(() => {
-    vi.stubEnv("BOT_API_URL", "https://api.rolereactor.app");
+    vi.stubEnv("BOT_API_URL", "https://api.rolereactor.xyz");
     vi.stubEnv("INTERNAL_API_KEY", "test-internal-key-32chars-long-here!");
   });
 
@@ -19,7 +19,7 @@ describe("botFetch Security Tests", () => {
     await botFetch("/test", { method: "GET" });
 
     expect(global.fetch).toHaveBeenCalledWith(
-      expect.stringContaining("https://api.rolereactor.app/api/v1/test"),
+      expect.stringContaining("https://api.rolereactor.xyz/api/v1/test"),
       expect.objectContaining({
         headers: expect.objectContaining({
           Authorization: "Bearer test-internal-key-32chars-long-here!",
@@ -103,7 +103,7 @@ describe("botFetch Security Tests", () => {
 
 describe("botFetchJson Error Handling", () => {
   beforeEach(() => {
-    vi.stubEnv("BOT_API_URL", "https://api.rolereactor.app");
+    vi.stubEnv("BOT_API_URL", "https://api.rolereactor.xyz");
     vi.stubEnv("INTERNAL_API_KEY", "test-internal-key-32chars-long-here!");
   });
 
