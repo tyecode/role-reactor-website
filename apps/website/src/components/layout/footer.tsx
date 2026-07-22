@@ -87,7 +87,7 @@ export function Footer() {
             rel="noopener noreferrer"
             className="text-indigo-400 font-medium transition-all duration-200 mx-1"
           >
-            qodinger
+            Role Reactor
           </Link>
         </div>
       </div>

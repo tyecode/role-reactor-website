@@ -3,15 +3,15 @@ const WEBSITE_URL =
 
 export const links = {
   author: {
-    name: "qodinger",
-    url: "https://github.com/qodinger",
+    name: "Role Reactor",
+    url: "https://github.com/rolereactor",
   },
   contact: {
     email: "rolereactor@gmail.com",
   },
   home: WEBSITE_URL,
   support: "https://discord.gg/D8tYkU75Ry",
-  github: "https://github.com/qodinger/role-reactor-bot",
+  github: "https://github.com/rolereactor/role-reactor-bot",
   sponsor: `${WEBSITE_URL}/sponsor`,
   buymeacoffee: "https://buymeacoffee.com/rolereactor",
   inviteBot: `https://discord.com/api/oauth2/authorize?client_id=${

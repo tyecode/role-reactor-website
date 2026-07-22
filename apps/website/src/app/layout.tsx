@@ -59,9 +59,9 @@ export const metadata: Metadata = {
     "free discord bot",
     "discord bot list",
   ],
-  authors: [{ name: "qodinger" }],
-  creator: "qodinger",
-  publisher: "qodinger",
+  authors: [{ name: "rolereactor" }],
+  creator: "rolereactor",
+  publisher: "rolereactor",
   category: "Technology",
   formatDetection: {
     email: false,

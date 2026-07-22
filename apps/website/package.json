@@ -11,12 +11,12 @@
     "documentation",
     "next.js"
   ],
-  "author": "qodinger",
+  "author": "rolereactor",
   "license": "MIT",
   "homepage": "https://rolereactor.xyz",
   "repository": {
     "type": "git",
-    "url": "https://github.com/qodinger/role-reactor-website"
+    "url": "https://github.com/rolereactor/role-reactor-website"
   },
   "scripts": {
     "build": "next build",

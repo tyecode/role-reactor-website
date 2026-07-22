@@ -112,7 +112,7 @@ Before you begin, ensure you have the following installed on your system:
 1. **Clone the repository**
 
    ```bash
-   git clone https://github.com/qodinger/role-reactor-website.git
+   git clone https://github.com/rolereactor/role-reactor-website.git
    cd role-reactor-website
    ```
 
@@ -440,12 +440,12 @@ The MIT License is a permissive free software license that allows you to use, mo
 [![Website](https://img.shields.io/badge/Website-rolereactor.xyz-5865F2?style=flat-square&logo=discord&logoColor=white)](https://rolereactor.xyz)
 [![Documentation](https://img.shields.io/badge/Documentation-Docs-5865F2?style=flat-square&logo=book&logoColor=white)](https://rolereactor.xyz/docs)
 [![Discord Support](https://img.shields.io/badge/Discord-Support-5865F2?style=flat-square&logo=discord&logoColor=white)](https://discord.gg/D8tYkU75Ry)
-[![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/qodinger/role-reactor-website)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?style=flat-square&logo=github&logoColor=white)](https://github.com/rolereactor/role-reactor-website)
 
-**Made with ❤️ by [qodinger](https://github.com/qodinger)**
+**Made with ❤️ by [Role Reactor](https://github.com/rolereactor)**
 
 _Official documentation website for Role Reactor Discord bot_
 
-[Report Bug](https://github.com/qodinger/role-reactor-website/issues) · [Request Feature](https://github.com/qodinger/role-reactor-website/issues) · [View Bot Repository](https://github.com/qodinger/role-reactor-bot)
+[Report Bug](https://github.com/rolereactor/role-reactor-website/issues) · [Request Feature](https://github.com/rolereactor/role-reactor-website/issues) · [View Bot Repository](https://github.com/rolereactor/role-reactor-bot)
 
 </div>

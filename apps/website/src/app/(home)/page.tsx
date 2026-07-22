@@ -56,9 +56,9 @@ export default async function HomePage() {
     },
     author: {
       "@type": "Person",
-      name: "qodinger",
+      name: "rolereactor",
       email: "tyecoder@gmail.com",
-      url: "https://github.com/qodinger",
+      url: "https://github.com/rolereactor",
     },
     featureList: [
       "Self-assignable roles through reactions",
