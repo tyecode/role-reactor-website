@@ -25,10 +25,10 @@ interface BmacData {
 
 const BASE_RATE = 15;
 const rateCard = [
-  { min: 5, max: 9, rate: 15, bonus: 0 },
-  { min: 10, max: 24, rate: 16.5, bonus: 10 },
-  { min: 25, max: 99, rate: 17.4, bonus: 16 },
-  { min: 100, max: Infinity, rate: 22, bonus: 47 },
+  { min: 5, max: 9, rate: 15, bonusCores: 0 },
+  { min: 10, max: 24, rate: 16.5, bonusCores: 1.5 },
+  { min: 25, max: 99, rate: 17.4, bonusCores: 2.4 },
+  { min: 100, max: Infinity, rate: 22, bonusCores: 7 },
 ];
 
 function CodeExpiryTimer({ expiresAt }: { expiresAt: string }) {
@@ -286,9 +286,9 @@ export default function DonatePage() {
                     <div className="text-lg font-bold text-cyan-400">
                       {tier.rate}/$
                     </div>
-                    {tier.bonus > 0 && (
+                    {tier.bonusCores > 0 && (
                       <div className="text-[10px] text-emerald-400 font-bold">
-                        +{tier.bonus}%
+                        +{tier.bonusCores} bonus
                       </div>
                     )}
                   </div>
