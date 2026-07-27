@@ -40,7 +40,7 @@ export function PaymentMethodView({
           <Button
             variant="secondary"
             size="icon"
-            className="rounded-xl w-8 h-8"
+            className="rounded-xl w-8 h-8 cursor-pointer"
             onClick={onBack}
           >
             <ArrowLeft className="w-3.5 h-3.5" />
@@ -110,7 +110,7 @@ export function PaymentMethodView({
                 return (
                   <button
                     key={crypto.id}
-                    className="flex flex-col items-center justify-center gap-2 rounded-xl group py-3 px-3 bg-secondary hover:bg-secondary/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="flex flex-col items-center justify-center gap-2 rounded-xl group py-3 px-3 bg-secondary hover:bg-secondary/80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                     onClick={() => {
                       playConfirm();
                       onCryptoPayment(crypto.id, "plisio");

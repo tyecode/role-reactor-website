@@ -65,7 +65,7 @@ export function PackagesView({
         <div className="mt-4">
           <button
             onClick={onBMACPayment}
-            className="flex items-center justify-center gap-3 w-full rounded-xl py-3 px-4 bg-zinc-900 border border-white/5 hover:border-[#FFDD00]/30 transition-all group"
+            className="flex items-center justify-center gap-3 w-full rounded-xl py-3 px-4 bg-zinc-900 border border-white/5 hover:border-[#FFDD00]/30 transition-all group cursor-pointer"
           >
             <div className="w-8 h-8 shrink-0 rounded-full flex items-center justify-center bg-[#FFDD00]">
               <Coffee className="w-4 h-4 text-black" />

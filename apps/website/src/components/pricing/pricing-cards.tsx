@@ -56,7 +56,7 @@ export function PricingCards({
               isProcessing || (loadingPackageId !== null && !isProcessing)
             }
             className={cn(
-              "w-full flex items-center justify-between p-2.5 rounded-xl border transition-all duration-300 group relative overflow-hidden",
+              "w-full flex items-center justify-between p-2.5 rounded-xl border transition-all duration-300 group relative overflow-hidden cursor-pointer",
               "bg-zinc-950/40 border-white/5 hover:border-cyan-500/30 hover:bg-zinc-900/60",
               "hover:shadow-[0_0_20px_rgba(6,182,212,0.1)]",
               isProcessing && "opacity-80 cursor-wait",

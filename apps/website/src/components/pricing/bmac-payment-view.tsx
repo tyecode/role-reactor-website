@@ -111,11 +111,11 @@ export function BmacPaymentView({ onBack, onComplete }: BmacPaymentViewProps) {
         <p className="text-xs text-red-400 uppercase tracking-widest mb-4">
           {error || "Failed to load"}
         </p>
-        <Button
-          variant="secondary"
-          onClick={onBack}
-          className="rounded-xl"
-        >
+          <Button
+            variant="secondary"
+            onClick={onBack}
+            className="rounded-xl cursor-pointer"
+          >
           Go Back
         </Button>
       </div>
@@ -129,7 +129,7 @@ export function BmacPaymentView({ onBack, onComplete }: BmacPaymentViewProps) {
           <Button
             variant="secondary"
             size="icon"
-            className="rounded-xl w-8 h-8"
+            className="rounded-xl w-8 h-8 cursor-pointer"
             onClick={onBack}
           >
             <ArrowLeft className="w-3.5 h-3.5" />
@@ -192,7 +192,7 @@ export function BmacPaymentView({ onBack, onComplete }: BmacPaymentViewProps) {
             <Button
               variant="secondary"
               size="icon"
-              className="rounded-xl w-8 h-8"
+              className="rounded-xl w-8 h-8 cursor-pointer"
               onClick={() => copyToClipboard(data.code, "code")}
             >
               {copiedCode ? (
@@ -216,7 +216,7 @@ export function BmacPaymentView({ onBack, onComplete }: BmacPaymentViewProps) {
             <Button
               variant="secondary"
               size="icon"
-              className="rounded-xl w-8 h-8"
+              className="rounded-xl w-8 h-8 cursor-pointer"
               onClick={() => copyToClipboard(data.username, "name")}
             >
               {copiedName ? (
@@ -269,7 +269,7 @@ export function BmacPaymentView({ onBack, onComplete }: BmacPaymentViewProps) {
           className="block"
         >
           <Button
-            className="w-full h-12 rounded-xl font-black uppercase tracking-widest text-xs bg-[#FFDD00] hover:bg-[#FFDD00]/90 text-black transition-all"
+            className="w-full h-12 rounded-xl font-black uppercase tracking-widest text-xs bg-[#FFDD00] hover:bg-[#FFDD00]/90 text-black transition-all cursor-pointer"
             onClick={() => {
               // Open in new tab
               window.open(data.buyMeACoffeeUrl, "_blank", "noopener,noreferrer");
@@ -284,7 +284,7 @@ export function BmacPaymentView({ onBack, onComplete }: BmacPaymentViewProps) {
         {/* Completed Button */}
         <Button
           variant="secondary"
-          className="w-full h-10 rounded-xl font-black uppercase tracking-widest text-[10px] border border-white/5"
+          className="w-full h-10 rounded-xl font-black uppercase tracking-widest text-[10px] border border-white/5 cursor-pointer"
           onClick={onComplete}
         >
           I&apos;ve completed payment
