@@ -4,13 +4,7 @@ import { useEffect, useState } from "react";
 import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import {
-  ArrowLeft,
-  Copy,
-  Check,
-  ExternalLink,
-  Loader2,
-} from "lucide-react";
+import { ArrowLeft, Copy, Check, ExternalLink, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Audiowide } from "next/font/google";
 import { toast } from "@/lib/toast";
@@ -30,11 +24,9 @@ interface BmacData {
 }
 
 const rateCard = [
-  { min: 1, max: 4, rate: 15 },
   { min: 5, max: 9, rate: 15 },
   { min: 10, max: 24, rate: 16.5 },
-  { min: 25, max: 49, rate: 17.4 },
-  { min: 50, max: 99, rate: 18 },
+  { min: 25, max: 99, rate: 17.4 },
   { min: 100, max: Infinity, rate: 22 },
 ];
 
@@ -71,10 +63,12 @@ function CodeExpiryTimer({ expiresAt }: { expiresAt: string }) {
   return (
     <div className="flex items-center justify-between text-xs text-zinc-500">
       <span>Code expires in:</span>
-      <span className={cn(
-        "font-mono font-bold",
-        isUrgent ? "text-red-400" : "text-zinc-400"
-      )}>
+      <span
+        className={cn(
+          "font-mono font-bold",
+          isUrgent ? "text-red-400" : "text-zinc-400"
+        )}
+      >
         {timeLeft}
       </span>
     </div>
@@ -90,7 +84,9 @@ export default function DonatePage() {
   const [copiedCode, setCopiedCode] = useState(false);
   const [copiedName, setCopiedName] = useState(false);
   const [checkingStatus, setCheckingStatus] = useState(false);
-  const [paymentStatus, setPaymentStatus] = useState<"idle" | "pending" | "credited" | "expired">("idle");
+  const [paymentStatus, setPaymentStatus] = useState<
+    "idle" | "pending" | "credited" | "expired"
+  >("idle");
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -109,7 +105,9 @@ export default function DonatePage() {
 
         if (!response.ok) {
           const errorData = await response.json();
-          throw new Error(errorData.error?.message || "Failed to generate code");
+          throw new Error(
+            errorData.error?.message || "Failed to generate code"
+          );
         }
 
         const result = await response.json();
@@ -119,7 +117,9 @@ export default function DonatePage() {
           throw new Error("Invalid response from server");
         }
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to generate code");
+        setError(
+          err instanceof Error ? err.message : "Failed to generate code"
+        );
         toast.error("Failed to generate payment code");
       } finally {
         setLoading(false);
@@ -157,10 +157,14 @@ export default function DonatePage() {
         setTimeout(() => router.push("/dashboard"), 2000);
       } else if (s === "expired") {
         setPaymentStatus("expired");
-        toast.error("Your code has expired. Please refresh to generate a new one.");
+        toast.error(
+          "Your code has expired. Please refresh to generate a new one."
+        );
       } else {
         setPaymentStatus("pending");
-        toast.info("Still waiting — Cores are credited within seconds of BMAC confirming.");
+        toast.info(
+          "Still waiting — Cores are credited within seconds of BMAC confirming."
+        );
       }
     } catch {
       toast.error("Could not check payment status. Try again.");
@@ -184,7 +188,9 @@ export default function DonatePage() {
           setTimeout(() => router.push("/dashboard"), 2000);
         } else if (s === "expired") {
           setPaymentStatus("expired");
-          toast.error("Your code has expired. Please refresh to generate a new one.");
+          toast.error(
+            "Your code has expired. Please refresh to generate a new one."
+          );
         }
       } catch {
         // Silently fail during auto-poll
@@ -239,7 +245,12 @@ export default function DonatePage() {
             </Button>
             <div className="flex items-center gap-3">
               <div className="w-12 h-12 flex items-center justify-center">
-                <Image src="/bmcbrand/bmc-logo-yellow.png" alt="BMC Logo" width={48} height={48} />
+                <Image
+                  src="/bmcbrand/bmc-logo-yellow.png"
+                  alt="BMC Logo"
+                  width={48}
+                  height={48}
+                />
               </div>
               <div>
                 <h1 className="text-2xl sm:text-3xl font-bold text-white">
@@ -354,7 +365,13 @@ export default function DonatePage() {
                   </div>
                 </div>
                 <div className="bg-gray-800/50 rounded-lg border border-gray-700 flex items-center justify-center overflow-hidden">
-                  <Image src="/images/bmac/bmac_step_1.png" alt="Step 1: Click Donate" width={400} height={200} className="drop-shadow-lg w-full h-full object-cover" />
+                  <Image
+                    src="/images/bmac/bmac_step_1.png"
+                    alt="Step 1: Click Donate"
+                    width={400}
+                    height={200}
+                    className="drop-shadow-lg w-full h-full object-cover"
+                  />
                 </div>
               </div>
 
@@ -372,7 +389,13 @@ export default function DonatePage() {
                   </div>
                 </div>
                 <div className="bg-gray-800/50 rounded-lg border border-gray-700 flex items-center justify-center overflow-hidden">
-                  <Image src="/images/bmac/bmac_step_2.png" alt="Step 2: Choose coffees" width={400} height={200} className="drop-shadow-lg w-full h-full object-cover" />
+                  <Image
+                    src="/images/bmac/bmac_step_2.png"
+                    alt="Step 2: Choose coffees"
+                    width={400}
+                    height={200}
+                    className="drop-shadow-lg w-full h-full object-cover"
+                  />
                 </div>
               </div>
 
@@ -382,15 +405,23 @@ export default function DonatePage() {
                   <span className="text-cyan-400 font-bold text-lg">3.</span>
                   <div>
                     <p className="text-sm text-white font-medium">
-                      Copy your Discord name above → paste into the Name box on BMAC
+                      Copy your Discord name above → paste into the Name box on
+                      BMAC
                     </p>
                     <p className="text-xs text-zinc-500 mt-1">
-                      It&apos;s the field that says &quot;Name or @yoursocial&quot; — for secondary verification
+                      It&apos;s the field that says &quot;Name or
+                      @yoursocial&quot; — for secondary verification
                     </p>
                   </div>
                 </div>
                 <div className="bg-gray-800/50 rounded-lg border border-gray-700 flex items-center justify-center overflow-hidden">
-                  <Image src="/images/bmac/bmac_step_3.png" alt="Step 3: Paste Discord name" width={400} height={200} className="drop-shadow-lg w-full h-full object-cover" />
+                  <Image
+                    src="/images/bmac/bmac_step_3.png"
+                    alt="Step 3: Paste Discord name"
+                    width={400}
+                    height={200}
+                    className="drop-shadow-lg w-full h-full object-cover"
+                  />
                 </div>
               </div>
 
@@ -400,15 +431,23 @@ export default function DonatePage() {
                   <span className="text-cyan-400 font-bold text-lg">4.</span>
                   <div>
                     <p className="text-sm text-white font-medium">
-                      Copy your unique code above → paste into the message box on BMAC
+                      Copy your unique code above → paste into the message box
+                      on BMAC
                     </p>
                     <p className="text-xs text-zinc-500 mt-1">
-                      It&apos;s the field that says &quot;Say something nice...&quot; — this links your donation to your account
+                      It&apos;s the field that says &quot;Say something
+                      nice...&quot; — this links your donation to your account
                     </p>
                   </div>
                 </div>
                 <div className="bg-gray-800/50 rounded-lg border border-gray-700 flex items-center justify-center overflow-hidden">
-                  <Image src="/images/bmac/bmac_step_4.png" alt="Step 4: Paste unique code" width={400} height={200} className="drop-shadow-lg w-full h-full object-cover" />
+                  <Image
+                    src="/images/bmac/bmac_step_4.png"
+                    alt="Step 4: Paste unique code"
+                    width={400}
+                    height={200}
+                    className="drop-shadow-lg w-full h-full object-cover"
+                  />
                 </div>
               </div>
 
@@ -439,7 +478,13 @@ export default function DonatePage() {
               className="block"
             >
               <Button className="w-full h-12 rounded-xl font-black uppercase tracking-widest text-xs bg-[#FFDD00] hover:bg-[#FFDD00]/90 text-black transition-all shadow-[0_0_20px_-5px_rgba(255,221,0,0.4)]">
-                <Image src="/bmcbrand/bmc-logo.svg" alt="BMC" width={18} height={18} className="mr-3" />
+                <Image
+                  src="/bmcbrand/bmc-logo.svg"
+                  alt="BMC"
+                  width={18}
+                  height={18}
+                  className="mr-3"
+                />
                 Donate on Buy Me a Coffee
                 <ExternalLink className="w-4 h-4 ml-2 opacity-50" />
               </Button>
@@ -453,11 +498,17 @@ export default function DonatePage() {
               disabled={checkingStatus || paymentStatus === "credited"}
             >
               {checkingStatus ? (
-                <><Loader2 className="w-3 h-3 animate-spin mr-2" />Checking...</>
+                <>
+                  <Loader2 className="w-3 h-3 animate-spin mr-2" />
+                  Checking...
+                </>
               ) : paymentStatus === "pending" ? (
                 "Still Waiting — Check Again"
               ) : paymentStatus === "credited" ? (
-                <><Check className="w-3 h-3 mr-2" />Cores Received! Redirecting...</>
+                <>
+                  <Check className="w-3 h-3 mr-2" />
+                  Cores Received! Redirecting...
+                </>
               ) : (
                 "I've Completed Payment — Check Status"
               )}

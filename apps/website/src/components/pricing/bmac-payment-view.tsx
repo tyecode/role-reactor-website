@@ -34,11 +34,9 @@ interface BmacData {
  * Rate card tiers matching the bot's calculateCores() function
  */
 const rateCard = [
-  { min: 1, max: 4, rate: 15 },
   { min: 5, max: 9, rate: 15 },
   { min: 10, max: 24, rate: 16.5 },
-  { min: 25, max: 49, rate: 17.4 },
-  { min: 50, max: 99, rate: 18 },
+  { min: 25, max: 99, rate: 17.4 },
   { min: 100, max: Infinity, rate: 22 },
 ];
 
@@ -58,7 +56,9 @@ export function BmacPaymentView({ onBack, onComplete }: BmacPaymentViewProps) {
 
         if (!response.ok) {
           const errorData = await response.json();
-          throw new Error(errorData.error?.message || "Failed to generate code");
+          throw new Error(
+            errorData.error?.message || "Failed to generate code"
+          );
         }
 
         const result = await response.json();
@@ -68,7 +68,9 @@ export function BmacPaymentView({ onBack, onComplete }: BmacPaymentViewProps) {
           throw new Error("Invalid response from server");
         }
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to generate code");
+        setError(
+          err instanceof Error ? err.message : "Failed to generate code"
+        );
         toast.error("Failed to generate payment code");
       } finally {
         setLoading(false);
@@ -111,11 +113,11 @@ export function BmacPaymentView({ onBack, onComplete }: BmacPaymentViewProps) {
         <p className="text-xs text-red-400 uppercase tracking-widest mb-4">
           {error || "Failed to load"}
         </p>
-          <Button
-            variant="secondary"
-            onClick={onBack}
-            className="rounded-xl cursor-pointer"
-          >
+        <Button
+          variant="secondary"
+          onClick={onBack}
+          className="rounded-xl cursor-pointer"
+        >
           Go Back
         </Button>
       </div>
@@ -250,9 +252,7 @@ export function BmacPaymentView({ onBack, onComplete }: BmacPaymentViewProps) {
             </div>
             <div className="flex items-start gap-2 text-[11px] text-zinc-400">
               <span className="text-cyan-400 font-bold">4.</span>
-              <span>
-                Paste code in &quot;Say something nice...&quot;
-              </span>
+              <span>Paste code in &quot;Say something nice...&quot;</span>
             </div>
             <div className="flex items-start gap-2 text-[11px] text-zinc-400">
               <span className="text-cyan-400 font-bold">5.</span>
@@ -272,7 +272,11 @@ export function BmacPaymentView({ onBack, onComplete }: BmacPaymentViewProps) {
             className="w-full h-12 rounded-xl font-black uppercase tracking-widest text-xs bg-[#FFDD00] hover:bg-[#FFDD00]/90 text-black transition-all cursor-pointer"
             onClick={() => {
               // Open in new tab
-              window.open(data.buyMeACoffeeUrl, "_blank", "noopener,noreferrer");
+              window.open(
+                data.buyMeACoffeeUrl,
+                "_blank",
+                "noopener,noreferrer"
+              );
             }}
           >
             <span className="mr-2">☕</span>
