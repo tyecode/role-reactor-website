@@ -38,6 +38,47 @@ const rateCard = [
   { min: 100, max: Infinity, rate: 22 },
 ];
 
+function CodeExpiryTimer({ expiresAt }: { expiresAt: string }) {
+  const [timeLeft, setTimeLeft] = useState("");
+
+  useEffect(() => {
+    const updateTimer = () => {
+      const now = new Date().getTime();
+      const expiry = new Date(expiresAt).getTime();
+      const diff = expiry - now;
+
+      if (diff <= 0) {
+        setTimeLeft("Expired");
+        return;
+      }
+
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      setTimeLeft(`${hours}h ${minutes}m ${seconds}s`);
+    };
+
+    updateTimer();
+    const interval = setInterval(updateTimer, 1000);
+    return () => clearInterval(interval);
+  }, [expiresAt]);
+
+  const isUrgent = timeLeft.startsWith("0h") || timeLeft === "Expired";
+
+  return (
+    <div className="flex items-center justify-between text-xs text-zinc-500">
+      <span>Code expires in:</span>
+      <span className={cn(
+        "font-mono font-bold",
+        isUrgent ? "text-red-400" : "text-zinc-400"
+      )}>
+        {timeLeft}
+      </span>
+    </div>
+  );
+}
+
 export default function DonatePage() {
   const { status } = useSession();
   const router = useRouter();
@@ -287,13 +328,8 @@ export default function DonatePage() {
               </div>
             </div>
 
-            {/* Code Expiry */}
-            <div className="flex items-center justify-between text-xs text-zinc-500">
-              <span>Code expires:</span>
-              <span className="font-mono">
-                {new Date(data.expiresAt).toLocaleString()}
-              </span>
-            </div>
+            {/* Code Expiry Countdown */}
+            <CodeExpiryTimer expiresAt={data.expiresAt} />
           </div>
 
           {/* Instructions with Image Placeholders */}
