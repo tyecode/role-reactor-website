@@ -10,11 +10,11 @@ import {
   Check,
   ExternalLink,
   Loader2,
-  Coffee,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Audiowide } from "next/font/google";
 import { toast } from "@/lib/toast";
+import Image from "next/image";
 
 const audiowide = Audiowide({
   subsets: ["latin"],
@@ -46,6 +46,8 @@ export default function DonatePage() {
   const [error, setError] = useState<string | null>(null);
   const [copiedCode, setCopiedCode] = useState(false);
   const [copiedName, setCopiedName] = useState(false);
+  const [checkingStatus, setCheckingStatus] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState<"idle" | "pending" | "credited" | "expired">("idle");
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -100,6 +102,30 @@ export default function DonatePage() {
     }
   };
 
+  const checkPaymentStatus = async () => {
+    setCheckingStatus(true);
+    try {
+      const res = await fetch("/api/payments/buymeacoffee/status");
+      const result = await res.json();
+      const s = result?.data?.status;
+      if (s === "credited") {
+        setPaymentStatus("credited");
+        toast.success("🎉 Cores received! Redirecting to your dashboard...");
+        setTimeout(() => router.push("/dashboard"), 2000);
+      } else if (s === "expired") {
+        setPaymentStatus("expired");
+        toast.error("Your code has expired. Please refresh to generate a new one.");
+      } else {
+        setPaymentStatus("pending");
+        toast.info("Still waiting — Cores are credited within seconds of BMAC confirming.");
+      }
+    } catch {
+      toast.error("Could not check payment status. Try again.");
+    } finally {
+      setCheckingStatus(false);
+    }
+  };
+
   if (status === "loading" || loading) {
     return (
       <main className="min-h-screen flex items-center justify-center">
@@ -144,8 +170,8 @@ export default function DonatePage() {
               Back
             </Button>
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full flex items-center justify-center bg-[#FFDD00]">
-                <Coffee className="w-6 h-6 text-black" />
+              <div className="w-12 h-12 flex items-center justify-center">
+                <Image src="/bmcbrand/bmc-logo-yellow.png" alt="BMC Logo" width={48} height={48} />
               </div>
               <div>
                 <h1 className="text-2xl sm:text-3xl font-bold text-white">
@@ -256,13 +282,8 @@ export default function DonatePage() {
                     </p>
                   </div>
                 </div>
-                <div className="bg-gray-800/50 rounded-lg border border-gray-700 p-4 flex items-center justify-center min-h-[120px]">
-                  <div className="text-center">
-                    <Coffee className="w-8 h-8 text-[#FFDD00] mx-auto mb-2" />
-                    <p className="text-xs text-zinc-500">
-                      Image: BMAC donation page
-                    </p>
-                  </div>
+                <div className="bg-gray-800/50 rounded-lg border border-gray-700 flex items-center justify-center overflow-hidden">
+                  <Image src="/images/bmac/bmac_step_1.png" alt="Step 1: Click Donate" width={400} height={200} className="drop-shadow-lg w-full h-full object-cover" />
                 </div>
               </div>
 
@@ -272,20 +293,15 @@ export default function DonatePage() {
                   <span className="text-cyan-400 font-bold text-lg">2.</span>
                   <div>
                     <p className="text-sm text-white font-medium">
-                      Enter any dollar amount
+                      Choose how many coffees to buy
                     </p>
                     <p className="text-xs text-zinc-500 mt-1">
-                      Minimum $1 — more dollars = more Cores
+                      1 coffee = $5. More coffees = more Cores!
                     </p>
                   </div>
                 </div>
-                <div className="bg-gray-800/50 rounded-lg border border-gray-700 p-4 flex items-center justify-center min-h-[120px]">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-white mb-2">$5</div>
-                    <p className="text-xs text-zinc-500">
-                      Image: Amount input field
-                    </p>
-                  </div>
+                <div className="bg-gray-800/50 rounded-lg border border-gray-700 flex items-center justify-center overflow-hidden">
+                  <Image src="/images/bmac/bmac_step_2.png" alt="Step 2: Choose coffees" width={400} height={200} className="drop-shadow-lg w-full h-full object-cover" />
                 </div>
               </div>
 
@@ -295,27 +311,15 @@ export default function DonatePage() {
                   <span className="text-cyan-400 font-bold text-lg">3.</span>
                   <div>
                     <p className="text-sm text-white font-medium">
-                      Paste your code in &quot;Say something nice...&quot;
+                      Copy your Discord name above → paste into the Name box on BMAC
                     </p>
                     <p className="text-xs text-zinc-500 mt-1">
-                      This links your donation to your account
+                      It&apos;s the field that says &quot;Name or @yoursocial&quot; — for secondary verification
                     </p>
                   </div>
                 </div>
-                <div className="bg-gray-800/50 rounded-lg border border-gray-700 p-4 flex items-center justify-center min-h-[120px]">
-                  <div className="text-center">
-                    <div
-                      className={cn(
-                        "text-lg font-black text-cyan-400 tracking-widest mb-2",
-                        audiowide.className
-                      )}
-                    >
-                      {data.code}
-                    </div>
-                    <p className="text-xs text-zinc-500">
-                      Image: Message field with code
-                    </p>
-                  </div>
+                <div className="bg-gray-800/50 rounded-lg border border-gray-700 flex items-center justify-center overflow-hidden">
+                  <Image src="/images/bmac/bmac_step_3.png" alt="Step 3: Paste Discord name" width={400} height={200} className="drop-shadow-lg w-full h-full object-cover" />
                 </div>
               </div>
 
@@ -325,22 +329,15 @@ export default function DonatePage() {
                   <span className="text-cyan-400 font-bold text-lg">4.</span>
                   <div>
                     <p className="text-sm text-white font-medium">
-                      Put your Discord name in &quot;Name or @yoursocial&quot;
+                      Copy your unique code above → paste into the message box on BMAC
                     </p>
                     <p className="text-xs text-zinc-500 mt-1">
-                      Secondary verification (log only)
+                      It&apos;s the field that says &quot;Say something nice...&quot; — this links your donation to your account
                     </p>
                   </div>
                 </div>
-                <div className="bg-gray-800/50 rounded-lg border border-gray-700 p-4 flex items-center justify-center min-h-[120px]">
-                  <div className="text-center">
-                    <div className="text-sm font-bold text-white mb-2">
-                      {data.username}
-                    </div>
-                    <p className="text-xs text-zinc-500">
-                      Image: Name field with Discord username
-                    </p>
-                  </div>
+                <div className="bg-gray-800/50 rounded-lg border border-gray-700 flex items-center justify-center overflow-hidden">
+                  <Image src="/images/bmac/bmac_step_4.png" alt="Step 4: Paste unique code" width={400} height={200} className="drop-shadow-lg w-full h-full object-cover" />
                 </div>
               </div>
 
@@ -363,25 +360,36 @@ export default function DonatePage() {
 
           {/* Action Buttons */}
           <div className="space-y-3">
+            {/* Donate link — always opens BMAC */}
             <a
               href={data.buyMeACoffeeUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="block"
             >
-              <Button className="w-full h-12 rounded-xl font-black uppercase tracking-widest text-xs bg-[#FFDD00] hover:bg-[#FFDD00]/90 text-black transition-all">
-                <span className="mr-2">☕</span>
+              <Button className="w-full h-12 rounded-xl font-black uppercase tracking-widest text-xs bg-[#FFDD00] hover:bg-[#FFDD00]/90 text-black transition-all shadow-[0_0_20px_-5px_rgba(255,221,0,0.4)]">
+                <Image src="/bmcbrand/bmc-logo.svg" alt="BMC" width={18} height={18} className="mr-3" />
                 Donate on Buy Me a Coffee
-                <ExternalLink className="w-4 h-4 ml-2" />
+                <ExternalLink className="w-4 h-4 ml-2 opacity-50" />
               </Button>
             </a>
 
+            {/* Status check — polls the bot for real confirmation */}
             <Button
               variant="secondary"
               className="w-full h-10 rounded-xl font-black uppercase tracking-widest text-[10px] border border-white/5"
-              onClick={() => router.push("/")}
+              onClick={checkPaymentStatus}
+              disabled={checkingStatus || paymentStatus === "credited"}
             >
-              I&apos;ve completed payment
+              {checkingStatus ? (
+                <><Loader2 className="w-3 h-3 animate-spin mr-2" />Checking...</>
+              ) : paymentStatus === "pending" ? (
+                "Still Waiting — Check Again"
+              ) : paymentStatus === "credited" ? (
+                <><Check className="w-3 h-3 mr-2" />Cores Received! Redirecting...</>
+              ) : (
+                "I've Completed Payment — Check Status"
+              )}
             </Button>
           </div>
 
