@@ -175,7 +175,7 @@ export function BmacPaymentView({ onBack, onComplete }: BmacPaymentViewProps) {
                   </span>
                   <div className="flex items-center gap-1">
                     <span className="text-cyan-400 font-bold">
-                      {tier.rate} bonus
+                      {tier.rate} cores/$
                     </span>
                     {tier.bonus > 0 && (
                       <span className="text-[8px] text-emerald-400 font-bold">

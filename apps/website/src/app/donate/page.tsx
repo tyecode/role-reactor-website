@@ -284,7 +284,7 @@ export default function DonatePage() {
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="text-lg font-bold text-cyan-400">
-                      {tier.rate} bonus
+                      {tier.rate} cores/$
                     </div>
                     {tier.bonus > 0 && (
                       <div className="text-[10px] text-emerald-400 font-bold">
