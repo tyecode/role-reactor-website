@@ -36,10 +36,10 @@ interface BmacData {
  */
 const BASE_RATE = 15;
 const rateCard = [
-  { min: 5, max: 9, rate: 15, bonusCores: 0 },
-  { min: 10, max: 24, rate: 16.5, bonusCores: 1.5 },
-  { min: 25, max: 99, rate: 17.4, bonusCores: 2.4 },
-  { min: 100, max: Infinity, rate: 22, bonusCores: 7 },
+  { min: 5, max: 9, rate: 15, bonus: 0 },
+  { min: 10, max: 24, rate: 16.5, bonus: 10 },
+  { min: 25, max: 99, rate: 17.4, bonus: 16 },
+  { min: 100, max: Infinity, rate: 22, bonus: 47 },
 ];
 
 export function BmacPaymentView({ onBack, onComplete }: BmacPaymentViewProps) {
@@ -175,11 +175,11 @@ export function BmacPaymentView({ onBack, onComplete }: BmacPaymentViewProps) {
                   </span>
                   <div className="flex items-center gap-1">
                     <span className="text-cyan-400 font-bold">
-                      {tier.rate}/$
+                      {tier.rate} bonus
                     </span>
-                    {tier.bonusCores > 0 && (
+                    {tier.bonus > 0 && (
                       <span className="text-[8px] text-emerald-400 font-bold">
-                        +{tier.bonusCores} bonus
+                        +{tier.bonus}%
                       </span>
                     )}
                   </div>
