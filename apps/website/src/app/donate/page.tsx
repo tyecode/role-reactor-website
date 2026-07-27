@@ -23,11 +23,12 @@ interface BmacData {
   expiresAt: string;
 }
 
+const BASE_RATE = 15;
 const rateCard = [
-  { min: 5, max: 9, rate: 15 },
-  { min: 10, max: 24, rate: 16.5 },
-  { min: 25, max: 99, rate: 17.4 },
-  { min: 100, max: Infinity, rate: 22 },
+  { min: 5, max: 9, rate: 15, bonus: 0 },
+  { min: 10, max: 24, rate: 16.5, bonus: 10 },
+  { min: 25, max: 99, rate: 17.4, bonus: 16 },
+  { min: 100, max: Infinity, rate: 22, bonus: 47 },
 ];
 
 function CodeExpiryTimer({ expiresAt }: { expiresAt: string }) {
@@ -265,10 +266,13 @@ export default function DonatePage() {
 
           {/* Rate Card */}
           <div className="bg-gray-900/50 backdrop-blur-sm rounded-lg p-4 sm:p-6 border border-gray-800 mb-6">
-            <h2 className="text-sm font-black text-zinc-400 tracking-widest uppercase mb-4">
+            <h2 className="text-sm font-black text-zinc-400 tracking-widest uppercase mb-2">
               Rate Card
             </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <p className="text-[10px] text-zinc-500 mb-4 font-bold">
+              Base rate: {BASE_RATE} cores/$
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {rateCard.map((tier, index) => (
                 <div
                   key={index}
@@ -278,8 +282,15 @@ export default function DonatePage() {
                     ${tier.min}
                     {tier.max !== Infinity ? `-${tier.max}` : "+"}
                   </div>
-                  <div className="text-lg font-bold text-cyan-400">
-                    {tier.rate} cores/$
+                  <div className="flex items-center gap-2">
+                    <div className="text-lg font-bold text-cyan-400">
+                      {tier.rate}/$
+                    </div>
+                    {tier.bonus > 0 && (
+                      <div className="text-[10px] text-emerald-400 font-bold">
+                        +{tier.bonus}%
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}

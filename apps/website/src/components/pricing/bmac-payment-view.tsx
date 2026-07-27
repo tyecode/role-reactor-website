@@ -32,12 +32,14 @@ interface BmacData {
 
 /**
  * Rate card tiers matching the bot's calculateCores() function
+ * Base rate: 15 cores/$, bonuses increase with donation amount
  */
+const BASE_RATE = 15;
 const rateCard = [
-  { min: 5, max: 9, rate: 15 },
-  { min: 10, max: 24, rate: 16.5 },
-  { min: 25, max: 99, rate: 17.4 },
-  { min: 100, max: Infinity, rate: 22 },
+  { min: 5, max: 9, rate: 15, bonus: 0 },
+  { min: 10, max: 24, rate: 16.5, bonus: 10 },
+  { min: 25, max: 99, rate: 17.4, bonus: 16 },
+  { min: 100, max: Infinity, rate: 22, bonus: 47 },
 ];
 
 export function BmacPaymentView({ onBack, onComplete }: BmacPaymentViewProps) {
@@ -158,7 +160,10 @@ export function BmacPaymentView({ onBack, onComplete }: BmacPaymentViewProps) {
             Rate Card
           </span>
           <div className="bg-zinc-950/40 rounded-xl border border-white/5 p-3">
-            <div className="grid grid-cols-2 gap-x-4 gap-y-1">
+            <div className="text-[9px] text-zinc-500 mb-2 font-bold">
+              Base rate: {BASE_RATE} cores/$
+            </div>
+            <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
               {rateCard.map((tier, index) => (
                 <div
                   key={index}
@@ -168,9 +173,16 @@ export function BmacPaymentView({ onBack, onComplete }: BmacPaymentViewProps) {
                     ${tier.min}
                     {tier.max !== Infinity ? `-${tier.max}` : "+"}
                   </span>
-                  <span className="text-cyan-400 font-bold">
-                    {tier.rate} cores/$
-                  </span>
+                  <div className="flex items-center gap-1">
+                    <span className="text-cyan-400 font-bold">
+                      {tier.rate}/$
+                    </span>
+                    {tier.bonus > 0 && (
+                      <span className="text-[8px] text-emerald-400 font-bold">
+                        +{tier.bonus}%
+                      </span>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
