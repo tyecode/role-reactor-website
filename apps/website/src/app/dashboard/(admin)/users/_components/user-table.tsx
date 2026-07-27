@@ -165,7 +165,7 @@ export function UserTable() {
             )}
           />
           <Input
-            placeholder="Search by ID, Username or Global Name..."
+            placeholder="Search by ID, Username, Global Name or Email..."
             className="pl-10 bg-zinc-900/50 border-white/5 focus-visible:ring-cyan-500/50 focus-visible:border-cyan-500/50 h-10 italic font-mono text-xs transition-all"
             value={searchTerm}
             onChange={(e) => handleSearch(e.target.value)}
