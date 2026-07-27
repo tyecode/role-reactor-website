@@ -56,7 +56,9 @@ function CodeExpiryTimer({ expiresAt }: { expiresAt: string }) {
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-      setTimeLeft(`${hours}h ${minutes}m ${seconds}s`);
+      setTimeLeft(
+        `${String(hours).padStart(2, "0")}h ${String(minutes).padStart(2, "0")}m ${String(seconds).padStart(2, "0")}s`
+      );
     };
 
     updateTimer();
@@ -64,7 +66,7 @@ function CodeExpiryTimer({ expiresAt }: { expiresAt: string }) {
     return () => clearInterval(interval);
   }, [expiresAt]);
 
-  const isUrgent = timeLeft.startsWith("0h") || timeLeft === "Expired";
+  const isUrgent = timeLeft.startsWith("00h") || timeLeft === "Expired";
 
   return (
     <div className="flex items-center justify-between text-xs text-zinc-500">
