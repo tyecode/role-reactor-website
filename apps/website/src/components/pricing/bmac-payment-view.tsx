@@ -36,10 +36,10 @@ interface BmacData {
 const rateCard = [
   { min: 1, max: 4, rate: 15 },
   { min: 5, max: 9, rate: 15 },
-  { min: 10, max: 24, rate: 18 },
-  { min: 25, max: 49, rate: 22 },
-  { min: 50, max: 99, rate: 25 },
-  { min: 100, max: Infinity, rate: 28 },
+  { min: 10, max: 24, rate: 16.5 },
+  { min: 25, max: 49, rate: 17.4 },
+  { min: 50, max: 99, rate: 18 },
+  { min: 100, max: Infinity, rate: 22 },
 ];
 
 export function BmacPaymentView({ onBack, onComplete }: BmacPaymentViewProps) {

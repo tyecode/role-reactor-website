@@ -32,10 +32,10 @@ interface BmacData {
 const rateCard = [
   { min: 1, max: 4, rate: 15 },
   { min: 5, max: 9, rate: 15 },
-  { min: 10, max: 24, rate: 18 },
-  { min: 25, max: 49, rate: 22 },
-  { min: 50, max: 99, rate: 25 },
-  { min: 100, max: Infinity, rate: 28 },
+  { min: 10, max: 24, rate: 16.5 },
+  { min: 25, max: 49, rate: 17.4 },
+  { min: 50, max: 99, rate: 18 },
+  { min: 100, max: Infinity, rate: 22 },
 ];
 
 export default function DonatePage() {
@@ -125,6 +125,31 @@ export default function DonatePage() {
       setCheckingStatus(false);
     }
   };
+
+  // Auto-poll every 10 seconds when status is pending
+  useEffect(() => {
+    if (paymentStatus !== "pending") return;
+
+    const interval = setInterval(async () => {
+      try {
+        const res = await fetch("/api/payments/buymeacoffee/status");
+        const result = await res.json();
+        const s = result?.data?.status;
+        if (s === "credited") {
+          setPaymentStatus("credited");
+          toast.success("🎉 Cores received! Redirecting to your dashboard...");
+          setTimeout(() => router.push("/dashboard"), 2000);
+        } else if (s === "expired") {
+          setPaymentStatus("expired");
+          toast.error("Your code has expired. Please refresh to generate a new one.");
+        }
+      } catch {
+        // Silently fail during auto-poll
+      }
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, [paymentStatus, router]);
 
   if (status === "loading" || loading) {
     return (
@@ -260,6 +285,14 @@ export default function DonatePage() {
                   )}
                 </Button>
               </div>
+            </div>
+
+            {/* Code Expiry */}
+            <div className="flex items-center justify-between text-xs text-zinc-500">
+              <span>Code expires:</span>
+              <span className="font-mono">
+                {new Date(data.expiresAt).toLocaleString()}
+              </span>
             </div>
           </div>
 
