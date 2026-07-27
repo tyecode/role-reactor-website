@@ -21,7 +21,6 @@ import {
 import { Label } from "@/components/ui/label";
 import { Loader2, Coins, AlertTriangle, RefreshCw } from "lucide-react";
 import { manageUserCores } from "../actions";
-import { useRouter } from "next/navigation";
 import { useUsersStore } from "@/store/use-users-store";
 
 interface ManageCoresDialogProps {
@@ -39,7 +38,6 @@ export function ManageCoresDialog({
   open,
   onOpenChange,
 }: ManageCoresDialogProps) {
-  const router = useRouter();
   const { fetchUser } = useUsersStore();
   const [action, setAction] = useState<"add" | "remove" | "set">("add");
   const [amount, setAmount] = useState<string>("");
@@ -87,11 +85,14 @@ export function ManageCoresDialog({
       );
 
       if (result.success) {
+        const freshData = await fetchUser(user.id);
+        if (freshData) {
+          setFreshCredits(freshData.credits);
+        }
         onOpenChange(false);
         setAmount("");
         setReason("");
         setFreshCredits(null);
-        router.refresh();
       } else {
         setError(result.error as string);
       }
