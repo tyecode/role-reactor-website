@@ -163,22 +163,22 @@ export function BmacPaymentView({ onBack, onComplete }: BmacPaymentViewProps) {
             <div className="text-[9px] text-zinc-500 mb-2 font-bold">
               Base rate: {BASE_RATE} cores/$
             </div>
-            <div className="grid grid-cols-2 gap-x-4 gap-y-1.5">
+            <div className="grid grid-cols-2 gap-x-6 gap-y-2">
               {rateCard.map((tier, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between text-[10px]"
+                  className="flex flex-col gap-0.5"
                 >
-                  <span className="text-zinc-500">
+                  <span className="text-[10px] text-zinc-500">
                     ${tier.min}
                     {tier.max !== Infinity ? `-${tier.max}` : "+"}
                   </span>
-                  <div className="flex items-center gap-1">
-                    <span className="text-cyan-400 font-bold">
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="text-lg font-bold text-cyan-400 whitespace-nowrap">
                       {tier.rate} cores/$
                     </span>
                     {tier.bonus > 0 && (
-                      <span className="text-[8px] text-emerald-400 font-bold">
+                      <span className="text-[10px] text-emerald-400 font-bold whitespace-nowrap">
                         +{tier.bonus}%
                       </span>
                     )}

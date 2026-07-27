@@ -272,22 +272,22 @@ export default function DonatePage() {
             <p className="text-[10px] text-zinc-500 mb-4 font-bold">
               Base rate: {BASE_RATE} cores/$
             </p>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {rateCard.map((tier, index) => (
                 <div
                   key={index}
                   className="bg-gray-800/50 rounded-lg p-3 border border-gray-700"
                 >
-                  <div className="text-xs text-zinc-500">
+                  <div className="text-xs text-zinc-500 mb-1">
                     ${tier.min}
                     {tier.max !== Infinity ? `-${tier.max}` : "+"}
                   </div>
-                  <div className="flex items-center gap-2">
-                    <div className="text-lg font-bold text-cyan-400">
+                  <div className="flex items-baseline gap-1.5">
+                    <div className="text-lg font-bold text-cyan-400 whitespace-nowrap">
                       {tier.rate} cores/$
                     </div>
                     {tier.bonus > 0 && (
-                      <div className="text-[10px] text-emerald-400 font-bold">
+                      <div className="text-[10px] text-emerald-400 font-bold whitespace-nowrap">
                         +{tier.bonus}%
                       </div>
                     )}
